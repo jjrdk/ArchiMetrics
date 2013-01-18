@@ -5,7 +5,7 @@
     <UsingTask TaskName="CreateRelease" AssemblyFile="CodePlex.WebServices.Client.Dll" />
     <UsingTask TaskName="UploadFiles" AssemblyFile="CodePlex.WebServices.Client.Dll" />
 
-    <Import Project="$(BuildEnv)MSBuild.Community.Tasks.Targets"/>    	
+    <Import Project="MSBuild.Community.Tasks.Targets"/>    	
   
   <Target Name="GetCurrentDate"> 		
     <Time> 			
@@ -45,8 +45,7 @@
     ProjectName="$(ProjectName)" 			
     ReleaseName="$(ReleaseName)" 			
     IsDefaultRelease="$(IsDefaultRelease)" 			
-    ShowToPublic="$(ShowToPublic)" 			
-    ShowOnHomePage="$(ShowOnHomePage)" 			
+    ShowToPublic="$(ShowToPublic)" 			    
     Description="$(Description)" 			
     ReleaseDate="$(ReleaseDate)" 			
     ReleaseStatus="$(ReleaseStatus)" 			
