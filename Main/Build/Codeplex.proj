@@ -22,6 +22,8 @@
     </Time> 	
   </Target> 
     
+  <Target Name="Deploy" DependsOnTargets="GetCurrentDate">
+    
   <PropertyGroup>
     <ProjectName>ArchiCop</ProjectName>
     <ReleaseName Condition="'$(ReleaseName)' == ''" />
