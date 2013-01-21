@@ -6,11 +6,11 @@
 	<Import Project="MSBuild.Community.Tasks.Targets"/>	
 	
 	<ItemGroup>
-		<ReleaseFiles Include="$(WorkingDirectory)ArchiCop\Bin\Release\**\*.*" />
+		<ReleaseFiles Include="$(WorkingDirectory)\ArchiCop\Bin\Release\**\*.*" />
 	</ItemGroup>
 	
 	<Target Name="Zip">
-		<Zip Files="@(ReleaseFiles)" WorkingDirectory="$(WorkingDirectory)ArchiCop\Bin\Release\" ZipFileName="$(WorkingDirectory)$(ZipFileName)" />
+		<Zip Files="@(ReleaseFiles)" WorkingDirectory="$(WorkingDirectory)\ArchiCop\Bin\Release\" ZipFileName="$(WorkingDirectory)\$(ZipFileName)" />
 	</Target>
 
 </Project>

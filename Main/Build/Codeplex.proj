@@ -56,7 +56,7 @@
   <UploadFiles 			
     ProjectName="$(ProjectName)" 			
     ReleaseName="$(ReleaseName)" 			
-    ReleaseFiles="$(WorkingDirectory)$(ZipFileName)" 			
+    ReleaseFiles="$(WorkingDirectory)\$(ZipFileName)" 			
     Username="$(Username)" 			
     Password="$(Password)" />
   
