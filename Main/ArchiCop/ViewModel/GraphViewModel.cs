@@ -1,51 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace ArchiCop.ViewModel
 {
-    /// <summary>
-    ///     Base class for all ViewModel classes in the application.
-    ///     It provides support for property change notifications
-    ///     and has a DisplayName property.  This class is abstract.
-    /// </summary>
+    public class GraphEdgesViewModel : GraphViewModel
+    {
+        public GraphEdgesViewModel(GraphEngine graphEngine, string displayName):
+            base(graphEngine, displayName)
+        {
+            EdgesToVisualize = graphEngine.Edges;
+        }
+
+        public IEnumerable<ArchiCopEdge> EdgesToVisualize { get; private set; }
+
+    }
+
     public class GraphViewModel : WorkspaceViewModel
     {
-        public GraphViewModel(GraphInfo info)
+        public GraphViewModel(GraphEngine graphEngine, string displayName)
         {
-            DisplayName = info.DisplayName;
+            DisplayName = displayName;
 
-            Type loadEngineType = Type.GetType(info.LoadEngine);
-
-            if (loadEngineType != null)
-            {
-                IEnumerable<ArchiCopEdge> edges;
-
-                if (info.Arg1 != null & info.Arg2 != null)
-                {
-                    edges =
-                        (IEnumerable<ArchiCopEdge>)
-                        Activator.CreateInstance(loadEngineType, new object[] {info.Arg1, info.Arg2});
-                }
-                else if (info.Arg1 != null)
-                {
-                    edges =
-                        (IEnumerable<ArchiCopEdge>) Activator.CreateInstance(loadEngineType, new object[] {info.Arg1});
-                }
-                else
-                {
-                    edges = (IEnumerable<ArchiCopEdge>) Activator.CreateInstance(loadEngineType);
-                }
-
-                if (info.VertexRegexRules.Any())
-                {
-                    edges = new EdgeEngineRegex(edges, info.VertexRegexRules);
-                }
-
-                GraphToVisualize = new ArchiCopGraph(edges);
-            }
+            GraphToVisualize = graphEngine;        
         }
 
         public ArchiCopGraph GraphToVisualize { get; private set; }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using MvvmFoundation.Wpf;
+﻿using System.Diagnostics;
+using MvvmFoundation.Wpf;
 
 namespace ArchiCop.ViewModel
 {
