@@ -57,10 +57,10 @@
     <Compile Include="ExcelLoadEngine.cs" />
     <Compile Include="IInfoRepository.cs" />
     <Compile Include="GraphInfo.cs" />
-    <Compile Include="ProjectParserLoadEngine.cs" />
+    <Compile Include="CsProjectLoadEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexEdgeEngine.cs" />
-    <Compile Include="RegexRule.cs" />
+    <Compile Include="EdgeRegexEngine.cs" />
+    <Compile Include="VertexRegexRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace ArchiCop
 {
-    public class RegexEdgeEngine : List<ArchiCopEdge>
+    public class EdgeRegexEngine : List<ArchiCopEdge>
     {
-        public RegexEdgeEngine(IEnumerable<ArchiCopEdge> edges, IEnumerable<RegexRule> rules)
+        public EdgeRegexEngine(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules)
         {
             var vertices = new List<ArchiCopVertex>();
 
@@ -15,7 +15,7 @@ namespace ArchiCop
                 string source = string.Empty;
                 string target = string.Empty;
 
-                foreach (RegexRule rule in rules)
+                foreach (VertexRegexRule rule in rules)
                 {
                     if (source == string.Empty)
                     {

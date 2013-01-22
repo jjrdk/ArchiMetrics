@@ -12,6 +12,6 @@ namespace ArchiCop
 
         public string Arg2 { get; set; }
 
-        public IEnumerable<RegexRule> EdgeRegexRules { get; set; }
+        public IEnumerable<VertexRegexRule> VertexRegexRules { get; set; }
     }
 }

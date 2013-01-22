@@ -56,12 +56,12 @@ namespace ArchiCop
                 graphInfo.DisplayName = data.FirstOrDefault(item => item.RuleType == "DisplayName").RuleValue;
             }
 
-            var edgeRegexRules = new List<RegexRule>();
-            foreach (InfoData rule in data.Where(item => item.RuleType == "EdgeRegexRule"))
+            var vertexRegexRules = new List<VertexRegexRule>();
+            foreach (InfoData rule in data.Where(item => item.RuleType == "VertexRegexRule"))
             {
-                edgeRegexRules.Add(new RegexRule {Pattern = rule.RulePattern, Value = rule.RuleValue});
+                vertexRegexRules.Add(new VertexRegexRule {Pattern = rule.RulePattern, Value = rule.RuleValue});
             }
-            graphInfo.EdgeRegexRules = edgeRegexRules;
+            graphInfo.VertexRegexRules = vertexRegexRules;
 
             return graphInfo;
         }
