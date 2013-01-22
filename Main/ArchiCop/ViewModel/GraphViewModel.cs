@@ -37,9 +37,9 @@ namespace ArchiCop.ViewModel
                     edges = (IEnumerable<ArchiCopEdge>) Activator.CreateInstance(loadEngineType);
                 }
 
-                if (info.EdgeRegexRules.Any())
+                if (info.VertexRegexRules.Any())
                 {
-                    edges = new RegexEdgeEngine(edges, info.EdgeRegexRules);
+                    edges = new EdgeRegexEngine(edges, info.VertexRegexRules);
                 }
 
                 GraphToVisualize = new ArchiCopGraph(edges);
