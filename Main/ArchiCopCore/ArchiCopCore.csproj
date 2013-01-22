@@ -54,6 +54,7 @@
     <Compile Include="ArchiCopGraph.cs" />
     <Compile Include="ArchiCopVertex.cs" />
     <Compile Include="ExcelInfoRepository.cs" />
+    <Compile Include="GraphEngine.cs" />
     <Compile Include="IEdgeEngine.cs" />
     <Compile Include="ILoadEngine.cs" />
     <Compile Include="LoadEngineExcel.cs" />

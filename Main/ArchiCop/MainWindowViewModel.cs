@@ -24,8 +24,17 @@ namespace ArchiCop
                 GraphInfo info = repository.GetGraphInfoData(excelSheetName);
 
                 Commands.Add(
-                    new CommandViewModel(info.DisplayName,
+                    new CommandViewModel("Graph " + info.DisplayName,
                                          new RelayCommand<object>(param => ShowGraphView(info))));
+            }
+
+            foreach (string excelSheetName in repository.GetGraphNames())
+            {
+                GraphInfo info = repository.GetGraphInfoData(excelSheetName);
+
+                Commands.Add(
+                    new CommandViewModel("Edges " + info.DisplayName,
+                                         new RelayCommand<object>(param => ShowGraphEdgesView(info))));
             }
         }
 
@@ -67,11 +76,26 @@ namespace ArchiCop
         {
             var workspace =
                 Workspaces.Where(vm => vm is GraphViewModel).
-                           FirstOrDefault(vm => vm.DisplayName == info.DisplayName) as GraphViewModel;
+                           FirstOrDefault(vm => vm.DisplayName == "Graph " + info.DisplayName) as GraphViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphViewModel(info);
+                workspace = new GraphViewModel(new GraphEngine(info), info.DisplayName);
+                Workspaces.Add(workspace);
+            }
+
+            SetActiveWorkspace(workspace);
+        }
+
+        private void ShowGraphEdgesView(GraphInfo info)
+        {
+            var workspace =
+                Workspaces.Where(vm => vm is GraphEdgesViewModel).
+                           FirstOrDefault(vm => vm.DisplayName == "Edges" + info.DisplayName) as GraphEdgesViewModel;
+
+            if (workspace == null)
+            {
+                workspace = new GraphEdgesViewModel(new GraphEngine(info), info.DisplayName);
                 Workspaces.Add(workspace);
             }
 
@@ -98,8 +122,6 @@ namespace ArchiCop
 
         private void SetActiveWorkspace(WorkspaceViewModel workspace)
         {
-            Debug.Assert(Workspaces.Contains(workspace));
-
             ICollectionView collectionView = CollectionViewSource.GetDefaultView(Workspaces);
             if (collectionView != null)
                 collectionView.MoveCurrentTo(workspace);
