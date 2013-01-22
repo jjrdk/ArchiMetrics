@@ -5,12 +5,12 @@ using System.Xml.Linq;
 
 namespace ArchiCop
 {
-    public class CsProjectLoadEngine : List<ArchiCopEdge>
+    public class LoadEngineCsProject : List<ArchiCopEdge>, ILoadEngine
     {
         private static readonly XNamespace XNameSpace = "http://schemas.microsoft.com/developer/msbuild/2003";
         private readonly List<string> _projects;
 
-        public CsProjectLoadEngine(string path)
+        public LoadEngineCsProject(string path)
         {
             _projects =
                 new List<string>(Directory.GetFiles(path, "*csproj", SearchOption.AllDirectories));
