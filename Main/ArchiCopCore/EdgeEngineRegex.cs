@@ -46,18 +46,30 @@ namespace ArchiCop
                 ArchiCopVertex sVertex = vertices.FirstOrDefault(item => item.Name == source);
                 if (sVertex == null)
                 {
-                    sVertex = new ArchiCopVertex(source);
-                    vertices.Add(sVertex);
+                    if (!string.IsNullOrEmpty(source))
+                    {
+                        sVertex = new ArchiCopVertex(source);
+                        vertices.Add(sVertex);
+                    }
                 }
 
                 ArchiCopVertex tVertex = vertices.FirstOrDefault(item => item.Name == target);
                 if (tVertex == null)
                 {
-                    tVertex = new ArchiCopVertex(target);
-                    vertices.Add(tVertex);
+                    if (!string.IsNullOrEmpty(target) )
+                    {
+                        tVertex = new ArchiCopVertex(target);
+                        vertices.Add(tVertex);
+                    }                    
                 }
 
-                Add(new ArchiCopEdge(sVertex, tVertex));
+                if (sVertex != null & tVertex != null)
+                {
+                    if (!string.IsNullOrEmpty(sVertex.Name) & !string.IsNullOrEmpty(tVertex.Name))
+                    {
+                        Add(new ArchiCopEdge(sVertex, tVertex));
+                    }
+                }
             }
         }
     }
