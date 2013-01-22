@@ -39,7 +39,7 @@ namespace ArchiCop.ViewModel
 
                 if (info.VertexRegexRules.Any())
                 {
-                    edges = new EdgeRegexEngine(edges, info.VertexRegexRules);
+                    edges = new EdgeEngineRegex(edges, info.VertexRegexRules);
                 }
 
                 GraphToVisualize = new ArchiCopGraph(edges);

@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace ArchiCop
 {
-    public class ExcelLoadEngine : List<ArchiCopEdge>
+    public class LoadEngineExcel : List<ArchiCopEdge>, ILoadEngine
     {
         private readonly string _connString;
 
-        public ExcelLoadEngine(string excelFile, string excelsheetname)
+        public LoadEngineExcel(string excelFile, string excelsheetname)
         {
             _connString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
                           "Data Source=" + excelFile + ";Extended Properties=Excel 8.0;";

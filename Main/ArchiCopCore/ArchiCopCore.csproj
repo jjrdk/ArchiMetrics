@@ -54,12 +54,14 @@
     <Compile Include="ArchiCopGraph.cs" />
     <Compile Include="ArchiCopVertex.cs" />
     <Compile Include="ExcelInfoRepository.cs" />
-    <Compile Include="ExcelLoadEngine.cs" />
+    <Compile Include="IEdgeEngine.cs" />
+    <Compile Include="ILoadEngine.cs" />
+    <Compile Include="LoadEngineExcel.cs" />
     <Compile Include="IInfoRepository.cs" />
     <Compile Include="GraphInfo.cs" />
-    <Compile Include="CsProjectLoadEngine.cs" />
+    <Compile Include="LoadEngineCsProject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EdgeRegexEngine.cs" />
+    <Compile Include="EdgeEngineRegex.cs" />
     <Compile Include="VertexRegexRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
