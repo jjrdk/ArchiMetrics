@@ -17,22 +17,22 @@ namespace ArchiCop.Core
                 if (info.Arg1 != null & info.Arg2 != null)
                 {
                     edges =
-                        (IEnumerable<ArchiCopEdge>)
-                        Activator.CreateInstance(loadEngineType, new object[] { info.Arg1, info.Arg2 });
+                        ((ILoadEngine)
+                        Activator.CreateInstance(loadEngineType, new object[] { info.Arg1, info.Arg2 })).LoadEdges();
                 }
                 else if (info.Arg1 != null)
                 {
                     edges =
-                        (IEnumerable<ArchiCopEdge>)Activator.CreateInstance(loadEngineType, new object[] { info.Arg1 });
+                        ((ILoadEngine) Activator.CreateInstance(loadEngineType, new object[] {info.Arg1})).LoadEdges();
                 }
                 else
                 {
-                    edges = (IEnumerable<ArchiCopEdge>)Activator.CreateInstance(loadEngineType);
+                    edges = ((ILoadEngine)Activator.CreateInstance(loadEngineType)).LoadEdges();
                 }
 
                 if (info.VertexRegexRules.Any())
                 {
-                    edges = new EdgeEngineRegex(edges, info.VertexRegexRules);
+                    edges = new EdgeEngineRegex().ConvertEdges(edges, info.VertexRegexRules);
                 }
 
                 AddVerticesAndEdgeRange(edges);                

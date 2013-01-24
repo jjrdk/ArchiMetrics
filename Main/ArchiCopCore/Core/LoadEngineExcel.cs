@@ -5,25 +5,28 @@ using System.Linq;
 
 namespace ArchiCop.Core
 {
-    public class LoadEngineExcel : List<ArchiCopEdge>, ILoadEngine
+    public class LoadEngineExcel : ILoadEngine
     {
         private readonly string _connString;
+        private readonly string _excelsheetname;
 
         public LoadEngineExcel(string excelFile, string excelsheetname)
         {
             _connString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
                           "Data Source=" + excelFile + ";Extended Properties=Excel 8.0;";
 
-            CreateEdges(excelsheetname);
+            _excelsheetname = excelsheetname;
         }
 
-        public void CreateEdges(string excelsheetname)
+        public IEnumerable<ArchiCopEdge> LoadEdges()
         {
+            var edges = new List<ArchiCopEdge>();
+
             var oleDbCon = new OleDbConnection(_connString);
 
             oleDbCon.Open();
 
-            string sql = "SELECT Source, Target from [" + excelsheetname + "]";
+            string sql = "SELECT Source, Target from [" + _excelsheetname + "]";
 
             var oleDa = new OleDbDataAdapter(sql, _connString);
             var ds = new DataSet();
@@ -52,8 +55,10 @@ namespace ArchiCop.Core
                     vertices.Add(tVertex);
                 }
 
-                Add(new ArchiCopEdge(sVertex, tVertex));
+                edges.Add(new ArchiCopEdge(sVertex, tVertex));
             }
+
+            return edges;
         }
     }
 }

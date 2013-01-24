@@ -4,10 +4,13 @@ using System.Text.RegularExpressions;
 
 namespace ArchiCop.Core
 {
-    public class EdgeEngineRegex : List<ArchiCopEdge>, IEdgeEngine
+    public class EdgeEngineRegex : IEdgeEngine
     {
-        public EdgeEngineRegex(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules)
+        
+        public IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules)
         {
+            var newedges = new List<ArchiCopEdge>();
+
             var vertices = new List<ArchiCopVertex>();
 
             foreach (ArchiCopEdge edge in edges)
@@ -56,21 +59,23 @@ namespace ArchiCop.Core
                 ArchiCopVertex tVertex = vertices.FirstOrDefault(item => item.Name == target);
                 if (tVertex == null)
                 {
-                    if (!string.IsNullOrEmpty(target) )
+                    if (!string.IsNullOrEmpty(target))
                     {
                         tVertex = new ArchiCopVertex(target);
                         vertices.Add(tVertex);
-                    }                    
+                    }
                 }
 
                 if (sVertex != null & tVertex != null)
                 {
                     if (!string.IsNullOrEmpty(sVertex.Name) & !string.IsNullOrEmpty(tVertex.Name))
                     {
-                        Add(new ArchiCopEdge(sVertex, tVertex));
+                        newedges.Add(new ArchiCopEdge(sVertex, tVertex));
                     }
                 }
             }
+
+            return newedges;
         }
     }
 }
