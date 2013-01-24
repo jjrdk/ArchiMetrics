@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace ArchiCop.Core
 {
-    public class LoadEngineCsProject : List<ArchiCopEdge>, ILoadEngine
+    public class LoadEngineCsProject : ILoadEngine
     {
         private static readonly XNamespace XNameSpace = "http://schemas.microsoft.com/developer/msbuild/2003";
         private readonly List<string> _projects;
@@ -14,15 +14,23 @@ namespace ArchiCop.Core
         {
             _projects =
                 new List<string>(Directory.GetFiles(path, "*csproj", SearchOption.AllDirectories));
+        }
+
+
+        public IEnumerable<ArchiCopEdge> LoadEdges()
+        {
+            var edges = new List<ArchiCopEdge>();
 
             foreach (string project in _projects)
             {
                 foreach (Reference reference in GetProjectDependencies(project))
                 {
-                    Add(new ArchiCopEdge(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
+                    edges.Add(new ArchiCopEdge(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
                                          new ArchiCopVertex(reference.Name)));
                 }
             }
+
+            return edges;
         }
 
         private static IEnumerable<Reference> GetProjectDependencies(string path)
@@ -100,5 +108,6 @@ namespace ArchiCop.Core
         {
             public virtual string Name { get; set; }
         }
+
     }
 }

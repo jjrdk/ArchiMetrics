@@ -2,8 +2,8 @@
 
 namespace ArchiCop.Core
 {
-    public interface ILoadEngine : IList<ArchiCopEdge>
-    {    
-        
+    public interface ILoadEngine 
+    {
+        IEnumerable<ArchiCopEdge> LoadEdges();
     }
 }
