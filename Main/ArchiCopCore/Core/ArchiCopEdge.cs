@@ -1,6 +1,6 @@
 ﻿using QuickGraph;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public class ArchiCopEdge : Edge<ArchiCopVertex>
     {

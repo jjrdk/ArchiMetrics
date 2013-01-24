@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
+using ArchiCop.Core;
+using ArchiCop.Data;
 using ArchiCop.ViewModel;
 using MvvmFoundation.Wpf;
 

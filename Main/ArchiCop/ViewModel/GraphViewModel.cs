@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ArchiCop.Core;
 
 namespace ArchiCop.ViewModel
 {

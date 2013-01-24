@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public class LoadEngineCsProject : List<ArchiCopEdge>, ILoadEngine
     {

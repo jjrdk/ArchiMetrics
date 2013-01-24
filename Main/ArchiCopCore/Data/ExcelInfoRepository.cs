@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
+using ArchiCop.Core;
 
-namespace ArchiCop
+namespace ArchiCop.Data
 {
     public class ExcelInfoRepository : IInfoRepository
     {
