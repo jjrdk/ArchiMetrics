@@ -1,4 +1,5 @@
-﻿using GraphSharp.Controls;
+﻿using ArchiCop.Core;
+using GraphSharp.Controls;
 
 namespace ArchiCop
 {

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using QuickGraph;
+﻿using QuickGraph;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public class ArchiCopGraph : BidirectionalGraph<ArchiCopVertex, ArchiCopEdge>
     {

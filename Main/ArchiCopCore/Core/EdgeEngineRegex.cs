@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public class EdgeEngineRegex : List<ArchiCopEdge>, IEdgeEngine
     {

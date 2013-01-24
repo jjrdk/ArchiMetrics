@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
+using ArchiCop.Data;
 
 namespace ArchiCop
 {

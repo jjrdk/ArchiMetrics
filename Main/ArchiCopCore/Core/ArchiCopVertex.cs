@@ -1,4 +1,4 @@
-﻿namespace ArchiCop
+﻿namespace ArchiCop.Core
 {
     public class ArchiCopVertex
     {

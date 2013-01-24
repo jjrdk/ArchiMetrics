@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public interface ILoadEngine : IList<ArchiCopEdge>
     {    

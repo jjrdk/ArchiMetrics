@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public class GraphEngine : ArchiCopGraph
     {

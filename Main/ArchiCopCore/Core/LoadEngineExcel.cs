@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 
-namespace ArchiCop
+namespace ArchiCop.Core
 {
     public class LoadEngineExcel : List<ArchiCopEdge>, ILoadEngine
     {
