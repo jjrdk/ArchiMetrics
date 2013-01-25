@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using QuickGraph;
 
 namespace ArchiCop.Core
 {
@@ -9,10 +10,8 @@ namespace ArchiCop.Core
         
         public IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules)
         {
-            var newedges = new List<ArchiCopEdge>();
-
-            var vertices = new List<ArchiCopVertex>();
-
+            var graph = new BidirectionalGraph<ArchiCopVertex, ArchiCopEdge>(false);
+            
             foreach (ArchiCopEdge edge in edges)
             {
                 string source = string.Empty;
@@ -46,23 +45,23 @@ namespace ArchiCop.Core
                     target = edge.Target.Name;
                 }
 
-                ArchiCopVertex sVertex = vertices.FirstOrDefault(item => item.Name == source);
+                ArchiCopVertex sVertex = graph.Vertices.FirstOrDefault(item => item.Name == source);                
                 if (sVertex == null)
                 {
                     if (!string.IsNullOrEmpty(source))
                     {
                         sVertex = new ArchiCopVertex(source);
-                        vertices.Add(sVertex);
+                        graph.AddVertex(sVertex);
                     }
                 }
 
-                ArchiCopVertex tVertex = vertices.FirstOrDefault(item => item.Name == target);
+                ArchiCopVertex tVertex = graph.Vertices.FirstOrDefault(item => item.Name == target);
                 if (tVertex == null)
                 {
                     if (!string.IsNullOrEmpty(target))
                     {
                         tVertex = new ArchiCopVertex(target);
-                        vertices.Add(tVertex);
+                        graph.AddVertex(tVertex);
                     }
                 }
 
@@ -70,12 +69,22 @@ namespace ArchiCop.Core
                 {
                     if (!string.IsNullOrEmpty(sVertex.Name) & !string.IsNullOrEmpty(tVertex.Name))
                     {
-                        newedges.Add(new ArchiCopEdge(sVertex, tVertex));
+                        graph.AddEdge(new ArchiCopEdge(sVertex, tVertex));
                     }
                 }
             }
 
-            return newedges;
+            foreach (ArchiCopVertex vertex in graph.Vertices)
+            {
+                vertex.InEdges = graph.InEdges(vertex).Count();
+                vertex.OutEdges = graph.OutEdges(vertex).Count();
+
+                vertex.OutDegree = graph.OutDegree(vertex);
+                vertex.InDegree = graph.InDegree(vertex);
+                vertex.Degree = graph.Degree(vertex);
+            }
+
+            return graph.Edges;
         }
     }
 }

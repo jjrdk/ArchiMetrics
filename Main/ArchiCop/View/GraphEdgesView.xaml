@@ -8,8 +8,20 @@
     <ListView ItemsSource="{Binding EdgesToVisualize}">
         <ListView.View>
             <GridView>
-                <GridViewColumn Width="200" Header="Source" DisplayMemberBinding="{Binding Source.Name}" />
-                <GridViewColumn Width="200" Header="Target" DisplayMemberBinding="{Binding Target.Name}" />
+                <GridViewColumn>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>                                    
+                                    <MultiBinding StringFormat=" {0} -> {1} ">
+                                        <Binding Path="Source.Name"/>
+                                        <Binding Path="Target.Name"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>                                
+                            </TextBlock>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
             </GridView>
         </ListView.View>
     </ListView>

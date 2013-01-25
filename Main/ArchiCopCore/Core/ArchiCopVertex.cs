@@ -13,5 +13,11 @@
         {
             return Name;
         }
+
+        public int OutEdges { get; set; }
+        public int InEdges { get; set; }
+        public int Degree { get; set; }
+        public int InDegree { get; set; }
+        public int OutDegree { get; set; }
     }
 }
