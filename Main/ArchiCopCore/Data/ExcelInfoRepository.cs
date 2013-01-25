@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using ArchiCop.Core;
 
@@ -9,23 +10,18 @@ namespace ArchiCop.Data
 {
     public class ExcelInfoRepository : IInfoRepository
     {
-        private readonly string _connString;
-
-        public ExcelInfoRepository(string excelFile)
+        public GraphInfo GetGraphInfoData(string connectionString, string tableName)
         {
-            _connString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                          "Data Source=" + excelFile + ";Extended Properties=Excel 8.0;";
-        }
+            connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                          "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
 
-        public GraphInfo GetGraphInfoData(string excelsheetname)
-        {
-            var oleDbCon = new OleDbConnection(_connString);
+            var oleDbCon = new OleDbConnection(connectionString);
 
             oleDbCon.Open();
 
-            string sql = "SELECT Arg1, Arg2, RuleType, RuleValue, RulePattern from [" + excelsheetname + "]";
+            string sql = "SELECT Arg1, Arg2, RuleType, RuleValue, RulePattern from [" + tableName + "]";
 
-            var oleDa = new OleDbDataAdapter(sql, _connString);
+            var oleDa = new OleDbDataAdapter(sql, connectionString);
             var ds = new DataSet();
             oleDa.Fill(ds);
 
@@ -71,10 +67,13 @@ namespace ArchiCop.Data
         ///     This method retrieves the excel sheet names from
         ///     an excel workbook.
         /// </summary>
-        public IEnumerable<string> GetGraphNames()
+        public IEnumerable<string> GetGraphNames(string connectionString)
         {
+            connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                          "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
+
             // Create connection object by using the preceding connection string.
-            var oleDbCon = new OleDbConnection(_connString);
+            var oleDbCon = new OleDbConnection(connectionString);
             // Open connection with the database.
             oleDbCon.Open();
 

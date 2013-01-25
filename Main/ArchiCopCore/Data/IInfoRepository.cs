@@ -5,8 +5,8 @@ namespace ArchiCop.Data
 {
     public interface IInfoRepository
     {
-        GraphInfo GetGraphInfoData(string excelsheetname);
+        GraphInfo GetGraphInfoData(string connectionString, string tableName);
 
-        IEnumerable<string> GetGraphNames();
+        IEnumerable<string> GetGraphNames(string connectionString);
     }
 }
