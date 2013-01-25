@@ -2,7 +2,7 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="version.Targets"/>
+	<Import Project="Version.Targets"/>
 	<Import Project="MSBuild.Community.Tasks.Targets"/>	
 	
 	<ItemGroup>
@@ -22,11 +22,11 @@
 		
 		<Zip Files="@(ReleaseFiles)" 
 				 WorkingDirectory="$(WorkingDirectory)\ArchiCop\Bin\Release\" 
-				 ZipFileName="$(WorkingDirectory)\$(ReleaseName).Zip" />
+				 ZipFileName="$(ReleaseZipFileName)" />
 
 		<Zip Files="@(SourceFiles)"
 				 WorkingDirectory="$(WorkingDirectory)\"
-				 ZipFileName="$(WorkingDirectory)\Source$(ReleaseName).Zip" />
+				 ZipFileName="$(SourceZipFileName)" />
 		
 	</Target>
 
