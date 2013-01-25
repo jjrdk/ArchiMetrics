@@ -15,8 +15,8 @@ This resource dictionary is used by the MainWindow.
         <view:GraphView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:GraphEdgesViewModel}">
-        <view:GraphEdgesView />
+    <DataTemplate DataType="{x:Type viewModel:GraphDetailsViewModel}">
+        <view:GraphDetailsView />
     </DataTemplate>
 
     <!-- 

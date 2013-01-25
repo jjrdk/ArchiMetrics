@@ -8,7 +8,7 @@ namespace ArchiCop.ViewModel
         {
             DisplayName = displayName;
 
-            GraphToVisualize = graphEngine;        
+            GraphToVisualize = graphEngine.Graph;        
         }
 
         public ArchiCopGraph GraphToVisualize { get; private set; }

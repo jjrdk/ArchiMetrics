@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using QuickGraph;
+using QuickGraph.Algorithms;
 
 namespace ArchiCop.Core
 {
@@ -73,9 +74,10 @@ namespace ArchiCop.Core
                     }
                 }
             }
-
+            
             foreach (ArchiCopVertex vertex in graph.Vertices)
             {
+                
                 vertex.InEdges = graph.InEdges(vertex).Count();
                 vertex.OutEdges = graph.OutEdges(vertex).Count();
 
