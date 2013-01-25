@@ -1,0 +1,5 @@
+C:\Program Files (x86)\Microsoft Visual Studio 11.0>
+
+
+msbuild C:\codeplex\ArchiCop.Main\Build\ZipFiles.proj /t:DeleteZipFiles /p:WorkingDirectory=C:\codeplex\ArchiCop.Main 
+msbuild C:\codeplex\ArchiCop.Main\Build\ZipFiles.proj /t:ZipFiles /p:WorkingDirectory=C:\codeplex\ArchiCop.Main /p:VersionBuild=2013 /p:VersionRevision=01 
