@@ -92,12 +92,12 @@ namespace ArchiCop
         private void ShowGraphEdgesView(GraphInfo info)
         {
             var workspace =
-                Workspaces.Where(vm => vm is GraphEdgesViewModel).
-                           FirstOrDefault(vm => vm.DisplayName == "Edges" + info.DisplayName) as GraphEdgesViewModel;
+                Workspaces.Where(vm => vm is GraphDetailsViewModel).
+                           FirstOrDefault(vm => vm.DisplayName == "Edges" + info.DisplayName) as GraphDetailsViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphEdgesViewModel(new GraphEngine(info), info.DisplayName);
+                workspace = new GraphDetailsViewModel(new GraphEngine(info), info.DisplayName);
                 Workspaces.Add(workspace);
             }
 
