@@ -80,6 +80,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\GraphEdgesViewModel.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\IViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
