@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Import Project="version.Targets"/>
+	<Import Project="MSBuild.Community.Tasks.Targets"/>	
+	
+	<ItemGroup>
+		<ZipFiles Include="$(WorkingDirectory)\**\*.zip" />
+		<ReleaseFiles Include="$(WorkingDirectory)\ArchiCop\Bin\Release\**\*.*" />
+		<SourceFiles Include="$(WorkingDirectory)\**\*.*"
+								 Exclude="$(WorkingDirectory)\ArchiCop\Bin\**\*.*;$(WorkingDirectory)\ArchiCopCore\Bin\**\*.*;$(WorkingDirectory)\ArchiCop\Obj\**\*.*;$(WorkingDirectory)\ArchiCopCore\Obj\**\*.*;$(WorkingDirectory)\**\*.user;$(WorkingDirectory)\**\*.*scc;$(WorkingDirectory)\**\*.suo" />
+	</ItemGroup>
+
+	<Target Name="DeleteZipFiles">
+
+		<Delete Files="@(ZipFiles)" ContinueOnError="false" />
+
+	</Target>
+	
+	<Target Name="ZipFiles">
+		
+		<Zip Files="@(ReleaseFiles)" 
+				 WorkingDirectory="$(WorkingDirectory)\ArchiCop\Bin\Release\" 
+				 ZipFileName="$(WorkingDirectory)\$(ReleaseName).Zip" />
+
+		<Zip Files="@(SourceFiles)"
+				 WorkingDirectory="$(WorkingDirectory)\"
+				 ZipFileName="$(WorkingDirectory)\Source$(ReleaseName).Zip" />
+		
+	</Target>
+
+</Project>

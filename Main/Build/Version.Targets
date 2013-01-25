@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<ProjectName>ArchiCop</ProjectName>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild Condition="'$(VersionBuild)' == ''" />
+		<VersionRevision Condition="'$(VersionRevision)' == ''" />
+
+		<ReleaseName>$(ProjectName) $(VersionMajor).$(VersionMinor).$(VersionBuild).$(VersionRevision)</ReleaseName>
+
+	</PropertyGroup>	
+
+</Project>
