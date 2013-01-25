@@ -34,9 +34,8 @@ namespace ArchiCop
             base.OnStartup(e);
 
             var window = new MainWindow();
-            string database = ConfigurationManager.AppSettings["databaseExcelFile"];
-
-            IInfoRepository repository = new ExcelInfoRepository(database);
+            
+            IInfoRepository repository = new ExcelInfoRepository();
 
             var viewModel = new MainWindowViewModel(repository);
 

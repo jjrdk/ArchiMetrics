@@ -7,7 +7,8 @@
 	
 	<ItemGroup>
 		<ZipFiles Include="$(WorkingDirectory)\**\*.zip" />
-		<ReleaseFiles Include="$(WorkingDirectory)\ArchiCop\Bin\Release\**\*.*" />
+		<ReleaseFiles Include="$(WorkingDirectory)\ArchiCop\Bin\Release\**\*.*" 
+									Exclude="$(WorkingDirectory)\ArchiCop\Bin\Release\Sample.xls"/>
 		<SourceFiles Include="$(WorkingDirectory)\**\*.*"
 								 Exclude="$(WorkingDirectory)\ArchiCop\Bin\**\*.*;$(WorkingDirectory)\ArchiCopCore\Bin\**\*.*;$(WorkingDirectory)\ArchiCop\Obj\**\*.*;$(WorkingDirectory)\ArchiCopCore\Obj\**\*.*;$(WorkingDirectory)\**\*.user;$(WorkingDirectory)\**\*.*scc;$(WorkingDirectory)\**\*.suo" />
 	</ItemGroup>
