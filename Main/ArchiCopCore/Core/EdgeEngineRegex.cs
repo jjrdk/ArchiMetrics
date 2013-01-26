@@ -2,17 +2,16 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using QuickGraph;
-using QuickGraph.Algorithms;
 
 namespace ArchiCop.Core
 {
     public class EdgeEngineRegex : IEdgeEngine
     {
-        
-        public IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules)
+        public IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges,
+                                                      IEnumerable<VertexRegexRule> rules)
         {
             var graph = new BidirectionalGraph<ArchiCopVertex, ArchiCopEdge>(false);
-            
+
             foreach (ArchiCopEdge edge in edges)
             {
                 string source = string.Empty;
@@ -46,7 +45,7 @@ namespace ArchiCop.Core
                     target = edge.Target.Name;
                 }
 
-                ArchiCopVertex sVertex = graph.Vertices.FirstOrDefault(item => item.Name == source);                
+                ArchiCopVertex sVertex = graph.Vertices.FirstOrDefault(item => item.Name == source);
                 if (sVertex == null)
                 {
                     if (!string.IsNullOrEmpty(source))
@@ -74,10 +73,9 @@ namespace ArchiCop.Core
                     }
                 }
             }
-            
+
             foreach (ArchiCopVertex vertex in graph.Vertices)
             {
-                
                 vertex.InEdges = graph.InEdges(vertex).Count();
                 vertex.OutEdges = graph.OutEdges(vertex).Count();
 

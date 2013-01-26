@@ -36,16 +36,16 @@
                 Style="{StaticResource MainBorderStyle}"
                 Width="170">
                 <StackPanel>
-                    <HeaderedContentControl                                 
-                    Header="Metadata Files"
-                    Style="{StaticResource MainHCCStyle}" />
-                    <ComboBox ItemsSource="{Binding MetadataFiles}" SelectedItem="MetadataFile" 
-                              IsSynchronizedWithCurrentItem="True"/>
                     <HeaderedContentControl
-                    Content="{Binding Path=Commands}"
-                    ContentTemplate="{StaticResource CommandsTemplate}"
-                    Header="Control Panel"
-                    Style="{StaticResource MainHCCStyle}" />
+                        Header="Metadata Files"
+                        Style="{StaticResource MainHCCStyle}" />
+                    <ComboBox ItemsSource="{Binding MetadataFiles}" SelectedItem="MetadataFile"
+                              IsSynchronizedWithCurrentItem="True" />
+                    <HeaderedContentControl
+                        Content="{Binding Path=Commands}"
+                        ContentTemplate="{StaticResource CommandsTemplate}"
+                        Header="Control Panel"
+                        Style="{StaticResource MainHCCStyle}" />
                 </StackPanel>
             </Border>
 

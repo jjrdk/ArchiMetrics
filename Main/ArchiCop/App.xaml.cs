@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
@@ -34,7 +33,7 @@ namespace ArchiCop
             base.OnStartup(e);
 
             var window = new MainWindow();
-            
+
             IInfoRepository repository = new ExcelInfoRepository();
 
             var viewModel = new MainWindowViewModel(repository);

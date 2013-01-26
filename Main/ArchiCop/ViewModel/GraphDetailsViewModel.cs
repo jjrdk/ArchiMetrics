@@ -5,7 +5,7 @@ namespace ArchiCop.ViewModel
 {
     public class GraphDetailsViewModel : GraphViewModel
     {
-        public GraphDetailsViewModel(GraphEngine graphEngine, string displayName):
+        public GraphDetailsViewModel(GraphEngine graphEngine, string displayName) :
             base(graphEngine, displayName)
         {
             EdgesToVisualize = graphEngine.Graph.Edges;
@@ -22,6 +22,5 @@ namespace ArchiCop.ViewModel
         public IEnumerable<ArchiCopVertex> OddVertices { get; private set; }
         public IEnumerable<ArchiCopVertex> TopologicalSort { get; private set; }
         public IDictionary<ArchiCopVertex, int> StronglyConnectedComponents { get; private set; }
-
     }
 }

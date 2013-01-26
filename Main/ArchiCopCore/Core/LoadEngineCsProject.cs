@@ -26,7 +26,7 @@ namespace ArchiCop.Core
                 foreach (Reference reference in GetProjectDependencies(project))
                 {
                     edges.Add(new ArchiCopEdge(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
-                                         new ArchiCopVertex(reference.Name)));
+                                               new ArchiCopVertex(reference.Name)));
                 }
             }
 
@@ -108,6 +108,5 @@ namespace ArchiCop.Core
         {
             public virtual string Name { get; set; }
         }
-
     }
 }

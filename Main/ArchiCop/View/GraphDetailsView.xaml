@@ -1,35 +1,35 @@
 ﻿<UserControl x:Class="ArchiCop.View.GraphDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="400">
-    
+
     <TabControl FlowDirection="LeftToRight" TabStripPlacement="Left">
         <TabItem Header="Edges">
             <StackPanel Orientation="Vertical">
                 <TextBlock>List of all edges</TextBlock>
-            <ListView ItemsSource="{Binding EdgesToVisualize}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat=" {0} -> {1} ">
-                                                <Binding Path="Source.Name"/>
-                                                <Binding Path="Target.Name"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>                
-            </ListView>
+                <ListView ItemsSource="{Binding EdgesToVisualize}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat=" {0} -> {1} ">
+                                                    <Binding Path="Source.Name" />
+                                                    <Binding Path="Target.Name" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
         </TabItem>
 
@@ -45,7 +45,7 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat=" {0} ">
-                                                    <Binding Path="Name"/>
+                                                    <Binding Path="Name" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -70,7 +70,7 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat=" {0} ">
-                                                    <Binding Path="Name"/>
+                                                    <Binding Path="Name" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -95,7 +95,7 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat=" {0} ">
-                                                    <Binding Path="Name"/>
+                                                    <Binding Path="Name" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -120,7 +120,7 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat=" {0} ">
-                                                    <Binding Path="Name"/>
+                                                    <Binding Path="Name" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -132,7 +132,7 @@
                 </ListView>
             </StackPanel>
         </TabItem>
-        
+
         <TabItem Header="StronglyConnectedComponents">
             <StackPanel Orientation="Vertical">
                 <TextBlock>List of all strongly connected components</TextBlock>
@@ -145,8 +145,8 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat=" {0} - {1} ">
-                                                    <Binding Path="Key.Name"/>
-                                                    <Binding Path="Value"/>
+                                                    <Binding Path="Key.Name" />
+                                                    <Binding Path="Value" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -158,9 +158,8 @@
                 </ListView>
             </StackPanel>
         </TabItem>
-        
+
     </TabControl>
-    
-    
+
 
 </UserControl>
