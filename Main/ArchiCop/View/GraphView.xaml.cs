@@ -10,6 +10,7 @@ namespace ArchiCop.View
         public GraphView()
         {
             InitializeComponent();
+
         }
     }
 }
