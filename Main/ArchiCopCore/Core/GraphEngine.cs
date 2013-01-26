@@ -8,14 +8,14 @@ namespace ArchiCop.Core
     public class GraphEngine
     {
         private readonly ArchiCopGraph _graph = new ArchiCopGraph();
-        readonly IDictionary<ArchiCopVertex, int> _stronglyConnectedComponents;
-        private readonly IEnumerable<ArchiCopVertex> _topologicalSort;
-        private readonly IEnumerable<ArchiCopVertex> _sinks;
+        private readonly IEnumerable<ArchiCopVertex> _oddVertices;
         private readonly IEnumerable<ArchiCopVertex> _roots;
-        private readonly IEnumerable<ArchiCopVertex> _oddVertices; 
+        private readonly IEnumerable<ArchiCopVertex> _sinks;
+        private readonly IDictionary<ArchiCopVertex, int> _stronglyConnectedComponents;
+        private readonly IEnumerable<ArchiCopVertex> _topologicalSort;
 
 
-        public GraphEngine(GraphInfo info)            
+        public GraphEngine(GraphInfo info)
         {
             Type loadEngineType = Type.GetType(info.LoadEngine);
 
@@ -27,7 +27,7 @@ namespace ArchiCop.Core
                 {
                     edges =
                         ((ILoadEngine)
-                        Activator.CreateInstance(loadEngineType, new object[] { info.Arg1, info.Arg2 })).LoadEdges();
+                         Activator.CreateInstance(loadEngineType, new object[] {info.Arg1, info.Arg2})).LoadEdges();
                 }
                 else if (info.Arg1 != null)
                 {
@@ -36,7 +36,7 @@ namespace ArchiCop.Core
                 }
                 else
                 {
-                    edges = ((ILoadEngine)Activator.CreateInstance(loadEngineType)).LoadEdges();
+                    edges = ((ILoadEngine) Activator.CreateInstance(loadEngineType)).LoadEdges();
                 }
 
                 if (info.VertexRegexRules.Any())
@@ -44,7 +44,7 @@ namespace ArchiCop.Core
                     edges = new EdgeEngineRegex().ConvertEdges(edges, info.VertexRegexRules);
                 }
 
-                _graph.AddVerticesAndEdgeRange(edges);                
+                _graph.AddVerticesAndEdgeRange(edges);
             }
 
             _graph.StronglyConnectedComponents(out _stronglyConnectedComponents);

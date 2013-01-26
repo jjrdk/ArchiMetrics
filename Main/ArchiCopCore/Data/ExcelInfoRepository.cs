@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.IO;
 using System.Linq;
 using ArchiCop.Core;
 
@@ -13,7 +12,7 @@ namespace ArchiCop.Data
         public GraphInfo GetGraphInfoData(string connectionString, string tableName)
         {
             connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                          "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
+                               "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
 
             var oleDbCon = new OleDbConnection(connectionString);
 
@@ -70,7 +69,7 @@ namespace ArchiCop.Data
         public IEnumerable<string> GetGraphNames(string connectionString)
         {
             connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                          "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
+                               "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
 
             // Create connection object by using the preceding connection string.
             var oleDbCon = new OleDbConnection(connectionString);

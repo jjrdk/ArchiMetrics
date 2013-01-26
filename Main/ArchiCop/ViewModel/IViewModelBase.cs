@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace ArchiCop.ViewModel
 {
-    public interface IViewModelBase : IDisposable
+    public interface IViewModelBase : IDisposable, INotifyPropertyChanged
     {
         /// <summary>
         ///     Returns the user-friendly name of this object.

@@ -3,7 +3,7 @@ using ArchiCop.ViewModel;
 
 namespace ArchiCop
 {
-    public interface IMainWindowViewModel : IViewModelBase
+    public interface IMainWindowViewModel
     {
         /// <summary>
         ///     Returns a list of commands

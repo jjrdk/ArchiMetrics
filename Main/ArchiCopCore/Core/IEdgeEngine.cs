@@ -2,7 +2,7 @@
 
 namespace ArchiCop.Core
 {
-    public interface IEdgeEngine 
+    public interface IEdgeEngine
     {
         IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules);
     }
