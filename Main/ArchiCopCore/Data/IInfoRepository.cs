@@ -8,5 +8,6 @@ namespace ArchiCop.Data
         GraphInfo GetGraphInfoData(string connectionString, string tableName);
 
         IEnumerable<string> GetGraphNames(string connectionString);
+        IEnumerable<string> GetDataSourceNames(string connectionString);
     }
 }
