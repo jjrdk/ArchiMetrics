@@ -62,11 +62,17 @@ namespace ArchiCop.Data
             return graphInfo;
         }
 
-        /// <summary>
-        ///     This method retrieves the excel sheet names from
-        ///     an excel workbook.
-        /// </summary>
         public IEnumerable<string> GetGraphNames(string connectionString)
+        {
+            return GetExcelSheetNames(connectionString).Where(item => item.StartsWith("Graph"));
+        }
+
+        public IEnumerable<string> GetDataSourceNames(string connectionString)
+        {
+            return GetExcelSheetNames(connectionString).Where(item => item.StartsWith("Data"));
+        }
+
+        private IEnumerable<string> GetExcelSheetNames(string connectionString)
         {
             connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
                                "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
@@ -96,7 +102,7 @@ namespace ArchiCop.Data
 
             oleDbCon.Close();
 
-            return excelSheets.Where(item => item.StartsWith("Graph"));
+            return excelSheets;
         }
 
         private class InfoData

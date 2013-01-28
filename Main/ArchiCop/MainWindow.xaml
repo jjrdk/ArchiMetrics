@@ -6,7 +6,7 @@
     FontFamily="Verdana"
     MinWidth="650" MinHeight="420"
     Title="{Binding Path=DisplayName}"
-    Width="650" Height="420"
+    Width="800" Height="600"
     WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary Source="MainWindowResources.xaml" />
@@ -36,16 +36,24 @@
                 Style="{StaticResource MainBorderStyle}"
                 Width="170">
                 <StackPanel>
+                    
                     <HeaderedContentControl
                         Header="Metadata Files"
                         Style="{StaticResource MainHCCStyle}" />
                     <ComboBox ItemsSource="{Binding MetadataFiles}" SelectedItem="MetadataFile"
                               IsSynchronizedWithCurrentItem="True" />
                     <HeaderedContentControl
-                        Content="{Binding Path=Commands}"
+                        Content="{Binding Path=ControlPanelCommands}"
                         ContentTemplate="{StaticResource CommandsTemplate}"
                         Header="Control Panel"
                         Style="{StaticResource MainHCCStyle}" />
+
+                    <HeaderedContentControl
+                        Content="{Binding Path=DataSourceCommands}"
+                        ContentTemplate="{StaticResource CommandsTemplate}"
+                        Header="Data Sources"
+                        Style="{StaticResource MainHCCStyle}" />
+                    
                 </StackPanel>
             </Border>
 

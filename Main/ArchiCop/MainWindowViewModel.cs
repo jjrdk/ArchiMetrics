@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Data;
 using ArchiCop.Core;
 using ArchiCop.Data;
+using ArchiCop.Properties;
 using ArchiCop.ViewModel;
 using MvvmFoundation.Wpf;
 
@@ -14,43 +15,56 @@ namespace ArchiCop
 {
     public class MainWindowViewModel : WorkspaceViewModel, IMainWindowViewModel
     {
-        private readonly ObservableCollection<string> _metadataFiles;
         private readonly ICollectionView _metadataFilesView;
         private readonly IInfoRepository _repository;
-        private ObservableCollection<CommandViewModel> _commands;
+        private ObservableCollection<CommandViewModel> _controlPanelCommands;
+        private ObservableCollection<CommandViewModel> _dataSourceCommands;
         private ObservableCollection<WorkspaceViewModel> _workspaces;
 
         public MainWindowViewModel(IInfoRepository repository)
         {
-            base.DisplayName = "Strings.MainWindowViewModel_DisplayName";
+            base.DisplayName = Resources.MainWindowViewModel_DisplayName;
 
             _repository = repository;
 
-            _metadataFiles = new ObservableCollection<string>(Directory.GetFiles(".", "*.xls"));
-            _metadataFilesView = CollectionViewSource.GetDefaultView(_metadataFiles);
+            MetadataFiles = new ObservableCollection<string>(Directory.GetFiles(".", "*.xls"));
+            _metadataFilesView = CollectionViewSource.GetDefaultView(MetadataFiles);
             _metadataFilesView.CurrentChanged += MetadataFilesCurrentChanged;
         }
 
-        public ObservableCollection<string> MetadataFile { get; set; }
+        //public ObservableCollection<string> MetadataFile { get; set; }
 
-        public ObservableCollection<string> MetadataFiles
+        public ObservableCollection<string> MetadataFiles { get; private set; }
+
+        /// <summary>
+        ///     Returns a list of commands
+        ///     that the UI can display and execute.
+        /// </summary>
+        public ObservableCollection<CommandViewModel> ControlPanelCommands
         {
-            get { return _metadataFiles; }
+            get
+            {
+                if (_controlPanelCommands == null)
+                {
+                    _controlPanelCommands = new ObservableCollection<CommandViewModel>();
+                }
+                return _controlPanelCommands;
+            }
         }
 
         /// <summary>
         ///     Returns a list of commands
         ///     that the UI can display and execute.
         /// </summary>
-        public ObservableCollection<CommandViewModel> Commands
+        public ObservableCollection<CommandViewModel> DataSourceCommands
         {
             get
             {
-                if (_commands == null)
+                if (_dataSourceCommands == null)
                 {
-                    _commands = new ObservableCollection<CommandViewModel>();
+                    _dataSourceCommands = new ObservableCollection<CommandViewModel>();
                 }
-                return _commands;
+                return _dataSourceCommands;
             }
         }
 
@@ -73,20 +87,46 @@ namespace ArchiCop
 
         private void MetadataFilesCurrentChanged(object sender, EventArgs e)
         {
-            Commands.Clear();
+            ControlPanelCommands.Clear();
 
             foreach (string excelSheetName in _repository.GetGraphNames(_metadataFilesView.CurrentItem as string))
             {
                 GraphInfo info = _repository.GetGraphInfoData(_metadataFilesView.CurrentItem as string, excelSheetName);
 
-                Commands.Add(
+                ControlPanelCommands.Add(
                     new CommandViewModel("Graph " + info.DisplayName,
                                          new RelayCommand<object>(param => ShowGraphView(info))));
 
-                Commands.Add(
+                ControlPanelCommands.Add(
                     new CommandViewModel("Edges " + info.DisplayName,
                                          new RelayCommand<object>(param => ShowGraphEdgesView(info))));
             }
+
+            DataSourceCommands.Clear();
+            foreach (string excelSheetName in _repository.GetDataSourceNames(_metadataFilesView.CurrentItem as string))
+            {
+                GraphInfo info = _repository.GetGraphInfoData(_metadataFilesView.CurrentItem as string, excelSheetName);
+
+                DataSourceCommands.Add(
+                    new CommandViewModel(info.DisplayName,
+                                         new RelayCommand<object>(param => ShowDataSourceView(info))));                
+            }
+
+        }
+
+        private void ShowDataSourceView(GraphInfo info)
+        {
+            //var workspace =
+            //    Workspaces.Where(vm => vm is GraphViewModel).
+            //               FirstOrDefault(vm => vm.DisplayName == "Graph " + info.DisplayName) as GraphViewModel;
+
+            //if (workspace == null)
+            //{
+            //    workspace = new GraphViewModel(new GraphEngine(info), info.DisplayName);
+            //    Workspaces.Add(workspace);
+            //}
+
+            //SetActiveWorkspace(workspace);
         }
 
         private void ShowGraphView(GraphInfo info)
@@ -97,7 +137,7 @@ namespace ArchiCop
 
             if (workspace == null)
             {
-                workspace = new GraphViewModel(new GraphEngine(info), info.DisplayName);
+                workspace = new GraphViewModel(new GraphEngine(info), "Graph " + info.DisplayName);
                 Workspaces.Add(workspace);
             }
 
@@ -112,7 +152,7 @@ namespace ArchiCop
 
             if (workspace == null)
             {
-                workspace = new GraphDetailsViewModel(new GraphEngine(info), info.DisplayName);
+                workspace = new GraphDetailsViewModel(new GraphEngine(info), "Edges" + info.DisplayName);
                 Workspaces.Add(workspace);
             }
 

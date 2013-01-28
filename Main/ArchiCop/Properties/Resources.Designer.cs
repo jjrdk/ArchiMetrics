@@ -59,5 +59,14 @@ namespace ArchiCop.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ArchiCop.
+        /// </summary>
+        internal static string MainWindowViewModel_DisplayName {
+            get {
+                return ResourceManager.GetString("MainWindowViewModel_DisplayName", resourceCulture);
+            }
+        }
     }
 }

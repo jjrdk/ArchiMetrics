@@ -41,21 +41,26 @@ namespace ArchiCop.Core
                 var source = row["Source"] as string;
                 var target = row["Target"] as string;
 
-                ArchiCopVertex sVertex = vertices.FirstOrDefault(item => item.Name == source);
-                if (sVertex == null)
+                if (source != null & target != null)
                 {
-                    sVertex = new ArchiCopVertex(source);
-                    vertices.Add(sVertex);
-                }
 
-                ArchiCopVertex tVertex = vertices.FirstOrDefault(item => item.Name == target);
-                if (tVertex == null)
-                {
-                    tVertex = new ArchiCopVertex(target);
-                    vertices.Add(tVertex);
-                }
+                    ArchiCopVertex sVertex = vertices.FirstOrDefault(item => item.Name == source);
+                    if (sVertex == null)
+                    {
+                        sVertex = new ArchiCopVertex(source);
+                        vertices.Add(sVertex);
+                    }
 
-                edges.Add(new ArchiCopEdge(sVertex, tVertex));
+                    ArchiCopVertex tVertex = vertices.FirstOrDefault(item => item.Name == target);
+                    if (tVertex == null)
+                    {
+                        tVertex = new ArchiCopVertex(target);
+                        vertices.Add(tVertex);
+                    }
+
+                    edges.Add(new ArchiCopEdge(sVertex, tVertex));
+
+                }
             }
 
             return edges;
