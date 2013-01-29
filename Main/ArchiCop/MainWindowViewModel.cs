@@ -108,26 +108,13 @@ namespace ArchiCop
                 GraphInfo info = _repository.GetGraphInfoData(_metadataFilesView.CurrentItem as string, excelSheetName);
 
                 DataSourceCommands.Add(
-                    new CommandViewModel(info.DisplayName,
-                                         new RelayCommand<object>(param => ShowDataSourceView(info))));                
+                    new CommandViewModel("Datasource " + info.DisplayName,
+                                         new RelayCommand<object>(param => ShowGraphEdgesView(info))));                
             }
 
         }
 
-        private void ShowDataSourceView(GraphInfo info)
-        {
-            //var workspace =
-            //    Workspaces.Where(vm => vm is GraphViewModel).
-            //               FirstOrDefault(vm => vm.DisplayName == "Graph " + info.DisplayName) as GraphViewModel;
-
-            //if (workspace == null)
-            //{
-            //    workspace = new GraphViewModel(new GraphEngine(info), info.DisplayName);
-            //    Workspaces.Add(workspace);
-            //}
-
-            //SetActiveWorkspace(workspace);
-        }
+       
 
         private void ShowGraphView(GraphInfo info)
         {
