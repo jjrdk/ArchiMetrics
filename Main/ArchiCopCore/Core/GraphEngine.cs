@@ -17,8 +17,9 @@ namespace ArchiCop.Core
 
         public GraphEngine(GraphInfo info)
         {
+            Type loadEngineType = Type.GetType(info.LoadEngine);
 
-            if (info.LoadEngine != null)
+            if (loadEngineType != null)
             {
                 IEnumerable<ArchiCopEdge> edges;
 
@@ -26,16 +27,16 @@ namespace ArchiCop.Core
                 {
                     edges =
                         ((ILoadEngine)
-                         Activator.CreateInstance(info.LoadEngine, new object[] { info.Arg1, info.Arg2 })).LoadEdges();
+                         Activator.CreateInstance(loadEngineType, new object[] {info.Arg1, info.Arg2})).LoadEdges();
                 }
                 else if (info.Arg1 != null)
                 {
                     edges =
-                        ((ILoadEngine)Activator.CreateInstance(info.LoadEngine, new object[] { info.Arg1 })).LoadEdges();
+                        ((ILoadEngine) Activator.CreateInstance(loadEngineType, new object[] {info.Arg1})).LoadEdges();
                 }
                 else
                 {
-                    edges = ((ILoadEngine)Activator.CreateInstance(info.LoadEngine)).LoadEdges();
+                    edges = ((ILoadEngine) Activator.CreateInstance(loadEngineType)).LoadEdges();
                 }
 
                 if (info.VertexRegexRules.Any())
