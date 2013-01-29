@@ -5,15 +5,15 @@ namespace ArchiCop.ViewModel
 {
     public class GraphDetailsViewModel : GraphViewModel
     {
-        public GraphDetailsViewModel(GraphEngine graphEngine, string displayName) :
-            base(graphEngine, displayName)
+        public GraphDetailsViewModel(ArchiCopGraph graph, string displayName) :
+            base(graph, displayName)
         {
-            EdgesToVisualize = graphEngine.Graph.Edges;
-            Sinks = graphEngine.Sinks;
-            Roots = graphEngine.Roots;
-            StronglyConnectedComponents = graphEngine.StronglyConnectedComponents;
-            TopologicalSort = graphEngine.TopologicalSort;
-            OddVertices = graphEngine.OddVertices;
+            EdgesToVisualize = graph.Edges;
+            Sinks = graph.Sinks;
+            Roots = graph.Roots;
+            StronglyConnectedComponents = graph.StronglyConnectedComponents;
+            TopologicalSort = graph.TopologicalSort;
+            OddVertices = graph.OddVertices;
         }
 
         public IEnumerable<ArchiCopEdge> EdgesToVisualize { get; private set; }

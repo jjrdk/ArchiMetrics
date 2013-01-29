@@ -18,6 +18,8 @@ namespace ArchiCop.Core
             _excelsheetname = excelsheetname;
         }
 
+        #region ILoadEngine Members
+
         public IEnumerable<ArchiCopEdge> LoadEdges()
         {
             var edges = new List<ArchiCopEdge>();
@@ -43,7 +45,6 @@ namespace ArchiCop.Core
 
                 if (source != null & target != null)
                 {
-
                     ArchiCopVertex sVertex = vertices.FirstOrDefault(item => item.Name == source);
                     if (sVertex == null)
                     {
@@ -59,11 +60,12 @@ namespace ArchiCop.Core
                     }
 
                     edges.Add(new ArchiCopEdge(sVertex, tVertex));
-
                 }
             }
 
             return edges;
         }
+
+        #endregion
     }
 }

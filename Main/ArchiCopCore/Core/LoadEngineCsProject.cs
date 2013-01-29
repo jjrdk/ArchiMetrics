@@ -16,6 +16,7 @@ namespace ArchiCop.Core
                 new List<string>(Directory.GetFiles(path, "*csproj", SearchOption.AllDirectories));
         }
 
+        #region ILoadEngine Members
 
         public IEnumerable<ArchiCopEdge> LoadEdges()
         {
@@ -33,6 +34,8 @@ namespace ArchiCop.Core
             return edges;
         }
 
+        #endregion
+
         private static IEnumerable<Reference> GetProjectDependencies(string path)
         {
             var list = new List<Reference>();
@@ -44,11 +47,11 @@ namespace ArchiCop.Core
             foreach (XElement element in qProjectReferences)
             {
                 var projectReference = new ProjectReference
-                    {
-                        Include = (string) element.Attribute("Include"),
-                        Project = element.Element(XNameSpace + "Project").Value,
-                        Name = element.Element(XNameSpace + "Name").Value
-                    };
+                                           {
+                                               Include = (string) element.Attribute("Include"),
+                                               Project = element.Element(XNameSpace + "Project").Value,
+                                               Name = element.Element(XNameSpace + "Name").Value
+                                           };
 
                 list.Add(projectReference);
             }
@@ -58,9 +61,9 @@ namespace ArchiCop.Core
             foreach (XElement element in qReferences)
             {
                 var reference = new LibraryReference
-                    {
-                        Include = (string) element.Attribute("Include")
-                    };
+                                    {
+                                        Include = (string) element.Attribute("Include")
+                                    };
                 if (element.Element(XNameSpace + "SpecificVersion") != null)
                 {
                     reference.SpecificVersion = element.Element(XNameSpace + "SpecificVersion").Value;
@@ -80,6 +83,8 @@ namespace ArchiCop.Core
             return list;
         }
 
+        #region Nested type: LibraryReference
+
         private class LibraryReference : Reference
         {
             public string Include { get; set; }
@@ -98,15 +103,25 @@ namespace ArchiCop.Core
             }
         }
 
+        #endregion
+
+        #region Nested type: ProjectReference
+
         private class ProjectReference : Reference
         {
             public string Include { get; set; }
             public string Project { get; set; }
         }
 
+        #endregion
+
+        #region Nested type: Reference
+
         private class Reference
         {
             public virtual string Name { get; set; }
         }
+
+        #endregion
     }
 }
