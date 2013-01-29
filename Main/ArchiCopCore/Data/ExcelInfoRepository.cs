@@ -3,74 +3,71 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
-using ArchiCop.Core;
 
 namespace ArchiCop.Data
 {
     public class ExcelInfoRepository : IInfoRepository
     {
-        public GraphInfo GetGraphInfoData(string connectionString, string tableName)
+        private string _connectionString;
+        public ExcelInfoRepository(string connectionString)
         {
-            connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                               "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
+            _connectionString = connectionString;
+        }
+        #region IInfoRepository Members
 
-            var oleDbCon = new OleDbConnection(connectionString);
+        public IEnumerable<GraphRow> GetGraphData()
+        {
+            var data = new List<GraphRow>();
+            var graphNames = GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Graph"));
+
+            foreach (string graphName in graphNames)
+            {
+                data.AddRange(GetGraphDataPage(graphName));
+            }
+
+            return data;
+        }
+
+        private IEnumerable<GraphRow> GetGraphDataPage(string tableName)
+        {
+            _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                               "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
+
+            var oleDbCon = new OleDbConnection(_connectionString);
 
             oleDbCon.Open();
 
             string sql = "SELECT Arg1, Arg2, RuleType, RuleValue, RulePattern from [" + tableName + "]";
 
-            var oleDa = new OleDbDataAdapter(sql, connectionString);
+            var oleDa = new OleDbDataAdapter(sql, _connectionString);
             var ds = new DataSet();
             oleDa.Fill(ds);
 
             oleDbCon.Close();
 
-            Func<DataRow, InfoData> createGraphInfo =
-                row => new InfoData
-                    {
-                        RuleType = row["RuleType"] as string,
-                        RuleValue = row["RuleValue"] as string,
-                        RulePattern = row["RulePattern"] as string,
-                        Arg1 = row["Arg1"] as string,
-                        Arg2 = row["Arg2"] as string,
-                    };
+            Func<DataRow, GraphRow> createGraphInfo =
+                row => new GraphRow
+                           {
+                               RuleType = row["RuleType"] as string,
+                               RuleValue = row["RuleValue"] as string,
+                               RulePattern = row["RulePattern"] as string,
+                               Arg1 = row["Arg1"] as string,
+                               Arg2 = row["Arg2"] as string,
+                               GraphName = tableName
+                           };
 
-            IEnumerable<InfoData> data = from DataRow row in ds.Tables[0].Rows select createGraphInfo(row);
+            IEnumerable<GraphRow> data = from DataRow row in ds.Tables[0].Rows select createGraphInfo(row);
 
-            var graphInfo = new GraphInfo();
-
-            if (data.FirstOrDefault(item => item.RuleType == "LoadEngine") != default(InfoData))
-            {
-                graphInfo.LoadEngine = data.FirstOrDefault(item => item.RuleType == "LoadEngine").RuleValue;
-                graphInfo.Arg1 = data.FirstOrDefault(item => item.RuleType == "LoadEngine").Arg1;
-                graphInfo.Arg2 = data.FirstOrDefault(item => item.RuleType == "LoadEngine").Arg2;
-            }
-
-            if (data.FirstOrDefault(item => item.RuleType == "DisplayName") != default(InfoData))
-            {
-                graphInfo.DisplayName = data.FirstOrDefault(item => item.RuleType == "DisplayName").RuleValue;
-            }
-
-            var vertexRegexRules = new List<VertexRegexRule>();
-            foreach (InfoData rule in data.Where(item => item.RuleType == "VertexRegexRule"))
-            {
-                vertexRegexRules.Add(new VertexRegexRule {Pattern = rule.RulePattern, Value = rule.RuleValue});
-            }
-            graphInfo.VertexRegexRules = vertexRegexRules;
-
-            return graphInfo;
+            return data;
         }
 
-        public IEnumerable<string> GetGraphNames(string connectionString)
+
+        public IEnumerable<string> GetDataSourceNames()
         {
-            return GetExcelSheetNames(connectionString).Where(item => item.StartsWith("Graph"));
+            return GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Data"));
         }
 
-        public IEnumerable<string> GetDataSourceNames(string connectionString)
-        {
-            return GetExcelSheetNames(connectionString).Where(item => item.StartsWith("Data"));
-        }
+        #endregion
 
         private IEnumerable<string> GetExcelSheetNames(string connectionString)
         {
@@ -103,15 +100,6 @@ namespace ArchiCop.Data
             oleDbCon.Close();
 
             return excelSheets;
-        }
-
-        private class InfoData
-        {
-            public string RuleType { get; set; }
-            public string RuleValue { get; set; }
-            public string RulePattern { get; set; }
-            public string Arg1 { get; set; }
-            public string Arg2 { get; set; }
         }
     }
 }

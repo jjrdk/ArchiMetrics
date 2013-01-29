@@ -7,6 +7,8 @@ namespace ArchiCop.Core
 {
     public class EdgeEngineRegex : IEdgeEngine
     {
+        #region IEdgeEngine Members
+
         public IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges,
                                                       IEnumerable<VertexRegexRule> rules)
         {
@@ -86,5 +88,7 @@ namespace ArchiCop.Core
 
             return graph.Edges;
         }
+
+        #endregion
     }
 }

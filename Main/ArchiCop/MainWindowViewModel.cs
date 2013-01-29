@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -16,16 +17,14 @@ namespace ArchiCop
     public class MainWindowViewModel : WorkspaceViewModel, IMainWindowViewModel
     {
         private readonly ICollectionView _metadataFilesView;
-        private readonly IInfoRepository _repository;
+        private IInfoRepository _repository;
         private ObservableCollection<CommandViewModel> _controlPanelCommands;
         private ObservableCollection<CommandViewModel> _dataSourceCommands;
         private ObservableCollection<WorkspaceViewModel> _workspaces;
 
-        public MainWindowViewModel(IInfoRepository repository)
+        public MainWindowViewModel()
         {
             base.DisplayName = Resources.MainWindowViewModel_DisplayName;
-
-            _repository = repository;
 
             MetadataFiles = new ObservableCollection<string>(Directory.GetFiles(".", "*.xls"));
             _metadataFilesView = CollectionViewSource.GetDefaultView(MetadataFiles);
@@ -35,6 +34,8 @@ namespace ArchiCop
         //public ObservableCollection<string> MetadataFile { get; set; }
 
         public ObservableCollection<string> MetadataFiles { get; private set; }
+
+        #region IMainWindowViewModel Members
 
         /// <summary>
         ///     Returns a list of commands
@@ -85,36 +86,32 @@ namespace ArchiCop
             }
         }
 
+        #endregion
+
         private void MetadataFilesCurrentChanged(object sender, EventArgs e)
         {
+            _repository = new ExcelInfoRepository(_metadataFilesView.CurrentItem as string);
+
             ControlPanelCommands.Clear();
 
-            foreach (string excelSheetName in _repository.GetGraphNames(_metadataFilesView.CurrentItem as string))
+            foreach (ArchiCopGraph graph in new GraphService(_repository).Graphs)
             {
-                GraphInfo info = _repository.GetGraphInfoData(_metadataFilesView.CurrentItem as string, excelSheetName);
+                ControlPanelCommands.Add(
+                    new CommandViewModel("Graph " + graph.DisplayName,
+                                         new RelayCommand<object>(param => ShowGraphView(graph))));
 
                 ControlPanelCommands.Add(
-                    new CommandViewModel("Graph " + info.DisplayName,
-                                         new RelayCommand<object>(param => ShowGraphView(info))));
-
-                ControlPanelCommands.Add(
-                    new CommandViewModel("Edges " + info.DisplayName,
-                                         new RelayCommand<object>(param => ShowGraphEdgesView(info))));
+                    new CommandViewModel("Edges " + graph.DisplayName,
+                                         new RelayCommand<object>(param => ShowGraphEdgesView(graph))));
             }
 
             DataSourceCommands.Clear();
-            foreach (string excelSheetName in _repository.GetDataSourceNames(_metadataFilesView.CurrentItem as string))
+            foreach (string excelSheetName in _repository.GetDataSourceNames())
             {
-                GraphInfo info = _repository.GetGraphInfoData(_metadataFilesView.CurrentItem as string, excelSheetName);
-
-                DataSourceCommands.Add(
-                    new CommandViewModel(info.DisplayName,
-                                         new RelayCommand<object>(param => ShowDataSourceView(info))));                
             }
-
         }
 
-        private void ShowDataSourceView(GraphInfo info)
+        private void ShowDataSourceView(ArchiCopGraph graph)
         {
             //var workspace =
             //    Workspaces.Where(vm => vm is GraphViewModel).
@@ -129,30 +126,30 @@ namespace ArchiCop
             //SetActiveWorkspace(workspace);
         }
 
-        private void ShowGraphView(GraphInfo info)
+        private void ShowGraphView(ArchiCopGraph graph)
         {
             var workspace =
                 Workspaces.Where(vm => vm is GraphViewModel).
-                           FirstOrDefault(vm => vm.DisplayName == "Graph " + info.DisplayName) as GraphViewModel;
+                    FirstOrDefault(vm => vm.DisplayName == "Graph " + graph.DisplayName) as GraphViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphViewModel(new GraphEngine(info), "Graph " + info.DisplayName);
+                workspace = new GraphViewModel(graph, "Graph " + graph.DisplayName);
                 Workspaces.Add(workspace);
             }
 
             SetActiveWorkspace(workspace);
         }
 
-        private void ShowGraphEdgesView(GraphInfo info)
+        private void ShowGraphEdgesView(ArchiCopGraph graph)
         {
             var workspace =
                 Workspaces.Where(vm => vm is GraphDetailsViewModel).
-                           FirstOrDefault(vm => vm.DisplayName == "Edges" + info.DisplayName) as GraphDetailsViewModel;
+                    FirstOrDefault(vm => vm.DisplayName == "Edges" + graph.DisplayName) as GraphDetailsViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphDetailsViewModel(new GraphEngine(info), "Edges" + info.DisplayName);
+                workspace = new GraphDetailsViewModel(graph, "Edges" + graph.DisplayName);
                 Workspaces.Add(workspace);
             }
 

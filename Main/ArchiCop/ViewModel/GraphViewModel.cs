@@ -6,11 +6,11 @@ namespace ArchiCop.ViewModel
     {
         private string _layoutAlgorithmType = "KK";
 
-        public GraphViewModel(GraphEngine graphEngine, string displayName)
+        public GraphViewModel(ArchiCopGraph graph, string displayName)
         {
             DisplayName = displayName;
 
-            GraphToVisualize = graphEngine.Graph;
+            GraphToVisualize = graph;
         }
 
         public string LayoutAlgorithmType
@@ -21,10 +21,11 @@ namespace ArchiCop.ViewModel
                 if (value != _layoutAlgorithmType)
                 {
                     _layoutAlgorithmType = value;
-                    RaisePropertyChanged("LayoutAlgorithmType");                    
+                    RaisePropertyChanged("LayoutAlgorithmType");
                 }
             }
         }
+
         public ArchiCopGraph GraphToVisualize { get; private set; }
     }
 }

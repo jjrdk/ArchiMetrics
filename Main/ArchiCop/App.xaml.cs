@@ -34,18 +34,16 @@ namespace ArchiCop
 
             var window = new MainWindow();
 
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            var viewModel = new MainWindowViewModel(repository);
+            var viewModel = new MainWindowViewModel();
 
             // When the ViewModel asks to be closed, 
             // close the window.
             EventHandler handler = null;
             handler = delegate
-                {
-                    viewModel.RequestClose -= handler;
-                    window.Close();
-                };
+                          {
+                              viewModel.RequestClose -= handler;
+                              window.Close();
+                          };
             viewModel.RequestClose += handler;
 
             // Allow all controls in the window to 
