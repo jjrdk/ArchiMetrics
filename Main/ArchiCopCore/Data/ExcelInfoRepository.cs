@@ -42,7 +42,11 @@ namespace ArchiCop.Data
 
             if (data.FirstOrDefault(item => item.RuleType == "LoadEngine") != default(InfoData))
             {
-                graphInfo.LoadEngine = data.FirstOrDefault(item => item.RuleType == "LoadEngine").RuleValue;
+                string loadEngine = data.FirstOrDefault(item => item.RuleType == "LoadEngine").RuleValue;
+                if (string.IsNullOrEmpty(loadEngine)==false)
+                {
+                    graphInfo.LoadEngine = Type.GetType(loadEngine);                    
+                }
                 graphInfo.Arg1 = data.FirstOrDefault(item => item.RuleType == "LoadEngine").Arg1;
                 graphInfo.Arg2 = data.FirstOrDefault(item => item.RuleType == "LoadEngine").Arg2;
             }

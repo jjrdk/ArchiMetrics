@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ArchiCop.Core
 {
     public class GraphInfo
     {
-        public string LoadEngine { get; set; }
+        public Type LoadEngine { get; set; }
 
         public string DisplayName { get; set; }
 
