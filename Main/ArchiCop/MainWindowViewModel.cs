@@ -19,7 +19,6 @@ namespace ArchiCop
         private readonly ICollectionView _metadataFilesView;
         private IInfoRepository _repository;
         private ObservableCollection<CommandViewModel> _controlPanelCommands;
-        private ObservableCollection<CommandViewModel> _dataSourceCommands;
         private ObservableCollection<WorkspaceViewModel> _workspaces;
 
         public MainWindowViewModel()
@@ -50,22 +49,6 @@ namespace ArchiCop
                     _controlPanelCommands = new ObservableCollection<CommandViewModel>();
                 }
                 return _controlPanelCommands;
-            }
-        }
-
-        /// <summary>
-        ///     Returns a list of commands
-        ///     that the UI can display and execute.
-        /// </summary>
-        public ObservableCollection<CommandViewModel> DataSourceCommands
-        {
-            get
-            {
-                if (_dataSourceCommands == null)
-                {
-                    _dataSourceCommands = new ObservableCollection<CommandViewModel>();
-                }
-                return _dataSourceCommands;
             }
         }
 
@@ -105,25 +88,6 @@ namespace ArchiCop
                                          new RelayCommand<object>(param => ShowGraphEdgesView(graph))));
             }
 
-            DataSourceCommands.Clear();
-            foreach (string excelSheetName in _repository.GetDataSourceNames())
-            {
-            }
-        }
-
-        private void ShowDataSourceView(ArchiCopGraph graph)
-        {
-            //var workspace =
-            //    Workspaces.Where(vm => vm is GraphViewModel).
-            //               FirstOrDefault(vm => vm.DisplayName == "Graph " + info.DisplayName) as GraphViewModel;
-
-            //if (workspace == null)
-            //{
-            //    workspace = new GraphViewModel(new GraphEngine(info), info.DisplayName);
-            //    Workspaces.Add(workspace);
-            //}
-
-            //SetActiveWorkspace(workspace);
         }
 
         private void ShowGraphView(ArchiCopGraph graph)

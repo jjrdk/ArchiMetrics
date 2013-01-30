@@ -28,6 +28,50 @@ namespace ArchiCop.Data
             return data;
         }
 
+        public IEnumerable<DataSourceRow> GetDataSourceData()
+        {
+            var data = new List<DataSourceRow>();
+            var dataSourceNames = GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("DataSource"));
+
+            foreach (string dataSourceName in dataSourceNames)
+            {
+                data.AddRange(GetDataSourceDataPage(dataSourceName));
+            }
+
+            return data;
+        }
+
+        private IEnumerable<DataSourceRow> GetDataSourceDataPage(string tableName)
+        {
+            _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                               "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
+
+            var oleDbCon = new OleDbConnection(_connectionString);
+
+            oleDbCon.Open();
+
+            string sql = "SELECT DataSourceName, LoadEngineType, Arg1, Arg2 from [" + tableName + "]";
+
+            var oleDa = new OleDbDataAdapter(sql, _connectionString);
+            var ds = new DataSet();
+            oleDa.Fill(ds);
+
+            oleDbCon.Close();
+
+            Func<DataRow, DataSourceRow> createrow =
+                row => new DataSourceRow
+                           {
+                               LoadEngineType = row["LoadEngineType"] as string,
+                               Arg1 = row["Arg1"] as string,
+                               Arg2 = row["Arg2"] as string,
+                               DataSourceName = row["DataSourceName"] as string
+                           };
+
+            IEnumerable<DataSourceRow> data = from DataRow row in ds.Tables[0].Rows select createrow(row);
+
+            return data;
+        }
+
         private IEnumerable<GraphRow> GetGraphDataPage(string tableName)
         {
             _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +

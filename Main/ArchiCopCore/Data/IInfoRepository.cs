@@ -5,6 +5,6 @@ namespace ArchiCop.Data
     public interface IInfoRepository
     {
         IEnumerable<GraphRow> GetGraphData();
-        IEnumerable<string> GetDataSourceNames();
+        IEnumerable<DataSourceRow> GetDataSourceData();
     }
 }

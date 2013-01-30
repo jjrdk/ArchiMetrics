@@ -7,15 +7,22 @@ namespace ArchiCop.Core
 {
     public class GraphService
     {
-        private readonly List<ArchiCopGraph> _graphInfos = new List<ArchiCopGraph>();
+        private readonly List<ArchiCopGraph> _graphs = new List<ArchiCopGraph>();
 
         public GraphService(IInfoRepository repository)
         {
-            var data = repository.GetGraphData();
-            foreach (string graphName in data.GroupBy(item => item.GraphName).Select(g => g.Key))
+            IEnumerable<GraphRow> graphData = repository.GetGraphData();
+            foreach (string graphName in graphData.GroupBy(item => item.GraphName).Select(g => g.Key))
             {
-                var info = GetGraphInfo(data.Where(item => item.GraphName == graphName));
-                _graphInfos.Add(info);
+                ArchiCopGraph info = GetGraphInfo(graphData.Where(item => item.GraphName == graphName));
+                _graphs.Add(info);
+            }
+
+            var datasourcesData = repository.GetDataSourceData();
+            foreach (string dataSource in datasourcesData.GroupBy(item => item.DataSourceName).Select(g => g.Key))
+            {
+                ArchiCopGraph info = GetGraphInfo(datasourcesData.First(item => item.DataSourceName == dataSource));
+                _graphs.Add(info);
             }
         }
 
@@ -23,13 +30,22 @@ namespace ArchiCop.Core
         {
             get
             {
-                return _graphInfos;
+                return _graphs;
             }
+        }
+
+        private ArchiCopGraph GetGraphInfo(DataSourceRow dataSource)
+        {
+            var graph = GetGraph(dataSource.LoadEngineType, dataSource.Arg1, dataSource.Arg2);
+
+            graph.DisplayName = dataSource.DataSourceName;
+            
+            return graph;
         }
 
         private ArchiCopGraph GetGraphInfo(IEnumerable<GraphRow> data)
         {
-            var graph=new ArchiCopGraph();
+            var graph = new ArchiCopGraph();
 
             if (data.FirstOrDefault(item => item.RuleType == "LoadEngine") != default(GraphRow))
             {
@@ -56,7 +72,7 @@ namespace ArchiCop.Core
 
         public ArchiCopGraph GetGraph( string loadEngine , string arg1 , string arg2, params VertexRegexRule[] vertexRegexRules)
         {
-            ArchiCopGraph graph=new ArchiCopGraph();
+            var graph=new ArchiCopGraph();
 
             Type loadEngineType = Type.GetType(loadEngine);
 
