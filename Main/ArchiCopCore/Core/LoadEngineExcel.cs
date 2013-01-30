@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
+using QuickGraph;
 
 namespace ArchiCop.Core
 {
-    public class LoadEngineExcel : ILoadEngine
+    public class LoadEngineExcel : LoadEngine 
     {
         private readonly string _connString;
         private readonly string _excelsheetname;
@@ -18,12 +20,8 @@ namespace ArchiCop.Core
             _excelsheetname = excelsheetname;
         }
 
-        #region ILoadEngine Members
-
-        public IEnumerable<ArchiCopEdge> LoadEdges()
+        protected override IEnumerable<ArchiCopEdge> GetEdges()
         {
-            var edges = new List<ArchiCopEdge>();
-
             var oleDbCon = new OleDbConnection(_connString);
 
             oleDbCon.Open();
@@ -36,36 +34,13 @@ namespace ArchiCop.Core
 
             oleDbCon.Close();
 
-            var vertices = new List<ArchiCopVertex>();
+            Func<DataRow, ArchiCopEdge> newEdge =
+                row =>
+                new ArchiCopEdge(new ArchiCopVertex(row["Source"] as string),
+                                 new ArchiCopVertex(row["Target"] as string));
 
-            foreach (DataRow row in ds.Tables[0].Rows)
-            {
-                var source = row["Source"] as string;
-                var target = row["Target"] as string;
-
-                if (source != null & target != null)
-                {
-                    ArchiCopVertex sVertex = vertices.FirstOrDefault(item => item.Name == source);
-                    if (sVertex == null)
-                    {
-                        sVertex = new ArchiCopVertex(source);
-                        vertices.Add(sVertex);
-                    }
-
-                    ArchiCopVertex tVertex = vertices.FirstOrDefault(item => item.Name == target);
-                    if (tVertex == null)
-                    {
-                        tVertex = new ArchiCopVertex(target);
-                        vertices.Add(tVertex);
-                    }
-
-                    edges.Add(new ArchiCopEdge(sVertex, tVertex));
-                }
-            }
-
-            return edges;
+            return (from DataRow row in ds.Tables[0].Rows select newEdge(row)).ToList();
         }
-
-        #endregion
+        
     }
 }

@@ -32,10 +32,6 @@
                               IsSynchronizedWithCurrentItem="True" />
                     <HeaderedContentControl Content="{Binding Path=ControlPanelCommands}"
                                             ContentTemplate="{StaticResource CommandsTemplate}" Header="Control Panel" Style="{StaticResource MainHCCStyle}" />
-
-                    <HeaderedContentControl Content="{Binding Path=DataSourceCommands}"
-                                            ContentTemplate="{StaticResource CommandsTemplate}" Header="Data Sources" Style="{StaticResource MainHCCStyle}" />
-
                 </StackPanel>
             </Border>
 

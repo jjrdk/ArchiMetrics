@@ -2,10 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using QuickGraph;
 
 namespace ArchiCop.Core
 {
-    public class LoadEngineCsProject : ILoadEngine
+    public class LoadEngineCsProject : LoadEngine
     {
         private static readonly XNamespace XNameSpace = "http://schemas.microsoft.com/developer/msbuild/2003";
         private readonly List<string> _projects;
@@ -16,9 +17,7 @@ namespace ArchiCop.Core
                 new List<string>(Directory.GetFiles(path, "*csproj", SearchOption.AllDirectories));
         }
 
-        #region ILoadEngine Members
-
-        public IEnumerable<ArchiCopEdge> LoadEdges()
+        protected override IEnumerable<ArchiCopEdge> GetEdges()
         {
             var edges = new List<ArchiCopEdge>();
 
@@ -33,8 +32,6 @@ namespace ArchiCop.Core
 
             return edges;
         }
-
-        #endregion
 
         private static IEnumerable<Reference> GetProjectDependencies(string path)
         {

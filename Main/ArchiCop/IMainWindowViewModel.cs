@@ -11,11 +11,7 @@ namespace ArchiCop
         /// </summary>
         ObservableCollection<CommandViewModel> ControlPanelCommands { get; }
 
-        /// <summary>
-        ///     Returns a list of commands
-        ///     that the UI can display and execute.
-        /// </summary>
-        ObservableCollection<CommandViewModel> DataSourceCommands { get; }
+     
 
         /// <summary>
         ///     Returns the collection of available workspaces to display.
