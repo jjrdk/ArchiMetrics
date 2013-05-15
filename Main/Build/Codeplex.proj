@@ -2,11 +2,11 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-    <UsingTask TaskName="CreateRelease" AssemblyFile="CodePlex.WebServices.Client.Dll" />
-    <UsingTask TaskName="UploadFiles" AssemblyFile="CodePlex.WebServices.Client.Dll" />
+    <UsingTask TaskName="CreateRelease" AssemblyFile="$(WorkingDirectory)\Build\CodePlex.WebServices.Client.Dll" />
+    <UsingTask TaskName="UploadFiles" AssemblyFile="$(WorkingDirectory)\Build\CodePlex.WebServices.Client.Dll" />
 
-    <Import Project="version.Targets"/>
-    <Import Project="MSBuild.Community.Tasks.Targets"/>    	
+    <Import Project="$(WorkingDirectory)\Build\version.Targets"/>
+    <Import Project="$(WorkingDirectory)\Build\MSBuild.Community.Tasks.Targets"/>    	
   
   <Target Name="GetCurrentDate"> 		
     <Time> 			
