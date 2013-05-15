@@ -12,12 +12,6 @@
 		<SourceFiles Include="$(WorkingDirectory)\**\*.*"
 								 Exclude="$(WorkingDirectory)\ArchiCop\Bin\**\*.*;$(WorkingDirectory)\ArchiCopCore\Bin\**\*.*;$(WorkingDirectory)\ArchiCop\Obj\**\*.*;$(WorkingDirectory)\ArchiCopCore\Obj\**\*.*;$(WorkingDirectory)\**\*.user;$(WorkingDirectory)\**\*.*scc;$(WorkingDirectory)\**\*.suo" />
 	</ItemGroup>
-
-	<Target Name="DeleteZipFiles">
-
-		<Delete Files="@(ZipFiles)" ContinueOnError="false" />
-
-	</Target>
 	
 	<Target Name="ZipFiles">
 		
