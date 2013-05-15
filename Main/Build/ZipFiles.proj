@@ -2,8 +2,8 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Import Project="Version.Targets"/>
-	<Import Project="MSBuild.Community.Tasks.Targets"/>	
+	<Import Project="$(WorkingDirectory)\Build\Version.Targets"/>
+	<Import Project="$(WorkingDirectory)\Build\MSBuild.Community.Tasks.Targets"/>	
 	
 	<ItemGroup>
 		<ZipFiles Include="$(WorkingDirectory)\**\*.zip" />
