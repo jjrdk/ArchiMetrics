@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MvvmFoundation.Wpf</id>
+    <version>1.0.0</version>
+    <title>MVVM Foundation</title>
+    <authors>JoshSmithOnWpf</authors>
+    <owners>JoshSmithOnWpf</owners>
+    <licenseUrl>http://mvvmfoundation.codeplex.com/license</licenseUrl>
+    <projectUrl>http://mvvmfoundation.codeplex.com/</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=mvvmfoundation&amp;DownloadId=75335&amp;Build=19505</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>MVVM Foundation is a library of classes that are very useful when building applications based on the Model-View-ViewModel philosophy. The library is small and concentrated on providing only the most indispensable tools needed by most MVVM application developers.</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+  </metadata>
+</package>
