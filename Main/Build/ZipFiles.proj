@@ -25,4 +25,15 @@
 		
 	</Target>
 
+  <ItemGroup>
+    <ProjectsToBuild Include="ArchiCop.Sln;ArchiMeter.Sln">
+      <!--<Properties>OutputPath=$(OutputDir);Configuration=Release</Properties>-->
+    </ProjectsToBuild>
+  </ItemGroup>
+
+  <Target Name="Build">
+    <MSBuild Projects="@(ProjectsToBuild)"/>
+  </Target>
+
+
 </Project>
