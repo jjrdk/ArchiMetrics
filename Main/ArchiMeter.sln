@@ -48,6 +48,63 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5
 	EndProjectSection
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 18
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs06
+		SccProjectUniqueName0 = ArchiCop.UI\\ArchiCop.UI.csproj
+		SccProjectName0 = ArchiCop.UI
+		SccLocalPath0 = ArchiCop.UI
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = ArchiMeter.CodeReview\\ArchiMeter.CodeReview.csproj
+		SccProjectName2 = ArchiMeter.CodeReview
+		SccLocalPath2 = ArchiMeter.CodeReview
+		SccProjectUniqueName3 = ArchiMeter.CodeReview.Tests\\ArchiMeter.CodeReview.Tests.csproj
+		SccProjectName3 = ArchiMeter.CodeReview.Tests
+		SccLocalPath3 = ArchiMeter.CodeReview.Tests
+		SccProjectUniqueName4 = SolutionAnalyzer\\SolutionAnalyzer.fsproj
+		SccProjectName4 = SolutionAnalyzer
+		SccLocalPath4 = SolutionAnalyzer
+		SccProjectUniqueName5 = ArchiMeter.Analysis\\ArchiMeter.Analysis.fsproj
+		SccProjectName5 = ArchiMeter.Analysis
+		SccLocalPath5 = ArchiMeter.Analysis
+		SccProjectUniqueName6 = ArchiMeter.Analysis.Tests\\ArchiMeter.Analysis.Tests.csproj
+		SccProjectName6 = ArchiMeter.Analysis.Tests
+		SccLocalPath6 = ArchiMeter.Analysis.Tests
+		SccProjectUniqueName7 = ArchiMeter.Data\\ArchiMeter.Data.csproj
+		SccProjectName7 = ArchiMeter.Data
+		SccLocalPath7 = ArchiMeter.Data
+		SccProjectUniqueName8 = ArchiMeter.ReportWriter\\ArchiMeter.ReportWriter.csproj
+		SccProjectName8 = ArchiMeter.ReportWriter
+		SccLocalPath8 = ArchiMeter.ReportWriter
+		SccProjectUniqueName9 = ArchiMeter.Reports\\ArchiMeter.Reports.csproj
+		SccProjectName9 = ArchiMeter.Reports
+		SccLocalPath9 = ArchiMeter.Reports
+		SccProjectUniqueName10 = ArchiMeter.Reports.Tests\\ArchiMeter.Reports.Tests.csproj
+		SccProjectName10 = ArchiMeter.Reports.Tests
+		SccLocalPath10 = ArchiMeter.Reports.Tests
+		SccProjectUniqueName11 = SampleSL\\SampleSL.csproj
+		SccProjectName11 = SampleSL
+		SccLocalPath11 = SampleSL
+		SccProjectUniqueName12 = ArchiMeter.Raven\\ArchiMeter.Raven.csproj
+		SccProjectName12 = ArchiMeter.Raven
+		SccLocalPath12 = ArchiMeter.Raven
+		SccProjectUniqueName13 = ArchiMeter.Raven.Tests\\ArchiMeter.Raven.Tests.csproj
+		SccProjectName13 = ArchiMeter.Raven.Tests
+		SccLocalPath13 = ArchiMeter.Raven.Tests
+		SccProjectUniqueName14 = ArchiMeter.DataLoader\\ArchiMeter.DataLoader.csproj
+		SccProjectName14 = ArchiMeter.DataLoader
+		SccLocalPath14 = ArchiMeter.DataLoader
+		SccProjectUniqueName15 = ArchiMeter.Common\\ArchiMeter.Common.csproj
+		SccProjectName15 = ArchiMeter.Common
+		SccLocalPath15 = ArchiMeter.Common
+		SccProjectUniqueName16 = ArchiMeter.Common.Tests\\ArchiMeter.Common.Tests.csproj
+		SccProjectName16 = ArchiMeter.Common.Tests
+		SccLocalPath16 = ArchiMeter.Common.Tests
+		SccProjectUniqueName17 = ArchiMeter.Tfs\\ArchiMeter.Tfs.csproj
+		SccProjectName17 = ArchiMeter.Tfs
+		SccLocalPath17 = ArchiMeter.Tfs
+	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MvvmDemoApp.vsmdi
 	EndGlobalSection
@@ -129,7 +186,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal
