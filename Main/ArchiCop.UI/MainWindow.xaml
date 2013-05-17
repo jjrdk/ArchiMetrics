@@ -1,0 +1,81 @@
+﻿<Window x:Class="ArchiMeter.UI.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:viewModel="clr-namespace:ArchiCop.UI.ViewModel"
+        mc:Ignorable="d"
+        FontSize="13"
+		FontFamily="Verdana"
+		MinWidth="650"
+		MinHeight="420"
+		Title="{Binding Path=DisplayName}"
+		Width="650"
+		Height="420"
+		WindowStartupLocation="CenterScreen"
+		d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}">
+	<Window.Resources>
+		<ResourceDictionary Source="MainWindowResources.xaml" />
+	</Window.Resources>
+	<DockPanel>
+		<DockPanel DockPanel.Dock="Top"
+				   KeyboardNavigation.TabNavigation="None">
+			<Menu KeyboardNavigation.TabNavigation="Cycle">
+				<MenuItem Header="_File">
+					<MenuItem Header="E_xit"
+							  Command="{Binding Path=CloseCommand}" />
+				</MenuItem>
+				<MenuItem Header="_Edit" />
+				<MenuItem Header="_Options" />
+				<MenuItem Header="_Help" />
+			</Menu>
+		</DockPanel>
+
+		<Grid Margin="4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="4" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Border Grid.Column="0"
+					Style="{StaticResource MainBorderStyle}"
+					Width="170">
+				<HeaderedContentControl Content="{Binding}"
+										ContentTemplate="{StaticResource CommandsTemplate}"
+										Header="Control Panel"
+										Style="{StaticResource MainHccStyle}" />
+			</Border>
+
+			<Border Grid.Column="2"
+					Style="{StaticResource MainBorderStyle}">
+				<HeaderedContentControl Content="{Binding Path=Workspaces}"
+										ContentTemplate="{StaticResource WorkspacesTemplate}"
+										Header="Workspaces"
+										Style="{StaticResource MainHccStyle}" />
+			</Border>
+			<Grid Grid.Row="1"
+				  Grid.ColumnSpan="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock x:Name="TxtFolder"
+						   Text="{Binding Path=Path, Mode=TwoWay}" />
+				<Button Grid.Column="1"
+						Content="Set Folder"
+						Padding="10,0"
+						Margin="5,0"
+						Click="OnClick" />
+				<Button Grid.Column="2"
+						Padding="10,0"
+						Margin="5,0"
+						Content="Update"
+						Command="{Binding Path=UpdateCommand}" />
+			</Grid>
+		</Grid>
+	</DockPanel>
+</Window>
