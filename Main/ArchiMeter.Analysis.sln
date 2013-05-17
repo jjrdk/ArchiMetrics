@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ArchiMeter.Analysis", "ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj", "{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs06
+		SccLocalPath0 = .
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MvvmDemoApp.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+	EndGlobalSection
+EndGlobal
