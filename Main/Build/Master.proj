@@ -26,7 +26,11 @@
 	</Target>
 
   <Target Name="BuildProjects">
-    <MSBuild Projects="$(WorkingDirectory)\ArchiCop.Sln;$(WorkingDirectory)\ArchiMeter.Analysis.Sln;$(WorkingDirectory)\ArchiMeter.Sln"/>
+    <MSBuild Projects="$(WorkingDirectory)\ArchiCop.Sln"/>
+             
+    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Analysis.Sln"/>
+      
+    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Sln"/>
   </Target>
 
 
