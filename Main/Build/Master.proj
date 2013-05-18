@@ -26,12 +26,17 @@
 	</Target>
 
   <Target Name="BuildProjects">
-    <MSBuild Projects="$(WorkingDirectory)\ArchiCop.Sln"/>
-             
-    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Analysis.Sln"/>
-      
-    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Sln"/>
+    <CallTarget Targets="BuildF#Projects"/>
+    <CallTarget Targets="BuildC#Projects"/>
   </Target>
 
+  <Target Name="BuildF#Projects">
+    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Analysis.Sln"/>      
+  </Target>
+
+  <Target Name="BuildC#Projects">
+    <MSBuild Projects="$(WorkingDirectory)\ArchiCop.Sln"/>
+    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Sln"/>
+  </Target>
 
 </Project>
