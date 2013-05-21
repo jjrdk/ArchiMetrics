@@ -16,12 +16,19 @@ task CleanUpMsBuildPath -depends Test {
 	}
 }
 
-task Test -depends Compile, Clean { 
+task Test -depends Compile, Clean {
+	'Running Tests'
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Analysis.Tests\bin\$configuration\ArchiMeter.Analysis.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.CodeReview.Tests\bin\$configuration\ArchiMeter.CodeReview.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Common.Tests\bin\$configuration\ArchiMeter.Common.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Raven.Tests\bin\$configuration\ArchiMeter.Raven.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Reports.Tests\bin\$configuration\ArchiMeter.Reports.Tests.dll }
 }
 
 task Compile -depends UpdatePackages { 
-  Exec { C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe "ArchiMeter.sln" }
-  'Executed Compile!'
+	$options = "/p:configuration=$configuration;platform=$platform"
+	Exec { C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe "ArchiMeter.sln" $options }
+	'Executed Compile!'
 }
 
 task UpdatePackages -depends Clean {
