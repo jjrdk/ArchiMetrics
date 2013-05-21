@@ -36,10 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ArchiMeter.Analysis, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ArchiMeter.Analysis\bin\Debug\ArchiMeter.Analysis.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -139,6 +135,10 @@
     <Compile Include="TypeMetricConverter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj">
+      <Project>{bffc8775-d122-4b9b-a1af-82e8ae35eec5}</Project>
+      <Name>ArchiMeter.Analysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj">
       <Project>{5C12DFB6-05DC-4941-B69F-B99903E89B1D}</Project>
       <Name>ArchiMeter.CodeReview</Name>
