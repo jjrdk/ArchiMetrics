@@ -10,13 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview", "ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview.Tests", "ArchiMeter.CodeReview.Tests\ArchiMeter.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ArchiMeter.Analysis", "ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj", "{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Analysis.Tests", "ArchiMeter.Analysis.Tests\ArchiMeter.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview", "ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview.Tests", "ArchiMeter.CodeReview.Tests\ArchiMeter.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Data", "ArchiMeter.Data\ArchiMeter.Data.csproj", "{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}"
 EndProject
