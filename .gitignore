@@ -1,0 +1,8 @@
+[Bb]in
+[Oo]bj
+packages
+/*.suo
+*.vspscc
+*.user
+*.pdb
+/Data

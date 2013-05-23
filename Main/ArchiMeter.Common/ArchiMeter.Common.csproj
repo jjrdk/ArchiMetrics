@@ -67,8 +67,11 @@
     <Compile Include="Documents\ErrorData.cs" />
     <Compile Include="Documents\EvaluationResultDocument.cs" />
     <Compile Include="Documents\MemberComplexityDeviation.cs" />
+    <Compile Include="Documents\MemberComplexityMaintainabilitySegment.cs" />
     <Compile Include="Documents\MemberDeviationMeasure.cs" />
+    <Compile Include="Documents\MemberSizeComplexitySegment.cs" />
     <Compile Include="Documents\MemberSizeDeviation.cs" />
+    <Compile Include="Documents\MemberSizeMaintainabilitySegment.cs" />
     <Compile Include="Documents\ProjectInventoryDocument.cs" />
     <Compile Include="Documents\ProjectLoadErrorDocument.cs" />
     <Compile Include="Documents\ProjectMetricsDocument.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="EdgeSource.cs" />
     <Compile Include="EvaluationResult.cs" />
     <Compile Include="IAsyncProvider.cs" />
+    <Compile Include="IAsyncReadOnlyRepository.cs" />
     <Compile Include="ICodeErrorRepository.cs" />
     <Compile Include="ICollectionCopier.cs" />
     <Compile Include="IDataSession.cs" />

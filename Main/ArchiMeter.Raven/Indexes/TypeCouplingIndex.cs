@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeCouplingIndex.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+// <copyright file="TypeCouplingIndex.cs" company="Roche">
+//   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -13,8 +13,9 @@
 namespace ArchiMeter.Raven.Indexes
 {
 	using System.Linq;
-	using Core.Data;
-	using Core.Metrics;
+
+	using ArchiMeter.Common.Documents;
+	using ArchiMeter.Common.Metrics;
 	using global::Raven.Client.Indexes;
 
 	public class TypeCouplingIndex : AbstractIndexCreationTask<ProjectMetricsDocument, TypeCoupling>
@@ -32,8 +33,8 @@ namespace ArchiMeter.Raven.Indexes
 			              from coupling in couplings
 			              select new
 				                     {
-					                     coupling.Assembly, 
-					                     coupling.Namespace, 
+					                     coupling.Assembly,
+					                     coupling.Namespace,
 					                     coupling.ClassName
 				                     };
 		}
