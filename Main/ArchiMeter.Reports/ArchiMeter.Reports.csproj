@@ -13,10 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,7 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertionReport.cs" />
+    <Compile Include="ComplexityMaintainabilityScatterReport.cs" />
     <Compile Include="ExpressionHelpers.cs" />
+    <Compile Include="NamespaceMaintainabilityDeviationReport.cs" />
+    <Compile Include="SizeComplexityScatterReport.cs" />
+    <Compile Include="SizeMaintainabilityScatterReport.cs" />
     <Compile Include="TestCodeReviewReport.cs" />
     <Compile Include="DocumentComparer.cs" />
     <Compile Include="IReportJob.cs" />

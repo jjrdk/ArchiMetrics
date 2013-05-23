@@ -5,9 +5,9 @@
 	using ArchiMeter.Raven.Indexes;
 	using global::Raven.Client;
 
-	public class TypeComplexityRepository : AsyncRepositoryBase<TypeComplexitySegment, TfsTypeComplexityDistributionIndex>
+	public class SizeComplexityScatterRepository : AsyncRepositoryBase<MemberSizeComplexitySegment, MemberSizeComplexityScatterIndex>
 	{
-		public TypeComplexityRepository(IFactory<IAsyncDocumentSession> documentSessionFactory)
+		public SizeComplexityScatterRepository(IFactory<IAsyncDocumentSession> documentSessionFactory)
 			: base(documentSessionFactory)
 		{
 		}
