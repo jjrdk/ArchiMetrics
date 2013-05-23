@@ -81,6 +81,9 @@
     <Compile Include="EmbeddedDocumentStoreProvider.cs" />
     <Compile Include="Indexes\CodeErrorIndex.cs" />
     <Compile Include="Indexes\CodeReviewIndex.cs" />
+    <Compile Include="Indexes\MemberComplexityMaintainabilityScatterIndex.cs" />
+    <Compile Include="Indexes\MemberSizeComplexityScatterIndex.cs" />
+    <Compile Include="Indexes\MemberSizeMaintainabilityScatterIndex.cs" />
     <Compile Include="Indexes\ProjectInventoryDocumentIndex.cs" />
     <Compile Include="Indexes\TfsMemberComplexitySigmaIndex.cs" />
     <Compile Include="Indexes\TfsMemberMaintainabilitySigmaIndex.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Indexes\TfsTypeSizeDistributionIndex.cs" />
     <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
+    <Compile Include="Indexes\TypeCouplingIndex.cs" />
     <Compile Include="Loading\ErrorDataLoader.cs" />
     <Compile Include="Loading\EvaluationResultLoader.cs" />
     <Compile Include="Loading\IDataLoader.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="Loading\RequirementTestAnalysisLoader.cs" />
     <Compile Include="LocalDocumentStoreProvider.cs" />
     <Compile Include="Repositories\AsyncRepositoryBase.cs" />
+    <Compile Include="Repositories\ComplexityMaintainabilityScatterRepository.cs" />
     <Compile Include="Repositories\ErrorDataProviderFactory.cs" />
     <Compile Include="Repositories\ErrorSnippetRepositoryFactory.cs" />
     <Compile Include="Repositories\MetricsProvider.cs" />
@@ -125,9 +130,12 @@
     <Compile Include="NamespaceMetricConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GenericSessionFactory.cs" />
+    <Compile Include="Repositories\SizeComplexityScatterRepository.cs" />
+    <Compile Include="Repositories\SizeMaintainabilityScatterRepository.cs" />
     <Compile Include="Repositories\TypeComplexityRepository.cs" />
     <Compile Include="Repositories\TypeCouplingProvider.cs" />
     <Compile Include="AsyncSessionFactory.cs" />
+    <Compile Include="Repositories\TypeMaintainabilityDeviationRepository.cs" />
     <Compile Include="Repositories\TypeMaintainabilityRepository.cs" />
     <Compile Include="Repositories\TypeSizeComplexityGeoMeanRepository.cs" />
     <Compile Include="Repositories\TypeSizeRepository.cs" />

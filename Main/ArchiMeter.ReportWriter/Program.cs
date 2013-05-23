@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Program.cs" company="Roche">
-//   Copyright © Roche 2012
+// <copyright file="Program.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -76,6 +76,14 @@ namespace ArchiMeter.ReportWriter
 				   .As<IAsyncReadOnlyRepository<TypeComplexitySegment>>();
 			builder.RegisterType<TypeMaintainabilityRepository>()
 				   .As<IAsyncReadOnlyRepository<TypeMaintainabilitySegment>>();
+			builder.RegisterType<TypeMaintainabilityDeviationRepository>()
+				   .As<IAsyncReadOnlyRepository<TypeMaintainabilityDeviation>>();
+			builder.RegisterType<SizeComplexityScatterRepository>()
+				   .As<IAsyncReadOnlyRepository<MemberSizeComplexitySegment>>();
+			builder.RegisterType<SizeMaintainabilityScatterRepository>()
+				   .As<IAsyncReadOnlyRepository<MemberSizeMaintainabilitySegment>>();
+			builder.RegisterType<ComplexityMaintainabilityScatterRepository>()
+				   .As<IAsyncReadOnlyRepository<MemberComplexityMaintainabilitySegment>>();
 			builder.RegisterType<MetricsRepository>()
 				   .As<IDataSession<ProjectMetricsDocument>>()
 				   .As<IReadOnlyDataSession<ProjectMetricsDocument>>();
@@ -93,26 +101,37 @@ namespace ArchiMeter.ReportWriter
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
 
-			builder.RegisterType<TypeCouplingReport>()
-				  .As<IReportJob>();
-			builder.RegisterType<ProjectLoadErrorReport>().As<IReportJob>();
-			builder.RegisterType<TestMetricsReport>()
-				  .As<IReportJob>();
-			builder.RegisterType<TestCodeReviewReport>()
-				  .As<IReportJob>();
-			builder.RegisterType<ProductionMetricsReport>()
-				  .As<IReportJob>();
-			builder.RegisterType<ProductionCodeReviewReport>()
-				  .As<IReportJob>();
-			builder.RegisterType<TypeSizeComplexityGeoMeanDistributionReport>()
+			//builder.RegisterType<TypeCouplingReport>()
+			//	  .As<IReportJob>();
+			//builder.RegisterType<ProjectLoadErrorReport>().As<IReportJob>();
+			//builder.RegisterType<TestMetricsReport>()
+			//	  .As<IReportJob>();
+			//builder.RegisterType<TestCodeReviewReport>()
+			//	  .As<IReportJob>();
+			//builder.RegisterType<ProductionMetricsReport>()
+			//	  .As<IReportJob>();
+			//builder.RegisterType<ProductionCodeReviewReport>()
+			//	  .As<IReportJob>();
+			//builder.RegisterType<TypeSizeComplexityGeoMeanDistributionReport>()
+			//	   .As<IReportJob>();
+			//builder.RegisterType<TypeSizeDistributionReport>()
+			//	   .As<IReportJob>();
+			//builder.RegisterType<TypeComplexityDistributionReport>()
+			//	   .As<IReportJob>();
+			//builder.RegisterType<TypeMaintainabilityDistributionReport>()
+			//	   .As<IReportJob>();
+			//builder.RegisterType<NamespaceMaintainabilityDeviationReport>()
+			//	   .As<IReportJob>();
+			builder.RegisterType<SizeComplexityScatterReport>()
 				   .As<IReportJob>();
-			builder.RegisterType<TypeSizeDistributionReport>()
+			builder.RegisterType<SizeMaintainabilityScatterReport>()
 				   .As<IReportJob>();
-			builder.RegisterType<TypeComplexityDistributionReport>()
-				   .As<IReportJob>();
-			builder.RegisterType<TypeMaintainabilityDistributionReport>()
+			builder.RegisterType<ComplexityMaintainabilityScatterReport>()
 				   .As<IReportJob>();
 
+			// builder.RegisterType<AssertionReport>().As<IReportJob>();
+			// builder.RegisterType<ModelComparisonReport>().As<IReportJob>();
+			// builder.RegisterType<RequirementsReport>().As<IReportJob>();
 			var container = builder.Build();
 
 			var stopwatch = new Stopwatch();

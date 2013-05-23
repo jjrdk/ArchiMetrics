@@ -16,12 +16,12 @@
 
 		public AsyncRepositoryBase(IFactory<IAsyncDocumentSession> documentSessionFactory)
 		{
-			this._documentSessionFactory = documentSessionFactory;
+			_documentSessionFactory = documentSessionFactory;
 		}
 
 		public async Task<IEnumerable<TItem>> Query(Expression<Func<TItem, bool>> query)
 		{
-			using (var session = this._documentSessionFactory.Create())
+			using (var session = _documentSessionFactory.Create())
 			{
 				var allResults = new List<TItem>();
 				var start = 0;
@@ -51,7 +51,7 @@
 		{
 			if (isDisposing)
 			{
-				this._documentSessionFactory.Dispose();
+				_documentSessionFactory.Dispose();
 			}
 		}
 
