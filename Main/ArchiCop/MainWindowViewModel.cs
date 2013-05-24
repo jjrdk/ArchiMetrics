@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -17,8 +16,8 @@ namespace ArchiCop
     public class MainWindowViewModel : WorkspaceViewModel, IMainWindowViewModel
     {
         private readonly ICollectionView _metadataFilesView;
-        private IInfoRepository _repository;
         private ObservableCollection<CommandViewModel> _controlPanelCommands;
+        private IInfoRepository _repository;
         private ObservableCollection<WorkspaceViewModel> _workspaces;
 
         public MainWindowViewModel()
@@ -30,7 +29,6 @@ namespace ArchiCop
             _metadataFilesView.CurrentChanged += MetadataFilesCurrentChanged;
         }
 
-        //public ObservableCollection<string> MetadataFile { get; set; }
 
         public ObservableCollection<string> MetadataFiles { get; private set; }
 
@@ -87,14 +85,13 @@ namespace ArchiCop
                     new CommandViewModel("Edges " + graph.DisplayName,
                                          new RelayCommand<object>(param => ShowGraphEdgesView(graph))));
             }
-
         }
 
         private void ShowGraphView(ArchiCopGraph graph)
         {
             var workspace =
                 Workspaces.Where(vm => vm is GraphViewModel).
-                    FirstOrDefault(vm => vm.DisplayName == "Graph " + graph.DisplayName) as GraphViewModel;
+                           FirstOrDefault(vm => vm.DisplayName == "Graph " + graph.DisplayName) as GraphViewModel;
 
             if (workspace == null)
             {
@@ -109,7 +106,7 @@ namespace ArchiCop
         {
             var workspace =
                 Workspaces.Where(vm => vm is GraphDetailsViewModel).
-                    FirstOrDefault(vm => vm.DisplayName == "Edges" + graph.DisplayName) as GraphDetailsViewModel;
+                           FirstOrDefault(vm => vm.DisplayName == "Edges" + graph.DisplayName) as GraphDetailsViewModel;
 
             if (workspace == null)
             {

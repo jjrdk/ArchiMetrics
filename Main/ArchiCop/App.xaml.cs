@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
-using ArchiCop.Data;
 
 namespace ArchiCop
 {
@@ -40,10 +39,10 @@ namespace ArchiCop
             // close the window.
             EventHandler handler = null;
             handler = delegate
-                          {
-                              viewModel.RequestClose -= handler;
-                              window.Close();
-                          };
+                {
+                    viewModel.RequestClose -= handler;
+                    window.Close();
+                };
             viewModel.RequestClose += handler;
 
             // Allow all controls in the window to 

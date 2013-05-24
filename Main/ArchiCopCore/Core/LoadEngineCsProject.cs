@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using QuickGraph;
 
 namespace ArchiCop.Core
 {
@@ -44,11 +43,11 @@ namespace ArchiCop.Core
             foreach (XElement element in qProjectReferences)
             {
                 var projectReference = new ProjectReference
-                                           {
-                                               Include = (string) element.Attribute("Include"),
-                                               Project = element.Element(XNameSpace + "Project").Value,
-                                               Name = element.Element(XNameSpace + "Name").Value
-                                           };
+                    {
+                        Include = (string) element.Attribute("Include"),
+                        Project = element.Element(XNameSpace + "Project").Value,
+                        Name = element.Element(XNameSpace + "Name").Value
+                    };
 
                 list.Add(projectReference);
             }
@@ -58,9 +57,9 @@ namespace ArchiCop.Core
             foreach (XElement element in qReferences)
             {
                 var reference = new LibraryReference
-                                    {
-                                        Include = (string) element.Attribute("Include")
-                                    };
+                    {
+                        Include = (string) element.Attribute("Include")
+                    };
                 if (element.Element(XNameSpace + "SpecificVersion") != null)
                 {
                     reference.SpecificVersion = element.Element(XNameSpace + "SpecificVersion").Value;

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using QuickGraph;
 
 namespace ArchiCop.Core
 {
@@ -8,14 +7,12 @@ namespace ArchiCop.Core
     {
         private readonly ArchiCopGraph _graph = new ArchiCopGraph();
 
-        protected abstract IEnumerable<ArchiCopEdge> GetEdges();
-
         public IEnumerable<ArchiCopEdge> LoadEdges()
         {
             foreach (ArchiCopEdge edge in GetEdges())
             {
-                var source = edge.Source.Name;
-                var target = edge.Target.Name;
+                string source = edge.Source.Name;
+                string target = edge.Target.Name;
 
                 if (source != null & target != null)
                 {
@@ -40,5 +37,6 @@ namespace ArchiCop.Core
             return _graph.Edges;
         }
 
+        protected abstract IEnumerable<ArchiCopEdge> GetEdges();
     }
 }

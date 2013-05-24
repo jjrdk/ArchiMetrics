@@ -2,7 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions" xmlns:archiCop2="clr-namespace:ArchiCop"
+             xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
+             xmlns:archiCop2="clr-namespace:ArchiCop"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid>
@@ -16,13 +17,15 @@
             </TextBlock>
             <ComboBox IsSynchronizedWithCurrentItem="True" Width="200" HorizontalAlignment="Left"
                       ItemsSource="{Binding Path=LayoutAlgorithmFactory.AlgorithmTypes, ElementName=graphLayout}"
-                      SelectedValue="{Binding Path=LayoutAlgorithmType}"></ComboBox>
+                      SelectedValue="{Binding Path=LayoutAlgorithmType}">
+            </ComboBox>
         </StackPanel>
         <Border Grid.Row="1">
             <zoom:ZoomControl>
 
                 <archiCop2:ArchiCopLayout x:Name="graphLayout" Graph="{Binding Path=GraphToVisualize}"
-                                          LayoutAlgorithmType="{Binding Path=LayoutAlgorithmType}" OverlapRemovalAlgorithmType="FSA"
+                                          LayoutAlgorithmType="{Binding Path=LayoutAlgorithmType}"
+                                          OverlapRemovalAlgorithmType="FSA"
                                           HighlightAlgorithmType="Simple" />
 
             </zoom:ZoomControl>
