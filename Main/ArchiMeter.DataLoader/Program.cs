@@ -87,13 +87,13 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<Exporter>();
-			builder.RegisterInstance(new SqlConnectionFactory("[Connection String]"))
+			builder.RegisterInstance(new SqlConnectionFactory(config.TfsConnectionString))
 				.As<IFactory<SqlConnection>>();
-			builder.RegisterType<ProjectLoadErrorLoader>().As<IDataLoader>();
-			builder.RegisterType<ErrorDataLoader>().As<IDataLoader>();
-			builder.RegisterType<EvaluationResultLoader>().As<IDataLoader>();
-			builder.RegisterType<ProjectMetricsLoader>().As<IDataLoader>();
-			builder.RegisterType<ProjectInventoryLoader>().As<IDataLoader>();
+			//builder.RegisterType<ProjectLoadErrorLoader>().As<IDataLoader>();
+			//builder.RegisterType<ErrorDataLoader>().As<IDataLoader>();
+			//builder.RegisterType<EvaluationResultLoader>().As<IDataLoader>();
+			//builder.RegisterType<ProjectMetricsLoader>().As<IDataLoader>();
+			//builder.RegisterType<ProjectInventoryLoader>().As<IDataLoader>();
 			builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
 
 			var container = builder.Build();

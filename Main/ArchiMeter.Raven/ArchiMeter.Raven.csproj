@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSession.cs" />
+    <Compile Include="DocumentStoreProviderBase.cs" />
     <Compile Include="EmbeddedDocumentStoreProvider.cs" />
     <Compile Include="Indexes\CodeErrorIndex.cs" />
     <Compile Include="Indexes\CodeReviewIndex.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
     <Compile Include="Indexes\TypeCouplingIndex.cs" />
+    <Compile Include="InternalDocumentStoreProvider.cs" />
     <Compile Include="Loading\ErrorDataLoader.cs" />
     <Compile Include="Loading\EvaluationResultLoader.cs" />
     <Compile Include="Loading\IDataLoader.cs" />
