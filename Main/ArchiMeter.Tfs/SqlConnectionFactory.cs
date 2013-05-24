@@ -11,12 +11,12 @@
 
 		public SqlConnectionFactory(string connectionString)
 		{
-			this._connectionString = connectionString;
+			_connectionString = connectionString;
 		}
 
 		public SqlConnection Create()
 		{
-			return new SqlConnection(this._connectionString);
+			return new SqlConnection(_connectionString);
 		}
 
 		public void Dispose()
