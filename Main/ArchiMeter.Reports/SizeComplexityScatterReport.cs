@@ -42,7 +42,7 @@
 			Func<ParameterExpression, Expression> filter = null; // p => Expression.GreaterThan(Expression.Property(p, "CyclomaticComplexity"), Expression.Constant(1));
 			var results = (await _repository.Query(config.Projects.CreateQuery<MemberSizeComplexitySegment>(filter))).ToArray();
 			var locs = results.Select(x => x.LoC).Distinct().OrderBy(x => x).ToArray();
-			var projects = results.GroupBy(x => x.ProjectName).ToArray();
+			var projects = results.GroupBy(x => x.ProjectName).OrderBy(x => x.Key).ToArray();
 			var worksheet = package.Workbook.Worksheets.Add("Size Complexity Scatter");
 			worksheet.Cells[1, 1].Value = "Lines of Code";
 

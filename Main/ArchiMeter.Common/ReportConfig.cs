@@ -17,8 +17,14 @@ namespace ArchiMeter.Common
 	[XmlRoot("ReportConfig")]
 	public class ReportConfig
 	{
+		[XmlAttribute("DatabaseUrl")]
+		public string DatabaseUrl { get; set; }
+
 		[XmlAttribute("OutputFile")]
 		public string OutputFile { get; set; }
+
+		[XmlAttribute("TfsConnectionString")]
+		public string TfsConnectionString { get; set; }
 
 		[XmlElement("Project")]
 		public Collection<ProjectSettings> Projects { get; set; }

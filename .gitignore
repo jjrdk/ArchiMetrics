@@ -6,3 +6,5 @@ packages
 *.user
 *.pdb
 /Data
+
+*.suo

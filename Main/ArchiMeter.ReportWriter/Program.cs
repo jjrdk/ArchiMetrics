@@ -48,9 +48,8 @@ namespace ArchiMeter.ReportWriter
 							 new[] { typeof(ProjectSettings), typeof(ProjectDefinition) })
 							 .Deserialize(File.OpenRead(configPath)) as ReportConfig;
 			var builder = new ContainerBuilder();
-			builder.RegisterType<LocalDocumentStoreProvider>()
-				   .As<IProvider<IDocumentStore>>()
-				   .SingleInstance();
+			builder.RegisterInstance(new NamedDocumentStoreProvider(config.DatabaseUrl))
+				   .As<IProvider<IDocumentStore>>();
 			builder.RegisterType<ExcelReportWriter>();
 			builder.RegisterType<SLoCCounter>();
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
