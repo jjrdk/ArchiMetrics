@@ -91,6 +91,7 @@
     <None Include="Settings.StyleCop" />
     <None Include="ReportSettings.xsd">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

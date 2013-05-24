@@ -99,7 +99,7 @@
     <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
     <Compile Include="Indexes\TypeCouplingIndex.cs" />
-    <Compile Include="InternalDocumentStoreProvider.cs" />
+    <Compile Include="NamedDocumentStoreProvider.cs" />
     <Compile Include="Loading\ErrorDataLoader.cs" />
     <Compile Include="Loading\EvaluationResultLoader.cs" />
     <Compile Include="Loading\IDataLoader.cs" />

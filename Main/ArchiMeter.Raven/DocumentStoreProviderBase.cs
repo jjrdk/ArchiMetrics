@@ -17,7 +17,7 @@
 			{
 				_store = new DocumentStore
 					              {
-						              Url = this.ServerUrl,
+						              Url = ServerUrl,
 						              DefaultDatabase = "Metrics",
 						              Conventions =
 							              {
