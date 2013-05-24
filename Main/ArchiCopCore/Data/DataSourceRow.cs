@@ -1,5 +1,3 @@
-using ArchiCop.Core;
-
 namespace ArchiCop.Data
 {
     public class DataSourceRow

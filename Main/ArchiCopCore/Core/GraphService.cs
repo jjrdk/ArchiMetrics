@@ -18,7 +18,7 @@ namespace ArchiCop.Core
                 _graphs.Add(info);
             }
 
-            var datasourcesData = repository.GetDataSourceData();
+            IEnumerable<DataSourceRow> datasourcesData = repository.GetDataSourceData();
             foreach (string dataSource in datasourcesData.GroupBy(item => item.DataSourceName).Select(g => g.Key))
             {
                 ArchiCopGraph info = GetGraphInfo(datasourcesData.First(item => item.DataSourceName == dataSource));
@@ -28,18 +28,15 @@ namespace ArchiCop.Core
 
         public IEnumerable<ArchiCopGraph> Graphs
         {
-            get
-            {
-                return _graphs;
-            }
+            get { return _graphs; }
         }
 
         private ArchiCopGraph GetGraphInfo(DataSourceRow dataSource)
         {
-            var graph = GetGraph(dataSource.LoadEngineType, dataSource.Arg1, dataSource.Arg2);
+            ArchiCopGraph graph = GetGraph(dataSource.LoadEngineType, dataSource.Arg1, dataSource.Arg2);
 
             graph.DisplayName = dataSource.DataSourceName;
-            
+
             return graph;
         }
 
@@ -56,7 +53,7 @@ namespace ArchiCop.Core
                 var vertexRegexRules = new List<VertexRegexRule>();
                 foreach (GraphRow rule in data.Where(item => item.RuleType == "VertexRegexRule"))
                 {
-                    vertexRegexRules.Add(new VertexRegexRule { Pattern = rule.RulePattern, Value = rule.RuleValue });
+                    vertexRegexRules.Add(new VertexRegexRule {Pattern = rule.RulePattern, Value = rule.RuleValue});
                 }
 
                 graph = GetGraph(loadEngine, arg1, arg2, vertexRegexRules.ToArray());
@@ -70,9 +67,10 @@ namespace ArchiCop.Core
             return graph;
         }
 
-        public ArchiCopGraph GetGraph( string loadEngine , string arg1 , string arg2, params VertexRegexRule[] vertexRegexRules)
+        public ArchiCopGraph GetGraph(string loadEngine, string arg1, string arg2,
+                                      params VertexRegexRule[] vertexRegexRules)
         {
-            var graph=new ArchiCopGraph();
+            var graph = new ArchiCopGraph();
 
             Type loadEngineType = Type.GetType(loadEngine);
 

@@ -47,6 +47,5 @@ namespace ArchiCop.Core
         {
             get { return _oddVertices; }
         }
-        
     }
 }
