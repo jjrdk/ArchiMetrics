@@ -9,16 +9,19 @@ namespace ArchiCop.Data
     public class ExcelInfoRepository : IInfoRepository
     {
         private string _connectionString;
+
         public ExcelInfoRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
+
         #region IInfoRepository Members
 
         public IEnumerable<GraphRow> GetGraphData()
         {
             var data = new List<GraphRow>();
-            var graphNames = GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Graph"));
+            IEnumerable<string> graphNames =
+                GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Graph"));
 
             foreach (string graphName in graphNames)
             {
@@ -31,7 +34,8 @@ namespace ArchiCop.Data
         public IEnumerable<DataSourceRow> GetDataSourceData()
         {
             var data = new List<DataSourceRow>();
-            var dataSourceNames = GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("DataSource"));
+            IEnumerable<string> dataSourceNames =
+                GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("DataSource"));
 
             foreach (string dataSourceName in dataSourceNames)
             {
@@ -44,7 +48,7 @@ namespace ArchiCop.Data
         private IEnumerable<DataSourceRow> GetDataSourceDataPage(string tableName)
         {
             _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                               "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
+                                "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
 
             var oleDbCon = new OleDbConnection(_connectionString);
 
@@ -60,12 +64,12 @@ namespace ArchiCop.Data
 
             Func<DataRow, DataSourceRow> createrow =
                 row => new DataSourceRow
-                           {
-                               LoadEngineType = row["LoadEngineType"] as string,
-                               Arg1 = row["Arg1"] as string,
-                               Arg2 = row["Arg2"] as string,
-                               DataSourceName = row["DataSourceName"] as string
-                           };
+                    {
+                        LoadEngineType = row["LoadEngineType"] as string,
+                        Arg1 = row["Arg1"] as string,
+                        Arg2 = row["Arg2"] as string,
+                        DataSourceName = row["DataSourceName"] as string
+                    };
 
             IEnumerable<DataSourceRow> data = from DataRow row in ds.Tables[0].Rows select createrow(row);
 
@@ -75,7 +79,7 @@ namespace ArchiCop.Data
         private IEnumerable<GraphRow> GetGraphDataPage(string tableName)
         {
             _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                               "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
+                                "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
 
             var oleDbCon = new OleDbConnection(_connectionString);
 
@@ -91,14 +95,14 @@ namespace ArchiCop.Data
 
             Func<DataRow, GraphRow> createGraphInfo =
                 row => new GraphRow
-                           {
-                               RuleType = row["RuleType"] as string,
-                               RuleValue = row["RuleValue"] as string,
-                               RulePattern = row["RulePattern"] as string,
-                               Arg1 = row["Arg1"] as string,
-                               Arg2 = row["Arg2"] as string,
-                               GraphName = tableName
-                           };
+                    {
+                        RuleType = row["RuleType"] as string,
+                        RuleValue = row["RuleValue"] as string,
+                        RulePattern = row["RulePattern"] as string,
+                        Arg1 = row["Arg1"] as string,
+                        Arg2 = row["Arg2"] as string,
+                        GraphName = tableName
+                    };
 
             IEnumerable<GraphRow> data = from DataRow row in ds.Tables[0].Rows select createGraphInfo(row);
 
@@ -106,10 +110,10 @@ namespace ArchiCop.Data
         }
 
 
-        public IEnumerable<string> GetDataSourceNames()
-        {
-            return GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Data"));
-        }
+        //public IEnumerable<string> GetDataSourceNames()
+        //{
+        //    return GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Data"));
+        //}
 
         #endregion
 

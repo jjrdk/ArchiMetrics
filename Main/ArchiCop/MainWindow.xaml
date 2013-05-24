@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ArchiCop.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FontSize="13" FontFamily="Verdana" MinWidth="650"
-        MinHeight="420" Title="{Binding Path=DisplayName}" Width="800" Height="600" WindowStartupLocation="CenterScreen">
+        MinHeight="420" Title="{Binding Path=DisplayName}" Width="800" Height="600"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary Source="MainWindowResources.xaml" />
     </Window.Resources>
@@ -31,13 +32,15 @@
                     <ComboBox ItemsSource="{Binding MetadataFiles}" SelectedItem="MetadataFile"
                               IsSynchronizedWithCurrentItem="True" />
                     <HeaderedContentControl Content="{Binding Path=ControlPanelCommands}"
-                                            ContentTemplate="{StaticResource CommandsTemplate}" Header="Control Panel" Style="{StaticResource MainHCCStyle}" />
+                                            ContentTemplate="{StaticResource CommandsTemplate}" Header="Control Panel"
+                                            Style="{StaticResource MainHCCStyle}" />
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource MainBorderStyle}">
                 <HeaderedContentControl Content="{Binding Path=Workspaces}"
-                                        ContentTemplate="{StaticResource WorkspacesTemplate}" Header="Workspaces" Style="{StaticResource MainHCCStyle}" />
+                                        ContentTemplate="{StaticResource WorkspacesTemplate}" Header="Workspaces"
+                                        Style="{StaticResource MainHCCStyle}" />
             </Border>
         </Grid>
     </DockPanel>

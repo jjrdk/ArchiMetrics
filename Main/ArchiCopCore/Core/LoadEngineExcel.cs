@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
-using QuickGraph;
 
 namespace ArchiCop.Core
 {
-    public class LoadEngineExcel : LoadEngine 
+    public class LoadEngineExcel : LoadEngine
     {
         private readonly string _connString;
         private readonly string _excelsheetname;
@@ -41,6 +40,5 @@ namespace ArchiCop.Core
 
             return (from DataRow row in ds.Tables[0].Rows select newEdge(row)).ToList();
         }
-        
     }
 }
