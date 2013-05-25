@@ -59,8 +59,6 @@ namespace ArchiMeter.ReportWriter
 				   .As<IFactory<Func<ProjectInventoryDocument, string[]>, MetricsProvider>>();
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();
-			builder.Register(x => DefinedRules.Default)
-				   .As<IEnumerable<ICodeEvaluation>>();
 			builder.RegisterType<AsyncSessionFactory>().SingleInstance()
 				   .As<IFactory<IAsyncDocumentSession>>();
 			builder.RegisterType<SessionFactory>().SingleInstance()

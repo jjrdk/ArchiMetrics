@@ -29,19 +29,19 @@ namespace ArchiMeter.CodeReview.Rules
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			var conditionalExpressions = methodDeclaration.DescendantNodes()
-			                                              .Where(n => n.Kind == SyntaxKind.CoalesceExpression)
-			                                              .ToArray();
+														  .Where(n => n.Kind == SyntaxKind.CoalesceExpression)
+														  .ToArray();
 			if (conditionalExpressions.Any())
 			{
 				return new EvaluationResult
-					       {
-						       Comment = "Coalesce expression found", 
-						       Quality = CodeQuality.Broken, 
-						       ImpactLevel = ImpactLevel.Member, 
-						       QualityAttribute = QualityAttribute.Conformance, 
-						       Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())), 
-						       ErrorCount = conditionalExpressions.Length
-					       };
+						   {
+							   Comment = "Coalesce expression found",
+							   Quality = CodeQuality.Broken,
+							   ImpactLevel = ImpactLevel.Member,
+							   QualityAttribute = QualityAttribute.Conformance,
+							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())),
+							   ErrorCount = conditionalExpressions.Length
+						   };
 			}
 
 			return null;
