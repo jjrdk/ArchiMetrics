@@ -287,8 +287,8 @@ private void SomeMethod()
 				var x = new object();
 			}
 		}", typeof(VarDeclarationForNewVariableErrorRule))]
-		[TestCase("public abstract void DoSomething();", typeof(TooHighCyclomaticComplexityRule))]
-		[TestCase(@"public class InnerClass : ICustomInterface
+			[TestCase("public abstract void DoSomething();", typeof(TooHighCyclomaticComplexityRule))]
+			[TestCase(@"public class InnerClass : ICustomInterface
 		{
 			private void SomeMethod()
 			{

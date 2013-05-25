@@ -96,12 +96,14 @@
     <Compile Include="IEdgeItemsRepository.cs" />
     <Compile Include="IEdgeTransformer.cs" />
     <Compile Include="IFactory.cs" />
+    <Compile Include="IKnownWordList.cs" />
     <Compile Include="ImpactLevel.cs" />
     <Compile Include="INodeInspector.cs" />
     <Compile Include="IProjectData.cs" />
     <Compile Include="IProvider.cs" />
     <Compile Include="IReadOnlyDataSession.cs" />
     <Compile Include="ISolutionEdgeItemsRepositoryConfig.cs" />
+    <Compile Include="ISpellChecker.cs" />
     <Compile Include="IVertexRuleDefinition.cs" />
     <Compile Include="IVertexRuleRepository.cs" />
     <Compile Include="Metrics\IHalsteadAnalyzer.cs" />

@@ -13,7 +13,6 @@
 namespace ArchiMeter.DataLoader
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Data.SqlClient;
 	using System.Diagnostics;
 	using System.IO;
@@ -28,6 +27,8 @@ namespace ArchiMeter.DataLoader
 	using Common;
 	using Common.Metrics;
 	using Data.DataAccess;
+	using Ionic.Zip;
+	using NHunspell;
 	using Raven;
 	using Raven.Loading;
 	using Raven.Repositories;
@@ -49,6 +50,7 @@ namespace ArchiMeter.DataLoader
 
 			var config = new XmlSerializer(typeof(ReportConfig), new[] { typeof(ProjectSettings), typeof(ProjectDefinition) })
 							 .Deserialize(File.OpenRead(configPath)) as ReportConfig;
+
 			var builder = new ContainerBuilder();
 			builder.RegisterInstance(config);
 			builder.RegisterInstance(new EmbeddedDocumentStoreProvider())
@@ -58,11 +60,33 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();
-			builder.Register(x => DefinedRules.Default)
-				   .As<IEnumerable<ICodeEvaluation>>();
+			foreach (var type in typeof(ICodeEvaluation).Assembly
+				.GetTypes()
+				.Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
+				.Where(t => !t.IsInterface && !t.IsAbstract))
+			{
+				builder.RegisterType(type)
+					.As<ICodeEvaluation>();
+			}
+			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
+			{
+				var affStream = new MemoryStream();
+				var dicStream = new MemoryStream();
+				var entries = dictFile.Select(z => z.FileName)
+					.ToArray();
+				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
+					.Extract(affStream);
+				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
+					.Extract(dicStream);
+				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
+			}
+			builder.RegisterType<KnownWordList>()
+				.As<IKnownWordList>();
+			builder.RegisterType<SpellChecker>()
+				.As<ISpellChecker>();
 			builder.RegisterType<AsyncSessionFactory>()
-				   .As<IFactory<IAsyncDocumentSession>>()
-				   .SingleInstance();
+				.As<IFactory<IAsyncDocumentSession>>()
+				.SingleInstance();
 			builder.RegisterType<MetricsRepository>()
 				   .As<IDataSession<ProjectMetricsDocument>>()
 				   .As<IReadOnlyDataSession<ProjectMetricsDocument>>();
@@ -94,7 +118,7 @@ namespace ArchiMeter.DataLoader
 			//builder.RegisterType<EvaluationResultLoader>().As<IDataLoader>();
 			//builder.RegisterType<ProjectMetricsLoader>().As<IDataLoader>();
 			//builder.RegisterType<ProjectInventoryLoader>().As<IDataLoader>();
-			builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
+			//builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
 
 			var container = builder.Build();
 
