@@ -14,6 +14,7 @@ namespace ArchiMeter.UI
 {
 	using System;
 	using System.Globalization;
+	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
 	using Analysis;
@@ -51,8 +52,15 @@ namespace ArchiMeter.UI
 				   .SingleInstance();
 			var config = new SolutionEdgeItemsRepositoryConfig();
 			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
-
-			builder.RegisterInstance(DefinedRules.Default);
+			foreach (var type in typeof(ICodeEvaluation).Assembly
+				.GetTypes()
+				.Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
+				.Where(t => !t.IsInterface && !t.IsAbstract))
+			{
+				builder.RegisterType(type)
+					.As<ICodeEvaluation>();
+			}
+			
 			builder.RegisterType<ProjectMetricsCalculator>()
 				   .As<IProjectMetricsCalculator>();
 			builder.RegisterType<SolutionInspector>()

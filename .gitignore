@@ -8,3 +8,6 @@ packages
 /Data
 
 *.suo
+
+Main/TestResult.xml
+*.user
