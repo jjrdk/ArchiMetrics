@@ -22,20 +22,20 @@ namespace ArchiMeter.Raven.Indexes
 		public TypeCouplingIndex()
 		{
 			Map = docs => from doc in docs
-			              from nm in doc.Metrics
-			              let nmc = nm.ClassCouplings
-			              from tm in nm.TypeMetrics
-			              let tmc = tm.ClassCouplings
-			              from mm in tm.MemberMetrics
-			              let mmc = mm.ClassCouplings
-			              let couplings = nmc.Concat(tmc).Concat(mmc)
-			              from coupling in couplings
-			              select new
-				                     {
-					                     coupling.Assembly,
-					                     coupling.Namespace,
-					                     coupling.ClassName
-				                     };
+						  from nm in doc.Metrics
+						  let nmc = nm.ClassCouplings
+						  from tm in nm.TypeMetrics
+						  let tmc = tm.ClassCouplings
+						  from mm in tm.MemberMetrics
+						  let mmc = mm.ClassCouplings
+						  let couplings = nmc.Concat(tmc).Concat(mmc)
+						  from coupling in couplings
+						  select new
+									 {
+										 coupling.Assembly,
+										 coupling.Namespace,
+										 coupling.ClassName
+									 };
 		}
 	}
 }

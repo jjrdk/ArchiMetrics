@@ -133,6 +133,7 @@
     <Compile Include="ReportConfig.cs" />
     <Compile Include="Metrics\TypeCoupling.cs" />
     <Compile Include="ResultComparer.cs" />
+    <Compile Include="Structure\CouplingEdge.cs" />
     <Compile Include="VertexRule.cs" />
     <Compile Include="Xaml\VariableNameProvider.cs" />
     <Compile Include="Xaml\XamlNode.cs" />

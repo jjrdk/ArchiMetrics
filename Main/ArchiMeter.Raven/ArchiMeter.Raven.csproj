@@ -103,6 +103,7 @@
     <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
     <Compile Include="Indexes\TypeCouplingIndex.cs" />
+    <Compile Include="Indexes\TypeCouplingVertexIndex.cs" />
     <Compile Include="NamedDocumentStoreProvider.cs" />
     <Compile Include="Loading\ErrorDataLoader.cs" />
     <Compile Include="Loading\EvaluationResultLoader.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Repositories\TypeComplexityRepository.cs" />
     <Compile Include="Repositories\TypeCouplingProvider.cs" />
     <Compile Include="AsyncSessionFactory.cs" />
+    <Compile Include="Repositories\TypeCouplingVertexRepository.cs" />
     <Compile Include="Repositories\TypeMaintainabilityDeviationRepository.cs" />
     <Compile Include="Repositories\TypeMaintainabilityRepository.cs" />
     <Compile Include="Repositories\TypeSizeComplexityGeoMeanRepository.cs" />
