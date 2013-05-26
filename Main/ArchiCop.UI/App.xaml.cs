@@ -14,10 +14,12 @@ namespace ArchiMeter.UI
 {
 	using System;
 	using System.Globalization;
+	using System.IO;
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
 	using Analysis;
+	using ArchiCop.UI;
 	using ArchiCop.UI.ViewModel;
 	using Autofac;
 	using CodeReview;
@@ -26,6 +28,8 @@ namespace ArchiMeter.UI
 	using Common.Metrics;
 	using Controller;
 	using Data.DataAccess;
+	using Ionic.Zip;
+	using NHunspell;
 	using Roslyn.Services;
 
 	public partial class App : Application
@@ -60,7 +64,20 @@ namespace ArchiMeter.UI
 				builder.RegisterType(type)
 					.As<ICodeEvaluation>();
 			}
-			
+			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
+			{
+				var affStream = new MemoryStream();
+				var dicStream = new MemoryStream();
+				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
+					.Extract(affStream);
+				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
+					.Extract(dicStream);
+				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
+			}
+			builder.RegisterType<KnownWordList>()
+				.As<IKnownWordList>();
+			builder.RegisterType<SpellChecker>()
+				.As<ISpellChecker>();
 			builder.RegisterType<ProjectMetricsCalculator>()
 				   .As<IProjectMetricsCalculator>();
 			builder.RegisterType<SolutionInspector>()
@@ -69,9 +86,9 @@ namespace ArchiMeter.UI
 			builder.RegisterInstance(new PathFilter(x => true))
 				   .As<PathFilter>();
 			builder.RegisterType<SolutionProvider>()
-				   .As<IProvider<ISolution>>();
+				   .As<IProvider<string, ISolution>>();
 			builder.RegisterType<ProjectProvider>()
-				   .As<IProvider<IProject>>();
+				   .As<IProvider<string, IProject>>();
 			builder.RegisterType<ArchiMeterController>();
 			builder.RegisterType<CodeErrorRepository>()
 				   .As<ICodeErrorRepository>();
