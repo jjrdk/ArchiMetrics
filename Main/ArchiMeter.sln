@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Data", "ArchiMeter.Data\ArchiMeter.Data.csproj", "{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ReportWriter", "ArchiMeter.ReportWriter\ArchiMeter.ReportWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ExcelWriter", "ArchiMeter.ReportWriter\ArchiMeter.ExcelWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Reports", "ArchiMeter.Reports\ArchiMeter.Reports.csproj", "{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}"
 EndProject
@@ -42,64 +42,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Tfs", "ArchiMete
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
 		ArchiMeter.DataLoader\GetMetrics.ps1 = ArchiMeter.DataLoader\GetMetrics.ps1
+		psake.psm1 = psake.psm1
+		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 17
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs06
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ArchiCop.UI\\ArchiCop.UI.csproj
-		SccProjectName1 = ArchiCop.UI
-		SccLocalPath1 = ArchiCop.UI
-		SccProjectUniqueName2 = ArchiMeter.CodeReview\\ArchiMeter.CodeReview.csproj
-		SccProjectName2 = ArchiMeter.CodeReview
-		SccLocalPath2 = ArchiMeter.CodeReview
-		SccProjectUniqueName3 = ArchiMeter.CodeReview.Tests\\ArchiMeter.CodeReview.Tests.csproj
-		SccProjectName3 = ArchiMeter.CodeReview.Tests
-		SccLocalPath3 = ArchiMeter.CodeReview.Tests
-		SccProjectUniqueName4 = ArchiMeter.Analysis.Tests\\ArchiMeter.Analysis.Tests.csproj
-		SccProjectName4 = ArchiMeter.Analysis.Tests
-		SccLocalPath4 = ArchiMeter.Analysis.Tests
-		SccProjectUniqueName5 = ArchiMeter.Data\\ArchiMeter.Data.csproj
-		SccProjectName5 = ArchiMeter.Data
-		SccLocalPath5 = ArchiMeter.Data
-		SccProjectUniqueName6 = ArchiMeter.ReportWriter\\ArchiMeter.ReportWriter.csproj
-		SccProjectName6 = ArchiMeter.ReportWriter
-		SccLocalPath6 = ArchiMeter.ReportWriter
-		SccProjectUniqueName7 = ArchiMeter.Reports\\ArchiMeter.Reports.csproj
-		SccProjectName7 = ArchiMeter.Reports
-		SccLocalPath7 = ArchiMeter.Reports
-		SccProjectUniqueName8 = ArchiMeter.Reports.Tests\\ArchiMeter.Reports.Tests.csproj
-		SccProjectName8 = ArchiMeter.Reports.Tests
-		SccLocalPath8 = ArchiMeter.Reports.Tests
-		SccProjectUniqueName9 = SampleSL\\SampleSL.csproj
-		SccProjectName9 = SampleSL
-		SccLocalPath9 = SampleSL
-		SccProjectUniqueName10 = ArchiMeter.Raven\\ArchiMeter.Raven.csproj
-		SccProjectName10 = ArchiMeter.Raven
-		SccLocalPath10 = ArchiMeter.Raven
-		SccProjectUniqueName11 = ArchiMeter.Raven.Tests\\ArchiMeter.Raven.Tests.csproj
-		SccProjectName11 = ArchiMeter.Raven.Tests
-		SccLocalPath11 = ArchiMeter.Raven.Tests
-		SccProjectUniqueName12 = ArchiMeter.DataLoader\\ArchiMeter.DataLoader.csproj
-		SccProjectName12 = ArchiMeter.DataLoader
-		SccLocalPath12 = ArchiMeter.DataLoader
-		SccProjectUniqueName13 = ArchiMeter.Common\\ArchiMeter.Common.csproj
-		SccProjectName13 = ArchiMeter.Common
-		SccLocalPath13 = ArchiMeter.Common
-		SccProjectUniqueName14 = ArchiMeter.Common.Tests\\ArchiMeter.Common.Tests.csproj
-		SccProjectName14 = ArchiMeter.Common.Tests
-		SccLocalPath14 = ArchiMeter.Common.Tests
-		SccProjectUniqueName15 = ArchiMeter.Tfs\\ArchiMeter.Tfs.csproj
-		SccProjectName15 = ArchiMeter.Tfs
-		SccLocalPath15 = ArchiMeter.Tfs
-		SccProjectUniqueName16 = ArchiMeter.Analysis\\ArchiMeter.Analysis.fsproj
-		SccProjectName16 = ArchiMeter.Analysis
-		SccLocalPath16 = ArchiMeter.Analysis
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = MvvmDemoApp.vsmdi
 	EndGlobalSection
@@ -112,14 +61,6 @@ Global
 		{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFFC8775-D122-4B9B-A1AF-82E8AE35EEC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -128,6 +69,14 @@ Global
 		{36BA2848-F241-4CAA-B037-451251A75951}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36BA2848-F241-4CAA-B037-451251A75951}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36BA2848-F241-4CAA-B037-451251A75951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -177,7 +126,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

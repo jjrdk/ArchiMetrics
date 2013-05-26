@@ -10,6 +10,8 @@
 		private DocumentStore _store;
 
 		protected abstract string ServerUrl { get; }
+		
+		protected abstract string ApiKey { get; }
 
 		public IDocumentStore Get()
 		{

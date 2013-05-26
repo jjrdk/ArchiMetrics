@@ -48,7 +48,7 @@ namespace ArchiMeter.ReportWriter
 							 new[] { typeof(ProjectSettings), typeof(ProjectDefinition) })
 							 .Deserialize(File.OpenRead(configPath)) as ReportConfig;
 			var builder = new ContainerBuilder();
-			builder.RegisterInstance(new NamedDocumentStoreProvider(config.DatabaseUrl))
+			builder.RegisterInstance(new NamedDocumentStoreProvider(config.DatabaseUrl, config.ApiKey))
 				   .As<IProvider<IDocumentStore>>();
 			builder.RegisterType<ExcelReportWriter>();
 			builder.RegisterType<SLoCCounter>();
@@ -119,18 +119,20 @@ namespace ArchiMeter.ReportWriter
 			//	   .As<IReportJob>();
 			//builder.RegisterType<NamespaceMaintainabilityDeviationReport>()
 			//	   .As<IReportJob>();
-			builder.RegisterType<SizeComplexityScatterReport>()
-				   .As<IReportJob>();
-			builder.RegisterType<SizeMaintainabilityScatterReport>()
-				   .As<IReportJob>();
-			builder.RegisterType<ComplexityMaintainabilityScatterReport>()
-				   .As<IReportJob>();
+			//builder.RegisterType<SizeComplexityScatterReport>()
+			//	   .As<IReportJob>();
+			//builder.RegisterType<SizeMaintainabilityScatterReport>()
+			//	   .As<IReportJob>();
+			//builder.RegisterType<ComplexityMaintainabilityScatterReport>()
+			//	   .As<IReportJob>();
 
 			// builder.RegisterType<AssertionReport>().As<IReportJob>();
 			// builder.RegisterType<ModelComparisonReport>().As<IReportJob>();
 			// builder.RegisterType<RequirementsReport>().As<IReportJob>();
 			var container = builder.Build();
-
+			var store = container.Resolve<IProvider<IDocumentStore>>()
+				.Get();
+			var apikey = store.Url;
 			var stopwatch = new Stopwatch();
 			var writer = container.Resolve<ExcelReportWriter>();
 			Console.WriteLine("Starting report generation");
