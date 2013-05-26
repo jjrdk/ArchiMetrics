@@ -2,9 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.Linq;
-
 	using NUnit.Framework;
-
 	using global::Raven.Imports.Newtonsoft.Json;
 
 	public abstract class IndexTestBase<TDocument, TReduce, TIndex>

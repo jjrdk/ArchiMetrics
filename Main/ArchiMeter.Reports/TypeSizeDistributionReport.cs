@@ -3,10 +3,8 @@ namespace ArchiMeter.Reports
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class TypeSizeDistributionReport : IReportJob
@@ -16,12 +14,6 @@ namespace ArchiMeter.Reports
 		public TypeSizeDistributionReport(IAsyncReadOnlyRepository<TypeSizeSegment> typeSizeProvider)
 		{
 			_typeSizeProvider = typeSizeProvider;
-		}
-
-		~TypeSizeDistributionReport()
-		{
-			// Simply call Dispose(false).
-			Dispose(false);
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
@@ -54,6 +46,12 @@ namespace ArchiMeter.Reports
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~TypeSizeDistributionReport()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

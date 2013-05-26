@@ -17,7 +17,6 @@ namespace ArchiMeter.Reports
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-
 	using Common;
 	using Common.Metrics;
 	using OfficeOpenXml;
@@ -68,7 +67,7 @@ namespace ArchiMeter.Reports
 			}
 		}
 
-		private void WriteReport(ExcelWorksheet worksheet, IEnumerable<Tuple<string, int>> couplings)
+		private static void WriteReport(ExcelWorksheet worksheet, IEnumerable<Tuple<string, int>> couplings)
 		{
 			worksheet.Cells[1, 1].Value = "Type";
 			worksheet.Cells[1, 2].Value = "Usage Count";
@@ -97,7 +96,7 @@ namespace ArchiMeter.Reports
 			return _docs;
 		}
 
-		private Task<IEnumerable<Tuple<string, int>>> GetCouplings(TypeCoupling[] metricsDocuments, string query)
+		private static Task<IEnumerable<Tuple<string, int>>> GetCouplings(TypeCoupling[] metricsDocuments, string query)
 		{
 			return Task.Factory.StartNew(() => metricsDocuments
 												   .Where(c => !string.IsNullOrWhiteSpace(c.Namespace))

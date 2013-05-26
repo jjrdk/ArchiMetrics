@@ -4,12 +4,10 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq.Expressions;
-
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Common.Metrics;
-	using ArchiMeter.Raven.Indexes;
-
+	using Common.Documents;
+	using Common.Metrics;
 	using NUnit.Framework;
+	using Raven.Indexes;
 
 	public class TfsWeightedProjectMetricsIndexTests : IndexTestBase<TfsMetricsDocument, TfsProjectMetrics, TfsWeightedProjectMetricsIndexTests.FakeTfsWeightedProjectMetricsIndex>
 	{

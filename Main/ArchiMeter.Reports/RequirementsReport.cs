@@ -68,7 +68,7 @@ namespace ArchiMeter.Reports
 			Dispose(false);
 		}
 
-		private void WriteWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<int, string, IEnumerable<RequirementToTestReport>>> reports)
+		private static void WriteWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<int, string, IEnumerable<RequirementToTestReport>>> reports)
 		{
 			worksheet.Cells[1, 1].Value = "Requirement Testing";
 			worksheet.Cells[2, 1].Value = "Tests per Requirement";

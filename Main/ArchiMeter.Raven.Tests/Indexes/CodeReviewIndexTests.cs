@@ -15,14 +15,10 @@ namespace ArchiMeter.Raven.Tests.Indexes
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Linq;
 	using System.Linq.Expressions;
-
-	using ArchiMeter.Common.Documents;
-
+	using Common.Documents;
 	using NUnit.Framework;
 	using Raven.Indexes;
-	using global::Raven.Imports.Newtonsoft.Json;
 
 	public class CodeReviewIndexTests : IndexTestBase<ErrorData, ErrorData, CodeReviewIndexTests.FakeCodeReviewIndex>
 	{

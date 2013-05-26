@@ -17,11 +17,8 @@ namespace ArchiMeter.Raven.Loading
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 

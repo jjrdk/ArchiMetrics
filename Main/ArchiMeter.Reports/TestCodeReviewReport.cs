@@ -12,11 +12,8 @@
 namespace ArchiMeter.Reports
 {
 	using System;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using Raven.Repositories;
 
 	public class TestCodeReviewReport : CodeReviewReportBase

@@ -5,11 +5,8 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
-
-	using ArchiMeter.Common.Documents;
-
+	using Common.Documents;
 	using Common.Metrics;
-
 	using NUnit.Framework;
 	using Raven.Indexes;
 	using global::Raven.Imports.Newtonsoft.Json;

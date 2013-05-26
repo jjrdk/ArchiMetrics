@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Linq;
-	using ArchiMeter.Common.Documents;
+	using Common.Documents;
 	using global::Raven.Client.Indexes;
 
 	public class TfsMemberSizeSigmaIndex : AbstractIndexCreationTask<TfsMetricsDocument, MemberSizeDeviation>

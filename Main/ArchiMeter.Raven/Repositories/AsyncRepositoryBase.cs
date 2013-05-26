@@ -5,7 +5,7 @@
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common;
+	using Common;
 	using global::Raven.Client;
 	using global::Raven.Client.Indexes;
 
@@ -43,7 +43,7 @@
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -58,7 +58,7 @@
 		~AsyncRepositoryBase()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 	}

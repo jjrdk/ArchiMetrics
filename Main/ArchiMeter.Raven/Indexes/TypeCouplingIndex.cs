@@ -13,9 +13,8 @@
 namespace ArchiMeter.Raven.Indexes
 {
 	using System.Linq;
-
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Common.Metrics;
+	using Common.Documents;
+	using Common.Metrics;
 	using global::Raven.Client.Indexes;
 
 	public class TypeCouplingIndex : AbstractIndexCreationTask<ProjectMetricsDocument, TypeCoupling>

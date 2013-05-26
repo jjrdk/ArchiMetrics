@@ -13,11 +13,8 @@
 namespace ArchiMeter.Raven.Repositories
 {
 	using System;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using global::Raven.Client;
 
 	public class ErrorDataProviderFactory : IFactory<Func<ProjectInventoryDocument, string[]>, ErrorDataProvider>

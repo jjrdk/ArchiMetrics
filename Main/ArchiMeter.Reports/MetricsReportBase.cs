@@ -17,14 +17,11 @@ namespace ArchiMeter.Reports
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common.Documents;
-
 	using CodeReview;
 	using Common;
+	using Common.Documents;
 	using Common.Metrics;
 	using OfficeOpenXml;
-
 	using Raven.Repositories;
 
 	public abstract class MetricsReportBase : IReportJob
@@ -51,8 +48,8 @@ namespace ArchiMeter.Reports
 										  .GetMetrics(p.Name, p.Revision.ToString(CultureInfo.InvariantCulture));
 
 									  return new Tuple<string, int, IEnumerable<TypeMetric>>(
-										  p.Name, 
-										  metrics.SourceLinesOfCode, 
+										  p.Name,
+										  metrics.SourceLinesOfCode,
 										  metrics.Metrics);
 								  })
 							  .ToArray();
@@ -97,7 +94,7 @@ namespace ArchiMeter.Reports
 			Dispose(false);
 		}
 
-		private void WriteComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
+		private static void WriteComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
 		{
 			var complexityGrouping = new Func<int, string>(d =>
 			{
@@ -130,7 +127,7 @@ namespace ArchiMeter.Reports
 			FillComplexities(worksheet, projectComplexities, complexities, projectSizes);
 		}
 
-		private void WriteMethodComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
+		private static void WriteMethodComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
 		{
 			var complexityGrouping = new Func<int, string>(d =>
 			{
@@ -166,7 +163,7 @@ namespace ArchiMeter.Reports
 				.OrderBy(x => x)
 				.ToArray();
 			var projectComplexities = metricResults.ToDictionary(
-				r => r.Item1, 
+				r => r.Item1,
 				r => r.Item3
 					.Where(t => t.Kind != TypeMetricKind.Interface)
 					  .SelectMany(t => t.MemberMetrics)
@@ -176,7 +173,7 @@ namespace ArchiMeter.Reports
 			FillComplexities(worksheet, projectComplexities, complexities, projectSizes);
 		}
 
-		private void WriteNonWeightedComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
+		private static void WriteNonWeightedComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
 		{
 			var complexityGrouping = new Func<int, string>(d =>
 			{
@@ -218,7 +215,7 @@ namespace ArchiMeter.Reports
 			FillComplexities(worksheet, projectComplexities, complexities, projectSizes);
 		}
 
-		private void WriteNonWeightedMethodComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
+		private static void WriteNonWeightedMethodComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
 		{
 			var complexityGrouping = new Func<int, string>(d =>
 			{
@@ -254,7 +251,7 @@ namespace ArchiMeter.Reports
 				.OrderBy(x => x)
 				.ToArray();
 			var projectComplexities = metricResults.ToDictionary(
-				r => r.Item1, 
+				r => r.Item1,
 				r => r.Item3
 					.Where(t => t.Kind != TypeMetricKind.Interface)
 					  .SelectMany(t => t.MemberMetrics)
@@ -264,9 +261,9 @@ namespace ArchiMeter.Reports
 			FillComplexities(worksheet, projectComplexities, complexities, projectSizes);
 		}
 
-		private static void FillComplexities(ExcelWorksheet worksheet, 
-											 Dictionary<string, Dictionary<string, int>> projectComplexities, 
-											 string[] complexities, 
+		private static void FillComplexities(ExcelWorksheet worksheet,
+											 Dictionary<string, Dictionary<string, int>> projectComplexities,
+											 string[] complexities,
 											 Dictionary<string, int> projectSizes)
 		{
 			worksheet.Cells[1, 1].Value = "Lines of Code / Project";
@@ -319,7 +316,7 @@ namespace ArchiMeter.Reports
 			}
 		}
 
-		private void WriteMaintainabilitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
+		private static void WriteMaintainabilitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
 		{
 			var maintainabilityGrouping = new Func<double, string>(d =>
 				{
@@ -397,7 +394,7 @@ namespace ArchiMeter.Reports
 			}
 		}
 
-		private void WriteNonWeigtedMaintainabilitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
+		private static void WriteNonWeigtedMaintainabilitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)
 		{
 			var maintainabilityGrouping = new Func<double, string>(d =>
 				{
@@ -475,7 +472,7 @@ namespace ArchiMeter.Reports
 			}
 		}
 
-		private void WriteMetricWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<string, int, IEnumerable<TypeMetric>>> results)
+		private static void WriteMetricWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<string, int, IEnumerable<TypeMetric>>> results)
 		{
 			var column = 2;
 			worksheet.Cells[1, 1].Value = "Project";

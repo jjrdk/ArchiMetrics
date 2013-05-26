@@ -16,12 +16,9 @@ namespace ArchiMeter.Raven.Loading
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Analysis;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
+	using Common.Documents;
 	using Common.Metrics;
-
 	using Roslyn.Services;
 
 	public class ProjectMetricsLoader : IDataLoader

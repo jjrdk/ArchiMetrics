@@ -94,7 +94,7 @@ namespace ArchiMeter.Reports
 			Console.WriteLine("Finishing Test Assertion Report");
 		}
 
-		private void WriteWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<string, string, int>> results)
+		private static void WriteWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<string, string, int>> results)
 		{
 			Console.WriteLine("Writing assert report.");
 			var dict = results

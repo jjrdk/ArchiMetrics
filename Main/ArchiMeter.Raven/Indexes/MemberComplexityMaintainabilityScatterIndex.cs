@@ -1,14 +1,14 @@
 ﻿namespace ArchiMeter.Raven.Indexes
 {
 	using System.Linq;
-	using ArchiMeter.Common.Documents;
+	using Common.Documents;
 	using global::Raven.Client.Indexes;
 
 	public class MemberComplexityMaintainabilityScatterIndex : AbstractIndexCreationTask<TfsMetricsDocument, MemberComplexityMaintainabilitySegment>
 	{
 		public MemberComplexityMaintainabilityScatterIndex()
 		{
-			this.Map = docs => from doc in docs
+			Map = docs => from doc in docs
 			                   from namespaceMetric in doc.Metrics
 			                   where !namespaceMetric.Name.Contains("Tests")
 			                         && !namespaceMetric.Name.Contains("UnitTest")
@@ -25,7 +25,7 @@
 					                          ProjectName = doc.ProjectName
 				                          };
 
-			this.Reduce = docs => from doc in docs
+			Reduce = docs => from doc in docs
 			                      group doc by new { doc.Date, doc.ProjectName, doc.CyclomaticComplexity, doc.MaintainabilityIndex }
 			                      into sizeComplexity
 			                      select new

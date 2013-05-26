@@ -1,9 +1,7 @@
 ﻿namespace ArchiMeter.Raven.Indexes
 {
 	using System.Linq;
-
-	using ArchiMeter.Common.Documents;
-
+	using Common.Documents;
 	using global::Raven.Client.Indexes;
 
 	public class TfsProjectMetricsIndex : AbstractIndexCreationTask<TfsMetricsDocument, TfsProjectMetrics>
