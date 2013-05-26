@@ -20,6 +20,9 @@ namespace ArchiMeter.Common
 		[XmlAttribute("DatabaseUrl")]
 		public string DatabaseUrl { get; set; }
 
+		[XmlAttribute("ApiKey")]
+		public string ApiKey { get; set; }
+
 		[XmlAttribute("OutputFile")]
 		public string OutputFile { get; set; }
 

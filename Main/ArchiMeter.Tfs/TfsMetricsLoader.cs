@@ -2,13 +2,12 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Data;
 	using System.Data.SqlClient;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common.Documents;
 	using Common;
+	using Common.Documents;
 	using Common.Metrics;
 	using Raven.Loading;
 
@@ -21,11 +20,6 @@
 		{
 			_connectionFactory = connectionFactory;
 			_sessionProvider = sessionProvider;
-		}
-
-		~TfsMetricsLoader()
-		{
-			Dispose(false);
 		}
 
 		public async Task Load(ProjectSettings settings)
@@ -58,6 +52,11 @@
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~TfsMetricsLoader()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

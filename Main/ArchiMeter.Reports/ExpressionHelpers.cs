@@ -4,8 +4,8 @@ namespace ArchiMeter.Reports
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
+	using Common;
+	using Common.Documents;
 
 	internal static class ExpressionHelpers
 	{

@@ -12,15 +12,7 @@
 
 namespace ArchiMeter.Reports
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading.Tasks;
-	using ArchiMeter.Common;
-
-	using OfficeOpenXml;
-
-	 //public class ModelComparisonReport : IReportJob
+	//public class ModelComparisonReport : IReportJob
 	 //{
 	 //   private readonly IProvider<IProject> _projectProvider;
 	 //   private Task _compareTask;

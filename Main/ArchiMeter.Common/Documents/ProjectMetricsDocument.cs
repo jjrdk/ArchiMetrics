@@ -11,7 +11,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Common.Documents
 {
-	using ArchiMeter.Common.Metrics;
+	using Metrics;
 
 	public class ProjectMetricsDocument
 	{

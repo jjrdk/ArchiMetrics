@@ -2,8 +2,7 @@
 {
 	using System;
 	using System.Data.SqlClient;
-
-	using ArchiMeter.Common;
+	using Common;
 
 	public class SqlConnectionFactory : IFactory<SqlConnection>
 	{
@@ -21,7 +20,7 @@
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -35,7 +34,7 @@
 		~SqlConnectionFactory()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 	}

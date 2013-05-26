@@ -13,5 +13,10 @@
 		{
 			get { return "http://localhost:" + _port; }
 		}
+
+		protected override string ApiKey
+		{
+			get { return null; }
+		}
 	}
 }

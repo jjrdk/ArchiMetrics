@@ -8,8 +8,8 @@
 	internal abstract class NameSpellingRuleBase : EvaluationBase
 	{
 		private static readonly Regex CapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
-		private readonly ISpellChecker _speller;
 		private readonly IKnownWordList _knownWordList;
+		private readonly ISpellChecker _speller;
 
 		public NameSpellingRuleBase(ISpellChecker speller, IKnownWordList knownWordList)
 		{

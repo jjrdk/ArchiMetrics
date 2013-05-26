@@ -1,8 +1,8 @@
 ﻿namespace ArchiMeter.Raven.Repositories
 {
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Raven.Indexes;
+	using Common;
+	using Common.Documents;
+	using Indexes;
 	using global::Raven.Client;
 
 	public class SizeMaintainabilityScatterRepository : AsyncRepositoryBase<MemberSizeMaintainabilitySegment, MemberSizeMaintainabilityScatterIndex>

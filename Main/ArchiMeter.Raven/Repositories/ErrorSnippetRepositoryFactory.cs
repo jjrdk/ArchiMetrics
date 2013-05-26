@@ -16,11 +16,8 @@ namespace ArchiMeter.Raven.Repositories
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using Indexes;
 	using global::Raven.Client;
 

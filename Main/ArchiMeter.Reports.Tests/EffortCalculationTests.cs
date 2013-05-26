@@ -26,7 +26,7 @@ namespace ArchiMeter.Reports.Tests
 			Assert.AreEqual(18.75, totalEffort);
 		}
 
-		private double GetEffort(int violations)
+		private static double GetEffort(int violations)
 		{
 			var baseEffort = 10;// metrics.Sum(m => m.GetEffort().TotalSeconds);
 			return Enumerable.Range(0, violations).Aggregate(0.0, (d, i) => d + (baseEffort * Math.Pow(0.5, i)));

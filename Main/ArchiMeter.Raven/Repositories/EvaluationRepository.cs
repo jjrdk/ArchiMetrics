@@ -12,10 +12,8 @@
 
 namespace ArchiMeter.Raven.Repositories
 {
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using global::Raven.Client;
 
 	public class EvaluationRepository : GenericRepository<EvaluationResultDocument>

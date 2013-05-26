@@ -13,7 +13,6 @@ namespace ArchiMeter.Raven
 {
 	using System;
 	using Common;
-
 	using global::Raven.Client;
 	using global::Raven.Client.Embedded;
 

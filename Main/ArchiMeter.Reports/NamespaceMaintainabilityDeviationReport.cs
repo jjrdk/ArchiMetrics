@@ -3,9 +3,8 @@ namespace ArchiMeter.Reports
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class NamespaceMaintainabilityDeviationReport : IReportJob
@@ -15,12 +14,6 @@ namespace ArchiMeter.Reports
 		public NamespaceMaintainabilityDeviationReport(IAsyncReadOnlyRepository<TypeMaintainabilityDeviation> maintainabilityDeviationRepository)
 		{
 			_maintainabilityDeviationRepository = maintainabilityDeviationRepository;
-		}
-
-		~NamespaceMaintainabilityDeviationReport()
-		{
-			// Simply call Dispose(false).
-			Dispose(false);
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
@@ -47,8 +40,14 @@ namespace ArchiMeter.Reports
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~NamespaceMaintainabilityDeviationReport()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
