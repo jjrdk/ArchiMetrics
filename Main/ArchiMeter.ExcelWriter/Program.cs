@@ -129,9 +129,7 @@ namespace ArchiMeter.ReportWriter
 			// builder.RegisterType<ModelComparisonReport>().As<IReportJob>();
 			// builder.RegisterType<RequirementsReport>().As<IReportJob>();
 			var container = builder.Build();
-			var store = container.Resolve<IProvider<IDocumentStore>>()
-				.Get();
-			var apikey = store.Url;
+			
 			var stopwatch = new Stopwatch();
 			var writer = container.Resolve<ExcelReportWriter>();
 			Console.WriteLine("Starting report generation");
