@@ -25,12 +25,12 @@ namespace ArchiMeter.Raven.Loading
 	{
 		private readonly SLoCCounter _counter = new SLoCCounter();
 		private readonly IProjectMetricsCalculator _metricsCalculator;
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 		private readonly IFactory<IDataSession<ProjectMetricsDocument>> _sessionProvider;
 
 		public ProjectMetricsLoader(
-			IProjectMetricsCalculator metricsCalculator, 
-			IProvider<IProject, string> projectProvider, 
+			IProjectMetricsCalculator metricsCalculator,
+			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ProjectMetricsDocument>> sessionProvider)
 		{
 			_metricsCalculator = metricsCalculator;

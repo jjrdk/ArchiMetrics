@@ -25,9 +25,9 @@ namespace ArchiMeter.Reports
 	public class ProjectLoadErrorReport : IReportJob
 	{
 		private readonly Func<ProjectDefinition, bool> _pathFilter;
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 
-		public ProjectLoadErrorReport(IProvider<IProject, string> projectProvider)
+		public ProjectLoadErrorReport(IProvider<string, IProject> projectProvider)
 		{
 			_projectProvider = projectProvider;
 			_pathFilter = ReportUtils.AllCode;

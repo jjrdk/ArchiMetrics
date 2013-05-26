@@ -19,7 +19,7 @@ namespace ArchiMeter.Data.DataAccess
 	using Common;
 	using Roslyn.Services;
 
-	public class SolutionProvider : IProvider<ISolution, string>
+	public class SolutionProvider : IProvider<string, ISolution>
 	{
 		private ConcurrentDictionary<string, ISolution> _cache = new ConcurrentDictionary<string, ISolution>();
 
