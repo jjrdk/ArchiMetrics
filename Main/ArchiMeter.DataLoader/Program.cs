@@ -20,17 +20,16 @@ namespace ArchiMeter.DataLoader
 	using System.Threading.Tasks;
 	using System.Xml.Serialization;
 	using Analysis;
-	using ArchiMeter.Common.Documents;
 	using Autofac;
 	using CodeReview;
 	using CodeReview.Metrics;
 	using Common;
+	using Common.Documents;
 	using Common.Metrics;
 	using Data.DataAccess;
 	using Ionic.Zip;
 	using NHunspell;
 	using Raven;
-	using Raven.Loading;
 	using Raven.Repositories;
 	using Roslyn.Services;
 	using Tfs;

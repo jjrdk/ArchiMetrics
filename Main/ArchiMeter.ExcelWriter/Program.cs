@@ -13,16 +13,15 @@
 namespace ArchiMeter.ReportWriter
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Xml.Serialization;
 	using Analysis;
-	using ArchiMeter.Common.Documents;
 	using Autofac;
 	using CodeReview;
 	using Common;
+	using Common.Documents;
 	using Common.Metrics;
 	using Data.DataAccess;
 	using Raven;
@@ -119,12 +118,12 @@ namespace ArchiMeter.ReportWriter
 			//	   .As<IReportJob>();
 			//builder.RegisterType<NamespaceMaintainabilityDeviationReport>()
 			//	   .As<IReportJob>();
-			//builder.RegisterType<SizeComplexityScatterReport>()
-			//	   .As<IReportJob>();
-			//builder.RegisterType<SizeMaintainabilityScatterReport>()
-			//	   .As<IReportJob>();
-			//builder.RegisterType<ComplexityMaintainabilityScatterReport>()
-			//	   .As<IReportJob>();
+			builder.RegisterType<SizeComplexityScatterReport>()
+				   .As<IReportJob>();
+			builder.RegisterType<SizeMaintainabilityScatterReport>()
+				   .As<IReportJob>();
+			builder.RegisterType<ComplexityMaintainabilityScatterReport>()
+				   .As<IReportJob>();
 
 			// builder.RegisterType<AssertionReport>().As<IReportJob>();
 			// builder.RegisterType<ModelComparisonReport>().As<IReportJob>();

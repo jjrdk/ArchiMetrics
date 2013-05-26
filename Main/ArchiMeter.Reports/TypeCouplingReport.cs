@@ -17,7 +17,6 @@ namespace ArchiMeter.Reports
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-
 	using Common;
 	using Common.Metrics;
 	using OfficeOpenXml;

@@ -4,9 +4,8 @@
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class SizeComplexityScatterReport : IReportJob
@@ -18,23 +17,10 @@
 			_repository = repository;
 		}
 
-		~SizeComplexityScatterReport()
-		{
-			// Simply call Dispose(false).
-			this.Dispose(false);
-		}
-
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		protected virtual void Dispose(bool isDisposing)
-		{
-			if (isDisposing)
-			{
-			}
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
@@ -68,6 +54,19 @@
 					}
 					row++;
 				}
+			}
+		}
+
+		~SizeComplexityScatterReport()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
+		}
+
+		protected virtual void Dispose(bool isDisposing)
+		{
+			if (isDisposing)
+			{
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿namespace ArchiMeter.Raven
 {
 	using System;
-	using ArchiMeter.Common;
+	using Common;
 	using global::Raven.Client;
 	using global::Raven.Client.Document;
 
@@ -42,13 +42,13 @@
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~DocumentStoreProviderBase()
 		{
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool disposing)

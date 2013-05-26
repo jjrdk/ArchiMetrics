@@ -15,11 +15,8 @@ namespace ArchiMeter.Raven.Tests.Indexes
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq.Expressions;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using NUnit.Framework;
 	using Raven.Indexes;
 

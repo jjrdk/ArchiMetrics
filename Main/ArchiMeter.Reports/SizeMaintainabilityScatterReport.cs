@@ -4,8 +4,8 @@
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class SizeMaintainabilityScatterReport : IReportJob
@@ -17,25 +17,10 @@
 			_repository = repository;
 		}
 
-		~SizeMaintainabilityScatterReport()
-		{
-			// Simply call Dispose(false).
-			this.Dispose(false);
-		}
-
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		protected virtual void Dispose(bool isDisposing)
-		{
-			if (isDisposing)
-			{
-				//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-
-			}
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
@@ -69,6 +54,21 @@
 					}
 					row++;
 				}
+			}
+		}
+
+		~SizeMaintainabilityScatterReport()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
+		}
+
+		protected virtual void Dispose(bool isDisposing)
+		{
+			if (isDisposing)
+			{
+				//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
+
 			}
 		}
 	}

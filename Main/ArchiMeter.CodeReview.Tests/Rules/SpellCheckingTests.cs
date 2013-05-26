@@ -11,6 +11,14 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 
 	public class SpellCheckingTests
 	{
+		private class ExemptWords : IKnownWordList
+		{
+			public bool IsExempt(string word)
+			{
+				return false;
+			}
+		}
+
 		public class GivenAMethodNameSpellingRule
 		{
 			private MethodNameSpellingRule _rule;
@@ -59,14 +67,6 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 			public bool Spell(string word)
 			{
 				return _speller.Spell(word);
-			}
-		}
-
-		private class ExemptWords : IKnownWordList
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
 			}
 		}
 	}

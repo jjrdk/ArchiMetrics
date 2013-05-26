@@ -17,14 +17,11 @@ namespace ArchiMeter.Reports
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common.Documents;
-
 	using CodeReview;
 	using Common;
+	using Common.Documents;
 	using Common.Metrics;
 	using OfficeOpenXml;
-
 	using Raven.Repositories;
 
 	public abstract class MetricsReportBase : IReportJob

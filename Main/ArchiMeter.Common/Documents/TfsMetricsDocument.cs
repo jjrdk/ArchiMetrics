@@ -1,8 +1,7 @@
 namespace ArchiMeter.Common.Documents
 {
 	using System;
-
-	using ArchiMeter.Common.Metrics;
+	using Metrics;
 
 	public class TfsMetricsDocument
 	{

@@ -15,11 +15,8 @@ namespace ArchiMeter.Raven.Tests.Indexes
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using NUnit.Framework;
 
 	public class ErrorDataIndexTests

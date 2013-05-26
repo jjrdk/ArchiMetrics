@@ -12,11 +12,8 @@
 namespace ArchiMeter.Raven.Repositories
 {
 	using System;
-
-	using ArchiMeter.Common.Documents;
-
 	using Common;
-
+	using Common.Documents;
 	using global::Raven.Client;
 
 	public class EvaluationRepositoryFactory : IFactory<IDataSession<EvaluationResultDocument>>

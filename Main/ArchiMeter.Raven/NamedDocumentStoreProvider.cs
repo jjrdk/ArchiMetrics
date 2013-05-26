@@ -2,8 +2,8 @@
 {
 	public class NamedDocumentStoreProvider : DocumentStoreProviderBase
 	{
-		private readonly string _serverUrl;
 		private readonly string _apiKey;
+		private readonly string _serverUrl;
 
 		public NamedDocumentStoreProvider(string serverUrl, string apiKey)
 		{
