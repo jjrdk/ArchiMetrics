@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Data", "ArchiMeter.Data\ArchiMeter.Data.csproj", "{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ExcelWriter", "ArchiMeter.ReportWriter\ArchiMeter.ExcelWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ExcelWriter", "ArchiMeter.ExcelWriter\ArchiMeter.ExcelWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Reports", "ArchiMeter.Reports\ArchiMeter.Reports.csproj", "{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}"
 EndProject
