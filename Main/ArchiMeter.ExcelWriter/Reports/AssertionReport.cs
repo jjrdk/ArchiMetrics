@@ -10,14 +10,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Reports
+namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using CodeReview;
-	using Common;
+
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.Common;
+
 	using OfficeOpenXml;
 
 	public class AssertionReport : IReportJob
@@ -27,36 +29,36 @@ namespace ArchiMeter.Reports
 
 		public AssertionReport(ICodeErrorRepository errorRepository)
 		{
-			_errorRepository = errorRepository;
+			this._errorRepository = errorRepository;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			return Task.Factory.StartNew(() => GenerateReport(package, config));
+			return Task.Factory.StartNew(() => this.GenerateReport(package, config));
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~AssertionReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_errorRepository.Dispose();
-				_errorRepository = null;
-				if (_workTask != null)
+				this._errorRepository.Dispose();
+				this._errorRepository = null;
+				if (this._workTask != null)
 				{
-					_workTask.Dispose();
-					_workTask = null;
+					this._workTask.Dispose();
+					this._workTask = null;
 				}
 			}
 		}
@@ -84,7 +86,7 @@ namespace ArchiMeter.Reports
 				config.Projects.SelectMany(
 					setting =>
 					setting.Roots
-						   .SelectMany(root => _errorRepository.GetErrors(root.Source, root.IsTest)
+						   .SelectMany(root => this._errorRepository.GetErrors(root.Source, root.IsTest)
 															   .Where(x => x.Comment == "Multiple asserts found in test.")
 															   .GroupBy(x => assertionGrouping(x.ErrorCount))
 															   .Select(x => new Tuple<string, string, int>(setting.Name, x.Key, x.Count()))));

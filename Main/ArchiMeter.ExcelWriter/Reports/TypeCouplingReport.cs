@@ -10,15 +10,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Reports
+namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Metrics;
+
 	using OfficeOpenXml;
 
 	public class TypeCouplingReport : IReportJob
@@ -28,7 +30,7 @@ namespace ArchiMeter.Reports
 
 		public TypeCouplingReport(IAsyncProvider<string, string, TypeCoupling> typeCouplingProvider)
 		{
-			_typeCouplingProvider = typeCouplingProvider;
+			this._typeCouplingProvider = typeCouplingProvider;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
@@ -37,7 +39,7 @@ namespace ArchiMeter.Reports
 
 			foreach (var coupling in config.Couplings)
 			{
-				var docs = await GetDocuments(config);
+				var docs = await this.GetDocuments(config);
 				var couplings = await GetCouplings(docs, coupling.ToLowerInvariant());
 				var ws = package.Workbook.Worksheets.Add(coupling);
 				WriteReport(ws, couplings);
@@ -48,14 +50,14 @@ namespace ArchiMeter.Reports
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~TypeCouplingReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -63,7 +65,7 @@ namespace ArchiMeter.Reports
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				_typeCouplingProvider.Dispose();
+				this._typeCouplingProvider.Dispose();
 			}
 		}
 
@@ -82,18 +84,18 @@ namespace ArchiMeter.Reports
 
 		private async Task<TypeCoupling[]> GetDocuments(ReportConfig config)
 		{
-			if (_docs == null)
+			if (this._docs == null)
 			{
 				var tasks = (from project in config.Projects
-							 select _typeCouplingProvider.GetAll(project.Name, project.Revision.ToString(CultureInfo.InvariantCulture)))
+							 select this._typeCouplingProvider.GetAll(project.Name, project.Revision.ToString(CultureInfo.InvariantCulture)))
 								 .ToArray();
 				var result = await Task.WhenAll(tasks);
-				_docs = result
+				this._docs = result
 					.SelectMany(x => x)
 					.ToArray();
 			}
 
-			return _docs;
+			return this._docs;
 		}
 
 		private static Task<IEnumerable<Tuple<string, int>>> GetCouplings(TypeCoupling[] metricsDocuments, string query)
