@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI
+namespace ArchiCop.UI
 {
 	using System;
 	using System.Globalization;
@@ -18,22 +18,17 @@ namespace ArchiMeter.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-	using Analysis;
-
-	using ArchiCop.UI;
+	using ArchiCop.UI.Controller;
+	using ArchiMeter.Analysis;
 	using ArchiCop.UI.ViewModel;
 	using Autofac;
-	using CodeReview;
-	using CodeReview.Metrics;
-	using Common;
-	using Common.Metrics;
-	using Controller;
-	using Data.DataAccess;
-
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.CodeReview.Metrics;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Metrics;
+	using ArchiMeter.Data.DataAccess;
 	using Ionic.Zip;
-
 	using NHunspell;
-
 	using Roslyn.Services;
 
 	public partial class App : Application

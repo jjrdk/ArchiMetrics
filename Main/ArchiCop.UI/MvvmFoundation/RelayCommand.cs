@@ -14,7 +14,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.MvvmFoundation
+namespace ArchiCop.UI.MvvmFoundation
 {
 	using System;
 	using System.Diagnostics;
@@ -44,21 +44,21 @@ namespace ArchiMeter.UI.MvvmFoundation
 				throw new ArgumentNullException("execute");
 			}
 
-			_execute = execute;
-			_canExecute = canExecute;
+			this._execute = execute;
+			this._canExecute = canExecute;
 		}
 
 		[DebuggerStepThrough]
 		public bool CanExecute(object parameter)
 		{
-			return _canExecute == null || _canExecute((T)parameter);
+			return this._canExecute == null || this._canExecute((T)parameter);
 		}
 
 		public event EventHandler CanExecuteChanged
 		{
 			add
 			{
-				if (_canExecute != null)
+				if (this._canExecute != null)
 				{
 					CommandManager.RequerySuggested += value;
 				}
@@ -66,7 +66,7 @@ namespace ArchiMeter.UI.MvvmFoundation
 
 			remove
 			{
-				if (_canExecute != null)
+				if (this._canExecute != null)
 				{
 					CommandManager.RequerySuggested -= value;
 				}
@@ -75,7 +75,7 @@ namespace ArchiMeter.UI.MvvmFoundation
 
 		public void Execute(object parameter)
 		{
-			_execute((T)parameter);
+			this._execute((T)parameter);
 		}
 	}
 
@@ -101,34 +101,34 @@ namespace ArchiMeter.UI.MvvmFoundation
 			if (execute == null)
 				throw new ArgumentNullException("execute");
 
-			_execute = execute;
-			_canExecute = canExecute;
+			this._execute = execute;
+			this._canExecute = canExecute;
 		}
 
 		[DebuggerStepThrough]
 		public bool CanExecute(object parameter)
 		{
-			return _canExecute == null || _canExecute();
+			return this._canExecute == null || this._canExecute();
 		}
 
 		public event EventHandler CanExecuteChanged
 		{
 			add
 			{
-				if (_canExecute != null)
+				if (this._canExecute != null)
 					CommandManager.RequerySuggested += value;
 			}
 
 			remove
 			{
-				if (_canExecute != null)
+				if (this._canExecute != null)
 					CommandManager.RequerySuggested -= value;
 			}
 		}
 
 		public void Execute(object parameter)
 		{
-			_execute();
+			this._execute();
 		}
 	}
 }

@@ -10,14 +10,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI
+namespace ArchiCop.UI
 {
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.Threading.Tasks;
-	using Common;
+
+	using ArchiMeter.Common;
 
 	internal class DefaultCollectionCopier : ICollectionCopier
 	{
@@ -27,10 +28,10 @@ namespace ArchiMeter.UI
 		{
 			using (var memoryStream = new MemoryStream())
 			{
-				_formatter.Serialize(memoryStream, source.ToArray());
+				this._formatter.Serialize(memoryStream, source.ToArray());
 				await memoryStream.FlushAsync();
 				memoryStream.Seek(0, SeekOrigin.Begin);
-				return (T[])_formatter.Deserialize(memoryStream);
+				return (T[])this._formatter.Deserialize(memoryStream);
 			}
 		}
 	}

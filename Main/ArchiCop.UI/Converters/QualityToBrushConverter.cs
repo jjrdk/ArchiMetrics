@@ -10,14 +10,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.Converters
+namespace ArchiCop.UI.Converters
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Windows.Data;
 	using System.Windows.Media;
-	using Common;
+
+	using ArchiMeter.Common;
 
 	internal class QualityToBrushConverter : IValueConverter
 	{
@@ -25,12 +26,12 @@ namespace ArchiMeter.UI.Converters
 
 		public QualityToBrushConverter()
 		{
-			_brushes.Add(CodeQuality.Good, GetBrush(Brushes.Green));
-			_brushes.Add(CodeQuality.NeedsReview, GetBrush(Brushes.YellowGreen));
-			_brushes.Add(CodeQuality.NeedsRefactoring, GetBrush(Brushes.Yellow));
-			_brushes.Add(CodeQuality.NeedsReEngineering, GetBrush(Brushes.Orange));
-			_brushes.Add(CodeQuality.Broken, GetBrush(Brushes.Red));
-			_brushes.Add(CodeQuality.Incompetent, GetBrush(Brushes.HotPink));
+			this._brushes.Add(CodeQuality.Good, this.GetBrush(Brushes.Green));
+			this._brushes.Add(CodeQuality.NeedsReview, this.GetBrush(Brushes.YellowGreen));
+			this._brushes.Add(CodeQuality.NeedsRefactoring, this.GetBrush(Brushes.Yellow));
+			this._brushes.Add(CodeQuality.NeedsReEngineering, this.GetBrush(Brushes.Orange));
+			this._brushes.Add(CodeQuality.Broken, this.GetBrush(Brushes.Red));
+			this._brushes.Add(CodeQuality.Incompetent, this.GetBrush(Brushes.HotPink));
 		}
 
 		public object Convert(object value, 
@@ -39,7 +40,7 @@ namespace ArchiMeter.UI.Converters
 							  CultureInfo culture)
 		{
 			var quality = (CodeQuality)value;
-			return _brushes[quality];
+			return this._brushes[quality];
 		}
 
 		public object ConvertBack(object value, 
