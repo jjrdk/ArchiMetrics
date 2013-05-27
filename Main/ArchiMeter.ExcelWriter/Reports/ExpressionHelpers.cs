@@ -1,11 +1,12 @@
-namespace ArchiMeter.Reports
+namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
 
 	internal static class ExpressionHelpers
 	{

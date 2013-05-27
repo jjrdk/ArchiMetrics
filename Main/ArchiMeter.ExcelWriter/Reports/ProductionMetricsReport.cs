@@ -10,20 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Reports
+namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
-	using Common;
-	using Common.Documents;
-	using Raven.Repositories;
 
-	public class TestMetricsReport : MetricsReportBase
-	{
-		public TestMetricsReport(IFactory<Func<ProjectInventoryDocument, string[]>, MetricsProvider> metricsProviderFactory)
-			: base(metricsProviderFactory, d => d.TestProjectNames, 'T')
-		{
-		}
-	}
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+	using ArchiMeter.Raven.Repositories;
 
 	public class ProductionMetricsReport : MetricsReportBase
 	{

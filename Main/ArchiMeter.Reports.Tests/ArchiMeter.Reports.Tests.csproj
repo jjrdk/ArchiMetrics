@@ -77,9 +77,9 @@
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
       <Name>ArchiMeter.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArchiMeter.Reports\ArchiMeter.Reports.csproj">
-      <Project>{fc65cbcd-ea9c-4c12-b237-2142871ff2a1}</Project>
-      <Name>ArchiMeter.Reports</Name>
+    <ProjectReference Include="..\ArchiMeter.ExcelWriter\ArchiMeter.ExcelWriter.csproj">
+      <Project>{67a86417-f4c5-42c3-898a-79cec9bd2253}</Project>
+      <Name>ArchiMeter.ExcelWriter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
