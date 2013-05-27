@@ -19,14 +19,14 @@ namespace ArchiMeter.Common
 		T Get();
 	}
 
-	public interface IProvider<out T, in TKey> : IDisposable
+	public interface IProvider<in TKey, out T> : IDisposable
 	{
 		T Get(TKey key);
 
 		IEnumerable<T> GetAll(TKey key);
 	}
 
-	public interface IProvider<out T, in TKey1, in TKey2> : IDisposable
+	public interface IProvider<in TKey1, in TKey2, out T> : IDisposable
 	{
 		T Get(TKey1 key1, TKey2 key2);
 

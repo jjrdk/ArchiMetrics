@@ -19,7 +19,7 @@ open System.IO
 open System.Linq
 open System
 
-type RequirementTestAnalyzer(solutionProvider : IProvider<IProject, string>) =
+type RequirementTestAnalyzer(solutionProvider : IProvider<string, IProject>) =
     let _provider = solutionProvider
     let allSyntaxNodes(sn : SyntaxNode) = true
     let isTestMethod(syntax : MethodDeclarationSyntax) =

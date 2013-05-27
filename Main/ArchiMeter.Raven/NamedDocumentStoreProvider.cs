@@ -1,17 +1,19 @@
 ﻿namespace ArchiMeter.Raven
 {
+	using System;
+
 	public class NamedDocumentStoreProvider : DocumentStoreProviderBase
 	{
 		private readonly string _apiKey;
-		private readonly string _serverUrl;
+		private readonly Uri _serverUrl;
 
-		public NamedDocumentStoreProvider(string serverUrl, string apiKey)
+		public NamedDocumentStoreProvider(Uri serverUrl, string apiKey)
 		{
 			_serverUrl = serverUrl;
 			_apiKey = apiKey;
 		}
 
-		protected override string ServerUrl
+		protected override Uri ServerUrl
 		{
 			get { return _serverUrl; }
 		}

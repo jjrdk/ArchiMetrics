@@ -27,11 +27,11 @@ namespace ArchiMeter.Data.DataAccess
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>> _edgeItems;
 		private readonly INodeInspector _inspector;
-		private readonly IProvider<ISolution, string> _solutionProvider;
+		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
-			IProvider<ISolution, string> solutionProvider, 
+			ISolutionEdgeItemsRepositoryConfig config,
+			IProvider<string, ISolution> solutionProvider, 
 			INodeInspector inspector)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();

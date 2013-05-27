@@ -25,9 +25,9 @@ namespace ArchiMeter.Reports
 	public class ProjectLoadErrorReport : IReportJob
 	{
 		private readonly Func<ProjectDefinition, bool> _pathFilter;
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 
-		public ProjectLoadErrorReport(IProvider<IProject, string> projectProvider)
+		public ProjectLoadErrorReport(IProvider<string, IProject> projectProvider)
 		{
 			_projectProvider = projectProvider;
 			_pathFilter = ReportUtils.AllCode;
@@ -114,9 +114,9 @@ namespace ArchiMeter.Reports
 		private IEnumerable<string> GetInvalidProjectPaths(ProjectDefinition path)
 		{
 			return Directory.GetFiles(path.Source, "*.csproj", SearchOption.AllDirectories)
-			                .Where(x => _pathFilter(new ProjectDefinition { IsTest = path.IsTest, Source = x }))
-			                .Select(p => _projectProvider.Get(p) == null ? p : string.Empty)
-			                .Where(s => !string.IsNullOrWhiteSpace(s));
+							.Where(x => _pathFilter(new ProjectDefinition { IsTest = path.IsTest, Source = x }))
+							.Select(p => _projectProvider.Get(p) == null ? p : string.Empty)
+							.Where(s => !string.IsNullOrWhiteSpace(s));
 		}
 	}
 }

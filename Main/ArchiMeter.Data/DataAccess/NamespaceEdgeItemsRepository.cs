@@ -25,11 +25,11 @@ namespace ArchiMeter.Data.DataAccess
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<NamespaceReference>>> _namespaceReferences = new ConcurrentDictionary<string, Task<IEnumerable<NamespaceReference>>>();
-		private readonly IProvider<ISolution, string> _solutionProvider;
+		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public NamespaceEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
-			IProvider<ISolution, string> solutionProvider, 
+			ISolutionEdgeItemsRepositoryConfig config,
+			IProvider<string, ISolution> solutionProvider, 
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{

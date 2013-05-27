@@ -46,7 +46,7 @@ namespace ArchiMeter.Analysis.Tests
 			mockProject.SetupGet(x => x.Documents).Returns(() => new[] { mockDocument.Object });
 			var mockSolution = new Mock<ISolution>();
 			mockSolution.SetupGet(x => x.Projects).Returns(new[] { mockProject.Object });
-			var mockProvider = new Mock<IProvider<IProject, string>>();
+			var mockProvider = new Mock<IProvider<string, IProject>>();
 			mockProvider.Setup(x => x.GetAll(It.IsAny<string>())).Returns(() => new[] { mockProject.Object });
 			_analyzer = new RequirementTestAnalyzer(mockProvider.Object);
 		}
