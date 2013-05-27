@@ -25,13 +25,13 @@ namespace ArchiMeter.Raven.Loading
 	public class EvaluationResultLoader : IDataLoader
 	{
 		private readonly INodeInspector _inspector;
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 		private readonly IFactory<IDataSession<EvaluationResultDocument>> _sessionProvider;
 
 		public EvaluationResultLoader(
 			INodeInspector nodeInspector, 
-			IFactory<IDataSession<EvaluationResultDocument>> sessionProvider, 
-			IProvider<IProject, string> projectProvider)
+			IFactory<IDataSession<EvaluationResultDocument>> sessionProvider,
+			IProvider<string, IProject> projectProvider)
 		{
 			_projectProvider = projectProvider;
 			_inspector = nodeInspector;

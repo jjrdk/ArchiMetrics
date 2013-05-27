@@ -1,17 +1,19 @@
 ﻿namespace ArchiMeter.Raven
 {
+	using System;
+
 	public class LocalDocumentStoreProvider : DocumentStoreProviderBase
 	{
-		private readonly ushort _port;
+		private readonly Uri _uri;
 
 		public LocalDocumentStoreProvider(ushort port)
 		{
-			_port = port;
+			_uri = new UriBuilder(Uri.UriSchemeHttp, "localhost", port).Uri;
 		}
 
-		protected override string ServerUrl
+		protected override Uri ServerUrl
 		{
-			get { return "http://localhost:" + _port; }
+			get { return _uri; }
 		}
 
 		protected override string ApiKey

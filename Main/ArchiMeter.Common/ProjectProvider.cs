@@ -18,7 +18,7 @@ namespace ArchiMeter.Common
 	using System.Linq;
 	using Roslyn.Services;
 
-	public class ProjectProvider : IProvider<IProject, string>
+	public class ProjectProvider : IProvider<string, IProject>
 	{
 		private static readonly ConcurrentDictionary<string, IProject> Cache = new ConcurrentDictionary<string, IProject>();
 

@@ -11,6 +11,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Common
 {
+	using System;
 	using System.Collections.ObjectModel;
 	using System.Xml.Serialization;
 
@@ -18,7 +19,7 @@ namespace ArchiMeter.Common
 	public class ReportConfig
 	{
 		[XmlAttribute("DatabaseUrl")]
-		public string DatabaseUrl { get; set; }
+		public Uri DatabaseUrl { get; set; }
 
 		[XmlAttribute("ApiKey")]
 		public string ApiKey { get; set; }

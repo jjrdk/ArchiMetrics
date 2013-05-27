@@ -29,12 +29,12 @@ namespace ArchiMeter.Raven.Loading
 		private readonly SLoCCounter _counter = new SLoCCounter();
 
 		private readonly INodeInspector _inspector;
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 		private readonly IFactory<IDataSession<ErrorData>> _sessionProvider;
 
 		public ErrorDataLoader(
-			INodeInspector inspector, 
-			IProvider<IProject, string> projectProvider, 
+			INodeInspector inspector,
+			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ErrorData>> sessionProvider)
 		{
 			_inspector = inspector;

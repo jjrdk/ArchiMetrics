@@ -38,7 +38,7 @@ namespace ArchiMeter.CodeReview.Rules
 
 		protected abstract EvaluationResult EvaluateImpl(SyntaxNode node);
 
-		private string GetCompilationUnitNamespace(CompilationUnitSyntax node)
+		private static string GetCompilationUnitNamespace(CompilationUnitSyntax node)
 		{
 			var namespaceDeclaration = node.DescendantNodes()
 										   .FirstOrDefault(n => n.Kind == SyntaxKind.NamespaceDeclaration);

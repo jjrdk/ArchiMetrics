@@ -6,9 +6,9 @@ namespace ArchiMeter.Common
 
 	public class ProjectNameProvider : IProvider<string, string>
 	{
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 
-		public ProjectNameProvider(IProvider<IProject, string> projectProvider)
+		public ProjectNameProvider(IProvider<string, IProject> projectProvider)
 		{
 			_projectProvider = projectProvider;
 		}
