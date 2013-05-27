@@ -22,8 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Data", "ArchiMet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ExcelWriter", "ArchiMeter.ExcelWriter\ArchiMeter.ExcelWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Reports", "ArchiMeter.Reports\ArchiMeter.Reports.csproj", "{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Reports.Tests", "ArchiMeter.Reports.Tests\ArchiMeter.Reports.Tests.csproj", "{5BBE7D49-CA3B-435B-A2AF-73725AE0226E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSL", "SampleSL\SampleSL.csproj", "{DC19D087-F074-47B1-BC83-4CA74A24278E}"
@@ -85,10 +83,6 @@ Global
 		{67A86417-F4C5-42C3-898A-79CEC9BD2253}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67A86417-F4C5-42C3-898A-79CEC9BD2253}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67A86417-F4C5-42C3-898A-79CEC9BD2253}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC65CBCD-EA9C-4C12-B237-2142871FF2A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BBE7D49-CA3B-435B-A2AF-73725AE0226E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5BBE7D49-CA3B-435B-A2AF-73725AE0226E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BBE7D49-CA3B-435B-A2AF-73725AE0226E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -126,7 +120,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

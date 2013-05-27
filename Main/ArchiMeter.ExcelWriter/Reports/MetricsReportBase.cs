@@ -10,19 +10,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Reports
+namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using CodeReview;
-	using Common;
-	using Common.Documents;
-	using Common.Metrics;
+
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+	using ArchiMeter.Common.Metrics;
+	using ArchiMeter.Raven.Repositories;
+
 	using OfficeOpenXml;
-	using Raven.Repositories;
 
 	public abstract class MetricsReportBase : IReportJob
 	{
@@ -31,8 +33,8 @@ namespace ArchiMeter.Reports
 
 		public MetricsReportBase(IFactory<Func<ProjectInventoryDocument, string[]>, MetricsProvider> metricsProviderFactory, Func<ProjectInventoryDocument, string[]> filter, char identifier)
 		{
-			_metricsProvider = metricsProviderFactory.Create(filter);
-			_identifier = identifier;
+			this._metricsProvider = metricsProviderFactory.Create(filter);
+			this._identifier = identifier;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
@@ -44,7 +46,7 @@ namespace ArchiMeter.Reports
 						config.Projects
 							  .Select(p =>
 								  {
-									  var metrics = _metricsProvider
+									  var metrics = this._metricsProvider
 										  .GetMetrics(p.Name, p.Revision.ToString(CultureInfo.InvariantCulture));
 
 									  return new Tuple<string, int, IEnumerable<TypeMetric>>(
@@ -55,13 +57,13 @@ namespace ArchiMeter.Reports
 							  .ToArray();
 
 
-					var metricSheet = package.Workbook.Worksheets.Add(string.Format("Code Metrics {0} - {1}", _identifier, ReportUtils.GetMonth()));
-					var complexitySheet = package.Workbook.Worksheets.Add(string.Format("Code Complexity {0} - {1}", _identifier, ReportUtils.GetMonth()));
-					var nonWeightedComplexitySheet = package.Workbook.Worksheets.Add(string.Format("Raw Type Complexity {0} - {1}", _identifier, ReportUtils.GetMonth()));
-					var methodComplexitySheet = package.Workbook.Worksheets.Add(string.Format("Method Complexity {0} - {1}", _identifier, ReportUtils.GetMonth()));
-					var nonWeightedMethodComplexitySheet = package.Workbook.Worksheets.Add(string.Format("Raw Method Complexity {0} - {1}", _identifier, ReportUtils.GetMonth()));
-					var maintainabilitySheet = package.Workbook.Worksheets.Add(string.Format("Code Maintainability {0} - {1}", _identifier, ReportUtils.GetMonth()));
-					var nonWeightedMaintainabilitySheet = package.Workbook.Worksheets.Add(string.Format("Raw Type Maintainability {0} - {1}", _identifier, ReportUtils.GetMonth()));
+					var metricSheet = package.Workbook.Worksheets.Add(string.Format("Code Metrics {0} - {1}", this._identifier, ReportUtils.GetMonth()));
+					var complexitySheet = package.Workbook.Worksheets.Add(string.Format("Code Complexity {0} - {1}", this._identifier, ReportUtils.GetMonth()));
+					var nonWeightedComplexitySheet = package.Workbook.Worksheets.Add(string.Format("Raw Type Complexity {0} - {1}", this._identifier, ReportUtils.GetMonth()));
+					var methodComplexitySheet = package.Workbook.Worksheets.Add(string.Format("Method Complexity {0} - {1}", this._identifier, ReportUtils.GetMonth()));
+					var nonWeightedMethodComplexitySheet = package.Workbook.Worksheets.Add(string.Format("Raw Method Complexity {0} - {1}", this._identifier, ReportUtils.GetMonth()));
+					var maintainabilitySheet = package.Workbook.Worksheets.Add(string.Format("Code Maintainability {0} - {1}", this._identifier, ReportUtils.GetMonth()));
+					var nonWeightedMaintainabilitySheet = package.Workbook.Worksheets.Add(string.Format("Raw Type Maintainability {0} - {1}", this._identifier, ReportUtils.GetMonth()));
 
 					WriteMetricWorksheet(metricSheet, metricResults);
 					WriteComplexitySheet(complexitySheet, metricResults);
@@ -77,7 +79,7 @@ namespace ArchiMeter.Reports
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -91,7 +93,7 @@ namespace ArchiMeter.Reports
 		~MetricsReportBase()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		private static void WriteComplexitySheet(ExcelWorksheet worksheet, Tuple<string, int, IEnumerable<TypeMetric>>[] metricResults)

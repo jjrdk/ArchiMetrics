@@ -88,6 +88,27 @@
     <Compile Include="ExcelReportWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\AssertionReport.cs" />
+    <Compile Include="Reports\CodeReviewReportBase.cs" />
+    <Compile Include="Reports\ComplexityMaintainabilityScatterReport.cs" />
+    <Compile Include="Reports\ExpressionHelpers.cs" />
+    <Compile Include="Reports\IReportJob.cs" />
+    <Compile Include="Reports\MetricsReportBase.cs" />
+    <Compile Include="Reports\ModelComparisonReport.cs" />
+    <Compile Include="Reports\NamespaceMaintainabilityDeviationReport.cs" />
+    <Compile Include="Reports\ProductionCodeReviewReport.cs" />
+    <Compile Include="Reports\ProductionMetricsReport.cs" />
+    <Compile Include="Reports\ProjectLoadErrorReport.cs" />
+    <Compile Include="Reports\RequirementsReport.cs" />
+    <Compile Include="Reports\SizeComplexityScatterReport.cs" />
+    <Compile Include="Reports\SizeMaintainabilityScatterReport.cs" />
+    <Compile Include="Reports\TestCodeReviewReport.cs" />
+    <Compile Include="Reports\TestMetricsReport.cs" />
+    <Compile Include="Reports\TypeComplexityDistributionReport.cs" />
+    <Compile Include="Reports\TypeCouplingReport.cs" />
+    <Compile Include="Reports\TypeMaintainabilityDistributionReport.cs" />
+    <Compile Include="Reports\TypeSizeComplexityGeoMeanDistributionReport.cs" />
+    <Compile Include="Reports\TypeSizeDistributionReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -118,10 +139,6 @@
     <ProjectReference Include="..\ArchiMeter.Raven\ArchiMeter.Raven.csproj">
       <Project>{1C022E94-4B59-4A7E-B7DE-F506489FC311}</Project>
       <Name>ArchiMeter.Raven</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArchiMeter.Reports\ArchiMeter.Reports.csproj">
-      <Project>{fc65cbcd-ea9c-4c12-b237-2142871ff2a1}</Project>
-      <Name>ArchiMeter.Reports</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

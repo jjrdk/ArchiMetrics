@@ -10,16 +10,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Reports
+namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using CodeReview;
-	using Common;
+
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.Common;
+
 	using OfficeOpenXml;
+
 	using Roslyn.Services;
 
 	public class ProjectLoadErrorReport : IReportJob
@@ -29,25 +32,25 @@ namespace ArchiMeter.Reports
 
 		public ProjectLoadErrorReport(IProvider<string, IProject> projectProvider)
 		{
-			_projectProvider = projectProvider;
-			_pathFilter = ReportUtils.AllCode;
+			this._projectProvider = projectProvider;
+			this._pathFilter = ReportUtils.AllCode;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			return Task.Factory.StartNew(() => GenerateReport(package, config));
+			return Task.Factory.StartNew(() => this.GenerateReport(package, config));
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectLoadErrorReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -55,7 +58,7 @@ namespace ArchiMeter.Reports
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				_projectProvider.Dispose();
+				this._projectProvider.Dispose();
 			}
 		}
 
@@ -114,8 +117,8 @@ namespace ArchiMeter.Reports
 		private IEnumerable<string> GetInvalidProjectPaths(ProjectDefinition path)
 		{
 			return Directory.GetFiles(path.Source, "*.csproj", SearchOption.AllDirectories)
-							.Where(x => _pathFilter(new ProjectDefinition { IsTest = path.IsTest, Source = x }))
-							.Select(p => _projectProvider.Get(p) == null ? p : string.Empty)
+							.Where(x => this._pathFilter(new ProjectDefinition { IsTest = path.IsTest, Source = x }))
+							.Select(p => this._projectProvider.Get(p) == null ? p : string.Empty)
 							.Where(s => !string.IsNullOrWhiteSpace(s));
 		}
 	}

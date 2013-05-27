@@ -1,11 +1,13 @@
-﻿namespace ArchiMeter.Reports
+﻿namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using OfficeOpenXml;
 
 	public class SizeComplexityScatterReport : IReportJob
@@ -14,19 +16,19 @@
 
 		public SizeComplexityScatterReport(IAsyncReadOnlyRepository<MemberSizeComplexitySegment> repository)
 		{
-			_repository = repository;
+			this._repository = repository;
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
 			Func<ParameterExpression, Expression> filter = null; // p => Expression.GreaterThan(Expression.Property(p, "CyclomaticComplexity"), Expression.Constant(1));
-			var results = (await _repository.Query(config.Projects.CreateQuery<MemberSizeComplexitySegment>(filter))).ToArray();
+			var results = (await this._repository.Query(config.Projects.CreateQuery<MemberSizeComplexitySegment>(filter))).ToArray();
 			var locs = results.Select(x => x.LoC).Distinct().OrderBy(x => x).ToArray();
 			var projects = results.GroupBy(x => x.ProjectName).OrderBy(x => x.Key).ToArray();
 			var worksheet = package.Workbook.Worksheets.Add("Size Complexity Scatter");
@@ -60,7 +62,7 @@
 		~SizeComplexityScatterReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
