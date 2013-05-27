@@ -71,6 +71,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\GraphSharp.1.1.0.0\lib\net40\GraphSharp.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="NHunspell">
+      <HintPath>..\packages\NHunspell.1.1.1\lib\net\NHunspell.dll</HintPath>
+    </Reference>
     <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
@@ -141,10 +147,12 @@
     <Compile Include="Converters\QualityToBrushConverter.cs" />
     <Compile Include="DefaultCollectionCopier.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="KnownWordList.cs" />
     <Compile Include="MvvmFoundation\Messenger.cs" />
     <Compile Include="MvvmFoundation\ObservableObject.cs" />
     <Compile Include="MvvmFoundation\PropertyObserver.cs" />
     <Compile Include="MvvmFoundation\RelayCommand.cs" />
+    <Compile Include="SpellChecker.cs" />
     <Compile Include="ViewModel\CircularReferenceViewModel.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\CodeReviewViewModel.cs" />
@@ -198,6 +206,10 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="..\ArchiMeter.DataLoader\Dictionaries\dict-en.oxt">
+      <Link>Dictionaries\dict-en.oxt</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -266,6 +278,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(SolutionDir)packages\NHunspell.1.1.1\native\*.*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
