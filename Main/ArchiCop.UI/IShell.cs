@@ -10,9 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI
+namespace ArchiCop.UI
 {
 	using System.Collections.ObjectModel;
+
 	using ArchiCop.UI.ViewModel;
 
 	public interface IShell

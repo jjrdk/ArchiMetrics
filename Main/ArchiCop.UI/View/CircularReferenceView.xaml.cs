@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.View
+namespace ArchiCop.UI.View
 {
 	using System.Windows.Controls;
 
@@ -21,7 +21,7 @@ namespace ArchiMeter.UI.View
 	{
 		public CircularReferenceView()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 	}
 }

@@ -16,7 +16,9 @@ namespace ArchiCop.UI.ViewModel
 {
 	using System;
 	using System.Diagnostics;
-	using ArchiMeter.UI.MvvmFoundation;
+
+	using ArchiCop.UI.MvvmFoundation;
+
 	using Properties;
 
 	/// <summary>

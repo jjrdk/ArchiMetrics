@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.Converters
+namespace ArchiCop.UI.Converters
 {
 	using System;
 	using System.Globalization;
