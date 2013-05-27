@@ -9,7 +9,7 @@
 	{
 		private DocumentStore _store;
 
-		protected abstract string ServerUrl { get; }
+		protected abstract Uri ServerUrl { get; }
 		
 		protected abstract string ApiKey { get; }
 
@@ -19,7 +19,7 @@
 			{
 				_store = new DocumentStore
 					              {
-						              Url = ServerUrl,
+						              Url = ServerUrl.ToString(),
 						              DefaultDatabase = "Metrics",
 						              Conventions =
 							              {

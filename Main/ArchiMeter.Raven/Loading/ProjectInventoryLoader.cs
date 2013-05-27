@@ -24,11 +24,11 @@ namespace ArchiMeter.Raven.Loading
 
 	public class ProjectInventoryLoader : IDataLoader
 	{
-		private readonly IProvider<IProject, string> _projectProvider;
+		private readonly IProvider<string, IProject> _projectProvider;
 		private readonly IFactory<IDataSession<ProjectInventoryDocument>> _sessionProvider;
 
 		public ProjectInventoryLoader(
-			IProvider<IProject, string> projectProvider, 
+			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ProjectInventoryDocument>> sessionProvider)
 		{
 			_projectProvider = projectProvider;

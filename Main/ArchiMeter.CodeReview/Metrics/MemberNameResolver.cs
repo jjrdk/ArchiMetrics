@@ -29,22 +29,22 @@ namespace ArchiMeter.CodeReview.Metrics
 			_semanticModel = semanticModel;
 		}
 
-		private void AppendMethodIdentifier(ConstructorDeclarationSyntax syntax, StringBuilder builder)
+		private static void AppendMethodIdentifier(ConstructorDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append(syntax.Identifier.ValueText);
 		}
 
-		private void AppendMethodIdentifier(DestructorDeclarationSyntax syntax, StringBuilder builder)
+		private static void AppendMethodIdentifier(DestructorDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append(syntax.Identifier.ValueText);
 		}
 
-		private void AppendMethodIdentifier(EventDeclarationSyntax syntax, StringBuilder builder)
+		private static void AppendMethodIdentifier(EventDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append(syntax.Identifier.ValueText);
 		}
 
-		private void AppendMethodIdentifier(MethodDeclarationSyntax syntax, StringBuilder builder)
+		private static void AppendMethodIdentifier(MethodDeclarationSyntax syntax, StringBuilder builder)
 		{
 			ExplicitInterfaceSpecifierSyntax syntax2;
 			IdentifierNameSyntax syntax3;
@@ -57,7 +57,7 @@ namespace ArchiMeter.CodeReview.Metrics
 			builder.Append(syntax.Identifier.ValueText);
 		}
 
-		private void AppendMethodIdentifier(PropertyDeclarationSyntax syntax, StringBuilder builder)
+		private static void AppendMethodIdentifier(PropertyDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append(syntax.Identifier.ValueText);
 		}
