@@ -26,7 +26,7 @@ namespace ArchiMeter.Data.DataAccess
 		public ISolution Get(string path)
 		{
 			return _cache.GetOrAdd(
-				path, 
+				path,
 				p =>
 				{
 					var workspace = Workspace.LoadSolution(p, "Release", "AnyCPU");

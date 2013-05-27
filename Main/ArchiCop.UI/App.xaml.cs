@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI
+namespace ArchiCop.UI
 {
 	using System;
 	using System.Globalization;
@@ -18,16 +18,18 @@ namespace ArchiMeter.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-	using Analysis;
+	using ArchiCop.UI.Controller;
+	using ArchiMeter.Analysis;
 	using ArchiCop.UI;
 	using ArchiCop.UI.ViewModel;
 	using Autofac;
-	using CodeReview;
-	using CodeReview.Metrics;
-	using Common;
-	using Common.Metrics;
-	using Controller;
-	using Data.DataAccess;
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.CodeReview.Metrics;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Metrics;
+	using ArchiMeter.Data.DataAccess;
+	using Ionic.Zip;
+	using NHunspell;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
@@ -68,16 +70,16 @@ namespace ArchiMeter.UI
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
+				var entries = dictFile.Select(z => z.FileName)
+					.ToArray();
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
 					.Extract(affStream);
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
 					.Extract(dicStream);
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
-			builder.RegisterType<KnownWordList>()
-				.As<IKnownWordList>();
-			builder.RegisterType<SpellChecker>()
-				.As<ISpellChecker>();
+			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
+			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
 			builder.RegisterType<ProjectMetricsCalculator>()
 				   .As<IProjectMetricsCalculator>();
 			builder.RegisterType<SolutionInspector>()

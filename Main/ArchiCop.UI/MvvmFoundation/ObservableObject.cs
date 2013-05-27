@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.MvvmFoundation
+namespace ArchiCop.UI.MvvmFoundation
 {
 	using System;
 	using System.ComponentModel;
@@ -41,9 +41,9 @@ namespace ArchiMeter.UI.MvvmFoundation
 		/// <param name="propertyName">The property that has a new value.</param>
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = "")
 		{
-			VerifyPropertyName(propertyName);
+			this.VerifyPropertyName(propertyName);
 
-			PropertyChangedEventHandler handler = PropertyChanged;
+			PropertyChangedEventHandler handler = this.PropertyChanged;
 			if (handler != null)
 			{
 				var e = new PropertyChangedEventArgs(propertyName);
@@ -71,7 +71,7 @@ namespace ArchiMeter.UI.MvvmFoundation
 			{
 				string msg = "Invalid property name: " + propertyName;
 
-				if (ThrowOnInvalidPropertyName)
+				if (this.ThrowOnInvalidPropertyName)
 					throw new ArgumentException(msg);
 				else
 					Debug.Fail(msg);

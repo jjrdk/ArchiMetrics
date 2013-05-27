@@ -1,6 +1,7 @@
 ﻿namespace ArchiCop.UI
 {
 	using ArchiMeter.Common;
+
 	using NHunspell;
 
 	internal class SpellChecker : ISpellChecker
@@ -9,12 +10,12 @@
 
 		public SpellChecker(Hunspell speller)
 		{
-			_speller = speller;
+			this._speller = speller;
 		}
 
 		public bool Spell(string word)
 		{
-			return _speller.Spell(word);
+			return this._speller.Spell(word);
 		}
 	}
 }
