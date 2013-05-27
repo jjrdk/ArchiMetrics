@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.MvvmFoundation
+namespace ArchiCop.UI.MvvmFoundation
 {
 	using System;
 	using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace ArchiMeter.UI.MvvmFoundation
         /// <param name="callback">The callback to be called when this message is broadcasted.</param>
         public void Register(string message, Action callback)
         {
-            Register(message, callback, null);
+            this.Register(message, callback, null);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace ArchiMeter.UI.MvvmFoundation
         /// <param name="callback">The callback to be called when this message is broadcasted.</param>
         public void Register<T>(string message, Action<T> callback)
         {
-            Register(message, callback, typeof (T));
+            this.Register(message, callback, typeof (T));
         }
 
         private void Register(string message, Delegate callback, Type parameterType)
@@ -56,16 +56,16 @@ namespace ArchiMeter.UI.MvvmFoundation
             if (callback == null)
                 throw new ArgumentNullException("callback");
 
-            VerifyParameterType(message, parameterType);
+            this.VerifyParameterType(message, parameterType);
 
-            _messageToActionsMap.AddAction(message, callback.Target, callback.Method, parameterType);
+            this._messageToActionsMap.AddAction(message, callback.Target, callback.Method, parameterType);
         }
 
         [Conditional("DEBUG")]
         private void VerifyParameterType(string message, Type parameterType)
         {
             Type previouslyRegisteredParameterType = null;
-            if (_messageToActionsMap.TryGetParameterType(message, out previouslyRegisteredParameterType))
+            if (this._messageToActionsMap.TryGetParameterType(message, out previouslyRegisteredParameterType))
             {
                 if (previouslyRegisteredParameterType != null && parameterType != null)
                 {
@@ -105,7 +105,7 @@ namespace ArchiMeter.UI.MvvmFoundation
                 throw new ArgumentException("'message' cannot be null or empty.");
 
             Type registeredParameterType;
-            if (_messageToActionsMap.TryGetParameterType(message, out registeredParameterType))
+            if (this._messageToActionsMap.TryGetParameterType(message, out registeredParameterType))
             {
                 if (registeredParameterType == null)
                     throw new TargetParameterCountException(
@@ -114,7 +114,7 @@ namespace ArchiMeter.UI.MvvmFoundation
                             message));
             }
 
-            List<Delegate> actions = _messageToActionsMap.GetActions(message);
+            List<Delegate> actions = this._messageToActionsMap.GetActions(message);
             if (actions != null)
                 actions.ForEach(action => action.DynamicInvoke(parameter));
         }
@@ -129,7 +129,7 @@ namespace ArchiMeter.UI.MvvmFoundation
                 throw new ArgumentException("'message' cannot be null or empty.");
 
             Type registeredParameterType;
-            if (_messageToActionsMap.TryGetParameterType(message, out registeredParameterType))
+            if (this._messageToActionsMap.TryGetParameterType(message, out registeredParameterType))
             {
                 if (registeredParameterType != null)
                     throw new TargetParameterCountException(
@@ -138,7 +138,7 @@ namespace ArchiMeter.UI.MvvmFoundation
                             registeredParameterType.FullName));
             }
 
-            List<Delegate> actions = _messageToActionsMap.GetActions(message);
+            List<Delegate> actions = this._messageToActionsMap.GetActions(message);
             if (actions != null)
                 actions.ForEach(action => action.DynamicInvoke());
         }
@@ -167,12 +167,12 @@ namespace ArchiMeter.UI.MvvmFoundation
                 if (method == null)
                     throw new ArgumentNullException("method");
 
-                lock (_map)
+                lock (this._map)
                 {
-                    if (!_map.ContainsKey(message))
-                        _map[message] = new List<WeakAction>();
+                    if (!this._map.ContainsKey(message))
+                        this._map[message] = new List<WeakAction>();
 
-                    _map[message].Add(new WeakAction(target, method, actionType));
+                    this._map[message].Add(new WeakAction(target, method, actionType));
                 }
             }
 
@@ -189,12 +189,12 @@ namespace ArchiMeter.UI.MvvmFoundation
                     throw new ArgumentNullException("message");
 
                 List<Delegate> actions;
-                lock (_map)
+                lock (this._map)
                 {
-                    if (!_map.ContainsKey(message))
+                    if (!this._map.ContainsKey(message))
                         return null;
 
-                    List<WeakAction> weakActions = _map[message];
+                    List<WeakAction> weakActions = this._map[message];
                     actions = new List<Delegate>(weakActions.Count);
                     for (int i = weakActions.Count - 1; i > -1; --i)
                     {
@@ -216,7 +216,7 @@ namespace ArchiMeter.UI.MvvmFoundation
 
                     // Delete the list from the map if it is now empty.
                     if (weakActions.Count == 0)
-                        _map.Remove(message);
+                        this._map.Remove(message);
                 }
 
                 // Reverse the list to ensure the callbacks are invoked in the order they were registered.
@@ -245,9 +245,9 @@ namespace ArchiMeter.UI.MvvmFoundation
 
                 parameterType = null;
                 List<WeakAction> weakActions;
-                lock (_map)
+                lock (this._map)
                 {
-                    if (!_map.TryGetValue(message, out weakActions) || weakActions.Count == 0)
+                    if (!this._map.TryGetValue(message, out weakActions) || weakActions.Count == 0)
                         return false;
                 }
 
@@ -283,24 +283,24 @@ namespace ArchiMeter.UI.MvvmFoundation
 	        {
 		        if (target == null)
 		        {
-			        _targetRef = null;
+			        this._targetRef = null;
 		        }
 		        else
 		        {
-			        _targetRef = new WeakReference(target);
+			        this._targetRef = new WeakReference(target);
 		        }
 
-		        _method = method;
+		        this._method = method;
 
-		        ParameterType = parameterType;
+		        this.ParameterType = parameterType;
 
 		        if (parameterType == null)
 		        {
-			        _delegateType = typeof (Action);
+			        this._delegateType = typeof (Action);
 		        }
 		        else
 		        {
-			        _delegateType = typeof (Action<>).MakeGenericType(parameterType);
+			        this._delegateType = typeof (Action<>).MakeGenericType(parameterType);
 		        }
 	        }
 
@@ -312,17 +312,17 @@ namespace ArchiMeter.UI.MvvmFoundation
 	        internal Delegate CreateAction()
 	        {
 		        // Rehydrate into a real Action object, so that the method can be invoked.
-		        if (_targetRef == null)
+		        if (this._targetRef == null)
 		        {
-			        return Delegate.CreateDelegate(_delegateType, _method);
+			        return Delegate.CreateDelegate(this._delegateType, this._method);
 		        }
 		        else
 		        {
 			        try
 			        {
-				        object target = _targetRef.Target;
+				        object target = this._targetRef.Target;
 				        if (target != null)
-					        return Delegate.CreateDelegate(_delegateType, target, _method);
+					        return Delegate.CreateDelegate(this._delegateType, target, this._method);
 			        }
 			        catch
 			        {

@@ -22,9 +22,10 @@ namespace ArchiCop.UI.ViewModel
 	using System.Threading.Tasks;
 	using System.Windows.Data;
 	using System.Windows.Input;
+
+	using ArchiCop.UI.MvvmFoundation;
+
 	using ArchiMeter.Common;
-	using ArchiMeter.UI;
-	using ArchiMeter.UI.MvvmFoundation;
 
 	/// <summary>
 	/// The ViewModel for the application's main window.

@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI
+namespace ArchiCop.UI
 {
 	using System.Windows;
 	using System.Windows.Controls;
@@ -20,7 +20,7 @@ namespace ArchiMeter.UI
 	{
 		public MainWindow()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 
 		private void OnClick(object sender, RoutedEventArgs e)
@@ -29,7 +29,7 @@ namespace ArchiMeter.UI
 			{
 				if (directoryOpener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
-					TxtFolder.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
+					this.TxtFolder.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
 				}
 			}
 		}

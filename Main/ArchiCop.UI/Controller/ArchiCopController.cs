@@ -10,14 +10,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.Controller
+namespace ArchiCop.UI.Controller
 {
 	using System.Linq;
-	using Analysis;
+
+	using ArchiCop.UI.MvvmFoundation;
+
+	using ArchiMeter.Analysis;
+
 	using ArchiCop.UI.Properties;
 	using ArchiCop.UI.ViewModel;
-	using Common;
-	using MvvmFoundation;
+
+	using ArchiMeter.Common;
 
 	public class ArchiMeterController
 	{
@@ -39,145 +43,145 @@ namespace ArchiMeter.UI.Controller
 			IEdgeTransformer filter, 
 			IVertexRuleDefinition ruleDefinition)
 		{
-			_shell = shell;
-			_codeErrorRepository = codeErrorRepository;
-			_requirementTestAnalyzer = requirementTestAnalyzer;
-			_config = config;
+			this._shell = shell;
+			this._codeErrorRepository = codeErrorRepository;
+			this._requirementTestAnalyzer = requirementTestAnalyzer;
+			this._config = config;
 
 			// _buildItemRepository = buildItemRepository;
-			_dependencyItemRepository = dependencyItemRepository;
-			_filter = filter;
-			_ruleDefinition = ruleDefinition;
+			this._dependencyItemRepository = dependencyItemRepository;
+			this._filter = filter;
+			this._ruleDefinition = ruleDefinition;
 
 			// _shell.Commands.Add(
 			// 	new CommandViewModel(
 			// 		Strings.MainWindowViewModel_Command_ViewBuilds,
 			// 		new RelayCommand<object>(param => ShowBuilds())));
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.MainWindowViewModel_Command_ViewDependencies, 
-					new RelayCommand<object>(param => ShowDependencies())));
+					new RelayCommand<object>(param => this.ShowDependencies())));
 
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.MainWindowViewModel_Command_ViewDependencyGraph, 
-					new RelayCommand<object>(param => ShowDependencyGraph())));
+					new RelayCommand<object>(param => this.ShowDependencyGraph())));
 
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.MainWindowViewModel_Command_ViewRequirementsGraph, 
-					new RelayCommand<object>(param => ShowRequirementsGraph())));
+					new RelayCommand<object>(param => this.ShowRequirementsGraph())));
 
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.MainWindowViewModel_Command_ViewCircularReferences, 
-					new RelayCommand<object>(param => ShowCircularReferences())));
+					new RelayCommand<object>(param => this.ShowCircularReferences())));
 
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.CodeReviewViewModel_DisplayName, 
-					new RelayCommand<object>(param => ShowCodeErrors())));
+					new RelayCommand<object>(param => this.ShowCodeErrors())));
 
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.CodeErrorGraphViewModel_DisplayName, 
-					new RelayCommand<object>(param => ShowCodeErrorGraph())));
+					new RelayCommand<object>(param => this.ShowCodeErrorGraph())));
 
-			_shell.Commands.Add(
+			this._shell.Commands.Add(
 				new CommandViewModel(
 					Strings.TestErrorGraphViewModel_DisplayName, 
-					new RelayCommand<object>(param => ShowTestErrorGraph())));
+					new RelayCommand<object>(param => this.ShowTestErrorGraph())));
 		}
 
 		private void ShowCodeErrorGraph()
 		{
-			var workspace = _shell.Workspaces.OfType<CodeErrorGraphViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<CodeErrorGraphViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new CodeErrorGraphViewModel(_codeErrorRepository);
-				_shell.Workspaces.Add(workspace);
+				workspace = new CodeErrorGraphViewModel(this._codeErrorRepository);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		private void ShowTestErrorGraph()
 		{
-			var workspace = _shell.Workspaces.OfType<TestErrorGraphViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<TestErrorGraphViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new TestErrorGraphViewModel(_codeErrorRepository);
-				_shell.Workspaces.Add(workspace);
+				workspace = new TestErrorGraphViewModel(this._codeErrorRepository);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		private void ShowCodeErrors()
 		{
-			var workspace = _shell.Workspaces.OfType<CodeReviewViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<CodeReviewViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new CodeReviewViewModel(_codeErrorRepository);
-				_shell.Workspaces.Add(workspace);
+				workspace = new CodeReviewViewModel(this._codeErrorRepository);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		private void ShowDependencyGraph()
 		{
-			var workspace = _shell.Workspaces.OfType<GraphViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<GraphViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new GraphViewModel(_dependencyItemRepository, _filter);
-				_shell.Workspaces.Add(workspace);
+				workspace = new GraphViewModel(this._dependencyItemRepository, this._filter);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		private void ShowRequirementsGraph()
 		{
-			var workspace = _shell.Workspaces.OfType<RequirementGraphViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<RequirementGraphViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new RequirementGraphViewModel(_requirementTestAnalyzer, _config, _filter);
-				_shell.Workspaces.Add(workspace);
+				workspace = new RequirementGraphViewModel(this._requirementTestAnalyzer, this._config, this._filter);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		private void ShowCircularReferences()
 		{
-			var workspace = _shell.Workspaces.OfType<CircularReferenceViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<CircularReferenceViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new CircularReferenceViewModel(_dependencyItemRepository, _filter, _ruleDefinition);
-				_shell.Workspaces.Add(workspace);
+				workspace = new CircularReferenceViewModel(this._dependencyItemRepository, this._filter, this._ruleDefinition);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		private void ShowDependencies()
 		{
-			var workspace = _shell.Workspaces.OfType<EdgesViewModel>().FirstOrDefault();
+			var workspace = this._shell.Workspaces.OfType<EdgesViewModel>().FirstOrDefault();
 
 			if (workspace == null)
 			{
-				workspace = new EdgesViewModel(_dependencyItemRepository, _filter, _ruleDefinition);
-				_shell.Workspaces.Add(workspace);
+				workspace = new EdgesViewModel(this._dependencyItemRepository, this._filter, this._ruleDefinition);
+				this._shell.Workspaces.Add(workspace);
 			}
 
-			_shell.SetActiveWorkspace(workspace);
+			this._shell.SetActiveWorkspace(workspace);
 		}
 
 		// private void ShowBuilds()

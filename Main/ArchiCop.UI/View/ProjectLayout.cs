@@ -10,9 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.View
+namespace ArchiCop.UI.View
 {
 	using ArchiCop.UI.ViewModel;
+
 	using GraphSharp.Controls;
 
 	internal class ProjectLayout : GraphLayout<Vertex, ProjectEdge, ProjectGraph> { }
