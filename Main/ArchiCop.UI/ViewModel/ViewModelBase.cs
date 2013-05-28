@@ -58,8 +58,6 @@ namespace ArchiCop.UI.ViewModel
 
 		~ViewModelBase()
 		{
-			// Simply call Dispose(false).
-			Debug.WriteLine("{0} ({1}) ({2}) Finalized", GetType().Name, DisplayName, GetHashCode());
 			Dispose(false);
 		}
     }

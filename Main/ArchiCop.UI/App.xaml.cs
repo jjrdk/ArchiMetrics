@@ -68,8 +68,6 @@ namespace ArchiCop.UI
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
-				var entries = dictFile.Select(z => z.FileName)
-					.ToArray();
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
 					.Extract(affStream);
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
