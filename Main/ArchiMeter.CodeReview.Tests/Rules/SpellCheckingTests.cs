@@ -86,6 +86,8 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 				_rule = new MultiLineCommentLanguageRule(new SpellChecker());
 			}
 
+			[TestCase("ASP.NET MVC is a .NET acronym.")]
+			[TestCase("Donde esta la cerveza?")]
 			[TestCase("Dette er ikke en engelsk kommentar.")]
 			public void FindNonEnglishMultiLineComments(string comment)
 			{
@@ -100,6 +102,23 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 				var result = _rule.Evaluate(nodes.First());
 
 				Assert.NotNull(result);
+			}
+
+			[TestCase(".NET has syntactic sugar the iterator pattern.")]
+			[TestCase("This comment is in English.")]
+			public void AcceptsEnglishMultiLineComments(string comment)
+			{
+				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
+/* {0} */
+}}", comment));
+				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
+				var nodes = root
+					.DescendantTrivia(descendIntoTrivia: true)
+					.Where(t => t.Kind == SyntaxKind.MultiLineCommentTrivia)
+					.ToArray();
+				var result = _rule.Evaluate(nodes.First());
+
+				Assert.Null(result);
 			}
 		}
 

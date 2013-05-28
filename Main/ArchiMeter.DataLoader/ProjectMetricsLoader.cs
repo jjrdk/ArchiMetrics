@@ -9,16 +9,18 @@
 //   Defines the ProjectMetricsLoader type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Raven.Loading
+namespace ArchiMeter.DataLoader
 {
 	using System;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Analysis;
-	using Common;
-	using Common.Documents;
-	using Common.Metrics;
+
+	using ArchiMeter.Analysis;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+	using ArchiMeter.Common.Metrics;
+
 	using Roslyn.Services;
 
 	public class ProjectMetricsLoader : IDataLoader
@@ -33,9 +35,9 @@ namespace ArchiMeter.Raven.Loading
 			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ProjectMetricsDocument>> sessionProvider)
 		{
-			_metricsCalculator = metricsCalculator;
-			_projectProvider = projectProvider;
-			_sessionProvider = sessionProvider;
+			this._metricsCalculator = metricsCalculator;
+			this._projectProvider = projectProvider;
+			this._sessionProvider = sessionProvider;
 		}
 
 		public async Task Load(ProjectSettings settings)
@@ -43,12 +45,12 @@ namespace ArchiMeter.Raven.Loading
 			Console.WriteLine("Starting Metrics loading for " + settings.Name);
 
 			var projects = (from root in settings.Roots
-							from p in _projectProvider.GetAll(root.Source)
+							from p in this._projectProvider.GetAll(root.Source)
 							select new
 									   {
 										   ProjectName = p.Name, 
-										   MetricsTask = _metricsCalculator.Calculate(p), 
-										   SLoC = _counter.Count(new[] { p })
+										   MetricsTask = this._metricsCalculator.Calculate(p), 
+										   SLoC = this._counter.Count(new[] { p })
 									   })
 				.ToArray();
 
@@ -77,7 +79,7 @@ namespace ArchiMeter.Raven.Loading
 				.GroupBy(x => x.Id)
 				.Select(g => g.First());
 
-			using (var session = _sessionProvider.Create())
+			using (var session = this._sessionProvider.Create())
 			{
 				foreach (var doc in docs)
 				{
@@ -102,21 +104,21 @@ namespace ArchiMeter.Raven.Loading
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectMetricsLoader()
 		{
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_projectProvider.Dispose();
-				_sessionProvider.Dispose();
+				this._projectProvider.Dispose();
+				this._sessionProvider.Dispose();
 			}
 		}
 	}

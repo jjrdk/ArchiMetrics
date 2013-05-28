@@ -9,7 +9,7 @@
 //   Defines the ProjectInventoryLoader type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Raven.Loading
+namespace ArchiMeter.DataLoader
 {
 	using System;
 	using System.Collections.Generic;
@@ -17,9 +17,11 @@ namespace ArchiMeter.Raven.Loading
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using CodeReview;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using Roslyn.Services;
 
 	public class ProjectInventoryLoader : IDataLoader
@@ -31,16 +33,16 @@ namespace ArchiMeter.Raven.Loading
 			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ProjectInventoryDocument>> sessionProvider)
 		{
-			_projectProvider = projectProvider;
-			_sessionProvider = sessionProvider;
+			this._projectProvider = projectProvider;
+			this._sessionProvider = sessionProvider;
 		}
 
 		public async Task Load(ProjectSettings settings)
 		{
 			Console.WriteLine("Loading Inventory for " + settings.Name);
 
-			var testProjectNames = GetNames(settings, ReportUtils.TestCode);
-			var productionProjectNames = GetNames(settings, ReportUtils.ProductionCode);
+			var testProjectNames = this.GetNames(settings, ReportUtils.TestCode);
+			var productionProjectNames = this.GetNames(settings, ReportUtils.ProductionCode);
 			var doc = new ProjectInventoryDocument
 						  {
 							  Id = ProjectInventoryDocument.GetId(settings.Name, settings.Revision.ToString(CultureInfo.InvariantCulture)), 
@@ -52,7 +54,7 @@ namespace ArchiMeter.Raven.Loading
 							  ProjectVersion = settings.Revision.ToString(CultureInfo.InvariantCulture)
 						  };
 
-			using (var session = _sessionProvider.Create())
+			using (var session = this._sessionProvider.Create())
 			{
 				var text = "Finished Loading Inventory for " + settings.Name;
 				await session.Store(doc);
@@ -63,14 +65,14 @@ namespace ArchiMeter.Raven.Loading
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectInventoryLoader()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -78,8 +80,8 @@ namespace ArchiMeter.Raven.Loading
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				_projectProvider.Dispose();
-				_sessionProvider.Dispose();
+				this._projectProvider.Dispose();
+				this._sessionProvider.Dispose();
 			}
 		}
 
@@ -88,7 +90,7 @@ namespace ArchiMeter.Raven.Loading
 			return from root in settings.Roots
 				   from file in Directory.GetFiles(root.Source, "*.csproj", SearchOption.AllDirectories)
 				   where filter(new ProjectDefinition { IsTest = root.IsTest, Source = file })
-				   let project = _projectProvider.Get(file)
+				   let project = this._projectProvider.Get(file)
 				   where project != null
 				   select project.Name;
 		}
