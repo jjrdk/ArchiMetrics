@@ -9,7 +9,6 @@
 	using Common;
 	using Common.Documents;
 	using Common.Metrics;
-	using Raven.Loading;
 
 	public class TfsMetricsLoader : IDataLoader
 	{

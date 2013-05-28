@@ -10,15 +10,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Raven.Loading
+namespace ArchiMeter.DataLoader
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using Roslyn.Services;
 
 	public class ProjectLoadErrorLoader : IDataLoader
@@ -27,14 +29,14 @@ namespace ArchiMeter.Raven.Loading
 
 		public ProjectLoadErrorLoader(IFactory<IDataSession<ProjectLoadErrorDocument>> sessionFactory)
 		{
-			_sessionFactory = sessionFactory;
+			this._sessionFactory = sessionFactory;
 		}
 
 		public async Task Load(ProjectSettings settings)
 		{
 			var failures = settings.Roots
 								   .Select(root => root.Source)
-								   .SelectMany(GetFailedProjects)
+								   .SelectMany(this.GetFailedProjects)
 								   .Where(ex => ex != null)
 								   .Select(f => new LoadErrorDetailsDocument
 												  {
@@ -43,7 +45,7 @@ namespace ArchiMeter.Raven.Loading
 													  ProjectPath = f.Item1
 												  });
 
-			using (var session = _sessionFactory.Create())
+			using (var session = this._sessionFactory.Create())
 			{
 				var document = new ProjectLoadErrorDocument
 								   {
@@ -60,21 +62,21 @@ namespace ArchiMeter.Raven.Loading
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectLoadErrorLoader()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		public IEnumerable<Tuple<string, Exception>> GetFailedProjects(string key)
 		{
 			return from file in Directory.GetFiles(key, "*.csproj", SearchOption.AllDirectories)
-				   where IsValid(file)
-				   let exception = GetProjectLoadException(file)
+				   where this.IsValid(file)
+				   let exception = this.GetProjectLoadException(file)
 				   where exception != null
 				   select new Tuple<string, Exception>(file, exception);
 		}

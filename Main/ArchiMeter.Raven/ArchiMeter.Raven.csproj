@@ -104,12 +104,6 @@
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
     <Compile Include="Indexes\TypeCouplingIndex.cs" />
     <Compile Include="NamedDocumentStoreProvider.cs" />
-    <Compile Include="Loading\ErrorDataLoader.cs" />
-    <Compile Include="Loading\EvaluationResultLoader.cs" />
-    <Compile Include="Loading\IDataLoader.cs" />
-    <Compile Include="Loading\ProjectInventoryLoader.cs" />
-    <Compile Include="Loading\ProjectLoadErrorLoader.cs" />
-    <Compile Include="Loading\ProjectMetricsLoader.cs" />
     <Compile Include="Loading\RequirementTestAnalysisLoader.cs" />
     <Compile Include="LocalDocumentStoreProvider.cs" />
     <Compile Include="Repositories\AsyncRepositoryBase.cs" />
