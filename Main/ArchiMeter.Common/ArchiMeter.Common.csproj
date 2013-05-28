@@ -96,6 +96,7 @@
     <Compile Include="IAsyncReadOnlyRepository.cs" />
     <Compile Include="ICodeErrorRepository.cs" />
     <Compile Include="ICollectionCopier.cs" />
+    <Compile Include="IDataLoader.cs" />
     <Compile Include="IDataSession.cs" />
     <Compile Include="IEdgeItemsRepository.cs" />
     <Compile Include="IEdgeTransformer.cs" />

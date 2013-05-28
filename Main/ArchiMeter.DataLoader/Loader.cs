@@ -16,7 +16,6 @@ namespace ArchiMeter.DataLoader
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Common;
-	using Raven.Loading;
 
 	internal class Loader
 	{
