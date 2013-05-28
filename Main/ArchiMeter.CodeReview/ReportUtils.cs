@@ -17,7 +17,7 @@ namespace ArchiMeter.CodeReview
 	using System.Linq;
 	using Common;
 
-	public class ReportUtils
+	public static class ReportUtils
 	{
 		private static readonly string[] TestNames = new[]
 										  {

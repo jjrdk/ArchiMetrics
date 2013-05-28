@@ -18,8 +18,12 @@ namespace ArchiMeter.CodeReview.Tests.Metrics
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public class StatementsAnalyzerTests
+	public sealed class StatementsAnalyzerTests
 	{
+		private StatementsAnalyzerTests()
+		{
+		}
+
 		public class GivenAStatementsAnalyzer
 		{
 			private StatementsAnalyzer _analyzer;

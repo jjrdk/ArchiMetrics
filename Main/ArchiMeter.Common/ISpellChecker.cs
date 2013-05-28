@@ -1,6 +1,8 @@
 ﻿namespace ArchiMeter.Common
 {
-	public interface ISpellChecker
+	using System;
+
+	public interface ISpellChecker : IDisposable
 	{
 		bool Spell(string word);
 	}

@@ -15,7 +15,11 @@ namespace ArchiMeter.Data.DataAccess
 
 	public class FakeRepositoryBase
 	{
-		protected static Stream GetResourceStream(string resourceFile)
+		protected FakeRepositoryBase()
+		{
+		}
+
+		protected Stream GetResourceStream(string resourceFile)
 		{
 			var assembly = typeof(FakeRepositoryBase).Assembly;
 			var resourceName = string.Format("{0}.Data.{1}", assembly.GetName().Name, resourceFile);

@@ -5,6 +5,7 @@
 	using NUnit.Framework;
 	using global::Raven.Imports.Newtonsoft.Json;
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Type parameters required.")]
 	public abstract class IndexTestBase<TDocument, TReduce, TIndex>
 		where TIndex : ITestIndex<TDocument, TReduce>, new()
 	{
