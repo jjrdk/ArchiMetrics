@@ -30,8 +30,6 @@ namespace ArchiCop.UI
 	using ArchiMeter.Data.DataAccess;
 	using Ionic.Zip;
 	using NHunspell;
-	using Ionic.Zip;
-	using NHunspell;
 	using Roslyn.Services;
 
 	public partial class App : Application

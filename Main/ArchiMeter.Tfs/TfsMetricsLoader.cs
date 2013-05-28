@@ -9,7 +9,6 @@
 	using Common;
 	using Common.Documents;
 	using Common.Metrics;
-	using Raven.Loading;
 
 	public class TfsMetricsLoader : IDataLoader
 	{
@@ -115,6 +114,7 @@
 											 {
 												 BuildId = build.BuildId,
 												 Project = settings.Name,
+												 Revision = settings.Revision,
 												 Time = settings.Date,
 												 Metrics = m
 											 });
@@ -127,10 +127,11 @@
 						return new TfsMetricsDocument
 								   {
 									   BuildNumber = first.BuildId.ToString(CultureInfo.InvariantCulture),
-									   Id = TfsMetricsDocument.GetId(first.Project, first.BuildId.ToString(CultureInfo.InvariantCulture)),
+									   Id = TfsMetricsDocument.GetId(first.Project, first.Revision, first.BuildId.ToString(CultureInfo.InvariantCulture)),
 									   MetricsDate = first.Time,
 									   Metrics = g.Select(x => x.Metrics).ToArray(),
-									   ProjectName = first.Project
+									   ProjectName = first.Project,
+									   ProjectVersion = first.Revision
 								   };
 					});
 		}
@@ -186,20 +187,19 @@
 
 		private IEnumerable<TfsBuild> GetBuilds(string teamProject, DateTime revisionTime)
 		{
-			const string Query = @"SELECT TOP 1 max([ID]) as ID
-      ,BuildName
-      ,TeamProject
-      ,min(DATEDIFF(SECOND, BuildTime, @DateParam)) as ClosestBuild
-  FROM [TFS_Metrics].[dbo].[Build]
-  WHERE BuildName LIKE @Project + '%' AND DATEDIFF(SECOND, BuildTime, @DateParam) >= 0
-  GROUP BY BuildName, TeamProject
-  ORDER BY ClosestBuild";
+			const string Query = @"SELECT TOP 1 Build.ID, BuildName, TeamProject, MAX(BuildTime) AS MaxBuildTime
+FROM Build
+INNER JOIN Metric ON Build.ID = Metric.BuildID
+WHERE BuildName LIKE @BuildDef + '%' and Metric.MetricType = 8
+and CreatedTS <= @DateParam
+GROUP BY Build.ID, BuildName, TeamProject
+ORDER BY MaxBuildTime DESC";
 			using (var databaseConnection = _connectionFactory.Create())
 			{
 				using (var cmd = new SqlCommand(Query, databaseConnection))
 				{
 					cmd.Parameters.AddWithValue("@DateParam", revisionTime);
-					cmd.Parameters.AddWithValue("@Project", teamProject);
+					cmd.Parameters.AddWithValue("@BuildDef", teamProject);
 
 					databaseConnection.Open();
 					using (var reader = cmd.ExecuteReader())
@@ -213,7 +213,7 @@
 										BuildId = reader.GetInt32(0),
 										BuildName = reader.GetString(1),
 										TeamProject = reader.GetString(2),
-										BuildTime = DateTime.UtcNow.AddSeconds(-reader.GetInt32(3))
+										BuildTime = reader.GetDateTime(3)
 									});
 						}
 

@@ -42,14 +42,14 @@
 			var row = 2;
 			foreach (var complexity in ccs)
 			{
-				int complexity1 = complexity;
+				var complexity1 = complexity;
 				var allMis = projects.SelectMany(x => x).Where(x => x.CyclomaticComplexity == complexity1).Select(x => x.MaintainabilityIndex).Distinct().OrderBy(x => x);
 				foreach (var mi in allMis)
 				{
 					worksheet.Cells[row, 1].Value = complexity;
 					for (var i = 0; i < projects.Length; i++)
 					{
-						if (projects[i].Any(x => x.CyclomaticComplexity == complexity1 && x.MaintainabilityIndex == mi))
+						if (projects[i].Any(x => x.CyclomaticComplexity == complexity1 && x.MaintainabilityIndex.Equals(mi)))
 						{
 							worksheet.Cells[row, i + 2].Value = projects[i].First(x => x.CyclomaticComplexity == complexity1 && x.MaintainabilityIndex == mi).MaintainabilityIndex;
 						}

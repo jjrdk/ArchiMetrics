@@ -5,15 +5,15 @@
 	public class NamedDocumentStoreProvider : DocumentStoreProviderBase
 	{
 		private readonly string _apiKey;
-		private readonly Uri _serverUrl;
+		private readonly string _serverUrl;
 
-		public NamedDocumentStoreProvider(Uri serverUrl, string apiKey)
+		public NamedDocumentStoreProvider(string serverUrl, string apiKey)
 		{
 			_serverUrl = serverUrl;
 			_apiKey = apiKey;
 		}
 
-		protected override Uri ServerUrl
+		protected override string ServerUrl
 		{
 			get { return _serverUrl; }
 		}

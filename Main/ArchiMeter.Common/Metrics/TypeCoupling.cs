@@ -43,7 +43,31 @@ namespace ArchiMeter.Common.Metrics
 			var other = obj as TypeCoupling;
 			return other == null
 					   ? -1
-					   : string.Compare(_fullName, other._fullName);
+					   : string.Compare(_fullName, other._fullName, StringComparison.InvariantCultureIgnoreCase);
+		}
+
+		public static bool operator ==(TypeCoupling c1, TypeCoupling c2)
+		{
+			return ReferenceEquals(c1, null)
+					   ? ReferenceEquals(c2, null)
+					   : c1.CompareTo(c2) == 0;
+		}
+
+		public static bool operator !=(TypeCoupling c1, TypeCoupling c2)
+		{
+			return ReferenceEquals(c1, null)
+					   ? !ReferenceEquals(c2, null)
+					   : c1.CompareTo(c2) != 0;
+		}
+
+		public static bool operator <(TypeCoupling c1, TypeCoupling c2)
+		{
+			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) < 0;
+		}
+
+		public static bool operator >(TypeCoupling c1, TypeCoupling c2)
+		{
+			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) > 0;
 		}
 
 		public override string ToString()

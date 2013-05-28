@@ -13,8 +13,12 @@ namespace ArchiMeter.CodeReview.Tests
 {
 	using NUnit.Framework;
 
-	public class ProjectDataComparerTests
+	public sealed class ProjectDataComparerTests
 	{
+		private ProjectDataComparerTests()
+		{
+		}
+
 		public class GivenAProjectDataComparer
 		{
 			[Test]
@@ -23,13 +27,13 @@ namespace ArchiMeter.CodeReview.Tests
 
 				var project1 = new ProjectData
 				{
-					ProjectName = "Project 1", 
+					ProjectName = "Project 1",
 					ProjectVersion = "1"
 				};
 
 				var project2 = new ProjectData
 				{
-					ProjectName = "Project 1", 
+					ProjectName = "Project 1",
 					ProjectVersion = "1"
 				};
 				var hashCode1 = ProjectDataComparer.Instance.GetHashCode(project1);
@@ -43,13 +47,13 @@ namespace ArchiMeter.CodeReview.Tests
 			{
 				var project1 = new ProjectData
 							   {
-								   ProjectName = "Project 1", 
+								   ProjectName = "Project 1",
 								   ProjectVersion = "1"
 							   };
 
 				var project2 = new ProjectData
 							   {
-								   ProjectName = "Project 1", 
+								   ProjectName = "Project 1",
 								   ProjectVersion = "1"
 							   };
 

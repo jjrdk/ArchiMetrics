@@ -1,5 +1,7 @@
-﻿namespace ArchiCop.UI
+namespace ArchiCop.UI
 {
+	using System;
+
 	using ArchiMeter.Common;
 
 	using NHunspell;
@@ -10,12 +12,33 @@
 
 		public SpellChecker(Hunspell speller)
 		{
-			this._speller = speller;
+			_speller = speller;
+		}
+
+		~SpellChecker()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
 		}
 
 		public bool Spell(string word)
 		{
-			return this._speller.Spell(word);
+			return _speller.Spell(word);
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool isDisposing)
+		{
+			if(isDisposing)
+			{
+				//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
+				_speller.Dispose(true);
+			}
 		}
 	}
 }

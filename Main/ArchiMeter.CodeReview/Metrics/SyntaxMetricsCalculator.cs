@@ -41,7 +41,7 @@ namespace ArchiMeter.CodeReview.Metrics
 			}
 		}
 
-		public IEnumerable<IHalsteadMetrics> Calculate(CompilationUnitSyntax root)
+		public IEnumerable<IHalsteadMetrics> Calculate(SyntaxNode root)
 		{
 			var analyzer = new HalsteadAnalyzer();
 			var childNodes = root.ChildNodes().ToArray();

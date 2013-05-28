@@ -16,17 +16,19 @@
 										 Count = 1,
 										 CyclomaticComplexity = typeMetric.CyclomaticComplexity,
 										 ProjectName = doc.ProjectName,
+										 ProjectVersion = doc.ProjectVersion,
 										 Date = doc.MetricsDate
 									 };
 
 			Reduce = docs => from doc in docs
-							 group doc by new { doc.ProjectName, doc.Date, doc.CyclomaticComplexity }
+							 group doc by new { doc.ProjectName, doc.ProjectVersion, doc.Date, doc.CyclomaticComplexity }
 								 into sizeGroup
 								 select new
 											{
 												Count = sizeGroup.Sum(x => x.Count),
 												CyclomaticComplexity = sizeGroup.Key.CyclomaticComplexity,
 												ProjectName = sizeGroup.Key.ProjectName,
+												ProjectVersion = sizeGroup.Key.ProjectVersion,
 												Date = sizeGroup.Key.Date
 											};
 		}

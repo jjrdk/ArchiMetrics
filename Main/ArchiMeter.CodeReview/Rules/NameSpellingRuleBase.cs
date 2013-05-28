@@ -1,11 +1,11 @@
-﻿namespace ArchiMeter.CodeReview.Rules
+namespace ArchiMeter.CodeReview.Rules
 {
 	using System;
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using Common;
 
-	internal abstract class NameSpellingRuleBase : EvaluationBase
+	internal abstract class NameSpellingRuleBase : CodeEvaluationBase
 	{
 		private static readonly Regex CapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
 		private readonly IKnownWordList _knownWordList;

@@ -12,7 +12,7 @@
 
 namespace ArchiMeter.CodeReview.Rules
 {
-	// internal class VarKeywordRule : EvaluationBase
+	// internal class VarKeywordRule : CodeEvaluationBase
 	// {
 	// 	public override SyntaxKind EvaluatedKind
 	// 	{

@@ -9,17 +9,19 @@
 //   Defines the ErrorDataLoader type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Raven.Loading
+namespace ArchiMeter.DataLoader
 {
 	using System;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Analysis;
-	using CodeReview.Metrics;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.Analysis;
+	using ArchiMeter.CodeReview.Metrics;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -37,9 +39,9 @@ namespace ArchiMeter.Raven.Loading
 			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ErrorData>> sessionProvider)
 		{
-			_inspector = inspector;
-			_projectProvider = projectProvider;
-			_sessionProvider = sessionProvider;
+			this._inspector = inspector;
+			this._projectProvider = projectProvider;
+			this._sessionProvider = sessionProvider;
 		}
 
 		public async Task Load(ProjectSettings settings)
@@ -47,12 +49,12 @@ namespace ArchiMeter.Raven.Loading
 			Console.WriteLine("Loading Error Data for " + settings.Name);
 
 			var projects = (from root in settings.Roots
-							from project in _projectProvider.GetAll(root.Source)
+							from project in this._projectProvider.GetAll(root.Source)
 							from document in project.Documents
 							where string.Equals(Path.GetExtension(document.FilePath), ".cs", StringComparison.OrdinalIgnoreCase)
 							let tuple = new { ProjectPath = project.FilePath, SyntaxNode = document.GetSyntaxRoot() as SyntaxNode }
 							where tuple.SyntaxNode != null
-							select new { ProjectName = project.Name, EvaluationTask = _inspector.Inspect(tuple.ProjectPath, tuple.SyntaxNode) })
+							select new { ProjectName = project.Name, EvaluationTask = this._inspector.Inspect(tuple.ProjectPath, tuple.SyntaxNode) })
 				.ToArray();
 			await Task.WhenAll(projects.Select(_ => _.EvaluationTask));
 
@@ -74,8 +76,8 @@ namespace ArchiMeter.Raven.Loading
 								                         Error = g.Key, 
 														 Category = string.Empty, 
 								                         Occurrences = g.Sum(x => x.ErrorCount), 
-								                         DistinctLoc = snippets.Sum(s => _counter.Count(s.Item1)), 
-								                         Effort = snippets.Sum(x => GetEffort(x.Item1, x.Item2))
+								                         DistinctLoc = snippets.Sum(s => this._counter.Count(s.Item1)), 
+								                         Effort = snippets.Sum(x => this.GetEffort(x.Item1, x.Item2))
 							                         };
 					                  }))
 				.GroupBy(x => x.Id)
@@ -91,7 +93,7 @@ namespace ArchiMeter.Raven.Loading
 					             })
 				.ToArray();
 
-			using (var session = _sessionProvider.Create())
+			using (var session = this._sessionProvider.Create())
 			{
 				foreach (var errorData in data)
 				{
@@ -105,27 +107,27 @@ namespace ArchiMeter.Raven.Loading
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ErrorDataLoader()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_sessionProvider.Dispose();
+				this._sessionProvider.Dispose();
 			}
 		}
 
 		private double GetEffort(string code, int violations)
 		{
-			var metrics = _calc.Calculate(code);
+			var metrics = this._calc.Calculate(code);
 			var baseEffort = metrics.Sum(m => m.GetEffort().TotalSeconds);
 			return Enumerable.Range(0, violations).Aggregate(0.0, (d, i) => d + (baseEffort * Math.Pow(0.5, Math.Min(3, i))));
 		}

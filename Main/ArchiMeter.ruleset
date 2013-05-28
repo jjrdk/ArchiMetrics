@@ -1,19 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="ArchiMeter" ToolsVersion="10.0">
+<RuleSet Name="ArchiMeter" ToolsVersion="11.0">
   <Include Path="basicdesignguidelinerules.ruleset" Action="Default" />
   <Include Path="globalizationrules.ruleset" Action="Default" />
   <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
   <Include Path="securityrules.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1002" Action="None" />
+    <Rule Id="CA1005" Action="None" />
     <Rule Id="CA1006" Action="None" />
     <Rule Id="CA1008" Action="None" />
     <Rule Id="CA1012" Action="None" />
     <Rule Id="CA1014" Action="None" />
     <Rule Id="CA1023" Action="None" />
     <Rule Id="CA1024" Action="None" />
+    <Rule Id="CA1026" Action="None" />
     <Rule Id="CA1028" Action="None" />
     <Rule Id="CA1031" Action="None" />
+    <Rule Id="CA1034" Action="None" />
+    <Rule Id="CA1054" Action="None" />
+    <Rule Id="CA1055" Action="None" />
+    <Rule Id="CA1056" Action="None" />
     <Rule Id="CA1300" Action="None" />
     <Rule Id="CA1301" Action="None" />
     <Rule Id="CA1302" Action="None" />
@@ -27,7 +33,10 @@
     <Rule Id="CA1502" Action="None" />
     <Rule Id="CA1716" Action="None" />
     <Rule Id="CA1810" Action="None" />
+    <Rule Id="CA1811" Action="None" />
+    <Rule Id="CA1812" Action="None" />
     <Rule Id="CA1819" Action="None" />
+    <Rule Id="CA1822" Action="None" />
     <Rule Id="CA2101" Action="None" />
     <Rule Id="CA2102" Action="None" />
     <Rule Id="CA2116" Action="None" />

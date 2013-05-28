@@ -104,7 +104,7 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterType<SolutionEdgeItemsRepositoryConfig>()
 				   .As<ISolutionEdgeItemsRepositoryConfig>();
 			builder.RegisterType<ProjectProvider>()
-				   .As<IProvider<IProject, string>>();
+				   .As<IProvider<string, IProject>>();
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<Exporter>();
@@ -115,7 +115,7 @@ namespace ArchiMeter.DataLoader
 			//builder.RegisterType<EvaluationResultLoader>().As<IDataLoader>();
 			//builder.RegisterType<ProjectMetricsLoader>().As<IDataLoader>();
 			//builder.RegisterType<ProjectInventoryLoader>().As<IDataLoader>();
-			//builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
+			builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
 
 			var container = builder.Build();
 

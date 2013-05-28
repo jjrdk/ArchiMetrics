@@ -16,7 +16,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Metrics;
 	using Roslyn.Compilers.CSharp;
 
-	internal class TooHighCyclomaticComplexityRule : EvaluationBase
+	internal class TooHighCyclomaticComplexityRule : CodeEvaluationBase
 	{
 		private const int Limit = 8;
 		readonly CyclomaticComplexityAnalyzer analyzer = new CyclomaticComplexityAnalyzer();

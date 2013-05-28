@@ -39,6 +39,7 @@ namespace ArchiCop.UI.MvvmFoundation
 		/// Raises this object's PropertyChanged event.
 		/// </summary>
 		/// <param name="propertyName">The property that has a new value.</param>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This is the event invocation.")]
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = "")
 		{
 			this.VerifyPropertyName(propertyName);

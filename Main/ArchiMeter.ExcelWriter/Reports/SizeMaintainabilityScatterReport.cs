@@ -42,16 +42,16 @@
 			var row = 2;
 			foreach (var value in locs)
 			{
-				int value1 = value;
+				var value1 = value;
 				var allMIs = projects.SelectMany(x => x).Where(x => x.LoC == value1).Select(x => x.MaintainabilityIndex).Distinct().OrderBy(x => x);
 				foreach (var mi in allMIs)
 				{
 					worksheet.Cells[row, 1].Value = value;
 					for (var i = 0; i < projects.Length; i++)
 					{
-						if (projects[i].Any(x => x.MaintainabilityIndex == mi && x.LoC == value1))
+						if (projects[i].Any(x => x.MaintainabilityIndex.Equals(mi) && x.LoC == value1))
 						{
-							worksheet.Cells[row, i + 2].Value = projects[i].First(x => x.MaintainabilityIndex == mi && x.LoC == value1).MaintainabilityIndex;
+							worksheet.Cells[row, i + 2].Value = projects[i].First(x => x.MaintainabilityIndex.Equals(mi) && x.LoC == value1).MaintainabilityIndex;
 						}
 					}
 					row++;

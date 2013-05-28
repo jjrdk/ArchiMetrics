@@ -42,19 +42,19 @@
   <ItemGroup>
     <Reference Include="Raven.Abstractions, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.0.2370\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Embedded.2.0.2330\lib\net40\Raven.Client.Embedded.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Embedded.2.0.2370\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Client.2.0.2370\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database, Version=2.0.3.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\RavenDB.Database.2.0.2330\lib\net40\Raven.Database.dll</HintPath>
+      <HintPath>..\packages\RavenDB.Database.2.0.2370\lib\net40\Raven.Database.dll</HintPath>
     </Reference>
     <Reference Include="Roslyn.Compilers, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,15 +102,7 @@
     <Compile Include="Indexes\TfsTypeSizeDistributionIndex.cs" />
     <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
-    <Compile Include="Indexes\TypeCouplingIndex.cs" />
-    <Compile Include="Indexes\TypeCouplingVertexIndex.cs" />
     <Compile Include="NamedDocumentStoreProvider.cs" />
-    <Compile Include="Loading\ErrorDataLoader.cs" />
-    <Compile Include="Loading\EvaluationResultLoader.cs" />
-    <Compile Include="Loading\IDataLoader.cs" />
-    <Compile Include="Loading\ProjectInventoryLoader.cs" />
-    <Compile Include="Loading\ProjectLoadErrorLoader.cs" />
-    <Compile Include="Loading\ProjectMetricsLoader.cs" />
     <Compile Include="Loading\RequirementTestAnalysisLoader.cs" />
     <Compile Include="LocalDocumentStoreProvider.cs" />
     <Compile Include="Repositories\AsyncRepositoryBase.cs" />
@@ -142,7 +134,6 @@
     <Compile Include="Repositories\TypeComplexityRepository.cs" />
     <Compile Include="Repositories\TypeCouplingProvider.cs" />
     <Compile Include="AsyncSessionFactory.cs" />
-    <Compile Include="Repositories\TypeCouplingVertexRepository.cs" />
     <Compile Include="Repositories\TypeMaintainabilityDeviationRepository.cs" />
     <Compile Include="Repositories\TypeMaintainabilityRepository.cs" />
     <Compile Include="Repositories\TypeSizeComplexityGeoMeanRepository.cs" />
