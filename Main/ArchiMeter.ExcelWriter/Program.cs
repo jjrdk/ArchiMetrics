@@ -95,7 +95,7 @@ namespace ArchiMeter.ReportWriter
 			builder.RegisterType<SolutionEdgeItemsRepositoryConfig>()
 				   .As<ISolutionEdgeItemsRepositoryConfig>();
 			builder.RegisterType<ProjectProvider>()
-				   .As<IProvider<IProject, string>>()
+				   .As<IProvider<string, IProject>>()
 				   .InstancePerDependency();
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
@@ -132,7 +132,7 @@ namespace ArchiMeter.ReportWriter
 			// builder.RegisterType<ModelComparisonReport>().As<IReportJob>();
 			// builder.RegisterType<RequirementsReport>().As<IReportJob>();
 			var container = builder.Build();
-			
+
 			var stopwatch = new Stopwatch();
 			var writer = container.Resolve<ExcelReportWriter>();
 			Console.WriteLine("Starting report generation");

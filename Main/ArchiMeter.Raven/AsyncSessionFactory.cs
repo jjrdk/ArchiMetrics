@@ -14,7 +14,6 @@ namespace ArchiMeter.Raven
 	using System;
 	using Common;
 	using global::Raven.Client;
-	using global::Raven.Client.Indexes;
 
 	public class AsyncSessionFactory : IFactory<IAsyncDocumentSession>
 	{
@@ -23,8 +22,6 @@ namespace ArchiMeter.Raven
 		public AsyncSessionFactory(IProvider<IDocumentStore> documentStoreProvider)
 		{
 			_store = documentStoreProvider.Get();
-
-			IndexCreation.CreateIndexes(GetType().Assembly, _store);
 		}
 
 		public IAsyncDocumentSession Create()
