@@ -98,6 +98,7 @@
     <Compile Include="ProjectMetricsCalculatorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportUtils.cs" />
+    <Compile Include="Rules\BeginEndPairRule.cs" />
     <Compile Include="Rules\CoalesceExpressionErrorRule.cs" />
     <Compile Include="Rules\CommentLanguageRule.cs" />
     <Compile Include="Rules\CompilationDiagnosticsEvaluation.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Rules\LeakingTypeRule.cs" />
     <Compile Include="Rules\LeakingUnityContainerRule.cs" />
     <Compile Include="Rules\LocalTimeCreationRule.cs" />
+    <Compile Include="Rules\MethodNamePairRule.cs" />
     <Compile Include="Rules\MethodNameSpellingRule.cs" />
     <Compile Include="Rules\MultipleAssertsInTestErrorRule.cs" />
     <Compile Include="Rules\MultipleReturnStatementsErrorRule.cs" />
