@@ -15,7 +15,8 @@
 						  from memberMetric in typeMetric.MemberMetrics
 						  select new
 						  {
-							  doc.ProjectName,
+							  ProjectName = doc.ProjectName,
+							  ProjectVersion = doc.ProjectVersion,
 							  NamespaceName = namespaceMetric.Name,
 							  TypeName = typeMetric.Name,
 							  MemberName = memberMetric.Name,
@@ -40,11 +41,12 @@
 								 from t in sd.Items
 								 select new
 								 {
-									 t.ProjectName,
-									 t.NamespaceName,
-									 t.TypeName,
-									 t.MemberName,
-									 t.LoC,
+									 ProjectName = t.ProjectName,
+									 ProjectVersion = t.ProjectVersion,
+									 NamespaceName = t.NamespaceName,
+									 TypeName = t.TypeName,
+									 MemberName = t.MemberName,
+									 LoC = t.LoC,
 									 Sigma = (t.LoC - a.AverageLoC) / sd.StandardDev
 								 };
 		}

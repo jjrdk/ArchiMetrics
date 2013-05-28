@@ -16,17 +16,19 @@
 										 Count = 1,
 										 LoC = typeMetric.LinesOfCode,
 										 ProjectName = doc.ProjectName,
+										 ProjectVersion = doc.ProjectVersion,
 										 Date = doc.MetricsDate
 									 };
 
 			Reduce = docs => from doc in docs
-							 group doc by new { doc.ProjectName, doc.Date, doc.LoC }
+							 group doc by new { doc.ProjectName, doc.ProjectVersion, doc.Date, doc.LoC }
 								 into sizeGroup
 								 select new
 											{
 												Count = sizeGroup.Sum(x => x.Count),
 												LoC = sizeGroup.Key.LoC,
 												ProjectName = sizeGroup.Key.ProjectName,
+												ProjectVersion = sizeGroup.Key.ProjectVersion,
 												Date = sizeGroup.Key.Date
 											};
 		}

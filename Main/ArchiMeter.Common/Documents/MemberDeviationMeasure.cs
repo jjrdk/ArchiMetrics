@@ -1,9 +1,7 @@
 namespace ArchiMeter.Common.Documents
 {
-	public class MemberDeviationMeasure
+	public class MemberDeviationMeasure : ProjectDocument
 	{
-		public string ProjectName { get; set; }
-
 		public string NamespaceName { get; set; }
 
 		public string TypeName { get; set; }
