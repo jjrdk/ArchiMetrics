@@ -9,33 +9,31 @@
 		public MemberSizeComplexityScatterIndex()
 		{
 			Map = docs => from doc in docs
-							   from namespaceMetric in doc.Metrics
-							   where !namespaceMetric.Name.Contains("Tests") 
-							   && !namespaceMetric.Name.Contains("UnitTest") 
-							   && !namespaceMetric.Name.Contains("Fakes") 
-							   && !namespaceMetric.Name.Contains("Mocks")
-							   from typeMetric in namespaceMetric.TypeMetrics
-							   from memberMetric in typeMetric.MemberMetrics
-							   select new
-										  {
-											  CyclomaticComplexity = memberMetric.CyclomaticComplexity,
-											  Count = 1,
-											  Date = doc.MetricsDate,
-											  LoC = memberMetric.LinesOfCode,
-											  ProjectName = doc.ProjectName
-										  };
+						  from namespaceMetric in doc.Metrics
+						  from typeMetric in namespaceMetric.TypeMetrics
+						  from memberMetric in typeMetric.MemberMetrics
+						  select new
+									 {
+										 CyclomaticComplexity = memberMetric.CyclomaticComplexity,
+										 Count = 1,
+										 Date = doc.MetricsDate,
+										 LoC = memberMetric.LinesOfCode,
+										 ProjectName = doc.ProjectName,
+										 ProjectVersion = doc.ProjectVersion
+									 };
 
 			Reduce = docs => from doc in docs
-								  group doc by new { doc.Date, doc.ProjectName, doc.LoC, doc.CyclomaticComplexity }
-									  into sizeComplexity
-									  select new
-												 {
-													 CyclomaticComplexity = sizeComplexity.Key.CyclomaticComplexity,
-													 Count = sizeComplexity.Sum(x => x.Count),
-													 Date = sizeComplexity.Key.Date,
-													 LoC = sizeComplexity.Key.LoC,
-													 ProjectName = sizeComplexity.Key.ProjectName
-												 };
+			                 group doc by new { doc.Date, doc.ProjectName, doc.ProjectVersion, doc.LoC, doc.CyclomaticComplexity }
+			                 into sizeComplexity
+			                 select new
+				                        {
+					                        CyclomaticComplexity = sizeComplexity.Key.CyclomaticComplexity,
+					                        Count = sizeComplexity.Sum(x => x.Count),
+					                        Date = sizeComplexity.Key.Date,
+					                        LoC = sizeComplexity.Key.LoC,
+					                        ProjectName = sizeComplexity.Key.ProjectName,
+					                        ProjectVersion = sizeComplexity.Key.ProjectVersion
+				                        };
 		}
 	}
 }

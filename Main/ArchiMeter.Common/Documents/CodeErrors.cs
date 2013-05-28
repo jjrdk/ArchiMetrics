@@ -11,12 +11,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Common.Documents
 {
-	public class CodeErrors
+	public class CodeErrors : ProjectDocument
 	{
-		public string ProjectName { get; set; }
-
-		public string ProjectVersion { get; set; }
-
 		public string Namespace { get; set; }
 
 		public string Error { get; set; }

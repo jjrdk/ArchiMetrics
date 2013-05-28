@@ -27,7 +27,14 @@
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			Func<ParameterExpression, Expression> filter = null; // p => Expression.GreaterThan(Expression.Property(p, "CyclomaticComplexity"), Expression.Constant(1));
+			/*			 
+			where !namespaceMetric.Name.Contains("Tests") 
+			&& !namespaceMetric.Name.Contains("UnitTest") 
+			&& !namespaceMetric.Name.Contains("Fakes") 
+			&& !namespaceMetric.Name.Contains("Mocks")
+			 */
+
+			Func<ParameterExpression, Expression> filter = p => Expression.GreaterThan(Expression.Property(p, "CyclomaticComplexity"), Expression.Constant(1));
 			var results = (await this._repository.Query(config.Projects.CreateQuery<MemberSizeComplexitySegment>(filter))).ToArray();
 			var locs = results.Select(x => x.LoC).Distinct().OrderBy(x => x).ToArray();
 			var projects = results.GroupBy(x => x.ProjectName).OrderBy(x => x.Key).ToArray();

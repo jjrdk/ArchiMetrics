@@ -13,13 +13,14 @@
 						  from namespaceMetric in doc.Metrics
 						  from typeMetric in namespaceMetric.TypeMetrics
 						  select new
-								 {
-									 doc.ProjectName,
-									 NamespaceName = namespaceMetric.Name,
-									 TypeName = typeMetric.Name,
-									 LoC = typeMetric.LinesOfCode,
-									 Sigma = 0.0
-								 };
+									 {
+										 ProjectName = doc.ProjectName,
+										 ProjectVersion = doc.ProjectVersion,
+										 NamespaceName = namespaceMetric.Name,
+										 TypeName = typeMetric.Name,
+										 LoC = typeMetric.LinesOfCode,
+										 Sigma = 0.0
+									 };
 
 			Reduce = docs =>
 					 from doc in docs
@@ -39,10 +40,11 @@
 						 from t in sd.Items
 						 select new
 									{
-										t.ProjectName,
-										t.NamespaceName,
-										t.TypeName,
-										t.LoC,
+										ProjectName = t.ProjectName,
+										ProjectVersion = t.ProjectVersion,
+										NamespaceName = t.NamespaceName,
+										TypeName = t.TypeName,
+										LoC = t.LoC,
 										Sigma = (t.LoC - a.AverageLoC) / sd.StandardDev
 									};
 		}
