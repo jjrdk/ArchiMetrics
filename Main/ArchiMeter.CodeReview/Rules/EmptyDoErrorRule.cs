@@ -4,7 +4,7 @@
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class EmptyDoErrorRule : EvaluationBase
+	internal class EmptyDoErrorRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

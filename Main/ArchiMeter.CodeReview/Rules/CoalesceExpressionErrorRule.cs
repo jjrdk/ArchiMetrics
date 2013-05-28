@@ -15,7 +15,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class CoalesceExpressionErrorRule : EvaluationBase
+	internal class CoalesceExpressionErrorRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

@@ -15,7 +15,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class DiskLocationDependencyRule : EvaluationBase
+	internal class DiskLocationDependencyRule : CodeEvaluationBase
 	{
 		private static readonly Regex DiskLocationRegex = new Regex(@"\w:\\", RegexOptions.Compiled);
 

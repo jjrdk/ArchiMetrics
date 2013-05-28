@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class GuardClauseInMethodWithoutParametersRule : EvaluationBase
+	internal class GuardClauseInMethodWithoutParametersRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

@@ -17,7 +17,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class PublicInterfaceImplementationWarningRule : EvaluationBase
+	internal class PublicInterfaceImplementationWarningRule : CodeEvaluationBase
 	{
 		private static IEnumerable<Type> _appDomainTypes;
 		

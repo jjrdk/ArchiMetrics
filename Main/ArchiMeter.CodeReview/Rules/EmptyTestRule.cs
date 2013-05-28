@@ -16,7 +16,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class EmptyTestRule : EvaluationBase
+	internal class EmptyTestRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

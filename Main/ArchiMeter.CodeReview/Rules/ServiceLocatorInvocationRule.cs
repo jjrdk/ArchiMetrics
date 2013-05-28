@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class ServiceLocatorInvocationRule : EvaluationBase
+	internal class ServiceLocatorInvocationRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

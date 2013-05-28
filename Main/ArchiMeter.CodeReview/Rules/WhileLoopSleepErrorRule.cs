@@ -16,7 +16,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class WhileLoopSleepErrorRule : EvaluationBase
+	internal class WhileLoopSleepErrorRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{
