@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class DirectoryClassDependency : EvaluationBase
+	internal class DirectoryClassDependency : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

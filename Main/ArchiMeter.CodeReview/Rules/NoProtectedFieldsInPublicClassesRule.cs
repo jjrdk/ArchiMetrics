@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class NoProtectedFieldsInPublicClassesRule : EvaluationBase
+	internal class NoProtectedFieldsInPublicClassesRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

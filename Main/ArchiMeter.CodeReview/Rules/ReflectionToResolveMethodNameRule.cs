@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class ReflectionToResolveMethodNameRule : EvaluationBase
+	internal class ReflectionToResolveMethodNameRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

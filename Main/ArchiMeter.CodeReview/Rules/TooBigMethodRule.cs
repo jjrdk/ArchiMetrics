@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class TooBigMethodRule : EvaluationBase
+	internal class TooBigMethodRule : CodeEvaluationBase
 	{
 		private const int Limit = 15;
 
