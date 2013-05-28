@@ -71,8 +71,6 @@ namespace ArchiMeter.DataLoader
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
-				var entries = dictFile.Select(z => z.FileName)
-					.ToArray();
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
 					.Extract(affStream);
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
@@ -106,7 +104,7 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterType<SolutionEdgeItemsRepositoryConfig>()
 				   .As<ISolutionEdgeItemsRepositoryConfig>();
 			builder.RegisterType<ProjectProvider>()
-				   .As<IProvider<IProject, string>>();
+				   .As<IProvider<string, IProject>>();
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<Exporter>();
@@ -117,7 +115,7 @@ namespace ArchiMeter.DataLoader
 			//builder.RegisterType<EvaluationResultLoader>().As<IDataLoader>();
 			//builder.RegisterType<ProjectMetricsLoader>().As<IDataLoader>();
 			//builder.RegisterType<ProjectInventoryLoader>().As<IDataLoader>();
-			//builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
+			builder.RegisterType<TfsMetricsLoader>().As<IDataLoader>();
 
 			var container = builder.Build();
 
