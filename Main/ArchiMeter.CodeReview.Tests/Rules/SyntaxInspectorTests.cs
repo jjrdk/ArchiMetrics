@@ -268,6 +268,30 @@ private void SomeMethod()
 				var x = GetValue();
 			}
 		}", typeof(VarDeclarationForNewVariableErrorRule))]
+			[TestCase(@"public class InnerClass
+		{
+			public void BeginSomeBeginMethod()
+			{
+				var x = GetValue();
+			}
+
+			public void EndSomeEndMethod()
+			{
+				var x = GetValue();
+			}
+		}", typeof(BeginEndPairRule))]
+			[TestCase(@"public class InnerClass
+		{
+			public void OpenSomeOpenMethod()
+			{
+				var x = GetValue();
+			}
+
+			public void CloseSomeCloseMethod()
+			{
+				var x = GetValue();
+			}
+		}", typeof(OpenClosePairRule))]
 			[TestCase(@"public class InnerClass : ICustomInterface
 		{
 			public const string SomeValue = ""Something"";

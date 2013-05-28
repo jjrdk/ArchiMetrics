@@ -13,6 +13,7 @@ namespace ArchiMeter.CodeReview.Rules
 {
 	using System;
 	using System.Linq;
+
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
@@ -39,9 +40,9 @@ namespace ArchiMeter.CodeReview.Rules
 
 				return new EvaluationResult
 					   {
-						   Comment = "Sleep loop found in code.", 
-						   Quality = CodeQuality.Incompetent, 
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
+						   Comment = "Sleep loop found in code.",
+						   Quality = CodeQuality.Incompetent,
+						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
 						   Snippet = snippet
 					   };
 			}
