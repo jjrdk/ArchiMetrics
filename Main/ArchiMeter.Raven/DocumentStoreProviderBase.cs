@@ -4,13 +4,14 @@
 	using Common;
 	using global::Raven.Client;
 	using global::Raven.Client.Document;
+	using global::Raven.Client.Indexes;
 
 	public abstract class DocumentStoreProviderBase : IProvider<IDocumentStore>
 	{
 		private DocumentStore _store;
 
-		protected abstract Uri ServerUrl { get; }
-		
+		protected abstract string ServerUrl { get; }
+
 		protected abstract string ApiKey { get; }
 
 		public IDocumentStore Get()
@@ -18,23 +19,26 @@
 			if (_store == null)
 			{
 				_store = new DocumentStore
-					              {
-						              Url = ServerUrl.ToString(),
-						              DefaultDatabase = "Metrics",
-						              Conventions =
-							              {
-								              CustomizeJsonSerializer = serializer =>
-									              {
-										              serializer.Converters.Add(new NamespaceMetricConverter());
-										              serializer.Converters.Add(new TypeMetricConverter());
-										              serializer.Converters.Add(new MemberMetricConverter());
-										              serializer.Converters.Add(new TypeCouplingConverter());
-										              serializer.Converters.Add(new HalsteadMetricConverter());
-									              }
-							              }
-					              };
+								  {
+									  Url = ServerUrl,
+									  ApiKey = ApiKey,
+									  DefaultDatabase = "Metrics",
+									  Conventions =
+										  {
+											  CustomizeJsonSerializer = serializer =>
+												  {
+													  serializer.Converters.Add(new NamespaceMetricConverter());
+													  serializer.Converters.Add(new TypeMetricConverter());
+													  serializer.Converters.Add(new MemberMetricConverter());
+													  serializer.Converters.Add(new TypeCouplingConverter());
+													  serializer.Converters.Add(new HalsteadMetricConverter());
+												  }
+										  }
+								  };
 
 				_store.Initialize();
+
+				IndexCreation.CreateIndexes(GetType().Assembly, _store);
 			}
 
 			return _store;
