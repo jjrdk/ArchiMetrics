@@ -17,8 +17,12 @@ namespace ArchiMeter.CodeReview.Tests.Metrics
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public class CyclomaticComplexityAnalyzerTests
+	public sealed class CyclomaticComplexityAnalyzerTests
 	{
+		private CyclomaticComplexityAnalyzerTests()
+		{
+		}
+
 		public class GivenACyclomaticComplexityAnalyzer
 		{
 			private CyclomaticComplexityAnalyzer _analyzer;

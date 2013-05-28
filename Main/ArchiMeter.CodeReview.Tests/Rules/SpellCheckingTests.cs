@@ -1,5 +1,6 @@
 namespace ArchiMeter.CodeReview.Tests.Rules
 {
+	using System;
 	using System.IO;
 	using System.Linq;
 	using CodeReview.Rules;
@@ -9,8 +10,12 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public class SpellCheckingTests
+	public sealed class SpellCheckingTests
 	{
+		private SpellCheckingTests()
+		{
+		}
+
 		private class ExemptWords : IKnownWordList
 		{
 			public bool IsExempt(string word)
@@ -145,9 +150,30 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 				}
 			}
 
+			~SpellChecker()
+			{
+				// Simply call Dispose(false).
+				Dispose(false);
+			}
+
 			public bool Spell(string word)
 			{
 				return _speller.Spell(word);
+			}
+
+			public void Dispose()
+			{
+				Dispose(true);
+				GC.SuppressFinalize(this);
+			}
+
+			protected virtual void Dispose(bool isDisposing)
+			{
+				if(isDisposing)
+				{
+					//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
+					_speller.Dispose(true);
+				}
 			}
 		}
 	}

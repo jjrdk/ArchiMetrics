@@ -19,6 +19,7 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Threading.Tasks;
 	using Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 
 	public abstract class CodeEdgeItemsRepository : IEdgeItemsRepository, IDisposable
 	{
@@ -93,7 +94,7 @@ namespace ArchiMeter.Data.DataAccess
 					   };
 		}
 
-		protected int GetLinesOfCode(SyntaxNode node)
+		protected int GetLinesOfCode(CommonSyntaxNode node)
 		{
 			return node
 					.ToFullString()

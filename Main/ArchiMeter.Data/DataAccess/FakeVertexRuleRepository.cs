@@ -37,7 +37,7 @@ namespace ArchiMeter.Data.DataAccess
 			return new List<Func<string, string>>();
 		}
 
-		private static IEnumerable<VertexRule> LoadAllVertexRules()
+		private IEnumerable<VertexRule> LoadAllVertexRules()
 		{
 			// In a real application, the data would come from an external source,
 			// but for this demo let's keep things simple and use a resource file.

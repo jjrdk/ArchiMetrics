@@ -14,6 +14,7 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Threading.Tasks;
 	using CodeReview.Rules;
 	using Common;
@@ -24,7 +25,7 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 	{
 	}
 
-	public class SyntaxInspectorTests
+	public sealed class SyntaxInspectorTests
 	{
 		private static Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
@@ -35,6 +36,10 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 			return task;
 		}
 
+		private SyntaxInspectorTests()
+		{
+		}
+
 		public class GivenASyntaxInspectorInspectingBrokenCode
 		{
 			[TestCase(@"private void ApplicationInitializationStartup()
@@ -43,9 +48,6 @@ namespace ArchiMeter.CodeReview.Tests.Rules
             {
 				applicationInitTask = Task.Factory.StartNew(() => SingleApplicationHostControl.Instance);
 				applicationInitTask.Wait();
-
-                applicationStartupTask = Task.Factory.StartNew(() => SingleApplicationHostControl.Instance.StartupApplicationHost());
-                applicationStartupTask.Wait();
             }
         }", typeof(ImmediateTaskWaitRule))]
 			[TestCase(@"private void SomeMethod()
@@ -274,7 +276,7 @@ private void SomeMethod()
 			{
 				var task = PerformInspection(code, evaluatorType);
 				task.Wait();
-				Assert.IsNotEmpty(task.Result);
+				Assert.AreEqual(1, task.Result.Count());
 			}
 		}
 
