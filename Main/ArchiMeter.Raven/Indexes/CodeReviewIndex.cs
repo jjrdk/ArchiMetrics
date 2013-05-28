@@ -23,25 +23,25 @@ namespace ArchiMeter.Raven.Indexes
 			Map = errorDatas => from errorData in errorDatas
 								select new
 								{
-									Id = errorData.ProjectName + errorData.ProjectVersion, 
-									errorData.ProjectName, 
-									errorData.ProjectVersion, 
-									errorData.DistinctLoc, 
-									errorData.Effort, 
-									errorData.Error, 
-									errorData.Occurrences
+									Id = errorData.ProjectName + errorData.ProjectVersion,
+									ProjectName = errorData.ProjectName,
+									ProjectVersion = errorData.ProjectVersion,
+									DistinctLoc = errorData.DistinctLoc,
+									Effort = errorData.Effort,
+									Error = errorData.Error,
+									Occurrences = errorData.Occurrences
 								};
 
 			Reduce = data => from ed in data
 							 group ed by new { ed.Id, ed.Error } into g
 							 select new
 							 {
-								 g.First().Id, 
-								 g.First().ProjectName, 
-								 g.First().ProjectVersion, 
-								 DistinctLoc = g.Sum(x => x.DistinctLoc), 
-								 Effort = g.Sum(x => x.Effort), 
-								 g.Key.Error, 
+								 Id = g.First().Id,
+								 ProjectName = g.First().ProjectName,
+								 ProjectVersion = g.First().ProjectVersion,
+								 DistinctLoc = g.Sum(x => x.DistinctLoc),
+								 Effort = g.Sum(x => x.Effort),
+								 Error = g.Key.Error,
 								 Occurrences = g.Sum(x => x.Occurrences)
 							 };
 

@@ -23,8 +23,8 @@ namespace ArchiMeter.Raven.Indexes
 			Map = docs => from doc in docs
 						  select new
 									 {
-										 doc.ProjectName, 
-										 doc.ProjectVersion, 
+										 ProjectName = doc.ProjectName,
+										 ProjectVersion = doc.ProjectVersion,
 										 Count = doc.Results.Sum(r => r.ErrorCount)
 									 };
 
@@ -33,8 +33,8 @@ namespace ArchiMeter.Raven.Indexes
 								  into g
 								  select new
 											 {
-												 g.First().ProjectName, 
-												 g.First().ProjectVersion, 
+												 ProjectName = g.First().ProjectName,
+												 ProjectVersion = g.First().ProjectVersion,
 												 Count = g.Sum(x => x.Count)
 											 };
 		}
