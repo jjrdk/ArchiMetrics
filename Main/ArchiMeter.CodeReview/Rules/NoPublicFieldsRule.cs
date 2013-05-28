@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class NoPublicFieldsRule : EvaluationBase
+	internal class NoPublicFieldsRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

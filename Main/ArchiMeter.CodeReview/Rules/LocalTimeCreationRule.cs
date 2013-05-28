@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class LocalTimeCreationRule : EvaluationBase
+	internal class LocalTimeCreationRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

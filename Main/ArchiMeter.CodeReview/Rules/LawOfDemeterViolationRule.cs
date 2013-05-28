@@ -14,7 +14,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class LawOfDemeterViolationRule : EvaluationBase
+	internal class LawOfDemeterViolationRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

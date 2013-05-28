@@ -16,7 +16,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 
-	internal class CompilationDiagnosticsEvaluation : EvaluationBase
+	internal class CompilationDiagnosticsEvaluation : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

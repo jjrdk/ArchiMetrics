@@ -15,7 +15,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal abstract class LeakingTypeRule : EvaluationBase
+	internal abstract class LeakingTypeRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

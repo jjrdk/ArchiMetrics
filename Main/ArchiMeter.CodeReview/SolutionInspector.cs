@@ -17,12 +17,13 @@ namespace ArchiMeter.CodeReview
 	using System.Threading.Tasks;
 	using Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 
 	public class SolutionInspector : INodeInspector
 	{
-		private readonly Dictionary<SyntaxKind, ICodeEvaluation[]> _evaluations;
+		private readonly Dictionary<SyntaxKind, IEvaluation[]> _evaluations;
 
-		public SolutionInspector(IEnumerable<ICodeEvaluation> evaluations)
+		public SolutionInspector(IEnumerable<IEvaluation> evaluations)
 		{
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
@@ -47,14 +48,15 @@ namespace ArchiMeter.CodeReview
 
 		private class InnerInspector : SyntaxWalker, IDisposable
 		{
-			private readonly IDictionary<SyntaxKind, ICodeEvaluation[]> _evaluations;
+			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
 			private readonly List<EvaluationResult> _inspectionResults = new List<EvaluationResult>();
 
-			public InnerInspector(IDictionary<SyntaxKind, ICodeEvaluation[]> evaluations)
+			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations)
+				: base(SyntaxWalkerDepth.Trivia)
 			{
 				_evaluations = evaluations;
 			}
-
+			
 			public void Dispose()
 			{
 				Dispose(true);
@@ -73,6 +75,7 @@ namespace ArchiMeter.CodeReview
 				{
 					var nodeEvaluations = _evaluations[node.Kind];
 					var results = nodeEvaluations
+						.OfType<ICodeEvaluation>()
 						.Select(x =>
 							{
 								try
@@ -95,6 +98,37 @@ namespace ArchiMeter.CodeReview
 				}
 
 				base.Visit(node);
+			}
+
+			public override void VisitTrivia(SyntaxTrivia trivia)
+			{
+				if (_evaluations.ContainsKey(trivia.Kind))
+				{
+					var nodeEvaluations = _evaluations[trivia.Kind];
+					var results = nodeEvaluations
+						.OfType<ITriviaEvaluation>()
+						.Select(x =>
+						{
+							try
+							{
+								return x.Evaluate(trivia);
+							}
+							catch (Exception ex)
+							{
+								return new EvaluationResult
+								{
+									Comment = ex.Message,
+									ErrorCount = 1,
+									Snippet = trivia.ToFullString(),
+									Quality = CodeQuality.Broken
+								};
+							}
+						})
+						.Where(x => x != null && x.Quality != CodeQuality.Good);
+					_inspectionResults.AddRange(results);
+				}
+
+				base.VisitTrivia(trivia);
 			}
 
 			public EvaluationResult[] GetResults()

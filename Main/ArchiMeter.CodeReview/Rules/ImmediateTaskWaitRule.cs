@@ -16,7 +16,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class ImmediateTaskWaitRule : EvaluationBase
+	internal class ImmediateTaskWaitRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

@@ -15,7 +15,7 @@ namespace ArchiMeter.CodeReview.Rules
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal class EmptyWhileErrorRule : EvaluationBase
+	internal class EmptyWhileErrorRule : CodeEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{

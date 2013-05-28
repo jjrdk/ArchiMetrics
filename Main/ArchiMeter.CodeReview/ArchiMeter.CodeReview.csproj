@@ -99,6 +99,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportUtils.cs" />
     <Compile Include="Rules\CoalesceExpressionErrorRule.cs" />
+    <Compile Include="Rules\CommentLanguageRule.cs" />
     <Compile Include="Rules\CompilationDiagnosticsEvaluation.cs" />
     <Compile Include="Rules\ConditionalExpressionErrorRule.cs" />
     <Compile Include="Rules\DirectoryClassDependency.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="Rules\EmptyDoErrorRule.cs" />
     <Compile Include="Rules\EmptyTestRule.cs" />
     <Compile Include="Rules\EmptyWhileErrorRule.cs" />
-    <Compile Include="Rules\EvaluationBase.cs" />
+    <Compile Include="Rules\CodeEvaluationBase.cs" />
     <Compile Include="Rules\DiskLocationDependencyRule.cs" />
     <Compile Include="Rules\FileClassDependency.cs" />
     <Compile Include="Rules\GotoStatementErrorRule.cs" />
