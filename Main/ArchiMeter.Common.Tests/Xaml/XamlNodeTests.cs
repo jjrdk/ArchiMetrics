@@ -15,8 +15,12 @@ namespace ArchiMeter.Common.Tests.Xaml
 	using Common.Xaml;
 	using NUnit.Framework;
 
-	public class XamlNodeTests
+	public sealed class XamlNodeTests
 	{
+		private XamlNodeTests()
+		{
+		}
+
 		public class GivenAXamlSnippet
 		{
 			private string _snippet;
