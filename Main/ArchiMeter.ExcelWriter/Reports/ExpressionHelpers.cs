@@ -4,6 +4,7 @@ namespace ArchiMeter.ReportWriter.Reports
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Reflection;
 
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Documents;
