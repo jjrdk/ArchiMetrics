@@ -102,7 +102,6 @@
     <Compile Include="Indexes\TfsTypeSizeDistributionIndex.cs" />
     <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
-    <Compile Include="Indexes\TypeCouplingIndex.cs" />
     <Compile Include="NamedDocumentStoreProvider.cs" />
     <Compile Include="Loading\RequirementTestAnalysisLoader.cs" />
     <Compile Include="LocalDocumentStoreProvider.cs" />

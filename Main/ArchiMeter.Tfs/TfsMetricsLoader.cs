@@ -114,6 +114,7 @@
 											 {
 												 BuildId = build.BuildId,
 												 Project = settings.Name,
+												 Revision = settings.Revision,
 												 Time = settings.Date,
 												 Metrics = m
 											 });
@@ -126,10 +127,11 @@
 						return new TfsMetricsDocument
 								   {
 									   BuildNumber = first.BuildId.ToString(CultureInfo.InvariantCulture),
-									   Id = TfsMetricsDocument.GetId(first.Project, first.BuildId.ToString(CultureInfo.InvariantCulture)),
+									   Id = TfsMetricsDocument.GetId(first.Project, first.Revision, first.BuildId.ToString(CultureInfo.InvariantCulture)),
 									   MetricsDate = first.Time,
 									   Metrics = g.Select(x => x.Metrics).ToArray(),
-									   ProjectName = first.Project
+									   ProjectName = first.Project,
+									   ProjectVersion = first.Revision
 								   };
 					});
 		}

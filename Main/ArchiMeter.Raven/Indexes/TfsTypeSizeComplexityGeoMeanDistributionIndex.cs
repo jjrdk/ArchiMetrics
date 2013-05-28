@@ -17,17 +17,19 @@
 					                     Count = 1,
 					                     GeoMean = (int)Math.Sqrt(typeMetric.LinesOfCode * typeMetric.CyclomaticComplexity),
 					                     ProjectName = doc.ProjectName,
+										 ProjectVersion = doc.ProjectVersion,
 					                     Date = doc.MetricsDate
 				                     };
 
 			Reduce = docs => from doc in docs
-			                 group doc by new { doc.ProjectName, doc.Date, doc.GeoMean }
+			                 group doc by new { doc.ProjectName, doc.ProjectVersion, doc.Date, doc.GeoMean }
 			                 into sizeGroup
 			                 select new
 				                        {
 					                        Count = sizeGroup.Sum(x => x.Count),
 					                        GeoMean = sizeGroup.Key.GeoMean,
 					                        ProjectName = sizeGroup.Key.ProjectName,
+											ProjectVersion = sizeGroup.Key.ProjectVersion,
 					                        Date = sizeGroup.Key.Date
 				                        };
 		}

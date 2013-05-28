@@ -13,13 +13,9 @@ namespace ArchiMeter.Common.Documents
 {
 	using System;
 
-	public class ProjectInventoryDocument
+	public class ProjectInventoryDocument : ProjectDocument
 	{
 		public string Id { get; set; }
-
-		public string ProjectName { get; set; }
-
-		public string ProjectVersion { get; set; }
 
 		public string Tag { get; set; }
 

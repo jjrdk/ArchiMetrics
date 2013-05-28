@@ -1,9 +1,7 @@
 namespace ArchiMeter.Common.Documents
 {
-	public class TfsProjectMetrics
+	public class TfsProjectMetrics : ProjectDocument
 	{
-		public string ProjectName { get; set; }
-
 		public int LinesOfCode { get; set; }
 
 		public double MaintainabilityIndex { get; set; }

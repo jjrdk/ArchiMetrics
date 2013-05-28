@@ -1,9 +1,7 @@
 namespace ArchiMeter.Common.Documents
 {
-	public abstract class TypeDeviationMeasure
+	public abstract class TypeDeviationMeasure : ProjectDocument
 	{
-		public string ProjectName { get; set; }
-
 		public string NamespaceName { get; set; }
 
 		public string TypeName { get; set; }

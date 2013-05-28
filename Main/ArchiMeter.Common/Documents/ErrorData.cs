@@ -11,13 +11,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Common.Documents
 {
-	public class ErrorData
+	public class ErrorData : ProjectDocument
 	{
 		public string Id { get; set; }
-
-		public string ProjectName { get; set; }
-
-		public string ProjectVersion { get; set; }
 
 		public string Error { get; set; }
 

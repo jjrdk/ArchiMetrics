@@ -11,14 +11,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Common.Documents
 {
-	public class EvaluationResultDocument
+	public class EvaluationResultDocument : ProjectDocument
 	{
 		public string Id { get; set; }
 		
-		public string ProjectName { get; set; }
-		
-		public string ProjectVersion { get; set; }
-
 		public EvaluationResult[] Results { get; set; }
 
 		public static string GetId(string projectName, string revision)
@@ -26,33 +22,4 @@ namespace ArchiMeter.Common.Documents
 			return string.Format("Errors.{0}.v{1}", projectName, revision);
 		}
 	}
-
-	// public class DatabaseContext : IDisposable
-	// {
-	// 	public DatabaseContext()
-	// 	{
-	// 		var repo = new ProductRepository(null);
-	// 		var x = repo.ReadProducts();
-	// 	}
-
-	// 	public IEnumerable<string> Products { get; set; } 
-	// }
-
-	// public class ProductRepository
-	// {
-	// 	private readonly Func<DatabaseContext> contextCreator;
-
-	// 	public ProductRepository(Func<DatabaseContext> contextCreator)
-	// 	{
-	// 		contextCreator = contextCreator;
-	// 	}
-
-	// 	public IEnumerable<string> ReadProducts()
-	// 	{
-	// 		using (DatabaseContext context = contextCreator())
-	// 		{
-	// 			return context.Products.ToArray();
-	// 		}
-	// 	}
-	// }
 }

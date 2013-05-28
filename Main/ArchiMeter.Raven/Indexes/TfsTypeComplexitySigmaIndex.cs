@@ -10,14 +10,15 @@
 		public TfsTypeComplexitySigmaIndex()
 		{
 			Map = docs => from doc in docs
-							   from namespaceMetric in doc.Metrics
-							   from typeMetric in namespaceMetric.TypeMetrics
-							   select new
+						  from namespaceMetric in doc.Metrics
+						  from typeMetric in namespaceMetric.TypeMetrics
+						  select new
 										  {
-											  doc.ProjectName,
+											  ProjectName = doc.ProjectName,
+											  ProjectVersion = doc.ProjectVersion,
 											  NamespaceName = namespaceMetric.Name,
 											  TypeName = typeMetric.Name,
-											  typeMetric.CyclomaticComplexity,
+											  CyclomaticComplexity = typeMetric.CyclomaticComplexity,
 											  Sigma = 0.0
 										  };
 
@@ -39,10 +40,11 @@
 						 from t in sd.Items
 						 select new
 									{
-										t.ProjectName,
-										t.NamespaceName,
-										t.TypeName,
-										t.CyclomaticComplexity,
+										ProjectName = t.ProjectName,
+										ProjectVersion = t.ProjectVersion,
+										NamespaceName = t.NamespaceName,
+										TypeName = t.TypeName,
+										CyclomaticComplexity = t.CyclomaticComplexity,
 										Sigma = (t.CyclomaticComplexity - a.AverageCC) / sd.StandardDev
 									};
 		}
