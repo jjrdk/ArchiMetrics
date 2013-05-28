@@ -351,6 +351,30 @@ private void SomeMethod()
 				var x = 1;
 			}
 		}", typeof(TypeObfuscationRule))]
+			[TestCase(@"public class InnerClass
+		{
+			public void BeginSomeMethod()
+			{
+				var x = GetValue();
+			}
+
+			public void EndSomeMethod()
+			{
+				var x = GetValue();
+			}
+		}", typeof(BeginEndPairRule))]
+			[TestCase(@"public class InnerClass
+		{
+			public void OpenSomeMethod()
+			{
+				var x = GetValue();
+			}
+
+			public void CloseSomeMethod()
+			{
+				var x = GetValue();
+			}
+		}", typeof(OpenClosePairRule))]
 			public void NegativeTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
