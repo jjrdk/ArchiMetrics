@@ -44,7 +44,7 @@ namespace ArchiCop.UI.MvvmFoundation
 		{
 			this.VerifyPropertyName(propertyName);
 
-			PropertyChangedEventHandler handler = PropertyChanged;
+			PropertyChangedEventHandler handler = this.PropertyChanged;
 			if (handler != null)
 			{
 				var e = new PropertyChangedEventArgs(propertyName);

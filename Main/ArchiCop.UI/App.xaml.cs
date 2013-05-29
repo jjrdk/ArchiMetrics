@@ -20,6 +20,7 @@ namespace ArchiCop.UI
 	using System.Windows.Markup;
 	using ArchiCop.UI.Controller;
 	using ArchiMeter.Analysis;
+	using ArchiCop.UI;
 	using ArchiCop.UI.ViewModel;
 	using Autofac;
 	using ArchiMeter.CodeReview;
@@ -67,8 +68,6 @@ namespace ArchiCop.UI
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
-				var entries = dictFile.Select(z => z.FileName)
-					.ToArray();
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
 					.Extract(affStream);
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")

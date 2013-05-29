@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Common
+namespace ArchiMeter.Common
 {
 	using System;
 

@@ -1,4 +1,4 @@
-﻿namespace ArchiCop.UI
+namespace ArchiCop.UI
 {
 	using System;
 

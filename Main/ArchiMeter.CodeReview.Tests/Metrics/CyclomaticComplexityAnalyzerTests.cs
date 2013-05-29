@@ -104,12 +104,6 @@ namespace ArchiMeter.CodeReview.Tests.Metrics
 
 				Assert.AreEqual(expectedComplexity, result);
 			}
-
-			public void foo()
-			{
-				var numbers = new[] { 1, 2, 3 };
-				var odds = numbers.Where(n => n != 1).ToArray();
-			}
 		}
 	}
 }
