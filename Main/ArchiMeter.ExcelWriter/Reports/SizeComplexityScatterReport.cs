@@ -102,7 +102,6 @@
 				chart.XAxis.Title.Text = "Lines of Code";
 				chart.XAxis.MinValue = 0.0;
 				chart.YAxis.Title.Text = "Complexity";
-				chart.YAxis.MaxValue = 100.0;
 				chart.YAxis.MinValue = 0.0;
 				chart.SetPosition(y, x);
 				chart.SetSize(750, 500);

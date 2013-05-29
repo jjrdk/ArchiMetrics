@@ -72,8 +72,6 @@ namespace ArchiMeter.ReportWriter
 				   .As<IAsyncReadOnlyRepository<TypeComplexitySegment>>();
 			builder.RegisterType<TypeMaintainabilityRepository>()
 				   .As<IAsyncReadOnlyRepository<TypeMaintainabilitySegment>>();
-			builder.RegisterType<TypeMaintainabilityDeviationRepository>()
-				   .As<IAsyncReadOnlyRepository<TypeMaintainabilityDeviation>>();
 			builder.RegisterType<SizeComplexityScatterRepository>()
 				   .As<IAsyncReadOnlyRepository<MemberSizeComplexitySegment>>();
 			builder.RegisterType<SizeMaintainabilityScatterRepository>()
