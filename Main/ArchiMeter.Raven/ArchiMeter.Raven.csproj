@@ -90,17 +90,11 @@
     <Compile Include="Indexes\MemberSizeComplexityScatterIndex.cs" />
     <Compile Include="Indexes\MemberSizeMaintainabilityScatterIndex.cs" />
     <Compile Include="Indexes\ProjectInventoryDocumentIndex.cs" />
-    <Compile Include="Indexes\TfsMemberComplexitySigmaIndex.cs" />
-    <Compile Include="Indexes\TfsMemberMaintainabilitySigmaIndex.cs" />
-    <Compile Include="Indexes\TfsMemberSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsProjectMetricsIndex.cs" />
     <Compile Include="Indexes\TfsTypeComplexityDistributionIndex.cs" />
-    <Compile Include="Indexes\TfsTypeComplexitySigmaIndex.cs" />
     <Compile Include="Indexes\TfsTypeMaintainabilityDistributionIndex.cs" />
-    <Compile Include="Indexes\TfsTypeMaintainabilitySigmaIndex.cs" />
     <Compile Include="Indexes\TfsTypeSizeComplexityGeoMeanDistributionIndex.cs" />
     <Compile Include="Indexes\TfsTypeSizeDistributionIndex.cs" />
-    <Compile Include="Indexes\TfsTypeSizeSigmaIndex.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndex.cs" />
     <Compile Include="NamedDocumentStoreProvider.cs" />
     <Compile Include="Loading\RequirementTestAnalysisLoader.cs" />
