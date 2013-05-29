@@ -9,6 +9,7 @@
 	using ArchiMeter.Common.Documents;
 
 	using OfficeOpenXml;
+	using OfficeOpenXml.Drawing.Chart;
 
 	public class SizeMaintainabilityScatterReport : IReportJob
 	{
@@ -27,11 +28,25 @@
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
+			var worksheet = package.Workbook.Worksheets.Add("Size Maintainability Scatter");
+			var charts = package.Workbook.Worksheets.Add("Size Maintainability Charts");
+			var maxRow = await PrintValues(worksheet, config);
+			PrintCharts(charts, worksheet, maxRow, config);
+		}
+
+		private async Task<int> PrintValues(ExcelWorksheet worksheet, ReportConfig config)
+		{
 			Func<ParameterExpression, Expression> filter = p => Expression.LessThan(Expression.Property(p, "MaintainabilityIndex"), Expression.Constant(100.0));
 			var results = (await this._repository.Query(config.Projects.CreateQuery<MemberSizeMaintainabilitySegment>(filter))).ToArray();
-			var locs = results.Select(x => x.LoC).Distinct().OrderBy(x => x).ToArray();
-			var projects = results.GroupBy(x => x.ProjectName).OrderBy(x => x.Key).ToArray();
-			var worksheet = package.Workbook.Worksheets.Add("Size Maintainability Scatter");
+			var locs = results
+				.Select(x => x.LoC)
+				.Distinct()
+				.OrderBy(x => x)
+				.ToArray();
+			var projects = results
+				.GroupBy(x => string.Format("{0} {1}", x.ProjectName, x.Date.ToString("yyyy-MM-dd")))
+				.OrderBy(x => x.Key)
+				.ToArray();
 			worksheet.Cells[1, 1].Value = "Lines of Code";
 
 			for (var i = 0; i < projects.Length; i++)
@@ -55,6 +70,44 @@
 						}
 					}
 					row++;
+				}
+			}
+
+			return row;
+		}
+
+		private void PrintCharts(ExcelWorksheet worksheet, ExcelWorksheet sourceSheet, int maxRow, ReportConfig config)
+		{
+			var x = 0;
+			var y = 0;
+			var projects = config.Projects.OrderBy(p => p.Name).ToArray();
+			for (var i = 0; i < projects.Length; i++)
+			{
+				var settings = projects[i];
+				var title = string.Format("{0} {1}", settings.Name, settings.Date.ToString("yyyy-MM-dd"));
+
+				var chart = worksheet.Drawings.AddChart(title, eChartType.XYScatter);
+				var col = i + 2;
+				var serie = chart.Series.Add(sourceSheet.Cells[2, col, maxRow, col], sourceSheet.Cells[2, 1, maxRow, 1]);
+				serie.HeaderAddress = sourceSheet.Cells[1, col];
+				chart.Series[0].TrendLines.Add(eTrendLine.Logarithmic);
+				chart.Title.Text = title;
+				chart.XAxis.Title.Text = "Lines of Code";
+				chart.XAxis.MinValue = 0.0;
+				chart.YAxis.Title.Text = "Maintainability";
+				chart.YAxis.MaxValue = 100.0;
+				chart.YAxis.MinValue = 0.0;
+				chart.SetPosition(y, x);
+				chart.SetSize(750, 500);
+				chart.DisplayBlanksAs = eDisplayBlanksAs.Gap;
+				if (x < 1500)
+				{
+					x += 750;
+				}
+				else
+				{
+					x = 0;
+					y += 500;
 				}
 			}
 		}
