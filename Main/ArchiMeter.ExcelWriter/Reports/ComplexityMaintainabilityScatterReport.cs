@@ -85,7 +85,6 @@
 				var col = i + 2;
 				var serie = chart.Series.Add(sourceSheet.Cells[2, col, maxRow, col], sourceSheet.Cells[2, 1, maxRow, 1]);
 				serie.HeaderAddress = sourceSheet.Cells[1, col];
-				chart.Series[0].TrendLines.Add(eTrendLine.Logarithmic);
 				chart.Title.Text = title;
 				chart.XAxis.Title.Text = "Complexity";
 				chart.XAxis.MinValue = 0.0;
@@ -95,7 +94,7 @@
 				chart.SetPosition(y, x);
 				chart.SetSize(750, 500);
 				chart.DisplayBlanksAs = eDisplayBlanksAs.Gap;
-				if (x < 1500)
+				if (x < 3000)
 				{
 					x += 750;
 				}
