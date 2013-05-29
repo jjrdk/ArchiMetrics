@@ -91,6 +91,7 @@
     <Compile Include="Indexes\MemberSizeMaintainabilityScatterIndex.cs" />
     <Compile Include="Indexes\ProjectInventoryDocumentIndex.cs" />
     <Compile Include="Indexes\TfsProjectMetricsIndex.cs" />
+    <Compile Include="Indexes\TfsProjectNameIndex.cs" />
     <Compile Include="Indexes\TfsTypeComplexityDistributionIndex.cs" />
     <Compile Include="Indexes\TfsTypeMaintainabilityDistributionIndex.cs" />
     <Compile Include="Indexes\TfsTypeSizeComplexityGeoMeanDistributionIndex.cs" />
@@ -128,7 +129,6 @@
     <Compile Include="Repositories\TypeComplexityRepository.cs" />
     <Compile Include="Repositories\TypeCouplingProvider.cs" />
     <Compile Include="AsyncSessionFactory.cs" />
-    <Compile Include="Repositories\TypeMaintainabilityDeviationRepository.cs" />
     <Compile Include="Repositories\TypeMaintainabilityRepository.cs" />
     <Compile Include="Repositories\TypeSizeComplexityGeoMeanRepository.cs" />
     <Compile Include="Repositories\TypeSizeRepository.cs" />
