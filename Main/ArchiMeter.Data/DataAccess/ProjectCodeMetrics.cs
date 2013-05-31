@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeMetrics.cs" company="Roche">
+// <copyright file="ProjectCodeMetrics.cs" company="Roche">
 //   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the CodeMetrics type.
+//   Defines the ProjectCodeMetrics type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Data.DataAccess
@@ -14,7 +14,7 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Collections.Generic;
 	using Common.Metrics;
 
-	public class CodeMetrics
+	public class ProjectCodeMetrics
 	{
 		public string Project { get; set; }
 
