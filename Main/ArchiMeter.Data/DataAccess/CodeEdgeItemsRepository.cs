@@ -18,6 +18,7 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 	using Common;
+	using Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
 

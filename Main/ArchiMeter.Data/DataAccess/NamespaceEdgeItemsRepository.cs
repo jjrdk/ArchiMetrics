@@ -18,6 +18,7 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Common;
+	using Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 

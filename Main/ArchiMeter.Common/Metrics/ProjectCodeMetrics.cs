@@ -9,12 +9,11 @@
 //   Defines the ProjectCodeMetrics type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Data.DataAccess
+namespace ArchiMeter.Common.Metrics
 {
 	using System.Collections.Generic;
-	using Common.Metrics;
 
-	public class ProjectCodeMetrics
+	public class ProjectCodeMetrics : CodeMetrics
 	{
 		public string Project { get; set; }
 
@@ -23,13 +22,5 @@ namespace ArchiMeter.Data.DataAccess
 		public string Version { get; set; }
 
 		public IEnumerable<NamespaceMetric> Metrics { get; set; }
-
-		public int LinesOfCode { get; set; }
-
-		public int DepthOfInheritance { get; set; }
-
-		public int CyclomaticComplexity { get; set; }
-
-		public double MaintainabilityIndex { get; set; }
 	}
 }

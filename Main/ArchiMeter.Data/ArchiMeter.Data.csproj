@@ -65,7 +65,6 @@
     <Compile Include="DataAccess\AggregateEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\CodeEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\CodeErrorRepository.cs" />
-    <Compile Include="DataAccess\ProjectCodeMetrics.cs" />
     <Compile Include="DataAccess\DocumentComparer.cs" />
     <Compile Include="DataAccess\FakeRepositoryBase.cs" />
     <Compile Include="DataAccess\FakeVertexRuleRepository.cs" />
