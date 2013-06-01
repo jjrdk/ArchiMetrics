@@ -14,13 +14,12 @@ namespace ArchiMeter.DataLoader
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using Roslyn.Services;
 
 	public class ProjectLoadErrorLoader : IDataLoader
@@ -29,14 +28,14 @@ namespace ArchiMeter.DataLoader
 
 		public ProjectLoadErrorLoader(IFactory<IDataSession<ProjectLoadErrorDocument>> sessionFactory)
 		{
-			this._sessionFactory = sessionFactory;
+			_sessionFactory = sessionFactory;
 		}
 
 		public async Task Load(ProjectSettings settings)
 		{
 			var failures = settings.Roots
 								   .Select(root => root.Source)
-								   .SelectMany(this.GetFailedProjects)
+								   .SelectMany(GetFailedProjects)
 								   .Where(ex => ex != null)
 								   .Select(f => new LoadErrorDetailsDocument
 												  {
@@ -45,7 +44,7 @@ namespace ArchiMeter.DataLoader
 													  ProjectPath = f.Item1
 												  });
 
-			using (var session = this._sessionFactory.Create())
+			using (var session = _sessionFactory.Create())
 			{
 				var document = new ProjectLoadErrorDocument
 								   {
@@ -62,21 +61,21 @@ namespace ArchiMeter.DataLoader
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectLoadErrorLoader()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		public IEnumerable<Tuple<string, Exception>> GetFailedProjects(string key)
 		{
 			return from file in Directory.GetFiles(key, "*.csproj", SearchOption.AllDirectories)
-				   where this.IsValid(file)
-				   let exception = this.GetProjectLoadException(file)
+				   where IsValid(file)
+				   let exception = GetProjectLoadException(file)
 				   where exception != null
 				   select new Tuple<string, Exception>(file, exception);
 		}
@@ -89,6 +88,7 @@ namespace ArchiMeter.DataLoader
 			}
 		}
 
+		[SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "hasDocuments", Justification = "Necessary to trigger exception.")]
 		private Exception GetProjectLoadException(string path)
 		{
 			IWorkspace workspace = null;

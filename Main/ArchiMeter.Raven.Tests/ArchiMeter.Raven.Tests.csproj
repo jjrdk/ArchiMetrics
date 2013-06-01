@@ -62,14 +62,8 @@
     <Compile Include="Indexes\ErrorDataIndexTests.cs" />
     <Compile Include="Indexes\IndexTestBase.cs" />
     <Compile Include="Indexes\TestIndex.cs" />
-    <Compile Include="Indexes\TfsMemberComplexitySigmaIndexTests.cs" />
-    <Compile Include="Indexes\TfsMemberMaintainabilitySigmaIndexTests.cs" />
-    <Compile Include="Indexes\TfsMemberSizeSigmaIndexTests.cs" />
     <Compile Include="Indexes\TfsProjectSizeIndexTests.cs" />
-    <Compile Include="Indexes\TfsTypeComplexitySigmaIndexTests.cs" />
-    <Compile Include="Indexes\TfsTypeMaintainabilitySigmaIndexTests.cs" />
     <Compile Include="Indexes\TfsTypeSizeDistributionIndexTests.cs" />
-    <Compile Include="Indexes\TfsTypeSizeSigmaIndexTests.cs" />
     <Compile Include="Indexes\TfsWeightedProjectMetricsIndexTests.cs" />
     <Compile Include="NamespaceMetricConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

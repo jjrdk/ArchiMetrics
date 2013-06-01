@@ -18,6 +18,7 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 	using Common;
+	using Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
 
@@ -72,8 +73,8 @@ namespace ArchiMeter.Data.DataAccess
 			string dependant, 
 			string dependency, 
 			string projectPath, 
-			CodeMetrics dependantMetrics, 
-			CodeMetrics dependencyMetrics, 
+			ProjectCodeMetrics dependantMetrics, 
+			ProjectCodeMetrics dependencyMetrics, 
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new EdgeItem

@@ -17,7 +17,6 @@ namespace ArchiCop.UI.Converters
 	using System.Globalization;
 	using System.Windows.Data;
 	using System.Windows.Media;
-
 	using ArchiMeter.Common;
 
 	internal class QualityToBrushConverter : IValueConverter
@@ -26,12 +25,12 @@ namespace ArchiCop.UI.Converters
 
 		public QualityToBrushConverter()
 		{
-			this._brushes.Add(CodeQuality.Good, this.GetBrush(Brushes.Green));
-			this._brushes.Add(CodeQuality.NeedsReview, this.GetBrush(Brushes.YellowGreen));
-			this._brushes.Add(CodeQuality.NeedsRefactoring, this.GetBrush(Brushes.Yellow));
-			this._brushes.Add(CodeQuality.NeedsReEngineering, this.GetBrush(Brushes.Orange));
-			this._brushes.Add(CodeQuality.Broken, this.GetBrush(Brushes.Red));
-			this._brushes.Add(CodeQuality.Incompetent, this.GetBrush(Brushes.HotPink));
+			_brushes.Add(CodeQuality.Good, GetBrush(Brushes.Green));
+			_brushes.Add(CodeQuality.NeedsReview, GetBrush(Brushes.YellowGreen));
+			_brushes.Add(CodeQuality.NeedsRefactoring, GetBrush(Brushes.Yellow));
+			_brushes.Add(CodeQuality.NeedsReEngineering, GetBrush(Brushes.Orange));
+			_brushes.Add(CodeQuality.Broken, GetBrush(Brushes.Red));
+			_brushes.Add(CodeQuality.Incompetent, GetBrush(Brushes.HotPink));
 		}
 
 		public object Convert(object value, 
@@ -40,7 +39,7 @@ namespace ArchiCop.UI.Converters
 							  CultureInfo culture)
 		{
 			var quality = (CodeQuality)value;
-			return this._brushes[quality];
+			return _brushes[quality];
 		}
 
 		public object ConvertBack(object value, 

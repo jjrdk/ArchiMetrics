@@ -15,7 +15,7 @@
 		</DataTemplate>
 	</UserControl.Resources>
 	<UserControl.RenderTransform>
-		<TranslateTransform X="1"></TranslateTransform>
+		<TranslateTransform X="1" />
 	</UserControl.RenderTransform>
 	<Grid x:Name="LayoutRoot"
 		  Background="White">

@@ -12,26 +12,13 @@
 
 namespace ArchiCop.UI
 {
-	using System.Windows;
-	using System.Windows.Controls;
-	using System.Windows.Forms;
+	using FirstFloor.ModernUI.Windows.Controls;
 
-	public partial class MainWindow : Window
+	public partial class MainWindow : ModernWindow
 	{
 		public MainWindow()
 		{
-			this.InitializeComponent();
-		}
-
-		private void OnClick(object sender, RoutedEventArgs e)
-		{
-			using (var directoryOpener = new FolderBrowserDialog())
-			{
-				if (directoryOpener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				{
-					this.TxtFolder.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
-				}
-			}
+			InitializeComponent();
 		}
 	}
 }

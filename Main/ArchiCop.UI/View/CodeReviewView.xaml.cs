@@ -16,7 +16,7 @@ namespace ArchiCop.UI.View
 	using System.Windows;
 	using System.Windows.Forms;
 	using System.Windows.Input;
-
+	using ViewModel;
 	using Clipboard = System.Windows.Clipboard;
 	using DataFormats = System.Windows.DataFormats;
 	using UserControl = System.Windows.Controls.UserControl;
@@ -24,11 +24,12 @@ namespace ArchiCop.UI.View
 	/// <summary>
 	/// Interaction logic for CodeReviewView.xaml
 	/// </summary>
+	[DataContext(typeof(CodeReviewViewModel))]
 	public partial class CodeReviewView : UserControl
 	{
 		public CodeReviewView()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private async void OnPrintReport(object sender, RoutedEventArgs e)
@@ -36,9 +37,9 @@ namespace ArchiCop.UI.View
 			var saveDialog = new SaveFileDialog();
 			if (saveDialog.ShowDialog() == DialogResult.OK)
 			{
-				this.CodeReviewGrid.SelectAllCells();
-				ApplicationCommands.Copy.Execute(null, this.CodeReviewGrid);
-				this.CodeReviewGrid.UnselectAllCells();
+				CodeReviewGrid.SelectAllCells();
+				ApplicationCommands.Copy.Execute(null, CodeReviewGrid);
+				CodeReviewGrid.UnselectAllCells();
 				var data = (string)Clipboard.GetData(DataFormats.Html);
 				Clipboard.Clear();
 				var writer = new StreamWriter(saveDialog.FileName);

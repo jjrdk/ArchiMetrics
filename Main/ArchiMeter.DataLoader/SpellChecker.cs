@@ -1,7 +1,6 @@
 ﻿namespace ArchiMeter.DataLoader
 {
 	using System;
-
 	using Common;
 	using NHunspell;
 
@@ -14,12 +13,6 @@
 			_speller = speller;
 		}
 
-		~SpellChecker()
-		{
-			// Simply call Dispose(false).
-			Dispose(false);
-		}
-
 		public bool Spell(string word)
 		{
 			return _speller.Spell(word);
@@ -29,6 +22,12 @@
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~SpellChecker()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

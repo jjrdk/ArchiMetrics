@@ -17,10 +17,8 @@ namespace ArchiMeter.DataLoader
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -35,9 +33,9 @@ namespace ArchiMeter.DataLoader
 			IFactory<IDataSession<EvaluationResultDocument>> sessionProvider,
 			IProvider<string, IProject> projectProvider)
 		{
-			this._projectProvider = projectProvider;
-			this._inspector = nodeInspector;
-			this._sessionProvider = sessionProvider;
+			_projectProvider = projectProvider;
+			_inspector = nodeInspector;
+			_sessionProvider = sessionProvider;
 		}
 
 		public async Task Load(ProjectSettings settings)
@@ -45,12 +43,12 @@ namespace ArchiMeter.DataLoader
 			Console.WriteLine("Loading Evaluation Results for " + settings.Name);
 
 			var projects = (from root in settings.Roots
-							from project in this._projectProvider.GetAll(root.Source)
+							from project in _projectProvider.GetAll(root.Source)
 							from document in project.Documents
 							where string.Equals(Path.GetExtension(document.FilePath), ".cs", StringComparison.OrdinalIgnoreCase)
 							let tuple = new { ProjectPath = project.FilePath, SyntaxNode = document.GetSyntaxRoot() as SyntaxNode }
 							where tuple.SyntaxNode != null
-							select new { ProjectName = project.Name, EvaluationTask = this._inspector.Inspect(tuple.ProjectPath, tuple.SyntaxNode) })
+							select new { ProjectName = project.Name, EvaluationTask = _inspector.Inspect(tuple.ProjectPath, tuple.SyntaxNode) })
 				.ToArray();
 			await Task.WhenAll(projects.Select(_ => _.EvaluationTask));
 			if (projects.Any(p => p.EvaluationTask.Exception != null))
@@ -76,7 +74,7 @@ namespace ArchiMeter.DataLoader
 							})
 				.GroupBy(x => x.Id)
 				.Select(g => g.First());
-			using (var session = this._sessionProvider.Create())
+			using (var session = _sessionProvider.Create())
 			{
 				foreach (var doc in docs)
 				{
@@ -101,14 +99,14 @@ namespace ArchiMeter.DataLoader
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~EvaluationResultLoader()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -116,8 +114,8 @@ namespace ArchiMeter.DataLoader
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				this._projectProvider.Dispose();
-				this._sessionProvider.Dispose();
+				_projectProvider.Dispose();
+				_sessionProvider.Dispose();
 			}
 		}
 	}

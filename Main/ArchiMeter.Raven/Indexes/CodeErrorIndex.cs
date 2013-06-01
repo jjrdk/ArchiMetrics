@@ -23,10 +23,10 @@ namespace ArchiMeter.Raven.Indexes
 						   from result in eval.Results
 						   select new
 								  {
-									  eval.ProjectName,
-									  eval.ProjectVersion,
+									  ProjectName = eval.ProjectName,
+									  ProjectVersion = eval.ProjectVersion,
 									  Error = result.Comment,
-									  result.Namespace,
+									  Namespace = result.Namespace,
 									  Snippets = new[]
 												 {
 													 new
@@ -40,12 +40,12 @@ namespace ArchiMeter.Raven.Indexes
 							   group error by error.ProjectName + error.ProjectVersion + error.Error
 								   into errorGroup
 								   let first = errorGroup.First()
-								   select new
+								   select new 
 										  {
-											  first.ProjectName,
-											  first.ProjectVersion,
-											  first.Error,
-											  first.Namespace,
+											  ProjectName = first.ProjectName,
+											  ProjectVersion = first.ProjectVersion,
+											  Error = first.Error,
+											  Namespace = first.Namespace,
 											  Snippets = errorGroup.SelectMany(g => g.Snippets).ToArray()
 										  };
 		}

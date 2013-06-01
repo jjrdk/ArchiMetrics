@@ -14,15 +14,13 @@ namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.CodeReview;
-	using ArchiMeter.Common;
-
+	using CodeReview;
+	using Common;
 	using OfficeOpenXml;
-
 	using Roslyn.Services;
 
 	public class ProjectLoadErrorReport : IReportJob
@@ -32,25 +30,25 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public ProjectLoadErrorReport(IProvider<string, IProject> projectProvider)
 		{
-			this._projectProvider = projectProvider;
-			this._pathFilter = ReportUtils.AllCode;
+			_projectProvider = projectProvider;
+			_pathFilter = ReportUtils.AllCode;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			return Task.Factory.StartNew(() => this.GenerateReport(package, config));
+			return Task.Factory.StartNew(() => GenerateReport(package, config));
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectLoadErrorReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -58,10 +56,11 @@ namespace ArchiMeter.ReportWriter.Reports
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				this._projectProvider.Dispose();
+				_projectProvider.Dispose();
 			}
 		}
 
+		[SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "hasDocuments", Justification = "Necessary to trigger exception.")]
 		private void GenerateReport(ExcelPackage package, ReportConfig config)
 		{
 			Console.WriteLine("Generating Project Load Error Report");
@@ -117,8 +116,8 @@ namespace ArchiMeter.ReportWriter.Reports
 		private IEnumerable<string> GetInvalidProjectPaths(ProjectDefinition path)
 		{
 			return Directory.GetFiles(path.Source, "*.csproj", SearchOption.AllDirectories)
-							.Where(x => this._pathFilter(new ProjectDefinition { IsTest = path.IsTest, Source = x }))
-							.Select(p => this._projectProvider.Get(p) == null ? p : string.Empty)
+							.Where(x => _pathFilter(new ProjectDefinition { IsTest = path.IsTest, Source = x }))
+							.Select(p => _projectProvider.Get(p) == null ? p : string.Empty)
 							.Where(s => !string.IsNullOrWhiteSpace(s));
 		}
 	}

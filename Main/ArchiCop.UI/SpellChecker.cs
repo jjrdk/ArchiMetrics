@@ -1,9 +1,7 @@
-﻿namespace ArchiCop.UI
+namespace ArchiCop.UI
 {
 	using System;
-
 	using ArchiMeter.Common;
-
 	using NHunspell;
 
 	internal class SpellChecker : ISpellChecker
@@ -15,12 +13,6 @@
 			_speller = speller;
 		}
 
-		~SpellChecker()
-		{
-			// Simply call Dispose(false).
-			Dispose(false);
-		}
-
 		public bool Spell(string word)
 		{
 			return _speller.Spell(word);
@@ -30,6 +22,12 @@
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~SpellChecker()
+		{
+			// Simply call Dispose(false).
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

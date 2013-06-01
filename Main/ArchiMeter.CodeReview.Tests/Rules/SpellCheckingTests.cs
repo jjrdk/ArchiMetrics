@@ -49,33 +49,6 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 			}
 		}
 
-		public class GivenASingleLineCommentLanguageRule
-		{
-			private SingleLineCommentLanguageRule _rule;
-
-			[SetUp]
-			public void Setup()
-			{
-				_rule = new SingleLineCommentLanguageRule(new SpellChecker());
-			}
-
-			[TestCase("Dette er ikke en engelsk kommentar.")]
-			public void FindNonEnglishSingleLineComments(string comment)
-			{
-				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
-//{0}
-}}", comment));
-				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
-				var nodes = root
-					.DescendantTrivia(descendIntoTrivia: true)
-					.Where(t => t.Kind == SyntaxKind.SingleLineCommentTrivia)
-					.ToArray();
-				var result = _rule.Evaluate(nodes.First());
-
-				Assert.NotNull(result);
-			}
-		}
-
 		public class GivenAMultiLineCommentLanguageRule
 		{
 			private MultiLineCommentLanguageRule _rule;
@@ -122,6 +95,33 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 			}
 		}
 
+		public class GivenASingleLineCommentLanguageRule
+		{
+			private SingleLineCommentLanguageRule _rule;
+
+			[SetUp]
+			public void Setup()
+			{
+				_rule = new SingleLineCommentLanguageRule(new SpellChecker());
+			}
+
+			[TestCase("Dette er ikke en engelsk kommentar.")]
+			public void FindNonEnglishSingleLineComments(string comment)
+			{
+				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
+//{0}
+}}", comment));
+				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
+				var nodes = root
+					.DescendantTrivia(descendIntoTrivia: true)
+					.Where(t => t.Kind == SyntaxKind.SingleLineCommentTrivia)
+					.ToArray();
+				var result = _rule.Evaluate(nodes.First());
+
+				Assert.NotNull(result);
+			}
+		}
+
 		public class GivenASolutionInspectorWithCommentLanguageRules
 		{
 			private SolutionInspector _inspector;
@@ -159,20 +159,12 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 				{
 					var affStream = new MemoryStream();
 					var dicStream = new MemoryStream();
-					var entries = dictFile.Select(z => z.FileName)
-						.ToArray();
 					dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
 						.Extract(affStream);
 					dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
 						.Extract(dicStream);
 					_speller = new Hunspell(affStream.ToArray(), dicStream.ToArray());
 				}
-			}
-
-			~SpellChecker()
-			{
-				// Simply call Dispose(false).
-				Dispose(false);
 			}
 
 			public bool Spell(string word)
@@ -184,6 +176,12 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 			{
 				Dispose(true);
 				GC.SuppressFinalize(this);
+			}
+
+			~SpellChecker()
+			{
+				// Simply call Dispose(false).
+				Dispose(false);
 			}
 
 			protected virtual void Dispose(bool isDisposing)

@@ -3,10 +3,8 @@ namespace ArchiMeter.ReportWriter.Reports
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class TypeMaintainabilityDistributionReport : IReportJob
@@ -15,14 +13,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public TypeMaintainabilityDistributionReport(IAsyncReadOnlyRepository<TypeMaintainabilitySegment> typeSizeProvider)
 		{
-			this._typeSizeProvider = typeSizeProvider;
+			_typeSizeProvider = typeSizeProvider;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			var segments = (await this._typeSizeProvider.Query(config.Projects.CreateQuery<TypeMaintainabilitySegment>())).ToArray();
+			var segments = Enumerable.ToArray<TypeMaintainabilitySegment>((await _typeSizeProvider.Query(config.Projects.CreateQuery<TypeMaintainabilitySegment>())));
 			var max = segments.Any() ? segments.Max(s => s.MaintainabilityIndex) + 1 : 0;
-			var groups = segments.GroupBy(s => s.ProjectName).ToArray();
+			var groups = segments.GroupBy<TypeMaintainabilitySegment, string>(s => s.ProjectName).ToArray();
 			var ws = package.Workbook.Worksheets.Add("Type Maintainabilities");
 			for (var i = 0; i < groups.Length; i++)
 			{
@@ -47,14 +45,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~TypeMaintainabilityDistributionReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

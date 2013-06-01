@@ -13,15 +13,17 @@
 namespace ArchiCop.UI.View
 {
 	using System.Windows.Controls;
+	using ViewModel;
 
 	/// <summary>
-    /// Interaction logic for DependencyItemsView.xaml
-    /// </summary>
-    public partial class EdgesView : UserControl
-    {
-        public EdgesView()
-        {
-            this.InitializeComponent();
-        }
-    }
+	/// Interaction logic for DependencyItemsView.xaml
+	/// </summary>
+	[DataContext(typeof(EdgesViewModel))]
+	public partial class EdgesView : UserControl
+	{
+		public EdgesView()
+		{
+			InitializeComponent();
+		}
+	}
 }

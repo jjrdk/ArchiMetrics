@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.CodeReview.Rules
+namespace ArchiMeter.CodeReview.Rules
 {
 	using System;
 	using System.Linq;

@@ -16,8 +16,7 @@ namespace ArchiCop.UI.ViewModel
 {
 	using System;
 	using System.Windows.Input;
-
-	using ArchiCop.UI.MvvmFoundation;
+	using MvvmFoundation;
 
 	/// <summary>
 	/// This ViewModelBase subclass requests to be removed 

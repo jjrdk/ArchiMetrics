@@ -13,10 +13,12 @@
 namespace ArchiCop.UI.View
 {
 	using System.Windows.Controls;
+	using ViewModel;
 
 	/// <summary>
 	/// Interaction logic for CircularReferenceView.xaml
 	/// </summary>
+	[DataContext(typeof(CircularReferenceViewModel))]
 	public partial class CircularReferenceView : UserControl
 	{
 		public CircularReferenceView()
