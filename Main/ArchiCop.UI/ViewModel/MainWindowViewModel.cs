@@ -22,21 +22,18 @@ namespace ArchiCop.UI.ViewModel
 	using System.Threading.Tasks;
 	using System.Windows.Data;
 	using System.Windows.Input;
-
-	using ArchiCop.UI.MvvmFoundation;
-
 	using ArchiMeter.Common;
+	using FirstFloor.ModernUI.Presentation;
+	using RelayCommand = MvvmFoundation.RelayCommand;
 
 	/// <summary>
 	/// The ViewModel for the application's main window.
 	/// </summary>
-	public class MainWindowViewModel : WorkspaceViewModel, IShell
+	public class MainWindowViewModel : WorkspaceViewModel
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly object _syncToken = new object();
-		private ObservableCollection<CommandViewModel> _commands;
 		private CancellationTokenSource _tokenSource;
-		private ObservableCollection<WorkspaceViewModel> _workspaces;
 
 		public MainWindowViewModel(ISolutionEdgeItemsRepositoryConfig config)
 		{
@@ -100,48 +97,6 @@ namespace ArchiCop.UI.ViewModel
 			}
 		}
 
-		public ICommand UpdateCommand
-		{
-			get { return new RelayCommand(() => UpdateAllWorkspaces(false)); }
-		}
-
-		/// <summary>
-		/// Returns a list of commands 
-		/// that the UI can display and execute.
-		/// </summary>
-		public ObservableCollection<CommandViewModel> Commands
-		{
-			get { return _commands ?? (_commands = new ObservableCollection<CommandViewModel>(CreateCommands())); }
-		}
-
-		/// <summary>
-		/// Returns the collection of available workspaces to display.
-		/// A 'workspace' is a ViewModel that can request to be closed.
-		/// </summary>
-		public ObservableCollection<WorkspaceViewModel> Workspaces
-		{
-			get
-			{
-				if (_workspaces == null)
-				{
-					_workspaces = new ObservableCollection<WorkspaceViewModel>();
-					BindingOperations.EnableCollectionSynchronization(_workspaces, _syncToken);
-					_workspaces.CollectionChanged += OnWorkspacesChanged;
-				}
-
-				return _workspaces;
-			}
-		}
-
-		public void SetActiveWorkspace(WorkspaceViewModel workspace)
-		{
-			var collectionView = CollectionViewSource.GetDefaultView(Workspaces);
-			if (collectionView != null)
-			{
-				collectionView.MoveCurrentTo(workspace);
-			}
-		}
-
 		protected override void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
@@ -153,25 +108,9 @@ namespace ArchiCop.UI.ViewModel
 				}
 
 				_config.PropertyChanged -= ConfigPropertyChanged;
-				_commands.Clear();
-				CloseWorkspaces();
 			}
 
 			base.Dispose(isDisposing);
-		}
-
-		private void CloseWorkspaces()
-		{
-			if (_workspaces != null)
-			{
-				BindingOperations.DisableCollectionSynchronization(_workspaces);
-				foreach (var workspace in _workspaces.ToArray())
-				{
-					workspace.CloseCommand.Execute(null);
-				}
-
-				_workspaces.Clear();
-			}
 		}
 
 		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -179,62 +118,10 @@ namespace ArchiCop.UI.ViewModel
 			switch (e.PropertyName)
 			{
 				case "Path":
-					CloseWorkspaces();
-
 					break;
 				default:
-					Task.Factory.StartNew(() => UpdateAllWorkspaces(true));
 					break;
 			}
-		}
-
-		private void UpdateAllWorkspaces(bool forceUpdate)
-		{
-			if (_tokenSource != null)
-			{
-				_tokenSource.Cancel();
-				_tokenSource.Dispose();
-			}
-
-			_tokenSource = new CancellationTokenSource();
-			var token = _tokenSource.Token;
-
-			foreach (var workspace in Workspaces.ToArray())
-			{
-				var workspace1 = workspace;
-				Task.Factory.StartNew(() => workspace1.Update(forceUpdate), token);
-			}
-		}
-
-		private List<CommandViewModel> CreateCommands()
-		{
-			return new List<CommandViewModel>();
-		}
-
-		private void OnWorkspacesChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			if (e.NewItems != null && e.NewItems.Count != 0)
-			{
-				foreach (WorkspaceViewModel workspace in e.NewItems)
-				{
-					workspace.RequestClose += OnWorkspaceRequestClose;
-				}
-			}
-
-			if (e.OldItems != null && e.OldItems.Count != 0)
-			{
-				foreach (WorkspaceViewModel workspace in e.OldItems)
-				{
-					workspace.RequestClose -= OnWorkspaceRequestClose;
-				}
-			}
-		}
-
-		private void OnWorkspaceRequestClose(object sender, EventArgs e)
-		{
-			var workspace = (WorkspaceViewModel)sender;
-			Workspaces.Remove(workspace);
-			workspace.Dispose();
 		}
 	}
 }

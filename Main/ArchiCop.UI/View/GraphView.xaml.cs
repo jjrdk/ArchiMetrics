@@ -13,10 +13,12 @@
 namespace ArchiCop.UI.View
 {
 	using System.Windows.Controls;
+	using ViewModel;
 
 	/// <summary>
 	/// Interaction logic for GraphView.xaml
 	/// </summary>
+	[DataContext(typeof(GraphViewModel))]
 	public partial class GraphView : UserControl
 	{
 		public GraphView()

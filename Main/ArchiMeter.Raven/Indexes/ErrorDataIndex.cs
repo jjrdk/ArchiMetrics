@@ -23,8 +23,8 @@ namespace ArchiMeter.Raven.Indexes
 			Map = ed => from e in ed
 						select new
 								   {
-									   e.ProjectName, 
-									   e.ProjectVersion
+									   ProjectName = e.ProjectName,
+									   ProjectVersion = e.ProjectVersion
 								   };
 
 			Store(e => e.ProjectName, FieldStorage.Yes);

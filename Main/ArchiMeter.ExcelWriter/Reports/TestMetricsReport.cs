@@ -1,10 +1,9 @@
 namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Raven.Repositories;
+	using Common;
+	using Common.Documents;
+	using Raven.Repositories;
 
 	public class TestMetricsReport : MetricsReportBase
 	{

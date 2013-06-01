@@ -157,6 +157,9 @@
   <data name="RequirementGraphViewModel_DisplayName" xml:space="preserve">
     <value>Requirements Graph</value>
   </data>
+  <data name="Structure" xml:space="preserve">
+    <value>Structure</value>
+  </data>
   <data name="TestErrorGraphViewModel_DisplayName" xml:space="preserve">
     <value>Test Errors</value>
   </data>

@@ -18,6 +18,7 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Common;
+	using Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -49,7 +50,7 @@ namespace ArchiMeter.Data.DataAccess
 													  Namespace = g.Key, 
 													  References = g.SelectMany(n => n.References.Distinct().ToArray())
 												  })
-												  .SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new CodeMetrics(), new CodeMetrics(), results)))
+												  .SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new ProjectCodeMetrics(), new ProjectCodeMetrics(), results)))
 								 .ToArray();
 		}
 

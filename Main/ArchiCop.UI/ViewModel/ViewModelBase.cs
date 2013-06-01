@@ -15,10 +15,7 @@
 namespace ArchiCop.UI.ViewModel
 {
 	using System;
-	using System.Diagnostics;
-
-	using ArchiCop.UI.MvvmFoundation;
-
+	using MvvmFoundation;
 	using Properties;
 
 	/// <summary>
@@ -58,8 +55,6 @@ namespace ArchiCop.UI.ViewModel
 
 		~ViewModelBase()
 		{
-			// Simply call Dispose(false).
-			Debug.WriteLine("{0} ({1}) ({2}) Finalized", GetType().Name, DisplayName, GetHashCode());
 			Dispose(false);
 		}
     }

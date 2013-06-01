@@ -21,11 +21,11 @@ namespace ArchiMeter.Raven.Indexes
 		public EvaluationResultDocumentIndex()
 		{
 			Map = ed => from e in ed
-			                 select new
-				                        {
-					                        e.ProjectName, 
-					                        e.ProjectVersion
-				                        };
+						select new
+								   {
+									   ProjectName = e.ProjectName,
+									   ProjectVersion = e.ProjectVersion
+								   };
 
 			Store(e => e.ProjectName, FieldStorage.Yes);
 			Store(e => e.ProjectVersion, FieldStorage.Yes);

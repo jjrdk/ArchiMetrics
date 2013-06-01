@@ -17,10 +17,8 @@ namespace ArchiMeter.ReportWriter.Reports
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Metrics;
-
+	using Common;
+	using Common.Metrics;
 	using OfficeOpenXml;
 
 	public class TypeCouplingReport : IReportJob
@@ -30,7 +28,7 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public TypeCouplingReport(IAsyncProvider<string, string, TypeCoupling> typeCouplingProvider)
 		{
-			this._typeCouplingProvider = typeCouplingProvider;
+			_typeCouplingProvider = typeCouplingProvider;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
@@ -39,7 +37,7 @@ namespace ArchiMeter.ReportWriter.Reports
 
 			foreach (var coupling in config.Couplings)
 			{
-				var docs = await this.GetDocuments(config);
+				var docs = await GetDocuments(config);
 				var couplings = await GetCouplings(docs, coupling.ToLowerInvariant());
 				var ws = package.Workbook.Worksheets.Add(coupling);
 				WriteReport(ws, couplings);
@@ -50,14 +48,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~TypeCouplingReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -65,7 +63,7 @@ namespace ArchiMeter.ReportWriter.Reports
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				this._typeCouplingProvider.Dispose();
+				_typeCouplingProvider.Dispose();
 			}
 		}
 
@@ -84,18 +82,18 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		private async Task<TypeCoupling[]> GetDocuments(ReportConfig config)
 		{
-			if (this._docs == null)
+			if (_docs == null)
 			{
 				var tasks = (from project in config.Projects
-							 select this._typeCouplingProvider.GetAll(project.Name, project.Revision.ToString(CultureInfo.InvariantCulture)))
+							 select _typeCouplingProvider.GetAll(project.Name, project.Revision.ToString(CultureInfo.InvariantCulture)))
 								 .ToArray();
 				var result = await Task.WhenAll(tasks);
-				this._docs = result
+				_docs = result
 					.SelectMany(x => x)
 					.ToArray();
 			}
 
-			return this._docs;
+			return _docs;
 		}
 
 		private static Task<IEnumerable<Tuple<string, int>>> GetCouplings(TypeCoupling[] metricsDocuments, string query)
