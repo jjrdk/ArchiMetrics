@@ -43,8 +43,8 @@ namespace ArchiCop.UI.MvvmFoundation
             if (propertySource == null)
                 throw new ArgumentNullException("propertySource");
 
-            this._propertySourceRef = new WeakReference(propertySource);
-            this._propertyNameToHandlerMap = new Dictionary<string, Action<TPropertySource>>();
+            _propertySourceRef = new WeakReference(propertySource);
+            _propertyNameToHandlerMap = new Dictionary<string, Action<TPropertySource>>();
         }
 
 		bool IWeakEventListener.ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
@@ -63,7 +63,7 @@ namespace ArchiCop.UI.MvvmFoundation
 					{
 						// When the property name is empty, all properties are considered to be invalidated.
 						// Iterate over a copy of the list of handlers, in case a handler is registered by a callback.
-						foreach (var handler in this._propertyNameToHandlerMap.Values.ToArray())
+						foreach (var handler in _propertyNameToHandlerMap.Values.ToArray())
 							handler(propertySource);
 
 						handled = true;
@@ -71,7 +71,7 @@ namespace ArchiCop.UI.MvvmFoundation
 					else
 					{
 						Action<TPropertySource> handler;
-						if (this._propertyNameToHandlerMap.TryGetValue(propertyName, out handler))
+						if (_propertyNameToHandlerMap.TryGetValue(propertyName, out handler))
 						{
 							handler(propertySource);
 
@@ -104,13 +104,13 @@ namespace ArchiCop.UI.MvvmFoundation
             if (handler == null)
                 throw new ArgumentNullException("handler");
 
-            TPropertySource propertySource = this.GetPropertySource();
+            TPropertySource propertySource = GetPropertySource();
             if (propertySource != null)
             {
-                Debug.Assert(!this._propertyNameToHandlerMap.ContainsKey(propertyName), 
+                Debug.Assert(!_propertyNameToHandlerMap.ContainsKey(propertyName), 
                              "Why is the '" + propertyName + "' property being registered again?");
 
-                this._propertyNameToHandlerMap[propertyName] = handler;
+                _propertyNameToHandlerMap[propertyName] = handler;
                 PropertyChangedEventManager.AddListener(propertySource, this, propertyName);
             }
 
@@ -133,12 +133,12 @@ namespace ArchiCop.UI.MvvmFoundation
             if (string.IsNullOrEmpty(propertyName))
                 throw new ArgumentException("'expression' did not provide a property name.");
 
-            TPropertySource propertySource = this.GetPropertySource();
+            TPropertySource propertySource = GetPropertySource();
             if (propertySource != null)
             {
-                if (this._propertyNameToHandlerMap.ContainsKey(propertyName))
+                if (_propertyNameToHandlerMap.ContainsKey(propertyName))
                 {
-                    this._propertyNameToHandlerMap.Remove(propertyName);
+                    _propertyNameToHandlerMap.Remove(propertyName);
                     PropertyChangedEventManager.RemoveListener(propertySource, this, propertyName);
                 }
             }
@@ -178,7 +178,7 @@ namespace ArchiCop.UI.MvvmFoundation
         {
             try
             {
-                return (TPropertySource) this._propertySourceRef.Target;
+                return (TPropertySource) _propertySourceRef.Target;
             }
             catch
             {

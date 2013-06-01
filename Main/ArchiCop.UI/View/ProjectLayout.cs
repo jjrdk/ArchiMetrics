@@ -12,9 +12,8 @@
 
 namespace ArchiCop.UI.View
 {
-	using ArchiCop.UI.ViewModel;
-
 	using GraphSharp.Controls;
+	using ViewModel;
 
 	internal class ProjectLayout : GraphLayout<Vertex, ProjectEdge, ProjectGraph> { }
 }

@@ -14,9 +14,7 @@ namespace ArchiMeter.ReportWriter.Reports
 {
 	using System;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-
+	using Common;
 	using OfficeOpenXml;
 
 	public interface IReportJob : IDisposable

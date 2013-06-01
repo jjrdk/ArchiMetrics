@@ -13,8 +13,7 @@
 namespace ArchiCop.UI
 {
 	using System.Collections.ObjectModel;
-
-	using ArchiCop.UI.ViewModel;
+	using ViewModel;
 
 	public interface IShell
     {

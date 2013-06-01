@@ -27,6 +27,10 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 
 	public sealed class SyntaxInspectorTests
 	{
+		private SyntaxInspectorTests()
+		{
+		}
+
 		private static Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new SolutionInspector(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
@@ -34,10 +38,6 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 
 			var task = inspector.Inspect("x", tree.GetRoot());
 			return task;
-		}
-
-		private SyntaxInspectorTests()
-		{
 		}
 
 		public class GivenASyntaxInspectorInspectingBrokenCode

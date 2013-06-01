@@ -90,8 +90,7 @@ namespace ArchiMeter.Analysis.Tests
     </Tests>
   </Requirement>
 </Root>";
-			var reports = _analyzer.GetRequirementTests(@"c:\")
-								   .ToArray();
+			var reports = _analyzer.GetRequirementTests(@"c:\").ToArray();
 			var elements = reports.Select(
 				r => new XElement(
 						 "Requirement", 

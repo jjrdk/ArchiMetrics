@@ -15,6 +15,7 @@ namespace ArchiCop.UI.MvvmFoundation
 	using System;
 	using System.ComponentModel;
 	using System.Diagnostics;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Runtime.CompilerServices;
 
 	/// <summary>
@@ -39,12 +40,12 @@ namespace ArchiCop.UI.MvvmFoundation
 		/// Raises this object's PropertyChanged event.
 		/// </summary>
 		/// <param name="propertyName">The property that has a new value.</param>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This is the event invocation.")]
+		[SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This is the event invocation.")]
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = "")
 		{
-			this.VerifyPropertyName(propertyName);
+			VerifyPropertyName(propertyName);
 
-			PropertyChangedEventHandler handler = this.PropertyChanged;
+			PropertyChangedEventHandler handler = PropertyChanged;
 			if (handler != null)
 			{
 				var e = new PropertyChangedEventArgs(propertyName);
@@ -72,7 +73,7 @@ namespace ArchiCop.UI.MvvmFoundation
 			{
 				string msg = "Invalid property name: " + propertyName;
 
-				if (this.ThrowOnInvalidPropertyName)
+				if (ThrowOnInvalidPropertyName)
 					throw new ArgumentException(msg);
 				else
 					Debug.Fail(msg);

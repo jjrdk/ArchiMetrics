@@ -20,7 +20,7 @@ namespace ArchiCop.UI
 	{
 		public MainWindow()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void OnClick(object sender, RoutedEventArgs e)
@@ -29,7 +29,7 @@ namespace ArchiCop.UI
 			{
 				if (directoryOpener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
-					this.TxtFolder.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
+					TxtFolder.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
 				}
 			}
 		}

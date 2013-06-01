@@ -2,7 +2,6 @@
 {
 	using System.Linq;
 	using Common.Documents;
-
 	using global::Raven.Client.Indexes;
 
 	public class TfsProjectMetricsIndex : AbstractIndexCreationTask<TfsMetricsDocument, TfsProjectMetrics>

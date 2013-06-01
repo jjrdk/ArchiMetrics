@@ -3,10 +3,8 @@ namespace ArchiMeter.ReportWriter.Reports
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class TypeSizeDistributionReport : IReportJob
@@ -15,12 +13,12 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public TypeSizeDistributionReport(IAsyncReadOnlyRepository<TypeSizeSegment> typeSizeProvider)
 		{
-			this._typeSizeProvider = typeSizeProvider;
+			_typeSizeProvider = typeSizeProvider;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			var segments = (await this._typeSizeProvider.Query(config.Projects.CreateQuery<TypeSizeSegment>())).ToArray();
+			var segments = (await _typeSizeProvider.Query(config.Projects.CreateQuery<TypeSizeSegment>())).ToArray();
 			var max = segments.Any() ? segments.Max(s => s.LoC) + 1 : 0;
 			var groups = segments.GroupBy(s => s.ProjectName).ToArray();
 			var ws = package.Workbook.Worksheets.Add("Type Sizes");
@@ -46,14 +44,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~TypeSizeDistributionReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

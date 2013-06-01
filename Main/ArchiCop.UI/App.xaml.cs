@@ -18,19 +18,18 @@ namespace ArchiCop.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-	using ArchiCop.UI.Controller;
 	using ArchiMeter.Analysis;
-	using ArchiCop.UI;
-	using ArchiCop.UI.ViewModel;
-	using Autofac;
 	using ArchiMeter.CodeReview;
 	using ArchiMeter.CodeReview.Metrics;
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
+	using Autofac;
+	using Controller;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
+	using ViewModel;
 
 	public partial class App : Application
 	{

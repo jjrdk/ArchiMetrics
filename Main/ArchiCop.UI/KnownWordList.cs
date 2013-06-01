@@ -1,7 +1,6 @@
 ﻿namespace ArchiCop.UI
 {
 	using System.Collections.Generic;
-
 	using ArchiMeter.Common;
 
 	public class KnownWordList : IKnownWordList

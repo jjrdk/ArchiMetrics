@@ -44,21 +44,21 @@ namespace ArchiCop.UI.MvvmFoundation
 				throw new ArgumentNullException("execute");
 			}
 
-			this._execute = execute;
-			this._canExecute = canExecute;
+			_execute = execute;
+			_canExecute = canExecute;
 		}
 
 		[DebuggerStepThrough]
 		public bool CanExecute(object parameter)
 		{
-			return this._canExecute == null || this._canExecute((T)parameter);
+			return _canExecute == null || _canExecute((T)parameter);
 		}
 
 		public event EventHandler CanExecuteChanged
 		{
 			add
 			{
-				if (this._canExecute != null)
+				if (_canExecute != null)
 				{
 					CommandManager.RequerySuggested += value;
 				}
@@ -66,7 +66,7 @@ namespace ArchiCop.UI.MvvmFoundation
 
 			remove
 			{
-				if (this._canExecute != null)
+				if (_canExecute != null)
 				{
 					CommandManager.RequerySuggested -= value;
 				}
@@ -75,7 +75,7 @@ namespace ArchiCop.UI.MvvmFoundation
 
 		public void Execute(object parameter)
 		{
-			this._execute((T)parameter);
+			_execute((T)parameter);
 		}
 	}
 
@@ -101,34 +101,34 @@ namespace ArchiCop.UI.MvvmFoundation
 			if (execute == null)
 				throw new ArgumentNullException("execute");
 
-			this._execute = execute;
-			this._canExecute = canExecute;
+			_execute = execute;
+			_canExecute = canExecute;
 		}
 
 		[DebuggerStepThrough]
 		public bool CanExecute(object parameter)
 		{
-			return this._canExecute == null || this._canExecute();
+			return _canExecute == null || _canExecute();
 		}
 
 		public event EventHandler CanExecuteChanged
 		{
 			add
 			{
-				if (this._canExecute != null)
+				if (_canExecute != null)
 					CommandManager.RequerySuggested += value;
 			}
 
 			remove
 			{
-				if (this._canExecute != null)
+				if (_canExecute != null)
 					CommandManager.RequerySuggested -= value;
 			}
 		}
 
 		public void Execute(object parameter)
 		{
-			this._execute();
+			_execute();
 		}
 	}
 }

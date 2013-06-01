@@ -1,7 +1,7 @@
 ﻿namespace ArchiMeter.CodeReview.Rules
 {
 	using System.Linq;
-	using ArchiMeter.Common;
+	using Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class CommentLanguageRuleBase : TriviaEvaluationBase

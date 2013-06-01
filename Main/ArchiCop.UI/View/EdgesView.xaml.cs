@@ -21,7 +21,7 @@ namespace ArchiCop.UI.View
     {
         public EdgesView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }
