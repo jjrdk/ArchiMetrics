@@ -12,7 +12,6 @@
 
 namespace ArchiCop.UI
 {
-	using System;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
@@ -25,11 +24,9 @@ namespace ArchiCop.UI
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
 	using Autofac;
-	using Controller;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
-	using View;
 	using ViewModel;
 
 	public partial class App : Application
@@ -85,7 +82,6 @@ namespace ArchiCop.UI
 				   .As<IProvider<string, ISolution>>();
 			builder.RegisterType<ProjectProvider>()
 				   .As<IProvider<string, IProject>>();
-			builder.RegisterType<ArchiMeterController>();
 			builder.RegisterType<CodeErrorRepository>()
 				   .As<ICodeErrorRepository>();
 			builder.RegisterType<AggregateEdgeItemsRepository>()
@@ -110,35 +106,10 @@ namespace ArchiCop.UI
 				.AsSelf();
 			builder.RegisterType<TestErrorGraphViewModel>()
 				.AsSelf();
-			// Create the ViewModel to which 
-			// the main window binds.            
-			//var viewModel = new MainWindowViewModel(config);
-
-			//builder.RegisterInstance<IShell>(viewModel);
 			var container = builder.Build();
 			var loader = new ModernContentLoader(container);
 			Resources.Add("Loader", loader);
 			base.OnStartup(e);
-
-			//var window = new MainWindow();
-
-			// When the ViewModel asks to be closed, 
-			// close the window.
-			//EventHandler handler = null;
-			//handler = (sender, args) =>
-			//			  {
-			//				  viewModel.RequestClose -= handler;
-			//				  window.Close();
-			//			  };
-			//viewModel.RequestClose += handler;
-
-			// Allow all controls in the window to 
-			// bind to the ViewModel by setting the 
-			// DataContext, which propagates down 
-			// the element tree.
-			//window.DataContext = viewModel;
-
-			//window.Show();
 		}
 	}
 }

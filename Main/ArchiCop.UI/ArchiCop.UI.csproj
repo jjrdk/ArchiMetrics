@@ -147,13 +147,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controller\ArchiCopController.cs" />
     <Compile Include="Converters\CircularToBrushConverter.cs" />
     <Compile Include="Converters\LinesOfCodeToThicknessConverter.cs" />
     <Compile Include="Converters\QualityToBrushConverter.cs" />
     <Compile Include="DataContextAttribute.cs" />
     <Compile Include="DefaultCollectionCopier.cs" />
-    <Compile Include="IShell.cs" />
     <Compile Include="KnownWordList.cs" />
     <Compile Include="ModernContentLoader.cs" />
     <Compile Include="MvvmFoundation\Messenger.cs" />
