@@ -33,30 +33,4 @@
 			return null;
 		}
 	}
-
-	internal class SingleLineCommentLanguageRule : CommentLanguageRuleBase
-	{
-		public SingleLineCommentLanguageRule(ISpellChecker spellChecker)
-			: base(spellChecker)
-		{
-		}
-
-		public override SyntaxKind EvaluatedKind
-		{
-			get { return SyntaxKind.SingleLineCommentTrivia; }
-		}
-	}
-
-	internal class MultiLineCommentLanguageRule : CommentLanguageRuleBase
-	{
-		public MultiLineCommentLanguageRule(ISpellChecker spellChecker)
-			: base(spellChecker)
-		{
-		}
-
-		public override SyntaxKind EvaluatedKind
-		{
-			get { return SyntaxKind.MultiLineCommentTrivia; }
-		}
-	}
 }

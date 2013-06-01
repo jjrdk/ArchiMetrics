@@ -89,6 +89,7 @@ namespace ArchiMeter.DataLoader
 			}
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "hasDocuments", Justification = "Necessary to trigger exception.")]
 		private Exception GetProjectLoadException(string path)
 		{
 			IWorkspace workspace = null;

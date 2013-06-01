@@ -36,7 +36,7 @@ namespace ArchiMeter.CodeReview.Rules
 				var methodParent = FindMethodParent(node) as MethodDeclarationSyntax;
 				if (methodParent != null
 					&& methodParent.AttributeLists != null
-					&& methodParent.AttributeLists.Any(l => l.Attributes.Any(a => a.Name is SimpleNameSyntax && ((SimpleNameSyntax)a.Name).Identifier.ValueText == "TestMethod")))
+					&& methodParent.AttributeLists.Any(l => l.Attributes.Any(a => a.Name is SimpleNameSyntax && ((SimpleNameSyntax)a.Name).Identifier.ValueText.IsKnownTestAttribute())))
 				{
 					var snippet = methodParent.ToFullString();
 

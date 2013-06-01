@@ -34,6 +34,13 @@ namespace ArchiMeter.CodeReview
 											"Simulator"
 										  };
 
+		private static readonly string[] KnownTestAttributes = new[] { "Test", "TestMethod", "Fact" };
+
+		internal static bool IsKnownTestAttribute(this string text)
+		{
+			return KnownTestAttributes.Contains(text);
+		}
+
 		public static string GetMonth()
 		{
 			return string.Format("{0} {1}", DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month), DateTime.Now.Year);

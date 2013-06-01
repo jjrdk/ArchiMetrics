@@ -62,6 +62,7 @@ namespace ArchiMeter.ReportWriter.Reports
 			}
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "hasDocuments", Justification = "Necessary to trigger exception.")]
 		private void GenerateReport(ExcelPackage package, ReportConfig config)
 		{
 			Console.WriteLine("Generating Project Load Error Report");
