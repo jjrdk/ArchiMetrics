@@ -1,5 +1,7 @@
 ﻿namespace ArchiMeter.Raven
 {
+	using System;
+
 	public class NamedDocumentStoreProvider : DocumentStoreProviderBase
 	{
 		private readonly string _apiKey;

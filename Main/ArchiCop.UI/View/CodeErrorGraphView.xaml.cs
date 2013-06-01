@@ -23,7 +23,7 @@ namespace ArchiCop.UI.View
 	{
 		public CodeErrorGraphView()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 	}
 }

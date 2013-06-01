@@ -13,6 +13,7 @@ namespace ArchiMeter.CodeReview.Rules
 {
 	using System;
 	using System.Linq;
+
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
