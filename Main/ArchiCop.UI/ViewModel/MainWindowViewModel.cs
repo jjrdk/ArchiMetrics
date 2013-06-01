@@ -23,7 +23,8 @@ namespace ArchiCop.UI.ViewModel
 	using System.Windows.Data;
 	using System.Windows.Input;
 	using ArchiMeter.Common;
-	using MvvmFoundation;
+	using FirstFloor.ModernUI.Presentation;
+	using RelayCommand = MvvmFoundation.RelayCommand;
 
 	/// <summary>
 	/// The ViewModel for the application's main window.
@@ -32,7 +33,7 @@ namespace ArchiCop.UI.ViewModel
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly object _syncToken = new object();
-		private ObservableCollection<CommandViewModel> _commands;
+		private ObservableCollection<LinkGroup> _commands;
 		private CancellationTokenSource _tokenSource;
 		private ObservableCollection<WorkspaceViewModel> _workspaces;
 
@@ -107,9 +108,9 @@ namespace ArchiCop.UI.ViewModel
 		/// Returns a list of commands 
 		/// that the UI can display and execute.
 		/// </summary>
-		public ObservableCollection<CommandViewModel> Commands
+		public ObservableCollection<LinkGroup> Commands
 		{
-			get { return _commands ?? (_commands = new ObservableCollection<CommandViewModel>(CreateCommands())); }
+			get { return _commands ?? (_commands = new ObservableCollection<LinkGroup>(CreateCommands())); }
 		}
 
 		/// <summary>
@@ -204,9 +205,9 @@ namespace ArchiCop.UI.ViewModel
 			}
 		}
 
-		private List<CommandViewModel> CreateCommands()
+		private List<LinkGroup> CreateCommands()
 		{
-			return new List<CommandViewModel>();
+			return new List<LinkGroup>();
 		}
 
 		private void OnWorkspacesChanged(object sender, NotifyCollectionChangedEventArgs e)

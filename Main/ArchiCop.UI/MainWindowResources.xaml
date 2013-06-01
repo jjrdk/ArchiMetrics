@@ -53,7 +53,7 @@ This resource dictionary is used by the MainWindow.
 		<Setter Property="HeaderTemplate">
 			<Setter.Value>
 				<DataTemplate>
-					<Border Background="{StaticResource Brush_HeaderBackground}"
+					<Border Background="{StaticResource BrushHeaderBackground}"
 							BorderBrush="LightGray"
 							BorderThickness="1"
 							CornerRadius="5"

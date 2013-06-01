@@ -12,9 +12,11 @@
 
 namespace ArchiCop.UI.Controller
 {
+	using System;
 	using System.Linq;
 	using ArchiMeter.Analysis;
 	using ArchiMeter.Common;
+	using FirstFloor.ModernUI.Presentation;
 	using MvvmFoundation;
 	using Properties;
 	using ViewModel;
@@ -31,12 +33,12 @@ namespace ArchiCop.UI.Controller
 		private readonly IShell _shell;
 
 		public ArchiMeterController(
-			IShell shell, 
-			ICodeErrorRepository codeErrorRepository, 
-			IRequirementTestAnalyzer requirementTestAnalyzer, 
-			ISolutionEdgeItemsRepositoryConfig config, 
-			IEdgeItemsRepository dependencyItemRepository, 
-			IEdgeTransformer filter, 
+			IShell shell,
+			ICodeErrorRepository codeErrorRepository,
+			IRequirementTestAnalyzer requirementTestAnalyzer,
+			ISolutionEdgeItemsRepositoryConfig config,
+			IEdgeItemsRepository dependencyItemRepository,
+			IEdgeTransformer filter,
 			IVertexRuleDefinition ruleDefinition)
 		{
 			_shell = shell;
@@ -53,40 +55,55 @@ namespace ArchiCop.UI.Controller
 			// 	new CommandViewModel(
 			// 		Strings.MainWindowViewModel_Command_ViewBuilds,
 			// 		new RelayCommand<object>(param => ShowBuilds())));
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.MainWindowViewModel_Command_ViewDependencies, 
-					new RelayCommand<object>(param => ShowDependencies())));
 
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.MainWindowViewModel_Command_ViewDependencyGraph, 
-					new RelayCommand<object>(param => ShowDependencyGraph())));
+			var structureGroup = new LinkGroup
+			{
+				DisplayName = Strings.Structure,
+				GroupName = Strings.Structure
+			};
+			structureGroup.Links.Add(new Link
+			{
+				DisplayName = Strings.MainWindowViewModel_Command_ViewDependencies,
+				Source = new Uri("View/EdgesView.xaml", UriKind.Relative)
+			});
+			_shell.Commands.Add(structureGroup);
+			//_shell.Commands.Add(
+			//	structureGroup);
 
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.MainWindowViewModel_Command_ViewRequirementsGraph, 
-					new RelayCommand<object>(param => ShowRequirementsGraph())));
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.MainWindowViewModel_Command_ViewDependencies,
+			//		new RelayCommand<object>(param => ShowDependencies())));
 
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.MainWindowViewModel_Command_ViewCircularReferences, 
-					new RelayCommand<object>(param => ShowCircularReferences())));
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.MainWindowViewModel_Command_ViewDependencyGraph,
+			//		new RelayCommand<object>(param => ShowDependencyGraph())));
 
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.CodeReviewViewModel_DisplayName, 
-					new RelayCommand<object>(param => ShowCodeErrors())));
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.MainWindowViewModel_Command_ViewRequirementsGraph,
+			//		new RelayCommand<object>(param => ShowRequirementsGraph())));
 
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.CodeErrorGraphViewModel_DisplayName, 
-					new RelayCommand<object>(param => ShowCodeErrorGraph())));
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.MainWindowViewModel_Command_ViewCircularReferences,
+			//		new RelayCommand<object>(param => ShowCircularReferences())));
 
-			_shell.Commands.Add(
-				new CommandViewModel(
-					Strings.TestErrorGraphViewModel_DisplayName, 
-					new RelayCommand<object>(param => ShowTestErrorGraph())));
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.CodeReviewViewModel_DisplayName,
+			//		new RelayCommand<object>(param => ShowCodeErrors())));
+
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.CodeErrorGraphViewModel_DisplayName,
+			//		new RelayCommand<object>(param => ShowCodeErrorGraph())));
+
+			//_shell.Commands.Add(
+			//	new CommandViewModel(
+			//		Strings.TestErrorGraphViewModel_DisplayName,
+			//		new RelayCommand<object>(param => ShowTestErrorGraph())));
 		}
 
 		private void ShowCodeErrorGraph()

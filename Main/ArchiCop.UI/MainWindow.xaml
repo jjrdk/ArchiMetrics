@@ -1,21 +1,58 @@
-﻿<Window x:Class="ArchiCop.UI.MainWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:viewModel="clr-namespace:ArchiCop.UI.ViewModel"
-        mc:Ignorable="d"
-        FontSize="13"
-		FontFamily="Verdana"
-		MinWidth="650"
-		MinHeight="420"
-		Title="{Binding Path=DisplayName}"
-		Width="650"
-		Height="420"
-		WindowStartupLocation="CenterScreen"
-		d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}">
+﻿<mui:ModernWindow x:Class="ArchiCop.UI.MainWindow"
+				  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				  xmlns:viewModel="clr-namespace:ArchiCop.UI.ViewModel"
+				  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+				  xmlns:ui="clr-namespace:ArchiCop.UI"
+				  mc:Ignorable="d"
+				  FontSize="13"
+				  FontFamily="Verdana"
+				  MinWidth="650"
+				  MinHeight="420"
+				  Title="{Binding Path=DisplayName}"
+				  Width="650"
+				  Height="420"
+				  WindowStartupLocation="CenterScreen"
+				  d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}"
+				  ContentLoader="{DynamicResource Loader}">
 	<Window.Resources>
-		<ResourceDictionary Source="MainWindowResources.xaml" />
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="MainWindowResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</Window.Resources>
+	<mui:ModernWindow.MenuLinkGroups>
+		<mui:LinkGroup DisplayName="Structures"
+					   GroupName="Structures">
+			<mui:LinkGroup.Links>
+				<mui:Link DisplayName="Edges"
+						  Source="View/EdgesView.xaml" />
+				<mui:Link DisplayName="Graph"
+						  Source="View/GraphView.xaml" />
+			</mui:LinkGroup.Links>
+		</mui:LinkGroup>
+		<mui:LinkGroup DisplayName="Analysis"
+					   GroupName="Analysis">
+			<mui:LinkGroup.Links>
+				<mui:Link DisplayName="Circular References"
+						  Source="View/CircularReferenceView.xaml" />
+			</mui:LinkGroup.Links>
+		</mui:LinkGroup>
+		<mui:LinkGroup DisplayName="Review"
+					   GroupName="Review">
+			<mui:LinkGroup.Links>
+				<mui:Link DisplayName="Code Review"
+						  Source="View/CodeReviewView.xaml" />
+				<mui:Link DisplayName="Code Errors"
+						  Source="View/CodeErrorGraphView.xaml" />
+				<mui:Link DisplayName="Test Errors"
+						  Source="View/TestErrorGraphView.xaml" />
+			</mui:LinkGroup.Links>
+		</mui:LinkGroup>
+	</mui:ModernWindow.MenuLinkGroups>
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top"
 				   KeyboardNavigation.TabNavigation="None">
@@ -78,4 +115,4 @@
 			</Grid>
 		</Grid>
 	</DockPanel>
-</Window>
+</mui:ModernWindow>

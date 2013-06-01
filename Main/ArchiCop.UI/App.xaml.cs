@@ -29,6 +29,7 @@ namespace ArchiCop.UI
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
+	using View;
 	using ViewModel;
 
 	public partial class App : Application
@@ -38,14 +39,12 @@ namespace ArchiCop.UI
 			// Ensure the current culture passed into bindings is the OS culture.
 			// By default, WPF uses en-US as the culture, regardless of the system settings.
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement), 
+				typeof(FrameworkElement),
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			base.OnStartup(e);
-
 			var builder = new ContainerBuilder();
 
 			// container.RegisterType<IBuildItemRepository, FakeBuildItemRepository>(
@@ -97,34 +96,49 @@ namespace ArchiCop.UI
 				   .As<IEdgeTransformer>();
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
-
+			builder.RegisterType<EdgesViewModel>()
+				.AsSelf();
+			builder.RegisterType<CircularReferenceViewModel>()
+				.AsSelf();
+			builder.RegisterType<CodeErrorGraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<CodeReviewViewModel>()
+				.AsSelf();
+			builder.RegisterType<GraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<RequirementGraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<TestErrorGraphViewModel>()
+				.AsSelf();
 			// Create the ViewModel to which 
 			// the main window binds.            
-			var viewModel = new MainWindowViewModel(config);
+			//var viewModel = new MainWindowViewModel(config);
 
-			builder.RegisterInstance<IShell>(viewModel);
+			//builder.RegisterInstance<IShell>(viewModel);
 			var container = builder.Build();
-			container.Resolve<ArchiMeterController>();
+			var loader = new ModernContentLoader(container);
+			Resources.Add("Loader", loader);
+			base.OnStartup(e);
 
-			var window = new MainWindow();
+			//var window = new MainWindow();
 
 			// When the ViewModel asks to be closed, 
 			// close the window.
-			EventHandler handler = null;
-			handler = (sender, args) =>
-						  {
-							  viewModel.RequestClose -= handler;
-							  window.Close();
-						  };
-			viewModel.RequestClose += handler;
+			//EventHandler handler = null;
+			//handler = (sender, args) =>
+			//			  {
+			//				  viewModel.RequestClose -= handler;
+			//				  window.Close();
+			//			  };
+			//viewModel.RequestClose += handler;
 
 			// Allow all controls in the window to 
 			// bind to the ViewModel by setting the 
 			// DataContext, which propagates down 
 			// the element tree.
-			window.DataContext = viewModel;
+			//window.DataContext = viewModel;
 
-			window.Show();
+			//window.Show();
 		}
 	}
 }

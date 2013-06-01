@@ -13,11 +13,12 @@
 namespace ArchiCop.UI
 {
 	using System.Collections.ObjectModel;
+	using FirstFloor.ModernUI.Presentation;
 	using ViewModel;
 
 	public interface IShell
     {
-        ObservableCollection<CommandViewModel> Commands { get; }
+        ObservableCollection<LinkGroup> Commands { get; }
 
         ObservableCollection<WorkspaceViewModel> Workspaces { get; }
 

@@ -15,8 +15,9 @@ namespace ArchiCop.UI
 	using System.Windows;
 	using System.Windows.Controls;
 	using System.Windows.Forms;
+	using FirstFloor.ModernUI.Windows.Controls;
 
-	public partial class MainWindow : Window
+	public partial class MainWindow : ModernWindow
 	{
 		public MainWindow()
 		{
