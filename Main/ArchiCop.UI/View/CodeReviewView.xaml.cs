@@ -16,6 +16,7 @@ namespace ArchiCop.UI.View
 	using System.Windows;
 	using System.Windows.Forms;
 	using System.Windows.Input;
+	using ViewModel;
 	using Clipboard = System.Windows.Clipboard;
 	using DataFormats = System.Windows.DataFormats;
 	using UserControl = System.Windows.Controls.UserControl;
@@ -23,6 +24,7 @@ namespace ArchiCop.UI.View
 	/// <summary>
 	/// Interaction logic for CodeReviewView.xaml
 	/// </summary>
+	[DataContext(typeof(CodeReviewViewModel))]
 	public partial class CodeReviewView : UserControl
 	{
 		public CodeReviewView()

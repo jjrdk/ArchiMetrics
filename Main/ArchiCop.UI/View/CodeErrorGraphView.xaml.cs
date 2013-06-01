@@ -13,10 +13,12 @@
 namespace ArchiCop.UI.View
 {
 	using System.Windows.Controls;
+	using ViewModel;
 
 	/// <summary>
 	/// Interaction logic for CodeErrorGraphView.xaml
 	/// </summary>
+	[DataContext(typeof(CodeErrorGraphViewModel))]
 	public partial class CodeErrorGraphView : UserControl
 	{
 		public CodeErrorGraphView()
