@@ -40,10 +40,6 @@ namespace ArchiMeter.CodeReview.Tests.Rules
 			return task;
 		}
 
-		private SyntaxInspectorTests()
-		{
-		}
-
 		public class GivenASyntaxInspectorInspectingBrokenCode
 		{
 			[TestCase(@"private void ApplicationInitializationStartup()
