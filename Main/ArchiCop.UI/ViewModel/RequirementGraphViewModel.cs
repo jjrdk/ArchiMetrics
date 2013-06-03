@@ -29,10 +29,11 @@ namespace ArchiMeter.UI.ViewModel
 		private ProjectGraph _graphToVisualize;
 
 		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, ISolutionEdgeItemsRepositoryConfig config, IEdgeTransformer filter)
+			: base(config)
 		{
-			this._analyzer = analyzer;
-			this._config = config;
-			this._filter = filter;
+			_analyzer = analyzer;
+			_config = config;
+			_filter = filter;
 			this.LoadAllEdges();
 		}
 
@@ -40,20 +41,20 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			get
 			{
-				return this._graphToVisualize;
+				return _graphToVisualize;
 			}
 
 			private set
 			{
-				if (this._graphToVisualize != value)
+				if (_graphToVisualize != value)
 				{
-					this._graphToVisualize = value;
+					_graphToVisualize = value;
 					this.RaisePropertyChanged();
 				}
 			}
 		}
 
-		public void Update(bool forceUpdate)
+		protected override void Update(bool forceUpdate)
 		{
 			if (forceUpdate)
 			{
@@ -70,7 +71,7 @@ namespace ArchiMeter.UI.ViewModel
 			this.IsLoading = true;
 			var g = new ProjectGraph();
 
-			var nonEmptySourceItems = (await this._filter.TransformAsync(this._allEdges))
+			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
@@ -117,8 +118,8 @@ namespace ArchiMeter.UI.ViewModel
 		private async void LoadAllEdges()
 		{
 			this.IsLoading = true;
-			var edges = await Task.Factory.StartNew(() => this._analyzer.GetTestData(this._config.Path));
-			this._allEdges = await Task.Factory.StartNew(() => edges.SelectMany(this.ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
+			var edges = await Task.Factory.StartNew(() => _analyzer.GetTestData(_config.Path));
+			_allEdges = await Task.Factory.StartNew(() => edges.SelectMany(this.ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
 			this.UpdateInternal();
 		}
 

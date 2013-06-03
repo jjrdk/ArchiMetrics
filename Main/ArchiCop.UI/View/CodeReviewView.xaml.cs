@@ -17,6 +17,7 @@ namespace ArchiMeter.UI.View
 	using System.Windows.Forms;
 	using System.Windows.Input;
 
+	using ArchiMeter.UI.Support;
 	using ArchiMeter.UI.ViewModel;
 
 	using Clipboard = System.Windows.Clipboard;

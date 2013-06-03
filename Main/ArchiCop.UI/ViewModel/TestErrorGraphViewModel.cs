@@ -20,7 +20,8 @@ namespace ArchiMeter.UI.ViewModel
 
 	public class TestErrorGraphViewModel : ViewModelBase
 	{
-		public TestErrorGraphViewModel(ICodeErrorRepository repository)
+		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
 			repository.GetErrorsAsync()
 					  .ContinueWith(this.DisplayErrors);

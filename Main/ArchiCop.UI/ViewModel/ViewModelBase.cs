@@ -17,7 +17,11 @@ namespace ArchiMeter.UI.ViewModel
 	using System;
 	using System.ComponentModel;
 	using System.Diagnostics.CodeAnalysis;
+	using System.Reactive.Concurrency;
+	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
+
+	using ArchiMeter.Common;
 	using ArchiMeter.UI.Properties;
 
 	/// <summary>
@@ -25,28 +29,38 @@ namespace ArchiMeter.UI.ViewModel
 	/// It provides support for property change notifications 
 	/// and has a DisplayName property.  This class is abstract.
 	/// </summary>
-	public abstract class ViewModelBase : IDisposable
+	public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
 	{
-		private bool _isLoading;
+		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 
-		protected ViewModelBase()
+		private bool _isLoading;
+		private IDisposable _changeSubscription;
+
+		protected ViewModelBase(ISolutionEdgeItemsRepositoryConfig config)
 		{
+			_config = config;
 			var type = this.GetType();
 			this.DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
+			this._changeSubscription = Observable
+				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+					h => this._config.PropertyChanged += h,
+					h => this._config.PropertyChanged -= h)
+				.ObserveOn(TaskPoolScheduler.Default)
+				.Subscribe(x => Update(true));
 		}
 
 		public bool IsLoading
 		{
 			get
 			{
-				return this._isLoading;
+				return _isLoading;
 			}
 
 			set
 			{
-				if (this._isLoading != value)
+				if (_isLoading != value)
 				{
-					this._isLoading = value;
+					_isLoading = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -67,11 +81,19 @@ namespace ArchiMeter.UI.ViewModel
 
 		protected virtual void Dispose(bool isDisposing)
 		{
+			if (_changeSubscription != null)
+			{
+				_changeSubscription.Dispose();
+				_changeSubscription = null;
+			}
+
 			if (isDisposing)
 			{
-				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-
 			}
+		}
+
+		protected virtual void Update(bool forceUpdate)
+		{
 		}
 
 		/// <summary>

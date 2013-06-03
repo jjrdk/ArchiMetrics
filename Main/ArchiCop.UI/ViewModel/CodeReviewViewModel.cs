@@ -12,80 +12,91 @@
 
 namespace ArchiMeter.UI.ViewModel
 {
+	using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Windows.Data;
 
 	using ArchiMeter.Common;
 
-	public class CodeReviewViewModel : ViewModelBase
+	public sealed class CodeReviewViewModel : ViewModelBase
 	{
+		private readonly ICodeErrorRepository _repository;
+
 		private readonly object _syncLock = new object();
 		private int _brokenCode;
 		private ObservableCollection<EvaluationResult> _codeErrors;
 		private int _errorsShown;
 		private int _filesWithErrors;
 
-		public CodeReviewViewModel(ICodeErrorRepository repository)
+		public CodeReviewViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
-			this.IsLoading = true;
-			this.CodeErrors = new ObservableCollection<EvaluationResult>();
-			repository.GetErrorsAsync()
-					  .ContinueWith(t =>
-						  {
-							  if (t.Exception != null)
-							  {
-								  var exception = t.Exception.InnerExceptions[0];
+			_repository = repository;
+			IsLoading = true;
+			CodeErrors = new ObservableCollection<EvaluationResult>();
+			Update(true);
+		}
 
-								  this.CodeErrors.Add(new EvaluationResult
-													 {
-														 Quality = CodeQuality.Broken, 
-														 Comment = exception.Message, 
-														 Snippet = exception.StackTrace
-													 });
-								  this.IsLoading = false;
-								  return;
-							  }
+		protected async override void Update(bool forceUpdate)
+		{
+			try
+			{
+				this.ErrorsShown = 0;
+				this.CodeErrors.Clear();
 
-							  this.ErrorsShown = 0;
-							  this.CodeErrors.Clear();
+				var errors = await _repository.GetErrorsAsync();
 
-							  var results = t.Result.Where(x => x.Comment != "Multiple asserts found in test." || x.ErrorCount != 1).ToArray();
-							  foreach (var result in results)
-							  {
-								  this.CodeErrors.Add(result);
-							  }
+				var results = errors.Where(x => x.Comment != "Multiple asserts found in test." || x.ErrorCount != 1).ToArray();
+				foreach (var result in results)
+				{
+					this.CodeErrors.Add(result);
+				}
 
-							  this.ErrorsShown = this.CodeErrors.Count;
-							  if (this.CodeErrors.Count == 0)
-							  {
-								  this.CodeErrors.Add(new EvaluationResult { Comment = "No Errors", Quality = CodeQuality.Good });
-							  }
+				this.ErrorsShown = this.CodeErrors.Count;
+				if (this.CodeErrors.Count == 0)
+				{
+					this.CodeErrors.Add(new EvaluationResult { Comment = "No Errors", Quality = CodeQuality.Good });
+				}
 
-							  this.FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
-							  this.BrokenCode = (int)(results
-													 .Where(x => x.Quality == CodeQuality.Broken || x.Quality == CodeQuality.Incompetent)
-													 .Sum(x => (double)x.LinesOfCodeAffected)
-												 + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
-														  .Sum(x => x.LinesOfCodeAffected * .5)
-												 + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
-														  .Sum(x => x.LinesOfCodeAffected * .2));
-							  this.IsLoading = false;
-						  });
+				this.FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
+				this.BrokenCode = (int)(results
+											.Where(x => x.Quality == CodeQuality.Broken || x.Quality == CodeQuality.Incompetent)
+											.Sum(x => (double)x.LinesOfCodeAffected)
+										+ results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
+												 .Sum(x => x.LinesOfCodeAffected * .5)
+										+ results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
+												 .Sum(x => x.LinesOfCodeAffected * .2));
+			}
+			catch (AggregateException exception)
+			{
+				this.CodeErrors.Add(new EvaluationResult
+										{
+											Quality = CodeQuality.Broken,
+											Comment = exception.Message,
+											Snippet = exception.StackTrace
+										});
+				this.IsLoading = false;
+
+			}
+			finally
+			{
+				this.IsLoading = false;
+			}
 		}
 
 		public int BrokenCode
 		{
 			get
 			{
-				return this._brokenCode;
+				return _brokenCode;
 			}
 
 			set
 			{
-				if (this._brokenCode != value)
+				if (_brokenCode != value)
 				{
-					this._brokenCode = value;
+					_brokenCode = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -95,58 +106,56 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			get
 			{
-				return this._errorsShown;
+				return _errorsShown;
 			}
 
 			set
 			{
-				if (this._errorsShown != value)
+				if (_errorsShown != value)
 				{
-					this._errorsShown = value;
+					_errorsShown = value;
 					this.RaisePropertyChanged();
 				}
 			}
 		}
-
 
 		public int FilesWithErrors
 		{
 			get
 			{
-				return this._filesWithErrors;
+				return _filesWithErrors;
 			}
 
 			set
 			{
-				if (this._filesWithErrors != value)
+				if (_filesWithErrors != value)
 				{
-					this._filesWithErrors = value;
+					_filesWithErrors = value;
 					this.RaisePropertyChanged();
 				}
 			}
 		}
 
-
 		public ObservableCollection<EvaluationResult> CodeErrors
 		{
 			get
 			{
-				return this._codeErrors;
+				return _codeErrors;
 			}
 
 			private set
 			{
-				if (value != this._codeErrors)
+				if (value != _codeErrors)
 				{
-					if (this._codeErrors != null)
+					if (_codeErrors != null)
 					{
-						BindingOperations.DisableCollectionSynchronization(this._codeErrors);
+						BindingOperations.DisableCollectionSynchronization(_codeErrors);
 					}
 
-					this._codeErrors = value;
-					if (this._codeErrors != null)
+					_codeErrors = value;
+					if (_codeErrors != null)
 					{
-						BindingOperations.EnableCollectionSynchronization(this._codeErrors, this._syncLock);
+						BindingOperations.EnableCollectionSynchronization(_codeErrors, _syncLock);
 					}
 
 					this.RaisePropertyChanged();

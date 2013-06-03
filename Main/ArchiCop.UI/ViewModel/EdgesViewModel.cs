@@ -14,45 +14,58 @@ namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
 	using System.Windows.Data;
+	using System.Windows.Input;
 
 	using ArchiMeter.Common;
+	using ArchiMeter.UI.Support;
 
 	public class EdgesViewModel : EdgesViewModelBase
 	{
 		private readonly object _syncLock = new object();
 		private ObservableCollection<EdgeItem> _dependencyItems;
 
-		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition)
-			: base(repository, filter, ruleDefinition)
+		private DelegateCommand _updateCommand;
+
+		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
+			: base(repository, filter, ruleDefinition, config)
 		{
 			this.DependencyItems = new ObservableCollection<EdgeItem>();
 			this.LoadEdges();
+			this._updateCommand = new DelegateCommand(o => true, o => this.UpdateInternal());
 		}
 
 		public ObservableCollection<EdgeItem> DependencyItems
 		{
 			get
 			{
-				return this._dependencyItems;
+				return _dependencyItems;
 			}
 
 			private set
 			{
-				if (value != this._dependencyItems)
+				if (value != _dependencyItems)
 				{
-					if (this._dependencyItems != null)
+					if (_dependencyItems != null)
 					{
-						BindingOperations.DisableCollectionSynchronization(this._dependencyItems);
+						BindingOperations.DisableCollectionSynchronization(_dependencyItems);
 					}
 
-					this._dependencyItems = value;
-					if (this._dependencyItems != null)
+					_dependencyItems = value;
+					if (_dependencyItems != null)
 					{
-						BindingOperations.EnableCollectionSynchronization(this._dependencyItems, this._syncLock);
+						BindingOperations.EnableCollectionSynchronization(_dependencyItems, _syncLock);
 					}
 
 					this.RaisePropertyChanged();
 				}
+			}
+		}
+
+		public ICommand UpdateList
+		{
+			get
+			{
+				return _updateCommand;
 			}
 		}
 
@@ -69,10 +82,11 @@ namespace ArchiMeter.UI.ViewModel
 		}
 
 		protected override void Dispose(bool isDisposing)
-		{if (isDisposing)
 		{
-			this._dependencyItems.Clear();
-		}
+			if (isDisposing)
+			{
+				_dependencyItems.Clear();
+			}
 
 			base.Dispose(isDisposing);
 		}

@@ -4,6 +4,7 @@
 	using System.Windows.Controls;
 	using System.Windows.Forms;
 
+	using ArchiMeter.UI.Support;
 	using ArchiMeter.UI.ViewModel;
 
 	using UserControl = System.Windows.Controls.UserControl;

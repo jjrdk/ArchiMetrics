@@ -17,21 +17,17 @@ namespace ArchiMeter.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-
 	using ArchiMeter.Analysis;
 	using ArchiMeter.CodeReview;
 	using ArchiMeter.CodeReview.Metrics;
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
+	using ArchiMeter.UI.Support;
 	using ArchiMeter.UI.ViewModel;
-
 	using Autofac;
-
 	using Ionic.Zip;
-
 	using NHunspell;
-
 	using Roslyn.Services;
 
 	public partial class App : Application
@@ -119,8 +115,7 @@ namespace ArchiMeter.UI
 			       .AsSelf()
 			       .SingleInstance();
 			builder.RegisterType<SettingsViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+			       .AsSelf();
 			var container = builder.Build();
 			var loader = new ModernContentLoader(container);
 			this.Resources.Add("Loader", loader);
