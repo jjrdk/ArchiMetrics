@@ -10,9 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.View
+namespace ArchiMeter.UI.View
 {
-	using ArchiMetrics.UI.ViewModel;
+	using ArchiMeter.UI.ViewModel;
 
 	using GraphSharp.Controls;
 

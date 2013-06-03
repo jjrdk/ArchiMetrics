@@ -12,12 +12,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System;
 	using System.Windows.Input;
 
-	using ArchiMetrics.UI.MvvmFoundation;
+	using ArchiMeter.UI.MvvmFoundation;
 
 	/// <summary>
 	/// This ViewModelBase subclass requests to be removed 
@@ -37,7 +37,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _closeCommand ?? (_closeCommand = new RelayCommand<object>(param => this.OnRequestClose()));
+				return this._closeCommand ?? (this._closeCommand = new RelayCommand<object>(param => this.OnRequestClose()));
 			}
 		}
 
@@ -45,14 +45,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _isLoading;
+				return this._isLoading;
 			}
 
 			set
 			{
-				if (_isLoading != value)
+				if (this._isLoading != value)
 				{
-					_isLoading = value;
+					this._isLoading = value;
 					this.RaisePropertyChanged();
 				}
 			}

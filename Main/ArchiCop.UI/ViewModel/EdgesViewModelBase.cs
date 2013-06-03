@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -25,8 +25,8 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition)
 		{
-			_repository = repository;
-			_filter = filter;
+			this._repository = repository;
+			this._filter = filter;
 			this.VertexRules = ruleDefinition.VertexRules;
 		}
 
@@ -36,7 +36,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _filter;
+				return this._filter;
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _allEdges;
+				return this._allEdges;
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace ArchiMetrics.UI.ViewModel
 		protected async void LoadEdges()
 		{
 			this.IsLoading = true;
-			_allEdges = (await _repository.GetEdgesAsync()).ToArray();
+			this._allEdges = (await this._repository.GetEdgesAsync()).ToArray();
 			this.UpdateInternal();
 		}
 
@@ -73,7 +73,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			if (isDisposing)
 			{
-				_allEdges = null;
+				this._allEdges = null;
 			}
 
 			base.Dispose(isDisposing);

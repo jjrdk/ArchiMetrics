@@ -10,14 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.View
+namespace ArchiMeter.UI.View
 {
 	using System.IO;
 	using System.Windows;
 	using System.Windows.Forms;
 	using System.Windows.Input;
 
-	using ArchiMetrics.UI.ViewModel;
+	using ArchiMeter.UI.ViewModel;
 
 	using Clipboard = System.Windows.Clipboard;
 	using DataFormats = System.Windows.DataFormats;

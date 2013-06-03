@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System;
 	using System.ComponentModel;
@@ -34,22 +34,22 @@ namespace ArchiMetrics.UI.ViewModel
 				throw new ArgumentNullException("config");
 			}
 
-			_config = config;
-			_config.PropertyChanged += this.ConfigPropertyChanged;
+			this._config = config;
+			this._config.PropertyChanged += this.ConfigPropertyChanged;
 		}
 
 		public string Path
 		{
 			get
 			{
-				return _config.Path;
+				return this._config.Path;
 			}
 
 			set
 			{
-				if (_config.Path != value)
+				if (this._config.Path != value)
 				{
-					_config.Path = value;
+					this._config.Path = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -59,14 +59,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _config.IncludeCodeReview;
+				return this._config.IncludeCodeReview;
 			}
 
 			set
 			{
-				if (_config.IncludeCodeReview != value)
+				if (this._config.IncludeCodeReview != value)
 				{
-					_config.IncludeCodeReview = value;
+					this._config.IncludeCodeReview = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -76,14 +76,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _config.Source;
+				return this._config.Source;
 			}
 
 			set
 			{
-				if (_config.Source != value)
+				if (this._config.Source != value)
 				{
-					_config.Source = value;
+					this._config.Source = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -93,13 +93,13 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			if (isDisposing)
 			{
-				if (_tokenSource != null)
+				if (this._tokenSource != null)
 				{
-					_tokenSource.Cancel();
-					_tokenSource.Dispose();
+					this._tokenSource.Cancel();
+					this._tokenSource.Dispose();
 				}
 
-				_config.PropertyChanged -= this.ConfigPropertyChanged;
+				this._config.PropertyChanged -= this.ConfigPropertyChanged;
 			}
 
 			base.Dispose(isDisposing);

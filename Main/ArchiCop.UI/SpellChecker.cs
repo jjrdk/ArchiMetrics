@@ -1,4 +1,4 @@
-namespace ArchiMetrics.UI
+namespace ArchiMeter.UI
 {
 	using System;
 
@@ -12,12 +12,12 @@ namespace ArchiMetrics.UI
 
 		public SpellChecker(Hunspell speller)
 		{
-			_speller = speller;
+			this._speller = speller;
 		}
 
 		public bool Spell(string word)
 		{
-			return _speller.Spell(word);
+			return this._speller.Spell(word);
 		}
 
 		public void Dispose()
@@ -37,7 +37,7 @@ namespace ArchiMetrics.UI
 			if(isDisposing)
 			{
 				//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				_speller.Dispose(true);
+				this._speller.Dispose(true);
 			}
 		}
 	}

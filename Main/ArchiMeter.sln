@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.UI", "ArchiCop.UI\ArchiMetrics.UI.csproj", "{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.UI", "ArchiCop.UI\ArchiMeter.UI.csproj", "{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08F5-C15B-4223-840B-86997220FB8E}"
 	ProjectSection(SolutionItems) = preProject
@@ -120,7 +120,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

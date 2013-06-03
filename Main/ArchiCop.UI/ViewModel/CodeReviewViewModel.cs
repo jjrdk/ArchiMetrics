@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
 	using System.Linq;
@@ -78,14 +78,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _brokenCode;
+				return this._brokenCode;
 			}
 
 			set
 			{
-				if (_brokenCode != value)
+				if (this._brokenCode != value)
 				{
-					_brokenCode = value;
+					this._brokenCode = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -95,14 +95,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _errorsShown;
+				return this._errorsShown;
 			}
 
 			set
 			{
-				if (_errorsShown != value)
+				if (this._errorsShown != value)
 				{
-					_errorsShown = value;
+					this._errorsShown = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -113,14 +113,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _filesWithErrors;
+				return this._filesWithErrors;
 			}
 
 			set
 			{
-				if (_filesWithErrors != value)
+				if (this._filesWithErrors != value)
 				{
-					_filesWithErrors = value;
+					this._filesWithErrors = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -131,22 +131,22 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _codeErrors;
+				return this._codeErrors;
 			}
 
 			private set
 			{
-				if (value != _codeErrors)
+				if (value != this._codeErrors)
 				{
-					if (_codeErrors != null)
+					if (this._codeErrors != null)
 					{
-						BindingOperations.DisableCollectionSynchronization(_codeErrors);
+						BindingOperations.DisableCollectionSynchronization(this._codeErrors);
 					}
 
-					_codeErrors = value;
-					if (_codeErrors != null)
+					this._codeErrors = value;
+					if (this._codeErrors != null)
 					{
-						BindingOperations.EnableCollectionSynchronization(_codeErrors, _syncLock);
+						BindingOperations.EnableCollectionSynchronization(this._codeErrors, this._syncLock);
 					}
 
 					this.RaisePropertyChanged();

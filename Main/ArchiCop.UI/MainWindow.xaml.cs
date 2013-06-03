@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI
+namespace ArchiMeter.UI
 {
 	using FirstFloor.ModernUI.Windows.Controls;
 

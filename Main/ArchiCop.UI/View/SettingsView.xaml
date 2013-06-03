@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="ArchiMeter.UI.View.SettingsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:contracts="clr-namespace:ArchiMeter.Common;assembly=ArchiMeter.Common"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 mc:Ignorable="d"
+			 d:DesignHeight="300"
+			 d:DesignWidth="300"
+			 d:DataContext="{d:DesignInstance Type=viewModel:SettingsViewModel}">
+	<UserControl.Resources>
+		<ObjectDataProvider MethodName="GetValues"
+							ObjectType="{x:Type sys:Enum}"
+							x:Key="EdgeSourceValues">
+			<ObjectDataProvider.MethodParameters>
+				<x:Type TypeName="contracts:EdgeSource" />
+			</ObjectDataProvider.MethodParameters>
+		</ObjectDataProvider>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Label Content="Setting" />
+		<Label Grid.Row="0"
+			   Grid.Column="1"
+			   Content="Value" />
+		<Label Grid.Row="1"
+			   Grid.Column="0"
+			   VerticalAlignment="Center"
+			   Content="_Path:"
+			   Target="{Binding ElementName=PathBox}" />
+		<Grid Grid.Row="1"
+			  Grid.Column="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBox x:Name="PathBox"
+					 Grid.Column="0"
+					 Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<Button Grid.Column="1"
+					Content="Set Path"
+					Click="OnClick" />
+		</Grid>
+		<Label Grid.Row="2"
+			   Grid.Column="0"
+			   VerticalAlignment="Center"
+			   Content="Include _Code Review:"
+			   Target="{Binding ElementName=CodeReviewCheck}" />
+		<CheckBox x:Name="CodeReviewCheck"
+				  Grid.Row="2"
+				  Grid.Column="1"
+				  IsThreeState="False"
+				  IsChecked="{Binding Path=IncludeCodeReview, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<Label Grid.Row="3"
+			   Grid.Column="0"
+			   VerticalAlignment="Center"
+			   Content="_Edge Source:"
+			   Target="{Binding ElementName=EdgeSource}" />
+		<ComboBox x:Name="EdgeSource"
+				  Grid.Row="3"
+				  Grid.Column="1"
+				  SelectedIndex="0"
+				  ItemsSource="{Binding Source={StaticResource EdgeSourceValues}}"
+				  SelectedValue="{Binding Path=Source, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+	</Grid>
+</UserControl>

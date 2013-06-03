@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
 	using System.Windows.Data;
@@ -33,22 +33,22 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _dependencyItems;
+				return this._dependencyItems;
 			}
 
 			private set
 			{
-				if (value != _dependencyItems)
+				if (value != this._dependencyItems)
 				{
-					if (_dependencyItems != null)
+					if (this._dependencyItems != null)
 					{
-						BindingOperations.DisableCollectionSynchronization(_dependencyItems);
+						BindingOperations.DisableCollectionSynchronization(this._dependencyItems);
 					}
 
-					_dependencyItems = value;
-					if (_dependencyItems != null)
+					this._dependencyItems = value;
+					if (this._dependencyItems != null)
 					{
-						BindingOperations.EnableCollectionSynchronization(_dependencyItems, _syncLock);
+						BindingOperations.EnableCollectionSynchronization(this._dependencyItems, this._syncLock);
 					}
 
 					this.RaisePropertyChanged();
@@ -71,7 +71,7 @@ namespace ArchiMetrics.UI.ViewModel
 		protected override void Dispose(bool isDisposing)
 		{if (isDisposing)
 		{
-			_dependencyItems.Clear();
+			this._dependencyItems.Clear();
 		}
 
 			base.Dispose(isDisposing);
