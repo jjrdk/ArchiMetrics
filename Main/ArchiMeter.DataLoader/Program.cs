@@ -59,13 +59,13 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();
-			foreach (var type in typeof(ICodeEvaluation).Assembly
+			foreach (var type in typeof(IEvaluation).Assembly
 				.GetTypes()
-				.Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
+				.Where(t => typeof(IEvaluation).IsAssignableFrom(t))
 				.Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type)
-					.As<ICodeEvaluation>();
+					.As<IEvaluation>();
 			}
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
