@@ -4,8 +4,8 @@
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 	using OfficeOpenXml.Drawing.Chart;
 
@@ -20,7 +20,7 @@
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -109,7 +109,7 @@
 		~ComplexityMaintainabilityScatterReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

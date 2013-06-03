@@ -18,7 +18,6 @@ namespace ArchiMeter.ReportWriter
 	using System.Linq;
 	using System.Xml.Serialization;
 	using Analysis;
-	using ArchiMeter.ReportWriter.Reports;
 	using Autofac;
 	using CodeReview;
 	using Common;
@@ -27,6 +26,7 @@ namespace ArchiMeter.ReportWriter
 	using Data.DataAccess;
 	using Raven;
 	using Raven.Repositories;
+	using Reports;
 	using Roslyn.Services;
 	using global::Raven.Client;
 

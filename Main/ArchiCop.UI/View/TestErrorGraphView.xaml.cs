@@ -21,7 +21,7 @@ namespace ArchiMeter.UI.View
 	{
 		public TestErrorGraphView()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }
