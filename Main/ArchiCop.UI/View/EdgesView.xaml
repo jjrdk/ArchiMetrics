@@ -10,6 +10,10 @@
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}">
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
@@ -53,5 +57,10 @@
 					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}, Mode=OneWay}"
 					 VerticalAlignment="Center"
 					 HorizontalAlignment="Stretch" />
+		<Button Grid.Row="1"
+				Grid.ColumnSpan="2"
+				HorizontalAlignment="Right"
+				Content="Update"
+				Command="{Binding Path=UpdateList}" />
 	</Grid>
 </UserControl>

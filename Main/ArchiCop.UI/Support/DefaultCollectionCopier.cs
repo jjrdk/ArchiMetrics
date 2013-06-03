@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI
+namespace ArchiMeter.UI.Support
 {
 	using System.Collections.Generic;
 	using System.IO;

@@ -165,10 +165,11 @@
     <Compile Include="Converters\CircularToBrushConverter.cs" />
     <Compile Include="Converters\LinesOfCodeToThicknessConverter.cs" />
     <Compile Include="Converters\QualityToBrushConverter.cs" />
-    <Compile Include="DataContextAttribute.cs" />
-    <Compile Include="DefaultCollectionCopier.cs" />
+    <Compile Include="Support\DataContextAttribute.cs" />
+    <Compile Include="Support\DefaultCollectionCopier.cs" />
     <Compile Include="KnownWordList.cs" />
-    <Compile Include="ModernContentLoader.cs" />
+    <Compile Include="Support\DelegateCommand.cs" />
+    <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />
     <Compile Include="ViewModel\CircularReferenceViewModel.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
@@ -221,7 +222,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\CommandViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <EmbeddedResource Include="Properties\Strings.resx">

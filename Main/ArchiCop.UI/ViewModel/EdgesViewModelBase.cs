@@ -23,10 +23,11 @@ namespace ArchiMeter.UI.ViewModel
 		private readonly IEdgeItemsRepository _repository;
 		private EdgeItem[] _allEdges;
 
-		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition)
+		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
-			this._repository = repository;
-			this._filter = filter;
+			_repository = repository;
+			_filter = filter;
 			this.VertexRules = ruleDefinition.VertexRules;
 		}
 
@@ -36,7 +37,7 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			get
 			{
-				return this._filter;
+				return _filter;
 			}
 		}
 
@@ -44,15 +45,28 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			get
 			{
-				return this._allEdges;
+				return _allEdges;
+			}
+		}
+
+		protected override void Update(bool forceUpdate)
+		{
+			base.Update(forceUpdate);
+			if (forceUpdate)
+			{
+				LoadEdges();
+			}
+			else
+			{
+				UpdateInternal();
 			}
 		}
 
 		protected async void LoadEdges()
 		{
-			this.IsLoading = true;
-			this._allEdges = (await this._repository.GetEdgesAsync()).ToArray();
-			this.UpdateInternal();
+			IsLoading = true;
+			_allEdges = (await _repository.GetEdgesAsync()).ToArray();
+			UpdateInternal();
 		}
 
 		protected abstract void UpdateInternal();
@@ -61,7 +75,7 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			if (isDisposing)
 			{
-				this._allEdges = null;
+				_allEdges = null;
 			}
 
 			base.Dispose(isDisposing);

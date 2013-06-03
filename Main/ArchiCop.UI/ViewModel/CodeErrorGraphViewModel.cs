@@ -20,19 +20,43 @@ namespace ArchiMeter.UI.ViewModel
 
 	public class CodeErrorGraphViewModel : ViewModelBase
 	{
-		public CodeErrorGraphViewModel(ICodeErrorRepository repository)
+		private readonly ICodeErrorRepository _repository;
+
+		public CodeErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
-			repository.GetErrorsAsync().ContinueWith(this.DisplayErrors);
+			_repository = repository;
 		}
 
 		public IList<KeyValuePair<string, int>> Errors { get; private set; }
 
+		protected override void Update(bool forceUpdate)
+		{
+			base.Update(forceUpdate);
+			if (forceUpdate)
+			{
+				_repository.GetErrorsAsync().ContinueWith(DisplayErrors);
+			}
+		}
+
+		protected override void Dispose(bool isDisposing)
+		{
+			base.Dispose(isDisposing);
+			if (isDisposing)
+			{
+				_repository.Dispose();
+			}
+		}
+
 		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
 		{
-			this.IsLoading = true;
-			var results = task.Result.GroupBy(x => x.Comment).Select(x => new KeyValuePair<string, int>(x.Key, x.Count())).OrderBy(x => x.Key);
-			this.Errors = new List<KeyValuePair<string, int>>(results);
-			this.IsLoading = false;
+			IsLoading = true;
+			var results = task.Result
+				.GroupBy(x => x.Comment)
+				.Select(x => new KeyValuePair<string, int>(x.Key, x.Count()))
+				.OrderBy(x => x.Key);
+			Errors = new List<KeyValuePair<string, int>>(results);
+			IsLoading = false;
 		}
 	}
 }

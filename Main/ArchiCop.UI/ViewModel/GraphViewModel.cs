@@ -26,10 +26,11 @@ namespace ArchiMeter.UI.ViewModel
 		private EdgeItem[] _allEdges;
 		private ProjectGraph _graphToVisualize;
 
-		public GraphViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter)
+		public GraphViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
-			this._repository = repository;
-			this._filter = filter;
+			_repository = repository;
+			_filter = filter;
 			this.LoadAllEdges();
 		}
 
@@ -37,20 +38,20 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			get
 			{
-				return this._graphToVisualize;
+				return _graphToVisualize;
 			}
 
 			private set
 			{
-				if (this._graphToVisualize != value)
+				if (_graphToVisualize != value)
 				{
-					this._graphToVisualize = value;
+					_graphToVisualize = value;
 					this.RaisePropertyChanged();
 				}
 			}
 		}
 
-		public void Update(bool forceUpdate)
+		protected override void Update(bool forceUpdate)
 		{
 			if (forceUpdate)
 			{
@@ -64,8 +65,8 @@ namespace ArchiMeter.UI.ViewModel
 
 		protected override void Dispose(bool isDisposing)
 		{
-			this._graphToVisualize = null;
-			this._allEdges = null;
+			_graphToVisualize = null;
+			_allEdges = null;
 			base.Dispose(isDisposing);
 		}
 
@@ -74,10 +75,10 @@ namespace ArchiMeter.UI.ViewModel
 			this.IsLoading = true;
 			var g = new ProjectGraph();
 
-			var nonEmptySourceItems = (await this._filter.TransformAsync(this._allEdges))
+			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
 				.ToArray();
 
-			var circularReferences = (await this._analyzer.GetCircularReferences(nonEmptySourceItems))
+			var circularReferences = (await _analyzer.GetCircularReferences(nonEmptySourceItems))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
@@ -128,8 +129,8 @@ namespace ArchiMeter.UI.ViewModel
 		private async void LoadAllEdges()
 		{
 			this.IsLoading = true;
-			var edges = await this._repository.GetEdgesAsync();
-			this._allEdges = edges.Where(e => e.Dependant != e.Dependency).ToArray();
+			var edges = await _repository.GetEdgesAsync();
+			_allEdges = edges.Where(e => e.Dependant != e.Dependency).ToArray();
 			this.UpdateInternal();
 		}
 	}
