@@ -12,25 +12,22 @@
 
 namespace ArchiCop.UI
 {
-	using System;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-	using ArchiCop.UI.Controller;
 	using ArchiMeter.Analysis;
-	using ArchiCop.UI;
-	using ArchiCop.UI.ViewModel;
-	using Autofac;
 	using ArchiMeter.CodeReview;
 	using ArchiMeter.CodeReview.Metrics;
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
+	using Autofac;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
+	using ViewModel;
 
 	public partial class App : Application
 	{
@@ -39,14 +36,12 @@ namespace ArchiCop.UI
 			// Ensure the current culture passed into bindings is the OS culture.
 			// By default, WPF uses en-US as the culture, regardless of the system settings.
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement), 
+				typeof(FrameworkElement),
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			base.OnStartup(e);
-
 			var builder = new ContainerBuilder();
 
 			// container.RegisterType<IBuildItemRepository, FakeBuildItemRepository>(
@@ -87,7 +82,6 @@ namespace ArchiCop.UI
 				   .As<IProvider<string, ISolution>>();
 			builder.RegisterType<ProjectProvider>()
 				   .As<IProvider<string, IProject>>();
-			builder.RegisterType<ArchiMeterController>();
 			builder.RegisterType<CodeErrorRepository>()
 				   .As<ICodeErrorRepository>();
 			builder.RegisterType<AggregateEdgeItemsRepository>()
@@ -98,34 +92,24 @@ namespace ArchiCop.UI
 				   .As<IEdgeTransformer>();
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
-
-			// Create the ViewModel to which 
-			// the main window binds.            
-			var viewModel = new MainWindowViewModel(config);
-
-			builder.RegisterInstance<IShell>(viewModel);
+			builder.RegisterType<EdgesViewModel>()
+				.AsSelf();
+			builder.RegisterType<CircularReferenceViewModel>()
+				.AsSelf();
+			builder.RegisterType<CodeErrorGraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<CodeReviewViewModel>()
+				.AsSelf();
+			builder.RegisterType<GraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<RequirementGraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<TestErrorGraphViewModel>()
+				.AsSelf();
 			var container = builder.Build();
-			container.Resolve<ArchiMeterController>();
-
-			var window = new MainWindow();
-
-			// When the ViewModel asks to be closed, 
-			// close the window.
-			EventHandler handler = null;
-			handler = (sender, args) =>
-						  {
-							  viewModel.RequestClose -= handler;
-							  window.Close();
-						  };
-			viewModel.RequestClose += handler;
-
-			// Allow all controls in the window to 
-			// bind to the ViewModel by setting the 
-			// DataContext, which propagates down 
-			// the element tree.
-			window.DataContext = viewModel;
-
-			window.Show();
+			var loader = new ModernContentLoader(container);
+			Resources.Add("Loader", loader);
+			base.OnStartup(e);
 		}
 	}
 }

@@ -15,10 +15,7 @@
 namespace ArchiCop.UI.ViewModel
 {
 	using System;
-	using System.Diagnostics;
-
-	using ArchiCop.UI.MvvmFoundation;
-
+	using MvvmFoundation;
 	using Properties;
 
 	/// <summary>

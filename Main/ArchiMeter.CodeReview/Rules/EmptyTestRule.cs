@@ -31,7 +31,7 @@ namespace ArchiMeter.CodeReview.Rules
 				&& methodParent.AttributeLists != null
 				&& methodParent.AttributeLists.Any(
 					l => l.Attributes.Any(a => a.Name is SimpleNameSyntax
-											   && ((SimpleNameSyntax)a.Name).Identifier.ValueText == "TestMethod")))
+											   && ((SimpleNameSyntax)a.Name).Identifier.ValueText.IsKnownTestAttribute())))
 			{
 				if (methodParent.Body == null
 					|| !methodParent.Body.ChildNodes().Any())

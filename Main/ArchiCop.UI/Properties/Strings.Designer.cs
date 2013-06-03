@@ -178,6 +178,15 @@ namespace ArchiCop.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Structure.
+        /// </summary>
+        internal static string Structure {
+            get {
+                return ResourceManager.GetString("Structure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Test Errors.
         /// </summary>
         internal static string TestErrorGraphViewModel_DisplayName {

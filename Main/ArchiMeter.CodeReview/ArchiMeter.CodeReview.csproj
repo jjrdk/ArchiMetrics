@@ -125,12 +125,14 @@
     <Compile Include="Rules\LocalTimeCreationRule.cs" />
     <Compile Include="Rules\MethodNamePairRule.cs" />
     <Compile Include="Rules\MethodNameSpellingRule.cs" />
+    <Compile Include="Rules\MultiLineCommentLanguageRule.cs" />
     <Compile Include="Rules\MultipleAssertsInTestErrorRule.cs" />
     <Compile Include="Rules\MultipleReturnStatementsErrorRule.cs" />
     <Compile Include="Rules\NameSpellingRuleBase.cs" />
     <Compile Include="Rules\NoProtectedFieldsInPublicClassesRule.cs" />
     <Compile Include="Rules\NoPublicConstantRule.cs" />
     <Compile Include="Rules\NoPublicFieldsRule.cs" />
+    <Compile Include="Rules\OpenClosePairRule.cs" />
     <Compile Include="Rules\PropertyNameSpellingRule.cs" />
     <Compile Include="Rules\PublicInterfaceImplementationWarningRule.cs" />
     <Compile Include="Rules\ReflectionToResolveMethodNameRule.cs" />
@@ -138,10 +140,12 @@
     <Compile Include="Rules\ServiceLocatorInvocationInTestRule.cs" />
     <Compile Include="Rules\ServiceLocatorInvocationRule.cs" />
     <Compile Include="Rules\ServiceLocatorResolvesContainerRule.cs" />
+    <Compile Include="Rules\SingleLineCommentLanguageRule.cs" />
     <Compile Include="Rules\TooBigClassRule.cs" />
     <Compile Include="Rules\TooBigMethodRule.cs" />
     <Compile Include="Rules\TooManyMethodParametersRule.cs" />
     <Compile Include="Rules\TooHighCyclomaticComplexityRule.cs" />
+    <Compile Include="Rules\TriviaEvaluationBase.cs" />
     <Compile Include="Rules\TypeObfuscationRule.cs" />
     <Compile Include="Rules\VarDeclarationForNewVariableErrorRule.cs" />
     <Compile Include="Rules\VarKeywordRule.cs" />

@@ -15,12 +15,10 @@ namespace ArchiMeter.DataLoader
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Analysis;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Common.Metrics;
-
+	using Analysis;
+	using Common;
+	using Common.Documents;
+	using Common.Metrics;
 	using Roslyn.Services;
 
 	public class ProjectMetricsLoader : IDataLoader
@@ -35,9 +33,9 @@ namespace ArchiMeter.DataLoader
 			IProvider<string, IProject> projectProvider, 
 			IFactory<IDataSession<ProjectMetricsDocument>> sessionProvider)
 		{
-			this._metricsCalculator = metricsCalculator;
-			this._projectProvider = projectProvider;
-			this._sessionProvider = sessionProvider;
+			_metricsCalculator = metricsCalculator;
+			_projectProvider = projectProvider;
+			_sessionProvider = sessionProvider;
 		}
 
 		public async Task Load(ProjectSettings settings)
@@ -45,12 +43,12 @@ namespace ArchiMeter.DataLoader
 			Console.WriteLine("Starting Metrics loading for " + settings.Name);
 
 			var projects = (from root in settings.Roots
-							from p in this._projectProvider.GetAll(root.Source)
+							from p in _projectProvider.GetAll(root.Source)
 							select new
 									   {
 										   ProjectName = p.Name, 
-										   MetricsTask = this._metricsCalculator.Calculate(p), 
-										   SLoC = this._counter.Count(new[] { p })
+										   MetricsTask = _metricsCalculator.Calculate(p), 
+										   SLoC = _counter.Count(new[] { p })
 									   })
 				.ToArray();
 
@@ -79,7 +77,7 @@ namespace ArchiMeter.DataLoader
 				.GroupBy(x => x.Id)
 				.Select(g => g.First());
 
-			using (var session = this._sessionProvider.Create())
+			using (var session = _sessionProvider.Create())
 			{
 				foreach (var doc in docs)
 				{
@@ -104,21 +102,21 @@ namespace ArchiMeter.DataLoader
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~ProjectMetricsLoader()
 		{
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				this._projectProvider.Dispose();
-				this._sessionProvider.Dispose();
+				_projectProvider.Dispose();
+				_sessionProvider.Dispose();
 			}
 		}
 	}

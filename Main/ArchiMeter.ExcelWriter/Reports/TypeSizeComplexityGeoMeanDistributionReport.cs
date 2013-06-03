@@ -3,10 +3,8 @@ namespace ArchiMeter.ReportWriter.Reports
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 
 	public class TypeSizeComplexityGeoMeanDistributionReport : IReportJob
@@ -15,12 +13,12 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public TypeSizeComplexityGeoMeanDistributionReport(IAsyncReadOnlyRepository<TypeSizeComplexityGeoMeanSegment> typeSizeProvider)
 		{
-			this._typeSizeProvider = typeSizeProvider;
+			_typeSizeProvider = typeSizeProvider;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			var segments = (await this._typeSizeProvider.Query(config.Projects.CreateQuery<TypeSizeComplexityGeoMeanSegment>()))
+			var segments = (await _typeSizeProvider.Query(config.Projects.CreateQuery<TypeSizeComplexityGeoMeanSegment>()))
 				.OrderBy(x => x.GeoMean)
 				.ToArray();
 			var max = segments.Any() ? segments.Max(s => s.GeoMean) + 1 : 0;
@@ -48,14 +46,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~TypeSizeComplexityGeoMeanDistributionReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

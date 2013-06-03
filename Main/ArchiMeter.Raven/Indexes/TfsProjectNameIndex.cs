@@ -1,7 +1,7 @@
-﻿namespace ArchiMeter.Raven.Indexes
+namespace ArchiMeter.Raven.Indexes
 {
 	using System.Linq;
-	using ArchiMeter.Common.Documents;
+	using Common.Documents;
 	using global::Raven.Abstractions.Indexing;
 	using global::Raven.Client.Indexes;
 
@@ -9,7 +9,7 @@
 	{
 		public TfsProjectNameIndex()
 		{
-			this.Map = docs => from doc in docs
+			Map = docs => from doc in docs
 			              select new
 				                     {
 					                     doc.ProjectName,
