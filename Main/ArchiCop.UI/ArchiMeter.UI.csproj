@@ -8,8 +8,8 @@
     <ProjectGuid>{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArchiMetrics.UI</RootNamespace>
-    <AssemblyName>ArchiMetrics.UI</AssemblyName>
+    <RootNamespace>ArchiMeter.UI</RootNamespace>
+    <AssemblyName>ArchiMeter.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -113,6 +113,21 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\packages\Rx-XAML.2.1.30214.0\lib\Net45\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Controls.DataVisualization.Toolkit">
       <HintPath>..\packages\WPFToolkit.DataVisualization.3.5.50211.1\lib\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
     </Reference>
@@ -155,7 +170,6 @@
     <Compile Include="KnownWordList.cs" />
     <Compile Include="ModernContentLoader.cs" />
     <Compile Include="MvvmFoundation\Messenger.cs" />
-    <Compile Include="MvvmFoundation\ObservableObject.cs" />
     <Compile Include="MvvmFoundation\PropertyObserver.cs" />
     <Compile Include="MvvmFoundation\RelayCommand.cs" />
     <Compile Include="SpellChecker.cs" />
@@ -169,6 +183,7 @@
     <Compile Include="ViewModel\ProjectGraph.cs" />
     <Compile Include="ViewModel\RequirementGraphViewModel.cs" />
     <Compile Include="ViewModel\ResultComparer.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TestErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\Vertex.cs" />
     <Compile Include="View\CircularReferenceView.xaml.cs">
@@ -180,6 +195,9 @@
     <Compile Include="View\CodeReviewView.xaml.cs">
       <DependentUpon>CodeReviewView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RequirementGraphView.xaml.cs">
+      <DependentUpon>RequirementGraphView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EdgesView.xaml.cs">
       <DependentUpon>EdgesView.xaml</DependentUpon>
     </Compile>
@@ -187,6 +205,9 @@
       <DependentUpon>GraphView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProjectLayout.cs" />
+    <Compile Include="View\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TestErrorGraphView.xaml.cs">
       <DependentUpon>TestErrorGraphView.xaml</DependentUpon>
     </Compile>
@@ -248,11 +269,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\RequirementGraphView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\EdgesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GraphView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

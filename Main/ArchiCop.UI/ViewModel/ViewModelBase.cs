@@ -12,19 +12,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System;
-	using ArchiMetrics.UI.MvvmFoundation;
-	using ArchiMetrics.UI.Properties;
+	using System.ComponentModel;
+	using System.Diagnostics.CodeAnalysis;
+	using System.Runtime.CompilerServices;
+	using ArchiMeter.UI.Properties;
 
 	/// <summary>
-    /// Base class for all ViewModel classes in the application.
-    /// It provides support for property change notifications 
-    /// and has a DisplayName property.  This class is abstract.
-    /// </summary>
-    public abstract class ViewModelBase : ObservableObject, IDisposable
-    {
+	/// Base class for all ViewModel classes in the application.
+	/// It provides support for property change notifications 
+	/// and has a DisplayName property.  This class is abstract.
+	/// </summary>
+	public abstract class ViewModelBase : IDisposable
+	{
 		protected ViewModelBase()
 		{
 			var type = this.GetType();
@@ -32,11 +34,11 @@ namespace ArchiMetrics.UI.ViewModel
 		}
 
 		/// <summary>
-        /// Returns the user-friendly name of this object.
-        /// Child classes can set this property to a new value,
-        /// or override it to determine the value on-demand.
-        /// </summary>
-        public string DisplayName { get; protected set; }
+		/// Returns the user-friendly name of this object.
+		/// Child classes can set this property to a new value,
+		/// or override it to determine the value on-demand.
+		/// </summary>
+		public string DisplayName { get; protected set; }
 
 		public void Dispose()
 		{
@@ -49,7 +51,32 @@ namespace ArchiMetrics.UI.ViewModel
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				
+
+			}
+		}
+
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		/// <summary>
+		/// Raises this object's PropertyChanged event.
+		/// </summary>
+		/// <param name="propertyName">The property that has a new value.</param>
+		[SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This is the event invocation.")]
+		protected void RaisePropertyChanged([CallerMemberName]string propertyName = "")
+		{
+			var e = new PropertyChangedEventArgs(propertyName);
+			this.RaisePropertyChanged(e);
+		}
+
+		protected void RaisePropertyChanged(PropertyChangedEventArgs args)
+		{
+			var handler = this.PropertyChanged;
+			if (handler != null)
+			{
+				handler(this, args);
 			}
 		}
 
@@ -57,5 +84,5 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			this.Dispose(false);
 		}
-    }
+	}
 }

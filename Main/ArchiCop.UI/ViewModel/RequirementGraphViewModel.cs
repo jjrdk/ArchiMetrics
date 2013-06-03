@@ -10,12 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
+
 	using ArchiMeter.Analysis;
 	using ArchiMeter.Common;
 
@@ -29,9 +30,9 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, ISolutionEdgeItemsRepositoryConfig config, IEdgeTransformer filter)
 		{
-			_analyzer = analyzer;
-			_config = config;
-			_filter = filter;
+			this._analyzer = analyzer;
+			this._config = config;
+			this._filter = filter;
 			this.LoadAllEdges();
 		}
 
@@ -39,14 +40,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _graphToVisualize;
+				return this._graphToVisualize;
 			}
 
 			private set
 			{
-				if (_graphToVisualize != value)
+				if (this._graphToVisualize != value)
 				{
-					_graphToVisualize = value;
+					this._graphToVisualize = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -69,7 +70,7 @@ namespace ArchiMetrics.UI.ViewModel
 			this.IsLoading = true;
 			var g = new ProjectGraph();
 
-			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
+			var nonEmptySourceItems = (await this._filter.TransformAsync(this._allEdges))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
@@ -116,8 +117,8 @@ namespace ArchiMetrics.UI.ViewModel
 		private async void LoadAllEdges()
 		{
 			this.IsLoading = true;
-			var edges = await Task.Factory.StartNew(() => _analyzer.GetTestData(_config.Path));
-			_allEdges = await Task.Factory.StartNew(() => edges.SelectMany(this.ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
+			var edges = await Task.Factory.StartNew(() => this._analyzer.GetTestData(this._config.Path));
+			this._allEdges = await Task.Factory.StartNew(() => edges.SelectMany(this.ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
 			this.UpdateInternal();
 		}
 

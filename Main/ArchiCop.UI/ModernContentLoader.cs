@@ -1,4 +1,4 @@
-﻿namespace ArchiMetrics.UI
+﻿namespace ArchiMeter.UI
 {
 	using System;
 	using System.Linq;
@@ -14,7 +14,7 @@
 
 		public ModernContentLoader(IContainer container)
 		{
-			_container = container;
+			this._container = container;
 		}
 
 		/// <summary>
@@ -36,7 +36,7 @@
 					.FirstOrDefault();
 				if (dataContext != null)
 				{
-					var context = _container.Resolve(dataContext.DataContextType);
+					var context = this._container.Resolve(dataContext.DataContextType);
 
 					element.DataContext = context;
 				}

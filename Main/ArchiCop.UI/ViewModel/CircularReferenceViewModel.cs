@@ -10,10 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using ArchiMeter.Analysis;
 	using ArchiMeter.Common;
 
@@ -36,14 +37,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			get
 			{
-				return _circularReferences;
+				return this._circularReferences;
 			}
 
 			private set
 			{
-				if (new HashSet<DependencyChain>(value).SetEquals(_circularReferences))
+				if (new HashSet<DependencyChain>(value).SetEquals(this._circularReferences))
 				{
-					_circularReferences = value;
+					this._circularReferences = value;
 					this.RaisePropertyChanged();
 				}
 			}
@@ -54,7 +55,7 @@ namespace ArchiMetrics.UI.ViewModel
 			this.IsLoading = true;
 			var edgeItems = await this.Filter.TransformAsync(this.AllEdges);
 
-			_analyzer.GetCircularReferences(edgeItems)
+			this._analyzer.GetCircularReferences(edgeItems)
 				.ContinueWith(t =>
 					{
 						if (t.Exception != null)

@@ -10,11 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.View
+namespace ArchiMeter.UI.View
 {
 	using System.Windows.Controls;
 
-	using ArchiMetrics.UI.ViewModel;
+	using ArchiMeter.UI.ViewModel;
 
 	/// <summary>
 	/// Interaction logic for GraphView.xaml

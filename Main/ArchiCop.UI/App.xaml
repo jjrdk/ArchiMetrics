@@ -1,7 +1,6 @@
-﻿<Application x:Class="ArchiCop.UI.App"
+﻿<Application x:Class="ArchiMeter.UI.App"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:ui="clr-namespace:ArchiCop.UI"
 			 StartupUri="MainWindow.xaml">
 	<Application.Resources>
 		<ResourceDictionary>

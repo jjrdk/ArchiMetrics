@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI
+namespace ArchiMeter.UI
 {
 	using System.Collections.Generic;
 	using System.IO;
@@ -28,10 +28,10 @@ namespace ArchiMetrics.UI
 		{
 			using (var memoryStream = new MemoryStream())
 			{
-				_formatter.Serialize(memoryStream, source.ToArray());
+				this._formatter.Serialize(memoryStream, source.ToArray());
 				await memoryStream.FlushAsync();
 				memoryStream.Seek(0, SeekOrigin.Begin);
-				return (T[])_formatter.Deserialize(memoryStream);
+				return (T[])this._formatter.Deserialize(memoryStream);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-﻿namespace ArchiMetrics.UI
+﻿namespace ArchiMeter.UI
 {
 	using System;
 

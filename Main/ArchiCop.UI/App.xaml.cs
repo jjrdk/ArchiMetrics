@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI
+namespace ArchiMeter.UI
 {
 	using System.Globalization;
 	using System.IO;
@@ -24,8 +24,7 @@ namespace ArchiMetrics.UI
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
-
-	using ArchiMetrics.UI.ViewModel;
+	using ArchiMeter.UI.ViewModel;
 
 	using Autofac;
 
@@ -111,6 +110,8 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<RequirementGraphViewModel>()
 				.AsSelf();
 			builder.RegisterType<TestErrorGraphViewModel>()
+				.AsSelf();
+			builder.RegisterType<SettingsViewModel>()
 				.AsSelf();
 			var container = builder.Build();
 			var loader = new ModernContentLoader(container);
