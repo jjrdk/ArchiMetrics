@@ -17,12 +17,6 @@
 				  d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}"
 				  ContentLoader="{DynamicResource Loader}">
 	<mui:ModernWindow.MenuLinkGroups>
-		<mui:LinkGroup DisplayName="Analysis">
-			<mui:LinkGroup.Links>
-				<mui:Link DisplayName="Circular References"
-						  Source="View/CircularReferenceView.xaml" />
-			</mui:LinkGroup.Links>
-		</mui:LinkGroup>
 		<mui:LinkGroup DisplayName="Structures">
 			<mui:LinkGroup.Links>
 				<mui:Link DisplayName="Edges"
@@ -33,6 +27,8 @@
 		</mui:LinkGroup>
 		<mui:LinkGroup DisplayName="Review">
 			<mui:LinkGroup.Links>
+				<mui:Link DisplayName="Circular References"
+						  Source="View/CircularReferenceView.xaml" />
 				<mui:Link DisplayName="Code Review"
 						  Source="View/CodeReviewView.xaml" />
 				<mui:Link DisplayName="Code Errors"
