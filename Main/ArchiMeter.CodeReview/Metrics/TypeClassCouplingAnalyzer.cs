@@ -19,7 +19,6 @@ namespace ArchiMeter.CodeReview.Metrics
 
 	internal sealed class TypeClassCouplingAnalyzer : ClassCouplingAnalyzerBase
 	{
-		// Methods
 		public TypeClassCouplingAnalyzer(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{

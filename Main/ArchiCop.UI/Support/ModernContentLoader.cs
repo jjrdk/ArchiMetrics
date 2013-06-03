@@ -5,6 +5,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using System.Windows;
+	using System.Windows.Threading;
 
 	using Autofac;
 
@@ -18,26 +19,6 @@
 		public ModernContentLoader(IContainer container)
 		{
 			this._container = container;
-		}
-
-		/// <summary>
-		/// Loads the content from specified uri.
-		/// </summary>
-		/// <param name="uri">The content uri</param>
-		/// <returns>
-		/// The loaded content.
-		/// </returns>
-		protected object LoadContent(Uri uri)
-		{
-			var content = this.GetContent(uri);
-			var element = content as FrameworkElement;
-			if (element != null)
-			{
-				var dataContext = this.GetContext(content);
-				element.DataContext = dataContext;
-			}
-
-			return content;
 		}
 
 		private object GetContent(Uri uri)
@@ -54,25 +35,30 @@
 			var element = content as FrameworkElement;
 			if (element != null)
 			{
-				var context = this.GetContext(content);
-				await Task.Factory.StartNew(() => element.DataContext = context, cancellationToken, TaskCreationOptions.None, scheduler);
+				var context = await this.GetContext(content, cancellationToken);
+				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() => element.DataContext = context));
+				//await Task.Factory.StartNew(, cancellationToken, TaskCreationOptions.None, scheduler);
 			}
 
 			return content;
 		}
 
-		private object GetContext(object content)
+		private async Task<object> GetContext(object content, CancellationToken token)
 		{
-			var dataContext = content.GetType()
-									 .GetCustomAttributes(typeof(DataContextAttribute), true)
-									 .OfType<DataContextAttribute>()
-									 .FirstOrDefault();
+			var dataContext = await Task.Factory.StartNew(() => content.GetType()
+																	   .GetCustomAttributes(typeof(DataContextAttribute), true)
+																	   .OfType<DataContextAttribute>()
+																	   .FirstOrDefault(),
+				token,
+				TaskCreationOptions.None,
+				TaskScheduler.FromCurrentSynchronizationContext());
 			if (dataContext != null)
 			{
 				var context = this._container.Resolve(dataContext.DataContextType);
 				return context;
 			}
 			return null;
+
 		}
 	}
 }

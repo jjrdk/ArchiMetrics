@@ -5,10 +5,12 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:model="clr-namespace:ArchiMeter.Common;assembly=ArchiMeter.Common"
 			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
-			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}">
+			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}"
+			 mui:ModernFrame.KeepAlive="True">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
