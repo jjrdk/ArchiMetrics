@@ -169,9 +169,6 @@
     <Compile Include="DefaultCollectionCopier.cs" />
     <Compile Include="KnownWordList.cs" />
     <Compile Include="ModernContentLoader.cs" />
-    <Compile Include="MvvmFoundation\Messenger.cs" />
-    <Compile Include="MvvmFoundation\PropertyObserver.cs" />
-    <Compile Include="MvvmFoundation\RelayCommand.cs" />
     <Compile Include="SpellChecker.cs" />
     <Compile Include="ViewModel\CircularReferenceViewModel.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
@@ -227,7 +224,6 @@
     <Compile Include="ViewModel\CommandViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <EmbeddedResource Include="Properties\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

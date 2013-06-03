@@ -25,7 +25,7 @@
 			{
 				if (directoryOpener.ShowDialog() == DialogResult.OK)
 				{
-					this.PathBox.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
+					PathBox.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
 				}
 			}
 		}

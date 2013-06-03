@@ -21,11 +21,9 @@ namespace ArchiMeter.UI.ViewModel
 	/// <summary>
 	/// The ViewModel for the application's main window.
 	/// </summary>
-	public class MainWindowViewModel : WorkspaceViewModel
+	public class MainWindowViewModel : ViewModelBase
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly object _syncToken = new object();
-		private CancellationTokenSource _tokenSource;
 
 		public MainWindowViewModel(ISolutionEdgeItemsRepositoryConfig config)
 		{
@@ -93,13 +91,7 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			if (isDisposing)
 			{
-				if (this._tokenSource != null)
-				{
-					this._tokenSource.Cancel();
-					this._tokenSource.Dispose();
-				}
-
-				this._config.PropertyChanged -= this.ConfigPropertyChanged;
+				_config.PropertyChanged -= this.ConfigPropertyChanged;
 			}
 
 			base.Dispose(isDisposing);

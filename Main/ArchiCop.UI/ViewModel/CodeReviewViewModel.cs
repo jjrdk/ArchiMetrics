@@ -18,7 +18,7 @@ namespace ArchiMeter.UI.ViewModel
 
 	using ArchiMeter.Common;
 
-	public class CodeReviewViewModel : WorkspaceViewModel
+	public class CodeReviewViewModel : ViewModelBase
 	{
 		private readonly object _syncLock = new object();
 		private int _brokenCode;

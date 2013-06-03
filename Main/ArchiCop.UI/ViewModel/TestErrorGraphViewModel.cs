@@ -18,7 +18,7 @@ namespace ArchiMeter.UI.ViewModel
 
 	using ArchiMeter.Common;
 
-	public class TestErrorGraphViewModel : WorkspaceViewModel
+	public class TestErrorGraphViewModel : ViewModelBase
 	{
 		public TestErrorGraphViewModel(ICodeErrorRepository repository)
 		{

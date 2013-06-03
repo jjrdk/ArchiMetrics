@@ -45,7 +45,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<TextBox x:Name="PathBox"
+			<TextBlock x:Name="PathBox"
 					 Grid.Column="0"
 					 Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<Button Grid.Column="1"

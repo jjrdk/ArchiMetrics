@@ -29,7 +29,7 @@ namespace ArchiMeter.UI.ViewModel
 			IVertexRuleDefinition ruleDefinition)
 			: base(repository, filter, ruleDefinition)
 		{
-			this.CircularReferences = new List<DependencyChain>();
+			_circularReferences = new List<DependencyChain>();
 			this.LoadEdges();
 		}
 
@@ -42,7 +42,7 @@ namespace ArchiMeter.UI.ViewModel
 
 			private set
 			{
-				if (new HashSet<DependencyChain>(value).SetEquals(this._circularReferences))
+				if (value != null && new HashSet<DependencyChain>(value).SetEquals(_circularReferences))
 				{
 					this._circularReferences = value;
 					this.RaisePropertyChanged();

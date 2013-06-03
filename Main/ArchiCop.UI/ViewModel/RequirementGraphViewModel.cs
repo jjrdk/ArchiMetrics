@@ -20,7 +20,7 @@ namespace ArchiMeter.UI.ViewModel
 	using ArchiMeter.Analysis;
 	using ArchiMeter.Common;
 
-	internal class RequirementGraphViewModel : WorkspaceViewModel
+	internal class RequirementGraphViewModel : ViewModelBase
 	{
 		private readonly IRequirementTestAnalyzer _analyzer;
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
@@ -53,7 +53,7 @@ namespace ArchiMeter.UI.ViewModel
 			}
 		}
 
-		public override void Update(bool forceUpdate)
+		public void Update(bool forceUpdate)
 		{
 			if (forceUpdate)
 			{
