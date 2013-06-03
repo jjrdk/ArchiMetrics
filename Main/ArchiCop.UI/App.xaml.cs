@@ -48,74 +48,82 @@ namespace ArchiMeter.UI
 			// container.RegisterType<IBuildItemRepository, FakeBuildItemRepository>(
 			// 	new ContainerControlledLifetimeManager());
 			builder.RegisterType<DefaultCollectionCopier>()
-			       .As<ICollectionCopier>()
-			       .SingleInstance();
+				   .As<ICollectionCopier>()
+				   .SingleInstance();
 			var config = new SolutionEdgeItemsRepositoryConfig();
 			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
-			foreach(var type in typeof(ICodeEvaluation).Assembly
-			                                           .GetTypes()
-			                                           .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
-			                                           .Where(t => !t.IsInterface && !t.IsAbstract))
+			foreach (var type in typeof(ICodeEvaluation).Assembly
+													   .GetTypes()
+													   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
+													   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type)
-				       .As<ICodeEvaluation>();
+					   .As<ICodeEvaluation>();
 			}
-			using(var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
+			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
-				        .Extract(affStream);
+						.Extract(affStream);
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
-				        .Extract(dicStream);
+						.Extract(dicStream);
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
+			}
+			foreach (var type in typeof(IEvaluation).Assembly
+				.GetTypes()
+				.Where(t => typeof(IEvaluation).IsAssignableFrom(t))
+				.Where(t => !t.IsInterface && !t.IsAbstract))
+			{
+				builder.RegisterType(type)
+					.As<IEvaluation>();
 			}
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
 			builder.RegisterType<ProjectMetricsCalculator>()
-			       .As<IProjectMetricsCalculator>();
+				   .As<IProjectMetricsCalculator>();
 			builder.RegisterType<SolutionInspector>()
-			       .As<INodeInspector>();
+				   .As<INodeInspector>();
 			var vertexRuleRepository = new FakeVertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true))
-			       .As<PathFilter>();
+				   .As<PathFilter>();
 			builder.RegisterType<SolutionProvider>()
-			       .As<IProvider<string, ISolution>>();
+				   .As<IProvider<string, ISolution>>();
 			builder.RegisterType<ProjectProvider>()
-			       .As<IProvider<string, IProject>>();
+				   .As<IProvider<string, IProject>>();
 			builder.RegisterType<CodeErrorRepository>()
-			       .As<ICodeErrorRepository>();
+				   .As<ICodeErrorRepository>();
 			builder.RegisterType<AggregateEdgeItemsRepository>()
-			       .As<IEdgeItemsRepository>();
+				   .As<IEdgeItemsRepository>();
 			builder.RegisterInstance<IVertexRuleRepository>(vertexRuleRepository);
 			builder.RegisterInstance<IVertexRuleDefinition>(vertexRuleRepository);
 			builder.RegisterType<EdgeTransformer>()
-			       .As<IEdgeTransformer>();
+				   .As<IEdgeTransformer>();
 			builder.RegisterType<RequirementTestAnalyzer>()
-			       .As<IRequirementTestAnalyzer>();
+				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<EdgesViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<CircularReferenceViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<CodeErrorGraphViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<CodeReviewViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<GraphViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<RequirementGraphViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<TestErrorGraphViewModel>()
-			       .AsSelf()
-			       .SingleInstance();
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<SettingsViewModel>()
-			       .AsSelf();
+				   .AsSelf();
 			var container = builder.Build();
 			var loader = new ModernContentLoader(container);
 			this.Resources.Add("Loader", loader);

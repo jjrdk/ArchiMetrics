@@ -23,6 +23,7 @@ namespace ArchiMeter.UI.ViewModel
 	{
 		private readonly ICodeErrorRepository _repository;
 
+		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly object _syncLock = new object();
 		private int _brokenCode;
 		private ObservableCollection<EvaluationResult> _codeErrors;
@@ -33,6 +34,7 @@ namespace ArchiMeter.UI.ViewModel
 			: base(config)
 		{
 			_repository = repository;
+			_config = config;
 			IsLoading = true;
 			CodeErrors = new ObservableCollection<EvaluationResult>();
 			Update(true);
@@ -45,7 +47,7 @@ namespace ArchiMeter.UI.ViewModel
 				this.ErrorsShown = 0;
 				this.CodeErrors.Clear();
 
-				var errors = await _repository.GetErrorsAsync();
+				var errors = await _repository.GetErrorsAsync(_config.Path, false);
 
 				var results = errors.Where(x => x.Comment != "Multiple asserts found in test." || x.ErrorCount != 1).ToArray();
 				foreach (var result in results)
