@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -23,13 +23,13 @@ namespace ArchiCop.UI.ViewModel
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
-			IEdgeItemsRepository repository, 
-			IEdgeTransformer filter, 
+			IEdgeItemsRepository repository,
+			IEdgeTransformer filter,
 			IVertexRuleDefinition ruleDefinition)
 			: base(repository, filter, ruleDefinition)
 		{
-			CircularReferences = new List<DependencyChain>();
-			LoadEdges();
+			this.CircularReferences = new List<DependencyChain>();
+			this.LoadEdges();
 		}
 
 		public IEnumerable<DependencyChain> CircularReferences
@@ -41,18 +41,18 @@ namespace ArchiCop.UI.ViewModel
 
 			private set
 			{
-				if (value != _circularReferences)
+				if (new HashSet<DependencyChain>(value).SetEquals(_circularReferences))
 				{
 					_circularReferences = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
 
 		protected async override void UpdateInternal()
 		{
-			IsLoading = true;
-			var edgeItems = await Filter.TransformAsync(AllEdges);
+			this.IsLoading = true;
+			var edgeItems = await this.Filter.TransformAsync(this.AllEdges);
 
 			_analyzer.GetCircularReferences(edgeItems)
 				.ContinueWith(t =>
@@ -64,8 +64,8 @@ namespace ArchiCop.UI.ViewModel
 							return;
 						}
 
-						CircularReferences = t.Result.ToArray();
-						IsLoading = false;
+						this.CircularReferences = t.Result.ToArray();
+						this.IsLoading = false;
 					});
 		}
 	}

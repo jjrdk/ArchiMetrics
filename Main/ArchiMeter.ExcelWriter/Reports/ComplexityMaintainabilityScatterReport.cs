@@ -15,7 +15,7 @@
 
 		public ComplexityMaintainabilityScatterReport(IAsyncReadOnlyRepository<MemberComplexityMaintainabilitySegment> repository)
 		{
-			this._repository = repository;
+			_repository = repository;
 		}
 
 		public void Dispose()
@@ -35,7 +35,7 @@
 		private async Task<int> PrintValues(ExcelWorksheet worksheet, ReportConfig config)
 		{
 			Func<ParameterExpression, Expression> filter = p => Expression.LessThan(Expression.Property(p, "MaintainabilityIndex"), Expression.Constant(100.0));
-			var results = (await this._repository.Query(config.Projects.CreateQuery<MemberComplexityMaintainabilitySegment>(filter))).ToArray();
+			var results = (await _repository.Query(config.Projects.CreateQuery<MemberComplexityMaintainabilitySegment>(filter))).ToArray();
 			var ccs = results.Select(x => x.CyclomaticComplexity).Distinct().OrderBy(x => x).ToArray();
 			var projects = results
 				.GroupBy(x => string.Format("{0} {1}", x.ProjectName, x.Date.ToString("yyyy-MM-dd")))

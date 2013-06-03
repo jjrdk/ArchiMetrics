@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -29,7 +29,7 @@ namespace ArchiCop.UI.ViewModel
 		{
 			_repository = repository;
 			_filter = filter;
-			LoadAllEdges();
+			this.LoadAllEdges();
 		}
 
 		public ProjectGraph GraphToVisualize
@@ -44,7 +44,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_graphToVisualize != value)
 				{
 					_graphToVisualize = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -53,11 +53,11 @@ namespace ArchiCop.UI.ViewModel
 		{
 			if (forceUpdate)
 			{
-				LoadAllEdges();
+				this.LoadAllEdges();
 			}
 			else
 			{
-				UpdateInternal();
+				this.UpdateInternal();
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace ArchiCop.UI.ViewModel
 
 		private async void UpdateInternal()
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			var g = new ProjectGraph();
 
 			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
@@ -84,7 +84,7 @@ namespace ArchiCop.UI.ViewModel
 				.SelectMany(item =>
 					{
 						var isCircular = circularReferences.Any(c => c.Contains(item));
-						return CreateVertices(item, isCircular);
+						return this.CreateVertices(item, isCircular);
 					})
 				.GroupBy(v => v.Name)
 				.Select(grouping => grouping.First())
@@ -110,8 +110,8 @@ namespace ArchiCop.UI.ViewModel
 				g.AddEdge(edge);
 			}
 
-			GraphToVisualize = g;
-			IsLoading = false;
+			this.GraphToVisualize = g;
+			this.IsLoading = false;
 		}
 
 		private IEnumerable<Vertex> CreateVertices(EdgeItem item, bool isCircular)
@@ -126,10 +126,10 @@ namespace ArchiCop.UI.ViewModel
 
 		private async void LoadAllEdges()
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			var edges = await _repository.GetEdgesAsync();
 			_allEdges = edges.Where(e => e.Dependant != e.Dependency).ToArray();
-			UpdateInternal();
+			this.UpdateInternal();
 		}
 	}
 }

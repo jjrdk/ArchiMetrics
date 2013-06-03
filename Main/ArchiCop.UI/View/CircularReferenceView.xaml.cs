@@ -10,10 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.View
+namespace ArchiMetrics.UI.View
 {
 	using System.Windows.Controls;
-	using ViewModel;
+
+	using ArchiMetrics.UI.ViewModel;
 
 	/// <summary>
 	/// Interaction logic for CircularReferenceView.xaml

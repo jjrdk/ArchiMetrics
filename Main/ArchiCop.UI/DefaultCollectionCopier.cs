@@ -10,13 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI
+namespace ArchiMetrics.UI
 {
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.Threading.Tasks;
+
 	using ArchiMeter.Common;
 
 	internal class DefaultCollectionCopier : ICollectionCopier

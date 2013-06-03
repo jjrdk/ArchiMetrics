@@ -1,4 +1,4 @@
-﻿namespace ArchiCop.UI
+﻿namespace ArchiMetrics.UI
 {
 	using System;
 
@@ -6,7 +6,7 @@
 	{
 		public DataContextAttribute(Type dataContextType)
 		{
-			DataContextType = dataContextType;
+			this.DataContextType = dataContextType;
 		}
 
 		public Type DataContextType { get; set; }

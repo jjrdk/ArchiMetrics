@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI
+namespace ArchiMetrics.UI
 {
 	using FirstFloor.ModernUI.Windows.Controls;
 
@@ -18,7 +18,7 @@ namespace ArchiCop.UI
 	{
 		public MainWindow()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 	}
 }

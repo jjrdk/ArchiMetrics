@@ -12,11 +12,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
 	using System.Windows.Input;
-	using MvvmFoundation;
+
+	using ArchiMetrics.UI.MvvmFoundation;
 
 	/// <summary>
 	/// This ViewModelBase subclass requests to be removed 
@@ -36,7 +37,7 @@ namespace ArchiCop.UI.ViewModel
 		{
 			get
 			{
-				return _closeCommand ?? (_closeCommand = new RelayCommand<object>(param => OnRequestClose()));
+				return _closeCommand ?? (_closeCommand = new RelayCommand<object>(param => this.OnRequestClose()));
 			}
 		}
 
@@ -52,7 +53,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_isLoading != value)
 				{
 					_isLoading = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -68,7 +69,7 @@ namespace ArchiCop.UI.ViewModel
 
 		private void OnRequestClose()
 		{
-			EventHandler handler = RequestClose;
+			EventHandler handler = this.RequestClose;
 			if (handler != null)
 			{
 				handler(this, EventArgs.Empty);

@@ -1,9 +1,11 @@
-﻿namespace ArchiCop.UI
+﻿namespace ArchiMetrics.UI
 {
 	using System;
 	using System.Linq;
 	using System.Windows;
+
 	using Autofac;
+
 	using FirstFloor.ModernUI.Windows;
 
 	public class ModernContentLoader : DefaultContentLoader

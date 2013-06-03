@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.MvvmFoundation
+namespace ArchiMetrics.UI.MvvmFoundation
 {
 	using System;
 	using System.ComponentModel;
@@ -43,7 +43,7 @@ namespace ArchiCop.UI.MvvmFoundation
 		[SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This is the event invocation.")]
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = "")
 		{
-			VerifyPropertyName(propertyName);
+			this.VerifyPropertyName(propertyName);
 
 			PropertyChangedEventHandler handler = this.PropertyChanged;
 			if (handler != null)
@@ -73,7 +73,7 @@ namespace ArchiCop.UI.MvvmFoundation
 			{
 				string msg = "Invalid property name: " + propertyName;
 
-				if (ThrowOnInvalidPropertyName)
+				if (this.ThrowOnInvalidPropertyName)
 					throw new ArgumentException(msg);
 				else
 					Debug.Fail(msg);

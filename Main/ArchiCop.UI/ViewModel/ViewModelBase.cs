@@ -12,11 +12,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
-	using MvvmFoundation;
-	using Properties;
+	using ArchiMetrics.UI.MvvmFoundation;
+	using ArchiMetrics.UI.Properties;
 
 	/// <summary>
     /// Base class for all ViewModel classes in the application.
@@ -27,8 +27,8 @@ namespace ArchiCop.UI.ViewModel
     {
 		protected ViewModelBase()
 		{
-			var type = GetType();
-			DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
+			var type = this.GetType();
+			this.DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
 		}
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace ArchiCop.UI.ViewModel
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -55,7 +55,7 @@ namespace ArchiCop.UI.ViewModel
 
 		~ViewModelBase()
 		{
-			Dispose(false);
+			this.Dispose(false);
 		}
     }
 }
