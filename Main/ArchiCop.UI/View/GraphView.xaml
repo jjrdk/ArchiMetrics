@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ArchiCop.UI.View.GraphView"
+﻿<UserControl x:Class="ArchiMetrics.UI.View.GraphView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,10 @@
 			 mc:Ignorable="d"
 			 xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
 			 xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
-             xmlns:viewModel="clr-namespace:ArchiCop.UI.ViewModel"
-             xmlns:converters="clr-namespace:ArchiCop.UI.Converters" xmlns:view="clr-namespace:ArchiCop.UI.View"
-             x:Name="Root"
+			 xmlns:converters="clr-namespace:ArchiMetrics.UI.Converters"
+			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 x:Name="Root"
 			 d:DataContext="{d:DesignInstance Type=viewModel:GraphViewModel}">
 	<UserControl.Resources>
 		<converters:QualityToBrushConverter x:Key="QualityConverter" />
@@ -21,7 +22,7 @@
 					Background="{Binding Path=IsCircularReference, Converter={StaticResource CircularConverter}}"
 					BorderThickness="{Binding Path=LinesOfCode, Converter={StaticResource LoCConverter}}"
 					Padding="5">
-					<TextBlock Text="{Binding Path=Name}" />
+				<TextBlock Text="{Binding Path=Name}" />
 				<ToolTipService.ToolTip>
 					<StackPanel Orientation="Vertical">
 						<TextBlock Text="{Binding Path=LinesOfCode, StringFormat='{}{0} LoC.'}"

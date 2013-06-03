@@ -10,21 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
-	using System.Collections.Specialized;
 	using System.ComponentModel;
-	using System.Linq;
 	using System.Threading;
-	using System.Threading.Tasks;
-	using System.Windows.Data;
-	using System.Windows.Input;
+
 	using ArchiMeter.Common;
-	using FirstFloor.ModernUI.Presentation;
-	using RelayCommand = MvvmFoundation.RelayCommand;
 
 	/// <summary>
 	/// The ViewModel for the application's main window.
@@ -43,7 +35,7 @@ namespace ArchiCop.UI.ViewModel
 			}
 
 			_config = config;
-			_config.PropertyChanged += ConfigPropertyChanged;
+			_config.PropertyChanged += this.ConfigPropertyChanged;
 		}
 
 		public string Path
@@ -58,7 +50,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_config.Path != value)
 				{
 					_config.Path = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -75,7 +67,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_config.IncludeCodeReview != value)
 				{
 					_config.IncludeCodeReview = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -92,7 +84,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_config.Source != value)
 				{
 					_config.Source = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -107,7 +99,7 @@ namespace ArchiCop.UI.ViewModel
 					_tokenSource.Dispose();
 				}
 
-				_config.PropertyChanged -= ConfigPropertyChanged;
+				_config.PropertyChanged -= this.ConfigPropertyChanged;
 			}
 
 			base.Dispose(isDisposing);

@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using QuickGraph;
 

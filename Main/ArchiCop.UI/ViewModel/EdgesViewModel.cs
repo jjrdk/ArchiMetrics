@@ -10,10 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
 	using System.Windows.Data;
+
 	using ArchiMeter.Common;
 
 	public class EdgesViewModel : EdgesViewModelBase
@@ -24,8 +25,8 @@ namespace ArchiCop.UI.ViewModel
 		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition)
 			: base(repository, filter, ruleDefinition)
 		{
-			DependencyItems = new ObservableCollection<EdgeItem>();
-			LoadEdges();
+			this.DependencyItems = new ObservableCollection<EdgeItem>();
+			this.LoadEdges();
 		}
 
 		public ObservableCollection<EdgeItem> DependencyItems
@@ -50,21 +51,21 @@ namespace ArchiCop.UI.ViewModel
 						BindingOperations.EnableCollectionSynchronization(_dependencyItems, _syncLock);
 					}
 
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
 
 		protected override async void UpdateInternal()
 		{
-			IsLoading = true;
-			DependencyItems.Clear();
-			foreach (var item in await Filter.TransformAsync(AllEdges))
+			this.IsLoading = true;
+			this.DependencyItems.Clear();
+			foreach (var item in await this.Filter.TransformAsync(this.AllEdges))
 			{
-				DependencyItems.Add(item);
+				this.DependencyItems.Add(item);
 			}
 
-			IsLoading = false;
+			this.IsLoading = false;
 		}
 
 		protected override void Dispose(bool isDisposing)

@@ -10,11 +10,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Windows.Data;
+
 	using ArchiMeter.Common;
 
 	public class CodeReviewViewModel : WorkspaceViewModel
@@ -27,8 +28,8 @@ namespace ArchiCop.UI.ViewModel
 
 		public CodeReviewViewModel(ICodeErrorRepository repository)
 		{
-			IsLoading = true;
-			CodeErrors = new ObservableCollection<EvaluationResult>();
+			this.IsLoading = true;
+			this.CodeErrors = new ObservableCollection<EvaluationResult>();
 			repository.GetErrorsAsync()
 					  .ContinueWith(t =>
 						  {
@@ -36,40 +37,40 @@ namespace ArchiCop.UI.ViewModel
 							  {
 								  var exception = t.Exception.InnerExceptions[0];
 
-								  CodeErrors.Add(new EvaluationResult
+								  this.CodeErrors.Add(new EvaluationResult
 													 {
 														 Quality = CodeQuality.Broken, 
 														 Comment = exception.Message, 
 														 Snippet = exception.StackTrace
 													 });
-								  IsLoading = false;
+								  this.IsLoading = false;
 								  return;
 							  }
 
-							  ErrorsShown = 0;
-							  CodeErrors.Clear();
+							  this.ErrorsShown = 0;
+							  this.CodeErrors.Clear();
 
 							  var results = t.Result.Where(x => x.Comment != "Multiple asserts found in test." || x.ErrorCount != 1).ToArray();
 							  foreach (var result in results)
 							  {
-								  CodeErrors.Add(result);
+								  this.CodeErrors.Add(result);
 							  }
 
-							  ErrorsShown = CodeErrors.Count;
-							  if (CodeErrors.Count == 0)
+							  this.ErrorsShown = this.CodeErrors.Count;
+							  if (this.CodeErrors.Count == 0)
 							  {
-								  CodeErrors.Add(new EvaluationResult { Comment = "No Errors", Quality = CodeQuality.Good });
+								  this.CodeErrors.Add(new EvaluationResult { Comment = "No Errors", Quality = CodeQuality.Good });
 							  }
 
-							  FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
-							  BrokenCode = (int)(results
+							  this.FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
+							  this.BrokenCode = (int)(results
 													 .Where(x => x.Quality == CodeQuality.Broken || x.Quality == CodeQuality.Incompetent)
 													 .Sum(x => (double)x.LinesOfCodeAffected)
 												 + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
 														  .Sum(x => x.LinesOfCodeAffected * .5)
 												 + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
 														  .Sum(x => x.LinesOfCodeAffected * .2));
-							  IsLoading = false;
+							  this.IsLoading = false;
 						  });
 		}
 
@@ -85,7 +86,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_brokenCode != value)
 				{
 					_brokenCode = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -102,7 +103,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_errorsShown != value)
 				{
 					_errorsShown = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -120,7 +121,7 @@ namespace ArchiCop.UI.ViewModel
 				if (_filesWithErrors != value)
 				{
 					_filesWithErrors = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -148,7 +149,7 @@ namespace ArchiCop.UI.ViewModel
 						BindingOperations.EnableCollectionSynchronization(_codeErrors, _syncLock);
 					}
 
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}

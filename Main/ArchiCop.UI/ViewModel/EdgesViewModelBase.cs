@@ -10,10 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using ArchiMeter.Common;
 
 	public abstract class EdgesViewModelBase : WorkspaceViewModel
@@ -26,7 +27,7 @@ namespace ArchiCop.UI.ViewModel
 		{
 			_repository = repository;
 			_filter = filter;
-			VertexRules = ruleDefinition.VertexRules;
+			this.VertexRules = ruleDefinition.VertexRules;
 		}
 
 		public ICollection<VertexRule> VertexRules { get; private set; }
@@ -51,19 +52,19 @@ namespace ArchiCop.UI.ViewModel
 		{
 			if (forceReload)
 			{
-				LoadEdges();
+				this.LoadEdges();
 			}
 			else
 			{
-				UpdateInternal();
+				this.UpdateInternal();
 			}
 		}
 
 		protected async void LoadEdges()
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			_allEdges = (await _repository.GetEdgesAsync()).ToArray();
-			UpdateInternal();
+			this.UpdateInternal();
 		}
 
 		protected abstract void UpdateInternal();

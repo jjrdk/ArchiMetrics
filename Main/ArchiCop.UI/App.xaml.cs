@@ -10,24 +10,30 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI
+namespace ArchiMetrics.UI
 {
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
+
 	using ArchiMeter.Analysis;
 	using ArchiMeter.CodeReview;
 	using ArchiMeter.CodeReview.Metrics;
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
+
+	using ArchiMetrics.UI.ViewModel;
+
 	using Autofac;
+
 	using Ionic.Zip;
+
 	using NHunspell;
+
 	using Roslyn.Services;
-	using ViewModel;
 
 	public partial class App : Application
 	{
@@ -108,7 +114,7 @@ namespace ArchiCop.UI
 				.AsSelf();
 			var container = builder.Build();
 			var loader = new ModernContentLoader(container);
-			Resources.Add("Loader", loader);
+			this.Resources.Add("Loader", loader);
 			base.OnStartup(e);
 		}
 	}

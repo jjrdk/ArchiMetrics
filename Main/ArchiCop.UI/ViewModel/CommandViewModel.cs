@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
 	using System.Windows.Input;
@@ -27,8 +27,8 @@ namespace ArchiCop.UI.ViewModel
 				throw new ArgumentNullException("command");
 			}
 
-			DisplayName = displayName;
-			Command = command;
+			this.DisplayName = displayName;
+			this.Command = command;
 		}
 
 		public ICommand Command { get; private set; }

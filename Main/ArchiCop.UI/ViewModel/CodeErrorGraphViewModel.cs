@@ -10,28 +10,29 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+
 	using ArchiMeter.Common;
 
 	public class CodeErrorGraphViewModel : WorkspaceViewModel
 	{
 		public CodeErrorGraphViewModel(ICodeErrorRepository repository)
 		{
-			repository.GetErrorsAsync().ContinueWith(DisplayErrors);
+			repository.GetErrorsAsync().ContinueWith(this.DisplayErrors);
 		}
 
 		public IList<KeyValuePair<string, int>> Errors { get; private set; }
 
 		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			var results = task.Result.GroupBy(x => x.Comment).Select(x => new KeyValuePair<string, int>(x.Key, x.Count())).OrderBy(x => x.Key);
-			Errors = new List<KeyValuePair<string, int>>(results);
-			IsLoading = false;
+			this.Errors = new List<KeyValuePair<string, int>>(results);
+			this.IsLoading = false;
 		}
 	}
 }
