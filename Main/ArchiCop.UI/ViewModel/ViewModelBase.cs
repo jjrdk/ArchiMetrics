@@ -27,10 +27,29 @@ namespace ArchiMeter.UI.ViewModel
 	/// </summary>
 	public abstract class ViewModelBase : IDisposable
 	{
+		private bool _isLoading;
+
 		protected ViewModelBase()
 		{
 			var type = this.GetType();
 			this.DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
+		}
+
+		public bool IsLoading
+		{
+			get
+			{
+				return this._isLoading;
+			}
+
+			set
+			{
+				if (this._isLoading != value)
+				{
+					this._isLoading = value;
+					this.RaisePropertyChanged();
+				}
+			}
 		}
 
 		/// <summary>

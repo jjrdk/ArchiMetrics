@@ -17,7 +17,7 @@ namespace ArchiMeter.UI.ViewModel
 
 	using ArchiMeter.Common;
 
-	public abstract class EdgesViewModelBase : WorkspaceViewModel
+	public abstract class EdgesViewModelBase : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
@@ -45,18 +45,6 @@ namespace ArchiMeter.UI.ViewModel
 			get
 			{
 				return this._allEdges;
-			}
-		}
-
-		public override void Update(bool forceReload)
-		{
-			if (forceReload)
-			{
-				this.LoadEdges();
-			}
-			else
-			{
-				this.UpdateInternal();
 			}
 		}
 

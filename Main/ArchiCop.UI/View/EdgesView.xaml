@@ -3,9 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:ArchiMeter.Common;assembly=ArchiMeter.Common"
-             xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
-             mc:Ignorable="d"
+			 xmlns:model="clr-namespace:ArchiMeter.Common;assembly=ArchiMeter.Common"
+			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}">
@@ -50,7 +50,7 @@
 					 Height="25"
 					 MinWidth="200"
 					 IsIndeterminate="True"
-					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}"
+					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}, Mode=OneWay}"
 					 VerticalAlignment="Center"
 					 HorizontalAlignment="Stretch" />
 	</Grid>

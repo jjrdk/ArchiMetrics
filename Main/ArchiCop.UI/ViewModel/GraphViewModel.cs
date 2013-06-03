@@ -18,7 +18,7 @@ namespace ArchiMeter.UI.ViewModel
 	using ArchiMeter.Analysis;
 	using ArchiMeter.Common;
 
-	internal class GraphViewModel : WorkspaceViewModel
+	internal class GraphViewModel : ViewModelBase
 	{
 		private readonly DependencyAnalyzer _analyzer = new DependencyAnalyzer();
 		private readonly IEdgeTransformer _filter;
@@ -50,7 +50,7 @@ namespace ArchiMeter.UI.ViewModel
 			}
 		}
 
-		public override void Update(bool forceUpdate)
+		public void Update(bool forceUpdate)
 		{
 			if (forceUpdate)
 			{
