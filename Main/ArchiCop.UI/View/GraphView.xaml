@@ -20,11 +20,16 @@
 					  DataType="viewModel:Vertex">
 			<Border BorderBrush="{Binding Path=Quality, Converter={StaticResource QualityConverter}}"
 					Background="{Binding Path=IsCircularReference, Converter={StaticResource CircularConverter}}"
-					BorderThickness="{Binding Path=LinesOfCode, Converter={StaticResource LoCConverter}}">
-				<Border BorderBrush="Gray"
+					BorderThickness="{Binding Path=LinesOfCode, Converter={StaticResource LoCConverter}}"
+					Padding="0"
+					SnapsToDevicePixels="True">
+				<Border BorderBrush="DarkGray"
+						Background="DarkGray"
 						BorderThickness="0,1,1,1"
-						Padding="5">
-					<TextBlock Text="{Binding Path=Name}" />
+						Padding="5"
+						SnapsToDevicePixels="True">
+					<TextBlock Text="{Binding Path=Name}"
+							   Foreground="White" />
 					<ToolTipService.ToolTip>
 						<StackPanel Orientation="Vertical">
 							<TextBlock Text="{Binding Path=LinesOfCode, StringFormat='{}{0} LoC.'}"

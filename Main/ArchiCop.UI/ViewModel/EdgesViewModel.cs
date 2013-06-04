@@ -31,7 +31,7 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			this.DependencyItems = new ObservableCollection<EdgeItem>();
 			this.LoadEdges();
-			this._updateCommand = new DelegateCommand(o => true, o => this.UpdateInternal());
+			_updateCommand = new DelegateCommand(o => true, o => this.UpdateInternal());
 		}
 
 		public ObservableCollection<EdgeItem> DependencyItems
