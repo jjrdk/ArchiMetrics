@@ -16,11 +16,9 @@ namespace ArchiMeter.ReportWriter
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.ReportWriter.Reports;
-
 	using Common;
 	using OfficeOpenXml;
+	using Reports;
 
 	internal class ExcelReportWriter
 	{

@@ -17,7 +17,6 @@ namespace ArchiMeter.UI.Support
 	using System.Linq;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.Threading.Tasks;
-
 	using ArchiMeter.Common;
 
 	internal class DefaultCollectionCopier : ICollectionCopier
@@ -28,10 +27,10 @@ namespace ArchiMeter.UI.Support
 		{
 			using (var memoryStream = new MemoryStream())
 			{
-				this._formatter.Serialize(memoryStream, source.ToArray());
+				_formatter.Serialize(memoryStream, source.ToArray());
 				await memoryStream.FlushAsync();
 				memoryStream.Seek(0, SeekOrigin.Begin);
-				return (T[])this._formatter.Deserialize(memoryStream);
+				return (T[])_formatter.Deserialize(memoryStream);
 			}
 		}
 	}

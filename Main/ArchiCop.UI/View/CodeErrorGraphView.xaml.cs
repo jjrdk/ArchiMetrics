@@ -25,7 +25,7 @@ namespace ArchiMeter.UI.View
 	{
 		public CodeErrorGraphView()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }
