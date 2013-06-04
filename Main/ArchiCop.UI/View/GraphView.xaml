@@ -6,9 +6,10 @@
 			 mc:Ignorable="d"
 			 xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
 			 xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
-             xmlns:converters="clr-namespace:ArchiMeter.UI.Converters" xmlns:view="clr-namespace:ArchiMeter.UI.View"
-             xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
-             x:Name="Root"
+			 xmlns:converters="clr-namespace:ArchiMeter.UI.Converters"
+			 xmlns:view="clr-namespace:ArchiMeter.UI.View"
+			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 x:Name="Root"
 			 d:DataContext="{d:DesignInstance Type=viewModel:GraphViewModel}">
 	<UserControl.Resources>
 		<converters:QualityToBrushConverter x:Key="QualityConverter" />
@@ -19,21 +20,24 @@
 					  DataType="viewModel:Vertex">
 			<Border BorderBrush="{Binding Path=Quality, Converter={StaticResource QualityConverter}}"
 					Background="{Binding Path=IsCircularReference, Converter={StaticResource CircularConverter}}"
-					BorderThickness="{Binding Path=LinesOfCode, Converter={StaticResource LoCConverter}}"
-					Padding="5">
-				<TextBlock Text="{Binding Path=Name}" />
-				<ToolTipService.ToolTip>
-					<StackPanel Orientation="Vertical">
-						<TextBlock Text="{Binding Path=LinesOfCode, StringFormat='{}{0} LoC.'}"
-								   Visibility="{Binding Path=ShowMetrics, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
-						<TextBlock Text="{Binding Path=Complexity, StringFormat='Complexity: {0}'}"
-								   Visibility="{Binding Path=ShowMetrics, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
-						<TextBlock Text="{Binding Path=MaintainabilityIndex, StringFormat='Maintainability: {0}'}"
-								   Visibility="{Binding Path=ShowMetrics, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
-						<TextBlock Text="{Binding Path=CodeIssues, Mode=OneWay, StringFormat='{}{0} Code Issues Found.'}"
-								   Visibility="{Binding Path=HasIssues, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
-					</StackPanel>
-				</ToolTipService.ToolTip>
+					BorderThickness="{Binding Path=LinesOfCode, Converter={StaticResource LoCConverter}}">
+				<Border BorderBrush="Gray"
+						BorderThickness="0,1,1,1"
+						Padding="5">
+					<TextBlock Text="{Binding Path=Name}" />
+					<ToolTipService.ToolTip>
+						<StackPanel Orientation="Vertical">
+							<TextBlock Text="{Binding Path=LinesOfCode, StringFormat='{}{0} LoC.'}"
+									   Visibility="{Binding Path=ShowMetrics, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
+							<TextBlock Text="{Binding Path=Complexity, StringFormat='Complexity: {0}'}"
+									   Visibility="{Binding Path=ShowMetrics, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
+							<TextBlock Text="{Binding Path=MaintainabilityIndex, StringFormat='Maintainability: {0}'}"
+									   Visibility="{Binding Path=ShowMetrics, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
+							<TextBlock Text="{Binding Path=CodeIssues, Mode=OneWay, StringFormat='{}{0} Code Issues Found.'}"
+									   Visibility="{Binding Path=HasIssues, Mode=OneWay, Converter={StaticResource TrueVisibility}}" />
+						</StackPanel>
+					</ToolTipService.ToolTip>
+				</Border>
 			</Border>
 		</DataTemplate>
 		<Style TargetType="{x:Type graphsharp:VertexControl}">
