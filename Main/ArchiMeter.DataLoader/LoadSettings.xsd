@@ -6,6 +6,8 @@
 				  name="OutputFile" />
 	<xs:attribute type="xs:string"
 				  name="TfsConnectionString" />
+	<xs:attribute type="xs:string"
+				  name="DatabaseUrl" />
 	<xs:element name="ReportConfig">
 		<xs:complexType>
 			<xs:sequence>
