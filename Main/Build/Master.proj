@@ -37,6 +37,8 @@
   <Target Name="BuildC#Projects">
     <MSBuild Projects="$(WorkingDirectory)\ArchiCop.Sln"/>
     
+     <MSBuild Projects="$(WorkingDirectory)\ArchiMate.Sln"/>
+    
     <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Sln"/>
     
   </Target>
