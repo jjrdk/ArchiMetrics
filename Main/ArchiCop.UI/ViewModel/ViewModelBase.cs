@@ -41,10 +41,10 @@ namespace ArchiMeter.UI.ViewModel
 			_config = config;
 			var type = this.GetType();
 			this.DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
-			this._changeSubscription = Observable
+			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-					h => this._config.PropertyChanged += h,
-					h => this._config.PropertyChanged -= h)
+					h => _config.PropertyChanged += h,
+					h => _config.PropertyChanged -= h)
 				.ObserveOn(TaskPoolScheduler.Default)
 				.Subscribe(x => Update(true));
 		}

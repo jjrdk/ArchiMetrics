@@ -18,7 +18,7 @@
 
 		public ModernContentLoader(IContainer container)
 		{
-			this._container = container;
+			_container = container;
 		}
 
 		private object GetContent(Uri uri)
@@ -31,13 +31,12 @@
 		public async Task<object> LoadContentAsync(Uri uri, CancellationToken cancellationToken)
 		{
 			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-			var content = await Task.Factory.StartNew(() => this.GetContent(uri), cancellationToken, TaskCreationOptions.None, scheduler);
+			var content = await Task.Factory.StartNew(() => GetContent(uri), cancellationToken, TaskCreationOptions.None, scheduler);
 			var element = content as FrameworkElement;
 			if (element != null)
 			{
 				var context = await this.GetContext(content, cancellationToken);
 				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() => element.DataContext = context));
-				//await Task.Factory.StartNew(, cancellationToken, TaskCreationOptions.None, scheduler);
 			}
 
 			return content;
@@ -54,7 +53,7 @@
 				TaskScheduler.FromCurrentSynchronizationContext());
 			if (dataContext != null)
 			{
-				var context = this._container.Resolve(dataContext.DataContextType);
+				var context = _container.Resolve(dataContext.DataContextType);
 				return context;
 			}
 			return null;
