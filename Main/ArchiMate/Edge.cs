@@ -1,10 +1,9 @@
 ﻿namespace ArchiMate
 {
-    public class Edge<TV>
-        where TV : Vertice
+    public class Edge<T>        
     {
         public string Id { get; set; }
-        public TV Source { get; set; }
-        public TV Target { get; set; }
+        public Vertex<T> Source { get; set; }
+        public Vertex<T> Target { get; set; }
     }
 }
