@@ -8,8 +8,22 @@ namespace ArchiMate
         {
         }
 
-        public string ProjectName { get; set; }
+        public string ProjectName
+        {
+            get
+            {
+                return VertexName;
+            }
+        }
+
         public string ProjectPath { get; set; }
-        public Guid ProjectGuid { get; set; }
+
+        public string ProjectGuid
+        {
+            get
+            {
+                return VertexName;
+            }
+        }
     }
 }

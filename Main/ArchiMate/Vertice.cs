@@ -4,9 +4,11 @@
     {
         public Vertice(string id)
         {
-            Id = id;
+            VertexId = id;
         }
 
-        public string Id { get; private set; }
+        public string VertexId { get; private set; }
+        public string VertexName { get; set; }
+        public string VertexType { get; set; }
     }
 }

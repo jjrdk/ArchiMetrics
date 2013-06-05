@@ -25,18 +25,18 @@ namespace ArchiMate
 
         public void AddEdge(TV source, TV target)
         {
-            if (!Vertices.Exists(item => item.Id == source.Id))
+            if (!Vertices.Exists(item => item.VertexId == source.VertexId))
             {
                 Vertices.Add(source);
             }
-            if (!Vertices.Exists(item => item.Id == target.Id))
+            if (!Vertices.Exists(item => item.VertexId == target.VertexId))
             {
                 Vertices.Add(target);
             }
 
-            if (!Edges.Exists(item => item.Id == source.Id + ";" + target.Id))
+            if (!Edges.Exists(item => item.Id == source.VertexId + ";" + target.VertexId))
             {
-                var edge = new TE {Id = source.Id + ";" + target.Id, Source = source, Target = target};
+                var edge = new TE { Id = source.VertexId + ";" + target.VertexId, Source = source, Target = target };
                 Edges.Add(edge);
             }
         }

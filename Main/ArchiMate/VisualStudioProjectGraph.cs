@@ -10,6 +10,11 @@ namespace ArchiMate
     {
         private static readonly XNamespace NameSpace = "http://schemas.microsoft.com/developer/msbuild/2003";
 
+        public VisualStudioProjectGraph()
+        {
+            
+        }
+
         public VisualStudioProjectGraph(IEnumerable<string> projectFiles)
         {
             foreach (string projectsFileName in projectFiles)
@@ -35,18 +40,17 @@ namespace ArchiMate
 
             var sourceProject = new VisualStudioProject(projectGuid)
                 {
-                    ProjectPath = filename,
-                    ProjectGuid = new Guid(projectGuid),
-                    ProjectName = projectName
+                    ProjectPath = filename,                    
+                    VertexName = projectName,
+                    VertexType = Path.GetExtension(filename)
                 };
 
             foreach (XElement element in qProjectReferences)
             {
                 var targetProject = new VisualStudioProject(element.Element(NameSpace + "Project").Value)
                     {
-                        ProjectPath = (string) element.Attribute("Include"),
-                        ProjectGuid = new Guid(element.Element(NameSpace + "Project").Value),
-                        ProjectName = element.Element(NameSpace + "Name").Value
+                        ProjectPath = (string) element.Attribute("Include"),                        
+                        VertexName = element.Element(NameSpace + "Name").Value                        
                     };
 
                 string directoryname = Path.GetDirectoryName(filename);
@@ -54,6 +58,8 @@ namespace ArchiMate
                 targetProject.ProjectPath = Path.Combine(directoryname, targetProject.ProjectPath);
                 targetProject.ProjectPath = Path.GetFullPath((new Uri(targetProject.ProjectPath)).LocalPath);
                 
+                targetProject.VertexType = Path.GetExtension(filename);
+
                 AddEdge(sourceProject, targetProject);
             }
         }
