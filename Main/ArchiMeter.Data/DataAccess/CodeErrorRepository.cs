@@ -31,7 +31,7 @@ namespace ArchiMeter.Data.DataAccess
 
 		public CodeErrorRepository(
 			ISolutionEdgeItemsRepositoryConfig config,
-			IProvider<string, ISolution> solutionProvider, 
+			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
@@ -44,8 +44,13 @@ namespace ArchiMeter.Data.DataAccess
 
 		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
 		{
+			if (string.IsNullOrWhiteSpace(source))
+			{
+				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
+			}
+
 			return _edgeItems.GetOrAdd(
-				source, 
+				source,
 				async path =>
 				{
 					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).Where(p => !p.Contains("QuickStart"))
@@ -61,7 +66,7 @@ namespace ArchiMeter.Data.DataAccess
 
 					return await Task.Factory
 									 .ContinueWhenAll(
-										 inspectionTasks.ToArray(), 
+										 inspectionTasks.ToArray(),
 										 results => results.SelectMany(x => x.Result)
 														   .Distinct(new ResultComparer())
 														   .ToArray()

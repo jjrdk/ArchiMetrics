@@ -14,7 +14,6 @@ namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Threading.Tasks;
 
 	using ArchiMeter.Common;
 
@@ -30,12 +29,13 @@ namespace ArchiMeter.UI.ViewModel
 
 		public IList<KeyValuePair<string, int>> Errors { get; private set; }
 
-		protected override void Update(bool forceUpdate)
+		protected async override void Update(bool forceUpdate)
 		{
 			base.Update(forceUpdate);
 			if (forceUpdate)
 			{
-				_repository.GetErrorsAsync().ContinueWith(DisplayErrors);
+				var result = await _repository.GetErrorsAsync();
+				DisplayErrors(result);
 			}
 		}
 
@@ -48,14 +48,15 @@ namespace ArchiMeter.UI.ViewModel
 			}
 		}
 
-		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
+		private void DisplayErrors(IEnumerable<EvaluationResult> result)
 		{
 			IsLoading = true;
-			var results = task.Result
+			var results = result
 				.GroupBy(x => x.Comment)
 				.Select(x => new KeyValuePair<string, int>(x.Key, x.Count()))
-				.OrderBy(x => x.Key);
-			Errors = new List<KeyValuePair<string, int>>(results);
+				.OrderBy(x => x.Key)
+				.ToList();
+			Errors = results;
 			IsLoading = false;
 		}
 	}

@@ -12,9 +12,11 @@
 
 namespace ArchiMeter.UI
 {
+	using System.Collections.Generic;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using System.Windows;
 	using System.Windows.Markup;
 	using ArchiMeter.Analysis;
@@ -42,6 +44,15 @@ namespace ArchiMeter.UI
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
+		{
+			var container = BuildContainer();
+			var loader = new ModernContentLoader(container);
+			this.Resources.Add("Loader", loader);
+			Task.Factory.StartNew(() => container.Resolve<IEnumerable<ViewModelBase>>());
+			base.OnStartup(e);
+		}
+
+		private static IContainer BuildContainer()
 		{
 			var builder = new ContainerBuilder();
 
@@ -71,12 +82,12 @@ namespace ArchiMeter.UI
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
 			foreach (var type in typeof(IEvaluation).Assembly
-				.GetTypes()
-				.Where(t => typeof(IEvaluation).IsAssignableFrom(t))
-				.Where(t => !t.IsInterface && !t.IsAbstract))
+												   .GetTypes()
+												   .Where(t => typeof(IEvaluation).IsAssignableFrom(t))
+												   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type)
-					.As<IEvaluation>();
+					   .As<IEvaluation>();
 			}
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
@@ -102,32 +113,38 @@ namespace ArchiMeter.UI
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<EdgesViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<CircularReferenceViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<CodeErrorGraphViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<CodeReviewViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<GraphViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<RequirementGraphViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<TestErrorGraphViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf()
 				   .SingleInstance();
 			builder.RegisterType<SettingsViewModel>()
+				   .As<ViewModelBase>()
 				   .AsSelf();
 			var container = builder.Build();
-			var loader = new ModernContentLoader(container);
-			this.Resources.Add("Loader", loader);
-			base.OnStartup(e);
+			return container;
 		}
 	}
 }

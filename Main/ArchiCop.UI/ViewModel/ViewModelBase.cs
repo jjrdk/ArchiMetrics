@@ -45,6 +45,7 @@ namespace ArchiMeter.UI.ViewModel
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
 					h => _config.PropertyChanged += h,
 					h => _config.PropertyChanged -= h)
+				.SubscribeOn(TaskPoolScheduler.Default)
 				.ObserveOn(TaskPoolScheduler.Default)
 				.Subscribe(x => Update(true));
 		}

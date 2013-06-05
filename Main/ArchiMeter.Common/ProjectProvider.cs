@@ -52,6 +52,11 @@ namespace ArchiMeter.Common
 
 		public IEnumerable<IProject> GetAll(string key)
 		{
+			if (string.IsNullOrWhiteSpace(key))
+			{
+				return Enumerable.Empty<IProject>();
+			}
+
 			return from file in Directory.GetFiles(key, "*.csproj", SearchOption.AllDirectories)
 				   where IsValid(file)
 				   let p = Get(file)
