@@ -1,42 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ArchiMate
 {
-    public class Graph<TV, TE>
-        where TV : Vertice
-        where TE : Edge<TV>, new()
+    public class Graph<T>        
     {
         public Graph()
         {
-            Vertices = new List<TV>();
-            Edges = new List<TE>();
+            Vertices = new List<Vertex<T>>();
+            Edges = new List<Edge<T>>();
         }
 
-        public List<TV> Vertices { get; private set; }
-        public List<TE> Edges { get; private set; }
+        public List<Vertex<T>> Vertices { get; private set; }
+        public List<Edge<T>> Edges { get; private set; }
 
-        public void MergeGraph(Graph<TV, TE> graph)
+        public void MergeGraph(Graph<T> graph)
         {
-            foreach (TE edge in graph.Edges)
+            foreach (Edge<T> edge in graph.Edges)
             {
                 AddEdge(edge.Source, edge.Target);
             }
         }
 
-        public void AddEdge(TV source, TV target)
-        {
-            if (!Vertices.Exists(item => item.VertexId == source.VertexId))
+        public void AddEdge(Vertex<T> source, Vertex<T> target)
+        {            
+            if (!Vertices.Exists(item => item.Id == source.Id))
             {
                 Vertices.Add(source);
             }
-            if (!Vertices.Exists(item => item.VertexId == target.VertexId))
+            if (!Vertices.Exists(item => item.Id == target.Id))
             {
                 Vertices.Add(target);
             }
 
-            if (!Edges.Exists(item => item.Id == source.VertexId + ";" + target.VertexId))
+            if (!Edges.Exists(item => item.Id == source.Id + ";" + target.Id))
             {
-                var edge = new TE { Id = source.VertexId + ";" + target.VertexId, Source = source, Target = target };
+                var edge = new Edge<T> { Id = source.Id + ";" + target.Id, Source = source, Target = target };
                 Edges.Add(edge);
             }
         }
