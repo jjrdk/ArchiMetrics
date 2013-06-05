@@ -10,7 +10,6 @@ namespace ArchiMate
     {
         private static readonly XNamespace NameSpace = "http://schemas.microsoft.com/developer/msbuild/2003";
 
-
         public VisualStudioProjectGraph(IEnumerable<string> projectFiles)
         {
             foreach (string projectsFileName in projectFiles)
@@ -20,8 +19,8 @@ namespace ArchiMate
             }
         }
 
-        public VisualStudioProjectGraph(string filename)
-        {
+        private VisualStudioProjectGraph(string filename)
+        {           
             XDocument document = XDocument.Load(filename);
 
             string projectName = Path.GetFileNameWithoutExtension(filename);
@@ -50,6 +49,11 @@ namespace ArchiMate
                         ProjectName = element.Element(NameSpace + "Name").Value
                     };
 
+                string directoryname = Path.GetDirectoryName(filename);
+
+                targetProject.ProjectPath = Path.Combine(directoryname, targetProject.ProjectPath);
+                targetProject.ProjectPath = Path.GetFullPath((new Uri(targetProject.ProjectPath)).LocalPath);
+                
                 AddEdge(sourceProject, targetProject);
             }
         }

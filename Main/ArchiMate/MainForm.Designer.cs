@@ -73,7 +73,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(811, 373);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Vertices";
+            this.tabPage1.Text = "Projects";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
@@ -93,7 +93,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(811, 373);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Edges";
+            this.tabPage2.Text = "References";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // dataGridView2

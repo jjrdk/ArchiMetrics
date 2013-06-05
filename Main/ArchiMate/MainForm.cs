@@ -27,16 +27,16 @@ namespace ArchiMate
 
                 var graph = new VisualStudioProjectGraph(projectsFileNames);
 
-                dataGridView1.DataSource = graph.Vertices;
-                tabPage1.Text = "Vertices (" + graph.Vertices.Count+")";
+                dataGridView1.DataSource = graph.Vertices.OrderBy(item => item.ProjectName).ToList();
+                tabPage1.Text = "Vertices (" + graph.Vertices.Count + ")";
 
                 dataGridView2.DataSource =
                     graph.Edges.Select(
                         item =>
                         new {item.Id, Source = item.Source.ProjectName, Target = item.Target.ProjectName}).ToList();
                 tabPage2.Text = "Edges (" + graph.Edges.Count + ")";
-
             }
+
         }
     }
 }
