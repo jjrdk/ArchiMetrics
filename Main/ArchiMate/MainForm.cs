@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using ArchiMate.Data;
+using ArchiMate.Core;
 
 namespace ArchiMate
 {
     public partial class MainForm : Form
     {
         private VisualStudioProjectGraph _graph;
+        private VisualStudioProjectGraph _graphCached;
 
-        public MainForm()
+        private readonly IVisualStudioProjectRepository _projectRepository;
+        private readonly IVisualStudioSolutionRepository _solutionRepository;
+
+        public MainForm(IVisualStudioProjectRepository projectRepository, IVisualStudioSolutionRepository solutionRepository)
         {
             InitializeComponent();
+
+            _projectRepository = projectRepository;
+            _solutionRepository = solutionRepository;
         }
-
         
-
         private void button1_Click(object sender, EventArgs e)
         {
             if (!Directory.Exists(textBox1.Text))
@@ -39,7 +42,7 @@ namespace ArchiMate
                 projectsFileNames.AddRange(
                     new List<string>(Directory.GetFiles(textBox1.Text, "*vbproj", SearchOption.AllDirectories)));
 
-                _graph = new VisualStudioProjectGraph(new VisualStudioProjectRepository().GetProjects(projectsFileNames));                
+                _graph = new VisualStudioProjectGraph(_projectRepository.GetProjects(projectsFileNames));                
 
                 BindGrids();
             }
@@ -69,19 +72,18 @@ namespace ArchiMate
             edges = edges.Where(item => Regex.IsMatch(item.Source.Name, textBox2.Text))
                     .Where(item => Regex.IsMatch(item.Target.Name, textBox3.Text)).ToList();
 
-
-            var graph = new VisualStudioProjectGraph();
+            _graphCached = new VisualStudioProjectGraph();
 
             foreach (Edge<VisualStudioProject> edge in edges)
             {
-                graph.AddEdge(edge.Source,edge.Target);
+                _graphCached.AddEdge(edge.Source, edge.Target);
             }
 
-            dataGridView2.DataSource = graph.Edges.Select(item =>
+            dataGridView2.DataSource = _graphCached.Edges.Select(item =>
                 new { item.Id, Source = item.Source.Name, Target = item.Target.Name, TargetVertexType = item.Target.Data.ProjectType }).ToList();
             tabPage2.Text = "References (" + edges.Count + ")";
 
-            var vertices = graph.Vertices;
+            var vertices = _graphCached.Vertices;
 
             dataGridView1.DataSource = vertices.OrderBy(item => item.Name).Select(item => new { Id = item.Id, Name = item.Name, ProjectType = item.Data.ProjectType, ProjectPath = item.Data.ProjectPath }).ToList();
             tabPage1.Text = "Projects (" + vertices.Count + ")";
@@ -95,34 +97,7 @@ namespace ArchiMate
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var textStreamReader = new StreamReader(assembly.GetManifestResourceStream("ArchiMate.Template_sln"));
-
-            string sol = textStreamReader.ReadToEnd();
-
-            var projectIncludes = new StringBuilder();
-
-            /*
-            Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiCopCore", "ArchiCopCore\ArchiCopCore.csproj", "{3A4D7180-400E-486E-84B9-ADF89DDB790F}"
-            EndProject
-            */
-
-            foreach (Vertex<VisualStudioProject> project in _graph.Vertices)
-            {
-                projectIncludes.AppendLine(string.Format("Project(\"{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}\") = \"{0}\", \"{1}\", \"{{{2}}}\"", project.Name, project.Data.ProjectPath, project.Id));
-                projectIncludes.AppendLine("EndProject");
-            }
-
-            sol = sol.Replace("{projects}", projectIncludes.ToString());
-
-            using (var file = new StreamWriter(new FileStream(@"C:\temp\Sample.Sln",FileMode.Create)))
-            {
-                file.Write(sol);
-            }
-
-        }
-
-       
-
+            _solutionRepository.CreateNewSolution(_graphCached, textBox1.Text + @"\Sample.Sln");
+        }        
     }
 }

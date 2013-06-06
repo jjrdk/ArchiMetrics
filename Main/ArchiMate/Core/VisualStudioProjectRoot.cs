@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArchiMate.Data
+namespace ArchiMate.Core
 {
     public class VisualStudioProjectRoot:VisualStudioProject
     {

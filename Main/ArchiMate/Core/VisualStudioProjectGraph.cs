@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using ArchiMate.Data;
 
-namespace ArchiMate
+namespace ArchiMate.Core
 {
     public class VisualStudioProjectGraph : Graph<VisualStudioProject>
     {

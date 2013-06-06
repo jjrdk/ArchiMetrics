@@ -1,4 +1,4 @@
-﻿namespace ArchiMate.Data
+﻿namespace ArchiMate.Core
 {
     public class VisualStudioProject
     {

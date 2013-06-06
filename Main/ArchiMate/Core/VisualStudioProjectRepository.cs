@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ArchiMate.Data
+namespace ArchiMate.Core
 {
     public class VisualStudioProjectRepository : IVisualStudioProjectRepository
     {

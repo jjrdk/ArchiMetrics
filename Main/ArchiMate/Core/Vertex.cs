@@ -1,4 +1,4 @@
-﻿namespace ArchiMate
+﻿namespace ArchiMate.Core
 {
     public class Vertex<T>
     {
