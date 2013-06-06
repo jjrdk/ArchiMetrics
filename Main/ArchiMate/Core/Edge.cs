@@ -1,6 +1,6 @@
 ﻿namespace ArchiMate.Core
 {
-    public class Edge<T>        
+    public class Edge<T>
     {
         public string Id { get; set; }
         public Vertex<T> Source { get; set; }

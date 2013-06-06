@@ -12,14 +12,13 @@ namespace ArchiMate.Core
 
                 foreach (VisualStudioProject proj in project.Projects)
                 {
-                    var source = new Vertex<VisualStudioProject>(project.ProjectGuid, project.ProjectName);                    
+                    var source = new Vertex<VisualStudioProject>(project.ProjectGuid, project.ProjectName);
                     source.Data = project;
 
-                    var target = new Vertex<VisualStudioProject>(proj.ProjectGuid, proj.ProjectName);                    
+                    var target = new Vertex<VisualStudioProject>(proj.ProjectGuid, proj.ProjectName);
                     target.Data = proj;
 
                     mergeGraph.AddEdge(source, target);
-                   
                 }
 
                 MergeGraph(mergeGraph);
@@ -28,8 +27,6 @@ namespace ArchiMate.Core
 
         public VisualStudioProjectGraph()
         {
-            
         }
-
     }
 }

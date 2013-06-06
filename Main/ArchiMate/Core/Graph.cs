@@ -2,7 +2,7 @@
 
 namespace ArchiMate.Core
 {
-    public class Graph<T>        
+    public class Graph<T>
     {
         public Graph()
         {
@@ -15,14 +15,14 @@ namespace ArchiMate.Core
 
         public void MergeGraph(Graph<T> graph)
         {
-            foreach (Edge<T> edge in graph.Edges)
+            foreach (var edge in graph.Edges)
             {
                 AddEdge(edge.Source, edge.Target);
             }
         }
 
         public void AddEdge(Vertex<T> source, Vertex<T> target)
-        {            
+        {
             if (!Vertices.Exists(item => item.Id == source.Id))
             {
                 Vertices.Add(source);
@@ -34,7 +34,7 @@ namespace ArchiMate.Core
 
             if (!Edges.Exists(item => item.Id == source.Id + ";" + target.Id))
             {
-                var edge = new Edge<T> { Id = source.Id + ";" + target.Id, Source = source, Target = target };
+                var edge = new Edge<T> {Id = source.Id + ";" + target.Id, Source = source, Target = target};
                 Edges.Add(edge);
             }
         }

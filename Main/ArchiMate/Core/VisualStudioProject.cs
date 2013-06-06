@@ -9,6 +9,9 @@
         public string ProjectGuid { get; set; }
 
         public string ProjectType { get; set; }
-        
+
+        public string ProjectTypeGuids { get; set; }
+
+        public string ProjectTypes { get; set; }
     }
 }

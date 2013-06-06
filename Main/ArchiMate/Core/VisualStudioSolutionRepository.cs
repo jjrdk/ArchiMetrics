@@ -8,7 +8,7 @@ namespace ArchiMate.Core
     {
         public void CreateNewSolution(VisualStudioProjectGraph graph, string solutionFileName)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.GetExecutingAssembly();
             var textStreamReader = new StreamReader(assembly.GetManifestResourceStream("ArchiMate.Core.Template_sln"));
 
             string sol = textStreamReader.ReadToEnd();
@@ -20,9 +20,12 @@ namespace ArchiMate.Core
             EndProject
             */
 
-            foreach (Vertex<VisualStudioProject> project in graph.Vertices)
+            foreach (var project in graph.Vertices)
             {
-                projectIncludes.AppendLine(string.Format("Project(\"{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}\") = \"{0}\", \"{1}\", \"{{{2}}}\"", project.Name, project.Data.ProjectPath, project.Id));
+                projectIncludes.AppendLine(
+                    string.Format(
+                        "Project(\"{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}\") = \"{0}\", \"{1}\", \"{{{2}}}\"",
+                        project.Name, project.Data.ProjectPath, project.Id));
                 projectIncludes.AppendLine("EndProject");
             }
 

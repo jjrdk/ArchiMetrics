@@ -2,7 +2,7 @@
 
 namespace ArchiMate.Core
 {
-    public class VisualStudioProjectRoot:VisualStudioProject
+    public class VisualStudioProjectRoot : VisualStudioProject
     {
         public VisualStudioProjectRoot()
         {

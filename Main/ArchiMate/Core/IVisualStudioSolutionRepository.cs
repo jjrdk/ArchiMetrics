@@ -2,6 +2,6 @@
 {
     public interface IVisualStudioSolutionRepository
     {
-        void CreateNewSolution(VisualStudioProjectGraph graph,string solutionFileName);
+        void CreateNewSolution(VisualStudioProjectGraph graph, string solutionFileName);
     }
 }
