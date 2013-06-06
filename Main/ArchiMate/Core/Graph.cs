@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace ArchiMate
+namespace ArchiMate.Core
 {
     public class Graph<T>        
     {
