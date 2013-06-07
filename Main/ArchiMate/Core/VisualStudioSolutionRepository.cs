@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -37,7 +38,7 @@ namespace ArchiMate.Core
                 projectIncludes.AppendLine(
                     string.Format(
                         "Project(\"{0}\") = \"{1}\", \"{2}\", \"{{{3}}}\"",
-                        projectTypeGuid, project.Name, project.Data.ProjectPath, project.Id));
+                        projectTypeGuid, project.Name, MakeRelativePath(project.Data.ProjectPath, solutionFileName), project.Id));
                 projectIncludes.AppendLine("EndProject");
             }
 
@@ -48,5 +49,26 @@ namespace ArchiMate.Core
                 file.Write(sol);
             }
         }
+
+        private static string MakeRelativePath(string fromPath, string relativeTo)
+        {
+            if (string.IsNullOrWhiteSpace(fromPath))
+            {
+                throw new ArgumentException("fromPath");
+            }
+            if (string.IsNullOrWhiteSpace(relativeTo))
+            {
+                throw new ArgumentException("relativeTo");
+            }
+
+            var fromUri = new Uri(Path.GetFullPath(fromPath));
+            var toUri = new Uri(Path.GetFullPath(relativeTo));
+
+            var relativeUri = toUri.MakeRelativeUri(fromUri);
+            var relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+
+            return relativePath.Replace('/', Path.DirectorySeparatorChar);
+        }
+
     }
 }
