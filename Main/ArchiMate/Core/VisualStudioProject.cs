@@ -2,11 +2,16 @@
 {
     public class VisualStudioProject
     {
-        public string ProjectName { get; set; }
+        public VisualStudioProject(string projectGuid, string projectName)
+        {
+            ProjectGuid = projectGuid;
+            ProjectName = projectName;
+        }
+        public string ProjectName { get; private set; }
 
         public string ProjectPath { get; set; }
 
-        public string ProjectGuid { get; set; }
+        public string ProjectGuid { get; private set; }
 
         public string ProjectType { get; set; }
 

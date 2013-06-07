@@ -20,12 +20,24 @@ namespace ArchiMate.Core
             EndProject
             */
 
+            string projectTypeGuid = "";
+            
             foreach (var project in graph.Vertices)
             {
+                switch (project.Data.ProjectType)
+                {
+                    case ".csproj":
+                        projectTypeGuid = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
+                        break;
+                    case".fsproj":
+                        projectTypeGuid = "{F2A71F9B-5D33-465A-A702-920D77279786}";
+                        break;
+                }
+
                 projectIncludes.AppendLine(
                     string.Format(
-                        "Project(\"{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}\") = \"{0}\", \"{1}\", \"{{{2}}}\"",
-                        project.Name, project.Data.ProjectPath, project.Id));
+                        "Project(\"{0}\") = \"{1}\", \"{2}\", \"{{{3}}}\"",
+                        projectTypeGuid, project.Name, project.Data.ProjectPath, project.Id));
                 projectIncludes.AppendLine("EndProject");
             }
 

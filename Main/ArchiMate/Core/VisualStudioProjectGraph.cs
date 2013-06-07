@@ -10,11 +10,13 @@ namespace ArchiMate.Core
             {
                 var mergeGraph = new VisualStudioProjectGraph();
 
-                foreach (VisualStudioProject proj in project.Projects)
-                {
-                    var source = new Vertex<VisualStudioProject>(project.ProjectGuid, project.ProjectName);
-                    source.Data = project;
+                var source = new Vertex<VisualStudioProject>(project.ProjectGuid, project.ProjectName);
+                source.Data = project;
 
+                mergeGraph.AddVertex(source);
+
+                foreach (VisualStudioProject proj in project.Projects)
+                {                    
                     var target = new Vertex<VisualStudioProject>(proj.ProjectGuid, proj.ProjectName);
                     target.Data = proj;
 

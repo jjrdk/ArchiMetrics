@@ -24,16 +24,14 @@ namespace ArchiMate.Core
             IEnumerable<XElement> qProjectGuid = from e in document.Descendants(NameSpace + "ProjectGuid")
                                                  select e;
 
-            string projectGuid = qProjectGuid.First().Value;
+            string projectGuid = qProjectGuid.First().Value.TrimStart('{').TrimEnd('}');
 
             IEnumerable<XElement> qProjectReferences = from e in document.Descendants(NameSpace + "ProjectReference")
                                                        select e;
 
-            var sourceProject = new VisualStudioProjectRoot
+            var sourceProject = new VisualStudioProjectRoot(projectGuid,projectName)
                 {
-                    ProjectGuid = projectGuid,
                     ProjectPath = fileName,
-                    ProjectName = projectName,
                     ProjectType = Path.GetExtension(fileName)
                 };
 
@@ -57,11 +55,9 @@ namespace ArchiMate.Core
 
             foreach (XElement element in qProjectReferences)
             {
-                var targetProject = new VisualStudioProject
-                    {
-                        ProjectGuid = element.Element(NameSpace + "Project").Value,
-                        ProjectPath = (string) element.Attribute("Include"),
-                        ProjectName = element.Element(NameSpace + "Name").Value
+                var targetProject = new VisualStudioProject(element.Element(NameSpace + "Project").Value.TrimStart('{').TrimEnd('}'),element.Element(NameSpace + "Name").Value)
+                    {                       
+                        ProjectPath = (string) element.Attribute("Include")
                     };
 
                 string directoryname = Path.GetDirectoryName(fileName);
