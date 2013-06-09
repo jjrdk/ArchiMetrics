@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.CodeReview.Tests
+namespace ArchiMeter.Common
 {
 	using System;
 	using System.Collections.Generic;

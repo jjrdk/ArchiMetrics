@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoslynExtensionTests.cs" />
     <Compile Include="Xaml\XamlNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
