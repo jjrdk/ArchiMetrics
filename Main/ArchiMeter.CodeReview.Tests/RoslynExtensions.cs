@@ -6,38 +6,7 @@
 	using System.Linq;
 	using System.Text;
 	using System.Xml.Linq;
-	using NUnit.Framework;
 	using Roslyn.Services;
-
-	public class RoslynExtensionTests
-	{
-		[Test]
-		public void CanSaveSolution()
-		{
-			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
-			solution.Save(@"..\..\..\x.sln", true);
-		}
-
-		[Test]
-		public void CanMergeSolutions()
-		{
-			var main = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
-			var other = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiCop.sln")).CurrentSolution;
-			var merged = main.MergeWith(other);
-
-			Assert.NotNull(merged);
-		}
-
-		[Test]
-		public void CanMergeSolutions2()
-		{
-			RoslynExtensions.MergeSolutionsTo(
-				@"C:\Dev\Tfs\NewGen.Dev\Units\NewGen.sln",
-				@"C:\Dev\Tfs\NewGen.Dev\Units\CWAM\CWAM.sln",
-				@"C:\Dev\Tfs\NewGen.Dev\Units\IM\IM.sln",
-				@"C:\Dev\Tfs\NewGen.Dev\Units\UI\UI.sln");
-		}
-	}
 
 	public static class RoslynExtensions
 	{
@@ -60,7 +29,7 @@ Global
 EndGlobal
 ";
 
-		private const string ProjectConfigurationFormat = @"	{{{0}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		private const string ProjectConfigurationFormat = @"		{{{0}}}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{{{0}}}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{{{0}}}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{{{0}}}.Release|Any CPU.Build.0 = Release|Any CPU";
@@ -94,16 +63,20 @@ EndGlobal
 		{
 			var projectIncludes = new StringBuilder();
 
-			var projectGuids = projects.Select(p => p.FilePath).ToDictionary(s => s, GetProjectGuid);
+			var distinctProjects = projects.Distinct(ProjectEqualityComparer.Instance)
+				.ToArray();
+			var projectGuids = distinctProjects
+				.Select(p => p.FilePath)
+				.ToDictionary(s => s, GetProjectGuid);
 
-			foreach (var project in projects.Distinct(ProjectEqualityComparer.Instance))
+			foreach (var project in distinctProjects.Distinct(ProjectEqualityComparer.Instance))
 			{
 				projectIncludes.AppendLine(string.Format(
-					"Project(\"{{{3}}}\") = \"{0}\", \"{1}\", \"{{{2}}}\"",
+					"Project(\"{{{0}}}\") = \"{1}\", \"{2}\", \"{{{3}}}\"",
+					GetLanguageGuid(project.LanguageServices.Language),
 					project.Name,
 					MakeRelativePath(project.FilePath, fileName),
-					projectGuids[project.FilePath],
-					GetLanguageGuid(project.LanguageServices.Language)));
+					projectGuids[project.FilePath]));
 				projectIncludes.AppendLine("EndProject");
 			}
 
@@ -112,7 +85,7 @@ EndGlobal
 				using (var writer = new StreamWriter(stream))
 				{
 					var configs = projectGuids.Values.Select(v => string.Format(ProjectConfigurationFormat, v));
-					writer.Write(string.Format(SolutionFormat, projectIncludes, string.Join(Environment.NewLine, configs)));
+					writer.Write(string.Format(SolutionFormat, projectIncludes, string.Join(Environment.NewLine, configs).Trim()));
 				}
 			}
 		}
@@ -120,7 +93,7 @@ EndGlobal
 		private static string GetProjectGuid(string fileName)
 		{
 			var xElements = XDocument.Load(fileName).Root.Descendants().ToArray();
-			var guid = xElements.FirstOrDefault(e => e.Name.LocalName == "ProjectGuid").Value.Trim('{', '}');
+			var guid = xElements.First(e => e.Name.LocalName == "ProjectGuid").Value.Trim('{', '}');
 			return guid;
 		}
 
@@ -141,11 +114,11 @@ EndGlobal
 		{
 			if (string.IsNullOrWhiteSpace(fromPath))
 			{
-				throw new ArgumentException("fromPath");
+				throw new ArgumentException("Expected actual path", "fromPath");
 			}
 			if (string.IsNullOrWhiteSpace(relativeTo))
 			{
-				throw new ArgumentException("relativeTo");
+				throw new ArgumentException("Expected actual path", "relativeTo");
 			}
 
 			var fromUri = new Uri(Path.GetFullPath(fromPath));
@@ -176,8 +149,8 @@ EndGlobal
 			/// <returns>
 			/// True if the specified objects are equal; otherwise, false.
 			/// </returns>
-			/// <param name="x">The first object of type <paramref name="T"/> to compare.</param>
-			/// <param name="y">The second object of type <paramref name="T"/> to compare.</param>
+			/// <param name="x">The first object of type IProject to compare.</param>
+			/// <param name="y">The second object of type IProject to compare.</param>
 			public bool Equals(IProject x, IProject y)
 			{
 				return x == null

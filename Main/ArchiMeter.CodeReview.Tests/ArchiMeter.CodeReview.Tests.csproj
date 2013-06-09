@@ -80,6 +80,7 @@
     <Compile Include="ProjectDataComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoslynExtensions.cs" />
+    <Compile Include="RoslynExtensionTests.cs" />
     <Compile Include="Rules\SpellCheckingTests.cs" />
     <Compile Include="Rules\SyntaxInspectorTests.cs" />
     <Compile Include="Metrics\SyntaxMetricsCalculatorTests.cs" />
