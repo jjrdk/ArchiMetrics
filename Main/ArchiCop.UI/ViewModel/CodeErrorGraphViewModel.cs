@@ -10,27 +10,53 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Threading.Tasks;
+
 	using ArchiMeter.Common;
 
-	public class CodeErrorGraphViewModel : WorkspaceViewModel
+	public class CodeErrorGraphViewModel : ViewModelBase
 	{
-		public CodeErrorGraphViewModel(ICodeErrorRepository repository)
+		private readonly ICodeErrorRepository _repository;
+
+		public CodeErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
-			repository.GetErrorsAsync().ContinueWith(DisplayErrors);
+			_repository = repository;
 		}
 
 		public IList<KeyValuePair<string, int>> Errors { get; private set; }
 
-		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
+		protected async override void Update(bool forceUpdate)
+		{
+			base.Update(forceUpdate);
+			if (forceUpdate)
+			{
+				var result = await _repository.GetErrorsAsync();
+				DisplayErrors(result);
+			}
+		}
+
+		protected override void Dispose(bool isDisposing)
+		{
+			base.Dispose(isDisposing);
+			if (isDisposing)
+			{
+				_repository.Dispose();
+			}
+		}
+
+		private void DisplayErrors(IEnumerable<EvaluationResult> result)
 		{
 			IsLoading = true;
-			var results = task.Result.GroupBy(x => x.Comment).Select(x => new KeyValuePair<string, int>(x.Key, x.Count())).OrderBy(x => x.Key);
-			Errors = new List<KeyValuePair<string, int>>(results);
+			var results = result
+				.GroupBy(x => x.Comment)
+				.Select(x => new KeyValuePair<string, int>(x.Key, x.Count()))
+				.OrderBy(x => x.Key)
+				.ToList();
+			Errors = results;
 			IsLoading = false;
 		}
 	}

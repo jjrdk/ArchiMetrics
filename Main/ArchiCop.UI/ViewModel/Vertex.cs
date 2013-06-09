@@ -10,26 +10,27 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using ArchiMeter.Common;
 
 	internal class Vertex : IEquatable<Vertex>
 	{
 		public Vertex(string name, bool isCircularReference, int complexity, double maintainability, int linesOfCode, IEnumerable<EvaluationResult> evaluationResults = null)
 		{
-			Name = name;
-			LinesOfCode = linesOfCode;
-			IsCircularReference = isCircularReference;
-			EvaluationResults = (evaluationResults ?? new EvaluationResult[0]).ToArray();
-			Quality = EvaluationResults.Any() ? EvaluationResults.Select(x => x.Quality).Min() : CodeQuality.Good;
-			CodeIssues = EvaluationResults.Count();
-			LinesOfCodeWithIssues = EvaluationResults.Any() ? EvaluationResults.Select(x => x.LinesOfCodeAffected).Sum() : 0;
-			MaintainabilityIndex = (int)maintainability;
-			Complexity = complexity;
+			this.Name = name;
+			this.LinesOfCode = linesOfCode;
+			this.IsCircularReference = isCircularReference;
+			this.EvaluationResults = (evaluationResults ?? new EvaluationResult[0]).ToArray();
+			this.Quality = this.EvaluationResults.Any() ? this.EvaluationResults.Select(x => x.Quality).Min() : CodeQuality.Good;
+			this.CodeIssues = this.EvaluationResults.Count();
+			this.LinesOfCodeWithIssues = this.EvaluationResults.Any() ? this.EvaluationResults.Select(x => x.LinesOfCodeAffected).Sum() : 0;
+			this.MaintainabilityIndex = (int)maintainability;
+			this.Complexity = complexity;
 		}
 
 		public string Name { get; private set; }
@@ -48,13 +49,13 @@ namespace ArchiCop.UI.ViewModel
 		{
 			get
 			{
-				return LinesOfCode > 0;
+				return this.LinesOfCode > 0;
 			}
 		}
 
 		public bool HasIssues
 		{
-			get { return CodeIssues > 0; }
+			get { return this.CodeIssues > 0; }
 		}
 
 		public int CodeIssues { get; private set; }
@@ -75,14 +76,14 @@ namespace ArchiCop.UI.ViewModel
 				return true;
 			}
 
-			return string.Equals(Name, other.Name)
-				&& CodeIssues.Equals(other.CodeIssues)
-				&& LinesOfCode.Equals(other.LinesOfCode);
+			return string.Equals(this.Name, other.Name)
+				&& this.CodeIssues.Equals(other.CodeIssues)
+				&& this.LinesOfCode.Equals(other.LinesOfCode);
 		}
 
 		public override int GetHashCode()
 		{
-			return Name.GetHashCode();
+			return this.Name.GetHashCode();
 		}
 
 		public static bool operator ==(Vertex left, Vertex right)
@@ -107,17 +108,17 @@ namespace ArchiCop.UI.ViewModel
 				return true;
 			}
 
-			if (obj.GetType() != GetType())
+			if (obj.GetType() != this.GetType())
 			{
 				return false;
 			}
 
-			return Equals((Vertex)obj);
+			return this.Equals((Vertex)obj);
 		}
 
 		public override string ToString()
 		{
-			return Name;
+			return this.Name;
 		}
 	}
 }

@@ -10,9 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
+
 	using ArchiMeter.Common;
 
 	internal class ResultComparer : IEqualityComparer<EvaluationResult>

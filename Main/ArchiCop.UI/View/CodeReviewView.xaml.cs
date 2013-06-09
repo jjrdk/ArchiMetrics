@@ -10,13 +10,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.View
+namespace ArchiMeter.UI.View
 {
 	using System.IO;
 	using System.Windows;
 	using System.Windows.Forms;
 	using System.Windows.Input;
-	using ViewModel;
+
+	using ArchiMeter.UI.Support;
+	using ArchiMeter.UI.ViewModel;
+
 	using Clipboard = System.Windows.Clipboard;
 	using DataFormats = System.Windows.DataFormats;
 	using UserControl = System.Windows.Controls.UserControl;
@@ -29,7 +32,7 @@ namespace ArchiCop.UI.View
 	{
 		public CodeReviewView()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 
 		private async void OnPrintReport(object sender, RoutedEventArgs e)
@@ -37,9 +40,9 @@ namespace ArchiCop.UI.View
 			var saveDialog = new SaveFileDialog();
 			if (saveDialog.ShowDialog() == DialogResult.OK)
 			{
-				CodeReviewGrid.SelectAllCells();
-				ApplicationCommands.Copy.Execute(null, CodeReviewGrid);
-				CodeReviewGrid.UnselectAllCells();
+				this.CodeReviewGrid.SelectAllCells();
+				ApplicationCommands.Copy.Execute(null, this.CodeReviewGrid);
+				this.CodeReviewGrid.UnselectAllCells();
 				var data = (string)Clipboard.GetData(DataFormats.Html);
 				Clipboard.Clear();
 				var writer = new StreamWriter(saveDialog.FileName);

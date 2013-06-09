@@ -10,23 +10,25 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using ArchiMeter.Common;
 
-	public abstract class EdgesViewModelBase : WorkspaceViewModel
+	public abstract class EdgesViewModelBase : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
 		private EdgeItem[] _allEdges;
 
-		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition)
+		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
 			_repository = repository;
 			_filter = filter;
-			VertexRules = ruleDefinition.VertexRules;
+			this.VertexRules = ruleDefinition.VertexRules;
 		}
 
 		public ICollection<VertexRule> VertexRules { get; private set; }
@@ -47,9 +49,10 @@ namespace ArchiCop.UI.ViewModel
 			}
 		}
 
-		public override void Update(bool forceReload)
+		protected override void Update(bool forceUpdate)
 		{
-			if (forceReload)
+			base.Update(forceUpdate);
+			if (forceUpdate)
 			{
 				LoadEdges();
 			}

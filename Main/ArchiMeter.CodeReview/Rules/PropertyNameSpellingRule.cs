@@ -17,7 +17,7 @@
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
-			var propertyDeclaration = (MethodDeclarationSyntax)node;
+			var propertyDeclaration = (PropertyDeclarationSyntax)node;
 			var propertyName = propertyDeclaration.Identifier.ValueText;
 
 			var correct = IsSpelledCorrectly(propertyName);

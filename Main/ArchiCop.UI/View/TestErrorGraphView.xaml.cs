@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.View
+namespace ArchiMeter.UI.View
 {
 	using System.Windows.Controls;
 

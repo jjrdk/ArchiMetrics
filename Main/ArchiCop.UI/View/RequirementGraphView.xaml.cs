@@ -1,36 +1,31 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CommandViewModel.cs" company="Roche">
+// <copyright file="GraphView.xaml.cs" company="Roche">
 //   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Represents an actionable item displayed by a View.
+//   Interaction logic for GraphView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.View
 {
-	using System;
-	using System.Windows.Input;
+	using System.Windows.Controls;
+
+	using ArchiMeter.UI.Support;
+	using ArchiMeter.UI.ViewModel;
 
 	/// <summary>
-	/// Represents an actionable item displayed by a View.
+	/// Interaction logic for GraphView.xaml
 	/// </summary>
-	public class CommandViewModel : ViewModelBase
+	[DataContext(typeof(RequirementGraphViewModel))]
+	public partial class RequirementGraphView : UserControl
 	{
-		public CommandViewModel(string displayName, ICommand command)
+		public RequirementGraphView()
 		{
-			if (command == null)
-			{
-				throw new ArgumentNullException("command");
-			}
-
-			DisplayName = displayName;
-			Command = command;
+			this.InitializeComponent();
 		}
-
-		public ICommand Command { get; private set; }
 	}
 }

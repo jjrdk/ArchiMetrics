@@ -10,30 +10,32 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+
 	using ArchiMeter.Common;
 
-	public class TestErrorGraphViewModel : WorkspaceViewModel
+	public class TestErrorGraphViewModel : ViewModelBase
 	{
-		public TestErrorGraphViewModel(ICodeErrorRepository repository)
+		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+			: base(config)
 		{
 			repository.GetErrorsAsync()
-					  .ContinueWith(DisplayErrors);
+					  .ContinueWith(this.DisplayErrors);
 		}
 
 		public IList<KeyValuePair<int, int>> Errors { get; private set; }
 
 		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			var results = task.Result.Where(x => x.Comment == "Multiple asserts found in test.")
 							  .GroupBy(x => x.ErrorCount).Select(x => new KeyValuePair<int, int>(x.Key, x.Count())).OrderBy(x => x.Key);
-			Errors = new List<KeyValuePair<int, int>>(results);
-			IsLoading = false;
+			this.Errors = new List<KeyValuePair<int, int>>(results);
+			this.IsLoading = false;
 		}
 	}
 }

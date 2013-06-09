@@ -10,16 +10,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
+
 	using ArchiMeter.Analysis;
 	using ArchiMeter.Common;
 
-	internal class RequirementGraphViewModel : WorkspaceViewModel
+	internal class RequirementGraphViewModel : ViewModelBase
 	{
 		private readonly IRequirementTestAnalyzer _analyzer;
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
@@ -28,11 +29,12 @@ namespace ArchiCop.UI.ViewModel
 		private ProjectGraph _graphToVisualize;
 
 		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, ISolutionEdgeItemsRepositoryConfig config, IEdgeTransformer filter)
+			: base(config)
 		{
 			_analyzer = analyzer;
 			_config = config;
 			_filter = filter;
-			LoadAllEdges();
+			this.LoadAllEdges();
 		}
 
 		public ProjectGraph GraphToVisualize
@@ -47,33 +49,33 @@ namespace ArchiCop.UI.ViewModel
 				if (_graphToVisualize != value)
 				{
 					_graphToVisualize = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
 
-		public override void Update(bool forceUpdate)
+		protected override void Update(bool forceUpdate)
 		{
 			if (forceUpdate)
 			{
-				LoadAllEdges();
+				this.LoadAllEdges();
 			}
 			else
 			{
-				UpdateInternal();
+				this.UpdateInternal();
 			}
 		}
 
 		private async void UpdateInternal()
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			var g = new ProjectGraph();
 
 			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
-				.SelectMany(item => CreateVertices(item)
+				.SelectMany(item => this.CreateVertices(item)
 										.GroupBy(v => v.Name)
 										.Select(grouping => grouping.First()))
 				.ToArray();
@@ -99,8 +101,8 @@ namespace ArchiCop.UI.ViewModel
 				g.AddEdge(edge);
 			}
 
-			GraphToVisualize = g;
-			IsLoading = false;
+			this.GraphToVisualize = g;
+			this.IsLoading = false;
 		}
 
 		private IEnumerable<Vertex> CreateVertices(EdgeItem item)
@@ -115,10 +117,10 @@ namespace ArchiCop.UI.ViewModel
 
 		private async void LoadAllEdges()
 		{
-			IsLoading = true;
+			this.IsLoading = true;
 			var edges = await Task.Factory.StartNew(() => _analyzer.GetTestData(_config.Path));
-			_allEdges = await Task.Factory.StartNew(() => edges.SelectMany(ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
-			UpdateInternal();
+			_allEdges = await Task.Factory.StartNew(() => edges.SelectMany(this.ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
+			this.UpdateInternal();
 		}
 
 		private IEnumerable<EdgeItem> ConvertToEdgeItem(TestData data)

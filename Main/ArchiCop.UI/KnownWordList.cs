@@ -1,4 +1,4 @@
-﻿namespace ArchiCop.UI
+﻿namespace ArchiMeter.UI
 {
 	using System.Collections.Generic;
 	using ArchiMeter.Common;

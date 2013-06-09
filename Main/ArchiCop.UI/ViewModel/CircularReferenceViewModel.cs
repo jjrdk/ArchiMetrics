@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -23,13 +23,14 @@ namespace ArchiCop.UI.ViewModel
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
-			IEdgeItemsRepository repository, 
-			IEdgeTransformer filter, 
-			IVertexRuleDefinition ruleDefinition)
-			: base(repository, filter, ruleDefinition)
+			IEdgeItemsRepository repository,
+			IEdgeTransformer filter,
+			IVertexRuleDefinition ruleDefinition,
+			ISolutionEdgeItemsRepositoryConfig config)
+			: base(repository, filter, ruleDefinition, config)
 		{
-			CircularReferences = new List<DependencyChain>();
-			LoadEdges();
+			_circularReferences = new List<DependencyChain>();
+			this.LoadEdges();
 		}
 
 		public IEnumerable<DependencyChain> CircularReferences
@@ -41,10 +42,10 @@ namespace ArchiCop.UI.ViewModel
 
 			private set
 			{
-				if (value != _circularReferences)
+				if (value != null && new HashSet<DependencyChain>(value).SetEquals(_circularReferences))
 				{
 					_circularReferences = value;
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
 			}
 		}
@@ -52,15 +53,15 @@ namespace ArchiCop.UI.ViewModel
 		protected async override void UpdateInternal()
 		{
 			IsLoading = true;
-			var edgeItems = await Filter.TransformAsync(AllEdges);
+			var edgeItems = await this.Filter.TransformAsync(AllEdges);
 
-			_analyzer.GetCircularReferences(edgeItems)
+			await _analyzer
+				.GetCircularReferences(edgeItems)
 				.ContinueWith(t =>
 					{
-						if (t.Exception != null)
+						if(t.Exception != null)
 						{
-							var exceptions = t.Exception.InnerExceptions;
-							var exceptionCount = exceptions.Count;
+							IsLoading = false;
 							return;
 						}
 

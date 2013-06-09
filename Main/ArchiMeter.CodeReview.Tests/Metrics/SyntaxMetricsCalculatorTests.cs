@@ -10,11 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.CodeReview.Tests
+namespace ArchiMeter.CodeReview.Tests.Metrics
 {
 	using System.Linq;
-	using CodeReview.Metrics;
+
+	using ArchiMeter.CodeReview.Metrics;
+
 	using NUnit.Framework;
+
 	using Roslyn.Compilers.CSharp;
 
 	public class SyntaxMetricsCalculatorTests

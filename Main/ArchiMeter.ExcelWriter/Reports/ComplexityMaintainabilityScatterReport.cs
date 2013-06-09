@@ -94,7 +94,7 @@
 				chart.SetPosition(y, x);
 				chart.SetSize(750, 500);
 				chart.DisplayBlanksAs = eDisplayBlanksAs.Gap;
-				if (x < 3000)
+				if (x < 3750)
 				{
 					x += 750;
 				}

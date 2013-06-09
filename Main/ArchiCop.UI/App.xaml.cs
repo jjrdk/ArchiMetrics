@@ -10,11 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI
+namespace ArchiMeter.UI
 {
+	using System.Collections.Generic;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using System.Windows;
 	using System.Windows.Markup;
 	using ArchiMeter.Analysis;
@@ -23,11 +25,12 @@ namespace ArchiCop.UI
 	using ArchiMeter.Common;
 	using ArchiMeter.Common.Metrics;
 	using ArchiMeter.Data.DataAccess;
+	using ArchiMeter.UI.Support;
+	using ArchiMeter.UI.ViewModel;
 	using Autofac;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
-	using ViewModel;
 
 	public partial class App : Application
 	{
@@ -42,6 +45,15 @@ namespace ArchiCop.UI
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			var container = BuildContainer();
+			var loader = new ModernContentLoader(container);
+			this.Resources.Add("Loader", loader);
+			Task.Factory.StartNew(() => container.Resolve<IEnumerable<ViewModelBase>>());
+			base.OnStartup(e);
+		}
+
+		private static IContainer BuildContainer()
+		{
 			var builder = new ContainerBuilder();
 
 			// container.RegisterType<IBuildItemRepository, FakeBuildItemRepository>(
@@ -52,22 +64,30 @@ namespace ArchiCop.UI
 			var config = new SolutionEdgeItemsRepositoryConfig();
 			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
 			foreach (var type in typeof(ICodeEvaluation).Assembly
-				.GetTypes()
-				.Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
-				.Where(t => !t.IsInterface && !t.IsAbstract))
+													   .GetTypes()
+													   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
+													   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type)
-					.As<ICodeEvaluation>();
+					   .As<ICodeEvaluation>();
 			}
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
-					.Extract(affStream);
+						.Extract(affStream);
 				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
-					.Extract(dicStream);
+						.Extract(dicStream);
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
+			}
+			foreach (var type in typeof(IEvaluation).Assembly
+												   .GetTypes()
+												   .Where(t => typeof(IEvaluation).IsAssignableFrom(t))
+												   .Where(t => !t.IsInterface && !t.IsAbstract))
+			{
+				builder.RegisterType(type)
+					   .As<IEvaluation>();
 			}
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
@@ -93,23 +113,38 @@ namespace ArchiCop.UI
 			builder.RegisterType<RequirementTestAnalyzer>()
 				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<EdgesViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<CircularReferenceViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<CodeErrorGraphViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<CodeReviewViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<GraphViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<RequirementGraphViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
 			builder.RegisterType<TestErrorGraphViewModel>()
-				.AsSelf();
+				   .As<ViewModelBase>()
+				   .AsSelf()
+				   .SingleInstance();
+			builder.RegisterType<SettingsViewModel>()
+				   .As<ViewModelBase>()
+				   .AsSelf();
 			var container = builder.Build();
-			var loader = new ModernContentLoader(container);
-			Resources.Add("Loader", loader);
-			base.OnStartup(e);
+			return container;
 		}
 	}
 }

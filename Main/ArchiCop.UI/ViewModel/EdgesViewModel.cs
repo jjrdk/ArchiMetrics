@@ -10,22 +10,28 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.ViewModel
+namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
 	using System.Windows.Data;
+	using System.Windows.Input;
+
 	using ArchiMeter.Common;
+	using ArchiMeter.UI.Support;
 
 	public class EdgesViewModel : EdgesViewModelBase
 	{
 		private readonly object _syncLock = new object();
 		private ObservableCollection<EdgeItem> _dependencyItems;
 
-		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition)
-			: base(repository, filter, ruleDefinition)
+		private DelegateCommand _updateCommand;
+
+		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
+			: base(repository, filter, ruleDefinition, config)
 		{
-			DependencyItems = new ObservableCollection<EdgeItem>();
-			LoadEdges();
+			this.DependencyItems = new ObservableCollection<EdgeItem>();
+			this.LoadEdges();
+			_updateCommand = new DelegateCommand(o => true, o => this.UpdateInternal());
 		}
 
 		public ObservableCollection<EdgeItem> DependencyItems
@@ -50,28 +56,37 @@ namespace ArchiCop.UI.ViewModel
 						BindingOperations.EnableCollectionSynchronization(_dependencyItems, _syncLock);
 					}
 
-					RaisePropertyChanged();
+					this.RaisePropertyChanged();
 				}
+			}
+		}
+
+		public ICommand UpdateList
+		{
+			get
+			{
+				return _updateCommand;
 			}
 		}
 
 		protected override async void UpdateInternal()
 		{
-			IsLoading = true;
-			DependencyItems.Clear();
-			foreach (var item in await Filter.TransformAsync(AllEdges))
+			this.IsLoading = true;
+			this.DependencyItems.Clear();
+			foreach (var item in await this.Filter.TransformAsync(this.AllEdges))
 			{
-				DependencyItems.Add(item);
+				this.DependencyItems.Add(item);
 			}
 
-			IsLoading = false;
+			this.IsLoading = false;
 		}
 
 		protected override void Dispose(bool isDisposing)
-		{if (isDisposing)
 		{
-			_dependencyItems.Clear();
-		}
+			if (isDisposing)
+			{
+				_dependencyItems.Clear();
+			}
 
 			base.Dispose(isDisposing);
 		}

@@ -1,15 +1,21 @@
-﻿<UserControl x:Class="ArchiCop.UI.View.EdgesView"
+﻿<UserControl x:Class="ArchiMeter.UI.View.EdgesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:ArchiMeter.Common;assembly=ArchiMeter.Common"
-             xmlns:viewModel="clr-namespace:ArchiCop.UI.ViewModel"
-             mc:Ignorable="d"
+			 xmlns:model="clr-namespace:ArchiMeter.Common;assembly=ArchiMeter.Common"
+			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
-			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}">
+			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}"
+			 mui:ModernFrame.KeepAlive="True">
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
@@ -50,8 +56,13 @@
 					 Height="25"
 					 MinWidth="200"
 					 IsIndeterminate="True"
-					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}"
+					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}, Mode=OneWay}"
 					 VerticalAlignment="Center"
 					 HorizontalAlignment="Stretch" />
+		<Button Grid.Row="1"
+				Grid.ColumnSpan="2"
+				HorizontalAlignment="Right"
+				Content="Update"
+				Command="{Binding Path=UpdateList}" />
 	</Grid>
 </UserControl>

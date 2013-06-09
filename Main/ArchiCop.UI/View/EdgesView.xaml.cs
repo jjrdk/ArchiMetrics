@@ -10,10 +10,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiCop.UI.View
+namespace ArchiMeter.UI.View
 {
 	using System.Windows.Controls;
-	using ViewModel;
+
+	using ArchiMeter.UI.Support;
+	using ArchiMeter.UI.ViewModel;
 
 	/// <summary>
 	/// Interaction logic for DependencyItemsView.xaml
@@ -23,7 +25,7 @@ namespace ArchiCop.UI.View
 	{
 		public EdgesView()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 	}
 }
