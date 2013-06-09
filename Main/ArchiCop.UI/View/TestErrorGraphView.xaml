@@ -3,67 +3,24 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:tk="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-             xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
-             mc:Ignorable="d"
+			 xmlns:tk="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
+			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeErrorGraphViewModel}">
-	<UserControl.Resources>
-		<Style x:Key="DataPointStyle"
-			   TargetType="tk:ColumnDataPoint">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="tk:ColumnDataPoint">
-						<Grid Background="{x:Null}">
-							<ToolTipService.ToolTip>
-								<TextBlock Text="{TemplateBinding FormattedDependentValue}" />
-							</ToolTipService.ToolTip>
-							<Border Background="LightBlue" />
-							<TextBlock HorizontalAlignment="Center"
-									   Margin="0,-20,0,0"
-									   VerticalAlignment="Top"
-									   Text="{TemplateBinding FormattedDependentValue}" />
-						</Grid>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</UserControl.Resources>
 	<ScrollViewer VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch">
-		<tk:Chart Title="Asserts in Tests"
-				  VerticalAlignment="Stretch"
-				  VerticalContentAlignment="Stretch">
-			<tk:ColumnSeries DependentValuePath="Value"
-							 DataPointStyle="{StaticResource DataPointStyle}"
-							 VerticalAlignment="Stretch"
-							 VerticalContentAlignment="Stretch"
-							 Title="Error"
-							 IndependentValuePath="Key"
-							 ItemsSource="{Binding Path=Errors}"
-							 IsSelectionEnabled="False">
-				<tk:ColumnSeries.IndependentAxis>
-					<tk:CategoryAxis Orientation="X"
-									 SortOrder="Ascending">
-						<tk:CategoryAxis.AxisLabelStyle>
-							<Style TargetType="tk:AxisLabel">
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="tk:AxisLabel">
-											<TextBlock Text="{TemplateBinding FormattedContent}"
-													   Padding="5"
-													   SnapsToDevicePixels="True">
-												<TextBlock.LayoutTransform>
-													<RotateTransform Angle="-90" />
-												</TextBlock.LayoutTransform>
-											</TextBlock>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-						</tk:CategoryAxis.AxisLabelStyle>
-					</tk:CategoryAxis>
-				</tk:ColumnSeries.IndependentAxis>
-			</tk:ColumnSeries>
-		</tk:Chart>
+		<tk:ClusteredColumnChart ChartTitle="Asserts in Tests"
+								 VerticalAlignment="Stretch"
+								 VerticalContentAlignment="Stretch">
+			<tk:ClusteredColumnChart.Series>
+				<tk:ChartSeries ValueMember="Value"
+								VerticalAlignment="Stretch"
+								VerticalContentAlignment="Stretch"
+								SeriesTitle="Error"
+								DisplayMember="Key"
+								ItemsSource="{Binding Path=Errors}">
+				</tk:ChartSeries>
+			</tk:ClusteredColumnChart.Series>
+		</tk:ClusteredColumnChart>
 	</ScrollViewer>
 </UserControl>
