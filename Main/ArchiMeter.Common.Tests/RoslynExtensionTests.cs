@@ -2,6 +2,7 @@ namespace ArchiMeter.Common.Tests
 {
 	using System.IO;
 	using NUnit.Framework;
+	using Roslyn.Services;
 
 	public class RoslynExtensionTests
 	{
@@ -10,7 +11,7 @@ namespace ArchiMeter.Common.Tests
 		public void CanSaveSolution()
 		{
 			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
-			RoslynExtensions.Save(solution, @"..\..\..\x.sln", true);
+			solution.Save(@"..\..\..\x.sln", true);
 		}
 
 		[Test]
@@ -19,7 +20,7 @@ namespace ArchiMeter.Common.Tests
 		{
 			var main = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
 			var other = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiCop.sln")).CurrentSolution;
-			var merged = RoslynExtensions.MergeWith(main, other);
+			var merged = main.MergeWith(other);
 
 			Assert.NotNull(merged);
 		}
