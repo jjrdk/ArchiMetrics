@@ -26,21 +26,27 @@
 	</Target>
 
   <Target Name="BuildProjects">
-    <CallTarget Targets="BuildF#Projects"/>
-    <CallTarget Targets="BuildC#Projects"/>
+    <CallTarget Targets="BuildFsProjects"/>
+    <CallTarget Targets="BuildCsProjects"/>
   </Target>
 
-  <Target Name="BuildF#Projects">
-    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Analysis.Sln"/>      
+
+  <ItemGroup>
+    <FsProjProjectFiles Include="$(WorkingDirectory)\**\*.fsproj"/>
+  </ItemGroup>
+
+
+  <Target Name="BuildFsProjects">
+    <!--<MSBuild Projects="@(FsProjProjectFiles)"/>      -->
   </Target>
 
-  <Target Name="BuildC#Projects">
-    <MSBuild Projects="$(WorkingDirectory)\ArchiCop.Sln"/>
-    
-     <MSBuild Projects="$(WorkingDirectory)\ArchiMate.Sln"/>
-    
-    <MSBuild Projects="$(WorkingDirectory)\ArchiMeter.Sln"/>
-    
+  <ItemGroup>
+    <CsProjProjectFiles Include="$(WorkingDirectory)\**\*.csproj"/>
+  </ItemGroup>
+
+
+  <Target Name="BuildCsProjects">
+    <MSBuild Projects="@(CsProjProjectFiles)"/>    
   </Target>
 
 </Project>
