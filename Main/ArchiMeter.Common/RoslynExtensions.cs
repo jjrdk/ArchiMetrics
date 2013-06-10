@@ -14,7 +14,7 @@ namespace ArchiMeter.Common
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 {0}
-Global	
+Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -85,7 +85,7 @@ EndGlobal
 				using (var writer = new StreamWriter(stream))
 				{
 					var configs = projectGuids.Values.Select(v => string.Format(ProjectConfigurationFormat, v));
-					writer.Write(string.Format(SolutionFormat, projectIncludes, string.Join(Environment.NewLine, configs).Trim()));
+					writer.Write(string.Format(SolutionFormat, projectIncludes.ToString().Trim(), string.Join(Environment.NewLine, configs).Trim()));
 				}
 			}
 		}
