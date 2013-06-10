@@ -18,5 +18,13 @@
         public string ProjectTypeGuids { get; set; }
 
         public string ProjectTypes { get; set; }
+
+        public string TargetFrameworkVersion { get; set; }
+
+        public string OutputType { get; set; }
+
+        public string RootNamespace { get; set; }
+
+        public string AssemblyName { get; set; }
     }
 }
