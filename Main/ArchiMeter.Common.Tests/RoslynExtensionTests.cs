@@ -10,7 +10,12 @@ namespace ArchiMeter.Common.Tests
 		public void CanSaveSolution()
 		{
 			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
-			solution.Save(@"..\..\..\x.sln", true);
+			const string SaveLocation = @"..\..\..\x.sln";
+			solution.Save(SaveLocation, true);
+
+			var reloaded = Workspace.LoadSolution(Path.GetFullPath(SaveLocation)).CurrentSolution;
+
+			Assert.NotNull(reloaded);
 		}
 
 		[Test]
