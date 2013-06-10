@@ -1,12 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeErrorGraphView.xaml.cs" company="Roche">
+// <copyright file="CircularReferenceView.xaml.cs" company="Roche">
 //   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for CodeErrorGraphView.xaml
+//   Interaction logic for CircularReferenceView.xaml
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,17 +14,15 @@ namespace ArchiMeter.UI.View
 {
 	using System.Windows.Controls;
 	using ViewModel;
-
 	using ArchiMeter.UI.Support;
-	using ArchiMeter.UI.ViewModel;
 
 	/// <summary>
-	/// Interaction logic for CodeErrorGraphView.xaml
+	/// Interaction logic for CircularReferenceView.xaml
 	/// </summary>
-	[DataContext(typeof(CodeErrorGraphViewModel))]
-	public partial class CodeErrorGraphView : UserControl
+	[DataContext(typeof(CircularReferenceViewModel))]
+	public partial class CircularReferenceView : UserControl
 	{
-		public CodeErrorGraphView()
+		public CircularReferenceView()
 		{
 			this.InitializeComponent();
 		}

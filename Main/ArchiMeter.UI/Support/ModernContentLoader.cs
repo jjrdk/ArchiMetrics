@@ -36,7 +36,7 @@
 			if (element != null)
 			{
 				var context = await this.GetContext(content, cancellationToken);
-				Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() => element.DataContext = context));
+				await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() => element.DataContext = context));
 			}
 
 			return content;

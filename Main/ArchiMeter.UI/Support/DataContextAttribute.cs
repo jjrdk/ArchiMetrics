@@ -2,7 +2,8 @@
 {
 	using System;
 
-	public	class DataContextAttribute:Attribute
+	[AttributeUsage(AttributeTargets.Class)]
+	public sealed class DataContextAttribute : Attribute
 	{
 		public DataContextAttribute(Type dataContextType)
 		{
