@@ -25,28 +25,14 @@
 		
 	</Target>
 
-  <Target Name="BuildProjects">
-    <CallTarget Targets="BuildFsProjects"/>
-    <CallTarget Targets="BuildCsProjects"/>
-  </Target>
-
 
   <ItemGroup>
-    <FsProjProjectFiles Include="$(WorkingDirectory)\**\*.fsproj"/>
+    <SlnFiles Include="$(WorkingDirectory)\**\*.sln"/>
   </ItemGroup>
 
 
-  <Target Name="BuildFsProjects">
-    <!--<MSBuild Projects="@(FsProjProjectFiles)"/>      -->
-  </Target>
-
-  <ItemGroup>
-    <CsProjProjectFiles Include="$(WorkingDirectory)\**\*.csproj"/>
-  </ItemGroup>
-
-
-  <Target Name="BuildCsProjects">
-    <MSBuild Projects="@(CsProjProjectFiles)"/>    
+  <Target Name="BuildProjects">    
+    <MSBuild Projects="@(SlnFiles)"/>
   </Target>
 
 </Project>
