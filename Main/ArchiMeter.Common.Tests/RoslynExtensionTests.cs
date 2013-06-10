@@ -7,7 +7,6 @@ namespace ArchiMeter.Common.Tests
 	public class RoslynExtensionTests
 	{
 		[Test]
-		[Ignore("Need to understand what global section is missing.")]
 		public void CanSaveSolution()
 		{
 			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
@@ -15,7 +14,6 @@ namespace ArchiMeter.Common.Tests
 		}
 
 		[Test]
-		[Ignore("Need to understand what global section is missing.")]
 		public void CanMergeSolutions()
 		{
 			var main = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
@@ -23,17 +21,6 @@ namespace ArchiMeter.Common.Tests
 			var merged = main.MergeWith(other);
 
 			Assert.NotNull(merged);
-		}
-
-		[Test]
-		[Ignore("Need to understand what global section is missing.")]
-		public void CanMergeSolutions2()
-		{
-			RoslynExtensions.MergeSolutionsTo(
-				@"C:\Dev\Tfs\NewGen.Dev\Units\NewGen.sln",
-				@"C:\Dev\Tfs\NewGen.Dev\Units\CWAM\CWAM.sln",
-				@"C:\Dev\Tfs\NewGen.Dev\Units\IM\IM.sln",
-				@"C:\Dev\Tfs\NewGen.Dev\Units\UI\UI.sln");
 		}
 	}
 }
