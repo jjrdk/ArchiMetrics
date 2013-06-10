@@ -2,7 +2,7 @@
 
 namespace ArchiMate.Core
 {
-    public class Graph<T>        
+    public class Graph<T>
     {
         public Graph()
         {
@@ -15,28 +15,40 @@ namespace ArchiMate.Core
 
         public void MergeGraph(Graph<T> graph)
         {
-            foreach (Edge<T> edge in graph.Edges)
+            foreach (Vertex<T> vertex in graph.Vertices)
+            {
+                AddVertex(vertex);
+            }
+
+            foreach (var edge in graph.Edges)
             {
                 AddEdge(edge.Source, edge.Target);
             }
         }
 
-        public void AddEdge(Vertex<T> source, Vertex<T> target)
-        {            
-            if (!Vertices.Exists(item => item.Id == source.Id))
+        public Vertex<T> AddVertex(Vertex<T> vertex)
+        {
+            if (!Vertices.Exists(item => item.Id.ToLower() == vertex.Id.ToLower()))
             {
-                Vertices.Add(source);
+                Vertices.Add(vertex);
             }
-            if (!Vertices.Exists(item => item.Id == target.Id))
+            return vertex;
+        }
+
+        public Edge<T> AddEdge(Vertex<T> source, Vertex<T> target)
+        {
+            source = AddVertex(source);
+
+            target = AddVertex(target);
+            
+            if (!Edges.Exists(item => item.Id.ToLower() == source.Id.ToLower() + ";" + target.Id.ToLower()))
             {
-                Vertices.Add(target);
+                var edge = new Edge<T> {Id = source.Id + ";" + target.Id, Source = source, Target = target};
+                Edges.Add(edge);
+                return edge;
             }
 
-            if (!Edges.Exists(item => item.Id == source.Id + ";" + target.Id))
-            {
-                var edge = new Edge<T> { Id = source.Id + ";" + target.Id, Source = source, Target = target };
-                Edges.Add(edge);
-            }
+            return Edges.Find(item => item.Id.ToLower() == source.Id.ToLower() + ";" + target.Id.ToLower());             
         }
     }
 }

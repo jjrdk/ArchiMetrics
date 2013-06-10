@@ -2,9 +2,10 @@
 
 namespace ArchiMate.Core
 {
-    public class VisualStudioProjectRoot:VisualStudioProject
+    public class VisualStudioProjectRoot : VisualStudioProject
     {
-        public VisualStudioProjectRoot()
+        public VisualStudioProjectRoot(string projectGuid, string projectName)
+            : base(projectGuid, projectName)
         {
             Projects = new List<VisualStudioProject>();
         }

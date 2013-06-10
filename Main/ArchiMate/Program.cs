@@ -7,13 +7,13 @@ namespace ArchiMate
     internal class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
         [STAThread]
         private static void Main(string[] args)
         {
-            IVisualStudioProjectRepository projectRepository= new VisualStudioProjectRepository();
-            IVisualStudioSolutionRepository solutionRepository=new VisualStudioSolutionRepository();
+            IVisualStudioProjectRepository projectRepository = new VisualStudioProjectRepository();
+            IVisualStudioSolutionRepository solutionRepository = new VisualStudioSolutionRepository();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
