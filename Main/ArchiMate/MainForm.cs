@@ -100,6 +100,10 @@ namespace ArchiMate
                                     item.Id,
                                     item.Name,
                                     item.Data.ProjectType,
+                                    item.Data.TargetFrameworkVersion,
+                                    item.Data.OutputType,
+                                    item.Data.AssemblyName,
+                                    item.Data.RootNamespace,
                                     item.Data.ProjectPath,
                                     item.Data.ProjectTypeGuids,
                                     item.Data.ProjectTypes

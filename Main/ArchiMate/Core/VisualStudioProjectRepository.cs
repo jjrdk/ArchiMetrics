@@ -51,7 +51,11 @@ namespace ArchiMate.Core
 
                 sourceProject.ProjectTypes = projectTypes.TrimEnd(';');
             }
-            
+
+            sourceProject.TargetFrameworkVersion = GetProjectProperty(document, "TargetFrameworkVersion");
+            sourceProject.OutputType = GetProjectProperty(document, "OutputType");
+            sourceProject.RootNamespace = GetProjectProperty(document, "RootNamespace");
+            sourceProject.AssemblyName = GetProjectProperty(document, "AssemblyName");
 
             foreach (XElement element in qProjectReferences)
             {
@@ -71,6 +75,12 @@ namespace ArchiMate.Core
             }
 
             return sourceProject;
+        }
+
+        private string GetProjectProperty(XDocument xDocument, string propertyName)
+        {
+            IEnumerable<XElement> query = from e in xDocument.Descendants(NameSpace + propertyName) select e;
+            return query.First().Value;
         }
 
         public string GetProjectType(string projectTypeGuid)
