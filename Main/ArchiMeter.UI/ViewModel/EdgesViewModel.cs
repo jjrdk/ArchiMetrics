@@ -12,10 +12,12 @@
 
 namespace ArchiMeter.UI.ViewModel
 {
+	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
+	using System.Threading;
+	using System.Threading.Tasks;
 	using System.Windows.Data;
 	using System.Windows.Input;
-
 	using ArchiMeter.Common;
 	using ArchiMeter.UI.Support;
 
@@ -23,8 +25,7 @@ namespace ArchiMeter.UI.ViewModel
 	{
 		private readonly object _syncLock = new object();
 		private ObservableCollection<EdgeItem> _dependencyItems;
-
-		private DelegateCommand _updateCommand;
+		private readonly DelegateCommand _updateCommand;
 
 		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
 			: base(repository, filter, ruleDefinition, config)
@@ -69,16 +70,14 @@ namespace ArchiMeter.UI.ViewModel
 			}
 		}
 
-		protected override async void UpdateInternal()
+		protected async override void UpdateInternal()
 		{
-			this.IsLoading = true;
-			this.DependencyItems.Clear();
-			foreach (var item in await this.Filter.TransformAsync(this.AllEdges))
-			{
-				this.DependencyItems.Add(item);
-			}
+			IsLoading = true;
 
-			this.IsLoading = false;
+			var results = await Filter.TransformAsync(AllEdges);
+			var newCollection = new ObservableCollection<EdgeItem>(results);
+			DependencyItems = newCollection;
+			IsLoading = false;
 		}
 
 		protected override void Dispose(bool isDisposing)

@@ -62,11 +62,15 @@ namespace ArchiMeter.UI.ViewModel
 			}
 		}
 
-		protected async void LoadEdges()
+		protected void LoadEdges()
 		{
 			IsLoading = true;
-			_allEdges = (await _repository.GetEdgesAsync()).ToArray();
-			UpdateInternal();
+			_repository.GetEdgesAsync()
+			           .ContinueWith(t =>
+				           {
+					           _allEdges = t.Result.ToArray();
+					           UpdateInternal();
+				           });
 		}
 
 		protected abstract void UpdateInternal();

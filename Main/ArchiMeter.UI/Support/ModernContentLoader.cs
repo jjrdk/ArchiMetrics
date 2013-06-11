@@ -6,9 +6,7 @@
 	using System.Threading.Tasks;
 	using System.Windows;
 	using System.Windows.Threading;
-
 	using Autofac;
-
 	using FirstFloor.ModernUI;
 	using FirstFloor.ModernUI.Windows;
 
@@ -28,36 +26,47 @@
 				: Application.LoadComponent(uri);
 		}
 
-		public async Task<object> LoadContentAsync(Uri uri, CancellationToken cancellationToken)
+		public Task<object> LoadContentAsync(Uri uri, CancellationToken cancellationToken)
 		{
 			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-			var content = await Task.Factory.StartNew(() => GetContent(uri), cancellationToken, TaskCreationOptions.None, scheduler);
-			var element = content as FrameworkElement;
-			if (element != null)
-			{
-				var context = await this.GetContext(content, cancellationToken);
-				await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, new Action(() => element.DataContext = context));
-			}
+			return Task.Factory.StartNew(() => GetContent(uri), cancellationToken, TaskCreationOptions.None, scheduler)
+					   .ContinueWith(x =>
+						   {
+							   var content = x.Result;
+							   var element = content as FrameworkElement;
+							   if (element != null)
+							   {
+								   var dataContext = content.GetType()
+															.GetCustomAttributes(typeof(DataContextAttribute), true)
+															.OfType<DataContextAttribute>()
+															.FirstOrDefault();
+								   GetContext(dataContext)
+									   .ContinueWith(t =>
+									   {
+										   Application.Current.Dispatcher.Invoke(
+											   DispatcherPriority.DataBind,
+											   new Action(() =>
+												   {
+													   element.DataContext = t.Result;
+												   }));
+									   });
+							   }
 
-			return content;
+							   return content;
+						   });
 		}
 
-		private async Task<object> GetContext(object content, CancellationToken token)
+		private Task<object> GetContext(DataContextAttribute dataContext)
 		{
-			var dataContext = await Task.Factory.StartNew(() => content.GetType()
-																	   .GetCustomAttributes(typeof(DataContextAttribute), true)
-																	   .OfType<DataContextAttribute>()
-																	   .FirstOrDefault(),
-				token,
-				TaskCreationOptions.None,
-				TaskScheduler.FromCurrentSynchronizationContext());
-			if (dataContext != null)
-			{
-				var context = _container.Resolve(dataContext.DataContextType);
-				return context;
-			}
-			return null;
-
+			return Task.Factory.StartNew(() =>
+				{
+					if (dataContext != null)
+					{
+						var context = _container.Resolve(dataContext.DataContextType);
+						return context;
+					}
+					return null;
+				});
 		}
 	}
 }

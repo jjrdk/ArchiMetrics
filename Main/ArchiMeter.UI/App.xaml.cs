@@ -12,11 +12,9 @@
 
 namespace ArchiMeter.UI
 {
-	using System.Collections.Generic;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
-	using System.Threading.Tasks;
 	using System.Windows;
 	using System.Windows.Markup;
 	using ArchiMeter.Analysis;
@@ -48,7 +46,6 @@ namespace ArchiMeter.UI
 			var container = BuildContainer();
 			var loader = new ModernContentLoader(container);
 			this.Resources.Add("Loader", loader);
-			Task.Factory.StartNew(() => container.Resolve<IEnumerable<ViewModelBase>>());
 			base.OnStartup(e);
 		}
 
@@ -56,8 +53,6 @@ namespace ArchiMeter.UI
 		{
 			var builder = new ContainerBuilder();
 
-			// container.RegisterType<IBuildItemRepository, FakeBuildItemRepository>(
-			// 	new ContainerControlledLifetimeManager());
 			builder.RegisterType<DefaultCollectionCopier>()
 				   .As<ICollectionCopier>()
 				   .SingleInstance();
@@ -114,36 +109,30 @@ namespace ArchiMeter.UI
 				   .As<IRequirementTestAnalyzer>();
 			builder.RegisterType<EdgesViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<CircularReferenceViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<CodeErrorGraphViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<CodeReviewViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<GraphViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<RequirementGraphViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<TestErrorGraphViewModel>()
 				   .As<ViewModelBase>()
-				   .AsSelf()
-				   .SingleInstance();
+				   .AsSelf();
 			builder.RegisterType<SettingsViewModel>()
 				   .As<ViewModelBase>()
 				   .AsSelf();
 			var container = builder.Build();
+
 			return container;
 		}
 	}
