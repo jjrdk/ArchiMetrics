@@ -50,6 +50,11 @@ namespace ArchiMeter.UI.ViewModel
 				.Subscribe(x => Update(true));
 		}
 
+		~ViewModelBase()
+		{
+			this.Dispose(false);
+		}
+
 		public bool IsLoading
 		{
 			get
@@ -120,11 +125,6 @@ namespace ArchiMeter.UI.ViewModel
 			{
 				handler(this, args);
 			}
-		}
-
-		~ViewModelBase()
-		{
-			this.Dispose(false);
 		}
 	}
 }

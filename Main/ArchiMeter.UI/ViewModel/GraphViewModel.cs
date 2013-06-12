@@ -31,7 +31,7 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			_repository = repository;
 			_filter = filter;
-			this.LoadAllEdges();
+			LoadAllEdges();
 		}
 
 		public ProjectGraph GraphToVisualize
@@ -73,7 +73,6 @@ namespace ArchiMeter.UI.ViewModel
 		private async void UpdateInternal()
 		{
 			this.IsLoading = true;
-			var g = new ProjectGraph();
 
 			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
 				.ToArray();
@@ -98,9 +97,10 @@ namespace ArchiMeter.UI.ViewModel
 				.Select(
 					dependencyItemViewModel =>
 					new ProjectEdge(
-						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant), 
+						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
 						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
 								   .Where(e => e.Target.Name != e.Source.Name);
+			var g = new ProjectGraph();
 
 			foreach (var vertex in projectVertices)
 			{
@@ -126,12 +126,15 @@ namespace ArchiMeter.UI.ViewModel
 			}
 		}
 
-		private async void LoadAllEdges()
+		private void LoadAllEdges()
 		{
-			this.IsLoading = true;
-			var edges = await _repository.GetEdgesAsync();
-			_allEdges = edges.Where(e => e.Dependant != e.Dependency).ToArray();
-			this.UpdateInternal();
+			IsLoading = true;
+			_repository.GetEdgesAsync()
+				.ContinueWith(t =>
+				{
+					_allEdges = t.Result.Where(e => e.Dependant != e.Dependency).ToArray();
+					UpdateInternal();
+				});
 		}
 	}
 }

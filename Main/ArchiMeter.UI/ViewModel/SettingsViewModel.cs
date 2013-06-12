@@ -1,6 +1,7 @@
 ﻿namespace ArchiMeter.UI.ViewModel
 {
 	using System;
+	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using ArchiMeter.Common;
 	using System.ComponentModel;
@@ -19,7 +20,8 @@
 					h => _config.PropertyChanged += h,
 					h => _config.PropertyChanged -= h)
 				.Select(x => x.EventArgs)
-				.Subscribe(this.RaisePropertyChanged);
+				.ObserveOn(TaskPoolScheduler.Default)
+				.Subscribe(RaisePropertyChanged);
 		}
 
 		public string Path
