@@ -93,8 +93,8 @@
     </ApplicationDefinition>
     <Compile Include="ArchiCopLayout.cs" />
     <Compile Include="IMainWindowViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="View\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\GraphDetailsViewModel.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
@@ -112,7 +112,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CommandViewModel.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -130,7 +130,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
