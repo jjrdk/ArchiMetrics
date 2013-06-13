@@ -1,5 +1,5 @@
-﻿using MvvmFoundation.Wpf;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using MvvmFoundation.Wpf;
 
 namespace ArchiCop.ViewModel
 {
@@ -45,9 +45,9 @@ namespace ArchiCop.ViewModel
         }
 
 #if DEBUG
-    /// <summary>
-    ///     Useful for ensuring that ViewModel objects are properly garbage collected.
-    /// </summary>
+        /// <summary>
+        ///     Useful for ensuring that ViewModel objects are properly garbage collected.
+        /// </summary>
         ~ViewModelBase()
         {
             string msg = string.Format("{0} ({1}) ({2}) Finalized", GetType().Name, DisplayName, GetHashCode());

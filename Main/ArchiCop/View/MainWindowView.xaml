@@ -3,10 +3,10 @@
         MinHeight="420" Title="{Binding Path=DisplayName}" Width="800" Height="600"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <ResourceDictionary Source="..\MainWindowResources.xaml" />
+        <ResourceDictionary Source="MainWindowResources.xaml" />
     </Window.Resources>
 
-    <DockPanel>        
+    <DockPanel>
 
         <Grid Margin="4">
             <Grid.ColumnDefinitions>
