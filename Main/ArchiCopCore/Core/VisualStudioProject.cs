@@ -1,4 +1,6 @@
-﻿namespace ArchiCop.Core
+﻿using System.Collections.Generic;
+
+namespace ArchiCop.Core
 {
     public class VisualStudioProject
     {
@@ -6,7 +8,18 @@
         {
             ProjectGuid = projectGuid;
             ProjectName = projectName;
+
+            Projects = new List<VisualStudioProject>();
+
+            ProjectReferences = new List<VisualStudioProjectProjectReference>();
+            LibraryReferences = new List<VisualStudioProjectLibraryReference>();
         }
+
+        public List<VisualStudioProject> Projects { get; private set; }
+
+        internal List<VisualStudioProjectProjectReference> ProjectReferences { get; private set; }
+
+        public List<VisualStudioProjectLibraryReference> LibraryReferences { get; private set; }
 
         public string ProjectName { get; private set; }
 

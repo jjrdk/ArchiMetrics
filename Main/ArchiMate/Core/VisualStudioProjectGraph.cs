@@ -5,9 +5,9 @@ namespace ArchiMate.Core
 {
     public class VisualStudioProjectGraph : Graph<VisualStudioProject>
     {
-        public VisualStudioProjectGraph(IEnumerable<VisualStudioProjectRoot> projects)
+        public VisualStudioProjectGraph(IEnumerable<VisualStudioProject> projects)
         {
-            foreach (VisualStudioProjectRoot project in projects)
+            foreach (VisualStudioProject project in projects)
             {
                 var mergeGraph = new VisualStudioProjectGraph();
 

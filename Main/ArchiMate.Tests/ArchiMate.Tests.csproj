@@ -51,7 +51,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\GraphTest.cs" />
-    <Compile Include="Core\VisualStudioProjectGraphTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

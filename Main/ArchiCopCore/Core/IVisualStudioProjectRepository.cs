@@ -4,7 +4,6 @@ namespace ArchiCop.Core
 {
     public interface IVisualStudioProjectRepository
     {
-        IEnumerable<VisualStudioProjectRoot> GetProjects(IEnumerable<string> fileNames);
-        VisualStudioProjectRoot GetSingleProject(string fileName);
+        IEnumerable<VisualStudioProject> GetProjects(IEnumerable<string> fileNames);
     }
 }

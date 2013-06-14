@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -10,53 +9,47 @@ namespace ArchiCop.Core
     {
         private static readonly XNamespace NameSpace = "http://schemas.microsoft.com/developer/msbuild/2003";
 
-        public IEnumerable<VisualStudioProjectRoot> GetProjects(IEnumerable<string> fileNames)
+        public IEnumerable<VisualStudioProject> GetProjects(IEnumerable<string> fileNames)
         {
-            return fileNames.Select(GetSingleProject).ToList();
+            IEnumerable<VisualStudioProject> projects = fileNames.Select(GetSingleProject).ToList();
+
+            foreach (VisualStudioProject visualStudioProject in projects)
+            {
+                foreach (VisualStudioProjectProjectReference projectReference in visualStudioProject.ProjectReferences)
+                {
+                    visualStudioProject.Projects.Add(projects.First(item=>item.ProjectGuid==projectReference.Project));
+                }
+            }
+
+            return projects;
         }
 
-        public VisualStudioProjectRoot GetSingleProject(string fileName)
+        internal VisualStudioProject GetSingleProject(string fileName)
         {
             XDocument document = XDocument.Load(fileName);
-
+            
             string projectName = Path.GetFileNameWithoutExtension(fileName);
 
             IEnumerable<XElement> qProjectGuid = from e in document.Descendants(NameSpace + "ProjectGuid")
                                                  select e;
 
-            string projectGuid = qProjectGuid.First().Value.TrimStart('{').TrimEnd('}');
+            string projectGuid = qProjectGuid.First().Value.TrimStart('{').TrimEnd('}').ToLower();           
 
-            IEnumerable<XElement> qProjectReferences = from e in document.Descendants(NameSpace + "ProjectReference")
-                                                       select e;
-
-            var sourceProject = new VisualStudioProjectRoot(projectGuid, projectName)
+            var sourceProject = new VisualStudioProject(projectGuid, projectName)
                 {
                     ProjectPath = fileName.ToLower(),
                     ProjectType = Path.GetExtension(fileName).ToLower()
                 };
 
-            IEnumerable<XElement> qReferences = from e in document.Descendants(NameSpace + "Reference")
-                                                select e;
-            foreach (XElement element in qReferences)
-            {
-                var reference = new VisualStudioProjectLibraryReference
-                    {
-                        Include = GetProjectProperty(element, "Include"),
-                        SpecificVersion = GetProjectProperty(element, "SpecificVersion"),
-                        RequiredTargetFramework = GetProjectProperty(element, "RequiredTargetFramework"),
-                        HintPath = GetProjectProperty(element, "HintPath")
-                    };
-
-                sourceProject.Libraries.Add(reference);
-            }
+            sourceProject.LibraryReferences.AddRange(document.GetLibraryReferences());
 
             sourceProject.ProjectTypeGuids ="";
-            foreach (string item in GetProjectProperty(document.Root, "ProjectTypeGuids").Split(';'))
+            foreach (string item in document.Root.GetPropertyGroupValue("ProjectTypeGuids").Split(';'))
             {
                 sourceProject.ProjectTypeGuids = sourceProject.ProjectTypeGuids + item.TrimStart('{').TrimEnd('}') + ";";
             }
 
-            sourceProject.ProjectTypeGuids = sourceProject.ProjectTypeGuids.ToUpper().TrimEnd(';');
+            sourceProject.ProjectTypeGuids = sourceProject.ProjectTypeGuids.ToLower().TrimEnd(';');
 
             string projectTypes = "";
 
@@ -66,43 +59,16 @@ namespace ArchiCop.Core
             }
 
             sourceProject.ProjectTypes = projectTypes.TrimEnd(';');
-            
 
-            sourceProject.TargetFrameworkVersion = GetProjectProperty(document.Root, "TargetFrameworkVersion");
-            sourceProject.OutputType = GetProjectProperty(document.Root, "OutputType");
-            sourceProject.RootNamespace = GetProjectProperty(document.Root, "RootNamespace");
-            sourceProject.AssemblyName = GetProjectProperty(document.Root, "AssemblyName");
 
-            foreach (XElement element in qProjectReferences)
-            {
-                var targetProject =
-                    new VisualStudioProject(element.Element(NameSpace + "Project").Value.TrimStart('{').TrimEnd('}'),
-                                            element.Element(NameSpace + "Name").Value)
-                        {
-                            ProjectPath = (string) element.Attribute("Include")
-                        };
+            sourceProject.TargetFrameworkVersion = document.Root.GetPropertyGroupValue("TargetFrameworkVersion");
+            sourceProject.OutputType = document.Root.GetPropertyGroupValue("OutputType");
+            sourceProject.RootNamespace = document.Root.GetPropertyGroupValue("RootNamespace");
+            sourceProject.AssemblyName = document.Root.GetPropertyGroupValue("AssemblyName");
 
-                string directoryname = Path.GetDirectoryName(fileName);
-
-                targetProject.ProjectPath = Path.Combine(directoryname, targetProject.ProjectPath);
-                targetProject.ProjectPath = Path.GetFullPath((new Uri(targetProject.ProjectPath)).LocalPath).ToLower();
-
-                targetProject.ProjectType = Path.GetExtension(fileName).ToLower();
-
-                sourceProject.Projects.Add(targetProject);
-            }
+            sourceProject.ProjectReferences.AddRange(document.GetProjectReferences(fileName));
 
             return sourceProject;
-        }
-
-        private string GetProjectProperty(XElement xDocument, string propertyName)
-        {
-            IEnumerable<XElement> query = from e in xDocument.Descendants(NameSpace + propertyName) select e;
-            if (query.Any())
-            {
-                return query.First().Value;                
-            }
-            return string.Empty;
         }
 
         public string GetProjectType(string projectTypeGuid)
