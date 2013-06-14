@@ -31,8 +31,8 @@ namespace ArchiCop.Core
 
             var sourceProject = new VisualStudioProjectRoot(projectGuid, projectName)
                 {
-                    ProjectPath = fileName,
-                    ProjectType = Path.GetExtension(fileName)
+                    ProjectPath = fileName.ToLower(),
+                    ProjectType = Path.GetExtension(fileName).ToLower()
                 };
 
             IEnumerable<XElement> qReferences = from e in document.Descendants(NameSpace + "Reference")
@@ -41,44 +41,37 @@ namespace ArchiCop.Core
             {
                 var reference = new VisualStudioProjectLibraryReference
                     {
-                        Include = (string)element.Attribute("Include")
+                        Include = GetProjectProperty(element, "Include"),
+                        SpecificVersion = GetProjectProperty(element, "SpecificVersion"),
+                        RequiredTargetFramework = GetProjectProperty(element, "RequiredTargetFramework"),
+                        HintPath = GetProjectProperty(element, "HintPath")
                     };
-                if (element.Element(NameSpace + "SpecificVersion") != null)
-                {
-                    reference.SpecificVersion = element.Element(NameSpace + "SpecificVersion").Value;
-                }
-                if (element.Element(NameSpace + "RequiredTargetFramework") != null)
-                {
-                    reference.RequiredTargetFramework = element.Element(NameSpace + "RequiredTargetFramework").Value;
-                }
-                if (element.Element(NameSpace + "HintPath") != null)
-                {
-                    reference.HintPath = element.Element(NameSpace + "HintPath").Value;
-                }
+
                 sourceProject.Libraries.Add(reference);
             }
 
-            IEnumerable<XElement> qProjectTypeGuids = from e in document.Descendants(NameSpace + "ProjectTypeGuids")
-                                                      select e;
-            if (qProjectTypeGuids.Any())
+            sourceProject.ProjectTypeGuids ="";
+            foreach (string item in GetProjectProperty(document.Root, "ProjectTypeGuids").Split(';'))
             {
-                string projectTypeGuids = qProjectTypeGuids.First().Value;
-                sourceProject.ProjectTypeGuids = projectTypeGuids;
-
-                string projectTypes = "";
-
-                foreach (string item in projectTypeGuids.Split(';').Select(GetProjectType))
-                {
-                    projectTypes = projectTypes + item + ";";
-                }
-
-                sourceProject.ProjectTypes = projectTypes.TrimEnd(';');
+                sourceProject.ProjectTypeGuids = sourceProject.ProjectTypeGuids + item.TrimStart('{').TrimEnd('}') + ";";
             }
 
-            sourceProject.TargetFrameworkVersion = GetProjectProperty(document, "TargetFrameworkVersion");
-            sourceProject.OutputType = GetProjectProperty(document, "OutputType");
-            sourceProject.RootNamespace = GetProjectProperty(document, "RootNamespace");
-            sourceProject.AssemblyName = GetProjectProperty(document, "AssemblyName");
+            sourceProject.ProjectTypeGuids = sourceProject.ProjectTypeGuids.ToUpper().TrimEnd(';');
+
+            string projectTypes = "";
+
+            foreach (string item in sourceProject.ProjectTypeGuids.Split(';').Select(GetProjectType))
+            {
+                projectTypes = projectTypes + item + ";";
+            }
+
+            sourceProject.ProjectTypes = projectTypes.TrimEnd(';');
+            
+
+            sourceProject.TargetFrameworkVersion = GetProjectProperty(document.Root, "TargetFrameworkVersion");
+            sourceProject.OutputType = GetProjectProperty(document.Root, "OutputType");
+            sourceProject.RootNamespace = GetProjectProperty(document.Root, "RootNamespace");
+            sourceProject.AssemblyName = GetProjectProperty(document.Root, "AssemblyName");
 
             foreach (XElement element in qProjectReferences)
             {
@@ -92,9 +85,9 @@ namespace ArchiCop.Core
                 string directoryname = Path.GetDirectoryName(fileName);
 
                 targetProject.ProjectPath = Path.Combine(directoryname, targetProject.ProjectPath);
-                targetProject.ProjectPath = Path.GetFullPath((new Uri(targetProject.ProjectPath)).LocalPath);
+                targetProject.ProjectPath = Path.GetFullPath((new Uri(targetProject.ProjectPath)).LocalPath).ToLower();
 
-                targetProject.ProjectType = Path.GetExtension(fileName);
+                targetProject.ProjectType = Path.GetExtension(fileName).ToLower();
 
                 sourceProject.Projects.Add(targetProject);
             }
@@ -102,10 +95,14 @@ namespace ArchiCop.Core
             return sourceProject;
         }
 
-        private string GetProjectProperty(XDocument xDocument, string propertyName)
+        private string GetProjectProperty(XElement xDocument, string propertyName)
         {
             IEnumerable<XElement> query = from e in xDocument.Descendants(NameSpace + propertyName) select e;
-            return query.First().Value;
+            if (query.Any())
+            {
+                return query.First().Value;                
+            }
+            return string.Empty;
         }
 
         public string GetProjectType(string projectTypeGuid)
@@ -130,25 +127,25 @@ namespace ArchiCop.Core
 
             switch (projectTypeGuid.ToUpper())
             {
-                case "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}":
+                case "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC":
                     return "Windows (C#)";
 
-                case "{F184B08F-C81C-45F6-A57F-5ABD9991F28F}":
+                case "F184B08F-C81C-45F6-A57F-5ABD9991F28F":
                     return "Windows (VB.NET)";
 
-                case "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}":
+                case "8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942":
                     return "Windows (Visual C++)";
 
-                case "{3AC096D0-A1C2-E12C-1390-A8335801FDAB}":
+                case "3AC096D0-A1C2-E12C-1390-A8335801FDAB":
                     return "Test";
 
-                case "{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}":
+                case "60DC8134-EBA5-43B8-BCC9-BB4BC16C2548":
                     return "WPF";
 
-                case "{A1591282-1198-4647-A2B1-27E5FF5F6F3B}":
+                case "A1591282-1198-4647-A2B1-27E5FF5F6F3B":
                     return "Silverlight";
 
-                case "{349C5851-65DF-11DA-9384-00065B846F21}":
+                case "349C5851-65DF-11DA-9384-00065B846F21":
                     return "Web Application";
 
                 default:
