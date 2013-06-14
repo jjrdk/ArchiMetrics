@@ -22,7 +22,7 @@ namespace ArchiMate.Core
             */
 
             string projectTypeGuid = "";
-            
+
             foreach (var project in graph.Vertices)
             {
                 switch (project.Data.ProjectType)
@@ -30,7 +30,7 @@ namespace ArchiMate.Core
                     case ".csproj":
                         projectTypeGuid = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
                         break;
-                    case".fsproj":
+                    case ".fsproj":
                         projectTypeGuid = "{F2A71F9B-5D33-465A-A702-920D77279786}";
                         break;
                 }
@@ -38,7 +38,8 @@ namespace ArchiMate.Core
                 projectIncludes.AppendLine(
                     string.Format(
                         "Project(\"{0}\") = \"{1}\", \"{2}\", \"{{{3}}}\"",
-                        projectTypeGuid, project.Name, MakeRelativePath(project.Data.ProjectPath, solutionFileName), project.Id));
+                        projectTypeGuid, project.Name, MakeRelativePath(project.Data.ProjectPath, solutionFileName),
+                        project.Id));
                 projectIncludes.AppendLine("EndProject");
             }
 
@@ -64,11 +65,10 @@ namespace ArchiMate.Core
             var fromUri = new Uri(Path.GetFullPath(fromPath));
             var toUri = new Uri(Path.GetFullPath(relativeTo));
 
-            var relativeUri = toUri.MakeRelativeUri(fromUri);
-            var relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+            Uri relativeUri = toUri.MakeRelativeUri(fromUri);
+            string relativePath = Uri.UnescapeDataString(relativeUri.ToString());
 
             return relativePath.Replace('/', Path.DirectorySeparatorChar);
         }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ArchiCop.Core;
 
 namespace ArchiMate.Core
 {
@@ -16,7 +17,7 @@ namespace ArchiMate.Core
                 mergeGraph.AddVertex(source);
 
                 foreach (VisualStudioProject proj in project.Projects)
-                {                    
+                {
                     var target = new Vertex<VisualStudioProject>(proj.ProjectGuid, proj.ProjectName);
                     target.Data = proj;
 

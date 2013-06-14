@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArchiCop.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ArchiMate.Core
@@ -12,10 +13,10 @@ namespace ArchiMate.Core
         public void CanCreateEmptyGraph1()
         {
             //
-                        
+
             //
             var graph = new VisualStudioProjectGraph();
-            
+
             //
             Assert.IsTrue(graph.Vertices.Count == 0);
             Assert.IsTrue(graph.Edges.Count == 0);
@@ -41,11 +42,11 @@ namespace ArchiMate.Core
             var projects = new List<VisualStudioProjectRoot>();
             for (int i = 0; i < 10; i++)
             {
-                projects.Add(new VisualStudioProjectRoot(Guid.NewGuid().ToString(),"testproject"+i));   
-            }            
+                projects.Add(new VisualStudioProjectRoot(Guid.NewGuid().ToString(), "testproject" + i));
+            }
             //
             var graph = new VisualStudioProjectGraph(projects);
-            
+
             //
             Assert.IsTrue(graph.Vertices.Count == 10);
             Assert.IsTrue(graph.Edges.Count == 0);
@@ -58,11 +59,11 @@ namespace ArchiMate.Core
             var projects = new List<VisualStudioProjectRoot>();
             for (int i = 0; i < 3; i++)
             {
-                projects.Add(new VisualStudioProjectRoot(Guid.NewGuid().ToString(),"testproject" + i));
+                projects.Add(new VisualStudioProjectRoot(Guid.NewGuid().ToString(), "testproject" + i));
             }
             for (int i = 0; i < 3; i++)
             {
-                var proj = new VisualStudioProjectRoot(Guid.NewGuid().ToString(),"roottestproject" + i);
+                var proj = new VisualStudioProjectRoot(Guid.NewGuid().ToString(), "roottestproject" + i);
                 proj.Projects.AddRange(
                     projects.Where(item => item.ProjectName.StartsWith("testproject")).Select(item => item));
                 projects.Add(proj);
@@ -80,7 +81,7 @@ namespace ArchiMate.Core
         {
             //
             var projects = new List<VisualStudioProjectRoot>();
-            
+
             for (int i = 0; i < 3; i++)
             {
                 var proj = new VisualStudioProjectRoot(Guid.NewGuid().ToString(), "roottestproject" + i);
@@ -88,7 +89,7 @@ namespace ArchiMate.Core
                 proj.Projects.Add(new VisualStudioProjectRoot("6612d71d-b527-4a6a-bf09-30f3f1275bf7", "testproject1"));
                 proj.Projects.Add(new VisualStudioProjectRoot("6612d71d-b527-4a6a-bf09-30f3f1275bf8", "testproject2"));
                 proj.Projects.Add(new VisualStudioProjectRoot("6612d71d-b527-4a6a-bf09-30f3f1275bf9", "testproject3"));
-                
+
                 projects.Add(proj);
             }
             //

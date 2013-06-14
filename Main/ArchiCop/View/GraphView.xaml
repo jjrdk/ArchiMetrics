@@ -5,7 +5,7 @@
              xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
              xmlns:view="clr-namespace:ArchiCop.View"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

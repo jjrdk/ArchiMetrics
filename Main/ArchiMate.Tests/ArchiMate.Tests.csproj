@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArchiCopCore\ArchiCopCore.csproj">
+      <Project>{3a4d7180-400e-486e-84b9-adf89ddb790f}</Project>
+      <Name>ArchiCopCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArchiMate\ArchiMate.csproj">
       <Project>{7cde18b0-54de-41df-b699-f6c0fc45a43d}</Project>
       <Name>ArchiMate</Name>

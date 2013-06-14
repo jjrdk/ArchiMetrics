@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ArchiMate.Core
@@ -46,11 +45,11 @@ namespace ArchiMate.Core
             //            
             for (int i = 0; i < 10; i++)
             {
-                graph.AddVertex(new Vertex<string>("v"+i, "v" + i));
+                graph.AddVertex(new Vertex<string>("v" + i, "v" + i));
             }
             for (int i = 0; i < 10; i++)
             {
-                graph.AddVertex(new Vertex<string>("V"+i, "V" + i));
+                graph.AddVertex(new Vertex<string>("V" + i, "V" + i));
             }
 
             //
@@ -64,7 +63,7 @@ namespace ArchiMate.Core
             //
             var graph = new Graph<string>();
             //
-            var root = new Vertex<string>("root","root");
+            var root = new Vertex<string>("root", "root");
 
             for (int i = 0; i < 3; i++)
             {

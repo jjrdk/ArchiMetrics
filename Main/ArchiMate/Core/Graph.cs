@@ -15,7 +15,7 @@ namespace ArchiMate.Core
 
         public void MergeGraph(Graph<T> graph)
         {
-            foreach (Vertex<T> vertex in graph.Vertices)
+            foreach (var vertex in graph.Vertices)
             {
                 AddVertex(vertex);
             }
@@ -40,7 +40,7 @@ namespace ArchiMate.Core
             source = AddVertex(source);
 
             target = AddVertex(target);
-            
+
             if (!Edges.Exists(item => item.Id.ToLower() == source.Id.ToLower() + ";" + target.Id.ToLower()))
             {
                 var edge = new Edge<T> {Id = source.Id + ";" + target.Id, Source = source, Target = target};
@@ -48,7 +48,7 @@ namespace ArchiMate.Core
                 return edge;
             }
 
-            return Edges.Find(item => item.Id.ToLower() == source.Id.ToLower() + ";" + target.Id.ToLower());             
+            return Edges.Find(item => item.Id.ToLower() == source.Id.ToLower() + ";" + target.Id.ToLower());
         }
     }
 }
