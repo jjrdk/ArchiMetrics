@@ -8,8 +8,11 @@ namespace ArchiCop.Core
             : base(projectGuid, projectName)
         {
             Projects = new List<VisualStudioProject>();
+            Libraries = new List<VisualStudioProjectLibraryReference>();
         }
 
         public List<VisualStudioProject> Projects { get; private set; }
+
+        public List<VisualStudioProjectLibraryReference> Libraries { get; private set; }
     }
 }

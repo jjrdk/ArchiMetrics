@@ -35,6 +35,29 @@ namespace ArchiCop.Core
                     ProjectType = Path.GetExtension(fileName)
                 };
 
+            IEnumerable<XElement> qReferences = from e in document.Descendants(NameSpace + "Reference")
+                                                select e;
+            foreach (XElement element in qReferences)
+            {
+                var reference = new VisualStudioProjectLibraryReference
+                    {
+                        Include = (string)element.Attribute("Include")
+                    };
+                if (element.Element(NameSpace + "SpecificVersion") != null)
+                {
+                    reference.SpecificVersion = element.Element(NameSpace + "SpecificVersion").Value;
+                }
+                if (element.Element(NameSpace + "RequiredTargetFramework") != null)
+                {
+                    reference.RequiredTargetFramework = element.Element(NameSpace + "RequiredTargetFramework").Value;
+                }
+                if (element.Element(NameSpace + "HintPath") != null)
+                {
+                    reference.HintPath = element.Element(NameSpace + "HintPath").Value;
+                }
+                sourceProject.Libraries.Add(reference);
+            }
+
             IEnumerable<XElement> qProjectTypeGuids = from e in document.Descendants(NameSpace + "ProjectTypeGuids")
                                                       select e;
             if (qProjectTypeGuids.Any())

@@ -68,6 +68,7 @@
     <Compile Include="Core\IVisualStudioProjectRepository.cs" />
     <Compile Include="Core\LoadEngine.cs" />
     <Compile Include="Core\VisualStudioProject.cs" />
+    <Compile Include="Core\VisualStudioProjectLibraryReference.cs" />
     <Compile Include="Core\VisualStudioProjectRepository.cs" />
     <Compile Include="Core\VisualStudioProjectRoot.cs" />
     <Compile Include="Data\DataSourceRow.cs" />
