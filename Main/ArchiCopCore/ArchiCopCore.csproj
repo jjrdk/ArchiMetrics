@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArchiCop</RootNamespace>
     <AssemblyName>ArchiCopCore</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -29,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,6 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
@@ -66,12 +68,15 @@
     <Compile Include="Core\ArchiCopVertex.cs" />
     <Compile Include="Core\GraphService.cs" />
     <Compile Include="Core\IVisualStudioProjectRepository.cs" />
+    <Compile Include="Core\IVisualStudioSolutionRepository.cs" />
     <Compile Include="Core\LoadEngine.cs" />
     <Compile Include="Core\VisualStudioProject.cs" />
+    <Compile Include="Core\VisualStudioProjectGraph.cs" />
     <Compile Include="Core\VisualStudioProjectLibraryReference.cs" />
     <Compile Include="Core\VisualStudioProjectProjectReference.cs" />
     <Compile Include="Core\VisualStudioProjectRepository.cs" />
     <Compile Include="Core\VisualStudioProjectRepositoryExtensions.cs" />
+    <Compile Include="Core\VisualStudioSolutionRepository.cs" />
     <Compile Include="Data\DataSourceRow.cs" />
     <Compile Include="Data\ExcelInfoRepository.cs" />
     <Compile Include="Core\IEdgeEngine.cs" />
@@ -85,6 +90,7 @@
     <Compile Include="Core\VertexRegexRule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Core\Template_sln" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

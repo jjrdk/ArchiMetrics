@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ArchiCop.Core;
-using ArchiMate.Core;
+using QuickGraph;
 
 namespace ArchiMate
 {
@@ -51,66 +51,58 @@ namespace ArchiMate
 
         private void BindGrids()
         {
-            List<Edge<VisualStudioProject>> edges = _graph.Edges;
+            IEnumerable<Edge<VisualStudioProject>> edges = _graph.Edges;
 
             if (!checkBox1.Checked)
             {
-                edges = edges.Where(item => item.Source.Data.ProjectType != ".csproj").ToList();
-                edges = edges.Where(item => item.Target.Data.ProjectType != ".csproj").ToList();
+                edges = edges.Where(item => item.Source.ProjectType != ".csproj").ToList();
+                edges = edges.Where(item => item.Target.ProjectType != ".csproj").ToList();
             }
             if (!checkBox2.Checked)
             {
-                edges = edges.Where(item => item.Source.Data.ProjectType != ".fsproj").ToList();
-                edges = edges.Where(item => item.Target.Data.ProjectType != ".fsproj").ToList();
+                edges = edges.Where(item => item.Source.ProjectType != ".fsproj").ToList();
+                edges = edges.Where(item => item.Target.ProjectType != ".fsproj").ToList();
             }
             if (!checkBox3.Checked)
             {
-                edges = edges.Where(item => item.Source.Data.ProjectType != ".vbproj").ToList();
-                edges = edges.Where(item => item.Target.Data.ProjectType != ".vbproj").ToList();
+                edges = edges.Where(item => item.Source.ProjectType != ".vbproj").ToList();
+                edges = edges.Where(item => item.Target.ProjectType != ".vbproj").ToList();
             }
 
-            edges = edges.Where(item => Regex.IsMatch(item.Source.Name, textBox2.Text))
-                         .Where(item => Regex.IsMatch(item.Target.Name, textBox3.Text)).ToList();
+            edges = edges.Where(item => Regex.IsMatch(item.Source.ProjectName, textBox2.Text))
+                         .Where(item => Regex.IsMatch(item.Target.ProjectName, textBox3.Text)).ToList();
 
-            _graphCached = new VisualStudioProjectGraph();
-
-            foreach (var edge in edges)
-            {
-                _graphCached.AddEdge(edge.Source, edge.Target);
-            }
-
+            _graphCached = new VisualStudioProjectGraph(edges);
+            
             dataGridView2.DataSource = _graphCached.Edges.Select(item =>
                                                                  new
                                                                      {
-                                                                         item.Id,
-                                                                         Source = item.Source.Name,
-                                                                         Target = item.Target.Name,
-                                                                         TargetVertexType = item.Target.Data.ProjectType
+                                                                         Source = item.Source.ProjectName,
+                                                                         Target = item.Target.ProjectName
                                                                      })
                                                    .ToList();
-            tabPage2.Text = "References (" + edges.Count + ")";
+            tabPage2.Text = "References (" + edges.Count() + ")";
 
-            List<Vertex<VisualStudioProject>> vertices = _graphCached.Vertices;
+            IEnumerable<VisualStudioProject> vertices = _graphCached.Vertices;
 
             dataGridView1.DataSource =
-                vertices.OrderBy(item => item.Name)
+                vertices.OrderBy(item => item.ProjectName)
                         .Select(
                             item =>
                             new
-                                {
-                                    item.Id,
-                                    item.Name,
-                                    item.Data.ProjectType,
-                                    item.Data.TargetFrameworkVersion,
-                                    item.Data.OutputType,
-                                    item.Data.AssemblyName,
-                                    item.Data.RootNamespace,
-                                    item.Data.ProjectPath,
-                                    item.Data.ProjectTypeGuids,
-                                    item.Data.ProjectTypes
+                                {                                    
+                                    item.ProjectName,
+                                    item.ProjectType,
+                                    item.TargetFrameworkVersion,
+                                    item.OutputType,
+                                    item.AssemblyName,
+                                    item.RootNamespace,
+                                    item.ProjectPath,
+                                    item.ProjectTypeGuids,
+                                    item.ProjectTypes
                                 })
                         .ToList();
-            tabPage1.Text = "Projects (" + vertices.Count + ")";
+            tabPage1.Text = "Projects (" + vertices.Count() + ")";
         }
 
         private void button2_Click(object sender, EventArgs e)

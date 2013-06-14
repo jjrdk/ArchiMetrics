@@ -13,13 +13,13 @@ namespace ArchiCop.Core
         {
             IEnumerable<VisualStudioProject> projects = fileNames.Select(GetSingleProject).ToList();
 
-            foreach (VisualStudioProject visualStudioProject in projects)
-            {
-                foreach (VisualStudioProjectProjectReference projectReference in visualStudioProject.ProjectReferences)
-                {
-                    visualStudioProject.Projects.Add(projects.First(item=>item.ProjectGuid==projectReference.Project));
-                }
-            }
+            //foreach (VisualStudioProject visualStudioProject in projects)
+            //{
+            //    foreach (VisualStudioProjectProjectReference projectReference in visualStudioProject.ProjectReferences)
+            //    {
+            //        visualStudioProject.Projects.Add(projects.First(item=>item.ProjectGuid==projectReference.Project));
+            //    }
+            //}
 
             return projects;
         }

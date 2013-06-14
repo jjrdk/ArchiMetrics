@@ -7,17 +7,14 @@ namespace ArchiCop.Core
         public VisualStudioProject(string projectGuid, string projectName)
         {
             ProjectGuid = projectGuid;
-            ProjectName = projectName;
-
-            Projects = new List<VisualStudioProject>();
+            ProjectName = projectName;          
 
             ProjectReferences = new List<VisualStudioProjectProjectReference>();
             LibraryReferences = new List<VisualStudioProjectLibraryReference>();
         }
 
-        public List<VisualStudioProject> Projects { get; private set; }
-
-        internal List<VisualStudioProjectProjectReference> ProjectReferences { get; private set; }
+        
+        public List<VisualStudioProjectProjectReference> ProjectReferences { get; private set; }
 
         public List<VisualStudioProjectLibraryReference> LibraryReferences { get; private set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace ArchiCop.Core
 {
-    internal class VisualStudioProjectProjectReference
+    public class VisualStudioProjectProjectReference
     {
         public string Include { get; set; }
         public string Project { get; set; }

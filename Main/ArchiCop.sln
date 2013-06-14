@@ -22,8 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E48DCD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMate", "ArchiMate\ArchiMate.csproj", "{7CDE18B0-54DE-41DF-B699-F6C0FC45A43D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMate.Tests", "ArchiMate.Tests\ArchiMate.Tests.csproj", "{F3E419BC-9B11-4878-8462-C66BA48E0E63}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiCopCore.Tests", "ArchiCopCore.Tests\ArchiCopCore.Tests.csproj", "{52D94030-DF8E-4BB4-B185-A435E4BB980B}"
 EndProject
 Global
@@ -44,10 +42,6 @@ Global
 		{7CDE18B0-54DE-41DF-B699-F6C0FC45A43D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CDE18B0-54DE-41DF-B699-F6C0FC45A43D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CDE18B0-54DE-41DF-B699-F6C0FC45A43D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3E419BC-9B11-4878-8462-C66BA48E0E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3E419BC-9B11-4878-8462-C66BA48E0E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3E419BC-9B11-4878-8462-C66BA48E0E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3E419BC-9B11-4878-8462-C66BA48E0E63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52D94030-DF8E-4BB4-B185-A435E4BB980B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52D94030-DF8E-4BB4-B185-A435E4BB980B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52D94030-DF8E-4BB4-B185-A435E4BB980B}.Release|Any CPU.ActiveCfg = Release|Any CPU
