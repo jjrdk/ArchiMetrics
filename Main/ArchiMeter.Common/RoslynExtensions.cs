@@ -5,6 +5,7 @@ namespace ArchiMeter.Common
 	using System.IO;
 	using System.Linq;
 	using System.Text;
+	using System.Xml;
 	using System.Xml.Linq;
 	using Roslyn.Services;
 
@@ -34,9 +35,34 @@ EndGlobal
 		{{{0}}}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{{{0}}}.Release|Any CPU.Build.0 = Release|Any CPU";
 
-		public static void MergeSolutionsTo(string outputPath, params string[] solutions)
+		public static void MergeSolutionsTo(this string outputPath, params string[] solutions)
 		{
 			var toMerge = solutions.SelectMany(s => Workspace.LoadSolution(s).CurrentSolution.Projects);
+			WriteProjects(toMerge, outputPath, true);
+		}
+
+		public static void MergeProjectsTo(this string outputPath, params string[] projects)
+		{
+			var projectsAndReferences = projects
+				.Concat(projects.SelectMany(GetReferencePaths))
+				.Distinct()
+				.ToArray();
+			var toMerge = projectsAndReferences.Select(s =>
+										  {
+											  try
+											  {
+												  var standAloneProject = Workspace.LoadStandAloneProject(s);
+												  var p = standAloneProject.CurrentSolution.Projects;
+												  return p.LastOrDefault();
+											  }
+											  catch(Exception ex)
+											  {
+												  return null;
+											  }
+										  })
+										  .Where(p => p != null)
+										  .ToArray();
+
 			WriteProjects(toMerge, outputPath, true);
 		}
 
@@ -92,8 +118,12 @@ EndGlobal
 
 		private static string GetProjectGuid(string fileName)
 		{
-			var xElements = XDocument.Load(fileName).Root.Descendants().ToArray();
-			var guid = xElements.First(e => e.Name.LocalName == "ProjectGuid").Value.Trim('{', '}');
+			var root = XDocument.Load(fileName).Root;
+			var ns = root.GetDefaultNamespace();
+			var guid = root
+				.Descendants(ns + "ProjectGuid")
+				.First()
+				.Value.Trim('{', '}');
 			return guid;
 		}
 
@@ -128,6 +158,19 @@ EndGlobal
 			var relativePath = Uri.UnescapeDataString(relativeUri.ToString());
 
 			return relativePath.Replace('/', Path.DirectorySeparatorChar);
+		}
+
+		private static string[] GetReferencePaths(string fileName)
+		{
+			var root = XDocument.Load(fileName).Root;
+			var ns = root.GetDefaultNamespace();
+			var references = root.Descendants(XName.Get("ProjectReference", ns.NamespaceName)).ToArray();
+			var paths = references
+				.Select(x => x.Attribute("Include").Value)
+				.Select(x => Path.GetFullPath(Path.Combine(Path.GetDirectoryName(fileName), x)))
+				.ToArray();
+			var childReferences = paths.SelectMany(GetReferencePaths);
+			return paths.Concat(childReferences).Distinct().ToArray();
 		}
 
 		private class ProjectEqualityComparer : IEqualityComparer<IProject>
