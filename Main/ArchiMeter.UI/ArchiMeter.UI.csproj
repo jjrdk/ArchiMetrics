@@ -278,10 +278,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj">
-      <Project>{bffc8775-d122-4b9b-a1af-82e8ae35eec5}</Project>
-      <Name>ArchiMeter.Analysis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj">
       <Project>{5C12DFB6-05DC-4941-B69F-B99903E89B1D}</Project>
       <Name>ArchiMeter.CodeReview</Name>

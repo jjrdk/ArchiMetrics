@@ -2,6 +2,8 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
+using ArchiCop.View;
+using ArchiCop.ViewModel;
 
 namespace ArchiCop
 {
@@ -31,7 +33,7 @@ namespace ArchiCop
         {
             base.OnStartup(e);
 
-            var window = new MainWindow();
+            var window = new MainWindowView();
 
             var viewModel = new MainWindowViewModel();
 

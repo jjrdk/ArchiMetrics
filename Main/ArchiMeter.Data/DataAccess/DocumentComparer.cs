@@ -16,11 +16,22 @@ namespace ArchiMeter.Data.DataAccess
 
 	internal class DocumentComparer : IEqualityComparer<IDocument>
 	{
+		private static readonly DocumentComparer InnerComparer = new DocumentComparer();
+
+		private DocumentComparer()
+		{
+		}
+
+		public static DocumentComparer Default
+		{
+			get { return InnerComparer; }
+		}
+
 		public bool Equals(IDocument x, IDocument y)
 		{
 			return x == null
-				       ? y == null
-				       : y != null && x.FilePath == y.FilePath;
+					   ? y == null
+					   : y != null && x.FilePath == y.FilePath;
 		}
 
 		public int GetHashCode(IDocument obj)

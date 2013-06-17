@@ -16,6 +16,17 @@ namespace ArchiMeter.Common
 
 	public class ProjectComparer : IEqualityComparer<IProject>
 	{
+		private static readonly ProjectComparer InnerComparer = new ProjectComparer();
+
+		private ProjectComparer()
+		{
+		}
+
+		public static ProjectComparer Default
+		{
+			get { return InnerComparer; }
+		}
+
 		/// <summary>
 		/// Determines whether the specified objects are equal.
 		/// </summary>

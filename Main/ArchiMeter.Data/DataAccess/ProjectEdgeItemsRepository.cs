@@ -74,7 +74,7 @@ namespace ArchiMeter.Data.DataAccess
 									   .AsParallel()
 									   .Select(_solutionProvider.Get)
 									   .SelectMany(s => s.Projects)
-									   .Distinct(new ProjectComparer())
+									   .Distinct(ProjectComparer.Default)
 									   .Select(GetProjectMetrics);
 			return Task.WhenAll(metricTasks).ContinueWith(task => task.Result.AsEnumerable());
 		}
