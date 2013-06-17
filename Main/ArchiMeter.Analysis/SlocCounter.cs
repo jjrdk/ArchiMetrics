@@ -43,15 +43,15 @@
 			return Count(solution.Projects);
 		}
 
-		private int CountDoc(IDocument document)
-		{
-			return this.CountNode(document.GetSyntaxTree().GetRoot());
-		}
-
-		private int CountNode(CommonSyntaxNode node)
+		public int Count(CommonSyntaxNode node)
 		{
 			var lines = node.Format(FormattingOptions.GetDefaultOptions()).GetFormattedRoot().ToFullString().Split('\n');
 			return CountStrings(lines);
+		}
+
+		private int CountDoc(IDocument document)
+		{
+			return Count(document.GetSyntaxTree().GetRoot());
 		}
 
 		private static int CountStrings(IEnumerable<string> strings)

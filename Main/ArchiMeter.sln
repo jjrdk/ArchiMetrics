@@ -44,7 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Analysis.Temp", "ArchiMeter.Analysis.Temp\ArchiMeter.Analysis.Temp.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Analysis", "ArchiMeter.Analysis\ArchiMeter.Analysis.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

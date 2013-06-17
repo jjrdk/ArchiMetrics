@@ -17,12 +17,12 @@ namespace ArchiMeter.Analysis.Tests
 
 	public class LocCounterTests
 	{
-		private SLoCCounter _counter;
+		private SlocCounter _counter;
 
 		[SetUp]
 		public void Setup()
 		{
-			_counter = new SLoCCounter();
+			_counter = new SlocCounter();
 		}
 
 		[Test]
