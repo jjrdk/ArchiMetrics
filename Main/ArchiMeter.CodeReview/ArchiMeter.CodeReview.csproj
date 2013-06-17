@@ -157,10 +157,6 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj">
-      <Project>{bffc8775-d122-4b9b-a1af-82e8ae35eec5}</Project>
-      <Name>ArchiMeter.Analysis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
       <Name>ArchiMeter.Common</Name>
