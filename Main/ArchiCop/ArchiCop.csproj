@@ -93,6 +93,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\ArchiCopController.cs" />
+    <Compile Include="Controller\IController.cs" />
     <Compile Include="View\ArchiCopLayout.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="View\MainWindowView.xaml.cs">

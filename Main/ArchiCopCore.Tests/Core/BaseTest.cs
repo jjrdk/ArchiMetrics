@@ -18,7 +18,7 @@ namespace ArchiCop.Core
         }
 
         protected static VisualStudioProject GetSampleProject()
-        {            
+        {
             return GetSampleProjects().First(item => item.ProjectName == "ArchiCop");
         }
 

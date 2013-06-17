@@ -8,7 +8,7 @@ namespace ArchiCop.Core
     {
         public VisualStudioProjectGraph(IEnumerable<Edge<VisualStudioProject>> edges)
         {
-            foreach (VisualStudioProject project in edges.Select(item=>item.Source))
+            foreach (VisualStudioProject project in edges.Select(item => item.Source))
             {
                 if (!ContainsVertex(project))
                 {
@@ -30,7 +30,7 @@ namespace ArchiCop.Core
             }
         }
 
-        public VisualStudioProjectGraph(IEnumerable<VisualStudioProject> projects )
+        public VisualStudioProjectGraph(IEnumerable<VisualStudioProject> projects)
         {
             foreach (VisualStudioProject project in projects)
             {
@@ -44,7 +44,7 @@ namespace ArchiCop.Core
             {
                 foreach (VisualStudioProjectProjectReference projectReference in projectFrom.ProjectReferences)
                 {
-                    var projectTo = projects.First(item => item.ProjectGuid == projectReference.Project);
+                    VisualStudioProject projectTo = projects.First(item => item.ProjectGuid == projectReference.Project);
                     AddEdge(new Edge<VisualStudioProject>(projectFrom, projectTo));
                 }
             }
