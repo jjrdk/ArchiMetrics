@@ -19,7 +19,9 @@ namespace ArchiMeter.CodeReview.Metrics
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 	using System.Xml.Linq;
-	using Analysis.Xaml;
+
+	using ArchiMeter.Analysis;
+
 	using Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;

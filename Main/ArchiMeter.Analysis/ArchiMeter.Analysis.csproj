@@ -64,9 +64,15 @@
   <ItemGroup>
     <Compile Include="DependencyAnalyzer.cs" />
     <Compile Include="DependencyChain.cs" />
+    <Compile Include="IRequirementTestAnalyzer.cs" />
     <Compile Include="PathFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequirementTestAnalyzer.cs" />
+    <Compile Include="RequirementToTestReport.cs" />
     <Compile Include="SlocCounter.cs" />
+    <Compile Include="TestData.cs" />
+    <Compile Include="XamlCodeWriter.cs" />
+    <Compile Include="XamlConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">
