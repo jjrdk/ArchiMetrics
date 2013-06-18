@@ -1,10 +1,12 @@
-namespace ArchiMeter.ReportWriter.Reports
+namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using OfficeOpenXml;
 
 	public class NamespaceMaintainabilityDeviationReport : IReportJob
@@ -13,12 +15,12 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public NamespaceMaintainabilityDeviationReport(IAsyncReadOnlyRepository<TypeMaintainabilityDeviation> maintainabilityDeviationRepository)
 		{
-			_maintainabilityDeviationRepository = maintainabilityDeviationRepository;
+			this._maintainabilityDeviationRepository = maintainabilityDeviationRepository;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			var devations = (await _maintainabilityDeviationRepository.Query(d => d.Sigma <= -2.0));
+			var devations = (await this._maintainabilityDeviationRepository.Query(d => d.Sigma <= -2.0));
 			var projectGroups = devations.GroupBy(d => d.ProjectName).ToArray();
 			var ws = package.Workbook.Worksheets.Add("NS Maintainability Dev");
 			ws.Cells[1, 1].Value = "Project";
@@ -40,14 +42,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~NamespaceMaintainabilityDeviationReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

@@ -10,16 +10,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.ReportWriter
+namespace ArchiMeter.ExcelWriter
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Threading.Tasks;
 
-	using ArchiMeter.ReportWriter.Reports;
+	using ArchiMeter.Common;
+	using ArchiMeter.ExcelWriter.Reports;
 
-	using Common;
 	using OfficeOpenXml;
 
 	internal class ExcelReportWriter
@@ -28,7 +28,7 @@ namespace ArchiMeter.ReportWriter
 
 		public ExcelReportWriter(IEnumerable<IReportJob> reportJobs)
 		{
-			_reportJobs = reportJobs;
+			this._reportJobs = reportJobs;
 		}
 
 		public async Task GenerateReport(ReportConfig config)
@@ -40,7 +40,7 @@ namespace ArchiMeter.ReportWriter
 			}
 			var excelPackage = new ExcelPackage(File.Open(outputFile, FileMode.Create));
 
-			foreach (var job in _reportJobs)
+			foreach (var job in this._reportJobs)
 			{
 				await job.AddReport(excelPackage, config);
 				job.Dispose();

@@ -7,8 +7,8 @@
     <ProjectGuid>{67A86417-F4C5-42C3-898A-79CEC9BD2253}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArchiMeter.ReportWriter</RootNamespace>
-    <AssemblyName>ArchiMeter.ReportWriter</AssemblyName>
+    <RootNamespace>ArchiMeter.ExcelWriter</RootNamespace>
+    <AssemblyName>ArchiMeter.ExcelWriter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

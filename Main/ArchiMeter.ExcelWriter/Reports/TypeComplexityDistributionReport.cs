@@ -1,10 +1,12 @@
-namespace ArchiMeter.ReportWriter.Reports
+namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using OfficeOpenXml;
 
 	public class TypeComplexityDistributionReport : IReportJob
@@ -13,12 +15,12 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public TypeComplexityDistributionReport(IAsyncReadOnlyRepository<TypeComplexitySegment> typeSizeProvider)
 		{
-			_typeSizeProvider = typeSizeProvider;
+			this._typeSizeProvider = typeSizeProvider;
 		}
 
 		public async Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			var segments = (await _typeSizeProvider.Query(config.Projects.CreateQuery<TypeComplexitySegment>())).ToArray();
+			var segments = (await this._typeSizeProvider.Query(config.Projects.CreateQuery<TypeComplexitySegment>())).ToArray();
 			var max = segments.Any() ? segments.Max(s => s.CyclomaticComplexity) + 1 : 0;
 			var groups = segments.GroupBy(s => s.ProjectName).ToArray();
 			var ws = package.Workbook.Worksheets.Add("Type Complexities");
@@ -44,14 +46,14 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~TypeComplexityDistributionReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

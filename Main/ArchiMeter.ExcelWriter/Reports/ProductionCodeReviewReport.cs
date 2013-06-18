@@ -9,12 +9,13 @@
 //   Defines the ProductionCodeReviewReport type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.ReportWriter.Reports
+namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
-	using Common;
-	using Common.Documents;
-	using Raven.Repositories;
+
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+	using ArchiMeter.Raven.Repositories;
 
 	public class ProductionCodeReviewReport : CodeReviewReportBase
 	{

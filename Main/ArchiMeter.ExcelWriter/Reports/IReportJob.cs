@@ -10,11 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.ReportWriter.Reports
+namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
 	using System.Threading.Tasks;
-	using Common;
+
+	using ArchiMeter.Common;
+
 	using OfficeOpenXml;
 
 	public interface IReportJob : IDisposable
