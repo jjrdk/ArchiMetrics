@@ -1,7 +1,7 @@
 ﻿namespace ArchiTools.ScriptPack.Tests
 {
-	using NUnit.Framework;
 	using ArchiMeter.ScriptPack;
+	using NUnit.Framework;
 
 	public class ArchiToolsTests
     {
