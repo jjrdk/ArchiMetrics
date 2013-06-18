@@ -55,7 +55,7 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterInstance(new EmbeddedDocumentStoreProvider())
 				   .As<IProvider<IDocumentStore>>();
 			builder.RegisterType<Loader>();
-			builder.RegisterType<SLoCCounter>();
+			builder.RegisterType<SlocCounter>();
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();

@@ -53,7 +53,7 @@ namespace ArchiMeter.ReportWriter
 			builder.RegisterInstance(new NamedDocumentStoreProvider(config.DatabaseUrl, config.ApiKey))
 				   .As<IProvider<IDocumentStore>>();
 			builder.RegisterType<ExcelReportWriter>();
-			builder.RegisterType<SLoCCounter>();
+			builder.RegisterType<SlocCounter>();
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
 			builder.RegisterType<ErrorDataProviderFactory>()
 				   .As<IFactory<Func<ProjectInventoryDocument, string[]>, ErrorDataProvider>>();

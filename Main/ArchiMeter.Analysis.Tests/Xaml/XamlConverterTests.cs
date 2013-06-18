@@ -15,7 +15,6 @@ namespace ArchiMeter.Analysis.Tests.Xaml
 	using System.IO;
 	using System.Linq;
 	using System.Xml.Linq;
-	using Analysis.Xaml;
 	using NUnit.Framework;
 	using Roslyn.Services;
 
