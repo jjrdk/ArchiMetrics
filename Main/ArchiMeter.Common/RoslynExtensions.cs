@@ -49,17 +49,10 @@ EndGlobal
 				.ToArray();
 			var toMerge = projectsAndReferences.Select(s =>
 										  {
-											  try
-											  {
 												  var standAloneProject = Workspace.LoadStandAloneProject(s);
 												  var p = standAloneProject.CurrentSolution.Projects;
 												  return p.LastOrDefault();
-											  }
-											  catch (Exception ex)
-											  {
-												  return null;
-											  }
-										  })
+											})
 										  .Where(p => p != null)
 										  .ToArray();
 
@@ -102,7 +95,7 @@ EndGlobal
 					project.Name,
 					MakeRelativePath(project.FilePath, fileName),
 					projectGuids[project.FilePath],
-					Environment.NewLine)));
+					Environment.NewLine).Trim()));
 
 			using (var stream = new FileStream(fileName, overwriteExisting ? FileMode.Create : FileMode.CreateNew))
 			{

@@ -11,7 +11,7 @@
 
 	public class RequirementTestAnalyzer : IRequirementTestAnalyzer
 	{
-		private static readonly string[] TestNames = new[] { "TestMethod", "Test", "TestCase", "Fact" };
+		private static readonly string[] TestNames = { "TestMethod", "Test", "TestCase", "Fact" };
 		private readonly IProvider<string, IProject> _provider;
 
 		public RequirementTestAnalyzer(IProvider<string, IProject> solutionProvider)
@@ -21,34 +21,41 @@
 
 		public IEnumerable<TestData> GetTestData(string path)
 		{
-			return this.GetTests(path).Select(GetRequirementsForTest);
+			var tests = GetTests(path).ToArray();
+			return tests.Select(GetRequirementsForTest);
 		}
 
 		public IEnumerable<RequirementToTestReport> GetRequirementTests(string path)
 		{
-			var testData = this.GetTestData(path);
+			var testData = this.GetTestData(path).ToArray();
 			var allRequirements = testData.SelectMany(d => d.RequirementIds).Distinct();
 			return allRequirements.Select(r => new RequirementToTestReport(r, testData.Where(d => d.RequirementIds.Any(i => i == r))));
 		}
 
 		private static bool IsTestMethod(MethodDeclarationSyntax syntax)
 		{
-			return syntax.AttributeLists.Any(l => l.Attributes.OfType<SimpleNameSyntax>().Any(s => TestNames.Any(t => s.Identifier.ValueText == t)));
+			return syntax
+				.AttributeLists
+				.Any(l => l.Attributes
+					.Select(a=>a.Name)
+					.OfType<SimpleNameSyntax>()
+					.Any(s => TestNames.Any(t => s.Identifier.ValueText == t)));
 		}
 
 		private IEnumerable<MethodDeclarationSyntax> GetTests(string tests)
 		{
-			return this._provider.GetAll(tests)
-							.Where(p => p != null)
-							.Distinct(ProjectComparer.Default)
-							.SelectMany(p => p.Documents)
-							.Select(d => d.GetSyntaxRoot() as SyntaxNode)
-							.Where(n => n != null)
-							.SelectMany(n => n.DescendantNodes(x => true))
-							.Where(n => n.Kind == SyntaxKind.MethodDeclaration)
-							.Cast<MethodDeclarationSyntax>()
-							.Where(IsTestMethod)
-							.ToArray();
+			var projects = _provider.GetAll(tests).ToArray();
+			return projects
+				.Where(p => p != null)
+				.Distinct(ProjectComparer.Default)
+				.SelectMany(p => p.Documents)
+				.Select(d => d.GetSyntaxRoot() as SyntaxNode)
+				.Where(n => n != null)
+				.SelectMany(n => n.DescendantNodes(x => true))
+				.Where(n => n.Kind == SyntaxKind.MethodDeclaration)
+				.Cast<MethodDeclarationSyntax>()
+				.Where(IsTestMethod)
+				.ToArray();
 		}
 
 		private static int GetAssertCount(MethodDeclarationSyntax node)

@@ -54,7 +54,7 @@ namespace ArchiMeter.Analysis.Tests
 		[Test]
 		public void CanResolveRequirementIdsInAttribute()
 		{
-			var result = _analyzer.GetTestData(@"c:\");
+			var result = _analyzer.GetTestData(@"c:\").ToArray();
 
 			Assert.IsNotEmpty(result);
 		}
