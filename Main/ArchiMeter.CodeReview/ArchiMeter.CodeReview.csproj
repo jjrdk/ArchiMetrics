@@ -157,8 +157,8 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj">
-      <Project>{bffc8775-d122-4b9b-a1af-82e8ae35eec5}</Project>
+    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.csproj">
+      <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
       <Name>ArchiMeter.Analysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">

@@ -10,18 +10,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.ReportWriter.Reports
+namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using CodeReview;
-	using Common;
-	using Common.Documents;
+
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.Common;
+	using ArchiMeter.Common.Documents;
+
 	using OfficeOpenXml;
-	using Raven.Repositories;
+
+	using ArchiMeter.Raven.Repositories;
 
 	public abstract class CodeReviewReportBase : IReportJob
 	{
@@ -33,8 +36,8 @@ namespace ArchiMeter.ReportWriter.Reports
 			Func<ProjectInventoryDocument, string[]> filter, 
 			char identifer)
 		{
-			_errorDataRepository = errorDataRepository.Create(filter);
-			_identifer = identifer;
+			this._errorDataRepository = errorDataRepository.Create(filter);
+			this._identifer = identifer;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
@@ -45,34 +48,34 @@ namespace ArchiMeter.ReportWriter.Reports
 											  
 											  var results =
 												  config.Projects.SelectMany(
-													  setting => _errorDataRepository.GetErrors(setting.Name, setting.Revision.ToString(CultureInfo.InvariantCulture)))
+													  setting => this._errorDataRepository.GetErrors(setting.Name, setting.Revision.ToString(CultureInfo.InvariantCulture)))
 														.ToArray();
 
-											  var ws = package.Workbook.Worksheets.Add(string.Format("Code Review {0} - {1}", _identifer, ReportUtils.GetMonth()));
-											  var relws = package.Workbook.Worksheets.Add(string.Format("Relative Review {0} - {1}", _identifer, ReportUtils.GetMonth()));
+											  var ws = package.Workbook.Worksheets.Add(string.Format("Code Review {0} - {1}", this._identifer, ReportUtils.GetMonth()));
+											  var relws = package.Workbook.Worksheets.Add(string.Format("Relative Review {0} - {1}", this._identifer, ReportUtils.GetMonth()));
 
-											  WriteWorksheet(ws, relws, results);
+											  this.WriteWorksheet(ws, relws, results);
 											  Console.WriteLine("Finished Code Review");
 										  });
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~CodeReviewReportBase()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_errorDataRepository.Dispose();
+				this._errorDataRepository.Dispose();
 			}
 		}
 
@@ -88,8 +91,8 @@ namespace ArchiMeter.ReportWriter.Reports
 								.OrderBy(x => x)
 								.ToArray();
 
-			WriteValues(worksheet, dict, allErrors);
-			WriteRelativeValues(relativeWorksheet, dict, allErrors);
+			this.WriteValues(worksheet, dict, allErrors);
+			this.WriteRelativeValues(relativeWorksheet, dict, allErrors);
 		}
 
 		private void WriteRelativeValues(
@@ -133,7 +136,7 @@ namespace ArchiMeter.ReportWriter.Reports
 									   ? "= " + worksheet.Cells[allErrors.Length + 5, 2].Address
 									   : string.Format(
 										   "= ({3} / 'Code Metrics {0} - {1}'!{2}12) + {4}", 
-										   _identifer, 
+										   this._identifer, 
 										   ReportUtils.GetMonth(), 
 										   string.Join(string.Empty, address.TakeWhile(char.IsLetter)), 
 										   affectedLoc, 
@@ -185,7 +188,7 @@ namespace ArchiMeter.ReportWriter.Reports
 					{
 						cell.Formula = string.Format(
 										 "= {3} / 'Code Metrics {0} - {1}'!{2}10", 
-										 _identifer, 
+										 this._identifer, 
 										 ReportUtils.GetMonth(), 
 										 string.Join(string.Empty, address.TakeWhile(char.IsLetter)), 
 										 effort.ToString(CultureInfo.InvariantCulture));

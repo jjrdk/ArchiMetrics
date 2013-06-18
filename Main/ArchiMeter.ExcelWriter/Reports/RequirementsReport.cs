@@ -10,15 +10,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.ReportWriter.Reports
+namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Analysis;
-	using CodeReview;
-	using Common;
+
+	using ArchiMeter.Analysis;
+	using ArchiMeter.CodeReview;
+	using ArchiMeter.Common;
+
 	using OfficeOpenXml;
 
 	public class RequirementsReport : IReportJob
@@ -27,7 +29,7 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public RequirementsReport(IRequirementTestAnalyzer analyzer)
 		{
-			_analyzer = analyzer;
+			this._analyzer = analyzer;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
@@ -42,7 +44,7 @@ namespace ArchiMeter.ReportWriter.Reports
 																				 new Tuple<int, string, IEnumerable<RequirementToTestReport>>(
 																					 i + 2, 
 																					 project.Name, 
-																					 project.Roots.SelectMany(root => _analyzer.GetRequirementTests(root.Source))));
+																					 project.Roots.SelectMany(root => this._analyzer.GetRequirementTests(root.Source))));
 												 WriteWorksheet(worksheet, reportTasks);
 												 Console.WriteLine("Finished Requirement Testing Report");
 											 });
@@ -50,7 +52,7 @@ namespace ArchiMeter.ReportWriter.Reports
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -58,14 +60,14 @@ namespace ArchiMeter.ReportWriter.Reports
 		{
 			if (isDisposing)
 			{
-				_analyzer = null;
+				this._analyzer = null;
 			}
 		}
 
 		~RequirementsReport()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		private static void WriteWorksheet(ExcelWorksheet worksheet, IEnumerable<Tuple<int, string, IEnumerable<RequirementToTestReport>>> reports)

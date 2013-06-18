@@ -23,7 +23,7 @@ namespace ArchiMeter.DataLoader
 
 	public class ProjectMetricsLoader : IDataLoader
 	{
-		private readonly SLoCCounter _counter = new SLoCCounter();
+		private readonly SlocCounter _counter = new SlocCounter();
 		private readonly IProjectMetricsCalculator _metricsCalculator;
 		private readonly IProvider<string, IProject> _projectProvider;
 		private readonly IFactory<IDataSession<ProjectMetricsDocument>> _sessionProvider;
