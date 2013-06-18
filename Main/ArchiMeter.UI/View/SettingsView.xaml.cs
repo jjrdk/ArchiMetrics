@@ -3,10 +3,8 @@
 	using System.Windows;
 	using System.Windows.Controls;
 	using System.Windows.Forms;
-
-	using ArchiMeter.UI.Support;
-	using ArchiMeter.UI.ViewModel;
-
+	using Support;
+	using ViewModel;
 	using UserControl = System.Windows.Controls.UserControl;
 
 	/// <summary>
@@ -17,7 +15,7 @@
 	{
 		public SettingsView()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 
 		private void OnClick(object sender, RoutedEventArgs e)

@@ -1,16 +1,14 @@
 ﻿namespace ArchiMeter.ScriptPack
 {
-	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.IO;
 	using System.Linq;
-	using System.Threading.Tasks;
-	using ArchiMeter.CodeReview.Metrics;
-	using ArchiMeter.Common.Metrics;
-	using Roslyn.Services;
+	using Common;
 	using ScriptCs.Contracts;
 
 	public class ArchiTools : IScriptPackContext
 	{
-		public Task<IEnumerable<NamespaceMetric>> CalculateMetrics(string path)
+		public void OpenProjects(string path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
@@ -33,7 +31,7 @@
 			//}
 			var randomFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 			randomFile = Path.ChangeExtension(randomFile, "sln");
-			randomFile.MergeProjectsTo(projects.ToArray());
+			randomFile.MergeProjectsTo(projects);
 			Process.Start(randomFile);
 		}
 	}

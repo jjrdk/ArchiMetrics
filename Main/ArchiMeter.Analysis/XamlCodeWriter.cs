@@ -4,9 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-
-	using ArchiMeter.Common.Xaml;
-
+	using Common.Xaml;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 	using Roslyn.Services.Formatting;
@@ -17,10 +15,10 @@
 
 		public SyntaxTree CreateSyntax(XamlNode node)
 		{
-			var properties = node.Properties.SelectMany(p => this.CreatePropertySyntax(p, Syntax.ThisExpression()));
-			var assignments = node.Properties.SelectMany(p => this.CreatePropertyAssignment(p, Syntax.ThisExpression()));
+			var properties = node.Properties.SelectMany(p => CreatePropertySyntax(p, Syntax.ThisExpression()));
+			var assignments = node.Properties.SelectMany(p => CreatePropertyAssignment(p, Syntax.ThisExpression()));
 
-			var codeRoot = properties.Concat(assignments).Concat(this.CreateSyntax(node.Children, Syntax.IdentifierName(node.VariableName)));
+			var codeRoot = properties.Concat(assignments).Concat(CreateSyntax(node.Children, Syntax.IdentifierName(node.VariableName)));
 			ClassDeclarationSyntax classDeclarationSyntax =
 				!string.IsNullOrWhiteSpace(node.BaseClassName)
 					? Syntax.ClassDeclaration(node.ClassName)
@@ -225,12 +223,12 @@
 		{
 
 			yield return CreateLocalDeclaration(childNode);
-			foreach (var property in this.WriteProperties(propertyCreation, childNode))
+			foreach (var property in WriteProperties(propertyCreation, childNode))
 			{
 				yield return property;
 			}
 
-			foreach (var attribute in this.WriteAttributes(childNode))
+			foreach (var attribute in WriteAttributes(childNode))
 			{
 				yield return attribute;
 			}
@@ -238,7 +236,7 @@
 			if (childNode.Parent != null && !(IsPropertyOf(childNode.Parent, childNode)))
 			{
 				yield return CreateParentSyntax(childNode);
-				foreach (var child in childNode.Children.SelectMany(c => this.GenerateChildStatement(c, propertyCreation)))
+				foreach (var child in childNode.Children.SelectMany(c => GenerateChildStatement(c, propertyCreation)))
 				{
 					yield return child;
 				}
@@ -274,19 +272,19 @@
 			var node = property.Value as XamlNode;
 			if (node != null)
 			{
-				return this.GenerateChildStatement(node, p => this.CreatePropertySyntax(p, ownerSyntax));
+				return GenerateChildStatement(node, p => CreatePropertySyntax(p, ownerSyntax));
 			}
 			var nodes = property.Value as IEnumerable<XamlNode>;
 			if (nodes != null)
 			{
-				return nodes.SelectMany(n => this.GenerateChildStatement(n, p => this.CreatePropertySyntax(p, ownerSyntax)));
+				return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p, ownerSyntax)));
 			}
 			return Enumerable.Empty<StatementSyntax>();
 		}
 
 		private IEnumerable<StatementSyntax> CreateSyntax(IEnumerable<XamlNode> nodes, ExpressionSyntax ownerSyntax)
 		{
-			return nodes.SelectMany(n => this.GenerateChildStatement(n, p => this.CreatePropertySyntax(p, ownerSyntax)))
+			return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p, ownerSyntax)))
 					 .Select(s => s.WithTrailingTrivia(Syntax.ElasticCarriageReturnLineFeed));
 		}
 	}

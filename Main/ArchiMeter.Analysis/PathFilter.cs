@@ -1,8 +1,7 @@
 ﻿namespace ArchiMeter.Analysis
 {
 	using System;
-
-	using ArchiMeter.Common;
+	using Common;
 
 	public class PathFilter
 	{
@@ -10,12 +9,12 @@
 
 		public PathFilter(Func<ProjectDefinition, bool> filter)
 		{
-			this._filter = filter;
+			_filter = filter;
 		}
 
 		public bool Filter(ProjectDefinition definition)
 		{
-			return this._filter(definition);
+			return _filter(definition);
 		}
 	}
 }

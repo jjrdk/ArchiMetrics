@@ -3,9 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-
-	using ArchiMeter.Common;
-
+	using Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -16,7 +14,7 @@
 
 		public RequirementTestAnalyzer(IProvider<string, IProject> solutionProvider)
 		{
-			this._provider = solutionProvider;
+			_provider = solutionProvider;
 		}
 
 		public IEnumerable<TestData> GetTestData(string path)
@@ -27,7 +25,7 @@
 
 		public IEnumerable<RequirementToTestReport> GetRequirementTests(string path)
 		{
-			var testData = this.GetTestData(path).ToArray();
+			var testData = GetTestData(path).ToArray();
 			var allRequirements = testData.SelectMany(d => d.RequirementIds).Distinct();
 			return allRequirements.Select(r => new RequirementToTestReport(r, testData.Where(d => d.RequirementIds.Any(i => i == r))));
 		}

@@ -12,10 +12,9 @@
 namespace ArchiMeter.ExcelWriter.Reports
 {
 	using System;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Raven.Repositories;
+	using Common;
+	using Common.Documents;
+	using Raven.Repositories;
 
 	public class TestCodeReviewReport : CodeReviewReportBase
 	{

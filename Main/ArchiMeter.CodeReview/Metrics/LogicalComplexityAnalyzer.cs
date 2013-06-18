@@ -12,8 +12,8 @@
 namespace ArchiMeter.CodeReview.Metrics
 {
 	using Common.Metrics;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 
 	internal sealed class LogicalComplexityAnalyzer : SyntaxWalker
 	{

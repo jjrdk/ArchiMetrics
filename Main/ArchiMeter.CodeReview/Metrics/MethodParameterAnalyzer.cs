@@ -11,8 +11,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.CodeReview.Metrics
 {
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 
 	internal sealed class MethodParameterAnalyzer : SyntaxWalker
 	{

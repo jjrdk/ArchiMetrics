@@ -19,12 +19,10 @@ namespace ArchiMeter.CodeReview.Metrics
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 	using System.Xml.Linq;
-
-	using ArchiMeter.Analysis;
-
+	using Analysis;
 	using Common.Metrics;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public class ProjectMetricsCalculator : IProjectMetricsCalculator

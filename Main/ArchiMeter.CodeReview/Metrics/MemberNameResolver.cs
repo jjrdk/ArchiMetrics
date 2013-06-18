@@ -17,8 +17,8 @@ namespace ArchiMeter.CodeReview.Metrics
 	using System.Text;
 	using System.Threading;
 	using Common.Metrics;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 
 	internal sealed class MemberNameResolver
 	{

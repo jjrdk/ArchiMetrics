@@ -15,9 +15,9 @@ namespace ArchiMeter.DataLoader
 	using System.IO;
 	using System.Text;
 	using Common;
-	using Ionic.Zip;
 	using global::Raven.Abstractions.Smuggler;
 	using global::Raven.Client;
+	using Ionic.Zip;
 
 	internal class Exporter
 	{

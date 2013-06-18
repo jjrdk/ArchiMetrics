@@ -13,8 +13,8 @@
 namespace ArchiMeter.UI.View
 {
 	using System.Windows.Controls;
+	using Support;
 	using ViewModel;
-	using ArchiMeter.UI.Support;
 
 	/// <summary>
 	/// Interaction logic for CodeErrorGraphView.xaml
@@ -24,7 +24,7 @@ namespace ArchiMeter.UI.View
 	{
 		public CodeErrorGraphView()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }

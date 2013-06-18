@@ -6,10 +6,10 @@
 	{
 		public TestData(IEnumerable<int> requirementIds, int assertCount, string testName, string testCode)
 		{
-			this.RequirementIds = requirementIds;
-			this.AssertCount = assertCount;
-			this.TestCode = testCode;
-			this.TestName = testName;
+			RequirementIds = requirementIds;
+			AssertCount = assertCount;
+			TestCode = testCode;
+			TestName = testName;
 		}
 
 		public string TestName { get; private set; }

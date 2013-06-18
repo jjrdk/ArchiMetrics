@@ -4,10 +4,8 @@
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-
+	using Common;
+	using Common.Documents;
 	using OfficeOpenXml;
 	using OfficeOpenXml.Drawing.Chart;
 
@@ -17,12 +15,12 @@
 
 		public SizeMaintainabilityScatterReport(IAsyncReadOnlyRepository<MemberSizeMaintainabilitySegment> repository)
 		{
-			this._repository = repository;
+			_repository = repository;
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
@@ -30,14 +28,14 @@
 		{
 			var worksheet = package.Workbook.Worksheets.Add("Size Maintainability Scatter");
 			var charts = package.Workbook.Worksheets.Add("Size Maintainability Charts");
-			var maxRow = await this.PrintValues(worksheet, config);
-			this.PrintCharts(charts, worksheet, maxRow, config);
+			var maxRow = await PrintValues(worksheet, config);
+			PrintCharts(charts, worksheet, maxRow, config);
 		}
 
 		private async Task<int> PrintValues(ExcelWorksheet worksheet, ReportConfig config)
 		{
 			Func<ParameterExpression, Expression> filter = p => Expression.LessThan(Expression.Property(p, "MaintainabilityIndex"), Expression.Constant(100.0));
-			var results = (await this._repository.Query(config.Projects.CreateQuery<MemberSizeMaintainabilitySegment>(filter))).ToArray();
+			var results = (await _repository.Query(config.Projects.CreateQuery<MemberSizeMaintainabilitySegment>(filter))).ToArray();
 			var locs = results
 				.Select(x => x.LoC)
 				.Distinct()
@@ -114,7 +112,7 @@
 		~SizeMaintainabilityScatterReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

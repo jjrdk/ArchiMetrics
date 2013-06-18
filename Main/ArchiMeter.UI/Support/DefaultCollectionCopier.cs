@@ -17,7 +17,7 @@ namespace ArchiMeter.UI.Support
 	using System.Linq;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.Threading.Tasks;
-	using ArchiMeter.Common;
+	using Common;
 
 	internal class DefaultCollectionCopier : ICollectionCopier
 	{

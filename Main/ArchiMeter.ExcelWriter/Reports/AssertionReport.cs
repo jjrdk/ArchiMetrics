@@ -16,10 +16,8 @@ namespace ArchiMeter.ExcelWriter.Reports
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.CodeReview;
-	using ArchiMeter.Common;
-
+	using CodeReview;
+	using Common;
 	using OfficeOpenXml;
 
 	public class AssertionReport : IReportJob
@@ -29,36 +27,36 @@ namespace ArchiMeter.ExcelWriter.Reports
 
 		public AssertionReport(ICodeErrorRepository errorRepository)
 		{
-			this._errorRepository = errorRepository;
+			_errorRepository = errorRepository;
 		}
 
 		public Task AddReport(ExcelPackage package, ReportConfig config)
 		{
-			return Task.Factory.StartNew(() => this.GenerateReport(package, config));
+			return Task.Factory.StartNew(() => GenerateReport(package, config));
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~AssertionReport()
 		{
 			// Simply call Dispose(false).
-			this.Dispose(false);
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				this._errorRepository.Dispose();
-				this._errorRepository = null;
-				if (this._workTask != null)
+				_errorRepository.Dispose();
+				_errorRepository = null;
+				if (_workTask != null)
 				{
-					this._workTask.Dispose();
-					this._workTask = null;
+					_workTask.Dispose();
+					_workTask = null;
 				}
 			}
 		}
@@ -86,7 +84,7 @@ namespace ArchiMeter.ExcelWriter.Reports
 				config.Projects.SelectMany(
 					setting =>
 					setting.Roots
-						   .SelectMany(root => this._errorRepository.GetErrors(root.Source, root.IsTest)
+						   .SelectMany(root => _errorRepository.GetErrors(root.Source, root.IsTest)
 															   .Where(x => x.Comment == "Multiple asserts found in test.")
 															   .GroupBy(x => assertionGrouping(x.ErrorCount))
 															   .Select(x => new Tuple<string, string, int>(setting.Name, x.Key, x.Count()))));

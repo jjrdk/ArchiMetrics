@@ -27,13 +27,13 @@ namespace ArchiMeter.DataLoader
 	using Common.Documents;
 	using Common.Metrics;
 	using Data.DataAccess;
+	using global::Raven.Client;
 	using Ionic.Zip;
 	using NHunspell;
 	using Raven;
 	using Raven.Repositories;
 	using Roslyn.Services;
 	using Tfs;
-	using global::Raven.Client;
 
 	class Program
 	{

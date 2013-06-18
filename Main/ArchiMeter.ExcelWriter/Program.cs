@@ -17,23 +17,18 @@ namespace ArchiMeter.ExcelWriter
 	using System.IO;
 	using System.Linq;
 	using System.Xml.Serialization;
-
-	using ArchiMeter.Analysis;
-	using ArchiMeter.ExcelWriter.Reports;
-
+	using Analysis;
 	using Autofac;
-
-	using ArchiMeter.CodeReview;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Documents;
-	using ArchiMeter.Common.Metrics;
-	using ArchiMeter.Data.DataAccess;
-	using ArchiMeter.Raven;
-	using ArchiMeter.Raven.Repositories;
-
-	using Roslyn.Services;
-
+	using CodeReview;
+	using Common;
+	using Common.Documents;
+	using Common.Metrics;
+	using Data.DataAccess;
 	using global::Raven.Client;
+	using Raven;
+	using Raven.Repositories;
+	using Reports;
+	using Roslyn.Services;
 
 	class Program
 	{

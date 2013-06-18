@@ -16,11 +16,9 @@ namespace ArchiMeter.ExcelWriter
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.ExcelWriter.Reports;
-
+	using Common;
 	using OfficeOpenXml;
+	using Reports;
 
 	internal class ExcelReportWriter
 	{
@@ -28,7 +26,7 @@ namespace ArchiMeter.ExcelWriter
 
 		public ExcelReportWriter(IEnumerable<IReportJob> reportJobs)
 		{
-			this._reportJobs = reportJobs;
+			_reportJobs = reportJobs;
 		}
 
 		public async Task GenerateReport(ReportConfig config)
@@ -40,7 +38,7 @@ namespace ArchiMeter.ExcelWriter
 			}
 			var excelPackage = new ExcelPackage(File.Open(outputFile, FileMode.Create));
 
-			foreach (var job in this._reportJobs)
+			foreach (var job in _reportJobs)
 			{
 				await job.AddReport(excelPackage, config);
 				job.Dispose();

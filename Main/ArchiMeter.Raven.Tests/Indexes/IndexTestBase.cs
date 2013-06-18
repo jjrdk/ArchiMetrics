@@ -3,8 +3,8 @@
 	using System.Collections.Generic;
 	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
-	using NUnit.Framework;
 	using global::Raven.Imports.Newtonsoft.Json;
+	using NUnit.Framework;
 
 	[SuppressMessage("Microsoft.Design", "CA1005:AvoidExcessiveParametersOnGenericTypes", Justification = "Type parameters required.")]
 	public abstract class IndexTestBase<TDocument, TReduce, TIndex>

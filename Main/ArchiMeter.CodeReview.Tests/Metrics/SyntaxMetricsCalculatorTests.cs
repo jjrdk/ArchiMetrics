@@ -13,11 +13,8 @@
 namespace ArchiMeter.CodeReview.Tests.Metrics
 {
 	using System.Linq;
-
-	using ArchiMeter.CodeReview.Metrics;
-
+	using CodeReview.Metrics;
 	using NUnit.Framework;
-
 	using Roslyn.Compilers.CSharp;
 
 	public class SyntaxMetricsCalculatorTests

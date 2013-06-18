@@ -12,7 +12,7 @@
 
 namespace ArchiMeter.UI.ViewModel
 {
-	using ArchiMeter.Common;
+	using Common;
 
 	/// <summary>
 	/// The ViewModel for the application's main window.

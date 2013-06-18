@@ -18,8 +18,7 @@
 								VerticalContentAlignment="Stretch"
 								SeriesTitle="Error"
 								DisplayMember="Key"
-								ItemsSource="{Binding Path=Errors}">
-				</tk:ChartSeries>
+								ItemsSource="{Binding Path=Errors}" />
 			</tk:ClusteredColumnChart.Series>
 		</tk:ClusteredColumnChart>
 	</ScrollViewer>

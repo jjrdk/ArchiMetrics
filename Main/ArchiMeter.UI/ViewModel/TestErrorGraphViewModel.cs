@@ -15,8 +15,7 @@ namespace ArchiMeter.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMeter.Common;
+	using Common;
 
 	public class TestErrorGraphViewModel : ViewModelBase
 	{
@@ -24,18 +23,18 @@ namespace ArchiMeter.UI.ViewModel
 			: base(config)
 		{
 			repository.GetErrorsAsync()
-					  .ContinueWith(this.DisplayErrors);
+					  .ContinueWith(DisplayErrors);
 		}
 
 		public IList<KeyValuePair<int, int>> Errors { get; private set; }
 
 		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
 		{
-			this.IsLoading = true;
+			IsLoading = true;
 			var results = task.Result.Where(x => x.Comment == "Multiple asserts found in test.")
 							  .GroupBy(x => x.ErrorCount).Select(x => new KeyValuePair<int, int>(x.Key, x.Count())).OrderBy(x => x.Key);
-			this.Errors = new List<KeyValuePair<int, int>>(results);
-			this.IsLoading = false;
+			Errors = new List<KeyValuePair<int, int>>(results);
+			IsLoading = false;
 		}
 	}
 }

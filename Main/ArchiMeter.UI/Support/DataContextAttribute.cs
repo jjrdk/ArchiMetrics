@@ -7,7 +7,7 @@
 	{
 		public DataContextAttribute(Type dataContextType)
 		{
-			this.DataContextType = dataContextType;
+			DataContextType = dataContextType;
 		}
 
 		public Type DataContextType { get; set; }

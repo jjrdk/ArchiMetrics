@@ -4,7 +4,7 @@
 	using System.IO;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using ArchiMeter.Common;
+	using Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Services;
 	using Roslyn.Services.Formatting;

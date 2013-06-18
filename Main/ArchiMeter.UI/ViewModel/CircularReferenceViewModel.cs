@@ -14,8 +14,8 @@ namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using ArchiMeter.Analysis;
-	using ArchiMeter.Common;
+	using Analysis;
+	using Common;
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{
@@ -30,7 +30,7 @@ namespace ArchiMeter.UI.ViewModel
 			: base(repository, filter, ruleDefinition, config)
 		{
 			_circularReferences = new List<DependencyChain>();
-			this.LoadEdges();
+			LoadEdges();
 		}
 
 		public IEnumerable<DependencyChain> CircularReferences
@@ -45,7 +45,7 @@ namespace ArchiMeter.UI.ViewModel
 				if (value != null && new HashSet<DependencyChain>(value).SetEquals(_circularReferences))
 				{
 					_circularReferences = value;
-					this.RaisePropertyChanged();
+					RaisePropertyChanged();
 				}
 			}
 		}
@@ -53,7 +53,7 @@ namespace ArchiMeter.UI.ViewModel
 		protected async override void UpdateInternal()
 		{
 			IsLoading = true;
-			var edgeItems = await this.Filter.TransformAsync(AllEdges);
+			var edgeItems = await Filter.TransformAsync(AllEdges);
 
 			await _analyzer
 				.GetCircularReferences(edgeItems)

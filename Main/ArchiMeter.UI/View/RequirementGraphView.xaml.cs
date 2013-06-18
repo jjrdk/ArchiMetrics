@@ -13,9 +13,8 @@
 namespace ArchiMeter.UI.View
 {
 	using System.Windows.Controls;
-
-	using ArchiMeter.UI.Support;
-	using ArchiMeter.UI.ViewModel;
+	using Support;
+	using ViewModel;
 
 	/// <summary>
 	/// Interaction logic for GraphView.xaml
@@ -25,7 +24,7 @@ namespace ArchiMeter.UI.View
 	{
 		public RequirementGraphView()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }

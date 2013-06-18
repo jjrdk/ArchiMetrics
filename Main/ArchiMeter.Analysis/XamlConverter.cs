@@ -2,7 +2,7 @@
 {
 	using System.IO;
 	using System.Xml.Linq;
-	using ArchiMeter.Common.Xaml;
+	using Common.Xaml;
 	using Roslyn.Compilers.CSharp;
 
 	public class XamlConverter
