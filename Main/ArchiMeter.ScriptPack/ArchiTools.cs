@@ -25,7 +25,8 @@
 			}
 			path = Path.GetDirectoryName(path);
 			var projects = Directory.GetFiles(path, "*.csproj", SearchOption.AllDirectories)
-				.Concat(Directory.GetFiles(path, "*.vbproj", SearchOption.AllDirectories));
+				.Concat(Directory.GetFiles(path, "*.vbproj", SearchOption.AllDirectories))
+				.ToArray();
 			//foreach (var project in projects)
 			//{
 			//	Console.WriteLine(project);

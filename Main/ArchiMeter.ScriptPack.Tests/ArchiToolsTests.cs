@@ -8,7 +8,7 @@
 		public void CanStartProjectsAsSolution()
 		{
 			var tools = new ArchiTools();
-			tools.OpenProjects(@"C:\Users\Jacob Reimers\Mercurial\Linq2Rest\Main\Linq2Rest.Mvc\");
+			tools.OpenProjects(@"..\..\");
 		}
     }
 }
