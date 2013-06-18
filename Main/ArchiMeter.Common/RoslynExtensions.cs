@@ -55,7 +55,7 @@ EndGlobal
 												  var p = standAloneProject.CurrentSolution.Projects;
 												  return p.LastOrDefault();
 											  }
-											  catch(Exception ex)
+											  catch (Exception ex)
 											  {
 												  return null;
 											  }
@@ -87,31 +87,29 @@ EndGlobal
 
 		private static void WriteProjects(IEnumerable<IProject> projects, string fileName, bool overwriteExisting)
 		{
-			var projectIncludes = new StringBuilder();
-
 			var distinctProjects = projects.Distinct(ProjectEqualityComparer.Instance)
 				.ToArray();
 			var projectGuids = distinctProjects
 				.Select(p => p.FilePath)
 				.ToDictionary(s => s, GetProjectGuid);
 
-			foreach (var project in distinctProjects.Distinct(ProjectEqualityComparer.Instance))
-			{
-				projectIncludes.AppendLine(string.Format(
-					"Project(\"{{{0}}}\") = \"{1}\", \"{2}\", \"{{{3}}}\"",
+			var projectIncludes = string.Join(
+				Environment.NewLine,
+				distinctProjects.Distinct(ProjectEqualityComparer.Instance)
+				.Select(project => string.Format(
+					"Project(\"{{{0}}}\") = \"{1}\", \"{2}\", \"{{{3}}}\"{4}EndProject{4}",
 					GetLanguageGuid(project.LanguageServices.Language),
 					project.Name,
 					MakeRelativePath(project.FilePath, fileName),
-					projectGuids[project.FilePath]));
-				projectIncludes.AppendLine("EndProject");
-			}
+					projectGuids[project.FilePath],
+					Environment.NewLine)));
 
 			using (var stream = new FileStream(fileName, overwriteExisting ? FileMode.Create : FileMode.CreateNew))
 			{
 				using (var writer = new StreamWriter(stream))
 				{
 					var configs = projectGuids.Values.Select(v => string.Format(ProjectConfigurationFormat, v));
-					writer.Write(string.Format(SolutionFormat, projectIncludes.ToString().Trim(), string.Join(Environment.NewLine, configs).Trim()));
+					writer.Write(SolutionFormat, projectIncludes.Trim(), string.Join(Environment.NewLine, configs).Trim());
 				}
 			}
 		}

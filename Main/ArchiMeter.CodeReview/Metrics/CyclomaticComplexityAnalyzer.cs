@@ -30,15 +30,7 @@ namespace ArchiMeter.CodeReview.Metrics
 		{
 			// Fields
 			private static readonly SyntaxKind[] Contributors = new[]
-																{
-																	// SyntaxKind.IfStatement, 
-																	// SyntaxKind.WhileStatement, 
-																	// SyntaxKind.ForStatement, 
-																	// SyntaxKind.ForEachStatement, 
-																	// SyntaxKind.DefaultExpression, 
-																	// SyntaxKind.ContinueStatement, 
-																	// SyntaxKind.GotoStatement, 
-																	// SyntaxKind.CatchDeclaration,  
+																{  
 																	SyntaxKind.CaseSwitchLabel, 
 																	SyntaxKind.CoalesceExpression, 
 																	SyntaxKind.ConditionalExpression, 
@@ -78,19 +70,6 @@ namespace ArchiMeter.CodeReview.Metrics
 				}
 			}
 
-			// public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-			// {
-			// 	base.VisitInvocationExpression(node);
-			// 	var memberAccess = node.Expression as MemberAccessExpressionSyntax;
-			// 	if(memberAccess != null && memberAccess.Name.Identifier.ValueText == "Where" && node.ArgumentList != null)
-			// 	{
-			// 		var arguments = node.ArgumentList.Arguments.Select(a=>a.Expression).OfType<SimpleLambdaExpressionSyntax>();
-			// 		if(arguments.Any())
-			// 		{
-
-			// 		}
-			// 	}
-			// }
 			public override void VisitWhileStatement(WhileStatementSyntax node)
 			{
 				base.VisitWhileStatement(node);

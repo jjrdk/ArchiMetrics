@@ -66,27 +66,26 @@ namespace ArchiMeter.CodeReview.Metrics
 								 .Concat(looseGetProperties)
 								 .Concat(looseSetProperties)
 								 .ToArray();
-			if (!members.Any())
+			if(members.Any())
 			{
-				var statements = childNodes.Length == 0
-					? root.DescendantNodesAndTokens().Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])))
-					: childNodes.Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])));
-
-				var fakeMethod = Syntax.MethodDeclaration(Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)), "fake")
-									   .WithBody(Syntax.Block(statements));
-				return new[]
-					       {
-						       analyzer.Calculate(
-							       new MemberNode(
-							       string.Empty, 
-							       string.Empty, 
-							       MemberKind.Method, 
-							       0, 
-							       fakeMethod))
-					       };
+				return members.Select(analyzer.Calculate);
 			}
+			var statements = childNodes.Length == 0
+				? root.DescendantNodesAndTokens().Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])))
+				: childNodes.Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])));
 
-			return members.Select(analyzer.Calculate);
+			var fakeMethod = Syntax.MethodDeclaration(Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)), "fake")
+				.WithBody(Syntax.Block(statements));
+			return new[]
+				   {
+					   analyzer.Calculate(
+						   new MemberNode(
+						   string.Empty, 
+						   string.Empty, 
+						   MemberKind.Method, 
+						   0, 
+						   fakeMethod))
+				   };
 		}
 
 		private MemberNode CreateMemberNode(MemberKind kind, SyntaxNode node)
