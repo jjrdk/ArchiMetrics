@@ -1,12 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProjectMetricsCalculator.cs" company="Roche">
+// <copyright file="CodeMetricsCalculator.cs" company="Roche">
 //   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ProjectMetricsCalculator type.
+//   Defines the CodeMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@ namespace ArchiMeter.CodeReview.Metrics
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	public class ProjectMetricsCalculator : IProjectMetricsCalculator
+	public class CodeMetricsCalculator : ICodeMetricsCalculator
 	{
 		private static readonly List<Regex> Patterns = new List<Regex>
 													   {
@@ -38,7 +38,7 @@ namespace ArchiMeter.CodeReview.Metrics
 
 		private readonly XamlConverter _converter;
 
-		public ProjectMetricsCalculator()
+		public CodeMetricsCalculator()
 		{
 			_converter = new XamlConverter();
 			IgnoreGeneratedCode = true;
@@ -60,6 +60,17 @@ namespace ArchiMeter.CodeReview.Metrics
 							  });
 		}
 
+		public Task<IEnumerable<NamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
+		{
+			return Task.Factory.StartNew(() =>
+				{
+					var trees = syntaxTrees.ToArray();
+					var compilation = Compilation.Create("x", syntaxTrees: trees);
+					var namespaceDeclarations = GetNamespaceDeclarations(trees);
+					return CalculateNamespaceMetrics(namespaceDeclarations.Select(d => d.Value), compilation);
+				});
+		}
+
 		private static IEnumerable<NamespaceMetric> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
 		{
 			var metrics = namespaceDeclarations.Select(declaration => declaration)
@@ -67,7 +78,7 @@ namespace ArchiMeter.CodeReview.Metrics
 												   arg =>
 												   new
 												   {
-													   NamespaceDeclaration = arg, 
+													   NamespaceDeclaration = arg,
 													   Metrics = CalculateTypeMetrics(compilation, arg)
 												   })
 											   .Select(
@@ -115,6 +126,26 @@ namespace ArchiMeter.CodeReview.Metrics
 			return null;
 		}
 
+		private static IDictionary<string, NamespaceDeclaration> GetNamespaceDeclarations(IEnumerable<SyntaxTree> syntaxTrees)
+		{
+			return syntaxTrees.Select(t => new { collector = new NamespaceCollectorSyntaxWalker(), tree = t })
+							  .Select(t => new { root = t.tree.GetRoot(), collector = t.collector })
+							  .SelectMany(t => t.collector.GetNamespaces<NamespaceDeclarationSyntax>(t.root)
+												.Select(x => new NamespaceDeclarationSyntaxInfo
+																 {
+																	 Name = x.GetName(t.root),
+																	 Syntax = x
+																 }))
+							  .GroupBy(x => x.Name)
+							  .ToDictionary(
+								  x => x.Key,
+								  y => new NamespaceDeclaration
+										   {
+											   Name = y.Key,
+											   SyntaxNodes = y
+										   });
+		}
+
 		private static IDictionary<string, NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
 		{
 			return project.Documents
@@ -125,16 +156,16 @@ namespace ArchiMeter.CodeReview.Metrics
 						  .SelectMany(@t => t.@t.collector.GetNamespaces<NamespaceDeclarationSyntax>(t.syntaxRoot)
 											   .Select(x => new NamespaceDeclarationSyntaxInfo
 																{
-																	Name = x.GetName(x.SyntaxTree.GetRoot()), 
-																	CodeFile = t.@t.@t.codeFile, 
+																	Name = x.GetName(x.SyntaxTree.GetRoot()),
+																	CodeFile = t.@t.@t.codeFile,
 																	Syntax = x
 																}))
 						  .GroupBy(x => x.Name)
 						  .ToDictionary(
-							  x => x.Key, 
+							  x => x.Key,
 							  y => new NamespaceDeclaration
 									   {
-										   Name = y.Key, 
+										   Name = y.Key,
 										   SyntaxNodes = y
 									   });
 		}
@@ -150,12 +181,12 @@ namespace ArchiMeter.CodeReview.Metrics
 			return namespaceDeclaration.SyntaxNodes.Select(namespaceNode => new { namespaceNode, node = namespaceNode })
 									   .Select(@t => new
 														 {
-															 t, 
+															 t,
 															 selector = (Func<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo>)
 																		(x =>
 																		 new TypeDeclarationSyntaxInfo(
-																			 t.node.CodeFile, 
-																			 x.GetName(x.SyntaxTree.GetRoot()), 
+																			 t.node.CodeFile,
+																			 x.GetName(x.SyntaxTree.GetRoot()),
 																			 x))
 														 })
 									   .Select(@t => new { t, collector = new TypeCollectorSyntaxWalker() })
@@ -165,10 +196,10 @@ namespace ArchiMeter.CodeReview.Metrics
 											 .Select<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo>(t.@t.selector))
 									   .GroupBy(x => x.Name)
 									   .ToDictionary(
-										   x => x.Key, 
+										   x => x.Key,
 										   y => new TypeDeclaration
 													{
-														Name = y.Key, 
+														Name = y.Key,
 														SyntaxNodes = y
 													});
 		}
@@ -186,7 +217,7 @@ namespace ArchiMeter.CodeReview.Metrics
 				   .OrderByDescending(x => x);
 
 			project = filePaths.Aggregate(
-				project, 
+				project,
 				(p, s) =>
 				{
 					DocumentId did;

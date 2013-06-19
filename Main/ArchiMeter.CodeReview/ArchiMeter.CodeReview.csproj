@@ -82,8 +82,9 @@
     <Compile Include="Metrics\NamespaceDeclaration.cs" />
     <Compile Include="Metrics\NamespaceDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\NamespaceMetricsCalculator.cs" />
-    <Compile Include="Metrics\ProjectMetricsCalculator.cs" />
+    <Compile Include="Metrics\CodeMetricsCalculator.cs" />
     <Compile Include="Metrics\SemanticModelMetricsCalculator.cs" />
+    <Compile Include="Metrics\SnippetMetricsCalculator.cs" />
     <Compile Include="Metrics\StatementsAnalyzer.cs" />
     <Compile Include="Metrics\SyntaxExtensions.cs" />
     <Compile Include="Metrics\SyntaxMetricsCalculator.cs" />

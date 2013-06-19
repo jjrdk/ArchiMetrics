@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Metrics\CyclomaticComplexityAnalyzerTests.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculatorTests.cs" />
+    <Compile Include="Metrics\SnippetMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\StatementsAnalyzerTests.cs" />
     <Compile Include="ProjectDataComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

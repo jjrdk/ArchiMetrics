@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IProjectMetricsCalculator.cs" company="Roche">
+// <copyright file="ICodeMetricsCalculator.cs" company="Roche">
 //   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IProjectMetricsCalculator type.
+//   Defines the ICodeMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.Common.Metrics
@@ -15,7 +15,7 @@ namespace ArchiMeter.Common.Metrics
 	using System.Threading.Tasks;
 	using Roslyn.Services;
 
-	public interface IProjectMetricsCalculator
+	public interface ICodeMetricsCalculator
 	{
 		bool IgnoreGeneratedCode { get; set; }
 

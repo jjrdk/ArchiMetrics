@@ -116,7 +116,7 @@
     <Compile Include="Metrics\CodeMetrics.cs" />
     <Compile Include="Metrics\IHalsteadAnalyzer.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
-    <Compile Include="Metrics\IProjectMetricsCalculator.cs" />
+    <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetric.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />

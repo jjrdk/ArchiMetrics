@@ -16,6 +16,8 @@ namespace ArchiMeter.CodeReview.Tests.Metrics
 	using System.Linq;
 	using CodeReview.Metrics;
 	using NUnit.Framework;
+
+	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public sealed class ProjectMetricsCalculatorTests
@@ -24,14 +26,33 @@ namespace ArchiMeter.CodeReview.Tests.Metrics
 		{
 		}
 
-		public class GivenAProjectMetricsCalculator
+		public class GivenACodeMetricsCalculator
 		{
-			private ProjectMetricsCalculator _analyzer;
+			private CodeMetricsCalculator _analyzer;
 
 			[SetUp]
 			public void Setup()
 			{
-				_analyzer = new ProjectMetricsCalculator();
+				_analyzer = new CodeMetricsCalculator();
+			}
+
+			[Test]
+			public void CanCalculateMetricsForSnippet()
+			{
+				const string Snippet = @"
+namespace SomeNamespace
+{
+	public class Something {
+		publis string Name { get; set; }
+	}
+}
+";
+				var tree = SyntaxTree.ParseText(Snippet);
+				var task = _analyzer.Calculate(new[] { tree });
+				task.Wait();
+
+				var metrics = task.Result.ToArray();
+				Assert.NotNull(metrics);
 			}
 
 			[Test]

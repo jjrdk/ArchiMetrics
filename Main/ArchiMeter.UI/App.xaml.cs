@@ -86,8 +86,8 @@ namespace ArchiMeter.UI
 			}
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
-			builder.RegisterType<ProjectMetricsCalculator>()
-				   .As<IProjectMetricsCalculator>();
+			builder.RegisterType<CodeMetricsCalculator>()
+				   .As<ICodeMetricsCalculator>();
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();
 			var vertexRuleRepository = new FakeVertexRuleRepository();

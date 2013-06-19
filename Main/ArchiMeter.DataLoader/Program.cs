@@ -99,8 +99,8 @@ namespace ArchiMeter.DataLoader
 				   .As<IFactory<IDataSession<TfsMetricsDocument>>>();
 			builder.RegisterType<EvaluationRepositoryFactory>()
 				   .As<IFactory<IDataSession<EvaluationResultDocument>>>();
-			builder.RegisterType<ProjectMetricsCalculator>()
-				   .As<IProjectMetricsCalculator>();
+			builder.RegisterType<CodeMetricsCalculator>()
+				   .As<ICodeMetricsCalculator>();
 			builder.RegisterType<SolutionEdgeItemsRepositoryConfig>()
 				   .As<ISolutionEdgeItemsRepositoryConfig>();
 			builder.RegisterType<ProjectProvider>()
