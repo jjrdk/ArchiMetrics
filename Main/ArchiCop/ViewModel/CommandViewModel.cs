@@ -8,6 +8,11 @@ namespace ArchiCop.ViewModel
     /// </summary>
     public class CommandViewModel : ViewModelBase
     {
+        public CommandViewModel(string displayName)
+        {
+            base.DisplayName = displayName;            
+        }
+
         public CommandViewModel(string displayName, ICommand command)
         {
             if (command == null)
@@ -17,6 +22,6 @@ namespace ArchiCop.ViewModel
             Command = command;
         }
 
-        public ICommand Command { get; private set; }
+        public ICommand Command { get; protected set; }
     }
 }

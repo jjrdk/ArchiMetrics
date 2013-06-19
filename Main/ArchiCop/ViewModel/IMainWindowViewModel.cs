@@ -17,9 +17,6 @@ namespace ArchiCop.ViewModel
         /// </summary>
         ObservableCollection<WorkspaceViewModel> Workspaces { get; }
 
-        ObservableCollection<string> MetadataFiles { get; }
-
-
         void SetActiveWorkspace(WorkspaceViewModel workspace);
     }
 }

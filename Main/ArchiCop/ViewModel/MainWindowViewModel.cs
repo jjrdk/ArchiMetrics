@@ -12,9 +12,7 @@ namespace ArchiCop.ViewModel
         public MainWindowViewModel()
         {
             base.DisplayName = Resources.MainWindowViewModel_DisplayName;
-
-            MetadataFiles = new ObservableCollection<string>();
-
+            
             ControlPanelCommands = new ObservableCollection<CommandViewModel>();
 
             Workspaces = new ObservableCollection<WorkspaceViewModel>();
@@ -22,10 +20,7 @@ namespace ArchiCop.ViewModel
         }
 
         #region IMainWindowViewModel Members
-
-        public ObservableCollection<string> MetadataFiles { get; private set; }
-
-
+        
         /// <summary>
         ///     Returns a list of commands
         ///     that the UI can display and execute.

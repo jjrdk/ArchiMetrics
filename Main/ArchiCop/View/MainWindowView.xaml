@@ -3,7 +3,7 @@
         MinHeight="420" Title="{Binding Path=DisplayName}" Width="800" Height="600"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <ResourceDictionary Source="MainWindowResources.xaml" />
+        <ResourceDictionary Source="..\MainWindowResources.xaml" />
     </Window.Resources>
 
     <DockPanel>
@@ -18,9 +18,9 @@
             <Border Grid.Column="0" Style="{StaticResource MainBorderStyle}" Width="170">
                 <StackPanel>
 
-                    <HeaderedContentControl Header="Metadata Files" Style="{StaticResource MainHCCStyle}" />
+                    <!--<HeaderedContentControl Header="Metadata Files" Style="{StaticResource MainHCCStyle}" />
                     <ComboBox ItemsSource="{Binding MetadataFiles}" SelectedItem="MetadataFile"
-                              IsSynchronizedWithCurrentItem="True" />
+                              IsSynchronizedWithCurrentItem="True" />-->
                     <HeaderedContentControl Content="{Binding Path=ControlPanelCommands}"
                                             ContentTemplate="{StaticResource CommandsTemplate}" Header="Control Panel"
                                             Style="{StaticResource MainHCCStyle}" />

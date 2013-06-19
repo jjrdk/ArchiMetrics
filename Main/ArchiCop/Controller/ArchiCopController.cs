@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -16,18 +17,19 @@ namespace ArchiCop.Controller
 
         private readonly ICollectionView _metadataFilesView;
         private IInfoRepository _repository;
-
+        readonly ObservableCollection<string> _metadataFiles = new ObservableCollection<string>();
 
         public ArchiCopController(IMainWindowViewModel mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
-
+            
             foreach (string file in Directory.GetFiles(".", "*.xls"))
             {
-                _mainWindowViewModel.MetadataFiles.Add(file);
+                _metadataFiles.Add(file);
             }
 
-            _metadataFilesView = CollectionViewSource.GetDefaultView(_mainWindowViewModel.MetadataFiles);
+            _mainWindowViewModel.ControlPanelCommands.Add(new MetadataFilesViewModel(_metadataFiles));
+            _metadataFilesView = CollectionViewSource.GetDefaultView(_metadataFiles);
             _metadataFilesView.CurrentChanged += MetadataFilesCurrentChanged;
         }
 
@@ -36,7 +38,8 @@ namespace ArchiCop.Controller
             _repository = new ExcelInfoRepository(_metadataFilesView.CurrentItem as string);
 
             _mainWindowViewModel.ControlPanelCommands.Clear();
-
+            _mainWindowViewModel.ControlPanelCommands.Add(new MetadataFilesViewModel(_metadataFiles));
+            
             foreach (ArchiCopGraph graph in new GraphService(_repository).Graphs)
             {
                 _mainWindowViewModel.ControlPanelCommands.Add(
