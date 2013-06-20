@@ -6,8 +6,8 @@ namespace ArchiCop.Core
 {
     public class VisualStudioProjectLoadEngine : LoadEngine
     {
-        private readonly List<string> _projectsFiles;
         private readonly IEnumerable<VisualStudioProject> _projects;
+        private readonly List<string> _projectsFiles;
 
         public VisualStudioProjectLoadEngine(string path)
         {
@@ -30,7 +30,7 @@ namespace ArchiCop.Core
             var edges = new List<ArchiCopEdge>();
 
             foreach (string project in _projectsFiles)
-            {                
+            {
                 foreach (string reference in GetProjectDependencies(project))
                 {
                     edges.Add(new ArchiCopEdge(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
@@ -45,7 +45,7 @@ namespace ArchiCop.Core
         {
             VisualStudioProject projectRoot = _projects.First(item => item.ProjectPath.ToLower() == path.ToLower());
 
-            var list = projectRoot.ProjectReferences.Select(project => project.Name).ToList();
+            List<string> list = projectRoot.ProjectReferences.Select(project => project.Name).ToList();
             list.AddRange(projectRoot.LibraryReferences.Select(library => library.Name));
 
             return list;

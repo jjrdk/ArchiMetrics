@@ -73,7 +73,7 @@ namespace ArchiMate
                          .Where(item => Regex.IsMatch(item.Target.ProjectName, textBox3.Text)).ToList();
 
             _graphCached = new VisualStudioProjectGraph(edges);
-            
+
             dataGridView2.DataSource = _graphCached.Edges.Select(item =>
                                                                  new
                                                                      {
@@ -90,7 +90,7 @@ namespace ArchiMate
                         .Select(
                             item =>
                             new
-                                {                                    
+                                {
                                     item.ProjectName,
                                     item.ProjectType,
                                     item.TargetFrameworkVersion,

@@ -17,6 +17,18 @@ This resource dictionary is used by the MainWindow.
         <view:GraphDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type viewModel:MetadataFilesViewModel}">
+        <view:MetadataFilesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModel:CommandViewModel}">
+        <TextBlock Margin="2,6">
+                        <Hyperlink Command="{Binding Path=Command}">
+                            <TextBlock Text="{Binding Path=DisplayName}" />
+                        </Hyperlink>
+                    </TextBlock>
+    </DataTemplate>
+    
     <!-- 
   This style configures both of the main content areas in the main window.
   -->
@@ -67,7 +79,7 @@ This resource dictionary is used by the MainWindow.
   -->
     <DataTemplate x:Key="CommandsTemplate">
         <ItemsControl IsTabStop="False" ItemsSource="{Binding}" Margin="6,2">
-            <ItemsControl.ItemTemplate>
+            <!--<ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Margin="2,6">
                         <Hyperlink Command="{Binding Path=Command}">
@@ -75,7 +87,7 @@ This resource dictionary is used by the MainWindow.
                         </Hyperlink>
                     </TextBlock>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            </ItemsControl.ItemTemplate>-->
         </ItemsControl>
     </DataTemplate>
 

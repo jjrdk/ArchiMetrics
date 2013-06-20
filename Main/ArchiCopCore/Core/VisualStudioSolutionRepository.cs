@@ -23,7 +23,7 @@ namespace ArchiCop.Core
 
             string projectTypeGuid = "";
 
-            foreach (var project in graph.Vertices)
+            foreach (VisualStudioProject project in graph.Vertices)
             {
                 switch (project.ProjectType)
                 {

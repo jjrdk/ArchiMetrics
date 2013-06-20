@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ArchiCop.ViewModel
@@ -8,6 +9,13 @@ namespace ArchiCop.ViewModel
     /// </summary>
     public class CommandViewModel : ViewModelBase
     {
+        public CommandViewModel(string displayName)
+        {
+            base.DisplayName = displayName;
+            //TODO
+            //Commands = new ObservableCollection<CommandViewModel>();
+        }
+
         public CommandViewModel(string displayName, ICommand command)
         {
             if (command == null)
@@ -17,6 +25,11 @@ namespace ArchiCop.ViewModel
             Command = command;
         }
 
-        public ICommand Command { get; private set; }
+        public ICommand Command { get; protected set; }
+
+        public string Tag { get; set; }
+
+        //TODO
+        //public ObservableCollection<CommandViewModel> Commands { get; protected set; }
     }
 }

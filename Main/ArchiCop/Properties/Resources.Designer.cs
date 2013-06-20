@@ -68,5 +68,14 @@ namespace ArchiCop.Properties {
                 return ResourceManager.GetString("MainWindowViewModel_DisplayName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metadata Files.
+        /// </summary>
+        internal static string MetadataFilesViewModel_DisplayName {
+            get {
+                return ResourceManager.GetString("MetadataFilesViewModel_DisplayName", resourceCulture);
+            }
+        }
     }
 }
