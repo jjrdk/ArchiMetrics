@@ -14,41 +14,57 @@ namespace ArchiCop.Controller
     public class ArchiCopController : IController
     {
         private readonly IMainWindowViewModel _mainWindowViewModel;
-
-        private readonly ICollectionView _metadataFilesView;
-        private IInfoRepository _repository;
+        private readonly ObservableCollection<CommandViewModel> _controlPanelCommands = new ObservableCollection<CommandViewModel>();
         readonly ObservableCollection<string> _metadataFiles = new ObservableCollection<string>();
-
+        
         public ArchiCopController(IMainWindowViewModel mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
-            
+
             foreach (string file in Directory.GetFiles(".", "*.xls"))
             {
                 _metadataFiles.Add(file);
             }
-
+            
             _mainWindowViewModel.ControlPanelCommands.Add(new MetadataFilesViewModel(_metadataFiles));
-            _metadataFilesView = CollectionViewSource.GetDefaultView(_metadataFiles);
-            _metadataFilesView.CurrentChanged += MetadataFilesCurrentChanged;
+
+            ICollectionView metadataFilesView = CollectionViewSource.GetDefaultView(_metadataFiles);
+            metadataFilesView.CurrentChanged += MetadataFilesCurrentChanged;
+
+            foreach (string metadataFile in _metadataFiles)
+            {
+                IInfoRepository repository = new ExcelInfoRepository(metadataFile);
+
+                foreach (ArchiCopGraph graph in new GraphService(repository).Graphs)
+                {
+                    _controlPanelCommands.Add(
+                        new CommandViewModel("Graph " + graph.DisplayName,
+                                             new RelayCommand<object>(param => ShowGraphView(graph)))
+                            {
+                                Tag = metadataFile
+                            });
+
+                    _controlPanelCommands.Add(
+                        new CommandViewModel("Edges " + graph.DisplayName,
+                                             new RelayCommand<object>(param => ShowGraphEdgesView(graph)))
+                            {
+                                Tag = metadataFile
+                            });
+                }
+            }            
         }
 
         private void MetadataFilesCurrentChanged(object sender, EventArgs e)
         {
-            _repository = new ExcelInfoRepository(_metadataFilesView.CurrentItem as string);
-
+            string tag = ((ICollectionView)sender).CurrentItem as string;
+            
             _mainWindowViewModel.ControlPanelCommands.Clear();
             _mainWindowViewModel.ControlPanelCommands.Add(new MetadataFilesViewModel(_metadataFiles));
-            
-            foreach (ArchiCopGraph graph in new GraphService(_repository).Graphs)
-            {
-                _mainWindowViewModel.ControlPanelCommands.Add(
-                    new CommandViewModel("Graph " + graph.DisplayName,
-                                         new RelayCommand<object>(param => ShowGraphView(graph))));
 
-                _mainWindowViewModel.ControlPanelCommands.Add(
-                    new CommandViewModel("Edges " + graph.DisplayName,
-                                         new RelayCommand<object>(param => ShowGraphEdgesView(graph))));
+            foreach (
+                CommandViewModel commandViewModel in _controlPanelCommands.Where(item => item.Tag == tag))
+            {
+                _mainWindowViewModel.ControlPanelCommands.Add(commandViewModel);
             }
         }
 

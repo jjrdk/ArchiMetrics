@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ArchiCop.ViewModel
@@ -10,7 +11,9 @@ namespace ArchiCop.ViewModel
     {
         public CommandViewModel(string displayName)
         {
-            base.DisplayName = displayName;            
+            base.DisplayName = displayName;
+            //TODO
+            //Commands = new ObservableCollection<CommandViewModel>();
         }
 
         public CommandViewModel(string displayName, ICommand command)
@@ -23,5 +26,10 @@ namespace ArchiCop.ViewModel
         }
 
         public ICommand Command { get; protected set; }
+
+        public string Tag { get; set; }
+
+        //TODO
+        //public ObservableCollection<CommandViewModel> Commands { get; protected set; }
     }
 }
