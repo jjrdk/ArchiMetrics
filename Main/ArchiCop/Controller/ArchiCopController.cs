@@ -15,7 +15,7 @@ namespace ArchiCop.Controller
     public class ArchiCopController : IController
     {
         private readonly IMainWindowViewModel _mainWindowViewModel;
-        private readonly ObservableCollection<CommandViewModel> _controlPanelCommands = new ObservableCollection<CommandViewModel>();
+        private readonly ObservableCollection<CommandListViewModel> _controlPanelCommands = new ObservableCollection<CommandListViewModel>();
         readonly ObservableCollection<string> _metadataFiles = new ObservableCollection<string>();
         
         public ArchiCopController(IMainWindowViewModel mainWindowViewModel)
@@ -57,7 +57,7 @@ namespace ArchiCop.Controller
             _mainWindowViewModel.ControlPanelCommands.Add(new MetadataFilesViewModel(_metadataFiles));
 
             foreach (
-                CommandViewModel commandViewModel in _controlPanelCommands.Where(item => item.Tag == tag))
+                CommandListViewModel commandViewModel in _controlPanelCommands.Where(item => item.Tag == tag))
             {
                 _mainWindowViewModel.ControlPanelCommands.Add(commandViewModel);
             }

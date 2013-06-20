@@ -13,7 +13,7 @@ namespace ArchiCop.ViewModel
         {
             base.DisplayName = Resources.MainWindowViewModel_DisplayName;
             
-            ControlPanelCommands = new ObservableCollection<CommandViewModel>();
+            ControlPanelCommands = new ObservableCollection<CommandListViewModel>();
 
             Workspaces = new ObservableCollection<WorkspaceViewModel>();
             Workspaces.CollectionChanged += OnWorkspacesChanged;
@@ -25,7 +25,7 @@ namespace ArchiCop.ViewModel
         ///     Returns a list of commands
         ///     that the UI can display and execute.
         /// </summary>
-        public ObservableCollection<CommandViewModel> ControlPanelCommands { get; private set; }
+        public ObservableCollection<CommandListViewModel> ControlPanelCommands { get; private set; }
 
         /// <summary>
         ///     Returns the collection of available workspaces to display.

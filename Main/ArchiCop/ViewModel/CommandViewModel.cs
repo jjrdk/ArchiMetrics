@@ -4,6 +4,19 @@ using System.Windows.Input;
 
 namespace ArchiCop.ViewModel
 {
+    public class CommandListViewModel : ViewModelBase
+    {
+        public CommandListViewModel(string displayName)            
+        {
+            base.DisplayName = displayName;
+            Commands = new ObservableCollection<CommandViewModel>();
+        }
+
+        public ObservableCollection<CommandViewModel> Commands { get; set; }
+
+        public string Tag { get; set; }
+    }
+
     /// <summary>
     ///     Represents an actionable item displayed by a View.
     /// </summary>
@@ -12,24 +25,21 @@ namespace ArchiCop.ViewModel
         public CommandViewModel(string displayName)
         {
             base.DisplayName = displayName;
-            //TODO
-            //Commands = new ObservableCollection<CommandViewModel>();
+            
         }
 
-        public CommandViewModel(string displayName, ICommand command)
-        {
-            if (command == null)
-                throw new ArgumentNullException("command");
+        //public CommandViewModel(string displayName, ICommand command)
+        //{
+        //    if (command == null)
+        //        throw new ArgumentNullException("command");
 
-            base.DisplayName = displayName;
-            Command = command;
-        }
+        //    base.DisplayName = displayName;
+        //    Command = command;
+        //}
 
         public ICommand Command { get; protected set; }
 
         public string Tag { get; set; }
 
-        //TODO
-        //public ObservableCollection<CommandViewModel> Commands { get; protected set; }
     }
 }

@@ -1,28 +1,17 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace ArchiCop.ViewModel
 {
-    public class GraphCommandViewModel : CommandViewModel
+    public class GraphCommandViewModel : CommandListViewModel
     {
-        public GraphCommandViewModel(string displayName, params ICommand[] commands) : 
+        public GraphCommandViewModel(string displayName, ICommand showGraphCommand, ICommand showEdgesCommand) : 
             base(displayName)
         {
-            int i = 0;
-            foreach (ICommand command in commands)
-            {
-                if (i==0)
-                {
-                    Command = command;                    
-                }
-                else if(i==1)
-                {
-                    Command1 = command;
-                }
-                i = i + 1;
-            }
+            ShowGraphCommand = showGraphCommand;
+            ShowEdgesCommand = showEdgesCommand;
         }
 
-        public ICommand Command1 { get; protected set; }
+        public ICommand ShowGraphCommand { get; private set; }
+        public ICommand ShowEdgesCommand { get; private set; }
     }
 }

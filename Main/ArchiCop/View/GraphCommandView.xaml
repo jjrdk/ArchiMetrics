@@ -9,12 +9,12 @@
         <HeaderedContentControl Header="{Binding Path=DisplayName}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="2,6">            
-                <Hyperlink Command="{Binding Path=Command}">
+                <Hyperlink Command="{Binding Path=ShowGraphCommand}">
                     <TextBlock Text="Graph" />
                 </Hyperlink>
             </TextBlock>
                 <TextBlock Margin="2,6">            
-                <Hyperlink Command="{Binding Path=Command1}">
+                <Hyperlink Command="{Binding Path=ShowEdgesCommand}">
                     <TextBlock Text="Edges" />
                 </Hyperlink>
             </TextBlock>

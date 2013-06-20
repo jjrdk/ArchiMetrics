@@ -8,8 +8,7 @@ namespace ArchiCop.ViewModel
         ///     Returns a list of commands
         ///     that the UI can display and execute.
         /// </summary>
-        ObservableCollection<CommandViewModel> ControlPanelCommands { get; }
-
+        ObservableCollection<CommandListViewModel> ControlPanelCommands { get; }
 
         /// <summary>
         ///     Returns the collection of available workspaces to display.
