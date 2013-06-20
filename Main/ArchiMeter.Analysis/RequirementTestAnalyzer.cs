@@ -21,19 +21,19 @@
 
 		public IEnumerable<TestData> GetTestData(string path)
 		{
-			return this.GetTests(path).Select(GetRequirementsForTest);
+			return GetTests(path).Select(GetRequirementsForTest);
 		}
 
 		public IEnumerable<RequirementToTestReport> GetRequirementTests(string path)
 		{
-			var testData = this.GetTestData(path);
+			var testData = GetTestData(path);
 			var allRequirements = testData.SelectMany(d => d.RequirementIds).Distinct();
 			return allRequirements.Select(r => new RequirementToTestReport(r, testData.Where(d => d.RequirementIds.Any(i => i == r))));
 		}
 
 		private static bool IsTestMethod(MethodDeclarationSyntax syntax)
 		{
-			return syntax.AttributeLists.Any(l => l.Attributes.OfType<SimpleNameSyntax>().Any(s => TestNames.Any(t => s.Identifier.ValueText == t)));
+			return syntax.AttributeLists.Any(l => l.Attributes.Select(a => a.Name).OfType<SimpleNameSyntax>().Any(s => TestNames.Any(t => s.Identifier.ValueText == t)));
 		}
 
 		private IEnumerable<MethodDeclarationSyntax> GetTests(string tests)
@@ -98,7 +98,6 @@
 			var children = node.ChildNodes();
 			var reqAttribute = children
 				.Where(n => n.Kind == SyntaxKind.AttributeList)
-				.Cast<AttributeListSyntax>()
 				.SelectMany(n => n.ChildNodes().Select(GetTestProperties))
 				.Where(a => a != null)
 				.SelectMany(GetRequirementsProperties)
