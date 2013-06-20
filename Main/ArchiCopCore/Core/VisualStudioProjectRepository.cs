@@ -27,13 +27,13 @@ namespace ArchiCop.Core
         internal VisualStudioProject GetSingleProject(string fileName)
         {
             XDocument document = XDocument.Load(fileName);
-            
+
             string projectName = Path.GetFileNameWithoutExtension(fileName);
 
             IEnumerable<XElement> qProjectGuid = from e in document.Descendants(NameSpace + "ProjectGuid")
                                                  select e;
 
-            string projectGuid = qProjectGuid.First().Value.TrimStart('{').TrimEnd('}').ToLower();           
+            string projectGuid = qProjectGuid.First().Value.TrimStart('{').TrimEnd('}').ToLower();
 
             var sourceProject = new VisualStudioProject(projectGuid, projectName)
                 {
@@ -43,7 +43,7 @@ namespace ArchiCop.Core
 
             sourceProject.LibraryReferences.AddRange(document.GetLibraryReferences());
 
-            sourceProject.ProjectTypeGuids ="";
+            sourceProject.ProjectTypeGuids = "";
             foreach (string item in document.Root.GetPropertyGroupValue("ProjectTypeGuids").Split(';'))
             {
                 sourceProject.ProjectTypeGuids = sourceProject.ProjectTypeGuids + item.TrimStart('{').TrimEnd('}') + ";";

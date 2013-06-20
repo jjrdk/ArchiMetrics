@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
+using ArchiCop.Controller;
 using ArchiCop.View;
 using ArchiCop.ViewModel;
 
@@ -52,6 +53,8 @@ namespace ArchiCop
             // DataContext, which propagates down 
             // the element tree.
             window.DataContext = viewModel;
+
+            new ArchiCopController(viewModel);
 
             window.Show();
         }

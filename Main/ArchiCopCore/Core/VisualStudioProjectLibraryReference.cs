@@ -1,7 +1,7 @@
 ﻿namespace ArchiCop.Core
 {
     public class VisualStudioProjectLibraryReference
-    {        
+    {
         public string Include { get; set; }
         public string SpecificVersion { get; set; }
         public string HintPath { get; set; }

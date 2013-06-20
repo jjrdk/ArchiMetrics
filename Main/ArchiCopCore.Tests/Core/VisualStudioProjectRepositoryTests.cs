@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,10 +12,10 @@ namespace ArchiCop.Core
         public void ProjectHasCorrectLibraryReferences_NoNullProperties_Include()
         {
             //
-           
+
             //            
             VisualStudioProject project = GetSampleProject();
-            
+
             //
             //Serialize("projectlibraries.xml",project.Libraries);
             Assert.IsFalse(project.LibraryReferences.Any(item => string.IsNullOrEmpty(item.Include)));
@@ -94,10 +92,9 @@ namespace ArchiCop.Core
             VisualStudioProject project = GetSampleProject();
 
             //
-            var source = project.ProjectReferences.Select(item => item.Name).ToArray();
+            string[] source = project.ProjectReferences.Select(item => item.Name).ToArray();
             var target = new[] {"ArchiCopCore"};
             Assert.IsTrue(source.Intersect(target).Any());
-            
         }
 
         [TestMethod]
@@ -109,10 +106,9 @@ namespace ArchiCop.Core
             VisualStudioProject project = GetSampleProject();
 
             //
-            var source = project.ProjectReferences.Select(item => item.Project).ToArray();
-            var target = new[] { "3a4d7180-400e-486e-84b9-adf89ddb790f".ToLower() };
+            string[] source = project.ProjectReferences.Select(item => item.Project).ToArray();
+            var target = new[] {"3a4d7180-400e-486e-84b9-adf89ddb790f".ToLower()};
             Assert.IsTrue(source.Intersect(target).Any());
-
         }
 
         [TestMethod]
@@ -124,11 +120,14 @@ namespace ArchiCop.Core
             VisualStudioProject project = GetSampleProject();
 
             //            
-            var source = project.ProjectReferences.Select(item =>item.ProjectPath).ToArray();
-            var target = new[] { @"c:\archicop - master\main\archicopcore.tests\bin\debug\core\archicopcore\archicopcore.csproj".ToLower() };
-            
-            Assert.IsTrue(source.Intersect(target).Any());
+            string[] source = project.ProjectReferences.Select(item => item.ProjectPath).ToArray();
+            var target = new[]
+                {
+                    Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).ToLower(),
+                                 @"core\archicopcore\archicopcore.csproj")
+                };
 
+            Assert.IsTrue(source.Intersect(target).Any());
         }
 
         [TestMethod]
@@ -140,10 +139,9 @@ namespace ArchiCop.Core
             VisualStudioProject project = GetSampleProject();
 
             //            
-            var source = project.ProjectReferences.Select(item => item.ProjectType).ToArray();
-            var target = new[] { @".csproj" };
+            string[] source = project.ProjectReferences.Select(item => item.ProjectType).ToArray();
+            var target = new[] {@".csproj"};
             Assert.IsTrue(source.Intersect(target).Any());
-
         }
 
         [TestMethod]
@@ -268,7 +266,8 @@ namespace ArchiCop.Core
             VisualStudioProject project = GetSampleProject();
 
             //
-            Assert.IsTrue(project.ProjectTypeGuids == "60dc8134-eba5-43b8-bcc9-bb4bc16c2548;FAE04EC0-301F-11D3-BF4B-00C04F79EFBC".ToLower());
+            Assert.IsTrue(project.ProjectTypeGuids ==
+                          "60dc8134-eba5-43b8-bcc9-bb4bc16c2548;FAE04EC0-301F-11D3-BF4B-00C04F79EFBC".ToLower());
         }
 
         [TestMethod]
@@ -282,7 +281,5 @@ namespace ArchiCop.Core
             //
             Assert.IsTrue(project.ProjectTypes == "WPF;Windows (C#)");
         }
-
-        
     }
 }

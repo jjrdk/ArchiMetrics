@@ -93,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\ArchiCopController.cs" />
+    <Compile Include="Controller\IController.cs" />
+    <Compile Include="ViewModel\MetadataFilesViewModel.cs" />
     <Compile Include="View\ArchiCopLayout.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="View\MainWindowView.xaml.cs">
@@ -114,11 +117,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CommandViewModel.cs" />
+    <Compile Include="View\MetadataFilesView.xaml.cs">
+      <DependentUpon>MetadataFilesView.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MainWindowResources.xaml">
+    <Page Include="MainWindowResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -127,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GraphView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MetadataFilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

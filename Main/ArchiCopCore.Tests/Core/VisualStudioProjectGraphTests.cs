@@ -27,12 +27,10 @@ namespace ArchiCop.Core
             IEnumerable<VisualStudioProject> projects = GetSampleProjects();
 
             //
-            var graph = new VisualStudioProjectGraph( projects );
+            var graph = new VisualStudioProjectGraph(projects);
 
             //
             Assert.IsTrue(graph.Edges.Count() == 1);
         }
-
-       
     }
 }

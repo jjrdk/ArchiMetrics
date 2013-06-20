@@ -16,5 +16,7 @@ namespace ArchiCop.ViewModel
         ///     A 'workspace' is a ViewModel that can request to be closed.
         /// </summary>
         ObservableCollection<WorkspaceViewModel> Workspaces { get; }
+
+        void SetActiveWorkspace(WorkspaceViewModel workspace);
     }
 }
