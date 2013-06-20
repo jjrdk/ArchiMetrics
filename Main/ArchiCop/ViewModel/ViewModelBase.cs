@@ -8,7 +8,7 @@ namespace ArchiCop.ViewModel
     ///     It provides support for property change notifications
     ///     and has a DisplayName property.  This class is abstract.
     /// </summary>
-    public abstract class ViewModelBase : ObservableObject, IViewModelBase
+    public abstract class ViewModelBase : ObservableObject
     {
         #region Constructor
 

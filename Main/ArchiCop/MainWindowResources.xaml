@@ -17,20 +17,20 @@ This resource dictionary is used by the MainWindow.
         <view:GraphDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:MetadataFilesViewModel}">
-        <view:MetadataFilesView />
+    <DataTemplate DataType="{x:Type viewModel:ArchiCopSolutionViewModel}">
+        <view:ArchiCopSolutionView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModel:CommandViewModel}">
         <TextBlock Margin="2,6">
-                        <Hyperlink Command="{Binding Path=Command}">
-                            <TextBlock Text="{Binding Path=DisplayName}" />
-                        </Hyperlink>
-                    </TextBlock>
+            <Hyperlink Command="{Binding Path=Command}">
+                <TextBlock Text="{Binding Path=DisplayName}" />
+            </Hyperlink>
+        </TextBlock>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModel:GraphCommandViewModel}">
-        <view:GraphCommandView/>
+        <view:GraphCommandView />
     </DataTemplate>
 
     <!-- 

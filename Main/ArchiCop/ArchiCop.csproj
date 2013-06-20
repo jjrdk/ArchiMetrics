@@ -96,7 +96,7 @@
     <Compile Include="Controller\ArchiCopController.cs" />
     <Compile Include="Controller\IController.cs" />
     <Compile Include="ViewModel\GraphCommandViewModel.cs" />
-    <Compile Include="ViewModel\MetadataFilesViewModel.cs" />
+    <Compile Include="ViewModel\ArchiCopSolutionViewModel.cs" />
     <Compile Include="View\ArchiCopLayout.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="View\GraphCommandView.xaml.cs">
@@ -107,7 +107,6 @@
     </Compile>
     <Compile Include="ViewModel\GraphDetailsViewModel.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
-    <Compile Include="ViewModel\IViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <Compile Include="View\GraphDetailsView.xaml.cs">
@@ -121,8 +120,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CommandViewModel.cs" />
-    <Compile Include="View\MetadataFilesView.xaml.cs">
-      <DependentUpon>MetadataFilesView.xaml</DependentUpon>
+    <Compile Include="View\ArchiCopSolutionView.xaml.cs">
+      <DependentUpon>ArchiCopSolutionView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\GraphCommandView.xaml">
       <SubType>Designer</SubType>
@@ -144,7 +143,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MetadataFilesView.xaml">
+    <Page Include="View\ArchiCopSolutionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +169,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -3,11 +3,11 @@
 namespace ArchiCop.View
 {
     /// <summary>
-    ///     Interaction logic for GraphCommandView.xaml
+    ///     Interaction logic for ArchiCopSolutionView.xaml
     /// </summary>
-    public partial class GraphCommandView : UserControl
+    public partial class ArchiCopSolutionView : UserControl
     {
-        public GraphCommandView()
+        public ArchiCopSolutionView()
         {
             InitializeComponent();
         }
