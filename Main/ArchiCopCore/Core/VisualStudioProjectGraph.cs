@@ -4,7 +4,7 @@ using QuickGraph;
 
 namespace ArchiCop.Core
 {
-    public class VisualStudioProjectGraph : BidirectionalGraph<VisualStudioProject, Edge<VisualStudioProject>>
+    public class VisualStudioProjectGraph : BidirectionalGraph<VisualStudioProject, ArchiCopEdge<VisualStudioProject>>
     {
         public VisualStudioProjectGraph(IEnumerable<Edge<VisualStudioProject>> edges)
         {
@@ -26,7 +26,7 @@ namespace ArchiCop.Core
 
             foreach (var edge in edges)
             {
-                AddEdge(new Edge<VisualStudioProject>(edge.Source, edge.Target));
+                AddEdge(new ArchiCopEdge<VisualStudioProject>(edge.Source, edge.Target));
             }
         }
 
@@ -45,7 +45,7 @@ namespace ArchiCop.Core
                 foreach (VisualStudioProjectProjectReference projectReference in projectFrom.ProjectReferences)
                 {
                     VisualStudioProject projectTo = projects.First(item => item.ProjectGuid == projectReference.Project);
-                    AddEdge(new Edge<VisualStudioProject>(projectFrom, projectTo));
+                    AddEdge(new ArchiCopEdge<VisualStudioProject>(projectFrom, projectTo));
                 }
             }
         }

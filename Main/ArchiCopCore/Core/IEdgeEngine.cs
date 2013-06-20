@@ -4,6 +4,6 @@ namespace ArchiCop.Core
 {
     public interface IEdgeEngine
     {
-        IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges, IEnumerable<VertexRegexRule> rules);
+        IEnumerable<ArchiCopEdge<ArchiCopVertex>> ConvertEdges(IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges, IEnumerable<VertexRegexRule> rules);
     }
 }

@@ -25,15 +25,15 @@ namespace ArchiCop.Core
             _projects = repository.GetProjects(_projectsFiles);
         }
 
-        protected override IEnumerable<ArchiCopEdge> GetEdges()
+        protected override IEnumerable<ArchiCopEdge<ArchiCopVertex>> GetEdges()
         {
-            var edges = new List<ArchiCopEdge>();
+            var edges = new List<ArchiCopEdge<ArchiCopVertex>>();
 
             foreach (string project in _projectsFiles)
             {
                 foreach (string reference in GetProjectDependencies(project))
                 {
-                    edges.Add(new ArchiCopEdge(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
+                    edges.Add(new ArchiCopEdge<ArchiCopVertex>(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
                                                new ArchiCopVertex(reference)));
                 }
             }

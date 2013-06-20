@@ -38,7 +38,7 @@ namespace ArchiCop.ViewModel
             {
                 IInfoRepository repository = new ExcelInfoRepository(file);
 
-                foreach (ArchiCopGraph graph in new GraphService(repository).Graphs)
+                foreach (ArchiCopGraph<ArchiCopVertex> graph in new GraphService(repository).Graphs)
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
@@ -70,7 +70,7 @@ namespace ArchiCop.ViewModel
         }
 
 
-        private void ShowGraphView(ArchiCopGraph graph)
+        private void ShowGraphView(ArchiCopGraph<ArchiCopVertex> graph)
         {
             var workspace =
                 _mainWindowViewModel.Workspaces.Where(vm => vm is GraphViewModel).
@@ -86,7 +86,7 @@ namespace ArchiCop.ViewModel
             _mainWindowViewModel.SetActiveWorkspace(workspace);
         }
 
-        private void ShowGraphEdgesView(ArchiCopGraph graph)
+        private void ShowGraphEdgesView(ArchiCopGraph<ArchiCopVertex> graph)
         {
             var workspace =
                 _mainWindowViewModel.Workspaces.Where(vm => vm is GraphDetailsViewModel).

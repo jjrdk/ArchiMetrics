@@ -4,13 +4,14 @@ using QuickGraph.Algorithms;
 
 namespace ArchiCop.Core
 {
-    public class ArchiCopGraph : BidirectionalGraph<ArchiCopVertex, ArchiCopEdge>
+    public class ArchiCopGraph<T> : BidirectionalGraph<T, ArchiCopEdge<T>>
+        where T : ArchiCopVertex 
     {
-        private readonly IEnumerable<ArchiCopVertex> _oddVertices;
-        private readonly IEnumerable<ArchiCopVertex> _roots;
-        private readonly IEnumerable<ArchiCopVertex> _sinks;
-        private readonly IDictionary<ArchiCopVertex, int> _stronglyConnectedComponents;
-        private readonly IEnumerable<ArchiCopVertex> _topologicalSort;
+        private readonly IEnumerable<T> _oddVertices;
+        private readonly IEnumerable<T> _roots;
+        private readonly IEnumerable<T> _sinks;
+        private readonly IDictionary<T, int> _stronglyConnectedComponents;
+        private readonly IEnumerable<T> _topologicalSort;
 
         public ArchiCopGraph()
         {
@@ -23,27 +24,27 @@ namespace ArchiCop.Core
 
         public string DisplayName { get; set; }
 
-        public IDictionary<ArchiCopVertex, int> StronglyConnectedComponents
+        public IDictionary<T, int> StronglyConnectedComponents
         {
             get { return _stronglyConnectedComponents; }
         }
 
-        public IEnumerable<ArchiCopVertex> TopologicalSort
+        public IEnumerable<T> TopologicalSort
         {
             get { return _topologicalSort; }
         }
 
-        public IEnumerable<ArchiCopVertex> Roots
+        public IEnumerable<T> Roots
         {
             get { return _roots; }
         }
 
-        public IEnumerable<ArchiCopVertex> Sinks
+        public IEnumerable<T> Sinks
         {
             get { return _sinks; }
         }
 
-        public IEnumerable<ArchiCopVertex> OddVertices
+        public IEnumerable<T> OddVertices
         {
             get { return _oddVertices; }
         }

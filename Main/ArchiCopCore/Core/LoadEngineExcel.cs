@@ -19,7 +19,7 @@ namespace ArchiCop.Core
             _excelsheetname = excelsheetname;
         }
 
-        protected override IEnumerable<ArchiCopEdge> GetEdges()
+        protected override IEnumerable<ArchiCopEdge<ArchiCopVertex>> GetEdges()
         {
             var oleDbCon = new OleDbConnection(_connString);
 
@@ -33,9 +33,9 @@ namespace ArchiCop.Core
 
             oleDbCon.Close();
 
-            Func<DataRow, ArchiCopEdge> newEdge =
+            Func<DataRow, ArchiCopEdge<ArchiCopVertex>> newEdge =
                 row =>
-                new ArchiCopEdge(new ArchiCopVertex(row["Source"] as string),
+                new ArchiCopEdge<ArchiCopVertex>(new ArchiCopVertex(row["Source"] as string),
                                  new ArchiCopVertex(row["Target"] as string));
 
             return (from DataRow row in ds.Tables[0].Rows select newEdge(row)).ToList();
