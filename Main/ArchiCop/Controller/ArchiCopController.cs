@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 using ArchiCop.Core;
 using ArchiCop.Data;
 using ArchiCop.ViewModel;
@@ -37,16 +38,10 @@ namespace ArchiCop.Controller
 
                 foreach (ArchiCopGraph graph in new GraphService(repository).Graphs)
                 {
+                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
+                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
                     _controlPanelCommands.Add(
-                        new CommandViewModel("Graph " + graph.DisplayName,
-                                             new RelayCommand<object>(param => ShowGraphView(graph)))
-                            {
-                                Tag = metadataFile
-                            });
-
-                    _controlPanelCommands.Add(
-                        new CommandViewModel("Edges " + graph.DisplayName,
-                                             new RelayCommand<object>(param => ShowGraphEdgesView(graph)))
+                        new GraphCommandViewModel(graph.DisplayName, command1, command2)
                             {
                                 Tag = metadataFile
                             });

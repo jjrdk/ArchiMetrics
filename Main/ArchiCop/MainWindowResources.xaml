@@ -28,7 +28,11 @@ This resource dictionary is used by the MainWindow.
                         </Hyperlink>
                     </TextBlock>
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type viewModel:GraphCommandViewModel}">
+        <view:GraphCommandView/>
+    </DataTemplate>
+
     <!-- 
   This style configures both of the main content areas in the main window.
   -->
