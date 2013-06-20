@@ -5,11 +5,11 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ArchiTools.ScriptPack")]
+[assembly: AssemblyTitle("ArchiMeter.ScriptPack")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Roche")]
-[assembly: AssemblyProduct("ArchiTools.ScriptPack")]
+[assembly: AssemblyProduct("ArchiMeter.ScriptPack")]
 [assembly: AssemblyCopyright("Copyright © Roche 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

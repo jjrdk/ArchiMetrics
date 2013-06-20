@@ -35,22 +35,35 @@ EndGlobal
 
 		public static void MergeSolutionsTo(this string outputPath, params string[] solutions)
 		{
-			var toMerge = solutions.SelectMany(s => Workspace.LoadSolution(s).CurrentSolution.Projects);
-			WriteProjects(toMerge, outputPath, true);
+			var toMerge = solutions
+				.SelectMany(s => Workspace.LoadSolution(s).CurrentSolution.Projects)
+				.Select(p => p.FilePath)
+				.Distinct()
+				.ToArray();
+			MergeProjectsTo(outputPath, toMerge);
 		}
 
 		public static void MergeProjectsTo(this string outputPath, params string[] projects)
 		{
-			var projectsAndReferences = projects
-				.Concat(projects.SelectMany(GetReferencePaths))
+			var distinct = projects.Distinct().ToArray();
+			var projectsAndReferences = distinct
+				.Concat(distinct.SelectMany(GetReferencePaths))
 				.Distinct()
 				.ToArray();
 			var toMerge = projectsAndReferences.Select(s =>
 										  {
+											  try
+											  {
 												  var standAloneProject = Workspace.LoadStandAloneProject(s);
 												  var p = standAloneProject.CurrentSolution.Projects;
 												  return p.LastOrDefault();
-											})
+											  }
+											  catch (Exception e)
+											  {
+												  Console.WriteLine(e.Message);
+												  return null;
+											  }
+										  })
 										  .Where(p => p != null)
 										  .ToArray();
 
@@ -78,15 +91,19 @@ EndGlobal
 
 		private static void WriteProjects(IEnumerable<IProject> projects, string fileName, bool overwriteExisting)
 		{
-			var distinctProjects = projects.Distinct(ProjectEqualityComparer.Instance)
+			var distinctProjects = projects
+				.GroupBy(p => p.FilePath)
+				.Select(g => g.First())
 				.ToArray();
 			var projectGuids = distinctProjects
 				.Select(p => p.FilePath)
+				.Distinct()
+				.Where(File.Exists)
 				.ToDictionary(s => s, GetProjectGuid);
 
 			var projectIncludes = string.Join(
 				Environment.NewLine,
-				distinctProjects.Distinct(ProjectEqualityComparer.Instance)
+				distinctProjects
 				.Select(project => string.Format(
 					"Project(\"{{{0}}}\") = \"{1}\", \"{2}\", \"{{{3}}}\"{4}EndProject{4}",
 					GetLanguageGuid(project.LanguageServices.Language),
@@ -151,6 +168,11 @@ EndGlobal
 
 		private static string[] GetReferencePaths(string fileName)
 		{
+			if (!File.Exists(fileName))
+			{
+				return new string[0];
+			}
+
 			var root = XDocument.Load(fileName).Root;
 			var ns = root.GetDefaultNamespace();
 			var references = root.Descendants(XName.Get("ProjectReference", ns.NamespaceName)).ToArray();
@@ -185,9 +207,11 @@ EndGlobal
 			/// <param name="y">The second object of type IProject to compare.</param>
 			public bool Equals(IProject x, IProject y)
 			{
-				return x == null
+				var result = x == null
 						   ? y == null
-						   : y != null && x.FilePath == y.FilePath;
+						   : y != null && x.Name == y.Name;
+
+				return result;
 			}
 
 			/// <summary>
@@ -199,7 +223,7 @@ EndGlobal
 			/// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param><exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
 			public int GetHashCode(IProject obj)
 			{
-				return obj == null ? 0 : obj.FilePath.GetHashCode();
+				return obj == null ? 0 : obj.Name.GetHashCode();
 			}
 		}
 	}

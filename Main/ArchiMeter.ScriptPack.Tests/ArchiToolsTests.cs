@@ -1,4 +1,4 @@
-﻿namespace ArchiTools.ScriptPack.Tests
+﻿namespace ArchiMeter.ScriptPack.Tests
 {
 	using ArchiMeter.ScriptPack;
 	using NUnit.Framework;
@@ -8,8 +8,15 @@
 		[Test]
 		public void CanStartProjectsAsSolution()
 		{
-			var tools = new ArchiTools();
+			var tools = new IdeTools();
 			tools.OpenProjects(@"..\..\");
+		}
+
+		[Test]
+		public void CanStartMergedSolutionsAsSingleSolution()
+		{
+			var tools = new IdeTools();
+			tools.OpenProjects(@"C:\Dev\Tfs\NewGen.Dev\Units\");
 		}
     }
 }
