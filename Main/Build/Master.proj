@@ -27,7 +27,7 @@
 
 
   <ItemGroup>
-    <SlnFiles Include="$(WorkingDirectory)\**\*.sln"/>
+    <SlnFiles Include="$(WorkingDirectory)\**\ArchiCop.sln"/>
   </ItemGroup>
 
 
