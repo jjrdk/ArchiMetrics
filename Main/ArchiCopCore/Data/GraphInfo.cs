@@ -2,7 +2,7 @@
 
 namespace ArchiCop.Data
 {
-    public class GraphInfo : Info
+    public class GraphInfo : InfoObject
     {
         public GraphInfo()
         {

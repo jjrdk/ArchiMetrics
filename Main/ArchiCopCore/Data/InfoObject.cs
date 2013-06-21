@@ -1,6 +1,6 @@
 namespace ArchiCop.Data
 {
-    public class Info
+    public class InfoObject
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }

@@ -87,7 +87,7 @@
     <Compile Include="Data\GraphRuleType.cs" />
     <Compile Include="Data\IInfoRepository.cs" />
     <Compile Include="Core\VisualStudioProjectLoadEngine.cs" />
-    <Compile Include="Data\Info.cs" />
+    <Compile Include="Data\InfoObject.cs" />
     <Compile Include="Data\LoadEngineInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\EdgeEngineRegex.cs" />

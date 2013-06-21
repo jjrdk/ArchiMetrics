@@ -71,6 +71,7 @@
     <Compile Include="Core\VisualStudioProjectGraphTests.cs" />
     <Compile Include="Core\VisualStudioProjectRepositoryTests.cs" />
     <Compile Include="Data\ExcelInfoRepositoryTests.cs" />
+    <Compile Include="Data\LoadEngineInfoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

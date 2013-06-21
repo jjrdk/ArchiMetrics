@@ -40,8 +40,7 @@ namespace ArchiCop.Core
 
         private ArchiCopGraph<ArchiCopVertex> GetDataSourceInfo(DataSourceInfo dataSource)
         {
-            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSource.LoadEngine.EngineName, dataSource.LoadEngine.Arg1,
-                                                           dataSource.LoadEngine.Arg2);
+            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSource.LoadEngine);
 
             graph.DisplayName = dataSource.Name;
 
@@ -50,57 +49,34 @@ namespace ArchiCop.Core
 
         private ArchiCopGraph<ArchiCopVertex> GetGraphInfo(GraphInfo graphInfo)
         {
-            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(graphInfo.LoadEngine.EngineName, graphInfo.LoadEngine.Arg1,
-                                                           graphInfo.LoadEngine.Arg2,
-                                                           graphInfo.Rules.Select(
-                                                               item =>
-                                                               new VertexRegexRule
-                                                                   {
-                                                                       Pattern = item.RulePattern,
-                                                                       Value = item.RuleValue
-                                                                   })
-                                                                    .ToArray());
+            IEnumerable<VertexRegexRule> rules = graphInfo.Rules.Select(
+                item =>
+                new VertexRegexRule
+                    {
+                        Pattern = item.RulePattern,
+                        Value = item.RuleValue
+                    });
+
+            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(graphInfo.LoadEngine, rules.ToArray());
 
             graph.DisplayName = graphInfo.DisplayName;
 
             return graph;
         }
 
-        private ArchiCopGraph<ArchiCopVertex> GetGraph(string loadEngine, string arg1, string arg2,
-                                                       params VertexRegexRule[] vertexRegexRules)
+        private ArchiCopGraph<ArchiCopVertex> GetGraph(LoadEngineInfo loadEngineInfo, params VertexRegexRule[] vertexRegexRules)
         {
             var graph = new ArchiCopGraph<ArchiCopVertex>();
+            var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
+            IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges = loadEngine.LoadEdges();
 
-            Type loadEngineType = Type.GetType(loadEngine);
-
-            if (loadEngineType != null)
+            if (vertexRegexRules.Any())
             {
-                IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges;
-
-                if (arg1 != null & arg2 != null)
-                {
-                    edges =
-                        ((ILoadEngine)
-                         Activator.CreateInstance(loadEngineType, new object[] {arg1, arg2})).LoadEdges();
-                }
-                else if (arg1 != null)
-                {
-                    edges =
-                        ((ILoadEngine) Activator.CreateInstance(loadEngineType, new object[] {arg1})).LoadEdges();
-                }
-                else
-                {
-                    edges = ((ILoadEngine) Activator.CreateInstance(loadEngineType)).LoadEdges();
-                }
-
-                if (vertexRegexRules.Any())
-                {
-                    edges = new EdgeEngineRegex().ConvertEdges(edges, vertexRegexRules);
-                }
-
-                graph.AddVerticesAndEdgeRange(edges);
+                edges = new EdgeEngineRegex().ConvertEdges(edges, vertexRegexRules);
             }
 
+            graph.AddVerticesAndEdgeRange(edges);
+            
             return graph;
         }
     }
