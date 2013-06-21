@@ -5,14 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiCop", "ArchiCop\ArchiC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiCopCore", "ArchiCopCore\ArchiCopCore.csproj", "{3A4D7180-400E-486E-84B9-ADF89DDB790F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{353DB7F9-9757-47E3-8481-B0434F6AA05B}"
-	ProjectSection(SolutionItems) = preProject
-		Build\Codeplex.proj = Build\Codeplex.proj
-		Build\Master.proj = Build\Master.proj
-		Build\MsBuildCommandLine.txt = Build\MsBuildCommandLine.txt
-		Build\Version.Targets = Build\Version.Targets
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E48DCD4D-5695-4704-AFDD-7008185FCBB1}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
