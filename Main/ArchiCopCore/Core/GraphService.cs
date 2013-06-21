@@ -8,6 +8,7 @@ namespace ArchiCop.Core
     public class GraphService
     {
         private readonly List<ArchiCopGraph<ArchiCopVertex>> _graphs = new List<ArchiCopGraph<ArchiCopVertex>>();
+        private readonly List<ArchiCopGraph<ArchiCopVertex>> _dataSources = new List<ArchiCopGraph<ArchiCopVertex>>();
 
         public GraphService(IInfoRepository repository)
         {
@@ -22,8 +23,13 @@ namespace ArchiCop.Core
             foreach (string dataSource in datasourcesData.GroupBy(item => item.DataSourceName).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(datasourcesData.First(item => item.DataSourceName == dataSource));
-                _graphs.Add(info);
+                _dataSources.Add(info);
             }
+        }
+
+        public IEnumerable<ArchiCopGraph<ArchiCopVertex>> DataSources
+        {
+            get { return _dataSources; }
         }
 
         public IEnumerable<ArchiCopGraph<ArchiCopVertex>> Graphs

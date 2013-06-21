@@ -37,17 +37,31 @@ namespace ArchiCop.ViewModel
             foreach (string file in Files)
             {
                 IInfoRepository repository = new ExcelInfoRepository(file);
+                var graphService = new GraphService(repository);
 
-                foreach (ArchiCopGraph<ArchiCopVertex> graph in new GraphService(repository).Graphs)
+                foreach (ArchiCopGraph<ArchiCopVertex> graph in graphService.DataSources)
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
                     _cachedCommands.Add(
-                        new GraphCommandViewModel(graph.DisplayName, command1, command2)
+                        new GraphCommandViewModel(graph.DisplayName,GraphCommandViewModelType.Datasource, command1, command2)
+                        {
+                            Tag = file
+                        });
+                }
+
+                foreach (ArchiCopGraph<ArchiCopVertex> graph in graphService.Graphs)
+                {
+                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
+                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
+                    _cachedCommands.Add(
+                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command1, command2)
                             {
                                 Tag = file
                             });
                 }
+
+                
             }
         }
 

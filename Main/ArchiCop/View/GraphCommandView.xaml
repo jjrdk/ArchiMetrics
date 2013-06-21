@@ -6,8 +6,17 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <HeaderedContentControl Header="{Binding Path=DisplayName}">
+        <HeaderedContentControl Header="{Binding}">
+            <HeaderedContentControl.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ImageSource}" Height="16" Width="16" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding DisplayName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </HeaderedContentControl.HeaderTemplate>
             <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="6,6"/>
                 <TextBlock Margin="2,6">
                     <Hyperlink Command="{Binding Path=ShowGraphCommand}">
                         <TextBlock Text="Graph" />
@@ -18,7 +27,7 @@
                         <TextBlock Text="Edges" />
                     </Hyperlink>
                 </TextBlock>
-            </StackPanel>
+            </StackPanel>            
         </HeaderedContentControl>
     </Grid>
 </UserControl>
