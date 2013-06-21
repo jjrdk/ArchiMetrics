@@ -18,10 +18,8 @@ namespace ArchiMeter.CodeReview.Metrics
 
 	internal sealed class NamespaceCollectorSyntaxWalker : SyntaxWalker
 	{
-		// Fields
 		private readonly IList<NamespaceDeclarationSyntax> _namespaces;
 
-		// Methods
 		public NamespaceCollectorSyntaxWalker()
 			: base(SyntaxWalkerDepth.Node)
 		{
@@ -30,7 +28,6 @@ namespace ArchiMeter.CodeReview.Metrics
 
 		public IEnumerable<T> GetNamespaces<T>(CommonSyntaxNode commonNode) where T : CommonSyntaxNode
 		{
-			//////Verify.NotNull<CommonSyntaxNode>(Expression.Lambda<Func<CommonSyntaxNode>>(Expression.Constant(commonNode), new ParameterExpression[0]), (string)null);
 			var node = commonNode as SyntaxNode;
 			if (node != null)
 			{
