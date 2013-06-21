@@ -70,6 +70,7 @@
     <Compile Include="Core\BaseTest.cs" />
     <Compile Include="Core\VisualStudioProjectGraphTests.cs" />
     <Compile Include="Core\VisualStudioProjectRepositoryTests.cs" />
+    <Compile Include="Data\ExcelInfoRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +88,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\Sample.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

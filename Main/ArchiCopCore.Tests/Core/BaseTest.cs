@@ -22,27 +22,6 @@ namespace ArchiCop.Core
             return GetSampleProjects().First(item => item.ProjectName == "ArchiCop");
         }
 
-        //private Dictionary<string, string> GetPropertiesWithValues(object obj)
-        //{
-        //    return obj.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetValue(obj, null) as string);
-        //}
-
-        //private void Serialize<T>(string filename,T obj)
-        //{
-        //    var serializer = new XmlSerializer(typeof(T));
-        //    TextWriter writer = new StreamWriter(filename);
-
-        //    serializer.Serialize(writer, obj);
-        //    writer.Close();
-        //}
-
-        //private T Deserialize<T>(string filename)
-        //{
-        //    var serializer = new XmlSerializer(typeof(T));
-        //    var fs = new FileStream(filename, FileMode.Open);
-        //    var t = (T)serializer.Deserialize(fs);
-        //    fs.Close();
-        //    return t;
-        //}
+        
     }
 }
