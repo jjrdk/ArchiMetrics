@@ -1,10 +1,7 @@
 namespace ArchiCop.Data
 {
-    public class DataSourceInfo
+    public class DataSourceInfo : Info
     {
-        public string DataSourceName { get; set; }
-        public string DisplayName { get; set; }
-
         public LoadEngineInfo LoadEngine { get; set; }
     }
 }

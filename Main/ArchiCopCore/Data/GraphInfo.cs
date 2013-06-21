@@ -2,15 +2,12 @@
 
 namespace ArchiCop.Data
 {
-    public class GraphInfo
+    public class GraphInfo : Info
     {
         public GraphInfo()
         {
             Rules = new List<GraphRuleInfo>();
         }
-
-        public string GraphName { get; set; }
-        public string DisplayName { get; set; }
 
         public List<GraphRuleInfo> Rules { get; private set; }
 

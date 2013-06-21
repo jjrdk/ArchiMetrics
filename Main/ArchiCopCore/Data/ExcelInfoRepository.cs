@@ -30,7 +30,7 @@ namespace ArchiCop.Data
                 DataSourceRow dataSourceRow = GetDataSourceData(dataSourceName);
 
                 dataSourceInfo.DisplayName = dataSourceName;
-                dataSourceInfo.DataSourceName = dataSourceName;
+                dataSourceInfo.Name = dataSourceName;
 
                 dataSourceInfo.LoadEngine = new LoadEngineInfo
                     {
@@ -53,7 +53,7 @@ namespace ArchiCop.Data
 
             foreach (string graphName in graphNames)
             {
-                var graphInfo = new GraphInfo {GraphName = graphName};
+                var graphInfo = new GraphInfo {Name = graphName};
 
                 IEnumerable<GraphRow> graphRows = GetGraphData(graphName);
 
@@ -73,7 +73,7 @@ namespace ArchiCop.Data
                 {
                     var rule = new GraphRuleInfo
                         {
-                            RuleType = ruleGraphRow.RuleType,
+                            RuleType = (GraphRuleType)Enum.Parse(typeof(GraphRuleType), ruleGraphRow.RuleType),
                             RulePattern = ruleGraphRow.RulePattern,
                             RuleValue = ruleGraphRow.RuleValue
                         };
@@ -110,7 +110,7 @@ namespace ArchiCop.Data
             return data;
         }
 
-        public IEnumerable<string> GetDataSourceNames()
+        private IEnumerable<string> GetDataSourceNames()
         {
             return GetDataSourceData().GroupBy(item => item.DataSourceName).Select(item => item.Key);
         }

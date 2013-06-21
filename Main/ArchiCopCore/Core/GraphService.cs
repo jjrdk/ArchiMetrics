@@ -13,17 +13,17 @@ namespace ArchiCop.Core
         public GraphService(IInfoRepository repository)
         {
             IEnumerable<GraphInfo> graphData = repository.Graphs();
-            foreach (string graphName in graphData.GroupBy(item => item.GraphName).Select(g => g.Key))
+            foreach (string graphName in graphData.GroupBy(item => item.Name).Select(g => g.Key))
             {
-                ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.First(item => item.GraphName == graphName));
+                ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.First(item => item.Name == graphName));
                 _graphs.Add(info);
             }
 
             IEnumerable<DataSourceInfo> datasourcesData = repository.DataSources();
-            foreach (string dataSource in datasourcesData.GroupBy(item => item.DataSourceName).Select(g => g.Key))
+            foreach (string dataSource in datasourcesData.GroupBy(item => item.Name).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info =
-                    GetDataSourceInfo(datasourcesData.First(item => item.DataSourceName == dataSource));
+                    GetDataSourceInfo(datasourcesData.First(item => item.Name == dataSource));
                 _dataSources.Add(info);
             }
         }
@@ -43,7 +43,7 @@ namespace ArchiCop.Core
             ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSource.LoadEngine.EngineName, dataSource.LoadEngine.Arg1,
                                                            dataSource.LoadEngine.Arg2);
 
-            graph.DisplayName = dataSource.DataSourceName;
+            graph.DisplayName = dataSource.Name;
 
             return graph;
         }

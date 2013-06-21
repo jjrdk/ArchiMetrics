@@ -84,8 +84,10 @@
     <Compile Include="Core\LoadEngineExcel.cs" />
     <Compile Include="Data\GraphInfo.cs" />
     <Compile Include="Data\GraphRuleInfo.cs" />
+    <Compile Include="Data\GraphRuleType.cs" />
     <Compile Include="Data\IInfoRepository.cs" />
     <Compile Include="Core\VisualStudioProjectLoadEngine.cs" />
+    <Compile Include="Data\Info.cs" />
     <Compile Include="Data\LoadEngineInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\EdgeEngineRegex.cs" />
@@ -93,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Core\Template_sln" />
+    <None Include="Data\Info Object Model.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
