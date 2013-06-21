@@ -60,7 +60,7 @@ namespace SomeNamespace
 			{
 				const string Snippet = @"
 public class Something {
-	publis string Name { get; set; }
+	public string Name { get; set; }
 }
 ";
 				var tree = SyntaxTree.ParseText(Snippet);

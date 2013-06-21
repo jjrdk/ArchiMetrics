@@ -24,6 +24,7 @@ namespace ArchiMeter.CodeReview.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
+	using Roslyn.Services.Formatting;
 
 	public class CodeMetricsCalculator : ICodeMetricsCalculator
 	{
@@ -67,16 +68,44 @@ namespace ArchiMeter.CodeReview.Metrics
 					var trees = syntaxTrees.ToArray();
 					var commonCompilation = Compilation.Create("x", syntaxTrees: trees);
 					var declarations = _syntaxCollector.GetDeclarations(trees);
+					var anonClass = declarations.MemberDeclarations.Any()
+						? new[]
+						  {
+							  Syntax.ClassDeclaration(
+								  "UnnamedClass")
+								  .WithModifiers(Syntax.Token(SyntaxKind.PublicKeyword))
+								  .WithMembers(Syntax.List(declarations.MemberDeclarations.ToArray()))
+						  }
+						: new TypeDeclarationSyntax[0];
+					var array = declarations.TypeDeclarations
+						.Concat(anonClass)
+						.Cast<MemberDeclarationSyntax>()
+						.ToArray();
+					var anonNs = Syntax.NamespaceDeclaration(Syntax.ParseName("Unnamed"))
+						.WithMembers(Syntax.List(array));
 					var namespaceDeclarations = declarations.NamespaceDeclarations
-					                                   .Select(x => new NamespaceDeclarationSyntaxInfo
-						                                                {
-							                                                Name = x.GetName(x),
-							                                                Syntax = x
-						                                                })
-					                                   .GroupBy(x => x.Name)
-					                                   .Select(g => new NamespaceDeclaration { Name = g.Key, SyntaxNodes = g.ToArray() })
-					                                   .ToArray();
+						.Concat(new[]
+								{
+									anonNs
+								})
+						.Select(x => new NamespaceDeclarationSyntaxInfo
+									 {
+										 Name = x.GetName(x),
+										 Syntax = x
+									 })
+						.GroupBy(x => x.Name)
+						.Select(g => new NamespaceDeclaration
+									 {
+										 Name = g.Key,
+										 SyntaxNodes = g.ToArray()
+									 })
+						.ToArray();
+					foreach (var namespaceDeclaration in namespaceDeclarations.SelectMany(n => n.SyntaxNodes))
+					{
+						Console.WriteLine(namespaceDeclaration.Syntax.Format(FormattingOptions.GetDefaultOptions()).GetFormattedRoot().ToFullString());
+					}
 					var namespaceMetrics = CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation);
+
 					return namespaceMetrics;
 				});
 		}
