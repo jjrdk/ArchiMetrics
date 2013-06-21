@@ -86,6 +86,8 @@
     <Compile Include="Metrics\SemanticModelMetricsCalculator.cs" />
     <Compile Include="Metrics\SnippetMetricsCalculator.cs" />
     <Compile Include="Metrics\StatementsAnalyzer.cs" />
+    <Compile Include="Metrics\SyntaxCollector.cs" />
+    <Compile Include="Metrics\SyntaxDeclarations.cs" />
     <Compile Include="Metrics\SyntaxExtensions.cs" />
     <Compile Include="Metrics\SyntaxMetricsCalculator.cs" />
     <Compile Include="Metrics\TypeClassCouplingAnalyzer.cs" />

@@ -35,7 +35,7 @@ namespace ArchiMeter.CodeReview.Metrics
 														   // new Regex(@".*\.xaml\.cs$", RegexOptions.Compiled), 
 														   new Regex(@".*\.designer\.cs$", RegexOptions.Compiled)
 													   };
-
+		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 		private readonly XamlConverter _converter;
 
 		public CodeMetricsCalculator()
@@ -65,9 +65,19 @@ namespace ArchiMeter.CodeReview.Metrics
 			return Task.Factory.StartNew(() =>
 				{
 					var trees = syntaxTrees.ToArray();
-					var compilation = Compilation.Create("x", syntaxTrees: trees);
-					var namespaceDeclarations = GetNamespaceDeclarations(trees);
-					return CalculateNamespaceMetrics(namespaceDeclarations.Select(d => d.Value), compilation);
+					var commonCompilation = Compilation.Create("x", syntaxTrees: trees);
+					var declarations = _syntaxCollector.GetDeclarations(trees);
+					var namespaceDeclarations = declarations.NamespaceDeclarations
+					                                   .Select(x => new NamespaceDeclarationSyntaxInfo
+						                                                {
+							                                                Name = x.GetName(x),
+							                                                Syntax = x
+						                                                })
+					                                   .GroupBy(x => x.Name)
+					                                   .Select(g => new NamespaceDeclaration { Name = g.Key, SyntaxNodes = g.ToArray() })
+					                                   .ToArray();
+					var namespaceMetrics = CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation);
+					return namespaceMetrics;
 				});
 		}
 
@@ -124,26 +134,6 @@ namespace ArchiMeter.CodeReview.Metrics
 			}
 
 			return null;
-		}
-
-		private static IDictionary<string, NamespaceDeclaration> GetNamespaceDeclarations(IEnumerable<SyntaxTree> syntaxTrees)
-		{
-			return syntaxTrees.Select(t => new { collector = new NamespaceCollectorSyntaxWalker(), tree = t })
-							  .Select(t => new { root = t.tree.GetRoot(), collector = t.collector })
-							  .SelectMany(t => t.collector.GetNamespaces<NamespaceDeclarationSyntax>(t.root)
-												.Select(x => new NamespaceDeclarationSyntaxInfo
-																 {
-																	 Name = x.GetName(t.root),
-																	 Syntax = x
-																 }))
-							  .GroupBy(x => x.Name)
-							  .ToDictionary(
-								  x => x.Key,
-								  y => new NamespaceDeclaration
-										   {
-											   Name = y.Key,
-											   SyntaxNodes = y
-										   });
 		}
 
 		private static IDictionary<string, NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
