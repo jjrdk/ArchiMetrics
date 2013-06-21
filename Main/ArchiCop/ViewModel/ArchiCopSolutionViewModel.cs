@@ -87,12 +87,12 @@ namespace ArchiCop.ViewModel
         {
             var workspace =
                 _mainWindowViewModel.Workspaces.Where(vm => vm is GraphViewModel).
-                                     FirstOrDefault(vm => vm.DisplayName == "Graph " + graph.DisplayName) as
+                                     FirstOrDefault(vm => vm.Tag == "Graph" + graph.DisplayName) as
                 GraphViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphViewModel(graph, "Graph " + graph.DisplayName);
+                workspace = new GraphViewModel(graph,"Graph", "Graph" + graph.DisplayName);
                 _mainWindowViewModel.Workspaces.Add(workspace);
             }
 
@@ -103,12 +103,12 @@ namespace ArchiCop.ViewModel
         {
             var workspace =
                 _mainWindowViewModel.Workspaces.Where(vm => vm is GraphDetailsViewModel).
-                                     FirstOrDefault(vm => vm.DisplayName == "Edges" + graph.DisplayName) as
+                                     FirstOrDefault(vm => vm.Tag == "Edges" + graph.DisplayName) as
                 GraphDetailsViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphDetailsViewModel(graph, "Edges" + graph.DisplayName);
+                workspace = new GraphDetailsViewModel(graph, "Edges", "Edges" + graph.DisplayName);
                 _mainWindowViewModel.Workspaces.Add(workspace);
             }
 

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using MvvmFoundation.Wpf;
 
 namespace ArchiCop.ViewModel
 {
@@ -15,8 +16,13 @@ namespace ArchiCop.ViewModel
         {
             base.DisplayName = displayName;
 
-            ShowGraphCommand = showGraphCommand;
-            ShowEdgesCommand = showEdgesCommand;
+            ShowCommand=new RelayCommand(() =>
+                {
+                    App.Messenger.NotifyColleagues(App.CLEAR_WORKSPACES);
+                    App.Messenger.NotifyColleagues(App.SET_WORKSPACES_DISPLAYTEXT, displayName);
+                    showGraphCommand.Execute(null);
+                    showEdgesCommand.Execute(null);
+                });
 
             switch (viewModelType)
             {
@@ -29,8 +35,8 @@ namespace ArchiCop.ViewModel
             }
         }
 
-        public ICommand ShowGraphCommand { get; private set; }
-        public ICommand ShowEdgesCommand { get; private set; }
+        public ICommand ShowCommand { get; private set; }
+        
         public string Tag { get; set; }
 
         public string ImageSource { get; private set; }

@@ -23,6 +23,8 @@ namespace ArchiCop.ViewModel
         /// </summary>
         public virtual string DisplayName { get; protected set; }
 
+        public virtual string Tag { get; protected set; }
+
         #endregion // DisplayName
 
         #region IDisposable Members

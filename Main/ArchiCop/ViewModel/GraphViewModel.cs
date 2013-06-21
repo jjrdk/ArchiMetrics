@@ -6,9 +6,10 @@ namespace ArchiCop.ViewModel
     {
         private string _layoutAlgorithmType = "KK";
 
-        public GraphViewModel(ArchiCopGraph<ArchiCopVertex> graph, string displayName)
+        public GraphViewModel(ArchiCopGraph<ArchiCopVertex> graph, string displayName,string tag)
         {
             DisplayName = displayName;
+            Tag = tag;
 
             GraphToVisualize = graph;
         }

@@ -5,8 +5,8 @@ namespace ArchiCop.ViewModel
 {
     public class GraphDetailsViewModel : GraphViewModel
     {
-        public GraphDetailsViewModel(ArchiCopGraph<ArchiCopVertex> graph, string displayName) :
-            base(graph, displayName)
+        public GraphDetailsViewModel(ArchiCopGraph<ArchiCopVertex> graph, string displayName,string tag) :
+            base(graph, displayName, tag)
         {
             EdgesToVisualize = graph.Edges;
             Sinks = graph.Sinks;

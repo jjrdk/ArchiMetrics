@@ -4,9 +4,15 @@ namespace ArchiCop.Controller
 {
     public class ArchiCopController : IController
     {
+        private readonly IMainWindowViewModel _mainWindowViewModel;
+
         public ArchiCopController(IMainWindowViewModel mainWindowViewModel)
         {
-            mainWindowViewModel.ControlPanelCommands.Add(new ArchiCopSolutionViewModel(mainWindowViewModel));
+            _mainWindowViewModel = mainWindowViewModel;
+
+            _mainWindowViewModel.ControlPanelCommands.Add(new ArchiCopSolutionViewModel(mainWindowViewModel));
+
         }
+
     }
 }

@@ -23,7 +23,7 @@
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource MainBorderStyle}">
-                <HeaderedContentControl Content="{Binding Path=Workspaces}"
+                <HeaderedContentControl Content="{Binding Path=Workspaces}" Header="{Binding WorkspaceDisplayText}"
                                         ContentTemplate="{StaticResource WorkspacesTemplate}"
                                         Style="{StaticResource MainHCCStyle}" />
             </Border>

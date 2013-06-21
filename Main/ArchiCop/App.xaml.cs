@@ -5,6 +5,7 @@ using System.Windows.Markup;
 using ArchiCop.Controller;
 using ArchiCop.View;
 using ArchiCop.ViewModel;
+using MvvmFoundation.Wpf;
 
 namespace ArchiCop
 {
@@ -13,6 +14,16 @@ namespace ArchiCop
     /// </summary>
     public partial class App : Application
     {
+        internal static Messenger Messenger
+        {
+            get { return _messenger; }
+        }
+
+        readonly static Messenger _messenger = new Messenger();
+
+        internal const string CLEAR_WORKSPACES = "CLEAR_WORKSPACES";
+        internal const string SET_WORKSPACES_DISPLAYTEXT = "SET_WORKSPACES_DISPLAYTEXT";
+
         static App()
         {
             // This code is used to test the app when using other cultures.
