@@ -10,11 +10,11 @@ namespace ArchiCop.Core
         #region IEdgeEngine Members
 
         public IEnumerable<ArchiCopEdge<ArchiCopVertex>> ConvertEdges(IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges,
-                                                      IEnumerable<VertexRegexRule> rules)
+                                                                      IEnumerable<VertexRegexRule> rules)
         {
             var graph = new BidirectionalGraph<ArchiCopVertex, ArchiCopEdge<ArchiCopVertex>>(false);
 
-            foreach (ArchiCopEdge<ArchiCopVertex> edge in edges)
+            foreach (var edge in edges)
             {
                 string source = string.Empty;
                 string target = string.Empty;

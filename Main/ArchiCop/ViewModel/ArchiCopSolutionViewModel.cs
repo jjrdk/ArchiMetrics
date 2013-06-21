@@ -39,18 +39,19 @@ namespace ArchiCop.ViewModel
                 IInfoRepository repository = new ExcelInfoRepository(file);
                 var graphService = new GraphService(repository);
 
-                foreach (ArchiCopGraph<ArchiCopVertex> graph in graphService.DataSources)
+                foreach (var graph in graphService.DataSources)
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
                     _cachedCommands.Add(
-                        new GraphCommandViewModel(graph.DisplayName,GraphCommandViewModelType.Datasource, command1, command2)
-                        {
-                            Tag = file
-                        });
+                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Datasource, command1,
+                                                  command2)
+                            {
+                                Tag = file
+                            });
                 }
 
-                foreach (ArchiCopGraph<ArchiCopVertex> graph in graphService.Graphs)
+                foreach (var graph in graphService.Graphs)
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
@@ -60,8 +61,6 @@ namespace ArchiCop.ViewModel
                                 Tag = file
                             });
                 }
-
-                
             }
         }
 

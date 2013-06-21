@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-using ArchiCop.ViewModel;
+﻿using ArchiCop.ViewModel;
 
 namespace ArchiCop.Controller
 {

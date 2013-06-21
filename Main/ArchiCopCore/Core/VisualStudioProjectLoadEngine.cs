@@ -33,8 +33,9 @@ namespace ArchiCop.Core
             {
                 foreach (string reference in GetProjectDependencies(project))
                 {
-                    edges.Add(new ArchiCopEdge<ArchiCopVertex>(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
-                                               new ArchiCopVertex(reference)));
+                    edges.Add(
+                        new ArchiCopEdge<ArchiCopVertex>(new ArchiCopVertex(Path.GetFileNameWithoutExtension(project)),
+                                                         new ArchiCopVertex(reference)));
                 }
             }
 

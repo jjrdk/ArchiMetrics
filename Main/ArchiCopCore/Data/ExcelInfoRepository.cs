@@ -17,7 +17,86 @@ namespace ArchiCop.Data
 
         #region IInfoRepository Members
 
-        public IEnumerable<GraphRow> GetGraphData()
+        public IEnumerable<DataSourceInfo> DataSources()
+        {
+            var dataSourceInfos = new List<DataSourceInfo>();
+
+            IEnumerable<string> dataSourceNames = GetDataSourceNames();
+
+            foreach (string dataSourceName in dataSourceNames)
+            {
+                var dataSourceInfo = new DataSourceInfo();
+
+                DataSourceRow dataSourceRow = GetDataSourceData(dataSourceName);
+
+                dataSourceInfo.DisplayName = dataSourceName;
+                dataSourceInfo.DataSourceName = dataSourceName;
+
+                dataSourceInfo.LoadEngine = new LoadEngineInfo
+                    {
+                        EngineName = dataSourceRow.LoadEngineType,
+                        Arg1 = dataSourceRow.Arg1,
+                        Arg2 = dataSourceRow.Arg2
+                    };
+
+                dataSourceInfos.Add(dataSourceInfo);
+            }
+
+            return dataSourceInfos;
+        }
+
+        public IEnumerable<GraphInfo> Graphs()
+        {
+            var graphInfos = new List<GraphInfo>();
+
+            IEnumerable<string> graphNames = GetGraphNames();
+
+            foreach (string graphName in graphNames)
+            {
+                var graphInfo = new GraphInfo {GraphName = graphName};
+
+                IEnumerable<GraphRow> graphRows = GetGraphData(graphName);
+
+                GraphRow loadEngineGraphRow = graphRows.First(item => item.RuleType == "LoadEngine");
+                graphInfo.LoadEngine = new LoadEngineInfo
+                    {
+                        EngineName = loadEngineGraphRow.RuleValue,
+                        Arg1 = loadEngineGraphRow.Arg1,
+                        Arg2 = loadEngineGraphRow.Arg2
+                    };
+
+                GraphRow displayNameGraphRow = graphRows.First(item => item.RuleType == "DisplayName");
+                graphInfo.DisplayName = displayNameGraphRow.RuleValue;
+
+                IEnumerable<GraphRow> ruleGraphRows = graphRows.Where(item => item.RuleType == "VertexRegexRule");
+                foreach (GraphRow ruleGraphRow in ruleGraphRows)
+                {
+                    var rule = new GraphRuleInfo
+                        {
+                            RuleType = ruleGraphRow.RuleType,
+                            RulePattern = ruleGraphRow.RulePattern,
+                            RuleValue = ruleGraphRow.RuleValue
+                        };
+                    graphInfo.Rules.Add(rule);
+                }
+
+                graphInfos.Add(graphInfo);
+            }
+
+            return graphInfos;
+        }
+
+        private IEnumerable<string> GetGraphNames()
+        {
+            return GetGraphData().GroupBy(item => item.GraphName).Select(item => item.Key);
+        }
+
+        private IEnumerable<GraphRow> GetGraphData(string graphName)
+        {
+            return GetGraphData().Where(item => item.GraphName == graphName);
+        }
+
+        private IEnumerable<GraphRow> GetGraphData()
         {
             var data = new List<GraphRow>();
             IEnumerable<string> graphNames =
@@ -31,7 +110,17 @@ namespace ArchiCop.Data
             return data;
         }
 
-        public IEnumerable<DataSourceRow> GetDataSourceData()
+        public IEnumerable<string> GetDataSourceNames()
+        {
+            return GetDataSourceData().GroupBy(item => item.DataSourceName).Select(item => item.Key);
+        }
+
+        private DataSourceRow GetDataSourceData(string dataSourceName)
+        {
+            return GetDataSourceData().First(item => item.DataSourceName == dataSourceName);
+        }
+
+        private IEnumerable<DataSourceRow> GetDataSourceData()
         {
             var data = new List<DataSourceRow>();
             IEnumerable<string> dataSourceNames =
@@ -109,12 +198,6 @@ namespace ArchiCop.Data
             return data;
         }
 
-
-        //public IEnumerable<string> GetDataSourceNames()
-        //{
-        //    return GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Data"));
-        //}
-
         #endregion
 
         private IEnumerable<string> GetExcelSheetNames(string connectionString)
@@ -148,6 +231,24 @@ namespace ArchiCop.Data
             oleDbCon.Close();
 
             return excelSheets;
+        }
+
+        private class DataSourceRow
+        {
+            public string DataSourceName { get; set; }
+            public string LoadEngineType { get; set; }
+            public string Arg1 { get; set; }
+            public string Arg2 { get; set; }
+        }
+
+        private class GraphRow
+        {
+            public string GraphName { get; set; }
+            public string RuleType { get; set; }
+            public string RuleValue { get; set; }
+            public string RulePattern { get; set; }
+            public string Arg1 { get; set; }
+            public string Arg2 { get; set; }
         }
     }
 }

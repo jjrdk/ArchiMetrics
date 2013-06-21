@@ -36,7 +36,7 @@ namespace ArchiCop.Core
             Func<DataRow, ArchiCopEdge<ArchiCopVertex>> newEdge =
                 row =>
                 new ArchiCopEdge<ArchiCopVertex>(new ArchiCopVertex(row["Source"] as string),
-                                 new ArchiCopVertex(row["Target"] as string));
+                                                 new ArchiCopVertex(row["Target"] as string));
 
             return (from DataRow row in ds.Tables[0].Rows select newEdge(row)).ToList();
         }

@@ -5,7 +5,7 @@ using QuickGraph.Algorithms;
 namespace ArchiCop.Core
 {
     public class ArchiCopGraph<T> : BidirectionalGraph<T, ArchiCopEdge<T>>
-        where T : ArchiCopVertex 
+        where T : ArchiCopVertex
     {
         private readonly IEnumerable<T> _oddVertices;
         private readonly IEnumerable<T> _roots;

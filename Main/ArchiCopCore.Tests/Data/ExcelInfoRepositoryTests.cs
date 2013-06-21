@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,57 +8,189 @@ namespace ArchiCop.Data
     public class ExcelInfoRepositoryTests
     {
         [TestMethod]
-        public void GetGraphData_HasCorrectNumberOfRows()
-        {
-            //
-            IInfoRepository repository=new ExcelInfoRepository(@"Data\Sample.xls");
-
-            //
-            var graphData = repository.GetGraphData();
-
-            //
-            Assert.AreEqual(graphData.Count(), 20);
-        }
-
-        [TestMethod]
-        public void GetGraphData_HasCorrectNumberOfGraphs()
+        public void HasCorrectNumberOfGraphInfos()
         {
             //
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            var graphData = repository.GetGraphData();
+            IEnumerable<GraphInfo> data = repository.Graphs();
 
             //
-            Assert.AreEqual(graphData.GroupBy(item=>item.GraphName).Count(), 4);
+            Assert.AreEqual(data.Count(), 4);
         }
 
         [TestMethod]
-        public void GetGraphData_HasCorrectGraphs_GraphName()
+        public void HasCorrectNumberOfDataSourceInfos()
         {
             //
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            var graphData = repository.GetGraphData();
+            IEnumerable<DataSourceInfo> data = repository.DataSources();
 
             //
-            string[] source = graphData.GroupBy(item=>item.GraphName).Select(item=>item.Key).ToArray();
-            var target = new[] { "GraphArchiCop1$", "GraphArchiCop2$", "GraphTest1$", "GraphTest2$" };
+            Assert.AreEqual(data.Count(), 2);
+        }
+
+        [TestMethod]
+        public void GraphInfosHaveCorrectDisplayNames()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<GraphInfo> data = repository.Graphs();
+
+            //
+            string[] source = data.Select(item => item.DisplayName).ToArray();
+            var target = new[]
+                {
+                    "ArchiCop1",
+                    "ArchiCop2",
+                    "Graph Test 1",
+                    "Graph Test 2"
+                };
             Assert.IsTrue(source.Intersect(target).Any());
         }
 
         [TestMethod]
-        public void GetDataSourceData_HasCorrectNumberOfRows()
+        public void DataSourceInfosHaveCorrectDisplayNames()
         {
             //
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            var dataSourceData = repository.GetDataSourceData();
+            IEnumerable<DataSourceInfo> data = repository.DataSources();
 
             //
-            Assert.AreEqual(dataSourceData.Count(),2);
+            string[] source = data.Select(item => item.DisplayName).ToArray();
+            var target = new[]
+                {
+                    "archicop",
+                    "test1",
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
+        }
+
+        [TestMethod]
+        public void GraphInfosHaveCorrectLoadEngines_EngineName()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<GraphInfo> data = repository.Graphs();
+
+            //
+            string[] source = data.Select(item => item.LoadEngine.EngineName).ToArray();
+            var target = new[]
+                {
+                    "ArchiCop.Core.VisualStudioProjectLoadEngine,ArchiCopCore",
+                    "ArchiCop.Core.VisualStudioProjectLoadEngine,ArchiCopCore",
+                    "ArchiCop.Core.LoadEngineExcel,ArchiCopCore",
+                    "ArchiCop.Core.LoadEngineExcel,ArchiCopCore"
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
+        }
+
+        [TestMethod]
+        public void DataSourceInfosHaveCorrectLoadEngines_EngineName()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<DataSourceInfo> data = repository.DataSources();
+
+            //
+            string[] source = data.Select(item => item.LoadEngine.EngineName).ToArray();
+            var target = new[]
+                {
+                    "ArchiCop.Core.VisualStudioProjectLoadEngine,ArchiCopCore",
+                    "ArchiCop.Core.LoadEngineExcel,ArchiCopCore",
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
+        }
+
+        [TestMethod]
+        public void GraphInfosHaveCorrectLoadEngines_Arg1()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<GraphInfo> data = repository.Graphs();
+
+            //
+            string[] source = data.Select(item => item.LoadEngine.Arg1).ToArray();
+            var target = new[]
+                {
+                    @"..\..\..",
+                    @"..\..\..",
+                    "Sample.xls",
+                    "Sample.xls"
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
+        }
+
+        [TestMethod]
+        public void DataSourceInfosHaveCorrectLoadEngines_Arg1()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<DataSourceInfo> data = repository.DataSources();
+
+            //
+            string[] source = data.Select(item => item.LoadEngine.Arg1).ToArray();
+            var target = new[]
+                {
+                    @"..\..\..",
+                    "Sample.xls"
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
+        }
+
+        [TestMethod]
+        public void GraphInfosHaveCorrectLoadEngines_Arg2()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<GraphInfo> data = repository.Graphs();
+
+            //
+            string[] source = data.Select(item => item.LoadEngine.Arg2).ToArray();
+            var target = new[]
+                {
+                    null,
+                    null,
+                    "DataTest$",
+                    "DataTest$"
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
+        }
+
+        [TestMethod]
+        public void DataSourceInfosHaveCorrectLoadEngines_Arg2()
+        {
+            //
+            IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
+
+            //
+            IEnumerable<DataSourceInfo> data = repository.DataSources();
+
+            //
+            string[] source = data.Select(item => item.LoadEngine.Arg2).ToArray();
+            var target = new[]
+                {
+                    null,
+                    "DataTest$"
+                };
+            Assert.IsTrue(source.Intersect(target).Any());
         }
     }
 }

@@ -3,7 +3,8 @@ using GraphSharp.Controls;
 
 namespace ArchiCop.View
 {
-    public class ArchiCopLayout : GraphLayout<ArchiCopVertex, ArchiCopEdge<ArchiCopVertex>, ArchiCopGraph<ArchiCopVertex>>
+    public class ArchiCopLayout :
+        GraphLayout<ArchiCopVertex, ArchiCopEdge<ArchiCopVertex>, ArchiCopGraph<ArchiCopVertex>>
     {
     }
 }

@@ -21,7 +21,5 @@ namespace ArchiCop.Core
         {
             return GetSampleProjects().First(item => item.ProjectName == "ArchiCop");
         }
-
-        
     }
 }

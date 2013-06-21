@@ -7,22 +7,23 @@ namespace ArchiCop.Core
 {
     public class GraphService
     {
-        private readonly List<ArchiCopGraph<ArchiCopVertex>> _graphs = new List<ArchiCopGraph<ArchiCopVertex>>();
         private readonly List<ArchiCopGraph<ArchiCopVertex>> _dataSources = new List<ArchiCopGraph<ArchiCopVertex>>();
+        private readonly List<ArchiCopGraph<ArchiCopVertex>> _graphs = new List<ArchiCopGraph<ArchiCopVertex>>();
 
         public GraphService(IInfoRepository repository)
         {
-            IEnumerable<GraphRow> graphData = repository.GetGraphData();
+            IEnumerable<GraphInfo> graphData = repository.Graphs();
             foreach (string graphName in graphData.GroupBy(item => item.GraphName).Select(g => g.Key))
             {
-                ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.Where(item => item.GraphName == graphName));
+                ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.First(item => item.GraphName == graphName));
                 _graphs.Add(info);
             }
 
-            IEnumerable<DataSourceRow> datasourcesData = repository.GetDataSourceData();
+            IEnumerable<DataSourceInfo> datasourcesData = repository.DataSources();
             foreach (string dataSource in datasourcesData.GroupBy(item => item.DataSourceName).Select(g => g.Key))
             {
-                ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(datasourcesData.First(item => item.DataSourceName == dataSource));
+                ArchiCopGraph<ArchiCopVertex> info =
+                    GetDataSourceInfo(datasourcesData.First(item => item.DataSourceName == dataSource));
                 _dataSources.Add(info);
             }
         }
@@ -37,44 +38,36 @@ namespace ArchiCop.Core
             get { return _graphs; }
         }
 
-        private ArchiCopGraph<ArchiCopVertex> GetGraphInfo(DataSourceRow dataSource)
+        private ArchiCopGraph<ArchiCopVertex> GetDataSourceInfo(DataSourceInfo dataSource)
         {
-            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSource.LoadEngineType, dataSource.Arg1, dataSource.Arg2);
+            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSource.LoadEngine.EngineName, dataSource.LoadEngine.Arg1,
+                                                           dataSource.LoadEngine.Arg2);
 
             graph.DisplayName = dataSource.DataSourceName;
 
             return graph;
         }
 
-        private ArchiCopGraph<ArchiCopVertex> GetGraphInfo(IEnumerable<GraphRow> data)
+        private ArchiCopGraph<ArchiCopVertex> GetGraphInfo(GraphInfo graphInfo)
         {
-            var graph = new ArchiCopGraph<ArchiCopVertex>();
+            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(graphInfo.LoadEngine.EngineName, graphInfo.LoadEngine.Arg1,
+                                                           graphInfo.LoadEngine.Arg2,
+                                                           graphInfo.Rules.Select(
+                                                               item =>
+                                                               new VertexRegexRule
+                                                                   {
+                                                                       Pattern = item.RulePattern,
+                                                                       Value = item.RuleValue
+                                                                   })
+                                                                    .ToArray());
 
-            if (data.FirstOrDefault(item => item.RuleType == "LoadEngine") != default(GraphRow))
-            {
-                string loadEngine = data.FirstOrDefault(item => item.RuleType == "LoadEngine").RuleValue;
-                string arg1 = data.FirstOrDefault(item => item.RuleType == "LoadEngine").Arg1;
-                string arg2 = data.FirstOrDefault(item => item.RuleType == "LoadEngine").Arg2;
-
-                var vertexRegexRules = new List<VertexRegexRule>();
-                foreach (GraphRow rule in data.Where(item => item.RuleType == "VertexRegexRule"))
-                {
-                    vertexRegexRules.Add(new VertexRegexRule {Pattern = rule.RulePattern, Value = rule.RuleValue});
-                }
-
-                graph = GetGraph(loadEngine, arg1, arg2, vertexRegexRules.ToArray());
-            }
-
-            if (data.FirstOrDefault(item => item.RuleType == "DisplayName") != default(GraphRow))
-            {
-                graph.DisplayName = data.FirstOrDefault(item => item.RuleType == "DisplayName").RuleValue;
-            }
+            graph.DisplayName = graphInfo.DisplayName;
 
             return graph;
         }
 
-        public ArchiCopGraph<ArchiCopVertex> GetGraph(string loadEngine, string arg1, string arg2,
-                                      params VertexRegexRule[] vertexRegexRules)
+        private ArchiCopGraph<ArchiCopVertex> GetGraph(string loadEngine, string arg1, string arg2,
+                                                       params VertexRegexRule[] vertexRegexRules)
         {
             var graph = new ArchiCopGraph<ArchiCopVertex>();
 

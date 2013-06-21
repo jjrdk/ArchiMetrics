@@ -2,9 +2,9 @@
 
 namespace ArchiCop.Core
 {
-    public class VisualStudioProject:ArchiCopVertex
+    public class VisualStudioProject : ArchiCopVertex
     {
-        public VisualStudioProject(string projectGuid, string projectName):base(projectName)
+        public VisualStudioProject(string projectGuid, string projectName) : base(projectName)
         {
             ProjectGuid = projectGuid;
             ProjectName = projectName;

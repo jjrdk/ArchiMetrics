@@ -18,13 +18,14 @@
             <Border Grid.Column="0" Style="{StaticResource MainBorderStyle}" Width="170">
                 <StackPanel>
                     <HeaderedContentControl Content="{Binding Path=ControlPanelCommands}"
-                                            ContentTemplate="{StaticResource CommandsTemplate}"  />
+                                            ContentTemplate="{StaticResource CommandsTemplate}" />
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource MainBorderStyle}">
                 <HeaderedContentControl Content="{Binding Path=Workspaces}"
-                                        ContentTemplate="{StaticResource WorkspacesTemplate}" Style="{StaticResource MainHCCStyle}"  />
+                                        ContentTemplate="{StaticResource WorkspacesTemplate}"
+                                        Style="{StaticResource MainHCCStyle}" />
             </Border>
         </Grid>
     </DockPanel>

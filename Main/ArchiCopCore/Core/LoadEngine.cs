@@ -9,7 +9,7 @@ namespace ArchiCop.Core
 
         public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
         {
-            foreach (ArchiCopEdge<ArchiCopVertex> edge in GetEdges())
+            foreach (var edge in GetEdges())
             {
                 string source = edge.Source.Name;
                 string target = edge.Target.Name;
