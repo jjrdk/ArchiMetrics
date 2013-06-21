@@ -73,7 +73,7 @@ namespace ArchiCop.Data
                 {
                     var rule = new GraphRuleInfo
                         {
-                            RuleType = (GraphRuleType)Enum.Parse(typeof(GraphRuleType), ruleGraphRow.RuleType),
+                            RuleType = (GraphRuleType) Enum.Parse(typeof (GraphRuleType), ruleGraphRow.RuleType),
                             RulePattern = ruleGraphRow.RulePattern,
                             RuleValue = ruleGraphRow.RuleValue
                         };

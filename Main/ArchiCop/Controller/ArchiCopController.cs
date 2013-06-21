@@ -11,8 +11,6 @@ namespace ArchiCop.Controller
             _mainWindowViewModel = mainWindowViewModel;
 
             _mainWindowViewModel.ControlPanelCommands.Add(new ArchiCopSolutionViewModel(mainWindowViewModel));
-
         }
-
     }
 }

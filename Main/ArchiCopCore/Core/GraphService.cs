@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ArchiCop.Data;
@@ -64,7 +63,8 @@ namespace ArchiCop.Core
             return graph;
         }
 
-        private ArchiCopGraph<ArchiCopVertex> GetGraph(LoadEngineInfo loadEngineInfo, params VertexRegexRule[] vertexRegexRules)
+        private ArchiCopGraph<ArchiCopVertex> GetGraph(LoadEngineInfo loadEngineInfo,
+                                                       params VertexRegexRule[] vertexRegexRules)
         {
             var graph = new ArchiCopGraph<ArchiCopVertex>();
             var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
@@ -76,7 +76,7 @@ namespace ArchiCop.Core
             }
 
             graph.AddVerticesAndEdgeRange(edges);
-            
+
             return graph;
         }
     }

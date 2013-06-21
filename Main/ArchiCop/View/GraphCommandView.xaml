@@ -12,14 +12,14 @@
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding ImageSource}" Height="16" Width="16" HorizontalAlignment="Left" />
                         <TextBlock Margin="2,6">
-                        <Hyperlink Command="{Binding Path=ShowCommand}">
-                            <TextBlock Text="{Binding DisplayName}" />
-                        </Hyperlink>
-                </TextBlock>
+                            <Hyperlink Command="{Binding Path=ShowCommand}">
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </HeaderedContentControl.HeaderTemplate>
-            
+
         </HeaderedContentControl>
     </Grid>
 </UserControl>

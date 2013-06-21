@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="ArchiCop.View.GraphVerticesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Control.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <DataTemplate x:Key="VerticesTemplate">
+                        <ItemsControl IsTabStop="False" ItemsSource="{Binding}" Margin="6,2">
+                        </ItemsControl>
+                    </DataTemplate>
+                </ResourceDictionary>
+                <ResourceDictionary Source="..\MainWindowResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Control.Resources>
+    <Grid>
+        <HeaderedContentControl Content="{Binding Path=Vertices}"
+                                ContentTemplate="{StaticResource VerticesTemplate}" />
+    </Grid>
+</UserControl>

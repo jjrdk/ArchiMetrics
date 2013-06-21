@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ArchiCop.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,43 +9,41 @@ namespace ArchiCop.Data
     public class LoadEngineInfoTests
     {
         [TestMethod]
-        [ExpectedException(typeof(ApplicationException))]
+        [ExpectedException(typeof (ApplicationException))]
         public void ThrowsCorrectExceptionWhenCreatingLoadEngineWithWrongTypeName()
         {
             //
             var loadEngineInfo = new LoadEngineInfo
-            {
-                EngineName = "ArchiCop.Data.IDontExist,ArchiCopCore.Tests",
-                Arg1 = "",
-                Arg2 = ""
-            };
+                {
+                    EngineName = "ArchiCop.Data.IDontExist,ArchiCopCore.Tests",
+                    Arg1 = "",
+                    Arg2 = ""
+                };
 
             //
-            var loadEngine = (ILoadEngine)loadEngineInfo.CreateLoadEngine();
+            var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
 
             //
             Assert.IsNotNull(loadEngine);
-
         }
 
         [TestMethod]
-        [ExpectedException(typeof(MissingMethodException))]
+        [ExpectedException(typeof (MissingMethodException))]
         public void ThrowsCorrectExceptionWhenCreatingLoadEngineWithWrongArgs()
         {
             //
             var loadEngineInfo = new LoadEngineInfo
-            {
-                EngineName = "ArchiCop.Data.LoadEngine0,ArchiCopCore.Tests",
-                Arg1 = "one",
-                Arg2 = "two"
-            };
+                {
+                    EngineName = "ArchiCop.Data.LoadEngine0,ArchiCopCore.Tests",
+                    Arg1 = "one",
+                    Arg2 = "two"
+                };
 
             //
-            var loadEngine = (ILoadEngine)loadEngineInfo.CreateLoadEngine();
+            var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
 
             //
             Assert.IsNotNull(loadEngine);
-
         }
 
         [TestMethod]
@@ -59,11 +58,10 @@ namespace ArchiCop.Data
                 };
 
             //
-            var loadEngine = (ILoadEngine)loadEngineInfo.CreateLoadEngine();
+            var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
 
             //
             Assert.IsNotNull(loadEngine);
-            
         }
 
         [TestMethod]
@@ -71,18 +69,17 @@ namespace ArchiCop.Data
         {
             //
             var loadEngineInfo = new LoadEngineInfo
-            {
-                EngineName = "ArchiCop.Data.LoadEngine1,ArchiCopCore.Tests",
-                Arg1 = "something",
-                Arg2 = ""
-            };
+                {
+                    EngineName = "ArchiCop.Data.LoadEngine1,ArchiCopCore.Tests",
+                    Arg1 = "something",
+                    Arg2 = ""
+                };
 
             //
-            var loadEngine = (ILoadEngine)loadEngineInfo.CreateLoadEngine();
+            var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
 
             //
             Assert.IsNotNull(loadEngine);
-
         }
 
         [TestMethod]
@@ -90,28 +87,25 @@ namespace ArchiCop.Data
         {
             //
             var loadEngineInfo = new LoadEngineInfo
-            {
-                EngineName = "ArchiCop.Data.LoadEngine2,ArchiCopCore.Tests",
-                Arg1 = "something",
-                Arg2 = "something"
-            };
+                {
+                    EngineName = "ArchiCop.Data.LoadEngine2,ArchiCopCore.Tests",
+                    Arg1 = "something",
+                    Arg2 = "something"
+                };
 
             //
-            var loadEngine = (ILoadEngine)loadEngineInfo.CreateLoadEngine();
+            var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
 
             //
             Assert.IsNotNull(loadEngine);
-
         }
-
-        
     }
 
     internal class LoadEngine0 : ILoadEngine
     {
-        public System.Collections.Generic.IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 
@@ -119,11 +113,11 @@ namespace ArchiCop.Data
     {
         public LoadEngine1(string arg1)
         {
-            
         }
-        public System.Collections.Generic.IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+
+        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 
@@ -131,11 +125,11 @@ namespace ArchiCop.Data
     {
         public LoadEngine2(string arg1, string arg2)
         {
-
         }
-        public System.Collections.Generic.IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+
+        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

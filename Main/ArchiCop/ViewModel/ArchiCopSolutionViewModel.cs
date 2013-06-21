@@ -43,9 +43,11 @@ namespace ArchiCop.ViewModel
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
+                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(graph));
+
                     _cachedCommands.Add(
                         new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Datasource, command1,
-                                                  command2)
+                                                  command2, command3)
                             {
                                 Tag = file
                             });
@@ -55,8 +57,11 @@ namespace ArchiCop.ViewModel
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
+                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(graph));
+
                     _cachedCommands.Add(
-                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command1, command2)
+                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command1, command2,
+                                                  command3)
                             {
                                 Tag = file
                             });
@@ -92,7 +97,23 @@ namespace ArchiCop.ViewModel
 
             if (workspace == null)
             {
-                workspace = new GraphViewModel(graph,"Graph", "Graph" + graph.DisplayName);
+                workspace = new GraphViewModel(graph, "Graph", "Graph" + graph.DisplayName);
+                _mainWindowViewModel.Workspaces.Add(workspace);
+            }
+
+            _mainWindowViewModel.SetActiveWorkspace(workspace);
+        }
+
+        private void ShowGraphVerticesView(ArchiCopGraph<ArchiCopVertex> graph)
+        {
+            var workspace =
+                _mainWindowViewModel.Workspaces.Where(vm => vm is GraphVerticesViewModel).
+                                     FirstOrDefault(vm => vm.Tag == "Vertices" + graph.DisplayName) as
+                GraphVerticesViewModel;
+
+            if (workspace == null)
+            {
+                workspace = new GraphVerticesViewModel(graph, "Vertices", "Vertices" + graph.DisplayName);
                 _mainWindowViewModel.Workspaces.Add(workspace);
             }
 
@@ -102,13 +123,13 @@ namespace ArchiCop.ViewModel
         private void ShowGraphEdgesView(ArchiCopGraph<ArchiCopVertex> graph)
         {
             var workspace =
-                _mainWindowViewModel.Workspaces.Where(vm => vm is GraphDetailsViewModel).
+                _mainWindowViewModel.Workspaces.Where(vm => vm is GraphEdgesViewModel).
                                      FirstOrDefault(vm => vm.Tag == "Edges" + graph.DisplayName) as
-                GraphDetailsViewModel;
+                GraphEdgesViewModel;
 
             if (workspace == null)
             {
-                workspace = new GraphDetailsViewModel(graph, "Edges", "Edges" + graph.DisplayName);
+                workspace = new GraphEdgesViewModel(graph, "Edges", "Edges" + graph.DisplayName);
                 _mainWindowViewModel.Workspaces.Add(workspace);
             }
 

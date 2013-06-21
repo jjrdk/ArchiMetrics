@@ -192,8 +192,5 @@ namespace ArchiCop.Data
                 };
             Assert.IsTrue(source.Intersect(target).Any());
         }
-
-       
-
     }
 }

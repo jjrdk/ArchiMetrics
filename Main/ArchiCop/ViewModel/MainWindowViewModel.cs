@@ -25,14 +25,6 @@ namespace ArchiCop.ViewModel
             App.Messenger.Register<string>(App.SET_WORKSPACES_DISPLAYTEXT, item => WorkspaceDisplayText = item);
         }
 
-        private void CloseWorkspaces()
-        {
-            foreach (WorkspaceViewModel workspaceViewModel in Workspaces.ToList())
-            {
-                workspaceViewModel.CloseCommand.Execute(null);
-            }
-        }
-
         public string WorkspaceDisplayText
         {
             get { return _workspaceDisplayText; }
@@ -64,7 +56,15 @@ namespace ArchiCop.ViewModel
             ICollectionView collectionView = CollectionViewSource.GetDefaultView(Workspaces);
             if (collectionView != null)
             {
-                collectionView.MoveCurrentTo(workspace);                
+                collectionView.MoveCurrentTo(workspace);
+            }
+        }
+
+        private void CloseWorkspaces()
+        {
+            foreach (WorkspaceViewModel workspaceViewModel in Workspaces.ToList())
+            {
+                workspaceViewModel.CloseCommand.Execute(null);
             }
         }
 

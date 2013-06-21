@@ -14,15 +14,9 @@ namespace ArchiCop
     /// </summary>
     public partial class App : Application
     {
-        internal static Messenger Messenger
-        {
-            get { return _messenger; }
-        }
-
-        readonly static Messenger _messenger = new Messenger();
-
         internal const string CLEAR_WORKSPACES = "CLEAR_WORKSPACES";
         internal const string SET_WORKSPACES_DISPLAYTEXT = "SET_WORKSPACES_DISPLAYTEXT";
+        private static readonly Messenger _messenger = new Messenger();
 
         static App()
         {
@@ -39,6 +33,11 @@ namespace ArchiCop
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof (FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+        }
+
+        internal static Messenger Messenger
+        {
+            get { return _messenger; }
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -95,22 +95,27 @@
     </ApplicationDefinition>
     <Compile Include="Controller\ArchiCopController.cs" />
     <Compile Include="Controller\IController.cs" />
+    <Compile Include="ViewModel\ArchiCopVertexViewModel.cs" />
     <Compile Include="ViewModel\GraphCommandViewModel.cs" />
     <Compile Include="ViewModel\ArchiCopSolutionViewModel.cs" />
+    <Compile Include="ViewModel\GraphVerticesViewModel.cs" />
     <Compile Include="View\ArchiCopLayout.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
     <Compile Include="View\GraphCommandView.xaml.cs">
       <DependentUpon>GraphCommandView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GraphVerticesView.xaml.cs">
+      <DependentUpon>GraphVerticesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\GraphDetailsViewModel.cs" />
+    <Compile Include="ViewModel\GraphEdgesViewModel.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
-    <Compile Include="View\GraphDetailsView.xaml.cs">
-      <DependentUpon>GraphDetailsView.xaml</DependentUpon>
+    <Compile Include="View\GraphEdgesView.xaml.cs">
+      <DependentUpon>GraphEdgesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GraphView.xaml.cs">
       <DependentUpon>GraphView.xaml</DependentUpon>
@@ -127,6 +132,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\GraphVerticesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,7 +144,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\GraphDetailsView.xaml">
+    <Page Include="View\GraphEdgesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
