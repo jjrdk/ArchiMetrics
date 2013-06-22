@@ -8,39 +8,32 @@ namespace ArchiCop.Data
 {
     public class ExcelInfoRepository : IInfoRepository
     {
-        private string _connectionString;
-        private IEnumerable<DataSourceInfo> _dataSources;
-        private IEnumerable<GraphInfo> _graphs;
-        private ConfigInfo _configInfo;
+        private readonly string _connectionString;
+        
+        public ExcelInfoRepository(params string[] excelFileNames)
+        {            
+            ConfigInfos = new List<ConfigInfo>();
 
-        public ExcelInfoRepository(string connectionString)
-        {
-            _connectionString = connectionString;
+            foreach (string excelFileName in excelFileNames)
+            {
+                _connectionString = _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                                    "Data Source=" + excelFileName + ";Extended Properties=Excel 8.0;";
+
+                IEnumerable<DataSourceInfo> dataSources = GetDataSources();
+                IEnumerable<GraphInfo> graphs = GetGraphs(dataSources);
+                var configInfo = new ConfigInfo(dataSources, graphs) {Name = excelFileName, DisplayName = excelFileName};
+
+                ConfigInfos.Add(configInfo);
+            }            
         }
 
         #region IInfoRepository Members
 
-        public ConfigInfo ConfigInfo
-        {
-            get
-            {
-                if (_dataSources == null)
-                {
-                    _dataSources = DataSources();
-                }
-                if (_graphs == null)
-                {
-                    _graphs = Graphs();
-                }
-                if (_configInfo==null)
-                {
-                    _configInfo=new ConfigInfo(_dataSources,_graphs);
-                }
-                return _configInfo;
-            }
-        }
-        
-        public IEnumerable<DataSourceInfo> DataSources()
+        public List<ConfigInfo> ConfigInfos { get; private set; }
+
+        #endregion
+
+        private IEnumerable<DataSourceInfo> GetDataSources()
         {
             var dataSourceInfos = new List<DataSourceInfo>();
 
@@ -68,7 +61,7 @@ namespace ArchiCop.Data
             return dataSourceInfos;
         }
 
-        public IEnumerable<GraphInfo> Graphs()
+        private IEnumerable<GraphInfo> GetGraphs(IEnumerable<DataSourceInfo> dataSources)
         {
             var graphInfos = new List<GraphInfo>();
             
@@ -80,24 +73,13 @@ namespace ArchiCop.Data
 
                 IEnumerable<GraphRow> graphRows = GetGraphData(graphName);
 
-                //GraphRow loadEngineGraphRow = graphRows.FirstOrDefault(item => item.RuleType == "LoadEngine");
-                //if (loadEngineGraphRow != default(GraphRow))
-                //{
-                //    graphInfo.LoadEngine = new LoadEngineInfo
-                //        {
-                //            EngineName = loadEngineGraphRow.RuleValue,
-                //            Arg1 = loadEngineGraphRow.Arg1,
-                //            Arg2 = loadEngineGraphRow.Arg2
-                //        };
-                //}
-
                 GraphRow dataSourceGraphRow = graphRows.FirstOrDefault(item => item.RuleType == "DataSource");
                 if (dataSourceGraphRow == default(GraphRow))
                 {
                     string message = string.Format("Graph {0} has no DataSource.", graphInfo.Name);
                     throw new ApplicationException(message);
                 }
-                graphInfo.DataSource = _dataSources.FirstOrDefault(item => item.Name == dataSourceGraphRow.RuleValue);
+                graphInfo.DataSource = dataSources.FirstOrDefault(item => item.Name == dataSourceGraphRow.RuleValue);
 
                 GraphRow displayNameGraphRow = graphRows.First(item => item.RuleType == "DisplayName");
                 graphInfo.DisplayName = displayNameGraphRow.RuleValue;
@@ -134,7 +116,7 @@ namespace ArchiCop.Data
         {
             var data = new List<GraphRow>();
             IEnumerable<string> graphNames =
-                GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("Graph"));
+                GetExcelSheetNames().Where(item => item.StartsWith("Graph"));
 
             foreach (string graphName in graphNames)
             {
@@ -158,7 +140,7 @@ namespace ArchiCop.Data
         {
             var data = new List<DataSourceRow>();
             IEnumerable<string> dataSourceNames =
-                GetExcelSheetNames(_connectionString).Where(item => item.StartsWith("DataSource"));
+                GetExcelSheetNames().Where(item => item.StartsWith("DataSource"));
 
             foreach (string dataSourceName in dataSourceNames)
             {
@@ -170,16 +152,13 @@ namespace ArchiCop.Data
 
         private IEnumerable<DataSourceRow> GetDataSourceDataPage(string tableName)
         {
-            _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                                "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
-
             var oleDbCon = new OleDbConnection(_connectionString);
 
             oleDbCon.Open();
 
             string sql = "SELECT DataSourceName, LoadEngineType, Arg1, Arg2 from [" + tableName + "]";
 
-            var oleDa = new OleDbDataAdapter(sql, _connectionString);
+            var oleDa = new OleDbDataAdapter(sql, oleDbCon);
             var ds = new DataSet();
             oleDa.Fill(ds);
 
@@ -201,16 +180,13 @@ namespace ArchiCop.Data
 
         private IEnumerable<GraphRow> GetGraphDataPage(string tableName)
         {
-            _connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                                "Data Source=" + _connectionString + ";Extended Properties=Excel 8.0;";
-
             var oleDbCon = new OleDbConnection(_connectionString);
 
             oleDbCon.Open();
 
             string sql = "SELECT RuleType, RuleValue, RulePattern from [" + tableName + "]";
 
-            var oleDa = new OleDbDataAdapter(sql, _connectionString);
+            var oleDa = new OleDbDataAdapter(sql, oleDbCon);
             var ds = new DataSet();
             oleDa.Fill(ds);
 
@@ -229,16 +205,11 @@ namespace ArchiCop.Data
 
             return data;
         }
-
-        #endregion
-
-        private IEnumerable<string> GetExcelSheetNames(string connectionString)
+        
+        private IEnumerable<string> GetExcelSheetNames()
         {
-            connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
-                               "Data Source=" + connectionString + ";Extended Properties=Excel 8.0;";
-
             // Create connection object by using the preceding connection string.
-            var oleDbCon = new OleDbConnection(connectionString);
+            var oleDbCon = new OleDbConnection(_connectionString);
             // Open connection with the database.
             oleDbCon.Open();
 

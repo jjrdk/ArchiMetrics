@@ -2,9 +2,9 @@
 
 namespace ArchiCop.Data
 {
-    public class ConfigInfo
+    public class ConfigInfo:InfoObject
     {
-        public ConfigInfo(IEnumerable<DataSourceInfo> dataSources,IEnumerable<GraphInfo> graphs)
+        public ConfigInfo(IEnumerable<DataSourceInfo> dataSources, IEnumerable<GraphInfo> graphs)
         {
             DataSources = dataSources;
             Graphs = graphs;

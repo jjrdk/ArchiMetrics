@@ -9,16 +9,16 @@ namespace ArchiCop.Core
         private readonly List<ArchiCopGraph<ArchiCopVertex>> _dataSources = new List<ArchiCopGraph<ArchiCopVertex>>();
         private readonly List<ArchiCopGraph<ArchiCopVertex>> _graphs = new List<ArchiCopGraph<ArchiCopVertex>>();
 
-        public GraphService(IInfoRepository repository)
+        public GraphService(ConfigInfo configInfo)
         {
-            IEnumerable<GraphInfo> graphData = repository.ConfigInfo.Graphs;
+            IEnumerable<GraphInfo> graphData = configInfo.Graphs;
             foreach (string graphName in graphData.GroupBy(item => item.Name).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.First(item => item.Name == graphName));
                 _graphs.Add(info);
             }
 
-            IEnumerable<DataSourceInfo> datasourcesData = repository.ConfigInfo.DataSources;
+            IEnumerable<DataSourceInfo> datasourcesData = configInfo.DataSources;
             foreach (string dataSource in datasourcesData.GroupBy(item => item.Name).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info =

@@ -1,8 +1,10 @@
 ﻿
+using System.Collections.Generic;
+
 namespace ArchiCop.Data
 {
     public interface IInfoRepository
     {
-        ConfigInfo ConfigInfo { get; }
+        List<ConfigInfo> ConfigInfos { get; }
     }
 }

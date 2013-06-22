@@ -28,16 +28,18 @@ namespace ArchiCop.ViewModel
             {
                 Files.Add(file);
             }
+
             _mainWindowViewModel = mainWindowViewModel;
             Commands = new ObservableCollection<GraphCommandViewModel>();
 
             ICollectionView filesView = CollectionViewSource.GetDefaultView(Files);
             filesView.CurrentChanged += FilesCurrentChanged;
 
-            foreach (string file in Files)
+            IInfoRepository repository = new ExcelInfoRepository(Files.ToArray());
+
+            foreach (ConfigInfo configInfo in repository.ConfigInfos)
             {
-                IInfoRepository repository = new ExcelInfoRepository(file);
-                var graphService = new GraphService(repository);
+                var graphService = new GraphService(configInfo);
 
                 foreach (var graph in graphService.DataSources)
                 {
@@ -49,7 +51,7 @@ namespace ArchiCop.ViewModel
                         new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Datasource, command1,
                                                   command2, command3)
                             {
-                                Tag = file
+                                Tag = configInfo.Name
                             });
                 }
 
@@ -63,7 +65,7 @@ namespace ArchiCop.ViewModel
                         new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command1, command2,
                                                   command3)
                             {
-                                Tag = file
+                                Tag = configInfo.Name
                             });
                 }
             }
