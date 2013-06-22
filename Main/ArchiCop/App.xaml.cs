@@ -3,8 +3,10 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 using ArchiCop.Controller;
+using ArchiCop.Data;
 using ArchiCop.View;
 using ArchiCop.ViewModel;
+using Microsoft.Practices.Unity;
 using MvvmFoundation.Wpf;
 
 namespace ArchiCop
@@ -64,7 +66,12 @@ namespace ArchiCop
             // the element tree.
             window.DataContext = viewModel;
 
-            new ArchiCopController(viewModel);
+            IUnityContainer container = new UnityContainer();
+            container.RegisterType<IInfoRepository, ExcelInfoRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ArchiCopSolutionViewModel, ArchiCopSolutionViewModel>(new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IMainWindowViewModel>(viewModel);
+
+            container.Resolve<ArchiCopController>();
 
             window.Show();
         }

@@ -8,11 +8,13 @@ namespace ArchiCop.Data
 {
     public class ExcelInfoRepository : IInfoRepository
     {
-        private readonly string _connectionString;
+        private string _connectionString;
         
-        public ExcelInfoRepository(params string[] excelFileNames)
-        {            
-            ConfigInfos = new List<ConfigInfo>();
+        #region IInfoRepository Members
+
+        public List<ConfigInfo> GetConfigInfos(params string[] excelFileNames)
+        {
+            var configInfos = new List<ConfigInfo>();
 
             foreach (string excelFileName in excelFileNames)
             {
@@ -21,15 +23,13 @@ namespace ArchiCop.Data
 
                 IEnumerable<DataSourceInfo> dataSources = GetDataSources();
                 IEnumerable<GraphInfo> graphs = GetGraphs(dataSources);
-                var configInfo = new ConfigInfo(dataSources, graphs) {Name = excelFileName, DisplayName = excelFileName};
+                var configInfo = new ConfigInfo(dataSources, graphs) { Name = excelFileName, DisplayName = excelFileName };
 
-                ConfigInfos.Add(configInfo);
-            }            
+                configInfos.Add(configInfo);
+            }
+
+            return configInfos;
         }
-
-        #region IInfoRepository Members
-
-        public List<ConfigInfo> ConfigInfos { get; private set; }
 
         #endregion
 

@@ -6,11 +6,10 @@ namespace ArchiCop.Controller
     {
         private readonly IMainWindowViewModel _mainWindowViewModel;
 
-        public ArchiCopController(IMainWindowViewModel mainWindowViewModel)
+        public ArchiCopController(IMainWindowViewModel mainWindowViewModel,ArchiCopSolutionViewModel archiCopSolutionViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
-
-            _mainWindowViewModel.ControlPanelCommands.Add(new ArchiCopSolutionViewModel(mainWindowViewModel));
+            _mainWindowViewModel.ControlPanelCommands.Add(archiCopSolutionViewModel);
         }
     }
 }

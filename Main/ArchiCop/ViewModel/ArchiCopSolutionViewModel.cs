@@ -18,8 +18,8 @@ namespace ArchiCop.ViewModel
             new ObservableCollection<GraphCommandViewModel>();
 
         private readonly IMainWindowViewModel _mainWindowViewModel;
-
-        public ArchiCopSolutionViewModel(IMainWindowViewModel mainWindowViewModel)
+        
+        public ArchiCopSolutionViewModel(IMainWindowViewModel mainWindowViewModel, IInfoRepository repository)
             : base(Resources.ArchiCopSolutionViewModel_DisplayName)
         {
             Files = new ObservableCollection<string>();
@@ -35,9 +35,7 @@ namespace ArchiCop.ViewModel
             ICollectionView filesView = CollectionViewSource.GetDefaultView(Files);
             filesView.CurrentChanged += FilesCurrentChanged;
 
-            IInfoRepository repository = new ExcelInfoRepository(Files.ToArray());
-
-            foreach (ConfigInfo configInfo in repository.ConfigInfos)
+            foreach (ConfigInfo configInfo in repository.GetConfigInfos(Files.ToArray()))
             {
                 var graphService = new GraphService(configInfo);
 

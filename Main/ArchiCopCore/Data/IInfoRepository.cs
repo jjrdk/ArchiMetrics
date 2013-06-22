@@ -5,6 +5,6 @@ namespace ArchiCop.Data
 {
     public interface IInfoRepository
     {
-        List<ConfigInfo> ConfigInfos { get; }
+        List<ConfigInfo> GetConfigInfos(params string[] excelFileNames);
     }
 }
