@@ -11,14 +11,14 @@ namespace ArchiCop.Core
 
         public GraphService(IInfoRepository repository)
         {
-            IEnumerable<GraphInfo> graphData = repository.Graphs();
+            IEnumerable<GraphInfo> graphData = repository.ConfigInfo.Graphs;
             foreach (string graphName in graphData.GroupBy(item => item.Name).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.First(item => item.Name == graphName));
                 _graphs.Add(info);
             }
 
-            IEnumerable<DataSourceInfo> datasourcesData = repository.DataSources();
+            IEnumerable<DataSourceInfo> datasourcesData = repository.ConfigInfo.DataSources;
             foreach (string dataSource in datasourcesData.GroupBy(item => item.Name).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info =

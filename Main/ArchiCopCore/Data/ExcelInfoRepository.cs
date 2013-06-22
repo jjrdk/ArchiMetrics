@@ -9,6 +9,9 @@ namespace ArchiCop.Data
     public class ExcelInfoRepository : IInfoRepository
     {
         private string _connectionString;
+        private IEnumerable<DataSourceInfo> _dataSources;
+        private IEnumerable<GraphInfo> _graphs;
+        private ConfigInfo _configInfo;
 
         public ExcelInfoRepository(string connectionString)
         {
@@ -17,6 +20,26 @@ namespace ArchiCop.Data
 
         #region IInfoRepository Members
 
+        public ConfigInfo ConfigInfo
+        {
+            get
+            {
+                if (_dataSources == null)
+                {
+                    _dataSources = DataSources();
+                }
+                if (_graphs == null)
+                {
+                    _graphs = Graphs();
+                }
+                if (_configInfo==null)
+                {
+                    _configInfo=new ConfigInfo(_dataSources,_graphs);
+                }
+                return _configInfo;
+            }
+        }
+        
         public IEnumerable<DataSourceInfo> DataSources()
         {
             var dataSourceInfos = new List<DataSourceInfo>();
@@ -48,8 +71,7 @@ namespace ArchiCop.Data
         public IEnumerable<GraphInfo> Graphs()
         {
             var graphInfos = new List<GraphInfo>();
-            var dataSourceInfos = DataSources();
-
+            
             IEnumerable<string> graphNames = GetGraphNames();
 
             foreach (string graphName in graphNames)
@@ -75,7 +97,7 @@ namespace ArchiCop.Data
                     string message = string.Format("Graph {0} has no DataSource.", graphInfo.Name);
                     throw new ApplicationException(message);
                 }
-                graphInfo.DataSource = dataSourceInfos.FirstOrDefault(item => item.Name == dataSourceGraphRow.RuleValue);
+                graphInfo.DataSource = _dataSources.FirstOrDefault(item => item.Name == dataSourceGraphRow.RuleValue);
 
                 GraphRow displayNameGraphRow = graphRows.First(item => item.RuleType == "DisplayName");
                 graphInfo.DisplayName = displayNameGraphRow.RuleValue;

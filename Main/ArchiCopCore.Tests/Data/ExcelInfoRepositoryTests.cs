@@ -14,7 +14,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<GraphInfo> data = repository.Graphs();
+            IEnumerable<GraphInfo> data = repository.ConfigInfo.Graphs;
 
             //
             Assert.AreEqual(data.Count(), 4);
@@ -27,7 +27,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<DataSourceInfo> data = repository.DataSources();
+            IEnumerable<DataSourceInfo> data = repository.ConfigInfo.DataSources;
 
             //
             Assert.AreEqual(data.Count(), 2);
@@ -40,7 +40,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<GraphInfo> data = repository.Graphs();
+            IEnumerable<GraphInfo> data = repository.ConfigInfo.Graphs;
 
             //
             string[] source = data.Select(item => item.DisplayName).ToArray();
@@ -61,7 +61,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<DataSourceInfo> data = repository.DataSources();
+            IEnumerable<DataSourceInfo> data = repository.ConfigInfo.DataSources;
 
             //
             string[] source = data.Select(item => item.DisplayName).ToArray();
@@ -80,7 +80,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<GraphInfo> data = repository.Graphs();
+            IEnumerable<GraphInfo> data = repository.ConfigInfo.Graphs;
 
             //
             string[] source = data.Select(item => item.DataSource.LoadEngine.EngineName).ToArray();
@@ -101,7 +101,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<DataSourceInfo> data = repository.DataSources();
+            IEnumerable<DataSourceInfo> data = repository.ConfigInfo.DataSources;
 
             //
             string[] source = data.Select(item => item.LoadEngine.EngineName).ToArray();
@@ -120,7 +120,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<GraphInfo> data = repository.Graphs();
+            IEnumerable<GraphInfo> data = repository.ConfigInfo.Graphs;
 
             //
             string[] source = data.Select(item => item.DataSource.LoadEngine.Arg1).ToArray();
@@ -141,7 +141,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<DataSourceInfo> data = repository.DataSources();
+            IEnumerable<DataSourceInfo> data = repository.ConfigInfo.DataSources;
 
             //
             string[] source = data.Select(item => item.LoadEngine.Arg1).ToArray();
@@ -160,7 +160,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<GraphInfo> data = repository.Graphs();
+            IEnumerable<GraphInfo> data = repository.ConfigInfo.Graphs;
 
             //
             string[] source = data.Select(item => item.DataSource.LoadEngine.Arg2).ToArray();
@@ -181,7 +181,7 @@ namespace ArchiCop.Data
             IInfoRepository repository = new ExcelInfoRepository(@"Data\Sample.xls");
 
             //
-            IEnumerable<DataSourceInfo> data = repository.DataSources();
+            IEnumerable<DataSourceInfo> data = repository.ConfigInfo.DataSources;
 
             //
             string[] source = data.Select(item => item.LoadEngine.Arg2).ToArray();

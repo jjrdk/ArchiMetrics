@@ -1,13 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="ArchiCop.Data.GraphInfo">
-    <Position X="3" Y="0.75" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
+    <Position X="3" Y="0.5" Width="1.5" />
     <AssociationLine Name="DataSource" Type="ArchiCop.Data.DataSourceInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.75" Y="1.791" />
+        <Point X="3.75" Y="1.733" />
         <Point X="3.75" Y="2.166" />
         <Point X="5.562" Y="2.166" />
         <Point X="5.562" Y="2.75" />
@@ -35,7 +32,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ArchiCop.Data.LoadEngineInfo">
-    <Position X="2.25" Y="2.5" Width="1.5" />
+    <Position X="2.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAADCAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\LoadEngineInfo.cs</FileName>
@@ -63,6 +60,20 @@
     <ShowAsAssociation>
       <Property Name="LoadEngine" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="ArchiCop.Data.ConfigInfo">
+    <Position X="2.5" Y="2.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ConfigInfo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Graphs" />
+      <Property Name="DataSources" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Enum Name="ArchiCop.Data.GraphRuleType" Collapsed="true">
     <Position X="0.5" Y="2.5" Width="1.5" />
