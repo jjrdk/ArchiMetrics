@@ -12,7 +12,7 @@ namespace ArchiCop.Data
         
         #region IInfoRepository Members
 
-        public List<ConfigInfo> GetConfigInfos(params string[] excelFileNames)
+        public IEnumerable<ConfigInfo> GetConfigInfos(params string[] excelFileNames)
         {
             var configInfos = new List<ConfigInfo>();
 

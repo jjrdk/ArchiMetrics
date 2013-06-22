@@ -7,43 +7,31 @@ namespace ArchiCop.Data
     [TestClass]
     public class ExcelInfoRepositoryTests
     {
+        readonly IEnumerable<GraphInfo> _graphs = 
+            new ExcelInfoRepository().GetConfigInfos(@"Data\Sample.xls").First().Graphs;
+
+        readonly IEnumerable<DataSourceInfo> _dataSources = 
+            new ExcelInfoRepository().GetConfigInfos(@"Data\Sample.xls").First().DataSources;
+
         [TestMethod]
         public void HasCorrectNumberOfGraphInfos()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<GraphInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().Graphs;
-
-            //
-            Assert.AreEqual(data.Count(), 4);
+            Assert.AreEqual(_graphs.Count(), 4);
         }
 
         [TestMethod]
         public void HasCorrectNumberOfDataSourceInfos()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<DataSourceInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().DataSources;
-
-            //
-            Assert.AreEqual(data.Count(), 2);
+            Assert.AreEqual(_dataSources.Count(), 2);
         }
 
         [TestMethod]
         public void GraphInfosHaveCorrectDisplayNames()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<GraphInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().Graphs;
-
-            //
-            string[] source = data.Select(item => item.DisplayName).ToArray();
+            string[] source = _graphs.Select(item => item.DisplayName).ToArray();
             var target = new[]
                 {
                     "ArchiCop1",
@@ -56,15 +44,9 @@ namespace ArchiCop.Data
 
         [TestMethod]
         public void DataSourceInfosHaveCorrectDisplayNames()
-        {
+        {            
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<DataSourceInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().DataSources;
-
-            //
-            string[] source = data.Select(item => item.DisplayName).ToArray();
+            string[] source = _dataSources.Select(item => item.DisplayName).ToArray();
             var target = new[]
                 {
                     "archicop",
@@ -75,15 +57,9 @@ namespace ArchiCop.Data
 
         [TestMethod]
         public void GraphInfosHaveCorrectLoadEngines_EngineName()
-        {
+        {            
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<GraphInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().Graphs;
-
-            //
-            string[] source = data.Select(item => item.DataSource.LoadEngine.EngineName).ToArray();
+            string[] source = _graphs.Select(item => item.DataSource.LoadEngine.EngineName).ToArray();
             var target = new[]
                 {
                     "ArchiCop.Core.VisualStudioProjectLoadEngine,ArchiCopCore",
@@ -98,13 +74,7 @@ namespace ArchiCop.Data
         public void DataSourceInfosHaveCorrectLoadEngines_EngineName()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<DataSourceInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().DataSources;
-
-            //
-            string[] source = data.Select(item => item.LoadEngine.EngineName).ToArray();
+            string[] source = _dataSources.Select(item => item.LoadEngine.EngineName).ToArray();
             var target = new[]
                 {
                     "ArchiCop.Core.VisualStudioProjectLoadEngine,ArchiCopCore",
@@ -117,13 +87,7 @@ namespace ArchiCop.Data
         public void GraphInfosHaveCorrectLoadEngines_Arg1()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<GraphInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().Graphs;
-
-            //
-            string[] source = data.Select(item => item.DataSource.LoadEngine.Arg1).ToArray();
+            string[] source = _graphs.Select(item => item.DataSource.LoadEngine.Arg1).ToArray();
             var target = new[]
                 {
                     @"..\..\..",
@@ -138,13 +102,7 @@ namespace ArchiCop.Data
         public void DataSourceInfosHaveCorrectLoadEngines_Arg1()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<DataSourceInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().DataSources;
-
-            //
-            string[] source = data.Select(item => item.LoadEngine.Arg1).ToArray();
+            string[] source = _dataSources.Select(item => item.LoadEngine.Arg1).ToArray();
             var target = new[]
                 {
                     @"..\..\..",
@@ -157,13 +115,7 @@ namespace ArchiCop.Data
         public void GraphInfosHaveCorrectLoadEngines_Arg2()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<GraphInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().Graphs;
-
-            //
-            string[] source = data.Select(item => item.DataSource.LoadEngine.Arg2).ToArray();
+            string[] source = _graphs.Select(item => item.DataSource.LoadEngine.Arg2).ToArray();
             var target = new[]
                 {
                     null,
@@ -178,13 +130,7 @@ namespace ArchiCop.Data
         public void DataSourceInfosHaveCorrectLoadEngines_Arg2()
         {
             //
-            IInfoRepository repository = new ExcelInfoRepository();
-
-            //
-            IEnumerable<DataSourceInfo> data = repository.GetConfigInfos(@"Data\Sample.xls").First().DataSources;
-
-            //
-            string[] source = data.Select(item => item.LoadEngine.Arg2).ToArray();
+            string[] source = _dataSources.Select(item => item.LoadEngine.Arg2).ToArray();
             var target = new[]
                 {
                     null,

@@ -25,21 +25,13 @@ This resource dictionary is used by the MainWindow.
         <view:ArchiCopSolutionView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:CommandViewModel}">
+    <!--<DataTemplate DataType="{x:Type viewModel:CommandViewModel}">
         <TextBlock Margin="2,6">
             <Hyperlink Command="{Binding Path=Command}">
                 <TextBlock Text="{Binding Path=DisplayName}" />
             </Hyperlink>
         </TextBlock>
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type viewModel:GraphCommandViewModel}">
-        <view:GraphCommandView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type viewModel:ArchiCopVertexViewModel}">
-        <TextBlock Text="{Binding Path=Name}" />
-    </DataTemplate>
+    </DataTemplate>-->
 
     <!-- 
   This style configures both of the main content areas in the main window.
