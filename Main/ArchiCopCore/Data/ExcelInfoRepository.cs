@@ -48,6 +48,7 @@ namespace ArchiCop.Data
         public IEnumerable<GraphInfo> Graphs()
         {
             var graphInfos = new List<GraphInfo>();
+            var dataSourceInfos = DataSources();
 
             IEnumerable<string> graphNames = GetGraphNames();
 
@@ -57,13 +58,24 @@ namespace ArchiCop.Data
 
                 IEnumerable<GraphRow> graphRows = GetGraphData(graphName);
 
-                GraphRow loadEngineGraphRow = graphRows.First(item => item.RuleType == "LoadEngine");
-                graphInfo.LoadEngine = new LoadEngineInfo
-                    {
-                        EngineName = loadEngineGraphRow.RuleValue,
-                        Arg1 = loadEngineGraphRow.Arg1,
-                        Arg2 = loadEngineGraphRow.Arg2
-                    };
+                //GraphRow loadEngineGraphRow = graphRows.FirstOrDefault(item => item.RuleType == "LoadEngine");
+                //if (loadEngineGraphRow != default(GraphRow))
+                //{
+                //    graphInfo.LoadEngine = new LoadEngineInfo
+                //        {
+                //            EngineName = loadEngineGraphRow.RuleValue,
+                //            Arg1 = loadEngineGraphRow.Arg1,
+                //            Arg2 = loadEngineGraphRow.Arg2
+                //        };
+                //}
+
+                GraphRow dataSourceGraphRow = graphRows.FirstOrDefault(item => item.RuleType == "DataSource");
+                if (dataSourceGraphRow == default(GraphRow))
+                {
+                    string message = string.Format("Graph {0} has no DataSource.", graphInfo.Name);
+                    throw new ApplicationException(message);
+                }
+                graphInfo.DataSource = dataSourceInfos.FirstOrDefault(item => item.Name == dataSourceGraphRow.RuleValue);
 
                 GraphRow displayNameGraphRow = graphRows.First(item => item.RuleType == "DisplayName");
                 graphInfo.DisplayName = displayNameGraphRow.RuleValue;
@@ -82,7 +94,7 @@ namespace ArchiCop.Data
 
                 graphInfos.Add(graphInfo);
             }
-
+            
             return graphInfos;
         }
 
@@ -174,7 +186,7 @@ namespace ArchiCop.Data
 
             oleDbCon.Open();
 
-            string sql = "SELECT Arg1, Arg2, RuleType, RuleValue, RulePattern from [" + tableName + "]";
+            string sql = "SELECT RuleType, RuleValue, RulePattern from [" + tableName + "]";
 
             var oleDa = new OleDbDataAdapter(sql, _connectionString);
             var ds = new DataSet();
@@ -188,8 +200,6 @@ namespace ArchiCop.Data
                         RuleType = row["RuleType"] as string,
                         RuleValue = row["RuleValue"] as string,
                         RulePattern = row["RulePattern"] as string,
-                        Arg1 = row["Arg1"] as string,
-                        Arg2 = row["Arg2"] as string,
                         GraphName = tableName
                     };
 
@@ -246,9 +256,7 @@ namespace ArchiCop.Data
             public string GraphName { get; set; }
             public string RuleType { get; set; }
             public string RuleValue { get; set; }
-            public string RulePattern { get; set; }
-            public string Arg1 { get; set; }
-            public string Arg2 { get; set; }
+            public string RulePattern { get; set; }            
         }
     }
 }

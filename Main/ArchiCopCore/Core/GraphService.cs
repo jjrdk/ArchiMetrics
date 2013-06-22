@@ -56,7 +56,7 @@ namespace ArchiCop.Core
                         Value = item.RuleValue
                     });
 
-            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(graphInfo.LoadEngine, rules.ToArray());
+            ArchiCopGraph<ArchiCopVertex> graph = GetGraph(graphInfo.DataSource.LoadEngine, rules.ToArray());
 
             graph.DisplayName = graphInfo.DisplayName;
 

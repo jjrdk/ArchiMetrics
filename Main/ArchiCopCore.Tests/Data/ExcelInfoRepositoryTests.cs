@@ -83,7 +83,7 @@ namespace ArchiCop.Data
             IEnumerable<GraphInfo> data = repository.Graphs();
 
             //
-            string[] source = data.Select(item => item.LoadEngine.EngineName).ToArray();
+            string[] source = data.Select(item => item.DataSource.LoadEngine.EngineName).ToArray();
             var target = new[]
                 {
                     "ArchiCop.Core.VisualStudioProjectLoadEngine,ArchiCopCore",
@@ -123,7 +123,7 @@ namespace ArchiCop.Data
             IEnumerable<GraphInfo> data = repository.Graphs();
 
             //
-            string[] source = data.Select(item => item.LoadEngine.Arg1).ToArray();
+            string[] source = data.Select(item => item.DataSource.LoadEngine.Arg1).ToArray();
             var target = new[]
                 {
                     @"..\..\..",
@@ -163,7 +163,7 @@ namespace ArchiCop.Data
             IEnumerable<GraphInfo> data = repository.Graphs();
 
             //
-            string[] source = data.Select(item => item.LoadEngine.Arg2).ToArray();
+            string[] source = data.Select(item => item.DataSource.LoadEngine.Arg2).ToArray();
             var target = new[]
                 {
                     null,

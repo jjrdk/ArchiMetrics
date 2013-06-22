@@ -5,12 +5,20 @@
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
+    <AssociationLine Name="DataSource" Type="ArchiCop.Data.DataSourceInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="1.791" />
+        <Point X="3.75" Y="2.166" />
+        <Point X="5.562" Y="2.166" />
+        <Point X="5.562" Y="2.75" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\GraphInfo.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="LoadEngine" />
+      <Property Name="DataSource" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Rules" />
@@ -27,21 +35,27 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ArchiCop.Data.LoadEngineInfo">
-    <Position X="3.25" Y="2.5" Width="1.5" />
+    <Position X="2.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAADAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAADCAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\LoadEngineInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ArchiCop.Data.InfoObject">
-    <Position X="5.75" Y="0.5" Width="1.75" />
+    <Position X="5.25" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\InfoObject.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ArchiCop.Data.DataSourceInfo">
-    <Position X="5.75" Y="2.75" Width="1.75" />
+    <Position X="5" Y="2.75" Width="1.75" />
+    <InheritanceLine Type="ArchiCop.Data.InfoObject" FixedToPoint="true">
+      <Path>
+        <Point X="6.125" Y="1.796" />
+        <Point X="6.125" Y="2.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\DataSourceInfo.cs</FileName>

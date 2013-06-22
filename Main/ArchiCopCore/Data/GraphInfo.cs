@@ -11,6 +11,6 @@ namespace ArchiCop.Data
 
         public List<GraphRuleInfo> Rules { get; private set; }
 
-        public LoadEngineInfo LoadEngine { get; set; }
+        public DataSourceInfo DataSource { get; set; }
     }
 }
