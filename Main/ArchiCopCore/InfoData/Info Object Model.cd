@@ -1,18 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="ArchiCop.Data.GraphInfo">
-    <Position X="3" Y="0.5" Width="1.5" />
-    <AssociationLine Name="DataSource" Type="ArchiCop.Data.DataSourceInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="3.75" Y="1.733" />
-        <Point X="3.75" Y="2.166" />
-        <Point X="5.562" Y="2.166" />
-        <Point X="5.562" Y="2.75" />
-      </Path>
-    </AssociationLine>
+  <Class Name="ArchiCop.InfoData.ConfigInfo">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>InfoData\ConfigInfo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Graphs" />
+      <Property Name="DataSources" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ArchiCop.InfoData.DataSourceInfo">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InfoData\DataSourceInfo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LoadEngine" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ArchiCop.InfoData.GraphInfo">
+    <Position X="3.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\GraphInfo.cs</FileName>
+      <FileName>InfoData\GraphInfo.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="DataSource" />
@@ -21,66 +34,19 @@
       <Property Name="Rules" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="ArchiCop.Data.GraphRuleInfo">
-    <Position X="0.5" Y="0.5" Width="1.5" />
+  <Class Name="ArchiCop.InfoData.LoadEngineInfo">
+    <Position X="6" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAADCAAABAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InfoData\LoadEngineInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ArchiCop.InfoData.GraphRuleInfo">
+    <Position X="5.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
-      <FileName>Data\GraphRuleInfo.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="RuleType" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="ArchiCop.Data.LoadEngineInfo">
-    <Position X="2.5" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAADCAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\LoadEngineInfo.cs</FileName>
+      <FileName>InfoData\GraphRuleInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ArchiCop.Data.InfoObject">
-    <Position X="5.25" Y="0.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\InfoObject.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ArchiCop.Data.DataSourceInfo">
-    <Position X="5" Y="2.75" Width="1.75" />
-    <InheritanceLine Type="ArchiCop.Data.InfoObject" FixedToPoint="true">
-      <Path>
-        <Point X="6.125" Y="1.796" />
-        <Point X="6.125" Y="2.75" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\DataSourceInfo.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="LoadEngine" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="ArchiCop.Data.ConfigInfo">
-    <Position X="2.5" Y="2.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\ConfigInfo.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Graphs" />
-      <Property Name="DataSources" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Enum Name="ArchiCop.Data.GraphRuleType" Collapsed="true">
-    <Position X="0.5" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\GraphRuleType.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
