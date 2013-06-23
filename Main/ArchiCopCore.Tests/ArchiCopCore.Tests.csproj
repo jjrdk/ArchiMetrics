@@ -67,16 +67,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\BaseTest.cs" />
-    <Compile Include="Core\VisualStudioProjectGraphTests.cs" />
-    <Compile Include="Core\VisualStudioProjectRepositoryTests.cs" />
+    <Compile Include="VisualStudioData\BaseTest.cs" />
+    <Compile Include="VisualStudioData\VisualStudioProjectGraphTests.cs" />
+    <Compile Include="VisualStudioData\VisualStudioProjectRepositoryTests.cs" />
+    <Compile Include="InfoData\ExcelInfoRepositoryTests.cs" />
+    <Compile Include="InfoData\LoadEngineInfoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Core\ArchiCop\ArchiCop.CsproJ">
+    <Content Include="VisualStudioData\ArchiCop\ArchiCop.CsproJ">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Core\ArchiCopCore\ArchiCopCore.csproj">
+    <Content Include="VisualStudioData\ArchiCopCore\ArchiCopCore.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -87,6 +89,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="InfoData\Sample.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

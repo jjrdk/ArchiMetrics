@@ -52,6 +52,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\GraphSharp.1.1.0.0\lib\net40\GraphSharp.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.0.1304.0\lib\Net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.0.1304.0\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="MvvmFoundation.Wpf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MvvmFoundation.Wpf.1.0.0\lib\net40\MvvmFoundation.Wpf.dll</HintPath>
@@ -95,19 +101,27 @@
     </ApplicationDefinition>
     <Compile Include="Controller\ArchiCopController.cs" />
     <Compile Include="Controller\IController.cs" />
-    <Compile Include="ViewModel\MetadataFilesViewModel.cs" />
+    <Compile Include="ViewModel\ArchiCopVertexViewModel.cs" />
+    <Compile Include="ViewModel\GraphCommandViewModel.cs" />
+    <Compile Include="ViewModel\ArchiCopSolutionViewModel.cs" />
+    <Compile Include="ViewModel\GraphVerticesViewModel.cs" />
     <Compile Include="View\ArchiCopLayout.cs" />
     <Compile Include="ViewModel\IMainWindowViewModel.cs" />
+    <Compile Include="View\GraphCommandView.xaml.cs">
+      <DependentUpon>GraphCommandView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GraphVerticesView.xaml.cs">
+      <DependentUpon>GraphVerticesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\GraphDetailsViewModel.cs" />
+    <Compile Include="ViewModel\GraphEdgesViewModel.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
-    <Compile Include="ViewModel\IViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
-    <Compile Include="View\GraphDetailsView.xaml.cs">
-      <DependentUpon>GraphDetailsView.xaml</DependentUpon>
+    <Compile Include="View\GraphEdgesView.xaml.cs">
+      <DependentUpon>GraphEdgesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GraphView.xaml.cs">
       <DependentUpon>GraphView.xaml</DependentUpon>
@@ -117,9 +131,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CommandViewModel.cs" />
-    <Compile Include="View\MetadataFilesView.xaml.cs">
-      <DependentUpon>MetadataFilesView.xaml</DependentUpon>
+    <Compile Include="View\ArchiCopSolutionView.xaml.cs">
+      <DependentUpon>ArchiCopSolutionView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\GraphCommandView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GraphVerticesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -128,7 +150,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\GraphDetailsView.xaml">
+    <Page Include="View\GraphEdgesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,7 +158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MetadataFilesView.xaml">
+    <Page Include="View\ArchiCopSolutionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,12 +178,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="View\Dakirby309-Windows-8-Metro-Apps-Visual-Studio-alt-Metro.ico" />
+    <Resource Include="View\Avosoft-Warm-Toolbar-Database.ico" />
+    <Resource Include="View\Icojam-Onebit-Diagram.ico" />
     <Content Include="Licenses\wpfextensions.codeplex.com_license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

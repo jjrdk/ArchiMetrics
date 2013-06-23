@@ -9,12 +9,12 @@ namespace ArchiCop.Core
     {
         #region IEdgeEngine Members
 
-        public IEnumerable<ArchiCopEdge> ConvertEdges(IEnumerable<ArchiCopEdge> edges,
-                                                      IEnumerable<VertexRegexRule> rules)
+        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> ConvertEdges(IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges,
+                                                                      IEnumerable<VertexRegexRule> rules)
         {
-            var graph = new BidirectionalGraph<ArchiCopVertex, ArchiCopEdge>(false);
+            var graph = new BidirectionalGraph<ArchiCopVertex, ArchiCopEdge<ArchiCopVertex>>(false);
 
-            foreach (ArchiCopEdge edge in edges)
+            foreach (var edge in edges)
             {
                 string source = string.Empty;
                 string target = string.Empty;
@@ -71,19 +71,9 @@ namespace ArchiCop.Core
                 {
                     if (!string.IsNullOrEmpty(sVertex.Name) & !string.IsNullOrEmpty(tVertex.Name))
                     {
-                        graph.AddEdge(new ArchiCopEdge(sVertex, tVertex));
+                        graph.AddEdge(new ArchiCopEdge<ArchiCopVertex>(sVertex, tVertex));
                     }
                 }
-            }
-
-            foreach (ArchiCopVertex vertex in graph.Vertices)
-            {
-                vertex.InEdges = graph.InEdges(vertex).Count();
-                vertex.OutEdges = graph.OutEdges(vertex).Count();
-
-                vertex.OutDegree = graph.OutDegree(vertex);
-                vertex.InDegree = graph.InDegree(vertex);
-                vertex.Degree = graph.Degree(vertex);
             }
 
             return graph.Edges;

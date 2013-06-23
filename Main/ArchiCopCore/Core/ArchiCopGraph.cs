@@ -1,51 +1,71 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using QuickGraph;
 using QuickGraph.Algorithms;
 
 namespace ArchiCop.Core
 {
-    public class ArchiCopGraph : BidirectionalGraph<ArchiCopVertex, ArchiCopEdge>
+    public class ArchiCopGraph<T> : BidirectionalGraph<T, ArchiCopEdge<T>>
+        where T : ArchiCopVertex
     {
-        private readonly IEnumerable<ArchiCopVertex> _oddVertices;
-        private readonly IEnumerable<ArchiCopVertex> _roots;
-        private readonly IEnumerable<ArchiCopVertex> _sinks;
-        private readonly IDictionary<ArchiCopVertex, int> _stronglyConnectedComponents;
-        private readonly IEnumerable<ArchiCopVertex> _topologicalSort;
-
         public ArchiCopGraph()
         {
-            this.StronglyConnectedComponents(out _stronglyConnectedComponents);
-            _topologicalSort = this.TopologicalSort();
-            _roots = this.Roots();
-            _sinks = this.Sinks();
-            _oddVertices = this.OddVertices();
+        }
+
+        public ArchiCopGraph(IEnumerable<Edge<T>> edges)
+        {
+            foreach (T vertex in edges.Select(item => item.Source))
+            {
+                if (!ContainsVertex(vertex))
+                {
+                    AddVertex(vertex);
+                }
+            }
+
+            foreach (T vertex in edges.Select(item => item.Target))
+            {
+                if (!ContainsVertex(vertex))
+                {
+                    AddVertex(vertex);
+                }
+            }
+
+            foreach (var edge in edges)
+            {
+                AddEdge(new ArchiCopEdge<T>(edge.Source, edge.Target));
+            }
         }
 
         public string DisplayName { get; set; }
 
-        public IDictionary<ArchiCopVertex, int> StronglyConnectedComponents
+        public IDictionary<T, int> StronglyConnectedComponents
         {
-            get { return _stronglyConnectedComponents; }
+            get
+            {
+                IDictionary<T, int> stronglyConnectedComponents;
+                this.StronglyConnectedComponents(out stronglyConnectedComponents);
+                return stronglyConnectedComponents;
+            }
         }
 
-        public IEnumerable<ArchiCopVertex> TopologicalSort
+        public IEnumerable<T> TopologicalSort
         {
-            get { return _topologicalSort; }
+            get { return this.TopologicalSort(); }
         }
 
-        public IEnumerable<ArchiCopVertex> Roots
+        public IEnumerable<T> Roots
         {
-            get { return _roots; }
+            get { return this.Roots(); }
         }
 
-        public IEnumerable<ArchiCopVertex> Sinks
+        public IEnumerable<T> Sinks
         {
-            get { return _sinks; }
+            get { return this.Sinks(); }
         }
 
-        public IEnumerable<ArchiCopVertex> OddVertices
+        public IEnumerable<T> OddVertices
         {
-            get { return _oddVertices; }
+            get { return this.OddVertices(); }
         }
     }
 }

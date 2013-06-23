@@ -13,22 +13,26 @@ This resource dictionary is used by the MainWindow.
         <view:GraphView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:GraphDetailsViewModel}">
-        <view:GraphDetailsView />
+    <DataTemplate DataType="{x:Type viewModel:GraphEdgesViewModel}">
+        <view:GraphEdgesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:MetadataFilesViewModel}">
-        <view:MetadataFilesView />
+    <DataTemplate DataType="{x:Type viewModel:GraphVerticesViewModel}">
+        <view:GraphVerticesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:CommandViewModel}">
+    <DataTemplate DataType="{x:Type viewModel:ArchiCopSolutionViewModel}">
+        <view:ArchiCopSolutionView />
+    </DataTemplate>
+
+    <!--<DataTemplate DataType="{x:Type viewModel:CommandViewModel}">
         <TextBlock Margin="2,6">
-                        <Hyperlink Command="{Binding Path=Command}">
-                            <TextBlock Text="{Binding Path=DisplayName}" />
-                        </Hyperlink>
-                    </TextBlock>
-    </DataTemplate>
-    
+            <Hyperlink Command="{Binding Path=Command}">
+                <TextBlock Text="{Binding Path=DisplayName}" />
+            </Hyperlink>
+        </TextBlock>
+    </DataTemplate>-->
+
     <!-- 
   This style configures both of the main content areas in the main window.
   -->

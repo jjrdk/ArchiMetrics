@@ -2,9 +2,10 @@
 
 namespace ArchiCop.Core
 {
-    public class ArchiCopEdge : Edge<ArchiCopVertex>
+    public class ArchiCopEdge<T> : Edge<T>
+        where T : ArchiCopVertex
     {
-        public ArchiCopEdge(ArchiCopVertex source, ArchiCopVertex target)
+        public ArchiCopEdge(T source, T target)
             : base(source, target)
         {
         }

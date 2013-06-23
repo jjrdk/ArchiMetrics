@@ -61,20 +61,20 @@ namespace ArchiCop.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solutions.
+        /// </summary>
+        internal static string ArchiCopSolutionViewModel_DisplayName {
+            get {
+                return ResourceManager.GetString("ArchiCopSolutionViewModel_DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ArchiCop.
         /// </summary>
         internal static string MainWindowViewModel_DisplayName {
             get {
                 return ResourceManager.GetString("MainWindowViewModel_DisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Metadata Files.
-        /// </summary>
-        internal static string MetadataFilesViewModel_DisplayName {
-            get {
-                return ResourceManager.GetString("MetadataFilesViewModel_DisplayName", resourceCulture);
             }
         }
     }

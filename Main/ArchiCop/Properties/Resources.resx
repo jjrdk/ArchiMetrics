@@ -120,7 +120,7 @@
   <data name="MainWindowViewModel_DisplayName" xml:space="preserve">
     <value>ArchiCop</value>
   </data>
-  <data name="MetadataFilesViewModel_DisplayName" xml:space="preserve">
-    <value>Metadata Files</value>
+  <data name="ArchiCopSolutionViewModel_DisplayName" xml:space="preserve">
+    <value>Solutions</value>
   </data>
 </root>

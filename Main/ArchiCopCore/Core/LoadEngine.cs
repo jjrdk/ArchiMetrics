@@ -5,11 +5,11 @@ namespace ArchiCop.Core
 {
     public abstract class LoadEngine : ILoadEngine
     {
-        private readonly ArchiCopGraph _graph = new ArchiCopGraph();
+        private readonly ArchiCopGraph<ArchiCopVertex> _graph = new ArchiCopGraph<ArchiCopVertex>();
 
-        public IEnumerable<ArchiCopEdge> LoadEdges()
+        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
         {
-            foreach (ArchiCopEdge edge in GetEdges())
+            foreach (var edge in GetEdges())
             {
                 string source = edge.Source.Name;
                 string target = edge.Target.Name;
@@ -30,13 +30,13 @@ namespace ArchiCop.Core
                         _graph.AddVertex(tVertex);
                     }
 
-                    _graph.AddEdge(new ArchiCopEdge(sVertex, tVertex));
+                    _graph.AddEdge(new ArchiCopEdge<ArchiCopVertex>(sVertex, tVertex));
                 }
             }
 
             return _graph.Edges;
         }
 
-        protected abstract IEnumerable<ArchiCopEdge> GetEdges();
+        protected abstract IEnumerable<ArchiCopEdge<ArchiCopVertex>> GetEdges();
     }
 }

@@ -10,7 +10,6 @@ namespace ArchiCop.ViewModel
         /// </summary>
         ObservableCollection<CommandViewModel> ControlPanelCommands { get; }
 
-
         /// <summary>
         ///     Returns the collection of available workspaces to display.
         ///     A 'workspace' is a ViewModel that can request to be closed.

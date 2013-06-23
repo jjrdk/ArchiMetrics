@@ -3,8 +3,11 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 using ArchiCop.Controller;
+using ArchiCop.InfoData;
 using ArchiCop.View;
 using ArchiCop.ViewModel;
+using Microsoft.Practices.Unity;
+using MvvmFoundation.Wpf;
 
 namespace ArchiCop
 {
@@ -13,6 +16,10 @@ namespace ArchiCop
     /// </summary>
     public partial class App : Application
     {
+        internal const string CLEAR_WORKSPACES = "CLEAR_WORKSPACES";
+        internal const string SET_WORKSPACES_DISPLAYTEXT = "SET_WORKSPACES_DISPLAYTEXT";
+        private static readonly Messenger _messenger = new Messenger();
+
         static App()
         {
             // This code is used to test the app when using other cultures.
@@ -28,6 +35,11 @@ namespace ArchiCop
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof (FrameworkElement),
                 new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+        }
+
+        internal static Messenger Messenger
+        {
+            get { return _messenger; }
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -54,7 +66,13 @@ namespace ArchiCop
             // the element tree.
             window.DataContext = viewModel;
 
-            new ArchiCopController(viewModel);
+            IUnityContainer container = new UnityContainer();
+            container.RegisterType<IInfoRepository, ExcelInfoRepository>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ArchiCopSolutionViewModel, ArchiCopSolutionViewModel>(
+                new ContainerControlledLifetimeManager());
+            container.RegisterInstance<IMainWindowViewModel>(viewModel);
+
+            container.Resolve<ArchiCopController>();
 
             window.Show();
         }

@@ -12,3 +12,5 @@ packages
 Main/TestResult.xml
 *.user
 settings.xml
+*.txt.bak
+*.tmp

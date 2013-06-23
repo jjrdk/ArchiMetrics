@@ -17,19 +17,14 @@
 
             <Border Grid.Column="0" Style="{StaticResource MainBorderStyle}" Width="170">
                 <StackPanel>
-
-                    <!--<HeaderedContentControl Header="Metadata Files" Style="{StaticResource MainHCCStyle}" />
-                    <ComboBox ItemsSource="{Binding MetadataFiles}" SelectedItem="MetadataFile"
-                              IsSynchronizedWithCurrentItem="True" />-->
                     <HeaderedContentControl Content="{Binding Path=ControlPanelCommands}"
-                                            ContentTemplate="{StaticResource CommandsTemplate}" Header="Control Panel"
-                                            Style="{StaticResource MainHCCStyle}" />
+                                            ContentTemplate="{StaticResource CommandsTemplate}" />
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource MainBorderStyle}">
-                <HeaderedContentControl Content="{Binding Path=Workspaces}"
-                                        ContentTemplate="{StaticResource WorkspacesTemplate}" Header="Workspaces"
+                <HeaderedContentControl Content="{Binding Path=Workspaces}" Header="{Binding WorkspaceDisplayText}"
+                                        ContentTemplate="{StaticResource WorkspacesTemplate}"
                                         Style="{StaticResource MainHCCStyle}" />
             </Border>
         </Grid>
