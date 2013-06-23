@@ -14,7 +14,7 @@ namespace ArchiCop.Core
             IEnumerable<GraphInfo> graphData = configInfo.Graphs;
             foreach (string graphName in graphData.GroupBy(item => item.Name).Select(g => g.Key))
             {
-                ArchiCopGraph<ArchiCopVertex> info = GetGraphInfo(graphData.First(item => item.Name == graphName));
+                ArchiCopGraph<ArchiCopVertex> info = GetGraphFromGraphInfo(graphData.First(item => item.Name == graphName));
                 _graphs.Add(info);
             }
 
@@ -22,7 +22,7 @@ namespace ArchiCop.Core
             foreach (string dataSource in datasourcesData.GroupBy(item => item.Name).Select(g => g.Key))
             {
                 ArchiCopGraph<ArchiCopVertex> info =
-                    GetDataSourceInfo(datasourcesData.First(item => item.Name == dataSource));
+                    GetDataSourceFromDataSourceInfo(datasourcesData.First(item => item.Name == dataSource));
                 _dataSources.Add(info);
             }
         }
@@ -37,7 +37,7 @@ namespace ArchiCop.Core
             get { return _graphs; }
         }
 
-        private ArchiCopGraph<ArchiCopVertex> GetDataSourceInfo(DataSourceInfo dataSource)
+        private ArchiCopGraph<ArchiCopVertex> GetDataSourceFromDataSourceInfo(DataSourceInfo dataSource)
         {
             ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSource.LoadEngine);
 
@@ -46,7 +46,7 @@ namespace ArchiCop.Core
             return graph;
         }
 
-        private ArchiCopGraph<ArchiCopVertex> GetGraphInfo(GraphInfo graphInfo)
+        private ArchiCopGraph<ArchiCopVertex> GetGraphFromGraphInfo(GraphInfo graphInfo)
         {
             IEnumerable<VertexRegexRule> rules = graphInfo.Rules.Select(
                 item =>
