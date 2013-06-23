@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using ArchiCop.Core;
 
-namespace ArchiCop.VisualStudioProjectData
+namespace ArchiCop.VisualStudioData
 {
     public class VisualStudioProjectRepository : IVisualStudioProjectRepository
     {

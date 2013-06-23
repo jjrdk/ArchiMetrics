@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ArchiCop.VisualStudioProjectData;
+using ArchiCop.Core;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioData
 {
     public class VisualStudioProjectLoadEngine : LoadEngine
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using ArchiCop.Core;
 using QuickGraph;
 
-namespace ArchiCop.VisualStudioProjectData
+namespace ArchiCop.VisualStudioData
 {
     public class VisualStudioProjectGraph : BidirectionalGraph<VisualStudioProject, ArchiCopEdge<VisualStudioProject>>
     {

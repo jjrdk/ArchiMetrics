@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ArchiCop.VisualStudioProjectData
+namespace ArchiCop.VisualStudioData
 {
     [TestClass]
     public class VisualStudioProjectRepositoryTests : BaseTest
@@ -124,7 +124,7 @@ namespace ArchiCop.VisualStudioProjectData
             var target = new[]
                 {
                     Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).ToLower(),
-                                 @"visualstudioprojectdata\archicopcore\archicopcore.csproj")
+                                 @"visualstudiodata\archicopcore\archicopcore.csproj")
                 };
 
             Assert.IsTrue(source.Intersect(target).Any());

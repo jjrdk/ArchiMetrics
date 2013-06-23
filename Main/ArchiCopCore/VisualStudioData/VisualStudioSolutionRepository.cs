@@ -2,9 +2,8 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
-using ArchiCop.VisualStudioProjectData;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioData
 {
     public class VisualStudioSolutionRepository : IVisualStudioSolutionRepository
     {

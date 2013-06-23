@@ -1,6 +1,4 @@
-﻿using ArchiCop.VisualStudioProjectData;
-
-namespace ArchiCop.Core
+﻿namespace ArchiCop.VisualStudioData
 {
     public interface IVisualStudioSolutionRepository
     {

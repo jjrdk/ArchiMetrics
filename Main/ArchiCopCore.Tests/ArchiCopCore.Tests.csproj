@@ -67,18 +67,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="VisualStudioProjectData\BaseTest.cs" />
-    <Compile Include="VisualStudioProjectData\VisualStudioProjectGraphTests.cs" />
-    <Compile Include="VisualStudioProjectData\VisualStudioProjectRepositoryTests.cs" />
+    <Compile Include="VisualStudioData\BaseTest.cs" />
+    <Compile Include="VisualStudioData\VisualStudioProjectGraphTests.cs" />
+    <Compile Include="VisualStudioData\VisualStudioProjectRepositoryTests.cs" />
     <Compile Include="InfoData\ExcelInfoRepositoryTests.cs" />
     <Compile Include="InfoData\LoadEngineInfoTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="VisualStudioProjectData\ArchiCop\ArchiCop.CsproJ">
+    <Content Include="VisualStudioData\ArchiCop\ArchiCop.CsproJ">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="VisualStudioProjectData\ArchiCopCore\ArchiCopCore.csproj">
+    <Content Include="VisualStudioData\ArchiCopCore\ArchiCopCore.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
