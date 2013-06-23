@@ -52,7 +52,7 @@ namespace ArchiMate
 
         private void BindGrids()
         {
-            IEnumerable<Edge<VisualStudioProject>> edges = _graph.Edges;
+            IEnumerable<ArchiCopEdge<VisualStudioProject>> edges = _graph.Edges;
 
             if (!checkBox1.Checked)
             {

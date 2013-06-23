@@ -7,9 +7,10 @@ namespace ArchiCop.VisualStudioData
 {
     public class VisualStudioProjectGraphEngine
     {
-        public ArchiCopGraph<VisualStudioProject> GetGraph(IEnumerable<Edge<VisualStudioProject>> edges)
+        public ArchiCopGraph<VisualStudioProject> GetGraph(IEnumerable<ArchiCopEdge<VisualStudioProject>> edges)
         {
-            var graph = new ArchiCopGraph<VisualStudioProject>(edges);
+            var graph = new ArchiCopGraph<VisualStudioProject>();
+            graph.AddVerticesAndEdgeRange(edges);
             return graph;
         }
 
