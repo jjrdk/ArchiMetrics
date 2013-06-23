@@ -57,9 +57,9 @@ namespace ArchiMeter.Data.DataAccess
 												   .Distinct()
 												   .Select(_solutionProvider.Get)
 												   .SelectMany(s => s.Projects)
-												   .Distinct(new ProjectComparer())
+												   .Distinct(ProjectComparer.Default)
 												   .SelectMany(p => p.Documents)
-												   .Distinct(new DocumentComparer())
+												   .Distinct(DocumentComparer.Default)
 												   .Select(d => new Tuple<string, SyntaxNode>(d.Project.FilePath, d.GetSyntaxTree().GetRoot() as SyntaxNode))
 												   .Where(n => n.Item2 != null)
 												   .Select(t => _inspector.Inspect(t.Item1, t.Item2));

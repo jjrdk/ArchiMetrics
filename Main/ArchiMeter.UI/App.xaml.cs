@@ -17,18 +17,18 @@ namespace ArchiMeter.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-	using ArchiMeter.Analysis;
-	using ArchiMeter.CodeReview;
-	using ArchiMeter.CodeReview.Metrics;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Metrics;
-	using ArchiMeter.Data.DataAccess;
-	using ArchiMeter.UI.Support;
-	using ArchiMeter.UI.ViewModel;
+	using Analysis;
+	using Analysis.Metrics;
 	using Autofac;
+	using CodeReview;
+	using Common;
+	using Common.Metrics;
+	using Data.DataAccess;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
+	using Support;
+	using ViewModel;
 
 	public partial class App : Application
 	{
@@ -45,7 +45,7 @@ namespace ArchiMeter.UI
 		{
 			var container = BuildContainer();
 			var loader = new ModernContentLoader(container);
-			this.Resources.Add("Loader", loader);
+			Resources.Add("Loader", loader);
 			base.OnStartup(e);
 		}
 
@@ -86,8 +86,8 @@ namespace ArchiMeter.UI
 			}
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
-			builder.RegisterType<ProjectMetricsCalculator>()
-				   .As<IProjectMetricsCalculator>();
+			builder.RegisterType<CodeMetricsCalculator>()
+				   .As<ICodeMetricsCalculator>();
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();
 			var vertexRuleRepository = new FakeVertexRuleRepository();

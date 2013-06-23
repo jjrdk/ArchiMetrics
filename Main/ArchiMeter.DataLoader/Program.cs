@@ -20,20 +20,20 @@ namespace ArchiMeter.DataLoader
 	using System.Threading.Tasks;
 	using System.Xml.Serialization;
 	using Analysis;
+	using Analysis.Metrics;
 	using Autofac;
 	using CodeReview;
-	using CodeReview.Metrics;
 	using Common;
 	using Common.Documents;
 	using Common.Metrics;
 	using Data.DataAccess;
+	using global::Raven.Client;
 	using Ionic.Zip;
 	using NHunspell;
 	using Raven;
 	using Raven.Repositories;
 	using Roslyn.Services;
 	using Tfs;
-	using global::Raven.Client;
 
 	class Program
 	{
@@ -55,7 +55,7 @@ namespace ArchiMeter.DataLoader
 			builder.RegisterInstance(new EmbeddedDocumentStoreProvider())
 				   .As<IProvider<IDocumentStore>>();
 			builder.RegisterType<Loader>();
-			builder.RegisterType<SLoCCounter>();
+			builder.RegisterType<SlocCounter>();
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
 			builder.RegisterType<SolutionInspector>()
 				   .As<INodeInspector>();
@@ -99,8 +99,8 @@ namespace ArchiMeter.DataLoader
 				   .As<IFactory<IDataSession<TfsMetricsDocument>>>();
 			builder.RegisterType<EvaluationRepositoryFactory>()
 				   .As<IFactory<IDataSession<EvaluationResultDocument>>>();
-			builder.RegisterType<ProjectMetricsCalculator>()
-				   .As<IProjectMetricsCalculator>();
+			builder.RegisterType<CodeMetricsCalculator>()
+				   .As<ICodeMetricsCalculator>();
 			builder.RegisterType<SolutionEdgeItemsRepositoryConfig>()
 				   .As<ISolutionEdgeItemsRepositoryConfig>();
 			builder.RegisterType<ProjectProvider>()

@@ -25,7 +25,7 @@ namespace ArchiMeter.Data.DataAccess
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, Task<ProjectCodeMetrics>> _metrics = new ConcurrentDictionary<string, Task<ProjectCodeMetrics>>();
-		private readonly IProjectMetricsCalculator _metricsCalculator;
+		private readonly ICodeMetricsCalculator _metricsCalculator;
 		private readonly ConcurrentDictionary<string, Task<ProjectReference[]>> _projectReferences = new ConcurrentDictionary<string, Task<ProjectReference[]>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
@@ -33,7 +33,7 @@ namespace ArchiMeter.Data.DataAccess
 			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
-			IProjectMetricsCalculator metricsCalculator)
+			ICodeMetricsCalculator metricsCalculator)
 			: base(config, codeErrorRepository)
 		{
 			_config = config;
@@ -74,7 +74,7 @@ namespace ArchiMeter.Data.DataAccess
 									   .AsParallel()
 									   .Select(_solutionProvider.Get)
 									   .SelectMany(s => s.Projects)
-									   .Distinct(new ProjectComparer())
+									   .Distinct(ProjectComparer.Default)
 									   .Select(GetProjectMetrics);
 			return Task.WhenAll(metricTasks).ContinueWith(task => task.Result.AsEnumerable());
 		}

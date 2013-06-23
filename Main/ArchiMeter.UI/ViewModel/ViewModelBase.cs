@@ -20,9 +20,8 @@ namespace ArchiMeter.UI.ViewModel
 	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
-
-	using ArchiMeter.Common;
-	using ArchiMeter.UI.Properties;
+	using Common;
+	using Properties;
 
 	/// <summary>
 	/// Base class for all ViewModel classes in the application.
@@ -33,14 +32,14 @@ namespace ArchiMeter.UI.ViewModel
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 
-		private bool _isLoading;
 		private IDisposable _changeSubscription;
+		private bool _isLoading;
 
 		protected ViewModelBase(ISolutionEdgeItemsRepositoryConfig config)
 		{
 			_config = config;
-			var type = this.GetType();
-			this.DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
+			var type = GetType();
+			DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
 					h => _config.PropertyChanged += h,
@@ -48,11 +47,6 @@ namespace ArchiMeter.UI.ViewModel
 				.SubscribeOn(TaskPoolScheduler.Default)
 				.ObserveOn(TaskPoolScheduler.Default)
 				.Subscribe(x => Update(true));
-		}
-
-		~ViewModelBase()
-		{
-			this.Dispose(false);
 		}
 
 		public bool IsLoading
@@ -67,7 +61,7 @@ namespace ArchiMeter.UI.ViewModel
 				if (_isLoading != value)
 				{
 					_isLoading = value;
-					this.RaisePropertyChanged();
+					RaisePropertyChanged();
 				}
 			}
 		}
@@ -81,8 +75,18 @@ namespace ArchiMeter.UI.ViewModel
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		~ViewModelBase()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -103,11 +107,6 @@ namespace ArchiMeter.UI.ViewModel
 		}
 
 		/// <summary>
-		/// Raised when a property on this object has a new value.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		/// <summary>
 		/// Raises this object's PropertyChanged event.
 		/// </summary>
 		/// <param name="propertyName">The property that has a new value.</param>
@@ -115,12 +114,12 @@ namespace ArchiMeter.UI.ViewModel
 		protected void RaisePropertyChanged([CallerMemberName]string propertyName = "")
 		{
 			var e = new PropertyChangedEventArgs(propertyName);
-			this.RaisePropertyChanged(e);
+			RaisePropertyChanged(e);
 		}
 
 		protected void RaisePropertyChanged(PropertyChangedEventArgs args)
 		{
-			var handler = this.PropertyChanged;
+			var handler = PropertyChanged;
 			if (handler != null)
 			{
 				handler(this, args);

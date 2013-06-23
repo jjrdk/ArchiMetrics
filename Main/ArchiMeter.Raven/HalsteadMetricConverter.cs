@@ -13,7 +13,7 @@
 namespace ArchiMeter.Raven
 {
 	using System;
-	using CodeReview.Metrics;
+	using Analysis.Metrics;
 	using Common.Metrics;
 	using global::Raven.Imports.Newtonsoft.Json;
 	using global::Raven.Json.Linq;

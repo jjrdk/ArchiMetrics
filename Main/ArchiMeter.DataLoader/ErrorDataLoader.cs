@@ -17,7 +17,7 @@ namespace ArchiMeter.DataLoader
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Analysis;
-	using CodeReview.Metrics;
+	using Analysis.Metrics;
 	using Common;
 	using Common.Documents;
 	using Roslyn.Compilers.CSharp;
@@ -26,7 +26,7 @@ namespace ArchiMeter.DataLoader
 	public class ErrorDataLoader : IDataLoader
 	{
 		private readonly SyntaxMetricsCalculator _calc = new SyntaxMetricsCalculator();
-		private readonly SLoCCounter _counter = new SLoCCounter();
+		private readonly SlocCounter _counter = new SlocCounter();
 
 		private readonly INodeInspector _inspector;
 		private readonly IProvider<string, IProject> _projectProvider;

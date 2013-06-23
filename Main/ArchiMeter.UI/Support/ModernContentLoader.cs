@@ -19,13 +19,6 @@
 			_container = container;
 		}
 
-		private object GetContent(Uri uri)
-		{
-			return ModernUIHelper.IsInDesignMode
-				? null
-				: Application.LoadComponent(uri);
-		}
-
 		public Task<object> LoadContentAsync(Uri uri, CancellationToken cancellationToken)
 		{
 			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -54,6 +47,13 @@
 
 							   return content;
 						   });
+		}
+
+		private object GetContent(Uri uri)
+		{
+			return ModernUIHelper.IsInDesignMode
+				? null
+				: Application.LoadComponent(uri);
 		}
 
 		private Task<object> GetContext(DataContextAttribute dataContext)

@@ -13,15 +13,15 @@
 namespace ArchiMeter.CodeReview
 {
 	using System;
+	using Analysis.Metrics;
 	using Common;
 	using Common.Metrics;
-	using Metrics;
 
-	public class ProjectMetricsCalculatorFactory : IFactory<ProjectSettings, IProjectMetricsCalculator>
+	public class ProjectMetricsCalculatorFactory : IFactory<ProjectSettings, ICodeMetricsCalculator>
 	{
-		public IProjectMetricsCalculator Create(ProjectSettings parameter)
+		public ICodeMetricsCalculator Create(ProjectSettings parameter)
 		{
-			return new ProjectMetricsCalculator();
+			return new CodeMetricsCalculator();
 		}
 
 		public void Dispose()

@@ -18,7 +18,7 @@ namespace ArchiMeter.UI
 	{
 		public MainWindow()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 		}
 	}
 }

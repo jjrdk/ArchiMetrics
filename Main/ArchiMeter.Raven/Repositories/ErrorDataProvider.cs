@@ -17,9 +17,9 @@ namespace ArchiMeter.Raven.Repositories
 	using System.Linq;
 	using Common;
 	using Common.Documents;
-	using Indexes;
 	using global::Raven.Client;
 	using global::Raven.Client.Linq;
+	using Indexes;
 
 	public sealed class ErrorDataProvider
 	{

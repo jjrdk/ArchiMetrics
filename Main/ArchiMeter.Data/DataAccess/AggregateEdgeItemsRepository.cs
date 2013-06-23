@@ -21,7 +21,7 @@ namespace ArchiMeter.Data.DataAccess
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly IProjectMetricsCalculator _metricsCalculator;
+		private readonly ICodeMetricsCalculator _metricsCalculator;
 		private readonly NamespaceEdgeItemsRepository _namespaceEdgeRepository;
 		private readonly ProjectEdgeItemsRepository _projectEdgeRepository;
 
@@ -29,7 +29,7 @@ namespace ArchiMeter.Data.DataAccess
 			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider, 
 			ICodeErrorRepository codeErrorRepository, 
-			IProjectMetricsCalculator metricsCalculator)
+			ICodeMetricsCalculator metricsCalculator)
 		{
 			_config = config;
 			_metricsCalculator = metricsCalculator;

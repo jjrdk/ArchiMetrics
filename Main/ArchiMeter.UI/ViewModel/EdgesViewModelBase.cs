@@ -14,8 +14,7 @@ namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-
-	using ArchiMeter.Common;
+	using Common;
 
 	public abstract class EdgesViewModelBase : ViewModelBase
 	{
@@ -28,7 +27,7 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			_repository = repository;
 			_filter = filter;
-			this.VertexRules = ruleDefinition.VertexRules;
+			VertexRules = ruleDefinition.VertexRules;
 		}
 
 		public ICollection<VertexRule> VertexRules { get; private set; }

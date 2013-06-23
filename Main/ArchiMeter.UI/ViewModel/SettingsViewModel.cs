@@ -1,15 +1,15 @@
 ﻿namespace ArchiMeter.UI.ViewModel
 {
 	using System;
+	using System.ComponentModel;
 	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
-	using ArchiMeter.Common;
-	using System.ComponentModel;
+	using Common;
 
 	internal class SettingsViewModel : ViewModelBase
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly IDisposable _changeSubscription;
+		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 
 		public SettingsViewModel(ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)

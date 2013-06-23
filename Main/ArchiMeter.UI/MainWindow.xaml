@@ -17,7 +17,7 @@
 				  d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}"
 				  ContentLoader="{DynamicResource Loader}">
 	<mui:ModernWindow.TitleLinks>
-		<mui:Link DisplayName="Settings" Source="View/SettingsView.xaml"></mui:Link>
+		<mui:Link DisplayName="Settings" Source="View/SettingsView.xaml" />
 	</mui:ModernWindow.TitleLinks>
 	<mui:ModernWindow.MenuLinkGroups>
 		<mui:LinkGroup DisplayName="Structures">

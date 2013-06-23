@@ -16,8 +16,8 @@ namespace ArchiMeter.CodeReview
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Common;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 
 	public class SolutionInspector : INodeInspector
 	{

@@ -14,9 +14,8 @@ namespace ArchiMeter.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-
-	using ArchiMeter.Analysis;
-	using ArchiMeter.Common;
+	using Analysis;
+	using Common;
 
 	internal class GraphViewModel : ViewModelBase
 	{
@@ -46,7 +45,7 @@ namespace ArchiMeter.UI.ViewModel
 				if (_graphToVisualize != value)
 				{
 					_graphToVisualize = value;
-					this.RaisePropertyChanged();
+					RaisePropertyChanged();
 				}
 			}
 		}
@@ -55,11 +54,11 @@ namespace ArchiMeter.UI.ViewModel
 		{
 			if (forceUpdate)
 			{
-				this.LoadAllEdges();
+				LoadAllEdges();
 			}
 			else
 			{
-				this.UpdateInternal();
+				UpdateInternal();
 			}
 		}
 
@@ -72,7 +71,7 @@ namespace ArchiMeter.UI.ViewModel
 
 		private async void UpdateInternal()
 		{
-			this.IsLoading = true;
+			IsLoading = true;
 
 			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
 				.ToArray();
@@ -85,7 +84,7 @@ namespace ArchiMeter.UI.ViewModel
 				.SelectMany(item =>
 					{
 						var isCircular = circularReferences.Any(c => c.Contains(item));
-						return this.CreateVertices(item, isCircular);
+						return CreateVertices(item, isCircular);
 					})
 				.GroupBy(v => v.Name)
 				.Select(grouping => grouping.First())
@@ -112,8 +111,8 @@ namespace ArchiMeter.UI.ViewModel
 				g.AddEdge(edge);
 			}
 
-			this.GraphToVisualize = g;
-			this.IsLoading = false;
+			GraphToVisualize = g;
+			IsLoading = false;
 		}
 
 		private IEnumerable<Vertex> CreateVertices(EdgeItem item, bool isCircular)

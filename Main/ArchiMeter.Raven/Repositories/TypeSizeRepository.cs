@@ -2,8 +2,8 @@
 {
 	using Common;
 	using Common.Documents;
-	using Indexes;
 	using global::Raven.Client;
+	using Indexes;
 
 	public class TypeSizeRepository : AsyncRepositoryBase<TypeSizeSegment, TfsTypeSizeDistributionIndex>
 	{

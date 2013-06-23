@@ -11,15 +11,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMeter.CodeReview.Rules
 {
+	using Analysis.Metrics;
 	using Common;
 	using Common.Metrics;
-	using Metrics;
 	using Roslyn.Compilers.CSharp;
 
 	internal class TooHighCyclomaticComplexityRule : CodeEvaluationBase
 	{
 		private const int Limit = 8;
-		readonly CyclomaticComplexityAnalyzer analyzer = new CyclomaticComplexityAnalyzer();
+		readonly CyclomaticComplexityAnalyzer _analyzer = new CyclomaticComplexityAnalyzer();
 
 		public override SyntaxKind EvaluatedKind
 		{
@@ -29,7 +29,7 @@ namespace ArchiMeter.CodeReview.Rules
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var complexity = analyzer.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration));
+			var complexity = _analyzer.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration));
 			if (complexity >= Limit)
 			{
 				return new EvaluationResult

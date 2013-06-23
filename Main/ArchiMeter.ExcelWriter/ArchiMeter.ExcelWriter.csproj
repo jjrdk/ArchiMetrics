@@ -7,8 +7,8 @@
     <ProjectGuid>{67A86417-F4C5-42C3-898A-79CEC9BD2253}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArchiMeter.ReportWriter</RootNamespace>
-    <AssemblyName>ArchiMeter.ReportWriter</AssemblyName>
+    <RootNamespace>ArchiMeter.ExcelWriter</RootNamespace>
+    <AssemblyName>ArchiMeter.ExcelWriter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -120,8 +120,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.fsproj">
-      <Project>{bffc8775-d122-4b9b-a1af-82e8ae35eec5}</Project>
+    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.csproj">
+      <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
       <Name>ArchiMeter.Analysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj">

@@ -16,9 +16,9 @@ namespace ArchiMeter.Raven.Repositories
 	using Common;
 	using Common.Documents;
 	using Common.Metrics;
-	using Indexes;
 	using global::Raven.Client;
 	using global::Raven.Client.Linq;
+	using Indexes;
 
 	public sealed class MetricsProvider
 	{

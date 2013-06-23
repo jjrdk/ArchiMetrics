@@ -17,8 +17,7 @@ namespace ArchiMeter.UI.Converters
 	using System.Globalization;
 	using System.Windows.Data;
 	using System.Windows.Media;
-
-	using ArchiMeter.Common;
+	using Common;
 
 	internal class QualityToBrushConverter : IValueConverter
 	{
@@ -26,12 +25,12 @@ namespace ArchiMeter.UI.Converters
 
 		public QualityToBrushConverter()
 		{
-			_brushes.Add(CodeQuality.Good, this.GetBrush(Brushes.Green));
-			_brushes.Add(CodeQuality.NeedsReview, this.GetBrush(Brushes.YellowGreen));
-			_brushes.Add(CodeQuality.NeedsRefactoring, this.GetBrush(Brushes.Yellow));
-			_brushes.Add(CodeQuality.NeedsReEngineering, this.GetBrush(Brushes.Orange));
-			_brushes.Add(CodeQuality.Broken, this.GetBrush(Brushes.Red));
-			_brushes.Add(CodeQuality.Incompetent, this.GetBrush(Brushes.HotPink));
+			_brushes.Add(CodeQuality.Good, GetBrush(Brushes.Green));
+			_brushes.Add(CodeQuality.NeedsReview, GetBrush(Brushes.YellowGreen));
+			_brushes.Add(CodeQuality.NeedsRefactoring, GetBrush(Brushes.Yellow));
+			_brushes.Add(CodeQuality.NeedsReEngineering, GetBrush(Brushes.Orange));
+			_brushes.Add(CodeQuality.Broken, GetBrush(Brushes.Red));
+			_brushes.Add(CodeQuality.Incompetent, GetBrush(Brushes.HotPink));
 		}
 
 		public object Convert(object value, 

@@ -116,7 +116,7 @@
     <Compile Include="Metrics\CodeMetrics.cs" />
     <Compile Include="Metrics\IHalsteadAnalyzer.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
-    <Compile Include="Metrics\IProjectMetricsCalculator.cs" />
+    <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetric.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />
@@ -151,7 +151,8 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(ProjectDir)\..\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

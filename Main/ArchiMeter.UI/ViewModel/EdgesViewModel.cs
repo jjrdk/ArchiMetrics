@@ -12,27 +12,24 @@
 
 namespace ArchiMeter.UI.ViewModel
 {
-	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
-	using System.Threading;
-	using System.Threading.Tasks;
 	using System.Windows.Data;
 	using System.Windows.Input;
-	using ArchiMeter.Common;
-	using ArchiMeter.UI.Support;
+	using Common;
+	using Support;
 
 	public class EdgesViewModel : EdgesViewModelBase
 	{
 		private readonly object _syncLock = new object();
-		private ObservableCollection<EdgeItem> _dependencyItems;
 		private readonly DelegateCommand _updateCommand;
+		private ObservableCollection<EdgeItem> _dependencyItems;
 
 		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
 			: base(repository, filter, ruleDefinition, config)
 		{
-			this.DependencyItems = new ObservableCollection<EdgeItem>();
-			this.LoadEdges();
-			_updateCommand = new DelegateCommand(o => true, o => this.UpdateInternal());
+			DependencyItems = new ObservableCollection<EdgeItem>();
+			LoadEdges();
+			_updateCommand = new DelegateCommand(o => true, o => UpdateInternal());
 		}
 
 		public ObservableCollection<EdgeItem> DependencyItems
@@ -57,7 +54,7 @@ namespace ArchiMeter.UI.ViewModel
 						BindingOperations.EnableCollectionSynchronization(_dependencyItems, _syncLock);
 					}
 
-					this.RaisePropertyChanged();
+					RaisePropertyChanged();
 				}
 			}
 		}

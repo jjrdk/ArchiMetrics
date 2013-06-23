@@ -14,8 +14,8 @@ namespace ArchiMeter.Raven.Tests
 	using System.IO;
 	using System.Text;
 	using Common.Metrics;
-	using NUnit.Framework;
 	using global::Raven.Imports.Newtonsoft.Json;
+	using NUnit.Framework;
 
 	public class TypeCouplingConverterTests
 	{

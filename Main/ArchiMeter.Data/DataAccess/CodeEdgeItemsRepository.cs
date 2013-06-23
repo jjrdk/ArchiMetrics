@@ -19,8 +19,8 @@ namespace ArchiMeter.Data.DataAccess
 	using System.Threading.Tasks;
 	using Common;
 	using Common.Metrics;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 
 	public abstract class CodeEdgeItemsRepository : IEdgeItemsRepository, IDisposable
 	{

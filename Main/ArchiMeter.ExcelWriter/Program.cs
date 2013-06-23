@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.ReportWriter
+namespace ArchiMeter.ExcelWriter
 {
 	using System;
 	using System.Diagnostics;
@@ -18,20 +18,17 @@ namespace ArchiMeter.ReportWriter
 	using System.Linq;
 	using System.Xml.Serialization;
 	using Analysis;
-
-	using ArchiMeter.ReportWriter.Reports;
-
 	using Autofac;
 	using CodeReview;
 	using Common;
 	using Common.Documents;
 	using Common.Metrics;
 	using Data.DataAccess;
+	using global::Raven.Client;
 	using Raven;
 	using Raven.Repositories;
-
+	using Reports;
 	using Roslyn.Services;
-	using global::Raven.Client;
 
 	class Program
 	{
@@ -53,7 +50,7 @@ namespace ArchiMeter.ReportWriter
 			builder.RegisterInstance(new NamedDocumentStoreProvider(config.DatabaseUrl, config.ApiKey))
 				   .As<IProvider<IDocumentStore>>();
 			builder.RegisterType<ExcelReportWriter>();
-			builder.RegisterType<SLoCCounter>();
+			builder.RegisterType<SlocCounter>();
 			builder.RegisterInstance(new PathFilter(ReportUtils.AllCode));
 			builder.RegisterType<ErrorDataProviderFactory>()
 				   .As<IFactory<Func<ProjectInventoryDocument, string[]>, ErrorDataProvider>>();
