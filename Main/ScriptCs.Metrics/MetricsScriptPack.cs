@@ -6,7 +6,6 @@
 	{
 		public void Initialize(IScriptPackSession session)
 		{
-			session.ImportNamespace("ArchiMeter.ScriptPack");
 		}
 
 		public IScriptPackContext GetContext()
