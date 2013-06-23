@@ -28,7 +28,7 @@ namespace ArchiCop.ExcelData
 
             string sql = "SELECT Source, Target from [" + _excelsheetname + "]";
 
-            var oleDa = new OleDbDataAdapter(sql, _connString);
+            var oleDa = new OleDbDataAdapter(sql, oleDbCon);
             var ds = new DataSet();
             oleDa.Fill(ds);
 
