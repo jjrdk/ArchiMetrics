@@ -5,30 +5,12 @@ using QuickGraph;
 
 namespace ArchiCop.VisualStudioData
 {
-    public class VisualStudioProjectGraph : BidirectionalGraph<VisualStudioProject, ArchiCopEdge<VisualStudioProject>>
+    public class VisualStudioProjectGraph : ArchiCopGraph<VisualStudioProject>
     {
         public VisualStudioProjectGraph(IEnumerable<Edge<VisualStudioProject>> edges)
+            : base(edges)
         {
-            foreach (VisualStudioProject project in edges.Select(item => item.Source))
-            {
-                if (!ContainsVertex(project))
-                {
-                    AddVertex(project);
-                }
-            }
 
-            foreach (VisualStudioProject project in edges.Select(item => item.Target))
-            {
-                if (!ContainsVertex(project))
-                {
-                    AddVertex(project);
-                }
-            }
-
-            foreach (var edge in edges)
-            {
-                AddEdge(new ArchiCopEdge<VisualStudioProject>(edge.Source, edge.Target));
-            }
         }
 
         public VisualStudioProjectGraph(IEnumerable<VisualStudioProject> projects)
