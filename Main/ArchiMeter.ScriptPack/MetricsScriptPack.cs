@@ -1,8 +1,8 @@
-﻿namespace ArchiMeter.ScriptPack
+﻿namespace ScriptCs.Metrics
 {
 	using ScriptCs.Contracts;
 
-	public class MetricsToolsScriptPack : IScriptPack
+	public class MetricsScriptPack : IScriptPack
 	{
 		public void Initialize(IScriptPackSession session)
 		{
@@ -11,7 +11,7 @@
 
 		public IScriptPackContext GetContext()
 		{
-			return new MetricsTools();
+			return new Metrics();
 		}
 
 		public void Terminate()

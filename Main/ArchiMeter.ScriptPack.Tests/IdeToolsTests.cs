@@ -1,6 +1,7 @@
 ﻿namespace ArchiMeter.ScriptPack.Tests
 {
 	using NUnit.Framework;
+	using ScriptCs.Metrics;
 
 	public class IdeToolsTests
 	{

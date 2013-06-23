@@ -3,15 +3,16 @@
 	using System;
 	using System.Linq;
 	using NUnit.Framework;
+	using ScriptCs.Metrics;
 
 	public class MetricsToolsTests
 	{
-		private MetricsTools _tools;
+		private Metrics _tools;
 
 		[SetUp]
 		public void Setup()
 		{
-			_tools = new MetricsTools();
+			_tools = new Metrics();
 		}
 
 		[Test]

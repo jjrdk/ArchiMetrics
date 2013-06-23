@@ -84,9 +84,9 @@
       <Project>{d8be9d36-ec03-4eee-91da-f9d8c9fd11d2}</Project>
       <Name>ArchiMeter.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArchiMeter.ScriptPack\ArchiMeter.ScriptPack.csproj">
+    <ProjectReference Include="..\ArchiMeter.ScriptPack\ScriptCs.Metrics.csproj">
       <Project>{e9645569-a525-4c01-bcab-912ba4be8901}</Project>
-      <Name>ArchiMeter.ScriptPack</Name>
+      <Name>ScriptCs.Metrics</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

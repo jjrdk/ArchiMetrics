@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.ScriptPack
+﻿namespace ScriptCs.Metrics
 {
 	using ScriptCs.Contracts;
 

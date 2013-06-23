@@ -1,9 +1,9 @@
-﻿namespace ArchiMeter.ScriptPack
+﻿namespace ScriptCs.Metrics
 {
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
-	using Common;
+	using ArchiMeter.Common;
 	using ScriptCs.Contracts;
 
 	public class IdeTools : IScriptPackContext

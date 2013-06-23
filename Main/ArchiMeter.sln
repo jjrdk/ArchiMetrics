@@ -41,10 +41,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5
 		build.ps1 = build.ps1
 		ArchiMeter.DataLoader\GetMetrics.ps1 = ArchiMeter.DataLoader\GetMetrics.ps1
 		psake.psm1 = psake.psm1
+		ScriptCs.Metrics.nuspec = ScriptCs.Metrics.nuspec
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ScriptPack", "ArchiMeter.ScriptPack\ArchiMeter.ScriptPack.csproj", "{E9645569-A525-4C01-BCAB-912BA4BE8901}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCs.Metrics", "ArchiMeter.ScriptPack\ScriptCs.Metrics.csproj", "{E9645569-A525-4C01-BCAB-912BA4BE8901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ScriptPack.Tests", "ArchiMeter.ScriptPack.Tests\ArchiMeter.ScriptPack.Tests.csproj", "{73C5F214-5F2D-471C-BFA5-9FAED2C736B6}"
 EndProject
@@ -132,7 +133,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

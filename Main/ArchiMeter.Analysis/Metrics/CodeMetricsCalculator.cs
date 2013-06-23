@@ -28,10 +28,8 @@ namespace ArchiMeter.Analysis.Metrics
 	{
 		private static readonly List<Regex> Patterns = new List<Regex>
 													   {
-														   new Regex(@".*\.g\.cs$", RegexOptions.Compiled), 
-														   new Regex(@".*\.g\.i\.cs$", RegexOptions.Compiled), 
-															   
-														   // new Regex(@".*\.xaml\.cs$", RegexOptions.Compiled), 
+														   new Regex(@".*\.g\.cs$", RegexOptions.Compiled),
+														   new Regex(@".*\.g\.i\.cs$", RegexOptions.Compiled),
 														   new Regex(@".*\.designer\.cs$", RegexOptions.Compiled)
 													   };
 
@@ -67,11 +65,11 @@ namespace ArchiMeter.Analysis.Metrics
 					var trees = syntaxTrees.ToArray();
 					var commonCompilation = Compilation.Create("x", syntaxTrees: trees);
 					var declarations = _syntaxCollector.GetDeclarations(trees);
-					var statementMembers = declarations.Statements.Select(s => Syntax.MethodDeclaration(
-						Syntax.PredefinedType(
-						Syntax.Token(SyntaxKind.ObjectKeyword)),
-						Guid.NewGuid().ToString("N"))
-						.WithBody(Syntax.Block(s)));
+					var statementMembers = declarations.Statements.Select(s =>
+						Syntax.MethodDeclaration(
+							Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)),
+							Guid.NewGuid().ToString("N"))
+							.WithBody(Syntax.Block(s)));
 					var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
 					var anonClass = members.Any()
 						? new[]

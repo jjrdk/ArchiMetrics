@@ -7,8 +7,8 @@
     <ProjectGuid>{E9645569-A525-4C01-BCAB-912BA4BE8901}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArchiMeter.ScriptPack</RootNamespace>
-    <AssemblyName>ArchiMeter.ScriptPack</AssemblyName>
+    <RootNamespace>ScriptCs.Metrics</RootNamespace>
+    <AssemblyName>ScriptCs.Metrics</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -58,8 +58,8 @@
   <ItemGroup>
     <Compile Include="IdeTools.cs" />
     <Compile Include="IdeToolsScriptPack.cs" />
-    <Compile Include="MetricsTools.cs" />
-    <Compile Include="MetricsToolsScriptPack.cs" />
+    <Compile Include="Metrics.cs" />
+    <Compile Include="MetricsScriptPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
