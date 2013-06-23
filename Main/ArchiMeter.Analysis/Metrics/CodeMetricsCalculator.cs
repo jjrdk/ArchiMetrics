@@ -34,8 +34,9 @@ namespace ArchiMeter.Analysis.Metrics
 														   // new Regex(@".*\.xaml\.cs$", RegexOptions.Compiled), 
 														   new Regex(@".*\.designer\.cs$", RegexOptions.Compiled)
 													   };
-		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
+
 		private readonly XamlConverter _converter;
+		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
 		public CodeMetricsCalculator()
 		{

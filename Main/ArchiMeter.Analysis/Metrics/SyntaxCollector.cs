@@ -7,10 +7,10 @@ namespace ArchiMeter.Analysis.Metrics
 
 	internal sealed class SyntaxCollector : SyntaxWalker
 	{
-		private readonly IList<NamespaceDeclarationSyntax> _namespaces = new List<NamespaceDeclarationSyntax>();
-		private readonly IList<TypeDeclarationSyntax> _types = new List<TypeDeclarationSyntax>();
 		private readonly IList<MemberDeclarationSyntax> _members = new List<MemberDeclarationSyntax>();
+		private readonly IList<NamespaceDeclarationSyntax> _namespaces = new List<NamespaceDeclarationSyntax>();
 		private readonly IList<StatementSyntax> _statements = new List<StatementSyntax>();
+		private readonly IList<TypeDeclarationSyntax> _types = new List<TypeDeclarationSyntax>();
 
 		public SyntaxDeclarations GetDeclarations(IEnumerable<SyntaxTree> trees)
 		{
