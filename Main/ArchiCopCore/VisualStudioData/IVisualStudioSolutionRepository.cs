@@ -1,7 +1,9 @@
-﻿namespace ArchiCop.VisualStudioData
+﻿using ArchiCop.Core;
+
+namespace ArchiCop.VisualStudioData
 {
     public interface IVisualStudioSolutionRepository
     {
-        void CreateNewSolution(VisualStudioProjectGraph graph, string solutionFileName);
+        void CreateNewSolution(ArchiCopGraph<VisualStudioProject> graph, string solutionFileName);
     }
 }

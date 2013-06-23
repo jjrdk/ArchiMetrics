@@ -2,12 +2,13 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
+using ArchiCop.Core;
 
 namespace ArchiCop.VisualStudioData
 {
     public class VisualStudioSolutionRepository : IVisualStudioSolutionRepository
     {
-        public void CreateNewSolution(VisualStudioProjectGraph graph, string solutionFileName)
+        public void CreateNewSolution(ArchiCopGraph<VisualStudioProject> graph, string solutionFileName)
         {
             Assembly assembly = GetType().Assembly;
             var textStreamReader = new StreamReader(assembly.GetManifestResourceStream("ArchiCop.Core.Template_sln"));

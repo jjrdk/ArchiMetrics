@@ -7,10 +7,9 @@ namespace ArchiCop.Core
 {
     public class ArchiCopGraph<T> : BidirectionalGraph<T, ArchiCopEdge<T>>
         where T : ArchiCopVertex
-    {        
+    {
         public ArchiCopGraph()
         {
-            
         }
 
         public ArchiCopGraph(IEnumerable<Edge<T>> edges)
@@ -36,6 +35,7 @@ namespace ArchiCop.Core
                 AddEdge(new ArchiCopEdge<T>(edge.Source, edge.Target));
             }
         }
+
         public string DisplayName { get; set; }
 
         public IDictionary<T, int> StronglyConnectedComponents

@@ -5,21 +5,23 @@ using QuickGraph;
 
 namespace ArchiCop.VisualStudioData
 {
-    public class VisualStudioProjectGraph : ArchiCopGraph<VisualStudioProject>
+    public class VisualStudioProjectGraphEngine
     {
-        public VisualStudioProjectGraph(IEnumerable<Edge<VisualStudioProject>> edges)
-            : base(edges)
+        public ArchiCopGraph<VisualStudioProject> GetGraph(IEnumerable<Edge<VisualStudioProject>> edges)
         {
-
+            var graph = new ArchiCopGraph<VisualStudioProject>(edges);
+            return graph;
         }
 
-        public VisualStudioProjectGraph(IEnumerable<VisualStudioProject> projects)
+        public ArchiCopGraph<VisualStudioProject> GetGraph(IEnumerable<VisualStudioProject> projects)
         {
+            var graph = new ArchiCopGraph<VisualStudioProject>();
+
             foreach (VisualStudioProject project in projects)
             {
-                if (!ContainsVertex(project))
+                if (!graph.ContainsVertex(project))
                 {
-                    AddVertex(project);
+                    graph.AddVertex(project);
                 }
             }
 
@@ -28,9 +30,10 @@ namespace ArchiCop.VisualStudioData
                 foreach (VisualStudioProjectProjectReference projectReference in projectFrom.ProjectReferences)
                 {
                     VisualStudioProject projectTo = projects.First(item => item.ProjectGuid == projectReference.Project);
-                    AddEdge(new ArchiCopEdge<VisualStudioProject>(projectFrom, projectTo));
+                    graph.AddEdge(new ArchiCopEdge<VisualStudioProject>(projectFrom, projectTo));
                 }
             }
+            return graph;
         }
     }
 }

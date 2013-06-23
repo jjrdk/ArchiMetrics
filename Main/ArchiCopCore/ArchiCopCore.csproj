@@ -71,7 +71,7 @@
     <Compile Include="VisualStudioData\IVisualStudioSolutionRepository.cs" />
     <Compile Include="Core\LoadEngine.cs" />
     <Compile Include="VisualStudioData\VisualStudioProject.cs" />
-    <Compile Include="VisualStudioData\VisualStudioProjectGraph.cs" />
+    <Compile Include="VisualStudioData\VisualStudioProjectGraphEngine.cs" />
     <Compile Include="VisualStudioData\VisualStudioProjectLibraryReference.cs" />
     <Compile Include="VisualStudioData\VisualStudioProjectProjectReference.cs" />
     <Compile Include="VisualStudioData\VisualStudioProjectRepository.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="InfoData\ExcelInfoRepository.cs" />
     <Compile Include="Core\IEdgeEngine.cs" />
     <Compile Include="Core\ILoadEngine.cs" />
-    <Compile Include="Core\LoadEngineExcel.cs" />
+    <Compile Include="ExcelData\LoadEngineExcel.cs" />
     <Compile Include="InfoData\GraphInfo.cs" />
     <Compile Include="InfoData\GraphRuleInfo.cs" />
     <Compile Include="InfoData\GraphRuleType.cs" />

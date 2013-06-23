@@ -14,8 +14,8 @@ namespace ArchiMate
     {
         private readonly IVisualStudioProjectRepository _projectRepository;
         private readonly IVisualStudioSolutionRepository _solutionRepository;
-        private VisualStudioProjectGraph _graph;
-        private VisualStudioProjectGraph _graphCached;
+        private ArchiCopGraph<VisualStudioProject> _graph;
+        private ArchiCopGraph<VisualStudioProject> _graphCached;
 
         public MainForm(IVisualStudioProjectRepository projectRepository,
                         IVisualStudioSolutionRepository solutionRepository)
@@ -44,7 +44,7 @@ namespace ArchiMate
                 projectsFileNames.AddRange(
                     new List<string>(Directory.GetFiles(textBox1.Text, "*vbproj", SearchOption.AllDirectories)));
 
-                _graph = new VisualStudioProjectGraph(_projectRepository.GetProjects(projectsFileNames));
+                _graph = new VisualStudioProjectGraphEngine().GetGraph(_projectRepository.GetProjects(projectsFileNames));
 
                 BindGrids();
             }
@@ -73,7 +73,7 @@ namespace ArchiMate
             edges = edges.Where(item => Regex.IsMatch(item.Source.ProjectName, textBox2.Text))
                          .Where(item => Regex.IsMatch(item.Target.ProjectName, textBox3.Text)).ToList();
 
-            _graphCached = new VisualStudioProjectGraph(edges);
+            _graphCached = new VisualStudioProjectGraphEngine().GetGraph(edges);
 
             dataGridView2.DataSource = _graphCached.Edges.Select(item =>
                                                                  new

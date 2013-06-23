@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ArchiCop.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ArchiCop.VisualStudioData
@@ -14,7 +15,7 @@ namespace ArchiCop.VisualStudioData
             IEnumerable<VisualStudioProject> projects = GetSampleProjects();
 
             //
-            var graph = new VisualStudioProjectGraph(projects);
+            ArchiCopGraph<VisualStudioProject> graph = new VisualStudioProjectGraphEngine().GetGraph(projects);
 
             //
             Assert.IsTrue(graph.Vertices.Count() == 2);
@@ -27,7 +28,7 @@ namespace ArchiCop.VisualStudioData
             IEnumerable<VisualStudioProject> projects = GetSampleProjects();
 
             //
-            var graph = new VisualStudioProjectGraph(projects);
+            ArchiCopGraph<VisualStudioProject> graph = new VisualStudioProjectGraphEngine().GetGraph(projects);
 
             //
             Assert.IsTrue(graph.Edges.Count() == 1);
