@@ -15,7 +15,6 @@ namespace ArchiMeter.CodeReview.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using System.Threading;
 	using Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
@@ -98,7 +97,7 @@ namespace ArchiMeter.CodeReview.Metrics
 						};
 				}
 
-				string str = string.Join(", ", parameters.Select(selector).Where(x => !string.IsNullOrWhiteSpace(x)));
+				var str = string.Join(", ", parameters.Select(selector).Where(x => !string.IsNullOrWhiteSpace(x)));
 				builder.Append(str);
 			}
 
@@ -111,7 +110,7 @@ namespace ArchiMeter.CodeReview.Metrics
 			var symbol = _semanticModel.GetSymbolInfo(syntax.Type).Symbol as TypeSymbol;
 			if (symbol != null)
 			{
-				string str = ResolveTypeName(symbol);
+				var str = ResolveTypeName(symbol);
 				builder.Append(str);
 			}
 
@@ -124,7 +123,7 @@ namespace ArchiMeter.CodeReview.Metrics
 			var symbol = _semanticModel.GetSymbolInfo(syntax.Type).Symbol as TypeSymbol;
 			if (symbol != null)
 			{
-				string str = ResolveTypeName(symbol);
+				var str = ResolveTypeName(symbol);
 				builder.Append(str);
 			}
 
@@ -133,20 +132,21 @@ namespace ArchiMeter.CodeReview.Metrics
 
 		private void AppendReturnType(MethodDeclarationSyntax syntax, StringBuilder builder)
 		{
-			var symbol = _semanticModel.GetSymbolInfo(syntax.ReturnType).Symbol as TypeSymbol;
+			var symbolInfo = _semanticModel.GetSymbolInfo(syntax.ReturnType);
+			var symbol = symbolInfo.Symbol as TypeSymbol;
 			if (symbol != null)
 			{
-				string str = ResolveTypeName(symbol);
+				var str = ResolveTypeName(symbol);
 				builder.AppendFormat(" : {0}", str);
 			}
 		}
 
 		private void AppendReturnType(PropertyDeclarationSyntax syntax, StringBuilder builder)
 		{
-			var symbol = _semanticModel.GetSymbolInfo(syntax.Type, new CancellationToken()).Symbol as TypeSymbol;
+			var symbol = _semanticModel.GetSymbolInfo(syntax.Type).Symbol as TypeSymbol;
 			if (symbol != null)
 			{
-				string str = ResolveTypeName(symbol);
+				var str = ResolveTypeName(symbol);
 				builder.AppendFormat(" : {0}", str);
 			}
 		}

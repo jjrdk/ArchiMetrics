@@ -29,9 +29,9 @@ namespace ArchiMeter.Common.Metrics
 		public string DisplayName { get; set; }
 
 		public MemberKind Kind { get; set; }
-		
+
 		public int LineNumber { get; set; }
-		
+
 		public CommonSyntaxNode SyntaxNode { get; set; }
 	}
 }

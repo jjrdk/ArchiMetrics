@@ -46,9 +46,9 @@ namespace ArchiMeter.CodeReview.Metrics
 		public override void VisitBlock(BlockSyntax node)
 		{
 			base.VisitBlock(node);
-			IEnumerable<SyntaxToken> tokens = node.DescendantTokens().ToList();
-			IDictionary<SyntaxKind, IList<string>> dictionary = ParseTokens(tokens, HalsteadOperands.All);
-			IDictionary<SyntaxKind, IList<string>> dictionary2 = ParseTokens(tokens, HalsteadOperators.All);
+			var tokens = node.DescendantTokens().ToList();
+			var dictionary = ParseTokens(tokens, HalsteadOperands.All);
+			var dictionary2 = ParseTokens(tokens, HalsteadOperators.All);
 			var metrics = new HalsteadMetrics(
 				numOperands: dictionary.Values.Sum(x => x.Count), 
 				numUniqueOperands: dictionary.Values.SelectMany(x => x).Distinct().Count(), 
@@ -85,7 +85,7 @@ namespace ArchiMeter.CodeReview.Metrics
 			var syntaxNode = node.SyntaxNode as PropertyDeclarationSyntax;
 			if (syntaxNode != null)
 			{
-				bool flag = syntaxNode.Modifiers.Any(x => x.ValueText == "static");
+				bool flag = syntaxNode.Modifiers.Any(SyntaxKind.StaticKeyword);
 				if (MemberBodySelector.FindBody(node) == null)
 				{
 					switch (node.Kind)

@@ -72,6 +72,20 @@ public class Something {
 			}
 
 			[Test]
+			public void CanCalculateMetricsForMethodSnippet()
+			{
+				const string Snippet = @"
+public int Foo() { return 1; }
+";
+				var tree = SyntaxTree.ParseText(Snippet);
+				var task = _analyzer.Calculate(new[] { tree });
+				task.Wait();
+
+				var metrics = task.Result.ToArray();
+				Assert.IsNotEmpty(metrics);
+			}
+
+			[Test]
 			public void CanCalculateMetricsForSilverlightProject()
 			{
 				var path = Path.GetFullPath(@"..\..\..\SampleSL\SampleSL.csproj");
