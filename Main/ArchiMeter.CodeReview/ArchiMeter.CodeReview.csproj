@@ -63,39 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICodeEvaluation.cs" />
-    <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
-    <Compile Include="Metrics\CyclomaticComplexityAnalyzer.cs" />
-    <Compile Include="Metrics\DepthOfInheritanceAnalyzer.cs" />
-    <Compile Include="Metrics\HalsteadAnalyzer.cs" />
-    <Compile Include="Metrics\HalsteadMetrics.cs" />
-    <Compile Include="Metrics\HalsteadOperands.cs" />
-    <Compile Include="Metrics\HalsteadOperators.cs" />
-    <Compile Include="Metrics\LogicalComplexityAnalyzer.cs" />
-    <Compile Include="Metrics\MemberBodySelector.cs" />
-    <Compile Include="Metrics\MemberClassCouplingAnalyzer.cs" />
-    <Compile Include="Metrics\MemberCollectorSyntaxWalker.cs" />
-    <Compile Include="Metrics\MemberMetricsCalculator.cs" />
-    <Compile Include="Metrics\MemberNameResolver.cs" />
-    <Compile Include="Metrics\MethodLocalVariablesAnalyzer.cs" />
-    <Compile Include="Metrics\MethodParameterAnalyzer.cs" />
-    <Compile Include="Metrics\NamespaceCollectorSyntaxWalker.cs" />
-    <Compile Include="Metrics\NamespaceDeclaration.cs" />
-    <Compile Include="Metrics\NamespaceDeclarationSyntaxInfo.cs" />
-    <Compile Include="Metrics\NamespaceMetricsCalculator.cs" />
-    <Compile Include="Metrics\CodeMetricsCalculator.cs" />
-    <Compile Include="Metrics\SemanticModelMetricsCalculator.cs" />
-    <Compile Include="Metrics\SnippetMetricsCalculator.cs" />
-    <Compile Include="Metrics\StatementsAnalyzer.cs" />
-    <Compile Include="Metrics\SyntaxCollector.cs" />
-    <Compile Include="Metrics\SyntaxDeclarations.cs" />
-    <Compile Include="Metrics\SyntaxExtensions.cs" />
-    <Compile Include="Metrics\SyntaxMetricsCalculator.cs" />
-    <Compile Include="Metrics\TypeClassCouplingAnalyzer.cs" />
-    <Compile Include="Metrics\TypeCollectorSyntaxWalker.cs" />
-    <Compile Include="Metrics\TypeCouplingComparer.cs" />
-    <Compile Include="Metrics\TypeDeclaration.cs" />
-    <Compile Include="Metrics\TypeMetricsCalculator.cs" />
-    <Compile Include="Metrics\TypeNameResolver.cs" />
     <Compile Include="ProjectData.cs" />
     <Compile Include="ProjectDataComparer.cs" />
     <Compile Include="ProjectMetricsCalculatorFactory.cs" />
@@ -168,6 +135,9 @@
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
       <Name>ArchiMeter.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Metrics\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\..\.nuget\nuget.targets" />

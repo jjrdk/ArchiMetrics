@@ -136,6 +136,10 @@
     <Compile Include="TypeMetricConverter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.csproj">
+      <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
+      <Name>ArchiMeter.Analysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj">
       <Project>{5C12DFB6-05DC-4941-B69F-B99903E89B1D}</Project>
       <Name>ArchiMeter.CodeReview</Name>

@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="IdeTools.cs" />
     <Compile Include="IdeToolsScriptPack.cs" />
+    <Compile Include="MetricsTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,9 +20,9 @@ namespace ArchiMeter.DataLoader
 	using System.Threading.Tasks;
 	using System.Xml.Serialization;
 	using Analysis;
+	using Analysis.Metrics;
 	using Autofac;
 	using CodeReview;
-	using CodeReview.Metrics;
 	using Common;
 	using Common.Documents;
 	using Common.Metrics;

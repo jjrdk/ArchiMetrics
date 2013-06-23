@@ -18,9 +18,9 @@ namespace ArchiMeter.UI
 	using System.Windows;
 	using System.Windows.Markup;
 	using Analysis;
+	using Analysis.Metrics;
 	using Autofac;
 	using CodeReview;
-	using CodeReview.Metrics;
 	using Common;
 	using Common.Metrics;
 	using Data.DataAccess;

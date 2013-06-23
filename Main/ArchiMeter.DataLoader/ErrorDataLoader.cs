@@ -17,7 +17,7 @@ namespace ArchiMeter.DataLoader
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Analysis;
-	using CodeReview.Metrics;
+	using Analysis.Metrics;
 	using Common;
 	using Common.Documents;
 	using Roslyn.Compilers.CSharp;
