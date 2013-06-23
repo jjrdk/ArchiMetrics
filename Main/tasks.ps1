@@ -8,12 +8,16 @@ properties {
 
 task default -depends CleanUpMsBuildPath
 
-task CleanUpMsBuildPath -depends Test {
+task CleanUpMsBuildPath -depends BuildPackages {
 	if($oldEnvPath -ne "")
 	{
 		Write-Host "Reverting Path variable"
 		$Env:Path = $oldEnvPath
 	}
+}
+
+task BuildPackages -depends Test {
+	Exec { .\.nuget\nuget.exe pack ScriptCs.Metrics.nuspec }
 }
 
 task Test -depends Compile, Clean {

@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCs.Metrics", "ArchiMeter.ScriptPack\ScriptCs.Metrics.csproj", "{E9645569-A525-4C01-BCAB-912BA4BE8901}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCs.Metrics", "ScriptCs.Metrics\ScriptCs.Metrics.csproj", "{E9645569-A525-4C01-BCAB-912BA4BE8901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ScriptPack.Tests", "ArchiMeter.ScriptPack.Tests\ArchiMeter.ScriptPack.Tests.csproj", "{73C5F214-5F2D-471C-BFA5-9FAED2C736B6}"
 EndProject
