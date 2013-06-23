@@ -56,16 +56,24 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ArchiMeter.Common\RoslynExtensions.cs">
-      <Link>RoslynExtensions.cs</Link>
-    </Compile>
     <Compile Include="IdeTools.cs" />
     <Compile Include="IdeToolsScriptPack.cs" />
     <Compile Include="MetricsTools.cs" />
+    <Compile Include="MetricsToolsScriptPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.csproj">
+      <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
+      <Name>ArchiMeter.Analysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">
+      <Project>{d8be9d36-ec03-4eee-91da-f9d8c9fd11d2}</Project>
+      <Name>ArchiMeter.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -67,13 +67,19 @@ namespace ArchiMeter.Analysis.Metrics
 					var trees = syntaxTrees.ToArray();
 					var commonCompilation = Compilation.Create("x", syntaxTrees: trees);
 					var declarations = _syntaxCollector.GetDeclarations(trees);
-					var anonClass = declarations.MemberDeclarations.Any()
+					var statementMembers = declarations.Statements.Select(s => Syntax.MethodDeclaration(
+						Syntax.PredefinedType(
+						Syntax.Token(SyntaxKind.ObjectKeyword)),
+						Guid.NewGuid().ToString("N"))
+						.WithBody(Syntax.Block(s)));
+					var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
+					var anonClass = members.Any()
 						? new[]
 						  {
 							  Syntax.ClassDeclaration(
 								  "UnnamedClass")
 								  .WithModifiers(Syntax.Token(SyntaxKind.PublicKeyword))
-								  .WithMembers(Syntax.List(declarations.MemberDeclarations.ToArray()))
+								  .WithMembers(Syntax.List(members))
 						  }
 						: new TypeDeclarationSyntax[0];
 					var array = declarations.TypeDeclarations
@@ -123,7 +129,7 @@ namespace ArchiMeter.Analysis.Metrics
 															  };
 												   })
 											   .Select(b => CalculateNamespaceMetrics(b.Compilation, b.NamespaceDeclaration, b.Metrics))
-											   .Select(t=>t.Item2);
+											   .Select(t => t.Item2);
 			return metrics;
 		}
 

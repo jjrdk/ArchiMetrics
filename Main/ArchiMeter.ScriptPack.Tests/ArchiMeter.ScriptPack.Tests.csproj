@@ -72,13 +72,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArchiToolsTests.cs" />
+    <Compile Include="IdeToolsTests.cs" />
+    <Compile Include="MetricsToolsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">
+      <Project>{d8be9d36-ec03-4eee-91da-f9d8c9fd11d2}</Project>
+      <Name>ArchiMeter.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArchiMeter.ScriptPack\ArchiMeter.ScriptPack.csproj">
       <Project>{e9645569-a525-4c01-bcab-912ba4be8901}</Project>
       <Name>ArchiMeter.ScriptPack</Name>
