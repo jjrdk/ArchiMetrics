@@ -1,4 +1,4 @@
-﻿namespace ArchiCop.Core
+﻿namespace ArchiCop.VisualStudioProjectData
 {
     public class VisualStudioProjectProjectReference
     {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ArchiCop.Core;
+using ArchiCop.VisualStudioProjectData;
 using QuickGraph;
 
 namespace ArchiMate

@@ -2,8 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using ArchiCop.Core;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     public class VisualStudioProjectRepository : IVisualStudioProjectRepository
     {
@@ -12,14 +13,6 @@ namespace ArchiCop.Core
         public IEnumerable<VisualStudioProject> GetProjects(IEnumerable<string> fileNames)
         {
             IEnumerable<VisualStudioProject> projects = fileNames.Select(GetSingleProject).ToList();
-
-            //foreach (VisualStudioProject visualStudioProject in projects)
-            //{
-            //    foreach (VisualStudioProjectProjectReference projectReference in visualStudioProject.ProjectReferences)
-            //    {
-            //        visualStudioProject.Projects.Add(projects.First(item=>item.ProjectGuid==projectReference.Project));
-            //    }
-            //}
 
             return projects;
         }

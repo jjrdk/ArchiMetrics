@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using ArchiCop.Data;
+using ArchiCop.InfoData;
 
 namespace ArchiCop.Core
 {
@@ -14,7 +14,8 @@ namespace ArchiCop.Core
             IEnumerable<GraphInfo> graphData = configInfo.Graphs;
             foreach (string graphName in graphData.GroupBy(item => item.Name).Select(g => g.Key))
             {
-                ArchiCopGraph<ArchiCopVertex> info = GetGraphFromGraphInfo(graphData.First(item => item.Name == graphName));
+                ArchiCopGraph<ArchiCopVertex> info =
+                    GetGraphFromGraphInfo(graphData.First(item => item.Name == graphName));
                 _graphs.Add(info);
             }
 

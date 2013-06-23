@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ArchiCop.Core;
 using QuickGraph;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     public class VisualStudioProjectGraph : BidirectionalGraph<VisualStudioProject, ArchiCopEdge<VisualStudioProject>>
     {

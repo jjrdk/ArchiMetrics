@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArchiCop.Data
+namespace ArchiCop.InfoData
 {
     public class GraphInfo : InfoObject
     {

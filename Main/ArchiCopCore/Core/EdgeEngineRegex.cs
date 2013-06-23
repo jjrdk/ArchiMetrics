@@ -76,16 +76,6 @@ namespace ArchiCop.Core
                 }
             }
 
-            foreach (ArchiCopVertex vertex in graph.Vertices)
-            {
-                vertex.InEdges = graph.InEdges(vertex).Count();
-                vertex.OutEdges = graph.OutEdges(vertex).Count();
-
-                vertex.OutDegree = graph.OutDegree(vertex);
-                vertex.InDegree = graph.InDegree(vertex);
-                vertex.Degree = graph.Degree(vertex);
-            }
-
             return graph.Edges;
         }
 

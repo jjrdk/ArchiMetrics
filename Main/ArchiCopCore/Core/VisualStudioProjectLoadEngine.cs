@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ArchiCop.VisualStudioProjectData;
 
 namespace ArchiCop.Core
 {

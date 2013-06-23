@@ -1,4 +1,4 @@
-﻿namespace ArchiCop.Data
+﻿namespace ArchiCop.InfoData
 {
     public enum GraphRuleType
     {

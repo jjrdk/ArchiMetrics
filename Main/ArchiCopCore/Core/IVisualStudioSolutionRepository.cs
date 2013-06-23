@@ -1,4 +1,6 @@
-﻿namespace ArchiCop.Core
+﻿using ArchiCop.VisualStudioProjectData;
+
+namespace ArchiCop.Core
 {
     public interface IVisualStudioSolutionRepository
     {

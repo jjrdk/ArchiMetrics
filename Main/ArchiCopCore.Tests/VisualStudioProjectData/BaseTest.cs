@@ -2,8 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using ArchiCop.Core;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     public class BaseTest
     {

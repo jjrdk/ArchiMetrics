@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ArchiCop.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ArchiCop.Data
+namespace ArchiCop.InfoData
 {
     [TestClass]
     public class LoadEngineInfoTests
@@ -15,7 +15,7 @@ namespace ArchiCop.Data
             //
             var loadEngineInfo = new LoadEngineInfo
                 {
-                    EngineName = "ArchiCop.Data.IDontExist,ArchiCopCore.Tests",
+                    EngineName = "ArchiCop.InfoData.IDontExist,ArchiCopCore.Tests",
                     Arg1 = "",
                     Arg2 = ""
                 };
@@ -34,7 +34,7 @@ namespace ArchiCop.Data
             //
             var loadEngineInfo = new LoadEngineInfo
                 {
-                    EngineName = "ArchiCop.Data.LoadEngine0,ArchiCopCore.Tests",
+                    EngineName = "ArchiCop.InfoData.LoadEngine0,ArchiCopCore.Tests",
                     Arg1 = "one",
                     Arg2 = "two"
                 };
@@ -52,7 +52,7 @@ namespace ArchiCop.Data
             //
             var loadEngineInfo = new LoadEngineInfo
                 {
-                    EngineName = "ArchiCop.Data.LoadEngine0,ArchiCopCore.Tests",
+                    EngineName = "ArchiCop.InfoData.LoadEngine0,ArchiCopCore.Tests",
                     Arg1 = "",
                     Arg2 = ""
                 };
@@ -70,7 +70,7 @@ namespace ArchiCop.Data
             //
             var loadEngineInfo = new LoadEngineInfo
                 {
-                    EngineName = "ArchiCop.Data.LoadEngine1,ArchiCopCore.Tests",
+                    EngineName = "ArchiCop.InfoData.LoadEngine1,ArchiCopCore.Tests",
                     Arg1 = "something",
                     Arg2 = ""
                 };
@@ -88,7 +88,7 @@ namespace ArchiCop.Data
             //
             var loadEngineInfo = new LoadEngineInfo
                 {
-                    EngineName = "ArchiCop.Data.LoadEngine2,ArchiCopCore.Tests",
+                    EngineName = "ArchiCop.InfoData.LoadEngine2,ArchiCopCore.Tests",
                     Arg1 = "something",
                     Arg2 = "something"
                 };

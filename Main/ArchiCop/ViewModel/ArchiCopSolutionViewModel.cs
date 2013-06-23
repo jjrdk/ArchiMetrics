@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using ArchiCop.Core;
-using ArchiCop.Data;
+using ArchiCop.InfoData;
 using ArchiCop.Properties;
 using MvvmFoundation.Wpf;
 
@@ -18,7 +18,7 @@ namespace ArchiCop.ViewModel
             new ObservableCollection<GraphCommandViewModel>();
 
         private readonly IMainWindowViewModel _mainWindowViewModel;
-        
+
         public ArchiCopSolutionViewModel(IMainWindowViewModel mainWindowViewModel, IInfoRepository repository)
             : base(Resources.ArchiCopSolutionViewModel_DisplayName)
         {

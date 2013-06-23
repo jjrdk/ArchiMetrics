@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using ArchiCop.Core;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     public class VisualStudioProject : ArchiCopVertex
     {

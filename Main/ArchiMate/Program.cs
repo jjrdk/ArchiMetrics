@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using ArchiCop.Core;
+using ArchiCop.VisualStudioProjectData;
 
 namespace ArchiMate
 {

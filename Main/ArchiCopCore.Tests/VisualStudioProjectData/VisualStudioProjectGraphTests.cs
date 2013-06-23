@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     [TestClass]
     public class VisualStudioProjectGraphTests : BaseTest

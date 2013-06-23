@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     internal static class VisualStudioProjectRepositoryExtensions
     {

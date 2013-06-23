@@ -2,16 +2,16 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ArchiCop.Data
+namespace ArchiCop.InfoData
 {
     [TestClass]
     public class ExcelInfoRepositoryTests
     {
-        readonly IEnumerable<GraphInfo> _graphs = 
-            new ExcelInfoRepository().GetConfigInfos(@"Data\Sample.xls").First().Graphs;
+        private readonly IEnumerable<DataSourceInfo> _dataSources =
+            new ExcelInfoRepository().GetConfigInfos(@"InfoData\Sample.xls").First().DataSources;
 
-        readonly IEnumerable<DataSourceInfo> _dataSources = 
-            new ExcelInfoRepository().GetConfigInfos(@"Data\Sample.xls").First().DataSources;
+        private readonly IEnumerable<GraphInfo> _graphs =
+            new ExcelInfoRepository().GetConfigInfos(@"InfoData\Sample.xls").First().Graphs;
 
         [TestMethod]
         public void HasCorrectNumberOfGraphInfos()
@@ -44,7 +44,7 @@ namespace ArchiCop.Data
 
         [TestMethod]
         public void DataSourceInfosHaveCorrectDisplayNames()
-        {            
+        {
             //
             string[] source = _dataSources.Select(item => item.DisplayName).ToArray();
             var target = new[]
@@ -57,7 +57,7 @@ namespace ArchiCop.Data
 
         [TestMethod]
         public void GraphInfosHaveCorrectLoadEngines_EngineName()
-        {            
+        {
             //
             string[] source = _graphs.Select(item => item.DataSource.LoadEngine.EngineName).ToArray();
             var target = new[]

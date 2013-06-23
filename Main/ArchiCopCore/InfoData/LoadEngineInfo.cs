@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArchiCop.Data
+namespace ArchiCop.InfoData
 {
     public class LoadEngineInfo
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ArchiCop.Core
+namespace ArchiCop.VisualStudioProjectData
 {
     public interface IVisualStudioProjectRepository
     {
