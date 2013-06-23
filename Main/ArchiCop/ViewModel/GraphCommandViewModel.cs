@@ -6,7 +6,8 @@ namespace ArchiCop.ViewModel
     public enum GraphCommandViewModelType
     {
         Graph,
-        Datasource
+        Datasource,
+        VisualStudioDatasource
     }
 
     public class GraphCommandViewModel : ViewModelBase
@@ -33,6 +34,9 @@ namespace ArchiCop.ViewModel
                 case GraphCommandViewModelType.Graph:
                     ImageSource = "Icojam-Onebit-Diagram.ico";
                     break;
+                    case GraphCommandViewModelType.VisualStudioDatasource:
+                    ImageSource = "Dakirby309-Windows-8-Metro-Apps-Visual-Studio-alt-Metro.ico";
+                    break;                    
             }
         }
 

@@ -37,7 +37,7 @@ namespace ArchiCop.ViewModel
 
             foreach (ConfigInfo configInfo in repository.GetConfigInfos(Files.ToArray()))
             {
-                var graphService = new GraphService(configInfo);
+                var graphService = new ArchiCopGraphEngine(configInfo);
 
                 foreach (var graph in graphService.DataSources)
                 {
@@ -51,6 +51,20 @@ namespace ArchiCop.ViewModel
                             {
                                 Tag = configInfo.Name
                             });
+                }
+
+                foreach (var graph in graphService.VisualStudioDataSources)
+                {
+                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
+                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
+                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(graph));
+
+                    _cachedCommands.Add(
+                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.VisualStudioDatasource, command1,
+                                                  command2, command3)
+                        {
+                            Tag = configInfo.Name
+                        });
                 }
 
                 foreach (var graph in graphService.Graphs)

@@ -66,7 +66,7 @@
     <Compile Include="Core\ArchiCopEdge.cs" />
     <Compile Include="Core\ArchiCopGraph.cs" />
     <Compile Include="Core\ArchiCopVertex.cs" />
-    <Compile Include="Core\GraphService.cs" />
+    <Compile Include="Core\ArchiCopGraphEngine.cs" />
     <Compile Include="VisualStudioData\IVisualStudioProjectRepository.cs" />
     <Compile Include="VisualStudioData\IVisualStudioSolutionRepository.cs" />
     <Compile Include="Core\LoadEngine.cs" />

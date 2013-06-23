@@ -178,6 +178,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="View\Dakirby309-Windows-8-Metro-Apps-Visual-Studio-alt-Metro.ico" />
     <Resource Include="View\Avosoft-Warm-Toolbar-Database.ico" />
     <Resource Include="View\Icojam-Onebit-Diagram.ico" />
     <Content Include="Licenses\wpfextensions.codeplex.com_license.txt">
