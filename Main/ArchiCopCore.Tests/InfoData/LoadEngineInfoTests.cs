@@ -103,7 +103,7 @@ namespace ArchiCop.InfoData
 
     internal class LoadEngine0 : ILoadEngine
     {
-        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+        public ArchiCopGraph<ArchiCopVertex> LoadGraph()
         {
             throw new NotImplementedException();
         }
@@ -115,7 +115,7 @@ namespace ArchiCop.InfoData
         {
         }
 
-        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+        public ArchiCopGraph<ArchiCopVertex> LoadGraph()
         {
             throw new NotImplementedException();
         }
@@ -127,7 +127,7 @@ namespace ArchiCop.InfoData
         {
         }
 
-        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+        public ArchiCopGraph<ArchiCopVertex> LoadGraph()
         {
             throw new NotImplementedException();
         }

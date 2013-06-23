@@ -80,17 +80,16 @@ namespace ArchiCop.Core
 
         private ArchiCopGraph<ArchiCopVertex> GetGraph(LoadEngineInfo loadEngineInfo,
                                                        params VertexRegexRule[] vertexRegexRules)
-        {
-            var graph = new ArchiCopGraph<ArchiCopVertex>();
+        {            
             var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
-            IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges = loadEngine.LoadEdges();
+            var graph = loadEngine.LoadGraph();
 
             if (vertexRegexRules.Any())
             {
-                edges = new EdgeEngineRegex().ConvertEdges(edges, vertexRegexRules);
+                var edges = new EdgeEngineRegex().ConvertEdges(graph.Edges, vertexRegexRules);
+                graph=new ArchiCopGraph<ArchiCopVertex>();
+                graph.AddVerticesAndEdgeRange(edges);
             }
-
-            graph.AddVerticesAndEdgeRange(edges);
 
             return graph;
         }

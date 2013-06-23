@@ -7,7 +7,7 @@ namespace ArchiCop.Core
     {
         private readonly ArchiCopGraph<ArchiCopVertex> _graph = new ArchiCopGraph<ArchiCopVertex>();
 
-        public IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges()
+        public ArchiCopGraph<ArchiCopVertex> LoadGraph()
         {
             foreach (var edge in GetEdges())
             {
@@ -34,7 +34,7 @@ namespace ArchiCop.Core
                 }
             }
 
-            return _graph.Edges;
+            return _graph;
         }
 
         protected abstract IEnumerable<ArchiCopEdge<ArchiCopVertex>> GetEdges();

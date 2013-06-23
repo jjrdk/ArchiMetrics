@@ -4,6 +4,6 @@ namespace ArchiCop.Core
 {
     public interface ILoadEngine
     {
-        IEnumerable<ArchiCopEdge<ArchiCopVertex>> LoadEdges();
+        ArchiCopGraph<ArchiCopVertex> LoadGraph();
     }
 }
