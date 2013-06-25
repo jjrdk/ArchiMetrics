@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using ArchiCop.Controller;
 using ArchiCop.Properties;
 
 namespace ArchiCop.ViewModel
@@ -21,6 +22,8 @@ namespace ArchiCop.ViewModel
             Workspaces = new ObservableCollection<WorkspaceViewModel>();
             Workspaces.CollectionChanged += OnWorkspacesChanged;
 
+            Configurations=new ObservableCollection<ConfigInfoViewModel>();
+
             App.Messenger.Register(App.CLEAR_WORKSPACES, CloseWorkspaces);
             App.Messenger.Register<string>(App.SET_WORKSPACES_DISPLAYTEXT, item => WorkspaceDisplayText = item);
         }
@@ -36,6 +39,9 @@ namespace ArchiCop.ViewModel
         }
 
         #region IMainWindowViewModel Members
+
+        public ObservableCollection<ConfigInfoViewModel> Configurations { get; private set; }
+
 
         /// <summary>
         ///     Returns a list of commands

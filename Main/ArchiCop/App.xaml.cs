@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Markup;
 using ArchiCop.Controller;
+using ArchiCop.Core;
 using ArchiCop.InfoData;
 using ArchiCop.View;
 using ArchiCop.ViewModel;
@@ -59,22 +62,58 @@ namespace ArchiCop
                     window.Close();
                 };
             viewModel.RequestClose += handler;
-
-            // Allow all controls in the window to 
-            // bind to the ViewModel by setting the 
-            // DataContext, which propagates down 
-            // the element tree.
-            window.DataContext = viewModel;
-
+            
             IUnityContainer container = new UnityContainer();
             container.RegisterType<IInfoRepository, ExcelInfoRepository>(new ContainerControlledLifetimeManager());
             container.RegisterType<ArchiCopSolutionViewModel, ArchiCopSolutionViewModel>(
                 new ContainerControlledLifetimeManager());
             container.RegisterInstance<IMainWindowViewModel>(viewModel);
 
+            RegisterConfigInfoViewModels(container.Resolve<IInfoRepository>(), viewModel);
+
             container.Resolve<ArchiCopController>();
+            
+            // Allow all controls in the window to 
+            // bind to the ViewModel by setting the 
+            // DataContext, which propagates down 
+            // the element tree.
+            window.DataContext = viewModel;
 
             window.Show();
+        }
+
+        private void RegisterConfigInfoViewModels(IInfoRepository infoRepository, IMainWindowViewModel mainWindowViewModel)
+        {
+            var files = Directory.GetFiles(".", "*.xls");
+            IEnumerable<ConfigInfo> configInfos = infoRepository.GetConfigInfos(files);
+
+            foreach (ConfigInfo configInfo in configInfos)
+            {
+                var configInfoViewModel = new ConfigInfoViewModel(configInfo.DisplayName);
+
+                foreach (DataSourceInfo dataSourceInfo in configInfo.DataSources)
+                {
+                    var dataSourceInfoViewModel = new DataSourceInfoViewModel(dataSourceInfo.DisplayName);
+
+                    dataSourceInfoViewModel.Graph = ArchiCopGraphEngine.GetGraph(dataSourceInfo);
+
+                    foreach (GraphInfo graphInfo in configInfo.Graphs)
+                    {
+                        if (graphInfo.DataSource.Name == dataSourceInfo.Name)
+                        {
+                            var graphInfoViewModel = new GraphInfoViewModel (graphInfo.DisplayName);
+
+                            graphInfoViewModel.Graph = ArchiCopGraphEngine.GetGraph(graphInfo);
+
+                            dataSourceInfoViewModel.Graphs.Add(graphInfoViewModel);
+                        }
+                    }
+
+                    configInfoViewModel.DataSources.Add(dataSourceInfoViewModel);
+                }
+
+                mainWindowViewModel.Configurations.Add(configInfoViewModel);
+            }
         }
     }
 }

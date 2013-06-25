@@ -5,9 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
+using ArchiCop.Controller;
 using ArchiCop.Core;
-using ArchiCop.InfoData;
 using ArchiCop.Properties;
+using Microsoft.Practices.Unity;
 using MvvmFoundation.Wpf;
 
 namespace ArchiCop.ViewModel
@@ -19,83 +20,62 @@ namespace ArchiCop.ViewModel
 
         private readonly IMainWindowViewModel _mainWindowViewModel;
 
-        public ArchiCopSolutionViewModel(IMainWindowViewModel mainWindowViewModel, IInfoRepository repository)
+        [InjectionConstructor]
+        public ArchiCopSolutionViewModel(IMainWindowViewModel mainWindowViewModel)
             : base(Resources.ArchiCopSolutionViewModel_DisplayName)
-        {
-            Files = new ObservableCollection<string>();
-
-            foreach (string file in Directory.GetFiles(".", "*.xls"))
-            {
-                Files.Add(file);
-            }
-
+        {            
             _mainWindowViewModel = mainWindowViewModel;
             Commands = new ObservableCollection<GraphCommandViewModel>();
+
+            Files = mainWindowViewModel.Configurations;
 
             ICollectionView filesView = CollectionViewSource.GetDefaultView(Files);
             filesView.CurrentChanged += FilesCurrentChanged;
 
-            foreach (ConfigInfo configInfo in repository.GetConfigInfos(Files.ToArray()))
+            foreach (ConfigInfoViewModel configInfo in mainWindowViewModel.Configurations)
             {
-                var graphService = new ArchiCopGraphEngine(configInfo);
-
-                foreach (var graph in graphService.DataSources)
+                foreach (var dataSource in configInfo.DataSources)
                 {
-                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
-                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
-                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(graph));
+                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(dataSource.Graph));
+                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(dataSource.Graph));
+                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(dataSource.Graph));
 
                     _cachedCommands.Add(
-                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Datasource, command1,
-                                                  command2, command3)
+                        new GraphCommandViewModel(dataSource.Graph.DisplayName, GraphCommandViewModelType.Datasource, command1,command2, command3)
                             {
-                                Tag = configInfo.Name
+                                Tag = configInfo.DisplayName
                             });
-                }
 
-                foreach (var graph in graphService.VisualStudioDataSources)
-                {
-                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
-                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
-                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(graph));
+                    foreach (var graph in dataSource.Graphs)
+                    {
+                        ICommand command11 = new RelayCommand<object>(param => ShowGraphView(graph.Graph));
+                        ICommand command12 = new RelayCommand<object>(param => ShowGraphEdgesView(graph.Graph));
+                        ICommand command13 = new RelayCommand<object>(param => ShowGraphVerticesView(graph.Graph));
 
-                    _cachedCommands.Add(
-                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.VisualStudioDatasource, command1,
-                                                  command2, command3)
-                        {
-                            Tag = configInfo.Name
-                        });
-                }
-
-                foreach (var graph in graphService.Graphs)
-                {
-                    ICommand command1 = new RelayCommand<object>(param => ShowGraphView(graph));
-                    ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(graph));
-                    ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(graph));
-
-                    _cachedCommands.Add(
-                        new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command1, command2,
-                                                  command3)
+                        _cachedCommands.Add(
+                            new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command11, command12,command13)
                             {
-                                Tag = configInfo.Name
+                                Tag = configInfo.DisplayName
                             });
+                    }
                 }
+                
             }
         }
 
         public ObservableCollection<GraphCommandViewModel> Commands { get; private set; }
 
-        public ObservableCollection<string> Files { get; set; }
+        public ObservableCollection<ConfigInfoViewModel> Files { get; set; }
 
         private void FilesCurrentChanged(object sender, EventArgs e)
         {
-            var tag = ((ICollectionView) sender).CurrentItem as string;
+            var tag = ((ICollectionView) sender).CurrentItem as ConfigInfoViewModel;
 
             Commands.Clear();
 
 
             foreach (
-                GraphCommandViewModel commandViewModel in _cachedCommands.Where(item => item.Tag == tag))
+                GraphCommandViewModel commandViewModel in _cachedCommands.Where(item => item.Tag == tag.DisplayName))
             {
                 Commands.Add(commandViewModel);
             }

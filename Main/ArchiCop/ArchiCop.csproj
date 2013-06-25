@@ -100,6 +100,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller\ArchiCopController.cs" />
+    <Compile Include="ViewModel\ConfigInfoViewModel.cs" />
+    <Compile Include="ViewModel\DataSourceInfoViewModel.cs" />
+    <Compile Include="ViewModel\GraphInfoViewModel.cs" />
     <Compile Include="Controller\IController.cs" />
     <Compile Include="ViewModel\ArchiCopVertexViewModel.cs" />
     <Compile Include="ViewModel\GraphCommandViewModel.cs" />

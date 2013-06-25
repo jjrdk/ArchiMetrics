@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using ArchiCop.Controller;
 
 namespace ArchiCop.ViewModel
 {
@@ -15,6 +16,9 @@ namespace ArchiCop.ViewModel
         ///     A 'workspace' is a ViewModel that can request to be closed.
         /// </summary>
         ObservableCollection<WorkspaceViewModel> Workspaces { get; }
+
+        ObservableCollection<ConfigInfoViewModel> Configurations { get; }
+
 
         void SetActiveWorkspace(WorkspaceViewModel workspace);
     }
