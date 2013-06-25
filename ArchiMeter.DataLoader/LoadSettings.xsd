@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified"
+		   elementFormDefault="qualified"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:attribute type="xs:string"
+				  name="OutputFile" />
+	<xs:attribute type="xs:string"
+				  name="TfsConnectionString" />
+	<xs:attribute type="xs:string"
+				  name="DatabaseUrl" />
+	<xs:element name="ReportConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Project"
+							maxOccurs="unbounded"
+							minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Root"
+										maxOccurs="unbounded"
+										minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string"
+														  name="Source"
+														  use="optional"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Repo"
+										maxOccurs="unbounded"
+										minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string"
+														  name="Source"
+														  use="optional"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TfsDefinition"
+										maxOccurs="unbounded"
+										minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string"
+														  name="Definition"
+														  use="optional"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute type="xs:int"
+									  name="Revision"
+									  use="optional"/>
+						<xs:attribute type="xs:string"
+									  name="Name"
+									  use="optional"/>
+						<xs:attribute type="xs:string"
+									  name="Tag"
+									  use="optional"/>
+						<xs:attribute type="xs:dateTime"
+									  name="Date"
+									  use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute type="xs:string"
+						  name="OutputFile"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

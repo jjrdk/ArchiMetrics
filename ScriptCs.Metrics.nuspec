@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+	<metadata>
+		<id>ScriptCs.Metrics</id>
+		<version>0.1.0.0-beta</version>
+		<title>Code Metrics for ScriptCS</title>
+		<authors>Jacob Reimers</authors>
+		<owners>Jacob Reimers</owners>
+		<projectUrl>http://archicop.codeplex.com/</projectUrl>
+		<iconUrl>http://www.gravatar.com/avatar/5c754f646971d8bc800b9d4057931938.png?s=120</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
+		<description>A script pack for ScriptCS that brings in the code analysis metrics.</description>
+		<releaseNotes />
+		<copyright>Copyright (c) Reimers.dk (jacob@reimers.dk)</copyright>
+		<tags>scriptcs metrics analysis</tags>
+		<dependencies>
+			<dependency id="ScriptCs.Contracts" version="0.5.0" />
+			<dependency id="Roslyn.Compilers.Common" version="1.2.20906.2" />
+			<dependency id="Roslyn.Compilers.CSharp" version="1.2.20906.2" />
+			<dependency id="Roslyn.Services.Common" version="1.2.20906.2" />
+			<dependency id="Roslyn.Services.CSharp" version="1.2.20906.2" />
+		</dependencies>
+	</metadata>
+	<files>
+	<file src="ScriptCs.Metrics\bin\Release\ArchiMeter.Common.dll"
+		  target="lib\Net45" />
+	<file src="ScriptCs.Metrics\bin\Release\ArchiMeter.Analysis.dll"
+		  target="lib\Net45" />
+	<file src="ScriptCs.Metrics\bin\Release\ScriptCs.Metrics.dll"
+		  target="lib\Net45" />
+  </files>
+</package>
