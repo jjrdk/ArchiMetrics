@@ -9,7 +9,7 @@
 //   Defines the IDataLoader type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common
+namespace ArchiMetrics.Common
 {
 	using System;
 	using System.Threading.Tasks;

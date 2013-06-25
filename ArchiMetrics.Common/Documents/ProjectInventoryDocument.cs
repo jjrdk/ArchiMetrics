@@ -9,7 +9,7 @@
 //   Defines the ProjectInventoryDocument type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	using System;
 

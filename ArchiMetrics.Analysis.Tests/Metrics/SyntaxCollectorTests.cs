@@ -1,4 +1,4 @@
-namespace ArchiMeter.Analysis.Tests.Metrics
+namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
 	using Analysis.Metrics;

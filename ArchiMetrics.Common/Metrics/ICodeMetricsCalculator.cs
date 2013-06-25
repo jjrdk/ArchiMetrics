@@ -9,7 +9,7 @@
 //   Defines the ICodeMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 	using System.Threading.Tasks;

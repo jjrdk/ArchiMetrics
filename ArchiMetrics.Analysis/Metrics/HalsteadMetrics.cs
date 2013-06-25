@@ -9,7 +9,7 @@
 //   Defines the HalsteadMetrics type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
 	using Common.Metrics;

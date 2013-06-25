@@ -9,7 +9,7 @@
 //   Defines the ProjectMetricsDocument type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	using Metrics;
 

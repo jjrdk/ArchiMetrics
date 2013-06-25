@@ -9,7 +9,7 @@
 //   Defines the NamespaceMetric type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 

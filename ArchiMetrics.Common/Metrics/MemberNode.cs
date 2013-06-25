@@ -9,7 +9,7 @@
 //   Defines the MemberNode type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	using Roslyn.Compilers.Common;
 

@@ -1,6 +1,6 @@
-ï»¿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="Roche">
-//   Copyright Â© Roche 2012
+//   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -18,12 +18,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ArchiMeter.Raven")]
+[assembly: AssemblyTitle("ArchiMetrics.Raven")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArchiMeter.Raven")]
-[assembly: AssemblyCopyright("Copyright Â© Roche 2013")]
+[assembly: AssemblyProduct("ArchiMetrics.Raven")]
+[assembly: AssemblyCopyright("Copyright © Roche 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -45,4 +45,4 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: InternalsVisibleTo("ArchiMeter.Raven.Tests")]
+[assembly: InternalsVisibleTo("ArchiMetrics.Raven.Tests")]

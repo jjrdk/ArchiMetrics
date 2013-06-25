@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="XamlConverterTests.cs" company="Roche">
-//   Copyright © Roche 2012
+//   Copyright � Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -9,7 +9,7 @@
 //   Defines the XamlConverterTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Tests.Xaml
+namespace ArchiMetrics.Analysis.Tests.Xaml
 {
 	using System;
 	using System.IO;
@@ -109,12 +109,12 @@ namespace ArchiMeter.Analysis.Tests.Xaml
 
 		private string GetXaml()
 		{
-			return @"<UserControl x:Class=""ArchiMeter.UI.View.CodeReviewView""
+			return @"<UserControl x:Class=""ArchiMetrics.UI.View.CodeReviewView""
 			 xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
 			 xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
 			 xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006""
 			 xmlns:d=""http://schemas.microsoft.com/expression/blend/2008""
-			 xmlns:viewModel=""clr-namespace:ArchiMeter.UI.ViewModel""
+			 xmlns:viewModel=""clr-namespace:ArchiMetrics.UI.ViewModel""
 			 mRocheIgnorable=""d""
 			 d:DesignHeight=""300""
 			 d:DesignWidth=""300""
@@ -189,12 +189,12 @@ namespace ArchiMeter.Analysis.Tests.Xaml
 
 		private string GetComplexXaml()
 		{
-			return @"<UserControl x:Class=""ArchiMeter.UI.View.CodeReviewView""
+			return @"<UserControl x:Class=""ArchiMetrics.UI.View.CodeReviewView""
 			 xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
 			 xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
 			 xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006""
 			 xmlns:d=""http://schemas.microsoft.com/expression/blend/2008""
-			 xmlns:viewModel=""clr-namespace:ArchiMeter.UI.ViewModel""
+			 xmlns:viewModel=""clr-namespace:ArchiMetrics.UI.ViewModel""
 			 mRocheIgnorable=""d""
 			 d:DesignHeight=""300""
 			 d:DesignWidth=""300""

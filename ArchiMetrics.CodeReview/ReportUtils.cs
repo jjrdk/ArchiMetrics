@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.CodeReview
+namespace ArchiMetrics.CodeReview
 {
 	using System;
 	using System.Globalization;

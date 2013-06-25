@@ -9,7 +9,7 @@
 //   Defines the EvaluationResultDocument type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	public class EvaluationResultDocument : ProjectDocument
 	{

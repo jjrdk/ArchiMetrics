@@ -9,7 +9,7 @@
 //   Defines the AggregateEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Data.DataAccess
+namespace ArchiMetrics.Data.DataAccess
 {
 	using System;
 	using System.Collections.Generic;

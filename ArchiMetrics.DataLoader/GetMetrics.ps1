@@ -1,4 +1,4 @@
-﻿param (
+param (
 	[string]$settings = ".\settings.xml",
 	[string]$tfexe = "c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE"
 )
@@ -39,7 +39,7 @@ function UpdateFiles(){
 }
 
 function CollectMetrics(){
-	& .\ArchiMeter.DataLoader.exe $settings
+	& .\ArchiMetrics.DataLoader.exe $settings
 	Set-Location $currentLocation
 }
 

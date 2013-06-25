@@ -9,7 +9,7 @@
 //   Defines the MemberMetric type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 

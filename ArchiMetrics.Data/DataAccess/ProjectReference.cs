@@ -9,7 +9,7 @@
 //   Defines the ProjectReference type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Data.DataAccess
+namespace ArchiMetrics.Data.DataAccess
 {
 	using System.Collections.Generic;
 

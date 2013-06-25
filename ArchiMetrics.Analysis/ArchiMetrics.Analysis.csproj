@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -7,8 +7,8 @@
     <ProjectGuid>{67478EFB-3E11-4459-B1CE-47FE37F1F968}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArchiMeter.Analysis</RootNamespace>
-    <AssemblyName>ArchiMeter.Analysis</AssemblyName>
+    <RootNamespace>ArchiMetrics.Analysis</RootNamespace>
+    <AssemblyName>ArchiMetrics.Analysis</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -108,9 +108,9 @@
     <Compile Include="XamlConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">
+    <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
       <Project>{d8be9d36-ec03-4eee-91da-f9d8c9fd11d2}</Project>
-      <Name>ArchiMeter.Common</Name>
+      <Name>ArchiMetrics.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

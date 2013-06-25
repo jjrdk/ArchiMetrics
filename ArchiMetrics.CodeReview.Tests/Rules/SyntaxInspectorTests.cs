@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.CodeReview.Tests.Rules
+namespace ArchiMetrics.CodeReview.Tests.Rules
 {
 	using System;
 	using System.Collections.Generic;

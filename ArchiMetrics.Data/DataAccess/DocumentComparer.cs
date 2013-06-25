@@ -9,7 +9,7 @@
 //   Defines the DocumentComparer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Data.DataAccess
+namespace ArchiMetrics.Data.DataAccess
 {
 	using System.Collections.Generic;
 	using Roslyn.Services;

@@ -9,7 +9,7 @@
 //   Defines the TypeMetricKind type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	public enum TypeMetricKind
 	{

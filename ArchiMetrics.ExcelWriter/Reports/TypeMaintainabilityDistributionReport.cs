@@ -1,4 +1,4 @@
-namespace ArchiMeter.ExcelWriter.Reports
+namespace ArchiMetrics.ExcelWriter.Reports
 {
 	using System;
 	using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Raven
+namespace ArchiMetrics.Raven
 {
 	public class NamedDocumentStoreProvider : DocumentStoreProviderBase
 	{

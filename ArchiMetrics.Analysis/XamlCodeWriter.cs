@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Analysis
+namespace ArchiMetrics.Analysis
 {
 	using System;
 	using System.Collections.Generic;
@@ -44,7 +44,7 @@
 			var usings = Syntax.List(node.Usings.Select(kvp => string.IsNullOrWhiteSpace(kvp.Value)
 																   ? Syntax.UsingDirective(Syntax.ParseName(kvp.Key))
 																   : Syntax.UsingDirective(Syntax.NameEquals(Syntax.IdentifierName(kvp.Value)), Syntax.ParseName(kvp.Key))));
-			var namespaceName = string.IsNullOrWhiteSpace(node.NamespaceName) ? "ArchiMeter" : node.NamespaceName;
+			var namespaceName = string.IsNullOrWhiteSpace(node.NamespaceName) ? "ArchiMetrics" : node.NamespaceName;
 			var namespaceSyntax =
 				Syntax.NamespaceDeclaration(Syntax.ParseName(namespaceName))
 				.WithUsings(usings)

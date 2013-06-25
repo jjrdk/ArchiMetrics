@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.DataLoader
+namespace ArchiMetrics.DataLoader
 {
 	using System.Collections.Generic;
 	using Common;

@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Common.Xaml
+namespace ArchiMetrics.Common.Xaml
 {
 	using System.Collections.Generic;
 	using System.Linq;

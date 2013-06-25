@@ -9,7 +9,7 @@
 //   Defines the MemberMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
 	using System.Collections.Generic;

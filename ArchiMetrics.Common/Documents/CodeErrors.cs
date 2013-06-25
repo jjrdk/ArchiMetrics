@@ -9,7 +9,7 @@
 //   Defines the CodeErrors type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	public class CodeErrors : ProjectDocument
 	{

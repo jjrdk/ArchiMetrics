@@ -9,7 +9,7 @@
 //   Defines the TypeDeclaration type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using Common.Metrics;

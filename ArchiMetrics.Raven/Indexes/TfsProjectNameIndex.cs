@@ -1,4 +1,4 @@
-namespace ArchiMeter.Raven.Indexes
+namespace ArchiMetrics.Raven.Indexes
 {
 	using System.Linq;
 	using Common.Documents;

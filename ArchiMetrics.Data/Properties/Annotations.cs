@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Data.Properties
+namespace ArchiMetrics.Data.Properties
 {
 	using System;
 

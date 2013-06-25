@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Common.Xaml
+namespace ArchiMetrics.Common.Xaml
 {
 	public class XamlPropertyNode
 	{

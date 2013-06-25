@@ -1,6 +1,6 @@
-ï»¿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="Roche">
-//   Copyright Â© Roche 2012
+//   Copyright © Roche 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -17,12 +17,12 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ArchiMeter.Reports.Tests")]
+[assembly: AssemblyTitle("ArchiMetrics.Reports.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Roche")]
-[assembly: AssemblyProduct("ArchiMeter")]
-[assembly: AssemblyCopyright("Copyright Â© Roche 2012")]
+[assembly: AssemblyProduct("ArchiMetrics")]
+[assembly: AssemblyCopyright("Copyright © Roche 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

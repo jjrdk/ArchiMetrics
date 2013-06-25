@@ -1,4 +1,4 @@
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using Roslyn.Compilers.CSharp;
 

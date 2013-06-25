@@ -9,7 +9,7 @@
 //   Defines the CyclomaticComplexityAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Linq;
 	using Common.Metrics;

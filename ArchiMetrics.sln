@@ -1,7 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.UI", "ArchiMeter.UI\ArchiMeter.UI.csproj", "{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.UI", "ArchiMetrics.UI\ArchiMetrics.UI.csproj", "{26CFD5D4-94BD-40F3-BABA-E5FC7B6DB623}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08F5-C15B-4223-840B-86997220FB8E}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,42 +10,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Analysis.Tests", "ArchiMeter.Analysis.Tests\ArchiMeter.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests", "ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview", "ArchiMeter.CodeReview\ArchiMeter.CodeReview.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview", "ArchiMetrics.CodeReview\ArchiMetrics.CodeReview.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.CodeReview.Tests", "ArchiMeter.CodeReview.Tests\ArchiMeter.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Tests", "ArchiMetrics.CodeReview.Tests\ArchiMetrics.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Data", "ArchiMeter.Data\ArchiMeter.Data.csproj", "{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Data", "ArchiMetrics.Data\ArchiMetrics.Data.csproj", "{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.ExcelWriter", "ArchiMeter.ExcelWriter\ArchiMeter.ExcelWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.ExcelWriter", "ArchiMetrics.ExcelWriter\ArchiMetrics.ExcelWriter.csproj", "{67A86417-F4C5-42C3-898A-79CEC9BD2253}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Reports.Tests", "ArchiMeter.Reports.Tests\ArchiMeter.Reports.Tests.csproj", "{5BBE7D49-CA3B-435B-A2AF-73725AE0226E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Reports.Tests", "ArchiMetrics.Reports.Tests\ArchiMetrics.Reports.Tests.csproj", "{5BBE7D49-CA3B-435B-A2AF-73725AE0226E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSL", "SampleSL\SampleSL.csproj", "{DC19D087-F074-47B1-BC83-4CA74A24278E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Raven", "ArchiMeter.Raven\ArchiMeter.Raven.csproj", "{1C022E94-4B59-4A7E-B7DE-F506489FC311}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Raven", "ArchiMetrics.Raven\ArchiMetrics.Raven.csproj", "{1C022E94-4B59-4A7E-B7DE-F506489FC311}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Raven.Tests", "ArchiMeter.Raven.Tests\ArchiMeter.Raven.Tests.csproj", "{3DC99AC9-0329-4AE7-AE68-D93C9771E17C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Raven.Tests", "ArchiMetrics.Raven.Tests\ArchiMetrics.Raven.Tests.csproj", "{3DC99AC9-0329-4AE7-AE68-D93C9771E17C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.DataLoader", "ArchiMeter.DataLoader\ArchiMeter.DataLoader.csproj", "{CC48D52B-EAAD-43E1-85C1-83389FD6F18B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.DataLoader", "ArchiMetrics.DataLoader\ArchiMetrics.DataLoader.csproj", "{CC48D52B-EAAD-43E1-85C1-83389FD6F18B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Common", "ArchiMeter.Common\ArchiMeter.Common.csproj", "{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Common", "ArchiMetrics.Common\ArchiMetrics.Common.csproj", "{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Common.Tests", "ArchiMeter.Common.Tests\ArchiMeter.Common.Tests.csproj", "{7ECF133B-9576-4385-81DA-20C5732A29B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Common.Tests", "ArchiMetrics.Common.Tests\ArchiMetrics.Common.Tests.csproj", "{7ECF133B-9576-4385-81DA-20C5732A29B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Tfs", "ArchiMeter.Tfs\ArchiMeter.Tfs.csproj", "{088A8DD7-481C-4813-8D9B-A081D081C876}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Tfs", "ArchiMetrics.Tfs\ArchiMetrics.Tfs.csproj", "{088A8DD7-481C-4813-8D9B-A081D081C876}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
-		ArchiMeter.DataLoader\GetMetrics.ps1 = ArchiMeter.DataLoader\GetMetrics.ps1
+		ArchiMetrics.DataLoader\GetMetrics.ps1 = ArchiMetrics.DataLoader\GetMetrics.ps1
 		psake.psm1 = psake.psm1
 		ScriptCs.Metrics.nuspec = ScriptCs.Metrics.nuspec
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMeter.Analysis", "ArchiMeter.Analysis\ArchiMeter.Analysis.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis", "ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

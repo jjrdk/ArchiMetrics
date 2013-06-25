@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.Reports
+namespace ArchiMetrics.Reports
 {
 	//public class ModelComparisonReport : IReportJob
 	 //{

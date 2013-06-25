@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Raven.Repositories
+namespace ArchiMetrics.Raven.Repositories
 {
 	using System;
 	using System.Collections.Generic;

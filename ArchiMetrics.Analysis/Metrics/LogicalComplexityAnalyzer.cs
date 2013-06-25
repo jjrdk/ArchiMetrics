@@ -9,7 +9,7 @@
 //   Defines the LogicalComplexityAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using Common.Metrics;
 	using Roslyn.Compilers.Common;

@@ -1,8 +1,8 @@
 namespace ArchiCop.UI.ViewModel
 {
-	using ArchiMeter.CodeReview.Intelligence.Clustering;
-	using ArchiMeter.Common;
-	using ArchiMeter.Common.Metrics;
+	using ArchiMetrics.CodeReview.Intelligence.Clustering;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
 
 	public class MetricClusteringViewModel : WorkspaceViewModel
 	{

@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Tfs
+namespace ArchiMetrics.Tfs
 {
 	using System;
 	using System.Collections.Generic;

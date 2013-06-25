@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -151,7 +151,7 @@
     <value>Requirements Graph</value>
   </data>
   <data name="MainWindowViewModel_DisplayName" xml:space="preserve">
-    <value>ArchiMeter</value>
+    <value>ArchiMetrics</value>
     <comment>Title of the main window</comment>
   </data>
   <data name="RequirementGraphViewModel_DisplayName" xml:space="preserve">

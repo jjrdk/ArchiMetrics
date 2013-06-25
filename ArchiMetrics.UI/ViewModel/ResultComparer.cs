@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMeter.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using Common;

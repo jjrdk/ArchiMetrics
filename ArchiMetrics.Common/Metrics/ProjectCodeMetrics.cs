@@ -9,7 +9,7 @@
 //   Defines the ProjectCodeMetrics type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 

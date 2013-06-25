@@ -9,7 +9,7 @@
 //   Defines the XamlNodeTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Tests.Xaml
+namespace ArchiMetrics.Common.Tests.Xaml
 {
 	using System.Xml.Linq;
 	using Common.Xaml;
@@ -28,12 +28,12 @@ namespace ArchiMeter.Common.Tests.Xaml
 			[SetUp]
 			public void Setup()
 			{
-				_snippet = @"<UserControl x:Class=""ArchiMeter.UI.View.CodeReviewView""
+				_snippet = @"<UserControl x:Class=""ArchiMetrics.UI.View.CodeReviewView""
 			 xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
 			 xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
 			 xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006""
 			 xmlns:d=""http://schemas.microsoft.com/expression/blend/2008""
-			 xmlns:viewModel=""clr-namespace:ArchiMeter.UI.ViewModel""
+			 xmlns:viewModel=""clr-namespace:ArchiMetrics.UI.ViewModel""
 			 mRocheIgnorable=""d""
 			 d:DesignHeight=""300""
 			 d:DesignWidth=""300""

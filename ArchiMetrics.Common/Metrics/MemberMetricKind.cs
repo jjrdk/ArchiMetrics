@@ -9,7 +9,7 @@
 //   Defines the MemberMetricKind type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	public enum MemberMetricKind
 	{

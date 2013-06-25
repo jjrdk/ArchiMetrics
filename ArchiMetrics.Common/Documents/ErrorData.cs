@@ -9,7 +9,7 @@
 //   Defines the ErrorData type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	public class ErrorData : ProjectDocument
 	{

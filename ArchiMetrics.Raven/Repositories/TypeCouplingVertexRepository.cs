@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Raven.Repositories
+namespace ArchiMetrics.Raven.Repositories
 {
 	using Common;
 	using Common.Structure;
