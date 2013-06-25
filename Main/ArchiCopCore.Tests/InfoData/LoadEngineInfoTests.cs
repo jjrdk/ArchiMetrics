@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ArchiCop.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,9 +12,8 @@ namespace ArchiCop.InfoData
         public void ThrowsCorrectExceptionWhenCreatingLoadEngineWithWrongTypeName()
         {
             //
-            var loadEngineInfo = new LoadEngineInfo
+            var loadEngineInfo = new LoadEngineInfo("ArchiCop.InfoData.IDontExist,ArchiCopCore.Tests")
                 {
-                    EngineName = "ArchiCop.InfoData.IDontExist,ArchiCopCore.Tests",
                     Arg1 = "",
                     Arg2 = ""
                 };
@@ -32,9 +30,8 @@ namespace ArchiCop.InfoData
         public void ThrowsCorrectExceptionWhenCreatingLoadEngineWithWrongArgs()
         {
             //
-            var loadEngineInfo = new LoadEngineInfo
+            var loadEngineInfo = new LoadEngineInfo("ArchiCop.InfoData.LoadEngine0,ArchiCopCore.Tests")
                 {
-                    EngineName = "ArchiCop.InfoData.LoadEngine0,ArchiCopCore.Tests",
                     Arg1 = "one",
                     Arg2 = "two"
                 };
@@ -50,9 +47,8 @@ namespace ArchiCop.InfoData
         public void CanCreateLoadEngine0()
         {
             //
-            var loadEngineInfo = new LoadEngineInfo
+            var loadEngineInfo = new LoadEngineInfo("ArchiCop.InfoData.LoadEngine0,ArchiCopCore.Tests")
                 {
-                    EngineName = "ArchiCop.InfoData.LoadEngine0,ArchiCopCore.Tests",
                     Arg1 = "",
                     Arg2 = ""
                 };
@@ -68,9 +64,8 @@ namespace ArchiCop.InfoData
         public void CanCreateLoadEngine1()
         {
             //
-            var loadEngineInfo = new LoadEngineInfo
+            var loadEngineInfo = new LoadEngineInfo("ArchiCop.InfoData.LoadEngine1,ArchiCopCore.Tests")
                 {
-                    EngineName = "ArchiCop.InfoData.LoadEngine1,ArchiCopCore.Tests",
                     Arg1 = "something",
                     Arg2 = ""
                 };
@@ -86,9 +81,8 @@ namespace ArchiCop.InfoData
         public void CanCreateLoadEngine2()
         {
             //
-            var loadEngineInfo = new LoadEngineInfo
+            var loadEngineInfo = new LoadEngineInfo("ArchiCop.InfoData.LoadEngine2,ArchiCopCore.Tests")
                 {
-                    EngineName = "ArchiCop.InfoData.LoadEngine2,ArchiCopCore.Tests",
                     Arg1 = "something",
                     Arg2 = "something"
                 };

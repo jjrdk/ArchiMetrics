@@ -10,21 +10,29 @@ namespace ArchiCop.InfoData
 
     public class LoadEngineInfo
     {
+        public LoadEngineInfo(string engineName)
+        {
+            switch (engineName)
+            {
+                case "ArchiCop.VisualStudioData.VisualStudioProjectLoadEngine,ArchiCopCore":
+                    EngineType = LoadEngineType.VisualStudio;
+                    break;
+                default:
+                    EngineType = LoadEngineType.Data;
+                    break;
+            }
+            EngineName = engineName;
+        }
+
         public string EngineName { get; set; }
-        public LoadEngineType EngineType { get; set; }
+
+        public LoadEngineType EngineType { get; private set; }
 
         public string Arg1 { get; set; }
         public string Arg2 { get; set; }
 
         public object CreateLoadEngine()
         {
-            switch (EngineName)
-            {
-                case "ArchiCop.VisualStudioData.VisualStudioProjectLoadEngine,ArchiCopCore":
-                    EngineType=LoadEngineType.VisualStudio;                    
-                    break;                
-            }
-
             Type type = Type.GetType(EngineName);
             object loadEngine;
 

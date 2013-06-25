@@ -8,6 +8,7 @@ namespace ArchiCop.ViewModel
         {
             DisplayName = displayName;
         }
+
         public ArchiCopGraph<ArchiCopVertex> Graph { get; set; }
     }
 }

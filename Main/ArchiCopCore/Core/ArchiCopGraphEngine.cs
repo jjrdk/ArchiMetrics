@@ -13,7 +13,7 @@ namespace ArchiCop.Core
         public static ArchiCopGraph<ArchiCopVertex> GetGraph(DataSourceInfo dataSourceInfo)
         {
             ArchiCopGraph<ArchiCopVertex> graph = GetGraph(dataSourceInfo.LoadEngine);
-            
+
             graph.DisplayName = dataSourceInfo.DisplayName;
 
             return graph;
@@ -24,10 +24,10 @@ namespace ArchiCop.Core
             IEnumerable<VertexRegexRule> rules = graphInfo.Rules.Select(
                 item =>
                 new VertexRegexRule
-                {
-                    Pattern = item.RulePattern,
-                    Value = item.RuleValue
-                });
+                    {
+                        Pattern = item.RulePattern,
+                        Value = item.RuleValue
+                    });
 
             ArchiCopGraph<ArchiCopVertex> graph = GetGraph(graphInfo.DataSource.LoadEngine, rules.ToArray());
 
@@ -104,15 +104,17 @@ namespace ArchiCop.Core
         //    return graph;
         //}
 
-        private static ArchiCopGraph<ArchiCopVertex> GetGraph(LoadEngineInfo loadEngineInfo, params VertexRegexRule[] vertexRegexRules)
-        {            
+        private static ArchiCopGraph<ArchiCopVertex> GetGraph(LoadEngineInfo loadEngineInfo,
+                                                              params VertexRegexRule[] vertexRegexRules)
+        {
             var loadEngine = (ILoadEngine) loadEngineInfo.CreateLoadEngine();
-            var graph = loadEngine.LoadGraph();
+            ArchiCopGraph<ArchiCopVertex> graph = loadEngine.LoadGraph();
 
             if (vertexRegexRules.Any())
             {
-                var edges = new EdgeEngineRegex().ConvertEdges(graph.Edges, vertexRegexRules);
-                graph=new ArchiCopGraph<ArchiCopVertex>();
+                IEnumerable<ArchiCopEdge<ArchiCopVertex>> edges = new EdgeEngineRegex().ConvertEdges(graph.Edges,
+                                                                                                     vertexRegexRules);
+                graph = new ArchiCopGraph<ArchiCopVertex>();
                 graph.AddVerticesAndEdgeRange(edges);
             }
 

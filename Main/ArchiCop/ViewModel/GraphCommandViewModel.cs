@@ -34,9 +34,9 @@ namespace ArchiCop.ViewModel
                 case GraphCommandViewModelType.Graph:
                     ImageSource = "Icojam-Onebit-Diagram.ico";
                     break;
-                    case GraphCommandViewModelType.VisualStudioDatasource:
+                case GraphCommandViewModelType.VisualStudioDatasource:
                     ImageSource = "Dakirby309-Windows-8-Metro-Apps-Visual-Studio-alt-Metro.ico";
-                    break;                    
+                    break;
             }
         }
 

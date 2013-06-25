@@ -49,9 +49,8 @@ namespace ArchiCop.InfoData
                 dataSourceInfo.DisplayName = dataSourceName;
                 dataSourceInfo.Name = dataSourceName;
 
-                dataSourceInfo.LoadEngine = new LoadEngineInfo
+                dataSourceInfo.LoadEngine = new LoadEngineInfo(dataSourceRow.LoadEngineType)
                     {
-                        EngineName = dataSourceRow.LoadEngineType,
                         Arg1 = dataSourceRow.Arg1,
                         Arg2 = dataSourceRow.Arg2
                     };

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using ArchiCop.Controller;
 
 namespace ArchiCop.ViewModel
 {

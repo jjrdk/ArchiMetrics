@@ -6,7 +6,7 @@ namespace ArchiCop.Core
 {
     public class ArchiCopGraph<T> : BidirectionalGraph<T, ArchiCopEdge<T>>
         where T : ArchiCopVertex
-    {       
+    {
         public string DisplayName { get; set; }
 
         public IDictionary<T, int> StronglyConnectedComponents

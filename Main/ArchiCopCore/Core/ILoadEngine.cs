@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ArchiCop.Core
+﻿namespace ArchiCop.Core
 {
     public interface ILoadEngine
     {

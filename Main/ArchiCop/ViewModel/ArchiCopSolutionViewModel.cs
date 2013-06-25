@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
-using ArchiCop.Controller;
 using ArchiCop.Core;
 using ArchiCop.Properties;
 using Microsoft.Practices.Unity;
@@ -23,7 +21,7 @@ namespace ArchiCop.ViewModel
         [InjectionConstructor]
         public ArchiCopSolutionViewModel(IMainWindowViewModel mainWindowViewModel)
             : base(Resources.ArchiCopSolutionViewModel_DisplayName)
-        {            
+        {
             _mainWindowViewModel = mainWindowViewModel;
             Commands = new ObservableCollection<GraphCommandViewModel>();
 
@@ -34,32 +32,46 @@ namespace ArchiCop.ViewModel
 
             foreach (ConfigInfoViewModel configInfo in mainWindowViewModel.Configurations)
             {
-                foreach (var dataSource in configInfo.DataSources)
+                foreach (DataSourceInfoViewModel dataSource in configInfo.DataSources)
                 {
                     ICommand command1 = new RelayCommand<object>(param => ShowGraphView(dataSource.Graph));
                     ICommand command2 = new RelayCommand<object>(param => ShowGraphEdgesView(dataSource.Graph));
                     ICommand command3 = new RelayCommand<object>(param => ShowGraphVerticesView(dataSource.Graph));
 
-                    _cachedCommands.Add(
-                        new GraphCommandViewModel(dataSource.Graph.DisplayName, GraphCommandViewModelType.Datasource, command1,command2, command3)
-                            {
-                                Tag = configInfo.DisplayName
-                            });
+                    if (dataSource.DataSourceType == DataSourceType.Data)
+                    {
+                        _cachedCommands.Add(
+                            new GraphCommandViewModel(dataSource.Graph.DisplayName, GraphCommandViewModelType.Datasource,
+                                                      command1, command2, command3)
+                                {
+                                    Tag = configInfo.DisplayName
+                                });
+                    }
+                    else if (dataSource.DataSourceType == DataSourceType.VisualStudio)
+                    {
+                        _cachedCommands.Add(
+                            new GraphCommandViewModel(dataSource.Graph.DisplayName,
+                                                      GraphCommandViewModelType.VisualStudioDatasource, command1,
+                                                      command2, command3)
+                                {
+                                    Tag = configInfo.DisplayName
+                                });
+                    }
 
-                    foreach (var graph in dataSource.Graphs)
+                    foreach (GraphInfoViewModel graph in dataSource.Graphs)
                     {
                         ICommand command11 = new RelayCommand<object>(param => ShowGraphView(graph.Graph));
                         ICommand command12 = new RelayCommand<object>(param => ShowGraphEdgesView(graph.Graph));
                         ICommand command13 = new RelayCommand<object>(param => ShowGraphVerticesView(graph.Graph));
 
                         _cachedCommands.Add(
-                            new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command11, command12,command13)
-                            {
-                                Tag = configInfo.DisplayName
-                            });
+                            new GraphCommandViewModel(graph.DisplayName, GraphCommandViewModelType.Graph, command11,
+                                                      command12, command13)
+                                {
+                                    Tag = configInfo.DisplayName
+                                });
                     }
                 }
-                
             }
         }
 

@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ArchiCop.Core;
 using ArchiCop.VisualStudioData;
-using QuickGraph;
 
 namespace ArchiMate
 {
