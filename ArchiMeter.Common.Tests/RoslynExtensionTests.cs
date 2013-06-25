@@ -17,15 +17,5 @@ namespace ArchiMeter.Common.Tests
 
 			Assert.NotNull(reloaded);
 		}
-
-		[Test]
-		public void CanMergeSolutions()
-		{
-			var main = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
-			var other = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiCop.sln")).CurrentSolution;
-			var merged = main.MergeWith(other);
-
-			Assert.NotNull(merged);
-		}
 	}
 }

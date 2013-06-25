@@ -7,6 +7,8 @@ namespace ArchiMeter.Analysis.Tests.Metrics
 
 	public class SyntaxCollectorTests
 	{
+		private SyntaxCollectorTests() { }
+
 		public class GivenASyntaxCollector
 		{
 			private SyntaxCollector _collector;
