@@ -12,21 +12,13 @@
 		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
 		<description>A script pack for ScriptCS that brings in the code analysis metrics.</description>
 		<releaseNotes />
-		<copyright>Copyright (c) Reimers.dk (jacob@reimers.dk)</copyright>
 		<tags>scriptcs metrics analysis</tags>
 		<dependencies>
 			<dependency id="ScriptCs.Contracts" version="0.5.0" />
-			<dependency id="Roslyn.Compilers.Common" version="1.2.20906.2" />
-			<dependency id="Roslyn.Compilers.CSharp" version="1.2.20906.2" />
-			<dependency id="Roslyn.Services.Common" version="1.2.20906.2" />
-			<dependency id="Roslyn.Services.CSharp" version="1.2.20906.2" />
+			<dependency id="ArchiMetrics.Analysis" version="0.1.0.0-beta" />
 		</dependencies>
 	</metadata>
 	<files>
-	<file src="ScriptCs.Metrics\bin\Release\ArchiMeter.Common.dll"
-		  target="lib\Net45" />
-	<file src="ScriptCs.Metrics\bin\Release\ArchiMeter.Analysis.dll"
-		  target="lib\Net45" />
 	<file src="ScriptCs.Metrics\bin\Release\ScriptCs.Metrics.dll"
 		  target="lib\Net45" />
   </files>
