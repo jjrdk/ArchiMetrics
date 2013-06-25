@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
-		<version>0.1.0.0-beta</version>
+		<version>0.1.0.0</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
 		<projectUrl>http://archicop.codeplex.com/</projectUrl>

@@ -17,7 +17,6 @@ task CleanUpMsBuildPath -depends BuildPackages {
 }
 
 task BuildPackages -depends Test {
-	Exec { .\.nuget\nuget.exe pack ScriptCs.Metrics.nuspec }
 	Exec { .\.nuget\nuget.exe pack ArchiMetrics.Analysis.nuspec }
 }
 
