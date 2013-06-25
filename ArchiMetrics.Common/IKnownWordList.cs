@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Common
+namespace ArchiMetrics.Common
 {
 	public interface IKnownWordList
 	{

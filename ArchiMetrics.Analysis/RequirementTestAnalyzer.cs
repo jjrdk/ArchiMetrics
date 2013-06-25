@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Analysis
+namespace ArchiMetrics.Analysis
 {
 	using System;
 	using System.Collections.Generic;

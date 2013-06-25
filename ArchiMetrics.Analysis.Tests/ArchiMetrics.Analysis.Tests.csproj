@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -7,8 +7,8 @@
     <ProjectGuid>{36BA2848-F241-4CAA-B037-451251A75951}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArchiMeter.Analysis.Tests</RootNamespace>
-    <AssemblyName>ArchiMeter.Analysis.Tests</AssemblyName>
+    <RootNamespace>ArchiMetrics.Analysis.Tests</RootNamespace>
+    <AssemblyName>ArchiMetrics.Analysis.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\ArchiMeter.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ArchiMetrics.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\ArchiMeter.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ArchiMetrics.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Moq">
@@ -90,17 +90,17 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMeter.Analysis\ArchiMeter.Analysis.csproj">
+    <ProjectReference Include="..\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj">
       <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
-      <Name>ArchiMeter.Analysis</Name>
+      <Name>ArchiMetrics.Analysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArchiMeter.Common\ArchiMeter.Common.csproj">
+    <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
-      <Name>ArchiMeter.Common</Name>
+      <Name>ArchiMetrics.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArchiMeter.Data\ArchiMeter.Data.csproj">
+    <ProjectReference Include="..\ArchiMetrics.Data\ArchiMetrics.Data.csproj">
       <Project>{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}</Project>
-      <Name>ArchiMeter.Data</Name>
+      <Name>ArchiMetrics.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

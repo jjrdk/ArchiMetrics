@@ -6,7 +6,7 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ArchiMeterController type.
+//   Defines the ArchiMetricsController type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,14 +16,14 @@ namespace ArchiCop.UI.Controller
 
 	using ArchiCop.UI.MvvmFoundation;
 
-	using ArchiMeter.Analysis;
+	using ArchiMetrics.Analysis;
 
 	using ArchiCop.UI.Properties;
 	using ArchiCop.UI.ViewModel;
 
-	using ArchiMeter.Common;
+	using ArchiMetrics.Common;
 
-	public class ArchiMeterController
+	public class ArchiMetricsController
 	{
 		// private readonly IBuildItemRepository _buildItemRepository;
 		private readonly ICodeErrorRepository _codeErrorRepository;
@@ -34,7 +34,7 @@ namespace ArchiCop.UI.Controller
 		private readonly IVertexRuleDefinition _ruleDefinition;
 		private readonly IShell _shell;
 
-		public ArchiMeterController(
+		public ArchiMetricsController(
 			IShell shell, 
 			ICodeErrorRepository codeErrorRepository, 
 			IRequirementTestAnalyzer requirementTestAnalyzer, 

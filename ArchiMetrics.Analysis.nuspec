@@ -19,9 +19,9 @@
 		</dependencies>
 	</metadata>
 	<files>
-	<file src="ArchiMeter.Analysis\bin\Release\ArchiMeter.Common.dll"
+	<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Common.dll"
 		  target="lib\Net45" />
-	<file src="ArchiMeter.Analysis\bin\Release\ArchiMeter.Analysis.dll"
+	<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.dll"
 		  target="lib\Net45" />
   </files>
 </package>

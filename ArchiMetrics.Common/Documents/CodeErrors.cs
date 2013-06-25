@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeErrors.cs" company="Roche">
-//   Copyright © Roche 2012
+// <copyright file="CodeErrors.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -9,7 +9,7 @@
 //   Defines the CodeErrors type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	public class CodeErrors : ProjectDocument
 	{

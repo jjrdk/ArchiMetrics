@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Raven
+namespace ArchiMetrics.Raven
 {
 	using System;
 	using Common;

@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.UI.View
+namespace ArchiMetrics.UI.View
 {
 	using System.Windows;
 	using System.Windows.Controls;

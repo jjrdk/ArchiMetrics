@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ArchiMeter.UI.View.GraphView"
+<UserControl x:Class="ArchiMetrics.UI.View.GraphView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,9 @@
 			 mc:Ignorable="d"
 			 xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
 			 xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
-			 xmlns:converters="clr-namespace:ArchiMeter.UI.Converters"
-			 xmlns:view="clr-namespace:ArchiMeter.UI.View"
-			 xmlns:viewModel="clr-namespace:ArchiMeter.UI.ViewModel"
+			 xmlns:converters="clr-namespace:ArchiMetrics.UI.Converters"
+			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 x:Name="Root"
 			 d:DataContext="{d:DesignInstance Type=viewModel:GraphViewModel}">
 	<UserControl.Resources>

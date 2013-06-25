@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Raven.Tests.Indexes
+namespace ArchiMetrics.Raven.Tests.Indexes
 {
 	using System;
 	using System.Collections;

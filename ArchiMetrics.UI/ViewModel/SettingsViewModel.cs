@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.UI.ViewModel
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
 	using System.ComponentModel;

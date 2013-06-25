@@ -22,16 +22,16 @@ task BuildPackages -depends Test {
 
 task Test -depends Compile, Clean {
 	'Running Tests'
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Analysis.Tests\bin\$configuration\ArchiMeter.Analysis.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.CodeReview.Tests\bin\$configuration\ArchiMeter.CodeReview.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Common.Tests\bin\$configuration\ArchiMeter.Common.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Raven.Tests\bin\$configuration\ArchiMeter.Raven.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMeter.Reports.Tests\bin\$configuration\ArchiMeter.Reports.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Analysis.Tests\bin\$configuration\ArchiMetrics.Analysis.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.CodeReview.Tests\bin\$configuration\ArchiMetrics.CodeReview.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Common.Tests\bin\$configuration\ArchiMetrics.Common.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Raven.Tests\bin\$configuration\ArchiMetrics.Raven.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Reports.Tests\bin\$configuration\ArchiMetrics.Reports.Tests.dll }
 }
 
 task Compile -depends UpdatePackages { 
 	$options = "/p:configuration=$configuration;platform=$platform"
-	Exec { C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe "ArchiMeter.sln" $options }
+	Exec { C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe "ArchiMetrics.sln" $options }
 	'Executed Compile!'
 }
 

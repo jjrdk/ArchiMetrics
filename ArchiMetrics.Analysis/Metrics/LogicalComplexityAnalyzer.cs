@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogicalComplexityAnalyzer.cs" company="Roche">
-//   Copyright © Roche 2012
+// <copyright file="LogicalComplexityAnalyzer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -9,7 +9,7 @@
 //   Defines the LogicalComplexityAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Analysis.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using Common.Metrics;
 	using Roslyn.Compilers.Common;

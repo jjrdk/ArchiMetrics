@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Rules
 {
 	internal class BeginEndPairRule : MethodNamePairRule
 	{

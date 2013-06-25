@@ -1,4 +1,4 @@
-namespace ArchiMeter.Common.Metrics
+namespace ArchiMetrics.Common.Metrics
 {
 	public class CodeMetrics
 	{

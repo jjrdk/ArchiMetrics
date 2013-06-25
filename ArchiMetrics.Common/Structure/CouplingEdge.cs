@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.Common.Structure
+namespace ArchiMetrics.Common.Structure
 {
 	public class CouplingEdge
 	{

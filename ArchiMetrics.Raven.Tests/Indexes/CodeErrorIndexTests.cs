@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeErrorIndexTests.cs" company="Roche">
-//   Copyright © Roche 2012
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeErrorIndexTests.cs" company="Reimers.dk">
+//   Copyright � Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
@@ -9,7 +9,7 @@
 //   Defines the CodeErrorIndexTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMeter.Raven.Tests.Indexes
+namespace ArchiMetrics.Raven.Tests.Indexes
 {
 	using System;
 	using System.Collections;

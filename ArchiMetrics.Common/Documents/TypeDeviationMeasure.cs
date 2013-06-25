@@ -1,4 +1,4 @@
-namespace ArchiMeter.Common.Documents
+namespace ArchiMetrics.Common.Documents
 {
 	public abstract class TypeDeviationMeasure : ProjectDocument
 	{

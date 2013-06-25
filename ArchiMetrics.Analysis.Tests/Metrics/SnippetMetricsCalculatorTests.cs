@@ -1,4 +1,4 @@
-namespace ArchiMeter.Analysis.Tests.Metrics
+namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using Analysis.Metrics;
 	using NUnit.Framework;

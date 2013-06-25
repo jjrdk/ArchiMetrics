@@ -1,4 +1,4 @@
-namespace ArchiMeter.Common.Tests
+namespace ArchiMetrics.Common.Tests
 {
 	using System.IO;
 	using NUnit.Framework;
@@ -9,7 +9,7 @@ namespace ArchiMeter.Common.Tests
 		[Test]
 		public void CanSaveSolution()
 		{
-			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMeter.sln")).CurrentSolution;
+			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMetrics.sln")).CurrentSolution;
 			const string SaveLocation = @"..\..\..\x.sln";
 			solution.Save(SaveLocation, true);
 

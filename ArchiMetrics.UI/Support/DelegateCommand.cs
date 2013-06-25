@@ -1,4 +1,4 @@
-﻿namespace ArchiMeter.UI.Support
+namespace ArchiMetrics.UI.Support
 {
 	using System;
 	using System.Windows.Input;
