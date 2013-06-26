@@ -1,0 +1,76 @@
+<UserControl x:Class="ArchiMetrics.UI.View.CodeReviewView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+             mc:Ignorable="d"
+			 d:DesignHeight="300"
+			 d:DesignWidth="300"
+			 d:DataContext="{d:DesignInstance Type=viewModel:CodeReviewViewModel}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<StackPanel Grid.Row="0"
+					Grid.Column="0"
+					Orientation="Horizontal"
+					HorizontalAlignment="Stretch">
+			<TextBlock Text="{Binding Path=ErrorsShown, StringFormat='{}{0} errors found '}" />
+			<TextBlock Text="{Binding Path=FilesWithErrors, StringFormat='in {0} files.'}" />
+			<TextBlock Text="{Binding Path=BrokenCode, StringFormat=' Lines of code which are counted as broken: {0}.'}" />
+		</StackPanel>
+		<Button Grid.Row="0"
+				Grid.Column="1"
+				Content="Print Report"
+				Click="OnPrintReport" />
+		<DataGrid x:Name="CodeReviewGrid"
+				  Grid.Row="1"
+				  Grid.ColumnSpan="2"
+				  ItemsSource="{Binding Path=CodeErrors}"
+				  AutoGenerateColumns="False"
+				  EnableColumnVirtualization="True"
+				  EnableRowVirtualization="True"
+				  AlternationCount="2"
+				  AlternatingRowBackground="LightGray"
+				  ClipboardCopyMode="IncludeHeader"
+				  GridLinesVisibility="Horizontal"
+				  HeadersVisibility="Column"
+				  CanUserAddRows="False"
+				  CanUserDeleteRows="False"
+				  CanUserReorderColumns="True"
+				  CanUserResizeColumns="True"
+				  CanUserResizeRows="True"
+				  IsReadOnly="True"
+				  CanUserSortColumns="True">
+			<DataGrid.Columns>
+				<!--<DataGridTextColumn Header="Quality"
+									Binding="{Binding Path=Quality}" />-->
+				<DataGridTextColumn Header="Comment"
+									Binding="{Binding Path=Comment}" />
+				<DataGridTextColumn Header="LoC"
+									Binding="{Binding Path=LinesOfCodeAffected}" />
+				<DataGridTextColumn Header="Snippet"
+									Binding="{Binding Path=Snippet}" />
+				<DataGridTextColumn Header="File"
+									Binding="{Binding Path=FilePath}" />
+				<DataGridTextColumn Header="Project"
+									Binding="{Binding Path=ProjectPath}" />
+			</DataGrid.Columns>
+		</DataGrid>
+		<ProgressBar Grid.Row="1"
+					 Grid.ColumnSpan="2"
+					 Margin="25,0"
+					 Height="25"
+					 MinWidth="200"
+					 IsIndeterminate="True"
+					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}"
+					 VerticalAlignment="Center"
+					 HorizontalAlignment="Stretch" />
+	</Grid>
+</UserControl>

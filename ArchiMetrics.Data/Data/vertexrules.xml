@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfVertexRule xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<VertexRule Pattern="(mscorlib|Microsoft|System)(\..*)?" Name="DotNet" />
+	<VertexRule Pattern=".*(Moq|log4net|Demo)(\..*)?" Name="3rdParty"	/>
+	<VertexRule Pattern=".*(Stateless|Mef|VirtualBox)(\..*)?" Name="3rdParty" />
+	<VertexRule Pattern=".*(UIAutomationTypes|WindowsBase|PresentationFramework)(\..*)?" Name="3rdParty" />
+	<VertexRule Pattern=".*(PresentationCommon|DevExpress|EnvDTE)(\..*)?" Name="3rdParty" />
+	<VertexRule Pattern=".*(Devart|AutoMapper|Ionic)(\..*)?" Name="3rdParty" />
+	<VertexRule Pattern=".*(DotNetContrib|MSTest|NHapi)(\..*)?" Name="3rdParty" />
+	<VertexRule Pattern=".*(UIAutomationClient|Quartz)(\..*)?" Name="3rdParty" />
+</ArrayOfVertexRule>

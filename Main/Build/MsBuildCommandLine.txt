@@ -1,5 +1,0 @@
-
-msbuild C:\Code\ArchiCop-master\Main\ArchiCopDeploy.Sln /p:OutputPath=c:\temp\ArchiCop /p:DebugSymbols=false /p:DebugType=none
-
-
-

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+	<metadata>
+		<id>ArchiMetrics.Analysis</id>
+		<version>0.1.0.0</version>
+		<authors>Jacob Reimers</authors>
+		<owners>Jacob Reimers</owners>
+		<projectUrl>http://archicop.codeplex.com/</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
+		<description>A Roslyn based code analysis library.</description>
+		<releaseNotes />
+		<tags>metrics analysis roslyn</tags>
+		<dependencies>
+			<dependency id="Roslyn.Compilers.Common" version="1.2.20906.2" />
+			<dependency id="Roslyn.Compilers.CSharp" version="1.2.20906.2" />
+			<dependency id="Roslyn.Services.Common" version="1.2.20906.2" />
+			<dependency id="Roslyn.Services.CSharp" version="1.2.20906.2" />
+		</dependencies>
+	</metadata>
+	<files>
+	<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Common.dll"
+		  target="lib\Net45" />
+	<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.dll"
+		  target="lib\Net45" />
+  </files>
+</package>
