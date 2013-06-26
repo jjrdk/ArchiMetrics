@@ -5,7 +5,7 @@
 		<version>0.1.0.0</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
-		<projectUrl>http://archicop.codeplex.com/</projectUrl>
+		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
 		<description>A Roslyn based code analysis library.</description>
