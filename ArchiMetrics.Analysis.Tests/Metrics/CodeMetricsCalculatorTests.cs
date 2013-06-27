@@ -36,6 +36,20 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}
 
 			[Test]
+			public void WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
+			{
+				Assert.DoesNotThrow(() =>
+									{
+										const string Text = "Hello World";
+
+										var tree = SyntaxTree.ParseText(Text);
+
+										var metrics = _analyzer.Calculate(new[]{tree});
+										var result = metrics.Result.ToArray();
+									});
+			}
+
+			[Test]
 			public void CanCalculateMetricsForNamespaceSnippet()
 			{
 				const string Snippet = @"
