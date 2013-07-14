@@ -25,8 +25,6 @@ task Test -depends Compile, Clean {
 	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Analysis.Tests\bin\$configuration\ArchiMetrics.Analysis.Tests.dll }
 	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.CodeReview.Tests\bin\$configuration\ArchiMetrics.CodeReview.Tests.dll }
 	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Common.Tests\bin\$configuration\ArchiMetrics.Common.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Raven.Tests\bin\$configuration\ArchiMetrics.Raven.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Reports.Tests\bin\$configuration\ArchiMetrics.Reports.Tests.dll }
 }
 
 task Compile -depends UpdatePackages { 
