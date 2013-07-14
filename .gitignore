@@ -16,3 +16,8 @@ settings.xml
 *.tmp
 
 *.nupkg
+
+TestResult.xml
+
+*.DotSettings
+x.sln
