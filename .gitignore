@@ -16,3 +16,7 @@ settings.xml
 *.tmp
 
 *.nupkg
+
+TestResult.xml
+
+x.sln
