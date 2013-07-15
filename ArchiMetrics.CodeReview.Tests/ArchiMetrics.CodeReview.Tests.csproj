@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -80,9 +80,9 @@
     <Compile Include="Rules\SyntaxInspectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\ArchiMetrics.DataLoader\Dictionaries\dict-en.oxt">
+    <None Include="..\Libraries\Dictionaries\dict-en.oxt">
       <Link>Dictionaries\dict-en.oxt</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
