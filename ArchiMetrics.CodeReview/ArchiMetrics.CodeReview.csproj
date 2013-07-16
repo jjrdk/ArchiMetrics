@@ -118,7 +118,6 @@
     <Compile Include="Rules\TriviaEvaluationBase.cs" />
     <Compile Include="Rules\TypeObfuscationRule.cs" />
     <Compile Include="Rules\VarDeclarationForNewVariableErrorRule.cs" />
-    <Compile Include="Rules\VarKeywordRule.cs" />
     <Compile Include="Rules\WhileLoopSleepErrorRule.cs" />
     <Compile Include="SolutionInspector.cs" />
   </ItemGroup>

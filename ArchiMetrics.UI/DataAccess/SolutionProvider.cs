@@ -25,6 +25,11 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private ConcurrentDictionary<string, ISolution> _cache = new ConcurrentDictionary<string, ISolution>();
 
+		~SolutionProvider()
+		{
+			this.Dispose(false);
+		}
+
 		public ISolution Get(string path)
 		{
 			return this._cache.GetOrAdd(
@@ -49,12 +54,6 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			this.Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		~SolutionProvider()
-		{
-			// Simply call Dispose(false).
-			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

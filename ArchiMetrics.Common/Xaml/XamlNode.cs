@@ -169,15 +169,16 @@ namespace ArchiMetrics.Common.Xaml
 							{
 								var isDependency = element.Name.LocalName.Split('.').First() != ClassName;
 								var value = element.HasElements
-												? element.Elements()
-														 .ElementAtOrDefault(1) == null
-													  ? (object) new XamlNode(null, 
-																			  element.Elements()
-																					 .First())
-													  : element.Elements()
-															   .Select(e => new XamlNode(null, e))
-															   .ToArray()
-												: element.Value;
+									            ? element.Elements()
+									                     .ElementAtOrDefault(1) == null
+										              ? (object)new XamlNode(
+											                        null,
+											                        element.Elements()
+											                               .First())
+										              : element.Elements()
+										                       .Select(e => new XamlNode(null, e))
+										                       .ToArray()
+									            : element.Value;
 								return new XamlPropertyNode(element.Name.LocalName.Split('.').Last(), isDependency, value);
 							}).ToArray();
 		}

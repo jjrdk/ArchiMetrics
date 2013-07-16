@@ -49,6 +49,16 @@ namespace ArchiMetrics.UI.ViewModel
 				.Subscribe(x => Update(true));
 		}
 
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		~ViewModelBase()
+		{
+			Dispose(false);
+		}
+
 		public bool IsLoading
 		{
 			get
@@ -77,16 +87,6 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// Raised when a property on this object has a new value.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		~ViewModelBase()
-		{
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

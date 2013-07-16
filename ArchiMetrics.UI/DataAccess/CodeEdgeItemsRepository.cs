@@ -40,6 +40,11 @@ namespace ArchiMetrics.UI.DataAccess
 			this._config.PropertyChanged += this.ConfigPropertyChanged;
 		}
 
+		~CodeEdgeItemsRepository()
+		{
+			this.Dispose(false);
+		}
+
 		public void Dispose()
 		{
 			this.Dispose(true);
@@ -61,12 +66,6 @@ namespace ArchiMetrics.UI.DataAccess
 			{
 				this._config.PropertyChanged -= this.ConfigPropertyChanged;
 			}
-		}
-
-		~CodeEdgeItemsRepository()
-		{
-			// Simply call Dispose(false).
-			this.Dispose(false);
 		}
 
 		protected abstract Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results);

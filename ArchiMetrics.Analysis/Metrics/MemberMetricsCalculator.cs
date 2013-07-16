@@ -48,11 +48,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return CalculateMemberMetrics(members).ToArray();
 		}
 
-		private int CalculateCyclomaticComplexity(MemberNode node)
-		{
-			return this.counter.Calculate(node);
-		}
-
 		private static int CalculateLinesOfCode(MemberNode node)
 		{
 			var provider = new StatementsAnalyzer();
@@ -97,6 +92,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			return MemberMetricKind.Unknown;
+		}
+
+		private int CalculateCyclomaticComplexity(MemberNode node)
+		{
+			return this.counter.Calculate(node);
 		}
 
 		private IEnumerable<TypeCoupling> CalculateClassCoupling(MemberNode node)

@@ -39,6 +39,11 @@ namespace ArchiMetrics.UI.DataAccess
 			this._projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, this._metricsCalculator);
 		}
 
+		~AggregateEdgeItemsRepository()
+		{
+			this.Dispose(false);
+		}
+
 		public void Dispose()
 		{
 			this.Dispose(true);
@@ -55,12 +60,6 @@ namespace ArchiMetrics.UI.DataAccess
 				default:
 					return this._projectEdgeRepository.GetEdgesAsync();
 			}
-		}
-
-		~AggregateEdgeItemsRepository()
-		{
-			// Simply call Dispose(false).
-			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

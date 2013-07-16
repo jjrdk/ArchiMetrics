@@ -22,14 +22,14 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[Test]
 			public void WhenSnippetRootIsNamespaceThenOnlyFindsNamespace()
 			{
-				const string snippet = @"namespace SomeNamespace
+				const string Snippet = @"namespace SomeNamespace
 {
 	public class Foo
 	{
 		public string Text { get; set; }
 	}
 }";
-				var tree = SyntaxTree.ParseText(snippet);
+				var tree = SyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.NamespaceDeclarations);
@@ -39,11 +39,11 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[Test]
 			public void WhenSnippetRootIsClassThenOnlyFindsType()
 			{
-				const string snippet = @"public class Foo
+				const string Snippet = @"public class Foo
 {
 	public string Text { get; set; }
 }";
-				var tree = SyntaxTree.ParseText(snippet);
+				var tree = SyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.TypeDeclarations);
@@ -53,8 +53,8 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[Test]
 			public void WhenSnippetRootIsPropertyThenOnlyFindsMember()
 			{
-				const string snippet = @"public string Text { get; set; }";
-				var tree = SyntaxTree.ParseText(snippet);
+				const string Snippet = @"public string Text { get; set; }";
+				var tree = SyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.MemberDeclarations);
@@ -64,9 +64,9 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[Test]
 			public void WhenSnippetRootIsStatementThenOnlyFindsStatement()
 			{
-				const string snippet = @"var x = 1;
+				const string Snippet = @"var x = 1;
 var y = 2;";
-				var tree = SyntaxTree.ParseText(snippet);
+				var tree = SyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.Statements);

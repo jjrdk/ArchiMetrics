@@ -37,36 +37,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return _counter;
 		}
 
-		private void CalculateCompilerGeneratedPropertyStatements(MemberNode node)
-		{
-			switch (node.Kind)
-			{
-				case MemberKind.GetProperty:
-				case MemberKind.SetProperty:
-					if (MemberBodySelector.FindBody(node) == null)
-					{
-						_counter++;
-					}
-
-					return;
-			}
-		}
-
-		private void CalculateConstructorStatements(MemberNode node)
-		{
-			// if (((node.Kind == MemberKind.Constructor) && ((syntax = node.SyntaxNode as ConstructorDeclarationSyntax) != null)) && (syntax.Initializer != null))
-			if (node.Kind == MemberKind.Constructor)
-			{
-				var syntax = node.SyntaxNode as ConstructorDeclarationSyntax;
-				if (syntax != null)
-				{
-					Visit(syntax.Initializer);
-				}
-
-				_counter++;
-			}
-		}
-
 		public override void VisitCheckedStatement(CheckedStatementSyntax node)
 		{
 			base.VisitCheckedStatement(node);
@@ -203,6 +173,35 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			base.VisitYieldStatement(node);
 			_counter++;
+		}
+
+		private void CalculateCompilerGeneratedPropertyStatements(MemberNode node)
+		{
+			switch (node.Kind)
+			{
+				case MemberKind.GetProperty:
+				case MemberKind.SetProperty:
+					if (MemberBodySelector.FindBody(node) == null)
+					{
+						_counter++;
+					}
+
+					return;
+			}
+		}
+
+		private void CalculateConstructorStatements(MemberNode node)
+		{
+			if (node.Kind == MemberKind.Constructor)
+			{
+				var syntax = node.SyntaxNode as ConstructorDeclarationSyntax;
+				if (syntax != null)
+				{
+					Visit(syntax.Initializer);
+				}
+
+				_counter++;
+			}
 		}
 	}
 }

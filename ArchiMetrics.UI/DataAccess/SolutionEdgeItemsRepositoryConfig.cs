@@ -28,9 +28,9 @@ namespace ArchiMetrics.UI.DataAccess
 			this.CutOff = TimeSpan.FromDays(7);
 		}
 
-		public TimeSpan CutOff { get; set; }
-
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		public TimeSpan CutOff { get; set; }
 
 		public string Path
 		{

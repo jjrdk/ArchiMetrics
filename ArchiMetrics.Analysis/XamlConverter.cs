@@ -9,14 +9,6 @@ namespace ArchiMetrics.Analysis
 	{
 		private static readonly XamlCodeWriter CodeWriter = new XamlCodeWriter();
 
-		private string GetNodeName(string propertyName,
-		                           XElement currentXamlNode)
-		{
-			return string.IsNullOrWhiteSpace(propertyName) 
-				? currentXamlNode.Name.LocalName 
-				: propertyName;
-		}
-
 		public SyntaxTree ConvertSnippet(string snippet)
 		{
 			var doc = XDocument.Parse(snippet);
@@ -28,6 +20,14 @@ namespace ArchiMetrics.Analysis
 		{
 			var text = File.ReadAllText(filepath);
 			return ConvertSnippet(text);
+		}
+
+		private string GetNodeName(string propertyName,
+		                           XElement currentXamlNode)
+		{
+			return string.IsNullOrWhiteSpace(propertyName) 
+				? currentXamlNode.Name.LocalName 
+				: propertyName;
 		}
 	}
 }

@@ -225,19 +225,6 @@ using System.Linq;
 				Assert.AreEqual(loc, metrics.First().LinesOfCode);
 			}
 
-			//public void SomeMethod(SyntaxNode node)
-			//{
-			//	var x = 0;
-			//	for (int i = 0; i < 10; i++)
-			//	{
-			//		if (i < 5)
-			//		{
-			//		}
-
-			//		x += i;
-			//	}
-			//}
-
 			private IProject CreateProject(string text)
 			{
 				ProjectId pid;

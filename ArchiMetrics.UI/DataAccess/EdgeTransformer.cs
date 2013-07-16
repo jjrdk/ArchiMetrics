@@ -32,6 +32,11 @@ namespace ArchiMetrics.UI.DataAccess
 			this._copier = copier;
 		}
 
+		~EdgeTransformer()
+		{
+			this.Dispose(false);
+		}
+
 		public void Dispose()
 		{
 			this.Dispose(true);
@@ -98,18 +103,11 @@ namespace ArchiMetrics.UI.DataAccess
 			return items;
 		}
 
-		~EdgeTransformer()
-		{
-			// Simply call Dispose(false).
-			this.Dispose(false);
-		}
-
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				this._regexes.Clear();
+				_regexes.Clear();
 			}
 		}
 	}

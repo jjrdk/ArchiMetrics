@@ -38,14 +38,6 @@ namespace ArchiMetrics.CodeReview.Rules
 
 		protected abstract EvaluationResult EvaluateImpl(SyntaxNode node);
 
-		private static string GetCompilationUnitNamespace(CompilationUnitSyntax node)
-		{
-			var namespaceDeclaration = node.DescendantNodes()
-										   .FirstOrDefault(n => n.Kind == SyntaxKind.NamespaceDeclaration);
-
-			return namespaceDeclaration == null ? string.Empty : ((NamespaceDeclarationSyntax)namespaceDeclaration).Name.GetText().ToString().Trim();
-		}
-
 		protected TypeDeclarationSyntax FindClassParent(SyntaxNode node)
 		{
 			if (node.Parent == null)
@@ -79,6 +71,14 @@ namespace ArchiMetrics.CodeReview.Rules
 		protected int GetLinesOfCode(string node)
 		{
 			return node.Split('\n').Count(s => Regex.IsMatch(s.Trim(), @"^(?!(\s*\/\/))\s*.{3,}"));
+		}
+
+		private static string GetCompilationUnitNamespace(CompilationUnitSyntax node)
+		{
+			var namespaceDeclaration = node.DescendantNodes()
+										   .FirstOrDefault(n => n.Kind == SyntaxKind.NamespaceDeclaration);
+
+			return namespaceDeclaration == null ? string.Empty : ((NamespaceDeclarationSyntax)namespaceDeclaration).Name.GetText().ToString().Trim();
 		}
 	}
 }

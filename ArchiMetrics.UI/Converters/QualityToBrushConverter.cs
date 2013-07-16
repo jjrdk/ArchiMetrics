@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.Converters
 	using System.Globalization;
 	using System.Windows.Data;
 	using System.Windows.Media;
+
 	using Common;
 
 	internal class QualityToBrushConverter : IValueConverter
@@ -33,19 +34,20 @@ namespace ArchiMetrics.UI.Converters
 			_brushes.Add(CodeQuality.Incompetent, GetBrush(Brushes.HotPink));
 		}
 
-		public object Convert(object value, 
-							  Type targetType, 
-							  object parameter, 
-							  CultureInfo culture)
+		public object Convert(
+			object value,
+			Type targetType,
+			object parameter,
+			CultureInfo culture)
 		{
 			var quality = (CodeQuality)value;
 			return _brushes[quality];
 		}
 
-		public object ConvertBack(object value, 
-								  Type targetType, 
-								  object parameter, 
-								  CultureInfo culture)
+		public object ConvertBack(object value,
+		                          Type targetType,
+		                          object parameter,
+		                          CultureInfo culture)
 		{
 			throw new NotImplementedException();
 		}

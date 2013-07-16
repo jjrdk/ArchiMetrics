@@ -301,7 +301,7 @@ namespace ArchiMetrics.Analysis.Metrics
 									   .Select(@t =>
 										   {
 											   Func<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo> selector =
-												   (x => new TypeDeclarationSyntaxInfo(t.node.CodeFile, x.SyntaxTree == null ? x.Identifier.ValueText : x.GetName(x.SyntaxTree.GetRoot()), x));
+												   x => new TypeDeclarationSyntaxInfo(t.node.CodeFile, x.SyntaxTree == null ? x.Identifier.ValueText : x.GetName(x.SyntaxTree.GetRoot()), x);
 											   return new
 														  {
 															  t,
