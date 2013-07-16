@@ -2,7 +2,7 @@
 // <copyright file="ClassCouplingAnalyzerBase.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -19,11 +19,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal abstract class ClassCouplingAnalyzerBase : SyntaxWalker
 	{
-		// Fields
 		private readonly ISemanticModel _semanticModel;
 		private readonly IDictionary<string, TypeSymbol> _types;
 
-		// Methods
 		protected ClassCouplingAnalyzerBase(ISemanticModel semanticModel)
 			: base(SyntaxWalkerDepth.Node)
 		{

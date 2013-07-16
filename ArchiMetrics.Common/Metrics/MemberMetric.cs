@@ -2,7 +2,7 @@
 // <copyright file="MemberMetric.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -15,6 +15,8 @@ namespace ArchiMetrics.Common.Metrics
 
 	public class MemberMetric
 	{
+		private readonly IHalsteadMetrics _halstead;
+
 		public MemberMetric(
 			string codeFile, 
 			IHalsteadMetrics halstead, 
@@ -29,8 +31,8 @@ namespace ArchiMetrics.Common.Metrics
 			int numberOfParameters, 
 			int numberOfLocalVariables)
 		{
+			_halstead = halstead;
 			CodeFile = codeFile;
-			Halstead = halstead;
 			Kind = kind;
 			LineNumber = lineNumber;
 			LinesOfCode = linesOfCode;
@@ -43,28 +45,31 @@ namespace ArchiMetrics.Common.Metrics
 			NumberOfLocalVariables = numberOfLocalVariables;
 		}
 
-		public string CodeFile { get; set; }
+		public string CodeFile { get; private set; }
 
-		public IHalsteadMetrics Halstead { get; set; }
+		public MemberMetricKind Kind { get; private set; }
 
-		public MemberMetricKind Kind { get; set; }
+		public int LineNumber { get; private set; }
 
-		public int LineNumber { get; set; }
+		public int LinesOfCode { get; private set; }
 
-		public int LinesOfCode { get; set; }
+		public double MaintainabilityIndex { get; private set; }
 
-		public double MaintainabilityIndex { get; set; }
+		public int CyclomaticComplexity { get; private set; }
 
-		public int CyclomaticComplexity { get; set; }
+		public string Name { get; private set; }
 
-		public string Name { get; set; }
+		public int LogicalComplexity { get; private set; }
 
-		public int LogicalComplexity { get; set; }
+		public IEnumerable<TypeCoupling> ClassCouplings { get; private set; }
 
-		public IEnumerable<TypeCoupling> ClassCouplings { get; set; }
+		public int NumberOfParameters { get; private set; }
 
-		public int NumberOfParameters { get; set; }
+		public int NumberOfLocalVariables { get; private set; }
 
-		public int NumberOfLocalVariables { get; set; }
+		public double GetVolume()
+		{
+			return _halstead.GetVolume();
+		}
 	}
 }

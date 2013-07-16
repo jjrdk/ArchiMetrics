@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Tests", "ArchiMetrics.CodeReview.Tests\ArchiMetrics.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Data", "ArchiMetrics.Data\ArchiMetrics.Data.csproj", "{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSL", "SampleSL\SampleSL.csproj", "{DC19D087-F074-47B1-BC83-4CA74A24278E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Common", "ArchiMetrics.Common\ArchiMetrics.Common.csproj", "{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}"
@@ -26,9 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
-		ArchiMetrics.DataLoader\GetMetrics.ps1 = ArchiMetrics.DataLoader\GetMetrics.ps1
 		psake.psm1 = psake.psm1
-		ScriptCs.Metrics.nuspec = ScriptCs.Metrics.nuspec
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
@@ -59,10 +55,6 @@ Global
 		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC19D087-F074-47B1-BC83-4CA74A24278E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DC19D087-F074-47B1-BC83-4CA74A24278E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC19D087-F074-47B1-BC83-4CA74A24278E}.Release|Any CPU.ActiveCfg = Release|Any CPU

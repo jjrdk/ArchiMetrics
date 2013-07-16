@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,31 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeQuality.cs" />
-    <Compile Include="Documents\CodeErrors.cs" />
-    <Compile Include="Documents\DataSegment.cs" />
-    <Compile Include="Documents\ErrorData.cs" />
-    <Compile Include="Documents\EvaluationResultDocument.cs" />
-    <Compile Include="Documents\MemberComplexityDeviation.cs" />
-    <Compile Include="Documents\MemberComplexityMaintainabilitySegment.cs" />
-    <Compile Include="Documents\MemberDeviationMeasure.cs" />
-    <Compile Include="Documents\MemberMaintainabilityDeviation.cs" />
-    <Compile Include="Documents\MemberSizeComplexitySegment.cs" />
-    <Compile Include="Documents\MemberSizeDeviation.cs" />
-    <Compile Include="Documents\MemberSizeMaintainabilitySegment.cs" />
-    <Compile Include="Documents\ProjectDocument.cs" />
-    <Compile Include="Documents\ProjectInventoryDocument.cs" />
-    <Compile Include="Documents\ProjectLoadErrorDocument.cs" />
-    <Compile Include="Documents\ProjectMetricsDocument.cs" />
-    <Compile Include="Documents\TfsMetricsDocument.cs" />
-    <Compile Include="Documents\TfsProjectMetrics.cs" />
-    <Compile Include="Documents\TypeComplexityDeviation.cs" />
-    <Compile Include="Documents\TypeComplexitySegment.cs" />
-    <Compile Include="Documents\TypeDeviationMeasure.cs" />
-    <Compile Include="Documents\TypeMaintainabilityDeviation.cs" />
-    <Compile Include="Documents\TypeMaintainabilitySegment.cs" />
-    <Compile Include="Documents\TypeSizeComplexityGeoMeanSegment.cs" />
-    <Compile Include="Documents\TypeSizeDeviation.cs" />
-    <Compile Include="Documents\TypeSizeSegment.cs" />
     <Compile Include="EdgeItem.cs" />
     <Compile Include="EdgeSource.cs" />
     <Compile Include="EvaluationResult.cs" />

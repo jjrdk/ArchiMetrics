@@ -2,7 +2,7 @@
 // <copyright file="QualityToBrushConverter.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.Converters
 	using System.Globalization;
 	using System.Windows.Data;
 	using System.Windows.Media;
+
 	using Common;
 
 	internal class QualityToBrushConverter : IValueConverter
@@ -33,19 +34,20 @@ namespace ArchiMetrics.UI.Converters
 			_brushes.Add(CodeQuality.Incompetent, GetBrush(Brushes.HotPink));
 		}
 
-		public object Convert(object value, 
-							  Type targetType, 
-							  object parameter, 
-							  CultureInfo culture)
+		public object Convert(
+			object value,
+			Type targetType,
+			object parameter,
+			CultureInfo culture)
 		{
 			var quality = (CodeQuality)value;
 			return _brushes[quality];
 		}
 
-		public object ConvertBack(object value, 
-								  Type targetType, 
-								  object parameter, 
-								  CultureInfo culture)
+		public object ConvertBack(object value,
+		                          Type targetType,
+		                          object parameter,
+		                          CultureInfo culture)
 		{
 			throw new NotImplementedException();
 		}

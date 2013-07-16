@@ -2,7 +2,7 @@
 // <copyright file="ViewModelBase.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -49,6 +49,16 @@ namespace ArchiMetrics.UI.ViewModel
 				.Subscribe(x => Update(true));
 		}
 
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		~ViewModelBase()
+		{
+			Dispose(false);
+		}
+
 		public bool IsLoading
 		{
 			get
@@ -77,16 +87,6 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// Raised when a property on this object has a new value.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		~ViewModelBase()
-		{
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

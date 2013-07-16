@@ -2,7 +2,7 @@
 // <copyright file="ProjectMetricsCalculatorFactory.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -19,6 +19,11 @@ namespace ArchiMetrics.CodeReview
 
 	public class ProjectMetricsCalculatorFactory : IFactory<ProjectSettings, ICodeMetricsCalculator>
 	{
+		~ProjectMetricsCalculatorFactory()
+		{
+			Dispose(false);
+		}
+
 		public ICodeMetricsCalculator Create(ProjectSettings parameter)
 		{
 			return new CodeMetricsCalculator();
@@ -28,12 +33,6 @@ namespace ArchiMetrics.CodeReview
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		~ProjectMetricsCalculatorFactory()
-		{
-			// Simply call Dispose(false).
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

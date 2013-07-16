@@ -55,42 +55,6 @@ namespace ArchiMetrics.Analysis
 			return SyntaxTree.Create(compilationUnit);
 		}
 
-		private ExpressionSyntax GetPropertyIdentifier(XamlPropertyNode prop)
-		{
-			if (prop.Value == null)
-			{
-				return Syntax.IdentifierName(Syntax.Token(SyntaxKind.NullKeyword));
-			}
-
-			var node = prop.Value as XamlNode;
-			return Syntax.IdentifierName(node != null
-											 ? node.VariableName
-											 : prop.Value.ToString());
-		}
-
-		private StatementSyntax createBindingSyntax(string nodeClassName,
-											   string nodeVariableName,
-											   string variableName,
-											   string inlineValue)
-		{
-			var strings = inlineValue.Split(',').ToArray();
-			var parameters = strings.SelectMany(p => p.Trim().Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
-									.Select(kv => kv.Split('='))
-									.Select(t => new Tuple<string, string>(t.First(), String.Join("=", t.Skip(1))))
-									.Select(t => Syntax.BinaryExpression(SyntaxKind.AssignExpression, Syntax.IdentifierName(t.Item1), Syntax.IdentifierName(t.Item2.Replace("'", "\""))));
-
-			var separators = Enumerable.Repeat(Syntax.Token(SyntaxKind.CommaToken), strings.Length - 1);
-			var binding = Syntax.ObjectCreationExpression(Syntax.ParseTypeName("Binding"),
-				null,
-				Syntax.InitializerExpression(SyntaxKind.ObjectInitializerExpression, Syntax.SeparatedList<ExpressionSyntax>(parameters, separators)));
-			var memberAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(nodeVariableName), Syntax.IdentifierName("SetBinding"));
-			var dependencyProperty =
-				Syntax.Argument(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(nodeClassName), Syntax.IdentifierName(variableName + "Property")));
-			var arguments = new[] { dependencyProperty, Syntax.Argument(binding) };
-			var memberInvocation = Syntax.InvocationExpression(memberAccess, Syntax.ArgumentList(Syntax.SeparatedList(arguments, new[] { Syntax.Token(SyntaxKind.CommaToken) })));
-			return Syntax.ExpressionStatement(memberInvocation);
-		}
-
 		private static ExpressionStatementSyntax CreateDependencyPropertySyntax(string variableName, XamlNodeAttribute attr)
 		{
 			var memberAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(variableName), Syntax.IdentifierName("SetValue"));
@@ -173,6 +137,43 @@ namespace ArchiMetrics.Analysis
 			return p.Any(n => n.Name == child.VariableName);
 		}
 
+		private static StatementSyntax CreateBindingSyntax(
+			string nodeClassName,
+			string nodeVariableName,
+			string variableName,
+			string inlineValue)
+		{
+			var strings = inlineValue.Split(',').ToArray();
+			var parameters = strings.SelectMany(p => p.Trim().Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
+			                        .Select(kv => kv.Split('='))
+			                        .Select(t => new Tuple<string, string>(t.First(), string.Join("=", t.Skip(1))))
+			                        .Select(t => Syntax.BinaryExpression(SyntaxKind.AssignExpression, Syntax.IdentifierName(t.Item1), Syntax.IdentifierName(t.Item2.Replace("'", "\""))));
+
+			var separators = Enumerable.Repeat(Syntax.Token(SyntaxKind.CommaToken), strings.Length - 1);
+			var binding = Syntax.ObjectCreationExpression(Syntax.ParseTypeName("Binding"),
+				null,
+				Syntax.InitializerExpression(SyntaxKind.ObjectInitializerExpression, Syntax.SeparatedList<ExpressionSyntax>(parameters, separators)));
+			var memberAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(nodeVariableName), Syntax.IdentifierName("SetBinding"));
+			var dependencyProperty =
+				Syntax.Argument(Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(nodeClassName), Syntax.IdentifierName(variableName + "Property")));
+			var arguments = new[] { dependencyProperty, Syntax.Argument(binding) };
+			var memberInvocation = Syntax.InvocationExpression(memberAccess, Syntax.ArgumentList(Syntax.SeparatedList(arguments, new[] { Syntax.Token(SyntaxKind.CommaToken) })));
+			return Syntax.ExpressionStatement(memberInvocation);
+		}
+
+		private ExpressionSyntax GetPropertyIdentifier(XamlPropertyNode prop)
+		{
+			if (prop.Value == null)
+			{
+				return Syntax.IdentifierName(Syntax.Token(SyntaxKind.NullKeyword));
+			}
+
+			var node = prop.Value as XamlNode;
+			return Syntax.IdentifierName(node != null
+											 ? node.VariableName
+											 : prop.Value.ToString());
+		}
+
 		private IEnumerable<StatementSyntax> WriteProperties(Func<XamlPropertyNode, IEnumerable<StatementSyntax>> propertyCreation, XamlNode childNode)
 		{
 			foreach (var prop in childNode.Properties)
@@ -203,7 +204,7 @@ namespace ArchiMetrics.Analysis
 				if (bindingMatch.Success)
 				{
 					var inlineValue = bindingMatch.Groups[1].Value.Trim();
-					yield return createBindingSyntax(childNode.ClassName, childNode.VariableName, attr.VariableName, inlineValue);
+					yield return CreateBindingSyntax(childNode.ClassName, childNode.VariableName, attr.VariableName, inlineValue);
 				}
 				else if (attr.VariableName.Contains("."))
 				{
@@ -233,7 +234,7 @@ namespace ArchiMetrics.Analysis
 				yield return attribute;
 			}
 
-			if (childNode.Parent != null && !(IsPropertyOf(childNode.Parent, childNode)))
+			if (childNode.Parent != null && !IsPropertyOf(childNode.Parent, childNode))
 			{
 				yield return CreateParentSyntax(childNode);
 				foreach (var child in childNode.Children.SelectMany(c => GenerateChildStatement(c, propertyCreation)))

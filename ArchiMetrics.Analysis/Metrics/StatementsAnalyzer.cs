@@ -2,7 +2,7 @@
 // <copyright file="StatementsAnalyzer.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -17,10 +17,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class StatementsAnalyzer : SyntaxWalker
 	{
-		// Fields
 		private int _counter;
 
-		// Methods
 		public StatementsAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
 		{
@@ -37,36 +35,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			CalculateConstructorStatements(node);
 			CalculateCompilerGeneratedPropertyStatements(node);
 			return _counter;
-		}
-
-		private void CalculateCompilerGeneratedPropertyStatements(MemberNode node)
-		{
-			switch (node.Kind)
-			{
-				case MemberKind.GetProperty:
-				case MemberKind.SetProperty:
-					if (MemberBodySelector.FindBody(node) == null)
-					{
-						_counter++;
-					}
-
-					return;
-			}
-		}
-
-		private void CalculateConstructorStatements(MemberNode node)
-		{
-			// if (((node.Kind == MemberKind.Constructor) && ((syntax = node.SyntaxNode as ConstructorDeclarationSyntax) != null)) && (syntax.Initializer != null))
-			if (node.Kind == MemberKind.Constructor)
-			{
-				var syntax = node.SyntaxNode as ConstructorDeclarationSyntax;
-				if (syntax != null)
-				{
-					Visit(syntax.Initializer);
-				}
-
-				_counter++;
-			}
 		}
 
 		public override void VisitCheckedStatement(CheckedStatementSyntax node)
@@ -205,6 +173,35 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			base.VisitYieldStatement(node);
 			_counter++;
+		}
+
+		private void CalculateCompilerGeneratedPropertyStatements(MemberNode node)
+		{
+			switch (node.Kind)
+			{
+				case MemberKind.GetProperty:
+				case MemberKind.SetProperty:
+					if (MemberBodySelector.FindBody(node) == null)
+					{
+						_counter++;
+					}
+
+					return;
+			}
+		}
+
+		private void CalculateConstructorStatements(MemberNode node)
+		{
+			if (node.Kind == MemberKind.Constructor)
+			{
+				var syntax = node.SyntaxNode as ConstructorDeclarationSyntax;
+				if (syntax != null)
+				{
+					Visit(syntax.Initializer);
+				}
+
+				_counter++;
+			}
 		}
 	}
 }

@@ -16,14 +16,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 		{
 		}
 
-		private class ExemptWords : IKnownWordList
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
-			}
-		}
-
 		public class GivenAMethodNameSpellingRule
 		{
 			private MethodNameSpellingRule _rule;
@@ -64,7 +56,8 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			[TestCase("Dette er ikke en engelsk kommentar.")]
 			public void FindNonEnglishMultiLineComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
+				var method = SyntaxTree.ParseText(
+					string.Format(@"public void SomeMethod() {{
 /* {0} */
 }}", comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
@@ -81,7 +74,8 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			[TestCase("This comment is in English.")]
 			public void AcceptsEnglishMultiLineComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
+				var method = SyntaxTree.ParseText(
+					string.Format(@"public void SomeMethod() {{
 /* {0} */
 }}", comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
@@ -108,7 +102,8 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			[TestCase("Dette er ikke en engelsk kommentar.")]
 			public void FindNonEnglishSingleLineComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
+				var method = SyntaxTree.ParseText(
+					string.Format(@"public void SomeMethod() {{
 //{0}
 }}", comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
@@ -137,7 +132,8 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			[TestCase("/* Dette er ikke en engelsk kommentar. */")]
 			public void WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
 			{
-				var method = SyntaxTree.ParseText(string.Format(@"public void SomeMethod() {{
+				var method = SyntaxTree.ParseText(
+					string.Format(@"public void SomeMethod() {{
 {0}
 }}", comment));
 				var root = method.GetRoot();
@@ -146,6 +142,14 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);
+			}
+		}
+
+		private class ExemptWords : IKnownWordList
+		{
+			public bool IsExempt(string word)
+			{
+				return false;
 			}
 		}
 
@@ -159,12 +163,15 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				{
 					var affStream = new MemoryStream();
 					var dicStream = new MemoryStream();
-					dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
-						.Extract(affStream);
-					dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
-						.Extract(dicStream);
+					dictFile.FirstOrDefault(z => z.FileName == "en_US.aff").Extract(affStream);
+					dictFile.FirstOrDefault(z => z.FileName == "en_US.dic").Extract(dicStream);
 					_speller = new Hunspell(affStream.ToArray(), dicStream.ToArray());
 				}
+			}
+
+			~SpellChecker()
+			{
+				Dispose(false);
 			}
 
 			public bool Spell(string word)
@@ -178,17 +185,10 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				GC.SuppressFinalize(this);
 			}
 
-			~SpellChecker()
-			{
-				// Simply call Dispose(false).
-				Dispose(false);
-			}
-
 			protected virtual void Dispose(bool isDisposing)
 			{
-				if(isDisposing)
+				if (isDisposing)
 				{
-					//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
 					_speller.Dispose(true);
 				}
 			}

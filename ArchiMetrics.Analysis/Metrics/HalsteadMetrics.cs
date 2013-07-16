@@ -2,7 +2,7 @@
 // <copyright file="HalsteadMetrics.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -37,6 +37,14 @@ namespace ArchiMetrics.Analysis.Metrics
 			NumberOfUniqueOperators = numUniqueOperators;
 		}
 
+		public int NumberOfOperands { get; private set; }
+
+		public int NumberOfOperators { get; private set; }
+
+		public int NumberOfUniqueOperands { get; private set; }
+
+		public int NumberOfUniqueOperators { get; private set; }
+
 		public IHalsteadMetrics Merge(IHalsteadMetrics other)
 		{
 			if (other == null)
@@ -50,14 +58,6 @@ namespace ArchiMetrics.Analysis.Metrics
 				NumberOfUniqueOperands + other.NumberOfUniqueOperands, 
 				NumberOfUniqueOperators + other.NumberOfUniqueOperators);
 		}
-
-		public int NumberOfOperands { get; private set; }
-
-		public int NumberOfOperators { get; private set; }
-
-		public int NumberOfUniqueOperands { get; private set; }
-
-		public int NumberOfUniqueOperators { get; private set; }
 
 		public int GetBugs()
 		{

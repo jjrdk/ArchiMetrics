@@ -13,6 +13,11 @@ namespace ArchiMetrics.Common
 			_projectProvider = projectProvider;
 		}
 
+		~ProjectNameProvider()
+		{
+			Dispose(false);
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);
@@ -33,12 +38,6 @@ namespace ArchiMetrics.Common
 		public IEnumerable<string> GetAll(string key)
 		{
 			throw new NotImplementedException();
-		}
-
-		~ProjectNameProvider()
-		{
-			// Simply call Dispose(false).
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

@@ -2,7 +2,7 @@
 // <copyright file="CodeMetricsCalculator.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -54,7 +54,7 @@ namespace ArchiMetrics.Analysis.Metrics
 														: GetDocuments(project);
 								  var compilation = calcProject.GetCompilation();
 								  var namespaceDeclarations = GetNamespaceDeclarations(calcProject, IgnoreGeneratedCode);
-								  return CalculateNamespaceMetrics(namespaceDeclarations.Select(d => d.Value), compilation);
+								  return CalculateNamespaceMetrics(namespaceDeclarations, compilation);
 							  });
 		}
 
@@ -166,7 +166,6 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var comp = compilation;
 			var typeMetrics = GetTypeDeclarations(namespaceNodes)
-				.Select(pair => pair.Value)
 				.Select(typeNodes =>
 						{
 							var tuple = CalculateMemberMetrics(comp, typeNodes);
@@ -263,12 +262,12 @@ namespace ArchiMetrics.Analysis.Metrics
 				namespaceNode);
 		}
 
-		private static IDictionary<string, NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
+		private static IEnumerable<NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
 		{
 			return project.Documents
 						  .Select(document => new { document, codeFile = document.FilePath })
 						  .Where(@t => !ignoreGeneratedCode || !IsGeneratedCodeFile(t.document, Patterns))
-						  .Select(@t => new { t, collector = new NamespaceCollectorSyntaxWalker() })
+						  .Select(@t => new { t, collector = new NamespaceCollector() })
 						  .Select(@t => new { t, syntaxRoot = t.@t.document.GetSyntaxRoot() })
 						  .SelectMany(@t => t.@t.collector.GetNamespaces<NamespaceDeclarationSyntax>(t.syntaxRoot)
 											   .Select(x => new NamespaceDeclarationSyntaxInfo
@@ -278,9 +277,7 @@ namespace ArchiMetrics.Analysis.Metrics
 																	Syntax = x
 																}))
 						  .GroupBy(x => x.Name)
-						  .ToDictionary(
-							  x => x.Key,
-							  y => new NamespaceDeclaration
+						  .Select(y => new NamespaceDeclaration
 									   {
 										   Name = y.Key,
 										   SyntaxNodes = y
@@ -293,41 +290,37 @@ namespace ArchiMetrics.Analysis.Metrics
 			return !string.IsNullOrWhiteSpace(path) && patterns.Any(x => x.IsMatch(path));
 		}
 
-		private static IDictionary<string, TypeDeclaration> GetTypeDeclarations(NamespaceDeclaration namespaceDeclaration)
+		private static IEnumerable<TypeDeclaration> GetTypeDeclarations(NamespaceDeclaration namespaceDeclaration)
 		{
 			return namespaceDeclaration.SyntaxNodes
-				.Select(namespaceNode => new
-										 {
-											 namespaceNode.Syntax,
-											 node = namespaceNode
-										 })
-				.Select(@t =>
-						{
-							Func<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo> selector =
-								(x => new TypeDeclarationSyntaxInfo(t.node.CodeFile, x.SyntaxTree == null ? x.Identifier.ValueText : x.GetName(x.SyntaxTree.GetRoot()), x));
-							return new
-								   {
-									   t,
-									   selector
-								   };
-						})
-				.Select(@t => new
-							  {
-								  t,
-								  collector = new TypeCollectorSyntaxWalker()
-							  })
-				.SelectMany(
-					@t =>
-						t.collector.GetTypes<TypeDeclarationSyntax>(t.@t.@t.Syntax)
-							.Select<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo>(t.@t.selector))
-				.GroupBy(x => x.Name)
-				.ToDictionary(
-					x => x.Key,
-					y => new TypeDeclaration
-						 {
-							 Name = y.Key,
-							 SyntaxNodes = y
-						 });
+									   .Select(namespaceNode => new
+																	{
+																		namespaceNode.Syntax,
+																		node = namespaceNode
+																	})
+									   .Select(@t =>
+										   {
+											   Func<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo> selector =
+												   x => new TypeDeclarationSyntaxInfo(t.node.CodeFile, x.SyntaxTree == null ? x.Identifier.ValueText : x.GetName(x.SyntaxTree.GetRoot()), x);
+											   return new
+														  {
+															  t,
+															  selector
+														  };
+										   })
+									   .Select(@t => new
+														 {
+															 t,
+															 collector = new TypeCollector()
+														 })
+									   .SelectMany(@t => t.collector.GetTypes<TypeDeclarationSyntax>(t.@t.@t.Syntax).Select<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo>(t.@t.selector))
+									   .GroupBy(x => x.Name)
+									   .Select(x =>
+											   new TypeDeclaration
+												   {
+													   Name = x.Key,
+													   SyntaxNodes = x
+												   });
 		}
 
 		private IProject GetDocuments(IProject project)

@@ -2,7 +2,7 @@
 // <copyright file="DepthOfInheritanceAnalyzer.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -18,14 +18,11 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class DepthOfInheritanceAnalyzer
 	{
-		// Fields
 		private readonly IEnumerable<TypeKind> _inheritableTypes = new[] { TypeKind.Class, TypeKind.Struct };
 		private readonly ISemanticModel _semanticModel;
 
-		// Methods
 		public DepthOfInheritanceAnalyzer(ISemanticModel semanticModel)
 		{
-			//////Verify.NotNull<ISemanticModel>(Expression.Lambda<Func<ISemanticModel>>(Expression.Constant(semanticModel), new ParameterExpression[0]), (string)null);
 			_semanticModel = semanticModel;
 		}
 

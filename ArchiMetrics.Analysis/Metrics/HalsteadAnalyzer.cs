@@ -2,7 +2,7 @@
 // <copyright file="HalsteadAnalyzer.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -47,8 +47,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			base.VisitBlock(node);
 			var tokens = node.DescendantTokens().ToList();
-			var dictionary = ParseTokens(tokens, HalsteadOperands.All);
-			var dictionary2 = ParseTokens(tokens, HalsteadOperators.All);
+			var dictionary = ParseTokens(tokens, Operands.All);
+			var dictionary2 = ParseTokens(tokens, Operators.All);
 			var metrics = new HalsteadMetrics(
 				numOperands: dictionary.Values.Sum(x => x.Count), 
 				numUniqueOperands: dictionary.Values.SelectMany(x => x).Distinct().Count(), 

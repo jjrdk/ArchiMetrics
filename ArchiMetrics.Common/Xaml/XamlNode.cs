@@ -2,7 +2,7 @@
 // <copyright file="XamlNode.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -169,15 +169,16 @@ namespace ArchiMetrics.Common.Xaml
 							{
 								var isDependency = element.Name.LocalName.Split('.').First() != ClassName;
 								var value = element.HasElements
-												? element.Elements()
-														 .ElementAtOrDefault(1) == null
-													  ? (object) new XamlNode(null, 
-																			  element.Elements()
-																					 .First())
-													  : element.Elements()
-															   .Select(e => new XamlNode(null, e))
-															   .ToArray()
-												: element.Value;
+									            ? element.Elements()
+									                     .ElementAtOrDefault(1) == null
+										              ? (object)new XamlNode(
+											                        null,
+											                        element.Elements()
+											                               .First())
+										              : element.Elements()
+										                       .Select(e => new XamlNode(null, e))
+										                       .ToArray()
+									            : element.Value;
 								return new XamlPropertyNode(element.Name.LocalName.Split('.').Last(), isDependency, value);
 							}).ToArray();
 		}

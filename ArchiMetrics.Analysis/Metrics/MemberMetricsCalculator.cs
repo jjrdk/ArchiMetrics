@@ -2,7 +2,7 @@
 // <copyright file="MemberMetricsCalculator.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -20,7 +20,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly CyclomaticComplexityAnalyzer _analyzer = new CyclomaticComplexityAnalyzer();
+		private readonly CyclomaticComplexityCounter counter = new CyclomaticComplexityCounter();
 
 		public MemberMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IEnumerable<MemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
-			var walker = new MemberCollectorSyntaxWalker(Root);
+			var walker = new MemberCollector(Root);
 			var members = walker.GetMembers(Model, typeNode).ToArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
@@ -48,11 +48,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return CalculateMemberMetrics(members).ToArray();
 		}
 
-		private int CalculateCyclomaticComplexity(MemberNode node)
-		{
-			return _analyzer.Calculate(node);
-		}
-
 		private static int CalculateLinesOfCode(MemberNode node)
 		{
 			var provider = new StatementsAnalyzer();
@@ -61,7 +56,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static int CalculateLogicalComplexity(MemberNode node)
 		{
-			var provider = new LogicalComplexityAnalyzer();
+			var provider = new LogicalComplexityCounter();
 			return provider.Calculate(node);
 		}
 
@@ -97,6 +92,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			return MemberMetricKind.Unknown;
+		}
+
+		private int CalculateCyclomaticComplexity(MemberNode node)
+		{
+			return this.counter.Calculate(node);
 		}
 
 		private IEnumerable<TypeCoupling> CalculateClassCoupling(MemberNode node)

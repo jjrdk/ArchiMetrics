@@ -10,6 +10,6 @@ namespace ArchiMetrics.UI.Support
 			DataContextType = dataContextType;
 		}
 
-		public Type DataContextType { get; set; }
+		public Type DataContextType { get; private set; }
 	}
 }

@@ -14,8 +14,7 @@ namespace ArchiMetrics.Analysis
 			                                        .Distinct());
 		}
 
-		private IEnumerable<DependencyChain> GetDependencyChain(DependencyChain chain,
-		                                                        IEnumerable<EdgeItem> source)
+		private IEnumerable<DependencyChain> GetDependencyChain(DependencyChain chain, IEnumerable<EdgeItem> source)
 		{
 			return chain.IsCircular
 				       ? new[] { chain }

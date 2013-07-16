@@ -49,14 +49,14 @@ namespace ArchiMetrics.Analysis
 			return CountStrings(lines);
 		}
 
-		private int CountDoc(IDocument document)
-		{
-			return Count(document.GetSyntaxTree().GetRoot());
-		}
-
 		private static int CountStrings(IEnumerable<string> strings)
 		{
 			return strings.Select(s => s.Trim()).Count(s => LinePattern.IsMatch(s));
+		}
+
+		private int CountDoc(IDocument document)
+		{
+			return Count(document.GetSyntaxTree().GetRoot());
 		}
 
 		/*

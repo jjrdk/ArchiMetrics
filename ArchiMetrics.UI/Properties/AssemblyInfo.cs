@@ -2,7 +2,7 @@
 // <copyright file="AssemblyInfo.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -32,12 +32,12 @@ using System.Windows;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-//In order to begin building localizable applications, set 
-//<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
-//inside a <PropertyGroup>.  For example, if you are using US english
-//in your source files, set the <UICulture> to en-US.  Then uncomment
-//the NeutralResourceLanguage attribute below.  Update the "en-US" in
-//the line below to match the UICulture setting in the project file.
+// In order to begin building localizable applications, set 
+// <UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
+// inside a <PropertyGroup>.  For example, if you are using US english
+// in your source files, set the <UICulture> to en-US.  Then uncomment
+// the NeutralResourceLanguage attribute below.  Update the "en-US" in
+// the line below to match the UICulture setting in the project file.
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 [assembly: ThemeInfo(

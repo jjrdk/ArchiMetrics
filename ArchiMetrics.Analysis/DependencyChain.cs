@@ -36,21 +36,12 @@ namespace ArchiMetrics.Analysis
 
 		public bool IsContinuation(EdgeItem edge)
 		{
-			return LastEdge.Dependency == edge.Dependant && !(ReferenceChain.Any(e => e.Dependant == edge.Dependant));
+			return LastEdge.Dependency == edge.Dependant && ReferenceChain.All(e => e.Dependant != edge.Dependant);
 		}
 
 		public bool Contains(EdgeItem edge)
 		{
 			return ReferenceChain.Any(e => e.Dependant == edge.Dependant && e.Dependency == edge.Dependency);
-		}
-
-		private string GetName()
-		{
-			var firstLink = ReferenceChain.Select(e => e.Dependant).OrderBy(x => x).FirstOrDefault();
-			var startIndex = Array.FindIndex(_chain, e => e.Dependant == firstLink);
-			var startSeq = ReferenceChain.Skip(startIndex);
-			var endSeq = ReferenceChain.Take(startIndex);
-			return string.Join(" --> ", startSeq.Concat(endSeq));
 		}
 
 		public override string ToString()
@@ -66,6 +57,15 @@ namespace ArchiMetrics.Analysis
 		public override bool Equals(object obj)
 		{
 			return obj != null && obj.GetHashCode() == GetHashCode();
+		}
+
+		private string GetName()
+		{
+			var firstLink = ReferenceChain.Select(e => e.Dependant).OrderBy(x => x).FirstOrDefault();
+			var startIndex = Array.FindIndex(_chain, e => e.Dependant == firstLink);
+			var startSeq = ReferenceChain.Skip(startIndex);
+			var endSeq = ReferenceChain.Take(startIndex);
+			return string.Join(" --> ", startSeq.Concat(endSeq));
 		}
 	}
 }

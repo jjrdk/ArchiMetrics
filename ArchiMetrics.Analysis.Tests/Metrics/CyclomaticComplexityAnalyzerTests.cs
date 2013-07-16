@@ -2,7 +2,7 @@
 // <copyright file="CyclomaticComplexityAnalyzerTests.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
@@ -25,12 +25,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 		public class GivenACyclomaticComplexityAnalyzer
 		{
-			private CyclomaticComplexityAnalyzer _analyzer;
+			private CyclomaticComplexityCounter counter;
 
 			[SetUp]
 			public void SetUp()
 			{
-				_analyzer = new CyclomaticComplexityAnalyzer();
+				this.counter = new CyclomaticComplexityCounter();
 			}
 
 			[TestCase("public abstract void DoSomething();", 1)]
@@ -100,7 +100,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 					.OfType<MethodDeclarationSyntax>()
 					.First();
 				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode);
-				var result = _analyzer.Calculate(node);
+				var result = this.counter.Calculate(node);
 
 				Assert.AreEqual(expectedComplexity, result);
 			}
