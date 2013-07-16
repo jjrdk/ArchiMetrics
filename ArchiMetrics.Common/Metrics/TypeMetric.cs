@@ -55,6 +55,6 @@ namespace ArchiMetrics.Common.Metrics
 			get { return ClassCouplings.Count(); }
 		}
 
-		public string Name { get; set; }
+		public string Name { get; private set; }
 	}
 }

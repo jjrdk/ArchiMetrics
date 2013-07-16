@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogicalComplexityAnalyzer.cs" company="Reimers.dk">
+// <copyright file="LogicalComplexityCounter.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the LogicalComplexityAnalyzer type.
+//   Defines the LogicalComplexityCounter type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.Analysis.Metrics
@@ -15,11 +15,11 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal sealed class LogicalComplexityAnalyzer : SyntaxWalker
+	internal sealed class LogicalComplexityCounter : SyntaxWalker
 	{
 		private int _counter;
 
-		public LogicalComplexityAnalyzer()
+		public LogicalComplexityCounter()
 			: base(SyntaxWalkerDepth.Node)
 		{
 		}

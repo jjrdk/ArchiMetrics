@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeCollectorSyntaxWalker.cs" company="Reimers.dk">
+// <copyright file="TypeCollector.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the TypeCollectorSyntaxWalker type.
+//   Defines the TypeCollector type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.Analysis.Metrics
@@ -16,13 +16,11 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal sealed class TypeCollectorSyntaxWalker : SyntaxWalker
+	internal sealed class TypeCollector : SyntaxWalker
 	{
-		// Fields
 		private readonly IList<TypeDeclarationSyntax> _types;
 
-		// Methods
-		public TypeCollectorSyntaxWalker()
+		public TypeCollector()
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_types = new List<TypeDeclarationSyntax>();

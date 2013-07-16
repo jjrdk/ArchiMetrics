@@ -19,7 +19,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class NamespaceMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		// Methods
 		public NamespaceMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{

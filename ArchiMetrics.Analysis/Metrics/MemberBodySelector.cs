@@ -20,12 +20,11 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberBodySelector
 	{
-		// Methods
 		public static BlockSyntax FindBody(MemberNode node)
 		{
 			Func<CommonSyntaxNode, BlockSyntax> func;
 			BlockSyntax syntax;
-			var dictionary2 = new Dictionary<MemberKind, Func<CommonSyntaxNode, BlockSyntax>>
+			var dictionary = new Dictionary<MemberKind, Func<CommonSyntaxNode, BlockSyntax>>
 				                  {
 					                  { MemberKind.Method, x => ((MethodDeclarationSyntax)x).Body }, 
 					                  { MemberKind.Constructor, x => ((ConstructorDeclarationSyntax)x).Body }, 
@@ -35,7 +34,7 @@ namespace ArchiMetrics.Analysis.Metrics
 					                  { MemberKind.AddEventHandler, x => GetEventAccessorBody((EventDeclarationSyntax)x, SyntaxKind.AddAccessorDeclaration) }, 
 					                  { MemberKind.RemoveEventHandler, x => GetEventAccessorBody((EventDeclarationSyntax)x, SyntaxKind.RemoveAccessorDeclaration) }
 				                  };
-			Dictionary<MemberKind, Func<CommonSyntaxNode, BlockSyntax>> dictionary = dictionary2;
+
 			if (dictionary.TryGetValue(node.Kind, out func) && ((syntax = func(node.SyntaxNode)) != null))
 			{
 				return syntax;

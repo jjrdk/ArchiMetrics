@@ -33,18 +33,18 @@ namespace ArchiMetrics.Common.Metrics
 			TypeMetrics = typeMetrics;
 		}
 	
-		public double MaintainabilityIndex { get; set; }
-		
-		public int CyclomaticComplexity { get; set; }
-		
-		public int LinesOfCode { get; set; }
-		
-		public IEnumerable<TypeCoupling> ClassCouplings { get; set; }
-		
-		public int DepthOfInheritance { get; set; }
-		
-		public string Name { get; set; }
-		
-		public IEnumerable<TypeMetric> TypeMetrics { get; set; }
+		public double MaintainabilityIndex { get; private set; }
+
+		public int CyclomaticComplexity { get; private set; }
+
+		public int LinesOfCode { get; private set; }
+
+		public IEnumerable<TypeCoupling> ClassCouplings { get; private set; }
+
+		public int DepthOfInheritance { get; private set; }
+
+		public string Name { get; private set; }
+
+		public IEnumerable<TypeMetric> TypeMetrics { get; private set; }
 	}
 }

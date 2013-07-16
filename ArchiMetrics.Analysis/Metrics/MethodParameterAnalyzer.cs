@@ -9,6 +9,7 @@
 //   Defines the MethodParameterAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using Roslyn.Compilers.Common;
@@ -16,10 +17,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MethodParameterAnalyzer : SyntaxWalker
 	{
-		// Fields
 		private int numParameters;
 
-		// Methods
 		public MethodParameterAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
 		{
@@ -27,7 +26,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int Calculate(CommonSyntaxNode memberNode)
 		{
-			//////Verify.NotNull<CommonSyntaxNode>(Expression.Lambda<Func<CommonSyntaxNode>>(Expression.Constant(memberNode), new ParameterExpression[0]), (string)null);
 			var node = memberNode as SyntaxNode;
 			if (node != null)
 			{

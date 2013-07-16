@@ -17,13 +17,11 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		private readonly ISemanticModel _semanticModel;
 
-		// Methods
 		protected SemanticModelMetricsCalculator(ISemanticModel semanticModel)
 		{
 			_semanticModel = semanticModel;
 		}
 
-		// Properties
 		protected ISemanticModel Model
 		{
 			get { return _semanticModel; }

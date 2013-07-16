@@ -16,10 +16,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MethodLocalVariablesAnalyzer : SyntaxWalker
 	{
-		// Fields
 		private int numLocalVariables;
 
-		// Methods
 		public MethodLocalVariablesAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
 		{

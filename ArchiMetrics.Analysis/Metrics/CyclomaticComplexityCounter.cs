@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CyclomaticComplexityAnalyzer.cs" company="Reimers.dk">
+// <copyright file="CyclomaticComplexityCounter.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the CyclomaticComplexityAnalyzer type.
+//   Defines the CyclomaticComplexityCounter type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.Analysis.Metrics
@@ -16,7 +16,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal sealed class CyclomaticComplexityAnalyzer
+	internal sealed class CyclomaticComplexityCounter
 	{
 		public int Calculate(MemberNode node)
 		{
@@ -28,7 +28,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private class InnerComplexityAnalyzer : SyntaxWalker
 		{
-			// Fields
 			private static readonly SyntaxKind[] Contributors = new[]
 																{  
 																	SyntaxKind.CaseSwitchLabel, 
@@ -40,10 +39,8 @@ namespace ArchiMetrics.Analysis.Metrics
 																};
 
 			private int _counter;
-
 			private BlockSyntax _syntax;
 
-			// Methods
 			public InnerComplexityAnalyzer()
 				: base(SyntaxWalkerDepth.Node)
 			{

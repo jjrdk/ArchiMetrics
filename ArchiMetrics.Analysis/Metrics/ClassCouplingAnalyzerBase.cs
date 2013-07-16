@@ -19,11 +19,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal abstract class ClassCouplingAnalyzerBase : SyntaxWalker
 	{
-		// Fields
 		private readonly ISemanticModel _semanticModel;
 		private readonly IDictionary<string, TypeSymbol> _types;
 
-		// Methods
 		protected ClassCouplingAnalyzerBase(ISemanticModel semanticModel)
 			: base(SyntaxWalkerDepth.Node)
 		{

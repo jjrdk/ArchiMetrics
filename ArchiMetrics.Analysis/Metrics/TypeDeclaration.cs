@@ -16,7 +16,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	public sealed class TypeDeclaration
 	{
-		// Properties
 		public string Name { get; set; }
 
 		public IEnumerable<TypeDeclarationSyntaxInfo> SyntaxNodes { get; set; }

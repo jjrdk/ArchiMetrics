@@ -25,12 +25,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 		public class GivenACyclomaticComplexityAnalyzer
 		{
-			private CyclomaticComplexityAnalyzer _analyzer;
+			private CyclomaticComplexityCounter counter;
 
 			[SetUp]
 			public void SetUp()
 			{
-				_analyzer = new CyclomaticComplexityAnalyzer();
+				this.counter = new CyclomaticComplexityCounter();
 			}
 
 			[TestCase("public abstract void DoSomething();", 1)]
@@ -100,7 +100,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 					.OfType<MethodDeclarationSyntax>()
 					.First();
 				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode);
-				var result = _analyzer.Calculate(node);
+				var result = this.counter.Calculate(node);
 
 				Assert.AreEqual(expectedComplexity, result);
 			}

@@ -73,7 +73,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return name;
 		}
 
-		// Methods
 		private static string GetContainingTypeName(Symbol symbol)
 		{
 			var symbol2 = symbol as NamedTypeSymbol;

@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NamespaceCollectorSyntaxWalker.cs" company="Reimers.dk">
+// <copyright file="NamespaceCollector.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the NamespaceCollectorSyntaxWalker type.
+//   Defines the NamespaceCollector type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.Analysis.Metrics
@@ -16,11 +16,11 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal sealed class NamespaceCollectorSyntaxWalker : SyntaxWalker
+	internal sealed class NamespaceCollector : SyntaxWalker
 	{
 		private readonly IList<NamespaceDeclarationSyntax> _namespaces;
 
-		public NamespaceCollectorSyntaxWalker()
+		public NamespaceCollector()
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_namespaces = new List<NamespaceDeclarationSyntax>();

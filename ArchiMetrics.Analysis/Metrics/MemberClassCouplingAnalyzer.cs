@@ -23,7 +23,6 @@ namespace ArchiMetrics.Analysis.Metrics
 		private readonly Dictionary<MemberKind, Action<SyntaxNode>> _classCouplingActions;
 		private readonly Dictionary<CommonSymbolKind, Action<ISymbol>> _symbolActions;
 
-		// Methods
 		public MemberClassCouplingAnalyzer(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{

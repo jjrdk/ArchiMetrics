@@ -19,7 +19,7 @@ namespace ArchiMetrics.CodeReview.Rules
 	internal class TooHighCyclomaticComplexityRule : CodeEvaluationBase
 	{
 		private const int Limit = 8;
-		readonly CyclomaticComplexityAnalyzer _analyzer = new CyclomaticComplexityAnalyzer();
+		readonly CyclomaticComplexityCounter counter = new CyclomaticComplexityCounter();
 
 		public override SyntaxKind EvaluatedKind
 		{
@@ -29,7 +29,7 @@ namespace ArchiMetrics.CodeReview.Rules
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var complexity = _analyzer.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration));
+			var complexity = this.counter.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration));
 			if (complexity >= Limit)
 			{
 				return new EvaluationResult

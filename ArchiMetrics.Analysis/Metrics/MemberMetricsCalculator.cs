@@ -20,7 +20,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly CyclomaticComplexityAnalyzer _analyzer = new CyclomaticComplexityAnalyzer();
+		private readonly CyclomaticComplexityCounter counter = new CyclomaticComplexityCounter();
 
 		public MemberMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IEnumerable<MemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
-			var walker = new MemberCollectorSyntaxWalker(Root);
+			var walker = new MemberCollector(Root);
 			var members = walker.GetMembers(Model, typeNode).ToArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
@@ -50,7 +50,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private int CalculateCyclomaticComplexity(MemberNode node)
 		{
-			return _analyzer.Calculate(node);
+			return this.counter.Calculate(node);
 		}
 
 		private static int CalculateLinesOfCode(MemberNode node)
@@ -61,7 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static int CalculateLogicalComplexity(MemberNode node)
 		{
-			var provider = new LogicalComplexityAnalyzer();
+			var provider = new LogicalComplexityCounter();
 			return provider.Calculate(node);
 		}
 

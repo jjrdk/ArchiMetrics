@@ -17,10 +17,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class StatementsAnalyzer : SyntaxWalker
 	{
-		// Fields
 		private int _counter;
 
-		// Methods
 		public StatementsAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
 		{

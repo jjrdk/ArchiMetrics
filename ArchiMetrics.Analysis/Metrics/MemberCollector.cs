@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MemberCollectorSyntaxWalker.cs" company="Reimers.dk">
+// <copyright file="MemberCollector.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993] for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the MemberCollectorSyntaxWalker type.
+//   Defines the MemberCollector type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.Analysis.Metrics
@@ -18,14 +18,12 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal sealed class MemberCollectorSyntaxWalker : SyntaxWalker
+	internal sealed class MemberCollector : SyntaxWalker
 	{
-		// Fields
 		private readonly List<MemberNode> _members;
 		private readonly CommonSyntaxNode _root;
 
-		// Methods
-		public MemberCollectorSyntaxWalker(CommonSyntaxNode root)
+		public MemberCollector(CommonSyntaxNode root)
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_members = new List<MemberNode>();

@@ -20,7 +20,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		// Methods
 		public TypeMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{

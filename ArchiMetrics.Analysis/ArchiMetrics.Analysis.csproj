@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -61,21 +61,21 @@
     <Compile Include="IRequirementTestAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
     <Compile Include="Metrics\CodeMetricsCalculator.cs" />
-    <Compile Include="Metrics\CyclomaticComplexityAnalyzer.cs" />
+    <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />
     <Compile Include="Metrics\DepthOfInheritanceAnalyzer.cs" />
     <Compile Include="Metrics\HalsteadAnalyzer.cs" />
     <Compile Include="Metrics\HalsteadMetrics.cs" />
-    <Compile Include="Metrics\HalsteadOperands.cs" />
-    <Compile Include="Metrics\HalsteadOperators.cs" />
-    <Compile Include="Metrics\LogicalComplexityAnalyzer.cs" />
+    <Compile Include="Metrics\NamespaceCollector.cs" />
+    <Compile Include="Metrics\Operands.cs" />
+    <Compile Include="Metrics\Operators.cs" />
+    <Compile Include="Metrics\LogicalComplexityCounter.cs" />
     <Compile Include="Metrics\MemberBodySelector.cs" />
     <Compile Include="Metrics\MemberClassCouplingAnalyzer.cs" />
-    <Compile Include="Metrics\MemberCollectorSyntaxWalker.cs" />
+    <Compile Include="Metrics\MemberCollector.cs" />
     <Compile Include="Metrics\MemberMetricsCalculator.cs" />
     <Compile Include="Metrics\MemberNameResolver.cs" />
     <Compile Include="Metrics\MethodLocalVariablesAnalyzer.cs" />
     <Compile Include="Metrics\MethodParameterAnalyzer.cs" />
-    <Compile Include="Metrics\NamespaceCollectorSyntaxWalker.cs" />
     <Compile Include="Metrics\NamespaceDeclaration.cs" />
     <Compile Include="Metrics\NamespaceDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\NamespaceMetricsCalculator.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Metrics\SyntaxExtensions.cs" />
     <Compile Include="Metrics\SyntaxMetricsCalculator.cs" />
     <Compile Include="Metrics\TypeClassCouplingAnalyzer.cs" />
-    <Compile Include="Metrics\TypeCollectorSyntaxWalker.cs" />
+    <Compile Include="Metrics\TypeCollector.cs" />
     <Compile Include="Metrics\TypeCouplingComparer.cs" />
     <Compile Include="Metrics\TypeDeclaration.cs" />
     <Compile Include="Metrics\TypeMetricsCalculator.cs" />
