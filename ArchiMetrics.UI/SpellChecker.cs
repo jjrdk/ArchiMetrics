@@ -32,7 +32,7 @@ namespace ArchiMetrics.UI
 
 		protected virtual void Dispose(bool isDisposing)
 		{
-			if(isDisposing)
+			if (isDisposing)
 			{
 				//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
 				_speller.Dispose(true);

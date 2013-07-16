@@ -20,3 +20,5 @@ settings.xml
 TestResult.xml
 
 x.sln
+
+*.Cache

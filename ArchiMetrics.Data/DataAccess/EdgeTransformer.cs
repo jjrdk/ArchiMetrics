@@ -45,15 +45,15 @@ namespace ArchiMetrics.Data.DataAccess
 				.AsParallel()
 				.Select(item =>
 					{
-						foreach(var transform in _ruleRepository.GetAllVertexPreTransforms())
+						foreach (var transform in _ruleRepository.GetAllVertexPreTransforms())
 						{
 							item.Dependant = transform(item.Dependant);
 							item.Dependency = transform(item.Dependency);
 						}
 
-						foreach(var rule in _ruleRepository.VertexRules
-						                                   .ToArray()
-						                                   .Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
+						foreach (var rule in _ruleRepository.VertexRules
+														   .ToArray()
+														   .Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
 						{
 							var regex = _regexes.GetOrAdd(
 								rule.Pattern,
@@ -62,7 +62,7 @@ namespace ArchiMetrics.Data.DataAccess
 							item.Dependency = regex.Replace(item.Dependency, rule.Name ?? string.Empty);
 						}
 
-						foreach(var transform in _ruleRepository.GetAllVertexPostTransforms())
+						foreach (var transform in _ruleRepository.GetAllVertexPostTransforms())
 						{
 							item.Dependant = transform(item.Dependant);
 							item.Dependency = transform(item.Dependency);
@@ -76,18 +76,18 @@ namespace ArchiMetrics.Data.DataAccess
 					{
 						var first = g.First();
 						return new EdgeItem
-							       {
-								       Dependant = first.Dependant,
-								       Dependency = first.Dependency,
-								       CodeIssues = first.CodeIssues,
-								       MergedEdges = g.Count(),
-								       DependantLinesOfCode = first.DependantLinesOfCode,
-								       DependantComplexity = first.DependantComplexity,
-								       DependantMaintainabilityIndex = first.DependantMaintainabilityIndex,
-								       DependencyLinesOfCode = first.DependencyLinesOfCode,
-								       DependencyComplexity = first.DependencyComplexity,
-								       DependencyMaintainabilityIndex = first.DependencyMaintainabilityIndex
-							       };
+								   {
+									   Dependant = first.Dependant,
+									   Dependency = first.Dependency,
+									   CodeIssues = first.CodeIssues,
+									   MergedEdges = g.Count(),
+									   DependantLinesOfCode = first.DependantLinesOfCode,
+									   DependantComplexity = first.DependantComplexity,
+									   DependantMaintainabilityIndex = first.DependantMaintainabilityIndex,
+									   DependencyLinesOfCode = first.DependencyLinesOfCode,
+									   DependencyComplexity = first.DependencyComplexity,
+									   DependencyMaintainabilityIndex = first.DependencyMaintainabilityIndex
+								   };
 					})
 				.Where(x => !string.IsNullOrWhiteSpace(x.Dependant))
 				.Where(e => e.Dependant != e.Dependency)
