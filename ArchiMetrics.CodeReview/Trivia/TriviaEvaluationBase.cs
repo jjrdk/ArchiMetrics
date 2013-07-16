@@ -1,13 +1,11 @@
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Trivia
 {
-	using System.Linq;
 	using Common;
 	using Roslyn.Compilers.CSharp;
+	using Rules;
 
-	internal abstract class TriviaEvaluationBase : ITriviaEvaluation
+	internal abstract class TriviaEvaluationBase : EvaluationBase, ITriviaEvaluation
 	{
-		public abstract SyntaxKind EvaluatedKind { get; }
-
 		public EvaluationResult Evaluate(SyntaxTrivia node)
 		{
 			var result = EvaluateImpl(node);
@@ -25,13 +23,5 @@ namespace ArchiMetrics.CodeReview.Rules
 		}
 
 		protected abstract EvaluationResult EvaluateImpl(SyntaxTrivia node);
-
-		private static string GetCompilationUnitNamespace(CompilationUnitSyntax node)
-		{
-			var namespaceDeclaration = node.DescendantNodes()
-				.FirstOrDefault(n => n.Kind == SyntaxKind.NamespaceDeclaration);
-
-			return namespaceDeclaration == null ? string.Empty : ((NamespaceDeclarationSyntax)namespaceDeclaration).Name.GetText().ToString().Trim();
-		}
 	}
 }
