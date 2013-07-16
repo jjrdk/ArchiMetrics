@@ -26,9 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
-		ArchiMetrics.DataLoader\GetMetrics.ps1 = ArchiMetrics.DataLoader\GetMetrics.ps1
 		psake.psm1 = psake.psm1
-		ScriptCs.Metrics.nuspec = ScriptCs.Metrics.nuspec
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
@@ -84,7 +82,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal
