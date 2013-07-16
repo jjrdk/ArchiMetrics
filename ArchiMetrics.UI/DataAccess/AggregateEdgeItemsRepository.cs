@@ -9,13 +9,15 @@
 //   Defines the AggregateEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
+
 	using Roslyn.Services;
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
@@ -31,42 +33,42 @@ namespace ArchiMetrics.Data.DataAccess
 			ICodeErrorRepository codeErrorRepository, 
 			ICodeMetricsCalculator metricsCalculator)
 		{
-			_config = config;
-			_metricsCalculator = metricsCalculator;
-			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, codeErrorRepository);
-			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, _metricsCalculator);
+			this._config = config;
+			this._metricsCalculator = metricsCalculator;
+			this._namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, codeErrorRepository);
+			this._projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, this._metricsCalculator);
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public Task<IEnumerable<EdgeItem>> GetEdgesAsync()
 		{
-			switch (_config.Source)
+			switch (this._config.Source)
 			{
 				case EdgeSource.Namespace:
-					return _namespaceEdgeRepository.GetEdgesAsync();
+					return this._namespaceEdgeRepository.GetEdgesAsync();
 				case EdgeSource.Project:
 				default:
-					return _projectEdgeRepository.GetEdgesAsync();
+					return this._projectEdgeRepository.GetEdgesAsync();
 			}
 		}
 
 		~AggregateEdgeItemsRepository()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_namespaceEdgeRepository.Dispose();
-				_projectEdgeRepository.Dispose();
+				this._namespaceEdgeRepository.Dispose();
+				this._projectEdgeRepository.Dispose();
 			}
 		}
 	}

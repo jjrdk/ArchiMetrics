@@ -9,13 +9,13 @@
 //   Defines the SolutionEdgeItemsRepositoryConfig type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.ComponentModel;
 	using System.Runtime.CompilerServices;
-	using Common;
-	using Properties;
+
+	using ArchiMetrics.Common;
 
 	public class SolutionEdgeItemsRepositoryConfig : ISolutionEdgeItemsRepositoryConfig
 	{
@@ -25,7 +25,7 @@ namespace ArchiMetrics.Data.DataAccess
 
 		public SolutionEdgeItemsRepositoryConfig()
 		{
-			CutOff = TimeSpan.FromDays(7);
+			this.CutOff = TimeSpan.FromDays(7);
 		}
 
 		public TimeSpan CutOff { get; set; }
@@ -36,15 +36,15 @@ namespace ArchiMetrics.Data.DataAccess
 		{
 			get
 			{
-				return _path;
+				return this._path;
 			}
 
 			set
 			{
-				if (_path != value)
+				if (this._path != value)
 				{
-					_path = value;
-					OnPropertyChanged();
+					this._path = value;
+					this.OnPropertyChanged();
 				}
 			}
 		}
@@ -53,15 +53,15 @@ namespace ArchiMetrics.Data.DataAccess
 		{
 			get
 			{
-				return _includeCodeReview;
+				return this._includeCodeReview;
 			}
 
 			set
 			{
-				if (_includeCodeReview != value)
+				if (this._includeCodeReview != value)
 				{
-					_includeCodeReview = value;
-					OnPropertyChanged();
+					this._includeCodeReview = value;
+					this.OnPropertyChanged();
 				}
 			}
 		}
@@ -70,23 +70,22 @@ namespace ArchiMetrics.Data.DataAccess
 		{
 			get
 			{
-				return _source;
+				return this._source;
 			}
 
 			set
 			{
-				if (_source != value)
+				if (this._source != value)
 				{
-					_source = value;
-					OnPropertyChanged();
+					this._source = value;
+					this.OnPropertyChanged();
 				}
 			}
 		}
 
-		[NotifyPropertyChangedInvocator]
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
-			var handler = PropertyChanged;
+			var handler = this.PropertyChanged;
 			if (handler != null)
 			{
 				handler(this, new PropertyChangedEventArgs(propertyName));

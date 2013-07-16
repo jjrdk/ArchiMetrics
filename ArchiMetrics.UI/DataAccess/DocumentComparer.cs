@@ -9,9 +9,10 @@
 //   Defines the DocumentComparer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System.Collections.Generic;
+
 	using Roslyn.Services;
 
 	internal class DocumentComparer : IEqualityComparer<IDocument>

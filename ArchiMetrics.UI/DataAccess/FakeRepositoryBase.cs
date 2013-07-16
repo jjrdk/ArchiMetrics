@@ -9,7 +9,7 @@
 //   Defines the FakeRepositoryBase type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System.IO;
 
@@ -24,7 +24,7 @@ namespace ArchiMetrics.Data.DataAccess
 			var assembly = typeof(FakeRepositoryBase).Assembly;
 			var resourceName = string.Format("{0}.Data.{1}", assembly.GetName().Name, resourceFile);
 			var info = assembly.GetManifestResourceStream(resourceName);
-
+			
 			return info;
 		}
 	}

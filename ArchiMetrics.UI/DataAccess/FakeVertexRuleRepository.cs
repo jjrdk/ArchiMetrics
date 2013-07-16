@@ -9,20 +9,21 @@
 //   Defines the FakeVertexRuleRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Xml.Serialization;
-	using Common;
+
+	using ArchiMetrics.Common;
 
 	public class FakeVertexRuleRepository : FakeRepositoryBase, IVertexRuleRepository
 	{
 		public FakeVertexRuleRepository()
 		{
-			var rules = new List<VertexRule>(LoadAllVertexRules());
-			VertexRules = rules;
+			var rules = new List<VertexRule>(this.LoadAllVertexRules());
+			this.VertexRules = rules;
 		}
 
 		public IList<VertexRule> VertexRules { get; private set; }
@@ -43,7 +44,7 @@ namespace ArchiMetrics.Data.DataAccess
 			// but for this demo let's keep things simple and use a resource file.
 			var serializer = new XmlSerializer(typeof(List<VertexRule>));
 
-			using (Stream stream = GetResourceStream("vertexrules.xml"))
+			using (Stream stream = this.GetResourceStream("vertexrules.xml"))
 			{
 				return (List<VertexRule>)serializer.Deserialize(stream);
 			}

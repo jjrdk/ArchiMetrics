@@ -9,7 +9,7 @@
 //   Defines the CodeErrorRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Concurrent;
@@ -18,7 +18,9 @@ namespace ArchiMetrics.Data.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
+
+	using ArchiMetrics.Common;
+
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -34,12 +36,12 @@ namespace ArchiMetrics.Data.DataAccess
 			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector)
 		{
-			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
-			_config = config;
-			_solutionProvider = solutionProvider;
-			_inspector = inspector;
-			_config.PropertyChanged += ConfigPropertyChanged;
-			GetErrorsAsync();
+			this._edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
+			this._config = config;
+			this._solutionProvider = solutionProvider;
+			this._inspector = inspector;
+			this._config.PropertyChanged += this.ConfigPropertyChanged;
+			this.GetErrorsAsync();
 		}
 
 		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
@@ -49,20 +51,20 @@ namespace ArchiMetrics.Data.DataAccess
 				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
 			}
 
-			return _edgeItems.GetOrAdd(
+			return this._edgeItems.GetOrAdd(
 				source,
 				async path =>
 				{
 					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).Where(p => !p.Contains("QuickStart"))
 												   .Distinct()
-												   .Select(_solutionProvider.Get)
+												   .Select(this._solutionProvider.Get)
 												   .SelectMany(s => s.Projects)
 												   .Distinct(ProjectComparer.Default)
 												   .SelectMany(p => p.Documents)
 												   .Distinct(DocumentComparer.Default)
 												   .Select(d => new Tuple<string, SyntaxNode>(d.Project.FilePath, d.GetSyntaxTree().GetRoot() as SyntaxNode))
 												   .Where(n => n.Item2 != null)
-												   .Select(t => _inspector.Inspect(t.Item1, t.Item2));
+												   .Select(t => this._inspector.Inspect(t.Item1, t.Item2));
 
 					return await Task.Factory
 									 .ContinueWhenAll(
@@ -86,37 +88,37 @@ namespace ArchiMetrics.Data.DataAccess
 
 		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync()
 		{
-			return string.IsNullOrWhiteSpace(_config.Path)
+			return string.IsNullOrWhiteSpace(this._config.Path)
 								  ? Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable())
-								  : GetErrorsAsync(_config.Path, false);
+								  : this.GetErrorsAsync(this._config.Path, false);
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~CodeErrorRepository()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				var tasks = _edgeItems.Values.ToArray();
+				var tasks = this._edgeItems.Values.ToArray();
 				foreach (var task in tasks)
 				{
 					task.Dispose();
 				}
 
-				_edgeItems.Clear();
+				this._edgeItems.Clear();
 
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				_config.PropertyChanged -= ConfigPropertyChanged;
+				this._config.PropertyChanged -= this.ConfigPropertyChanged;
 			}
 		}
 
@@ -127,7 +129,7 @@ namespace ArchiMetrics.Data.DataAccess
 				return;
 			}
 
-			GetErrorsAsync();
+			this.GetErrorsAsync();
 		}
 	}
 }

@@ -9,7 +9,7 @@
 //   Defines the CodeEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
@@ -17,10 +17,12 @@ namespace ArchiMetrics.Data.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
-	using Roslyn.Compilers.Common;
+
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
+
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 
 	public abstract class CodeEdgeItemsRepository : IEdgeItemsRepository, IDisposable
 	{
@@ -33,38 +35,38 @@ namespace ArchiMetrics.Data.DataAccess
 			ISolutionEdgeItemsRepositoryConfig config, 
 			ICodeErrorRepository codeErrorRepository)
 		{
-			_config = config;
-			_codeErrorRepository = codeErrorRepository;
-			_config.PropertyChanged += ConfigPropertyChanged;
+			this._config = config;
+			this._codeErrorRepository = codeErrorRepository;
+			this._config.PropertyChanged += this.ConfigPropertyChanged;
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public Task<IEnumerable<EdgeItem>> GetEdgesAsync()
 		{
-			return _edgeItems ?? (_edgeItems = string.IsNullOrWhiteSpace(_config.Path)
+			return this._edgeItems ?? (this._edgeItems = string.IsNullOrWhiteSpace(this._config.Path)
 												   ? Task.Factory.StartNew(() => new EdgeItem[0].AsEnumerable())
-												   : _config.IncludeCodeReview
-														 ? LoadWithCodeReview()
-														 : LoadWithoutCodeReview());
+												   : this._config.IncludeCodeReview
+														 ? this.LoadWithCodeReview()
+														 : this.LoadWithoutCodeReview());
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_config.PropertyChanged -= ConfigPropertyChanged;
+				this._config.PropertyChanged -= this.ConfigPropertyChanged;
 			}
 		}
 
 		~CodeEdgeItemsRepository()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected abstract Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results);
@@ -121,25 +123,25 @@ namespace ArchiMetrics.Data.DataAccess
 
 		private async Task<IEnumerable<EdgeItem>> LoadWithCodeReview()
 		{
-			var errors = await _codeErrorRepository.GetErrorsAsync();
-			var edges = await CreateEdges(errors);
+			var errors = await this._codeErrorRepository.GetErrorsAsync();
+			var edges = await this.CreateEdges(errors);
 
 			return edges;
 		}
 
 		private Task<IEnumerable<EdgeItem>> LoadWithoutCodeReview()
 		{
-			return CreateEdges(new EvaluationResult[0]);
+			return this.CreateEdges(new EvaluationResult[0]);
 		}
 
 		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (_edgeItems != null)
+			if (this._edgeItems != null)
 			{
-				_edgeItems.Dispose();
+				this._edgeItems.Dispose();
 			}
 
-			_edgeItems = null;
+			this._edgeItems = null;
 		}
 	}
 }

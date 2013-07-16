@@ -9,7 +9,7 @@
 //   Defines the EdgeTransformer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Concurrent;
@@ -17,7 +17,8 @@ namespace ArchiMetrics.Data.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using Common;
+
+	using ArchiMetrics.Common;
 
 	public class EdgeTransformer : IEdgeTransformer, IDisposable
 	{
@@ -27,42 +28,42 @@ namespace ArchiMetrics.Data.DataAccess
 
 		public EdgeTransformer(IVertexRuleRepository ruleRepository, ICollectionCopier copier)
 		{
-			_ruleRepository = ruleRepository;
-			_copier = copier;
+			this._ruleRepository = ruleRepository;
+			this._copier = copier;
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public async Task<IEnumerable<EdgeItem>> TransformAsync(IEnumerable<EdgeItem> source)
 		{
-			var copy = await _copier.Copy(source);
+			var copy = await this._copier.Copy(source);
 
 			var items = copy
 				.AsParallel()
 				.Select(item =>
 					{
-						foreach (var transform in _ruleRepository.GetAllVertexPreTransforms())
+						foreach (var transform in this._ruleRepository.GetAllVertexPreTransforms())
 						{
 							item.Dependant = transform(item.Dependant);
 							item.Dependency = transform(item.Dependency);
 						}
 
-						foreach (var rule in _ruleRepository.VertexRules
+						foreach (var rule in this._ruleRepository.VertexRules
 														   .ToArray()
 														   .Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
 						{
-							var regex = _regexes.GetOrAdd(
+							var regex = this._regexes.GetOrAdd(
 								rule.Pattern,
 								pattern => new Regex(pattern, RegexOptions.Compiled));
 							item.Dependant = regex.Replace(item.Dependant, rule.Name ?? string.Empty);
 							item.Dependency = regex.Replace(item.Dependency, rule.Name ?? string.Empty);
 						}
 
-						foreach (var transform in _ruleRepository.GetAllVertexPostTransforms())
+						foreach (var transform in this._ruleRepository.GetAllVertexPostTransforms())
 						{
 							item.Dependant = transform(item.Dependant);
 							item.Dependency = transform(item.Dependency);
@@ -100,7 +101,7 @@ namespace ArchiMetrics.Data.DataAccess
 		~EdgeTransformer()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -108,7 +109,7 @@ namespace ArchiMetrics.Data.DataAccess
 			if (isDisposing)
 			{
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				_regexes.Clear();
+				this._regexes.Clear();
 			}
 		}
 	}

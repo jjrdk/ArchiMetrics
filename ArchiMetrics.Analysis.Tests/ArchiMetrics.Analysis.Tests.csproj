@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -97,10 +97,6 @@
     <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
       <Name>ArchiMetrics.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArchiMetrics.Data\ArchiMetrics.Data.csproj">
-      <Project>{F36FE0AD-A4F2-46FE-88F6-DD34D71F92C2}</Project>
-      <Name>ArchiMetrics.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

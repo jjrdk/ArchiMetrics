@@ -9,14 +9,16 @@
 //   Defines the SolutionProvider type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
-	using Common;
+
+	using ArchiMetrics.Common;
+
 	using Roslyn.Services;
 
 	public class SolutionProvider : IProvider<string, ISolution>
@@ -25,7 +27,7 @@ namespace ArchiMetrics.Data.DataAccess
 
 		public ISolution Get(string path)
 		{
-			return _cache.GetOrAdd(
+			return this._cache.GetOrAdd(
 				path,
 				p =>
 				{
@@ -37,32 +39,32 @@ namespace ArchiMetrics.Data.DataAccess
 		public IEnumerable<ISolution> GetAll(string key)
 		{
 			return from file in Directory.GetFiles(key, "*.sln", SearchOption.AllDirectories)
-				   where IsValid(file)
-				   let s = Get(file)
+				   where this.IsValid(file)
+				   let s = this.Get(file)
 				   where s != null
 				   select s;
 		}
 
 		public void Dispose()
 		{
-			Dispose(true);
+			this.Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		~SolutionProvider()
 		{
 			// Simply call Dispose(false).
-			Dispose(false);
+			this.Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				if (_cache != null)
+				if (this._cache != null)
 				{
-					_cache.Clear();
-					_cache = null;
+					this._cache.Clear();
+					this._cache = null;
 				}
 			}
 		}

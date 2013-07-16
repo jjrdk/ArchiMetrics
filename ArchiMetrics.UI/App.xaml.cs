@@ -19,11 +19,14 @@ namespace ArchiMetrics.UI
 	using System.Windows.Markup;
 	using Analysis;
 	using Analysis.Metrics;
+
+	using ArchiMetrics.UI.DataAccess;
+
 	using Autofac;
 	using CodeReview;
 	using Common;
 	using Common.Metrics;
-	using Data.DataAccess;
+
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;

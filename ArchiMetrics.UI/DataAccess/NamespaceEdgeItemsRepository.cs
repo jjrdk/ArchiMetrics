@@ -9,7 +9,7 @@
 //   Defines the NamespaceEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.Data.DataAccess
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Concurrent;
@@ -17,8 +17,10 @@ namespace ArchiMetrics.Data.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
+
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -34,14 +36,14 @@ namespace ArchiMetrics.Data.DataAccess
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{
-			_config = config;
-			_solutionProvider = solutionProvider;
+			this._config = config;
+			this._solutionProvider = solutionProvider;
 		}
 
 		protected override async Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
 		{
 			var results = source.GroupBy(x => x.Namespace).ToArray();
-			var namespaceReferences = await GetNamespaceReferences();
+			var namespaceReferences = await this.GetNamespaceReferences();
 			return namespaceReferences
 								 .GroupBy(n => n.Namespace)
 								 .Where(g => g.Any())
@@ -56,19 +58,19 @@ namespace ArchiMetrics.Data.DataAccess
 
 		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences()
 		{
-			return _namespaceReferences.GetOrAdd(
-				_config.Path, 
+			return this._namespaceReferences.GetOrAdd(
+				this._config.Path, 
 				path => Task.Factory.StartNew(
 					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 								   .AsParallel()
-								   .Select(_solutionProvider.Get)
+								   .Select(this._solutionProvider.Get)
 								   .SelectMany(s => s.Projects)
 								   .ToArray()
 								   .Distinct(ProjectComparer.Default)
 								   .SelectMany(p => p.Documents)
 								   .Distinct(DocumentComparer.Default)
 								   .Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)
-								   .Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
+								   .Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(this.GetLinesOfCode(node), this.GetNamespaceNames(node), this.GetUsings(node)))
 								   .SelectMany(t => t.Item2.Select(s => new NamespaceReference { Namespace = s, References = t.Item3.ToArray() }))
 								   .ToArray()
 								   .AsEnumerable()));
