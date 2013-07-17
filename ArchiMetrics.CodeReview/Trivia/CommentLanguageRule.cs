@@ -1,4 +1,4 @@
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Trivia
 {
 	using System.Linq;
 	using Common;

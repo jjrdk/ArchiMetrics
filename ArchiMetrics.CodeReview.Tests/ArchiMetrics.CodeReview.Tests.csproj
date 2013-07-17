@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="ProjectDataComparerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\SemanticRulesTests.cs" />
     <Compile Include="Rules\SpellCheckingTests.cs" />
     <Compile Include="Rules\SyntaxInspectorTests.cs" />
   </ItemGroup>

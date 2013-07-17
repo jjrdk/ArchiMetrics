@@ -9,6 +9,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using NHunspell;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
+	using Trivia;
 
 	public sealed class SpellCheckingTests
 	{
