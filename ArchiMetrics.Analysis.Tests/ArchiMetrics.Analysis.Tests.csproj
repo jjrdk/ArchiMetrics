@@ -76,6 +76,7 @@
     <Compile Include="LocCounterTests.cs" />
     <Compile Include="Metrics\CodeMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\CyclomaticComplexityAnalyzerTests.cs" />
+    <Compile Include="Metrics\MemberClassCouplingAnalyzerTests.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\SnippetMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\StatementsAnalyzerTests.cs" />

@@ -20,12 +20,12 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal abstract class ClassCouplingAnalyzerBase : SyntaxWalker
 	{
 		private readonly ISemanticModel _semanticModel;
-		private readonly IDictionary<string, TypeSymbol> _types;
+		private readonly IDictionary<string, ITypeSymbol> _types;
 
 		protected ClassCouplingAnalyzerBase(ISemanticModel semanticModel)
 			: base(SyntaxWalkerDepth.Node)
 		{
-			_types = new Dictionary<string, TypeSymbol>();
+			_types = new Dictionary<string, ITypeSymbol>();
 
 			_semanticModel = semanticModel;
 		}
@@ -42,7 +42,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			if (syntax.Kind != SyntaxKind.PredefinedType)
 			{
-				CommonSymbolInfo symbolInfo = SemanticModel.GetSymbolInfo(syntax);
+				var symbolInfo = SemanticModel.GetSymbolInfo(syntax);
 				if ((symbolInfo.Symbol != null) && (symbolInfo.Symbol.Kind == CommonSymbolKind.NamedType))
 				{
 					var symbol = (TypeSymbol)symbolInfo.Symbol;
@@ -60,7 +60,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				case TypeKind.Enum:
 				case TypeKind.Interface:
 					{
-						TypeSymbol symbol2;
+						ITypeSymbol symbol2;
 						string qualifiedName = TypeNameResolver.GetQualifiedName(symbol);
 						if (!_types.TryGetValue(qualifiedName, out symbol2))
 						{
@@ -82,16 +82,25 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		protected IEnumerable<TypeCoupling> GetCollectedTypesNames()
 		{
+			return GetCollectedTypesNames(new IPropertySymbol[0], new IMethodSymbol[0], new IEventSymbol[0]);
+		}
+
+		protected IEnumerable<TypeCoupling> GetCollectedTypesNames(IList<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IList<IEventSymbol> usedEvents)
+		{
 			return _types.Select(x =>
 									 {
 										 var typeSymbol = x.Value;
 										 var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
-										 return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name);
+										 var usedMethods = calledMethods.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
+										 var usedProperties = calledProperties.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
+										 var events = usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
+
+										 return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
 									 })
 						 .ToArray();
 		}
 
-		private IEnumerable<string> GetFullNamespace(NamespaceSymbol namespaceSymbol)
+		private static IEnumerable<string> GetFullNamespace(INamespaceSymbol namespaceSymbol)
 		{
 			if (namespaceSymbol.ContainingNamespace != null
 				&& !namespaceSymbol.ContainingNamespace.IsGlobalNamespace)

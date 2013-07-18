@@ -22,10 +22,16 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		private readonly Dictionary<MemberKind, Action<SyntaxNode>> _classCouplingActions;
 		private readonly Dictionary<CommonSymbolKind, Action<ISymbol>> _symbolActions;
+		private readonly List<IMethodSymbol> _calledMethods;
+		private readonly List<IPropertySymbol> _calledProperties;
+		private readonly List<IEventSymbol> _usedEvents;
 
 		public MemberClassCouplingAnalyzer(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
+			_calledMethods = new List<IMethodSymbol>();
+			_calledProperties = new List<IPropertySymbol>();
+			_usedEvents = new List<IEventSymbol>();
 			_symbolActions = new Dictionary<CommonSymbolKind, Action<ISymbol>>
 					                  {
 						                  { CommonSymbolKind.NamedType, x => FilterTypeSymbol((TypeSymbol)x) }, 
@@ -55,8 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				action(syntaxNode);
 			}
-
-			return GetCollectedTypesNames();
+			return GetCollectedTypesNames(_calledProperties, _calledMethods, _usedEvents);
 		}
 
 		public override void VisitIdentifierName(IdentifierNameSyntax node)
@@ -92,10 +97,11 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void CalculateEventClassCoupling(EventDeclarationSyntax syntax, SyntaxKind kind)
 		{
 			FilterType(syntax.Type);
-			BlockSyntax accessor = GetAccessor(syntax.AccessorList, kind);
+			var accessor = GetAccessor(syntax.AccessorList, kind);
 			if (accessor != null)
 			{
 				Visit(accessor);
+				CollectMemberCouplings(accessor);
 			}
 		}
 
@@ -108,16 +114,43 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			Visit(syntax);
 			FilterType(syntax.ReturnType);
+			CollectMemberCouplings(syntax.Body);
 		}
 
 		private void CalculatePropertyClassCoupling(PropertyDeclarationSyntax syntax, SyntaxKind kind)
 		{
 			FilterType(syntax.Type);
-			BlockSyntax accessor = GetAccessor(syntax.AccessorList, kind);
+			var accessor = GetAccessor(syntax.AccessorList, kind);
 			if (accessor != null)
 			{
 				Visit(accessor);
+				CollectMemberCouplings(accessor);
 			}
+		}
+
+		private void CollectMemberCouplings(SyntaxNode syntax)
+		{
+			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax);
+			_calledMethods.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Method).Cast<IMethodSymbol>());
+			_calledProperties.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Property).Cast<IPropertySymbol>());
+			_usedEvents.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Event).Cast<IEventSymbol>());
+		}
+
+		private ISymbol[] GetMemberCouplings<T>(SyntaxNode block)
+			where T : ExpressionSyntax
+		{
+			return block
+				.DescendantNodes()
+				.OfType<T>()
+				.Select(r =>
+						new
+							{
+								node = r,
+								model = SemanticModel
+							})
+				.Select(node => node.model.GetSymbolInfo(node.node).Symbol)
+				.Where(x => x != null)
+				.ToArray();
 		}
 	}
 }
