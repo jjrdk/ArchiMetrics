@@ -3,6 +3,8 @@
 	using System;
 	using System.Linq;
 	using NUnit.Framework;
+
+	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 	using Semantic;
@@ -46,7 +48,8 @@
 				Solution.Create(SolutionId.CreateNewId("Semantic"))
 					.AddCSharpProject("testcode.dll", "testcode", out pid),
 				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
-				.AddProjectReferences(pid, new ProjectId[0]);
+				.AddProjectReferences(pid, new ProjectId[0])
+				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
 
 			return solution;
 		}

@@ -12,24 +12,35 @@
 namespace ArchiMetrics.Common.Metrics
 {
 	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 
 	public class TypeCoupling : IComparable
 	{
 		private readonly string _fullName;
 
-		public TypeCoupling(string className, string namespaceName, string assemblyName)
+		public TypeCoupling(string className, string namespaceName, string assemblyName, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> useEvents)
 		{
 			ClassName = className;
 			Namespace = namespaceName;
 			Assembly = assemblyName;
+			UsedMethods = usedMethods.ToArray();
+			UsedProperties = usedProperties.ToArray();
+			UsedEvents = useEvents.ToArray();
 			_fullName = string.Format("{0}.{1}, {2}", namespaceName, className, assemblyName);
 		}
 
-		public string ClassName { get; set; }
+		public string ClassName { get; private set; }
 
-		public string Namespace { get; set; }
+		public string Namespace { get; private set; }
 
-		public string Assembly { get; set; }
+		public string Assembly { get; private set; }
+
+		public string[] UsedMethods { get; private set; }
+
+		public string[] UsedProperties { get; private set; }
+
+		public string[] UsedEvents { get; private set; }
 
 		public static bool operator ==(TypeCoupling c1, TypeCoupling c2)
 		{
