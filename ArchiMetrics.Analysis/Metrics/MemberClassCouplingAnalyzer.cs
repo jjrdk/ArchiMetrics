@@ -130,17 +130,20 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void CollectMemberCouplings(SyntaxNode syntax)
 		{
-			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax);
+			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax)
+				.Union(this.GetMemberCouplings<IdentifierNameSyntax>(syntax))
+				.Where(x => x.Kind == CommonSymbolKind.Method || x.Kind == CommonSymbolKind.Property || x.Kind == CommonSymbolKind.Event)
+				.ToArray();
 			_calledMethods.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Method).Cast<IMethodSymbol>());
 			_calledProperties.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Property).Cast<IPropertySymbol>());
 			_usedEvents.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Event).Cast<IEventSymbol>());
 		}
 
-		private ISymbol[] GetMemberCouplings<T>(SyntaxNode block)
+		private IEnumerable<ISymbol> GetMemberCouplings<T>(SyntaxNode block)
 			where T : ExpressionSyntax
 		{
-			return block
-				.DescendantNodes()
+			var descendantNodes = block.DescendantNodes().ToArray();
+			return descendantNodes
 				.OfType<T>()
 				.Select(r =>
 						new
@@ -149,8 +152,7 @@ namespace ArchiMetrics.Analysis.Metrics
 								model = SemanticModel
 							})
 				.Select(node => node.model.GetSymbolInfo(node.node).Symbol)
-				.Where(x => x != null)
-				.ToArray();
+				.Where(x => x != null);
 		}
 	}
 }
