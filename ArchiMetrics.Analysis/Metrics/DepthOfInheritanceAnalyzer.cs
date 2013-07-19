@@ -28,15 +28,14 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int Calculate(TypeDeclarationSyntax type)
 		{
-			int num = type.Kind == SyntaxKind.ClassDeclaration || type.Kind == SyntaxKind.StructDeclaration ? 1 : 0;
+			var num = type.Kind == SyntaxKind.ClassDeclaration || type.Kind == SyntaxKind.StructDeclaration ? 1 : 0;
 			if (type.BaseList != null)
 			{
-				foreach (var syntax in type.BaseList.Types)
+				foreach (var symbolInfo in type.BaseList.Types.Select(syntax => _semanticModel.GetSymbolInfo(syntax)))
 				{
-					CommonSymbolInfo symbolInfo = _semanticModel.GetSymbolInfo(syntax);
 					for (var symbol = symbolInfo.Symbol as NamedTypeSymbol; symbol != null; symbol = symbol.BaseType)
 					{
-						if (_inheritableTypes.Any(x => x == symbol.TypeKind))
+						if (this._inheritableTypes.Any(x => x == symbol.TypeKind))
 						{
 							num++;
 						}

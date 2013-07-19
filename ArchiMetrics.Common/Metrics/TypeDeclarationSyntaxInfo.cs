@@ -22,9 +22,9 @@ namespace ArchiMetrics.Common.Metrics
 			Syntax = syntax;
 		}
 
-		public string CodeFile { get; set; }
+		public string CodeFile { get; private set; }
 
-		public string Name { get; set; }
+		public string Name { get; private set; }
 
 		public CommonSyntaxNode Syntax { get; set; }
 	}

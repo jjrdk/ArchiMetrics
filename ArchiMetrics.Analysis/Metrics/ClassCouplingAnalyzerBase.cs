@@ -61,7 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				case TypeKind.Interface:
 					{
 						ITypeSymbol symbol2;
-						string qualifiedName = TypeNameResolver.GetQualifiedName(symbol);
+						var qualifiedName = symbol.GetQualifiedName();
 						if (!_types.TryGetValue(qualifiedName, out symbol2))
 						{
 							_types[qualifiedName] = symbol;

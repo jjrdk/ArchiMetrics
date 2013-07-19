@@ -43,7 +43,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				maintainabilityIndex, 
 				depthOfInheritance, 
 				source, 
-				TypeNameResolver.GetName(type));
+				type.GetName());
 		}
 
 		private static double CalculateAveMaintainabilityIndex(IEnumerable<MemberMetric> memberMetrics)

@@ -91,7 +91,7 @@
     <Compile Include="Metrics\TypeCouplingComparer.cs" />
     <Compile Include="Metrics\TypeDeclaration.cs" />
     <Compile Include="Metrics\TypeMetricsCalculator.cs" />
-    <Compile Include="Metrics\TypeNameResolver.cs" />
+    <Compile Include="Metrics\TypeExtensions.cs" />
     <Compile Include="PathFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequirementTestAnalyzer.cs" />

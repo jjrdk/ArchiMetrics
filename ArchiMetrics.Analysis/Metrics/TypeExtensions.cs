@@ -1,27 +1,27 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeNameResolver.cs" company="Reimers.dk">
+// <copyright file="TypeExtensions.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the TypeNameResolver type.
+//   Defines the TypeExtensions type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 
-	internal sealed class TypeNameResolver
+	internal static class TypeExtensions
 	{
-		public static string GetName(TypeDeclarationSyntax syntax)
+		public static string GetName(this TypeDeclarationSyntax syntax)
 		{
-			string valueText = syntax.Identifier.ValueText;
-			string containingTypeName = GetContainingTypeName(syntax.Parent);
+			var valueText = syntax.Identifier.ValueText;
+			var containingTypeName = GetContainingTypeName(syntax.Parent);
 			if (!string.IsNullOrWhiteSpace(containingTypeName))
 			{
 				valueText = containingTypeName + "." + valueText;
@@ -31,7 +31,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			builder.Append(valueText);
 			if (syntax.TypeParameterList != null)
 			{
-				SeparatedSyntaxList<TypeParameterSyntax> parameters = syntax.TypeParameterList.Parameters;
+				var parameters = syntax.TypeParameterList.Parameters;
 				if (parameters.Any())
 				{
 					string str3 = string.Join(", ", from x in parameters select x.Identifier.ValueText);
@@ -42,10 +42,10 @@ namespace ArchiMetrics.Analysis.Metrics
 			return builder.ToString();
 		}
 
-		public static string GetQualifiedName(TypeSymbol symbol)
+		public static string GetQualifiedName(this ITypeSymbol symbol)
 		{
-			string name = symbol.Name;
-			string containingTypeName = GetContainingTypeName(symbol.ContainingSymbol);
+			var name = symbol.Name;
+			var containingTypeName = GetContainingTypeName(symbol.ContainingSymbol);
 			if (!string.IsNullOrWhiteSpace(containingTypeName))
 			{
 				name = containingTypeName + "." + name;
@@ -54,12 +54,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			var symbol2 = (NamedTypeSymbol)symbol;
 			if ((symbol2.TypeParameters != null) && symbol2.TypeParameters.Any())
 			{
-				IEnumerable<string> values = (from x in symbol2.TypeParameters.AsEnumerable() select x.Name).ToArray<string>();
-				string str3 = string.Join(", ", values);
+				var values = (from x in symbol2.TypeParameters.AsEnumerable() select x.Name).ToArray<string>();
+				var str3 = string.Join(", ", values);
 				name = name + string.Format("<{0}>", str3);
 			}
 
-			for (Symbol symbol3 = symbol.ContainingSymbol; (symbol3 != null) && (symbol3.Kind == SymbolKind.Namespace); symbol3 = symbol3.ContainingSymbol)
+			for (var symbol3 = symbol.ContainingSymbol; (symbol3 != null) && (symbol3.Kind == CommonSymbolKind.Namespace); symbol3 = symbol3.ContainingSymbol)
 			{
 				var symbol4 = (NamespaceSymbol)symbol3;
 				if (symbol4.IsGlobalNamespace)
@@ -73,7 +73,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return name;
 		}
 
-		private static string GetContainingTypeName(Symbol symbol)
+		private static string GetContainingTypeName(ISymbol symbol)
 		{
 			var symbol2 = symbol as NamedTypeSymbol;
 			if (symbol2 == null)
@@ -81,8 +81,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				return null;
 			}
 
-			string name = symbol2.Name;
-			string containingTypeName = GetContainingTypeName(symbol2.ContainingSymbol);
+			var name = symbol2.Name;
+			var containingTypeName = GetContainingTypeName(symbol2.ContainingSymbol);
 			if (!string.IsNullOrWhiteSpace(containingTypeName))
 			{
 				return containingTypeName + "." + name;
@@ -91,7 +91,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return name;
 		}
 
-		private static string GetContainingTypeName(SyntaxNode syntax)
+		private static string GetContainingTypeName(CommonSyntaxNode syntax)
 		{
 			var syntax2 = syntax as TypeDeclarationSyntax;
 			if (syntax2 == null)
@@ -99,8 +99,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				return null;
 			}
 
-			string valueText = syntax2.Identifier.ValueText;
-			string containingTypeName = GetContainingTypeName(syntax2.Parent);
+			var valueText = syntax2.Identifier.ValueText;
+			var containingTypeName = GetContainingTypeName(syntax2.Parent);
 			if (!string.IsNullOrWhiteSpace(containingTypeName))
 			{
 				return containingTypeName + "." + valueText;
