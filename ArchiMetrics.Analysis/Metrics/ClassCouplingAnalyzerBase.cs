@@ -85,18 +85,18 @@ namespace ArchiMetrics.Analysis.Metrics
 			return GetCollectedTypesNames(new IPropertySymbol[0], new IMethodSymbol[0], new IEventSymbol[0]);
 		}
 
-		protected IEnumerable<TypeCoupling> GetCollectedTypesNames(IList<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IList<IEventSymbol> usedEvents)
+		protected IEnumerable<TypeCoupling> GetCollectedTypesNames(IEnumerable<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IEnumerable<IEventSymbol> usedEvents)
 		{
 			return _types.Select(x =>
-									 {
-										 var typeSymbol = x.Value;
-										 var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
-										 var usedMethods = calledMethods.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
-										 var usedProperties = calledProperties.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
-										 var events = usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
+				{
+					var typeSymbol = x.Value;
+					var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
+					var usedMethods = calledMethods.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
+					var usedProperties = calledProperties.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
+					var events = usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
 
-										 return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
-									 })
+					return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
+				})
 						 .ToArray();
 		}
 
