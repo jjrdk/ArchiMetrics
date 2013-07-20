@@ -92,7 +92,7 @@ namespace ArchiMetrics.Analysis
 						   .Select(a => a.ToFullString().Trim('"'))
 						   .SelectMany(s => s.Split(','))
 						   .Select(s => s.Trim())
-						   .Select(s => s == string.Empty ? "0" : s);
+						   .Select(s => string.IsNullOrWhiteSpace(s) ? "0" : s);
 			}
 
 			return Enumerable.Empty<string>();

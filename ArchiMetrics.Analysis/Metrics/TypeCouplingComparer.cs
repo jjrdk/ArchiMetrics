@@ -33,7 +33,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		/// <returns>
 		/// True if the specified objects are equal; otherwise, false.
 		/// </returns>
-		/// <param name="x">The first object of type <paramref name="T"/> to compare.</param><param name="y">The second object of type <paramref name="T"/> to compare.</param>
+		/// <param name="x">The first object of type <paramref name="x"/> to compare.</param><param name="y">The second object of type <paramref name="y"/> to compare.</param>
 		public bool Equals(TypeCoupling x, TypeCoupling y)
 		{
 			return x == null

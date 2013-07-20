@@ -5,6 +5,9 @@ namespace ArchiMetrics.Analysis
 	using System.Threading.Tasks;
 	using Common;
 
+	/// <summary>
+	/// Defines the DependencyAnalyzer class.
+	/// </summary>
 	public class DependencyAnalyzer
 	{
 		public Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<EdgeItem> items)

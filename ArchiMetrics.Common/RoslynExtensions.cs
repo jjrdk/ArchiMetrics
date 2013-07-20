@@ -114,11 +114,15 @@ EndGlobal
 
 			using (var stream = new FileStream(fileName, overwriteExisting ? FileMode.Create : FileMode.CreateNew))
 			{
-				using (var writer = new StreamWriter(stream))
-				{
-					var configs = projectGuids.Values.Select(v => string.Format(ProjectConfigurationFormat, v));
-					writer.Write(SolutionFormat, projectIncludes.Trim(), string.Join(Environment.NewLine, configs).Trim());
-				}
+				var writer = new StreamWriter(stream);
+				var configs = projectGuids.Values.Select(v => string.Format(ProjectConfigurationFormat, v));
+				writer.Write(
+					SolutionFormat,
+					projectIncludes.Trim(),
+					string.Join(Environment.NewLine, configs)
+						.Trim());
+				writer.Flush();
+				writer.Close();
 			}
 		}
 

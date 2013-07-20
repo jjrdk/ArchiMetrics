@@ -5,7 +5,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public class SyntaxCollectorTests
+	public sealed class SyntaxCollectorTests
 	{
 		private SyntaxCollectorTests() { }
 

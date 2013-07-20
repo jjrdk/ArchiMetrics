@@ -2,14 +2,14 @@
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using ArchiMetrics.Analysis.Metrics;
-	using ArchiMetrics.Common.Metrics;
+	using Analysis.Metrics;
+	using Common.Metrics;
 	using NUnit.Framework;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	public class MemberClassCouplingAnalyzerTests
+	public sealed class MemberClassCouplingAnalyzerTests
 	{
 		private MemberClassCouplingAnalyzerTests()
 		{
@@ -23,7 +23,7 @@
 			[SetUp]
 			public void Setup()
 			{
-				this._solution = this.CreateSolution(@"
+				_solution = CreateSolution(@"
 namespace MyNamespace
 {
 	using System;
