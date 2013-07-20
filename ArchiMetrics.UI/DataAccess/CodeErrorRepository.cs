@@ -18,9 +18,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMetrics.Common;
-
+	using Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -36,17 +34,12 @@ namespace ArchiMetrics.UI.DataAccess
 			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector)
 		{
-			this._edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
-			this._config = config;
-			this._solutionProvider = solutionProvider;
-			this._inspector = inspector;
-			this._config.PropertyChanged += this.ConfigPropertyChanged;
-			this.GetErrorsAsync();
-		}
-
-		~CodeErrorRepository()
-		{
-			this.Dispose(false);
+			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
+			_config = config;
+			_solutionProvider = solutionProvider;
+			_inspector = inspector;
+			_config.PropertyChanged += ConfigPropertyChanged;
+			GetErrorsAsync();
 		}
 
 		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
@@ -56,20 +49,20 @@ namespace ArchiMetrics.UI.DataAccess
 				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
 			}
 
-			return this._edgeItems.GetOrAdd(
+			return _edgeItems.GetOrAdd(
 				source,
 				async path =>
 				{
 					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).Where(p => !p.Contains("QuickStart"))
 												   .Distinct()
-												   .Select(this._solutionProvider.Get)
+												   .Select(_solutionProvider.Get)
 												   .SelectMany(s => s.Projects)
 												   .Distinct(ProjectComparer.Default)
 												   .SelectMany(p => p.Documents)
 												   .Distinct(DocumentComparer.Default)
 												   .Select(d => new Tuple<string, SyntaxNode>(d.Project.FilePath, d.GetSyntaxTree().GetRoot() as SyntaxNode))
 												   .Where(n => n.Item2 != null)
-												   .Select(t => this._inspector.Inspect(t.Item1, t.Item2));
+												   .Select(t => _inspector.Inspect(t.Item1, t.Item2));
 
 					return await Task.Factory
 									 .ContinueWhenAll(
@@ -93,31 +86,36 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync()
 		{
-			return string.IsNullOrWhiteSpace(this._config.Path)
+			return string.IsNullOrWhiteSpace(_config.Path)
 								  ? Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable())
-								  : this.GetErrorsAsync(this._config.Path, false);
+								  : GetErrorsAsync(_config.Path, false);
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~CodeErrorRepository()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				var tasks = this._edgeItems.Values.ToArray();
+				var tasks = _edgeItems.Values.ToArray();
 				foreach (var task in tasks)
 				{
 					task.Dispose();
 				}
 
-				this._edgeItems.Clear();
+				_edgeItems.Clear();
 
 				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-				this._config.PropertyChanged -= this.ConfigPropertyChanged;
+				_config.PropertyChanged -= ConfigPropertyChanged;
 			}
 		}
 
@@ -128,7 +126,7 @@ namespace ArchiMetrics.UI.DataAccess
 				return;
 			}
 
-			this.GetErrorsAsync();
+			GetErrorsAsync();
 		}
 	}
 }

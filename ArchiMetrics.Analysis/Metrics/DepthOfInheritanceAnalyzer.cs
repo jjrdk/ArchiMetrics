@@ -35,7 +35,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				{
 					for (var symbol = symbolInfo.Symbol as NamedTypeSymbol; symbol != null; symbol = symbol.BaseType)
 					{
-						if (this._inheritableTypes.Any(x => x == symbol.TypeKind))
+						if (_inheritableTypes.Any(x => x == symbol.TypeKind))
 						{
 							num++;
 						}

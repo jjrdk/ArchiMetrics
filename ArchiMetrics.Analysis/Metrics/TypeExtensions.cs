@@ -13,8 +13,8 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Linq;
 	using System.Text;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 
 	internal static class TypeExtensions
 	{

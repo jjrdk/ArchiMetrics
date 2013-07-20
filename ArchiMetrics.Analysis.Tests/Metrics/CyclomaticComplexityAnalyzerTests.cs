@@ -30,7 +30,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[SetUp]
 			public void SetUp()
 			{
-				this.counter = new CyclomaticComplexityCounter();
+				counter = new CyclomaticComplexityCounter();
 			}
 
 			[TestCase("public abstract void DoSomething();", 1)]
@@ -100,7 +100,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 					.OfType<MethodDeclarationSyntax>()
 					.First();
 				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode);
-				var result = this.counter.Calculate(node);
+				var result = counter.Calculate(node);
 
 				Assert.AreEqual(expectedComplexity, result);
 			}

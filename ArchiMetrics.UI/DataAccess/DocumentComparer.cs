@@ -12,7 +12,6 @@
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System.Collections.Generic;
-
 	using Roslyn.Services;
 
 	internal class DocumentComparer : IEqualityComparer<IDocument>

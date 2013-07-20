@@ -15,15 +15,14 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Xml.Serialization;
-
-	using ArchiMetrics.Common;
+	using Common;
 
 	public class FakeVertexRuleRepository : FakeRepositoryBase, IVertexRuleRepository
 	{
 		public FakeVertexRuleRepository()
 		{
-			var rules = new List<VertexRule>(this.LoadAllVertexRules());
-			this.VertexRules = rules;
+			var rules = new List<VertexRule>(LoadAllVertexRules());
+			VertexRules = rules;
 		}
 
 		public IList<VertexRule> VertexRules { get; private set; }
@@ -44,7 +43,7 @@ namespace ArchiMetrics.UI.DataAccess
 			// but for this demo let's keep things simple and use a resource file.
 			var serializer = new XmlSerializer(typeof(List<VertexRule>));
 
-			using (Stream stream = this.GetResourceStream("vertexrules.xml"))
+			using (Stream stream = GetResourceStream("vertexrules.xml"))
 			{
 				return (List<VertexRule>)serializer.Deserialize(stream);
 			}

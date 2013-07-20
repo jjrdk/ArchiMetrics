@@ -96,7 +96,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private int CalculateCyclomaticComplexity(MemberNode node)
 		{
-			return this.counter.Calculate(node);
+			return counter.Calculate(node);
 		}
 
 		private IEnumerable<TypeCoupling> CalculateClassCoupling(MemberNode node)

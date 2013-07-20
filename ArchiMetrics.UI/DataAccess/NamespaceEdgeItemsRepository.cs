@@ -17,10 +17,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMetrics.Common;
-	using ArchiMetrics.Common.Metrics;
-
+	using Common;
+	using Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -36,14 +34,14 @@ namespace ArchiMetrics.UI.DataAccess
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{
-			this._config = config;
-			this._solutionProvider = solutionProvider;
+			_config = config;
+			_solutionProvider = solutionProvider;
 		}
 
 		protected override async Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
 		{
 			var results = source.GroupBy(x => x.Namespace).ToArray();
-			var namespaceReferences = await this.GetNamespaceReferences();
+			var namespaceReferences = await GetNamespaceReferences();
 			return namespaceReferences
 								 .GroupBy(n => n.Namespace)
 								 .Where(g => g.Any())
@@ -58,19 +56,19 @@ namespace ArchiMetrics.UI.DataAccess
 
 		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences()
 		{
-			return this._namespaceReferences.GetOrAdd(
-				this._config.Path, 
+			return _namespaceReferences.GetOrAdd(
+				_config.Path, 
 				path => Task.Factory.StartNew(
 					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 								   .AsParallel()
-								   .Select(this._solutionProvider.Get)
+								   .Select(_solutionProvider.Get)
 								   .SelectMany(s => s.Projects)
 								   .ToArray()
 								   .Distinct(ProjectComparer.Default)
 								   .SelectMany(p => p.Documents)
 								   .Distinct(DocumentComparer.Default)
 								   .Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)
-								   .Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(this.GetLinesOfCode(node), this.GetNamespaceNames(node), this.GetUsings(node)))
+								   .Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
 								   .SelectMany(t => t.Item2.Select(s => new NamespaceReference { Namespace = s, References = t.Item3.ToArray() }))
 								   .ToArray()
 								   .AsEnumerable()));

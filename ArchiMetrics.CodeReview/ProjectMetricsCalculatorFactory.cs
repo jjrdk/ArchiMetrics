@@ -19,11 +19,6 @@ namespace ArchiMetrics.CodeReview
 
 	public class ProjectMetricsCalculatorFactory : IFactory<ProjectSettings, ICodeMetricsCalculator>
 	{
-		~ProjectMetricsCalculatorFactory()
-		{
-			Dispose(false);
-		}
-
 		public ICodeMetricsCalculator Create(ProjectSettings parameter)
 		{
 			return new CodeMetricsCalculator();
@@ -33,6 +28,11 @@ namespace ArchiMetrics.CodeReview
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~ProjectMetricsCalculatorFactory()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

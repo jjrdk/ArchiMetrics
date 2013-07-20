@@ -13,11 +13,6 @@ namespace ArchiMetrics.UI
 			_speller = speller;
 		}
 
-		~SpellChecker()
-		{
-			Dispose(false);
-		}
-
 		public bool Spell(string word)
 		{
 			return _speller.Spell(word);
@@ -27,6 +22,11 @@ namespace ArchiMetrics.UI
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~SpellChecker()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

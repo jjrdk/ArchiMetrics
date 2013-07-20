@@ -17,10 +17,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-
-	using ArchiMetrics.Common;
-	using ArchiMetrics.Common.Metrics;
-
+	using Common;
+	using Common.Metrics;
 	using Roslyn.Services;
 
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository
@@ -38,16 +36,16 @@ namespace ArchiMetrics.UI.DataAccess
 			ICodeMetricsCalculator metricsCalculator)
 			: base(config, codeErrorRepository)
 		{
-			this._config = config;
-			this._solutionProvider = solutionProvider;
-			this._metricsCalculator = metricsCalculator;
+			_config = config;
+			_solutionProvider = solutionProvider;
+			_metricsCalculator = metricsCalculator;
 		}
 
 		protected override async Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
 		{
 			var results = source.GroupBy(er => er.ProjectPath).ToArray();
-			var references = await this.GetProjectReferences();
-			var metrics = (await this.GetCodeMetrics()).ToDictionary(m => m.ProjectPath);
+			var references = await GetProjectReferences();
+			var metrics = (await GetCodeMetrics()).ToDictionary(m => m.ProjectPath);
 			return references
 				.SelectMany(pr => pr.ProjectReferences.Select(r => CreateEdgeItem(pr.Name, r.Key, pr.ProjectPath, metrics[pr.ProjectPath], metrics[r.Value], results))
 					.Concat(pr.AssemblyReferences.Select(a => CreateEdgeItem(pr.Name, a, pr.ProjectPath, metrics[pr.ProjectPath], new ProjectCodeMetrics(), new EvaluationResult[0].GroupBy(x => x.ProjectPath)))))
@@ -57,39 +55,39 @@ namespace ArchiMetrics.UI.DataAccess
 
 		private Task<ProjectReference[]> GetProjectReferences()
 		{
-			return this._projectReferences.GetOrAdd(
-				this._config.Path,
+			return _projectReferences.GetOrAdd(
+				_config.Path,
 				path =>
 				Task.Factory
 					.StartNew(() =>
 							  Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 									   .Where(s => !s.Contains("QuickStart"))
 									   .AsParallel()
-									   .SelectMany(this.GetProjectDependencies)
+									   .SelectMany(GetProjectDependencies)
 									   .ToArray()));
 		}
 
 		private Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics()
 		{
-			var metricTasks = Directory.GetFiles(this._config.Path, "*.sln", SearchOption.AllDirectories)
+			var metricTasks = Directory.GetFiles(_config.Path, "*.sln", SearchOption.AllDirectories)
 									   .Where(s => !s.Contains("QuickStart"))
 									   .AsParallel()
-									   .Select(this._solutionProvider.Get)
+									   .Select(_solutionProvider.Get)
 									   .SelectMany(s => s.Projects)
 									   .Distinct(ProjectComparer.Default)
-									   .Select(this.GetProjectMetrics);
+									   .Select(GetProjectMetrics);
 			return Task.WhenAll(metricTasks).ContinueWith(task => task.Result.AsEnumerable());
 		}
 
 		private Task<ProjectCodeMetrics> GetProjectMetrics(IProject project)
 		{
-			return this._metrics.GetOrAdd(
+			return _metrics.GetOrAdd(
 				project.FilePath,
 				async s =>
 				{
 					try
 					{
-						var metrics = (await this._metricsCalculator.Calculate(project)).ToArray();
+						var metrics = (await _metricsCalculator.Calculate(project)).ToArray();
 
 						var linesOfCode = metrics.Sum(x => x.LinesOfCode);
 						return new ProjectCodeMetrics
@@ -114,7 +112,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 		private IEnumerable<ProjectReference> GetProjectDependencies(string path)
 		{
-			var solution = this._solutionProvider.Get(path);
+			var solution = _solutionProvider.Get(path);
 
 			return solution.Projects
 						   .Select(p => new ProjectReference

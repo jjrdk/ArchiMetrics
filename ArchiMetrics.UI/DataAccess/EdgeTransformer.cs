@@ -17,8 +17,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-
-	using ArchiMetrics.Common;
+	using Common;
 
 	public class EdgeTransformer : IEdgeTransformer, IDisposable
 	{
@@ -28,47 +27,42 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public EdgeTransformer(IVertexRuleRepository ruleRepository, ICollectionCopier copier)
 		{
-			this._ruleRepository = ruleRepository;
-			this._copier = copier;
-		}
-
-		~EdgeTransformer()
-		{
-			this.Dispose(false);
+			_ruleRepository = ruleRepository;
+			_copier = copier;
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public async Task<IEnumerable<EdgeItem>> TransformAsync(IEnumerable<EdgeItem> source)
 		{
-			var copy = await this._copier.Copy(source);
+			var copy = await _copier.Copy(source);
 
 			var items = copy
 				.AsParallel()
 				.Select(item =>
 					{
-						foreach (var transform in this._ruleRepository.GetAllVertexPreTransforms())
+						foreach (var transform in _ruleRepository.GetAllVertexPreTransforms())
 						{
 							item.Dependant = transform(item.Dependant);
 							item.Dependency = transform(item.Dependency);
 						}
 
-						foreach (var rule in this._ruleRepository.VertexRules
+						foreach (var rule in _ruleRepository.VertexRules
 														   .ToArray()
 														   .Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
 						{
-							var regex = this._regexes.GetOrAdd(
+							var regex = _regexes.GetOrAdd(
 								rule.Pattern,
 								pattern => new Regex(pattern, RegexOptions.Compiled));
 							item.Dependant = regex.Replace(item.Dependant, rule.Name ?? string.Empty);
 							item.Dependency = regex.Replace(item.Dependency, rule.Name ?? string.Empty);
 						}
 
-						foreach (var transform in this._ruleRepository.GetAllVertexPostTransforms())
+						foreach (var transform in _ruleRepository.GetAllVertexPostTransforms())
 						{
 							item.Dependant = transform(item.Dependant);
 							item.Dependency = transform(item.Dependency);
@@ -101,6 +95,11 @@ namespace ArchiMetrics.UI.DataAccess
 				.AsEnumerable();
 
 			return items;
+		}
+
+		~EdgeTransformer()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

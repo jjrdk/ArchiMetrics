@@ -22,11 +22,6 @@ namespace ArchiMetrics.Common
 	{
 		private static readonly ConcurrentDictionary<string, IProject> Cache = new ConcurrentDictionary<string, IProject>();
 
-		~ProjectProvider()
-		{
-			Dispose(false);
-		}
-
 		public IProject Get(string source)
 		{
 			return Cache.GetOrAdd(
@@ -73,6 +68,11 @@ namespace ArchiMetrics.Common
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~ProjectProvider()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

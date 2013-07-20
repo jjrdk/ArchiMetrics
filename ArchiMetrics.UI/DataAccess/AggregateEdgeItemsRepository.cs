@@ -14,10 +14,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
-
-	using ArchiMetrics.Common;
-	using ArchiMetrics.Common.Metrics;
-
+	using Common;
+	using Common.Metrics;
 	using Roslyn.Services;
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
@@ -33,41 +31,41 @@ namespace ArchiMetrics.UI.DataAccess
 			ICodeErrorRepository codeErrorRepository, 
 			ICodeMetricsCalculator metricsCalculator)
 		{
-			this._config = config;
-			this._metricsCalculator = metricsCalculator;
-			this._namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, codeErrorRepository);
-			this._projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, this._metricsCalculator);
-		}
-
-		~AggregateEdgeItemsRepository()
-		{
-			this.Dispose(false);
+			_config = config;
+			_metricsCalculator = metricsCalculator;
+			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, codeErrorRepository);
+			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, _metricsCalculator);
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
 		public Task<IEnumerable<EdgeItem>> GetEdgesAsync()
 		{
-			switch (this._config.Source)
+			switch (_config.Source)
 			{
 				case EdgeSource.Namespace:
-					return this._namespaceEdgeRepository.GetEdgesAsync();
+					return _namespaceEdgeRepository.GetEdgesAsync();
 				case EdgeSource.Project:
 				default:
-					return this._projectEdgeRepository.GetEdgesAsync();
+					return _projectEdgeRepository.GetEdgesAsync();
 			}
+		}
+
+		~AggregateEdgeItemsRepository()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				this._namespaceEdgeRepository.Dispose();
-				this._projectEdgeRepository.Dispose();
+				_namespaceEdgeRepository.Dispose();
+				_projectEdgeRepository.Dispose();
 			}
 		}
 	}

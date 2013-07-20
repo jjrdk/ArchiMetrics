@@ -3,16 +3,13 @@
 packages
 /*.suo
 *.vspscc
-*.user
 *.pdb
 /Data
 *.suo
-*.user
 settings.xml
 *.txt.bak
 *.tmp
 *.nupkg
-*.DotSettings
 x.sln
 TestResult.xml
 *.Cache

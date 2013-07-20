@@ -14,8 +14,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System;
 	using System.ComponentModel;
 	using System.Runtime.CompilerServices;
-
-	using ArchiMetrics.Common;
+	using Common;
 
 	public class SolutionEdgeItemsRepositoryConfig : ISolutionEdgeItemsRepositoryConfig
 	{
@@ -25,26 +24,25 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public SolutionEdgeItemsRepositoryConfig()
 		{
-			this.CutOff = TimeSpan.FromDays(7);
+			CutOff = TimeSpan.FromDays(7);
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
 		public TimeSpan CutOff { get; set; }
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public string Path
 		{
 			get
 			{
-				return this._path;
+				return _path;
 			}
 
 			set
 			{
-				if (this._path != value)
+				if (_path != value)
 				{
-					this._path = value;
-					this.OnPropertyChanged();
+					_path = value;
+					OnPropertyChanged();
 				}
 			}
 		}
@@ -53,15 +51,15 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			get
 			{
-				return this._includeCodeReview;
+				return _includeCodeReview;
 			}
 
 			set
 			{
-				if (this._includeCodeReview != value)
+				if (_includeCodeReview != value)
 				{
-					this._includeCodeReview = value;
-					this.OnPropertyChanged();
+					_includeCodeReview = value;
+					OnPropertyChanged();
 				}
 			}
 		}
@@ -70,22 +68,22 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			get
 			{
-				return this._source;
+				return _source;
 			}
 
 			set
 			{
-				if (this._source != value)
+				if (_source != value)
 				{
-					this._source = value;
-					this.OnPropertyChanged();
+					_source = value;
+					OnPropertyChanged();
 				}
 			}
 		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
-			var handler = this.PropertyChanged;
+			var handler = PropertyChanged;
 			if (handler != null)
 			{
 				handler(this, new PropertyChangedEventArgs(propertyName));

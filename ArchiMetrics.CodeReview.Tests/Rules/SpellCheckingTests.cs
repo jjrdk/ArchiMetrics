@@ -17,6 +17,14 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 		{
 		}
 
+		private class ExemptWords : IKnownWordList
+		{
+			public bool IsExempt(string word)
+			{
+				return false;
+			}
+		}
+
 		public class GivenAMethodNameSpellingRule
 		{
 			private MethodNameSpellingRule _rule;
@@ -146,14 +154,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			}
 		}
 
-		private class ExemptWords : IKnownWordList
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
-			}
-		}
-
 		private class SpellChecker : ISpellChecker
 		{
 			private readonly Hunspell _speller;
@@ -170,11 +170,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				}
 			}
 
-			~SpellChecker()
-			{
-				Dispose(false);
-			}
-
 			public bool Spell(string word)
 			{
 				return _speller.Spell(word);
@@ -184,6 +179,11 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			{
 				Dispose(true);
 				GC.SuppressFinalize(this);
+			}
+
+			~SpellChecker()
+			{
+				Dispose(false);
 			}
 
 			protected virtual void Dispose(bool isDisposing)

@@ -20,10 +20,10 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberClassCouplingAnalyzer : ClassCouplingAnalyzerBase
 	{
-		private readonly Dictionary<MemberKind, Action<SyntaxNode>> _classCouplingActions;
-		private readonly Dictionary<CommonSymbolKind, Action<ISymbol>> _symbolActions;
 		private readonly List<IMethodSymbol> _calledMethods;
 		private readonly List<IPropertySymbol> _calledProperties;
+		private readonly Dictionary<MemberKind, Action<SyntaxNode>> _classCouplingActions;
+		private readonly Dictionary<CommonSymbolKind, Action<ISymbol>> _symbolActions;
 		private readonly List<IEventSymbol> _usedEvents;
 
 		public MemberClassCouplingAnalyzer(ISemanticModel semanticModel)
@@ -131,7 +131,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void CollectMemberCouplings(SyntaxNode syntax)
 		{
 			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax)
-				.Union(this.GetMemberCouplings<IdentifierNameSyntax>(syntax))
+				.Union(GetMemberCouplings<IdentifierNameSyntax>(syntax))
 				.Where(x => x.Kind == CommonSymbolKind.Method || x.Kind == CommonSymbolKind.Property || x.Kind == CommonSymbolKind.Event)
 				.ToArray();
 			_calledMethods.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Method).Cast<IMethodSymbol>());

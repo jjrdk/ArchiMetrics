@@ -16,23 +16,16 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
-
-	using ArchiMetrics.Common;
-
+	using Common;
 	using Roslyn.Services;
 
 	public class SolutionProvider : IProvider<string, ISolution>
 	{
 		private ConcurrentDictionary<string, ISolution> _cache = new ConcurrentDictionary<string, ISolution>();
 
-		~SolutionProvider()
-		{
-			this.Dispose(false);
-		}
-
 		public ISolution Get(string path)
 		{
-			return this._cache.GetOrAdd(
+			return _cache.GetOrAdd(
 				path,
 				p =>
 				{
@@ -44,26 +37,31 @@ namespace ArchiMetrics.UI.DataAccess
 		public IEnumerable<ISolution> GetAll(string key)
 		{
 			return from file in Directory.GetFiles(key, "*.sln", SearchOption.AllDirectories)
-				   where this.IsValid(file)
-				   let s = this.Get(file)
+				   where IsValid(file)
+				   let s = Get(file)
 				   where s != null
 				   select s;
 		}
 
 		public void Dispose()
 		{
-			this.Dispose(true);
+			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		~SolutionProvider()
+		{
+			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				if (this._cache != null)
+				if (_cache != null)
 				{
-					this._cache.Clear();
-					this._cache = null;
+					_cache.Clear();
+					_cache = null;
 				}
 			}
 		}
