@@ -18,13 +18,13 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		public static string GetName(this NamespaceDeclarationSyntax node, CommonSyntaxNode rootNode)
 		{
-			NameSyntax name = node.Name;
+			var name = node.Name;
 			return rootNode.GetText().GetSubText(name.Span).ToString();
 		}
 
 		public static string GetName(this TypeDeclarationSyntax node, CommonSyntaxNode rootNode)
 		{
-			SyntaxToken identifier = node.Identifier;
+			var identifier = node.Identifier;
 			return rootNode.GetText().GetSubText(identifier.Span).ToString();
 		}
 	}

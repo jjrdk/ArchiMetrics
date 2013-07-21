@@ -19,7 +19,7 @@ namespace ArchiMetrics.Analysis
 			var assignments = node.Properties.SelectMany(p => CreatePropertyAssignment(p, Syntax.ThisExpression()));
 
 			var codeRoot = properties.Concat(assignments).Concat(CreateSyntax(node.Children, Syntax.IdentifierName(node.VariableName)));
-			ClassDeclarationSyntax classDeclarationSyntax =
+			var classDeclarationSyntax =
 				!string.IsNullOrWhiteSpace(node.BaseClassName)
 					? Syntax.ClassDeclaration(node.ClassName)
 							.AddModifiers(Syntax.Token(SyntaxKind.PublicKeyword))

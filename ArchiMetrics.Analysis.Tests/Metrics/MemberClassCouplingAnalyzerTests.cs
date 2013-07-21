@@ -77,7 +77,7 @@ namespace MyNamespace
 
 			private ISolution CreateSolution(params string[] code)
 			{
-				int x = 1;
+				var x = 1;
 				ProjectId pid;
 				DocumentId did;
 				var solution = code.Aggregate(

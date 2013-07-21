@@ -28,7 +28,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IHalsteadMetrics Calculate(MemberNode node)
 		{
-			BlockSyntax syntax = MemberBodySelector.FindBody(node);
+			var syntax = MemberBodySelector.FindBody(node);
 			if (syntax != null)
 			{
 				Visit(syntax);
@@ -62,11 +62,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			IDictionary<SyntaxKind, IList<string>> dictionary = new Dictionary<SyntaxKind, IList<string>>();
 			foreach (var token in tokens)
 			{
-				SyntaxKind kind = token.Kind;
+				var kind = token.Kind;
 				if (filter.Any(x => x == kind))
 				{
 					IList<string> list;
-					string valueText = token.ValueText;
+					var valueText = token.ValueText;
 					if (!dictionary.TryGetValue(kind, out list))
 					{
 						dictionary[kind] = new List<string>();
@@ -85,7 +85,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var syntaxNode = node.SyntaxNode as PropertyDeclarationSyntax;
 			if (syntaxNode != null)
 			{
-				bool flag = syntaxNode.Modifiers.Any(SyntaxKind.StaticKeyword);
+				var flag = syntaxNode.Modifiers.Any(SyntaxKind.StaticKeyword);
 				if (MemberBodySelector.FindBody(node) == null)
 				{
 					switch (node.Kind)

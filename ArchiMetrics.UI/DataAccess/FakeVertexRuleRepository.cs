@@ -13,7 +13,6 @@ namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
-	using System.IO;
 	using System.Xml.Serialization;
 	using Common;
 
@@ -43,7 +42,7 @@ namespace ArchiMetrics.UI.DataAccess
 			// but for this demo let's keep things simple and use a resource file.
 			var serializer = new XmlSerializer(typeof(List<VertexRule>));
 
-			using (Stream stream = GetResourceStream("vertexrules.xml"))
+			using (var stream = GetResourceStream("vertexrules.xml"))
 			{
 				return (List<VertexRule>)serializer.Deserialize(stream);
 			}

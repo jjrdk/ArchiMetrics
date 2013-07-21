@@ -61,7 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int GetBugs()
 		{
-			double volume = GetVolume();
+			var volume = GetVolume();
 
 			return (int)(volume / 3000);
 		}

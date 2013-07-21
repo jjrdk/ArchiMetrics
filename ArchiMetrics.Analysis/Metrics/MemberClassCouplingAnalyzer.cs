@@ -67,7 +67,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitIdentifierName(IdentifierNameSyntax node)
 		{
 			base.VisitIdentifierName(node);
-			CommonSymbolInfo symbolInfo = SemanticModel.GetSymbolInfo(node);
+			var symbolInfo = SemanticModel.GetSymbolInfo(node);
 			if (symbolInfo.Symbol != null)
 			{
 				Action<ISymbol> action;
@@ -82,7 +82,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitParameter(ParameterSyntax node)
 		{
 			base.VisitParameter(node);
-			TypeSyntax type = node.Type;
+			var type = node.Type;
 			if (type != null)
 			{
 				FilterType(type);
@@ -142,8 +142,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		private IEnumerable<ISymbol> GetMemberCouplings<T>(SyntaxNode block)
 			where T : ExpressionSyntax
 		{
-			var descendantNodes = block.DescendantNodes().ToArray();
-			return descendantNodes
+			return block
+				.DescendantNodes()
 				.OfType<T>()
 				.Select(r =>
 						new
@@ -151,7 +151,7 @@ namespace ArchiMetrics.Analysis.Metrics
 								node = r,
 								model = SemanticModel
 							})
-				.Select(node => node.model.GetSymbolInfo(node.node).Symbol)
+				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)
 				.Where(x => x != null);
 		}
 	}

@@ -70,7 +70,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public string TryResolveMemberSignatureString(MemberNode member)
 		{
 			Func<CommonSyntaxNode, string> func;
-			CommonSyntaxNode syntaxNode = member.SyntaxNode;
+			var syntaxNode = member.SyntaxNode;
 			var dictionary2 = new Dictionary<MemberKind, Func<CommonSyntaxNode, string>>
 				                  {
 					                  { MemberKind.Method, x => GetMethodSignatureString((MethodDeclarationSyntax)x) }, 
@@ -91,7 +91,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			NamedTypeSymbol symbol3;
 			var builder = new StringBuilder();
-			bool flag = false;
+			var flag = false;
 			var symbol2 = symbol as ArrayTypeSymbol;
 			if (symbol2 != null)
 			{
@@ -135,7 +135,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			IdentifierNameSyntax syntax3;
 			if (((syntax2 = syntax.ExplicitInterfaceSpecifier) != null) && ((syntax3 = syntax2.Name as IdentifierNameSyntax) != null))
 			{
-				string valueText = syntax3.Identifier.ValueText;
+				var valueText = syntax3.Identifier.ValueText;
 				builder.AppendFormat("{0}.", valueText);
 			}
 
@@ -151,10 +151,10 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			if (syntax.TypeParameterList != null)
 			{
-				SeparatedSyntaxList<TypeParameterSyntax> parameters = syntax.TypeParameterList.Parameters;
+				var parameters = syntax.TypeParameterList.Parameters;
 				if (parameters.Any())
 				{
-					string str = string.Join(", ", from x in parameters select x.Identifier.ValueText);
+					var str = string.Join(", ", from x in parameters select x.Identifier.ValueText);
 					builder.AppendFormat("<{0}>", str);
 				}
 			}
@@ -181,10 +181,10 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void AppendParameters(BaseMethodDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append("(");
-			ParameterListSyntax parameterList = syntax.ParameterList;
+			var parameterList = syntax.ParameterList;
 			if (parameterList != null)
 			{
-				SeparatedSyntaxList<ParameterSyntax> parameters = parameterList.Parameters;
+				var parameters = parameterList.Parameters;
 				Func<ParameterSyntax, string> selector = x => string.Empty;
 				if (parameters.Any())
 				{

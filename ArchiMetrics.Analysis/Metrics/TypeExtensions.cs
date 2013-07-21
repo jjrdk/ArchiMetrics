@@ -34,7 +34,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				var parameters = syntax.TypeParameterList.Parameters;
 				if (parameters.Any())
 				{
-					string str3 = string.Join(", ", from x in parameters select x.Identifier.ValueText);
+					var str3 = string.Join(", ", from x in parameters select x.Identifier.ValueText);
 					builder.AppendFormat("<{0}>", str3);
 				}
 			}

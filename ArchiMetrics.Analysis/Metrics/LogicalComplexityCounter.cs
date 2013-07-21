@@ -26,7 +26,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int Calculate(MemberNode node)
 		{
-			BlockSyntax syntax = MemberBodySelector.FindBody(node);
+			var syntax = MemberBodySelector.FindBody(node);
 			if (syntax != null)
 			{
 				Visit(syntax);

@@ -59,7 +59,7 @@ namespace SampleSL
 		{
 			try
 			{
-				string errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
+				var errorMsg = e.ExceptionObject.Message + e.ExceptionObject.StackTrace;
 				errorMsg = errorMsg.Replace('"', '\'').Replace("\r\n", @"\n");
 
 				HtmlPage.Window.Eval("throw new Error(\"Unhandled Error in Silverlight Application " + errorMsg + "\");");

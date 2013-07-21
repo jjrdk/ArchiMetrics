@@ -90,7 +90,7 @@ namespace ArchiMetrics.Common.Xaml
 					case "Background":
 					case "Stroke":
 						{
-							string extraCode = "SysColor col = ";
+							var extraCode = "SysColor col = ";
 							if (attribute.Value.StartsWith("#"))
 							{
 								extraCode += "System.Drawing.ColorTranslator.FromHtml(\"" + attribute.Value + "\");";
@@ -107,7 +107,7 @@ namespace ArchiMetrics.Common.Xaml
 
 					case "Color":
 						{
-							string extraCode = "SysColor col = ";
+							var extraCode = "SysColor col = ";
 							if (attribute.Value.StartsWith("#"))
 							{
 								extraCode += "System.Drawing.ColorTranslator.FromHtml(\"" + attribute.Value + "\");";
