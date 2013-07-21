@@ -2,13 +2,11 @@
 {
 	using System;
 	using System.Linq;
+	using CodeReview.Semantic;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
-	using Semantic;
 
-	public class SemanticRulesTests
+	public class SemanticRulesTests : SolutionTestsBase
 	{
 		[TestCase(@"public class MyClass { public int GetNumber() { return 1; } }", SyntaxKind.MethodDeclaration, typeof(UnusedMethodRule))]
 		[TestCase(@"public class MyClass { public int Number { get { return 1; } } }", SyntaxKind.GetAccessorDeclaration, typeof(UnusedGetPropertyRule))]
@@ -36,21 +34,6 @@
 			var result = rule.Evaluate(method.node, method.model, solution);
 
 			Assert.NotNull(result);
-		}
-
-		private ISolution CreateSolution(params string[] code)
-		{
-			var x = 1;
-			ProjectId pid;
-			DocumentId did;
-			var solution = code.Aggregate(
-				Solution.Create(SolutionId.CreateNewId("Semantic"))
-					.AddCSharpProject("testcode.dll", "testcode", out pid),
-				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
-				.AddProjectReferences(pid, new ProjectId[0])
-				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
-
-			return solution;
 		}
 	}
 }

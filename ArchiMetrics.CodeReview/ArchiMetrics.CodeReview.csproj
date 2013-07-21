@@ -124,6 +124,7 @@
     <Compile Include="Code\TypeObfuscationRule.cs" />
     <Compile Include="Code\VarDeclarationForNewVariableErrorRule.cs" />
     <Compile Include="Code\WhileLoopSleepErrorRule.cs" />
+    <Compile Include="Semantic\LackOfCohesionOfMethodsRule.cs" />
     <Compile Include="Semantic\UnusedCodeRule.cs" />
     <Compile Include="Semantic\UnusedEventRule.cs" />
     <Compile Include="Semantic\UnusedGetPropertyRule.cs" />
