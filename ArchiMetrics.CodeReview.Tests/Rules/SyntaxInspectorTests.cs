@@ -296,10 +296,18 @@ private void SomeMethod()
 		{
 			public const string SomeValue = ""Something"";
 		}", typeof(NoPublicConstantRule))]
+			[TestCase(@"public class InnerClass
+		{
+			private int field = 0;
+			public void AssignMethod(int field)
+			{
+				this.field = field;
+			}
+		}", typeof(VariableNameShouldNotMatchFieldNameRule))]
 			public void SyntaxDetectionTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
-				task.Wait();
+				
 				Assert.AreEqual(1, task.Result.Count());
 			}
 		}
