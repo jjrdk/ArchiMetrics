@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SolutionInspector.cs" company="Reimers.dk">
+// <copyright file="NodeInspector.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the SolutionInspector type.
+//   Defines the NodeInspector type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.CodeReview
@@ -18,21 +18,25 @@ namespace ArchiMetrics.CodeReview
 	using Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Services;
 
-	public class SolutionInspector : INodeInspector
+	public class NodeInspector : INodeInspector
 	{
 		private readonly Dictionary<SyntaxKind, IEvaluation[]> _evaluations;
 
-		public SolutionInspector(IEnumerable<IEvaluation> evaluations)
+		public NodeInspector(IEnumerable<IEvaluation> evaluations)
 		{
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public virtual Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node)
+		public virtual Task<IEnumerable<EvaluationResult>> Inspect(string projectPath,
+																   SyntaxNode node,
+																   ISemanticModel semanticModel,
+																   ISolution solution)
 		{
 			return Task.Factory.StartNew(() =>
 				{
-					var inspector = new InnerInspector(_evaluations);
+					var inspector = new InnerInspector(_evaluations, semanticModel, solution);
 					inspector.Visit(node);
 					var inspectionResults = inspector.GetResults();
 					foreach (var result in inspectionResults)
@@ -49,14 +53,18 @@ namespace ArchiMetrics.CodeReview
 		private class InnerInspector : SyntaxWalker, IDisposable
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
+			private readonly ISemanticModel _model;
+			private readonly ISolution _solution;
 			private readonly List<EvaluationResult> _inspectionResults = new List<EvaluationResult>();
 
-			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations)
+			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, ISemanticModel model, ISolution solution)
 				: base(SyntaxWalkerDepth.Trivia)
 			{
 				_evaluations = evaluations;
+				this._model = model;
+				_solution = solution;
 			}
-			
+
 			public void Dispose()
 			{
 				Dispose(true);
@@ -69,35 +77,74 @@ namespace ArchiMetrics.CodeReview
 				Dispose(false);
 			}
 
-			public override void Visit(SyntaxNode node)
+			public async override void Visit(SyntaxNode node)
 			{
 				if (_evaluations.ContainsKey(node.Kind))
 				{
 					var nodeEvaluations = _evaluations[node.Kind];
-					var results = nodeEvaluations
-						.OfType<ICodeEvaluation>()
-						.Select(x =>
-							{
-								try
-								{
-									return x.Evaluate(node);
-								}
-								catch (Exception ex)
-								{
-									return new EvaluationResult
-											   {
-												   Comment = ex.Message, 
-												   ErrorCount = 1, 
-												   Snippet = node.ToFullString(), 
-												   Quality = CodeQuality.Broken
-											   };
-								}
-							})
-						.Where(x => x != null && x.Quality != CodeQuality.Good);
-					_inspectionResults.AddRange(results);
+					var codeTasks = GetCodeEvaluations(node, nodeEvaluations);
+					var semmanticTasks = GetSemanticEvaluations(node, nodeEvaluations, _model, _solution);
+					var results = await Task.WhenAll(codeTasks);
+					_inspectionResults.AddRange(results.SelectMany(x => x));
 				}
 
 				base.Visit(node);
+			}
+
+			private Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
+			{
+				return Task.Factory.StartNew(() =>
+					{
+						var results = nodeEvaluations
+							.OfType<ICodeEvaluation>()
+							.Select(x =>
+								{
+									try
+									{
+										return x.Evaluate(node);
+									}
+									catch (Exception ex)
+									{
+										return new EvaluationResult
+												   {
+													   Comment = ex.Message,
+													   ErrorCount = 1,
+													   Snippet = node.ToFullString(),
+													   Quality = CodeQuality.Broken
+												   };
+									}
+								})
+							.Where(x => x != null && x.Quality != CodeQuality.Good);
+						return results;
+					});
+			}
+
+			private Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			{
+				return Task.Factory.StartNew(() =>
+					{
+						var results = nodeEvaluations
+							.OfType<ISemanticEvaluation>()
+							.Select(x =>
+								{
+									try
+									{
+										return x.Evaluate(node, model, solution);
+									}
+									catch (Exception ex)
+									{
+										return new EvaluationResult
+												   {
+													   Comment = ex.Message,
+													   ErrorCount = 1,
+													   Snippet = node.ToFullString(),
+													   Quality = CodeQuality.Broken
+												   };
+									}
+								})
+							.Where(x => x != null && x.Quality != CodeQuality.Good);
+						return results;
+					});
 			}
 
 			public override void VisitTrivia(SyntaxTrivia trivia)

@@ -130,7 +130,7 @@
     <Compile Include="Semantic\UnusedGetPropertyRule.cs" />
     <Compile Include="Semantic\UnusedMethodRule.cs" />
     <Compile Include="Semantic\UnusedSetPropertyRule.cs" />
-    <Compile Include="SolutionInspector.cs" />
+    <Compile Include="NodeInspector.cs" />
     <Compile Include="Trivia\CommentLanguageRule.cs" />
     <Compile Include="Trivia\MultiLineCommentLanguageRule.cs" />
     <Compile Include="Trivia\SingleLineCommentLanguageRule.cs" />

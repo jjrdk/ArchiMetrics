@@ -128,13 +128,13 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 
 		public class GivenASolutionInspectorWithCommentLanguageRules
 		{
-			private SolutionInspector _inspector;
+			private NodeInspector _inspector;
 
 			[SetUp]
 			public void Setup()
 			{
 				var spellChecker = new SpellChecker();
-				_inspector = new SolutionInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
+				_inspector = new NodeInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
@@ -147,7 +147,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 }}", comment));
 				var root = method.GetRoot();
 
-				var task = _inspector.Inspect(string.Empty, root);
+				var task = _inspector.Inspect(string.Empty, root, null, null);
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);

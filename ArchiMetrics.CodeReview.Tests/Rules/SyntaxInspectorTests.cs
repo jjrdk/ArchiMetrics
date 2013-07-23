@@ -33,10 +33,10 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 
 		private static Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
-			var inspector = new SolutionInspector(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
+			var inspector = new NodeInspector(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			var tree = SyntaxTree.ParseText("public class ParseClass { " + code + " }");
 
-			var task = inspector.Inspect("x", tree.GetRoot());
+			var task = inspector.Inspect(string.Empty, tree.GetRoot(), null, null);
 			return task;
 		}
 
