@@ -9,7 +9,7 @@
 //   Defines the PublicInterfaceImplementationWarningRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	using System;
 	using System.Collections.Generic;

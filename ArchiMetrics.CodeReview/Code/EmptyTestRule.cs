@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
 	using Common;
