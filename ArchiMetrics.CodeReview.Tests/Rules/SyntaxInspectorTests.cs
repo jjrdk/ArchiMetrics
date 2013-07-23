@@ -383,6 +383,14 @@ private void SomeMethod()
 				var x = GetValue();
 			}
 		}", typeof(OpenClosePairRule))]
+			[TestCase(@"public class InnerClass
+		{
+			private int field = 0;
+			public void AssignMethod(int value)
+			{
+				this.field = value;
+			}
+		}", typeof(VariableNameShouldNotMatchFieldNameRule))]
 			public void NegativeTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
