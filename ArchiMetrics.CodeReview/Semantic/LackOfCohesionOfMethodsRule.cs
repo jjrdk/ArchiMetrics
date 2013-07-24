@@ -1,12 +1,12 @@
 ﻿namespace ArchiMetrics.CodeReview.Semantic
 {
 	using System.Linq;
+	using Code;
 	using Common;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
-	using Rules;
 
 	internal class LackOfCohesionOfMethodsRule : EvaluationBase, ISemanticEvaluation
 	{

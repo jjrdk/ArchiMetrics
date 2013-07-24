@@ -9,7 +9,7 @@
 //   Defines the LeakingServiceLocatorRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	internal class LeakingServiceLocatorRule : LeakingTypeRule
 	{

@@ -67,6 +67,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\VariableNameShouldNotMatchFieldNameRule.cs" />
     <Compile Include="ICodeEvaluation.cs" />
     <Compile Include="IEvaluation.cs" />
     <Compile Include="ISemanticEvaluation.cs" />

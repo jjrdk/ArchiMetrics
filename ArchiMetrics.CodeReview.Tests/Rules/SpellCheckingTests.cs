@@ -3,7 +3,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using System;
 	using System.IO;
 	using System.Linq;
-	using CodeReview.Rules;
+	using Code;
 	using Common;
 	using Ionic.Zip;
 	using NHunspell;

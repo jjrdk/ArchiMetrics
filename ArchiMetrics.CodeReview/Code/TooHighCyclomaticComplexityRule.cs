@@ -9,7 +9,7 @@
 //   Defines the TooHighCyclomaticComplexityRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	using Analysis.Metrics;
 	using Common;

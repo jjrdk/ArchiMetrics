@@ -16,7 +16,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using CodeReview.Rules;
+	using Code;
 	using Common;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
@@ -296,10 +296,18 @@ private void SomeMethod()
 		{
 			public const string SomeValue = ""Something"";
 		}", typeof(NoPublicConstantRule))]
+			[TestCase(@"public class InnerClass
+		{
+			private int field = 0;
+			public void AssignMethod(int field)
+			{
+				this.field = field;
+			}
+		}", typeof(VariableNameShouldNotMatchFieldNameRule))]
 			public void SyntaxDetectionTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
-				task.Wait();
+				
 				Assert.AreEqual(1, task.Result.Count());
 			}
 		}
@@ -375,6 +383,14 @@ private void SomeMethod()
 				var x = GetValue();
 			}
 		}", typeof(OpenClosePairRule))]
+			[TestCase(@"public class InnerClass
+		{
+			private int field = 0;
+			public void AssignMethod(int value)
+			{
+				this.field = value;
+			}
+		}", typeof(VariableNameShouldNotMatchFieldNameRule))]
 			public void NegativeTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);

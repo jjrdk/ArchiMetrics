@@ -9,7 +9,7 @@
 //   Defines the TooBigClassRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	using Common;
 	using Roslyn.Compilers.CSharp;

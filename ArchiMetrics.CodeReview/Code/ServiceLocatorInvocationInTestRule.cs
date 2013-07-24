@@ -9,7 +9,7 @@
 //   Defines the ServiceLocatorInvocationInTestRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
 	using Common;

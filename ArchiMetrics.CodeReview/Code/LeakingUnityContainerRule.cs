@@ -9,7 +9,7 @@
 //   Defines the LeakingUnityContainerRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace ArchiMetrics.CodeReview.Rules
+namespace ArchiMetrics.CodeReview.Code
 {
 	internal class LeakingUnityContainerRule : LeakingTypeRule
 	{
