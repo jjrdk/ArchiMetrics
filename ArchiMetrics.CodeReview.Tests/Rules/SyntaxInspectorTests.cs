@@ -307,8 +307,9 @@ private void SomeMethod()
 			public void SyntaxDetectionTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
-				
-				Assert.AreEqual(1, task.Result.Count());
+				var count = task.Result.Count();
+
+				Assert.AreEqual(1, count);
 			}
 		}
 

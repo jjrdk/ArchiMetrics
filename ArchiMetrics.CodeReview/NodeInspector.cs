@@ -29,10 +29,11 @@ namespace ArchiMetrics.CodeReview
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public virtual Task<IEnumerable<EvaluationResult>> Inspect(string projectPath,
-																   SyntaxNode node,
-																   ISemanticModel semanticModel,
-																   ISolution solution)
+		public virtual Task<IEnumerable<EvaluationResult>> Inspect(
+			string projectPath,
+			SyntaxNode node,
+			ISemanticModel semanticModel,
+			ISolution solution)
 		{
 			return Task.Factory.StartNew(() =>
 				{
@@ -61,7 +62,7 @@ namespace ArchiMetrics.CodeReview
 				: base(SyntaxWalkerDepth.Trivia)
 			{
 				_evaluations = evaluations;
-				this._model = model;
+				_model = model;
 				_solution = solution;
 			}
 
@@ -77,74 +78,74 @@ namespace ArchiMetrics.CodeReview
 				Dispose(false);
 			}
 
-			public async override void Visit(SyntaxNode node)
+			public override void Visit(SyntaxNode node)
 			{
 				if (_evaluations.ContainsKey(node.Kind))
 				{
 					var nodeEvaluations = _evaluations[node.Kind];
-					var codeTasks = GetCodeEvaluations(node, nodeEvaluations);
-					var semmanticTasks = GetSemanticEvaluations(node, nodeEvaluations, _model, _solution);
-					var results = await Task.WhenAll(codeTasks);
-					_inspectionResults.AddRange(results.SelectMany(x => x));
+					var codeResults = GetCodeEvaluations(node, nodeEvaluations);
+					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations, _model, _solution);
+
+					_inspectionResults.AddRange(codeResults);
+					_inspectionResults.AddRange(semmanticResults);
 				}
 
 				base.Visit(node);
 			}
 
-			private Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
+			private IEnumerable<EvaluationResult> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
 			{
-				return Task.Factory.StartNew(() =>
-					{
-						var results = nodeEvaluations
-							.OfType<ICodeEvaluation>()
-							.Select(x =>
-								{
-									try
-									{
-										return x.Evaluate(node);
-									}
-									catch (Exception ex)
-									{
-										return new EvaluationResult
-												   {
-													   Comment = ex.Message,
-													   ErrorCount = 1,
-													   Snippet = node.ToFullString(),
-													   Quality = CodeQuality.Broken
-												   };
-									}
-								})
-							.Where(x => x != null && x.Quality != CodeQuality.Good);
-						return results;
-					});
+				var results = nodeEvaluations
+					.OfType<ICodeEvaluation>()
+					.Select(x =>
+						{
+							try
+							{
+								return x.Evaluate(node);
+							}
+							catch (Exception ex)
+							{
+								return new EvaluationResult
+										   {
+											   Comment = ex.Message,
+											   ErrorCount = 1,
+											   Snippet = node.ToFullString(),
+											   Quality = CodeQuality.Broken
+										   };
+							}
+						})
+					.Where(x => x != null && x.Quality != CodeQuality.Good);
+				return results;
 			}
 
-			private Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			private IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
 			{
-				return Task.Factory.StartNew(() =>
-					{
-						var results = nodeEvaluations
-							.OfType<ISemanticEvaluation>()
-							.Select(x =>
-								{
-									try
-									{
-										return x.Evaluate(node, model, solution);
-									}
-									catch (Exception ex)
-									{
-										return new EvaluationResult
-												   {
-													   Comment = ex.Message,
-													   ErrorCount = 1,
-													   Snippet = node.ToFullString(),
-													   Quality = CodeQuality.Broken
-												   };
-									}
-								})
-							.Where(x => x != null && x.Quality != CodeQuality.Good);
-						return results;
-					});
+				if (model == null || solution == null)
+				{
+					return Enumerable.Empty<EvaluationResult>();
+				}
+
+				var results = nodeEvaluations
+					.OfType<ISemanticEvaluation>()
+					.Select(x =>
+						{
+							try
+							{
+								return x.Evaluate(node, model, solution);
+							}
+							catch (Exception ex)
+							{
+								return new EvaluationResult
+									       {
+										       Comment = ex.Message,
+										       ErrorCount = 1,
+										       Snippet = node.ToFullString(),
+										       Quality = CodeQuality.Broken
+									       };
+							}
+						})
+					.Where(x => x != null && x.Quality != CodeQuality.Good);
+				return results;
 			}
 
 			public override void VisitTrivia(SyntaxTrivia trivia)

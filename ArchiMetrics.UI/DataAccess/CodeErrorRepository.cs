@@ -65,7 +65,7 @@ namespace ArchiMetrics.UI.DataAccess
 																			project = p.project, 
 																			document = d
 														                })
-
+												   .AsParallel()
 												   .Select(d => new
 													                {
 														                projectPath = d.project.FilePath, 
