@@ -96,6 +96,24 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 
 				Assert.Null(result);
 			}
+
+			[TestCase("<summary>Returns a string.</summary>")]
+			[TestCase("<returns>A string.</returns>")]
+			public void AcceptsEnglishMultiLineXmlComments(string comment)
+			{
+				var method = SyntaxTree.ParseText(
+					string.Format(@"public void SomeMethod() {{
+/* {0} */
+}}", comment));
+				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
+				var nodes = root
+					.DescendantTrivia(descendIntoTrivia: true)
+					.Where(t => t.Kind == SyntaxKind.MultiLineCommentTrivia)
+					.ToArray();
+				var result = _rule.Evaluate(nodes.First());
+
+				Assert.Null(result);
+			}
 		}
 
 		public class GivenASingleLineCommentLanguageRule
@@ -109,6 +127,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			}
 
 			[TestCase("Dette er ikke en engelsk kommentar.")]
+			[TestCase("<returns>Noget tekst.</returns>")]
 			public void FindNonEnglishSingleLineComments(string comment)
 			{
 				var method = SyntaxTree.ParseText(
@@ -138,6 +157,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
+			[TestCase("// <summary>Dette er ikke en engelsk kommentar.</summary>")]
 			[TestCase("/* Dette er ikke en engelsk kommentar. */")]
 			public void WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
 			{

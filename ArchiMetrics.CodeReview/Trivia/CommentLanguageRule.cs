@@ -1,12 +1,15 @@
 namespace ArchiMetrics.CodeReview.Trivia
 {
 	using System.Linq;
+	using System.Text.RegularExpressions;
+
 	using Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class CommentLanguageRuleBase : TriviaEvaluationBase
 	{
 		private readonly ISpellChecker _spellChecker;
+		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
 
 		public CommentLanguageRuleBase(ISpellChecker spellChecker)
 		{
@@ -15,7 +18,13 @@ namespace ArchiMetrics.CodeReview.Trivia
 
 		protected override EvaluationResult EvaluateImpl(SyntaxTrivia node)
 		{
-			var commentWords = node.ToFullString().Trim('/', '*').Trim().Split(' ');
+			var commentWords = node.ToFullString()
+								   .Trim('/', '*')
+								   .Trim()
+								   .Split(' ')
+								   .Select(RemoveXml)
+								   .Select(s => s.TrimEnd('.', ','))
+								   .ToArray();
 			var errorCount = commentWords.Aggregate(0, (i, s) => i + (_spellChecker.Spell(s) ? 0 : 1));
 			if (errorCount >= 0.50 * commentWords.Length)
 			{
@@ -31,6 +40,11 @@ namespace ArchiMetrics.CodeReview.Trivia
 			}
 
 			return null;
+		}
+
+		private string RemoveXml(string input)
+		{
+			return XmlRegex.Replace(input, string.Empty);
 		}
 	}
 }
