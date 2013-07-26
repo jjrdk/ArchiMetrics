@@ -66,13 +66,14 @@ namespace ArchiMetrics.UI
 				builder.RegisterType(type)
 					   .As<ICodeEvaluation>();
 			}
+
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
-				dictFile.FirstOrDefault(z => z.FileName == "en_US.aff")
+				dictFile.First(z => z.FileName == "en_US.aff")
 						.Extract(affStream);
-				dictFile.FirstOrDefault(z => z.FileName == "en_US.dic")
+				dictFile.First(z => z.FileName == "en_US.dic")
 						.Extract(dicStream);
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
