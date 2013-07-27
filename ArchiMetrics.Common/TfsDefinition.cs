@@ -1,30 +1,22 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EdgesView.xaml.cs" company="Reimers.dk">
+// <copyright file="TfsDefinition.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for DependencyItemsView.xaml
+//   Defines the TfsDefinition type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.View
+namespace ArchiMetrics.Common
 {
-	using System.Windows.Controls;
-	using Support;
-	using ViewModel;
+	using System.Xml.Serialization;
 
-	/// <summary>
-	/// Interaction logic for DependencyItemsView.xaml.
-	/// </summary>
-	[DataContext(typeof(EdgesViewModel))]
-	public partial class EdgesView : UserControl
+	public class TfsDefinition
 	{
-		public EdgesView()
-		{
-			InitializeComponent();
-		}
+		[XmlAttribute]
+		public string Definition { get; set; }
 	}
 }

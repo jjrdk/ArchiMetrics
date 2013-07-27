@@ -17,7 +17,7 @@ namespace ArchiMetrics.UI.View
 	using ViewModel;
 
 	/// <summary>
-	/// Interaction logic for CodeErrorGraphView.xaml
+	/// Interaction logic for CodeErrorGraphView.xaml.
 	/// </summary>
 	[DataContext(typeof(CodeErrorGraphViewModel))]
 	public partial class CodeErrorGraphView : UserControl

@@ -66,10 +66,11 @@ namespace ArchiMetrics.Analysis.Metrics
 								 .Concat(looseGetProperties)
 								 .Concat(looseSetProperties)
 								 .ToArray();
-			if(members.Any())
+			if (members.Any())
 			{
 				return members.Select(analyzer.Calculate);
 			}
+
 			var statements = childNodes.Length == 0
 				? root.DescendantNodesAndTokens().Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])))
 				: childNodes.Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])));

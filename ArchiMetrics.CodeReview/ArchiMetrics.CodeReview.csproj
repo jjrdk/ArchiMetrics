@@ -132,7 +132,7 @@
     <Compile Include="Semantic\UnusedMethodRule.cs" />
     <Compile Include="Semantic\UnusedSetPropertyRule.cs" />
     <Compile Include="SolutionInspector.cs" />
-    <Compile Include="Trivia\CommentLanguageRule.cs" />
+    <Compile Include="Trivia\CommentLanguageRuleBase.cs" />
     <Compile Include="Trivia\MultiLineCommentLanguageRule.cs" />
     <Compile Include="Trivia\SingleLineCommentLanguageRule.cs" />
     <Compile Include="Trivia\TriviaEvaluationBase.cs" />

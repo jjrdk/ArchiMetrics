@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LackOfCohesionRuleTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the LackOfCohesionRuleTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 {
 	using System.Linq;
 	using CodeReview.Semantic;
@@ -26,16 +38,15 @@
 			{
 				var solution = CreateSolution(Uncohesive);
 				var classDeclaration = (from p in solution.Projects
-					from d in p.Documents
-					let model = d.GetSemanticModel()
-					let root = d.GetSyntaxRoot()
-					from n in root.DescendantNodes()
-						.OfType<ClassDeclarationSyntax>()
-					select new
-						   {
-							   semanticModel = model,
-							   node = n
-						   }).First();
+										from d in p.Documents
+										let model = d.GetSemanticModel()
+										let root = d.GetSyntaxRoot()
+										from n in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
+										select new
+											   {
+												   semanticModel = model,
+												   node = n
+											   }).First();
 				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
 
 				Assert.NotNull(result);

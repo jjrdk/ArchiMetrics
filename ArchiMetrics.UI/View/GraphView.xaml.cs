@@ -17,7 +17,7 @@ namespace ArchiMetrics.UI.View
 	using ViewModel;
 
 	/// <summary>
-	/// Interaction logic for GraphView.xaml
+	/// Interaction logic for GraphView.xaml.
 	/// </summary>
 	[DataContext(typeof(GraphViewModel))]
 	public partial class GraphView : UserControl

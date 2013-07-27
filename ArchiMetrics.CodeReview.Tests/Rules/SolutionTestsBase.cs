@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Tests.Rules
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SolutionTestsBase.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SolutionTestsBase type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Tests.Rules
 {
 	using System.Linq;
 	using Roslyn.Compilers;
@@ -14,7 +26,7 @@
 			var solution = code.Aggregate(
 				Solution.Create(SolutionId.CreateNewId("Semantic"))
 					.AddCSharpProject("testcode.dll", "testcode", out pid),
-				(sol, c) => SolutionExtensions.AddDocument((ISolution) sol, pid, string.Format("TestClass{0}.cs", x++), (string) c, out did))
+				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
 				.AddProjectReferences(pid, new ProjectId[0])
 				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
 

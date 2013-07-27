@@ -44,7 +44,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 										var tree = SyntaxTree.ParseText(Text);
 
-										var metrics = _analyzer.Calculate(new[]{tree});
+										var metrics = _analyzer.Calculate(new[] { tree });
 										var result = metrics.Result.ToArray();
 									});
 			}
@@ -114,12 +114,12 @@ public int Foo() { return 1; }
 			[Test]
 			public void WhenClassDefinitionIsEmptyThenHasCyclomaticComplexityOfOne()
 			{
-				const string text = @"namespace Testing
+				const string Text = @"namespace Testing
 			{
 				public class TestClass { }
 			}";
 
-				var task = _analyzer.Calculate(CreateProject(text));
+				var task = _analyzer.Calculate(CreateProject(Text));
 				task.Wait();
 				var metrics = task.Result;
 
@@ -129,14 +129,14 @@ public int Foo() { return 1; }
 			[Test]
 			public void WhenClassDefinitionHasEmptyConstructorThenHasCyclomaticComplexityOfOne()
 			{
-				const string text = @"namespace Testing
+				const string Text = @"namespace Testing
 			{
 				public class TestClass {
 	public TestClass(){}
 }
 			}";
 
-				var task = _analyzer.Calculate(CreateProject(text));
+				var task = _analyzer.Calculate(CreateProject(Text));
 				task.Wait();
 				var metrics = task.Result;
 

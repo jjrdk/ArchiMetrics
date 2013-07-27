@@ -50,7 +50,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			public int Calculate(MemberNode node)
 			{
 				_syntax = MemberBodySelector.FindBody(node);
-				if(_syntax != null)
+				if (_syntax != null)
 				{
 					Visit(_syntax);
 				}
@@ -61,7 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			public override void Visit(SyntaxNode node)
 			{
 				base.Visit(node);
-				if(Contributors.Contains(node.Kind))
+				if (Contributors.Contains(node.Kind))
 				{
 					_counter++;
 				}

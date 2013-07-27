@@ -37,7 +37,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[Test]
 			public void WhenOnlyAssigningConstThenHasZeroLinesOfCode()
 			{
-				const string text = @"namespace Testing
+				const string Text = @"namespace Testing
 			{
 				public class TestClass {
 					public void SomeMethod() {
@@ -46,7 +46,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				}
 			}";
 
-				var root = SyntaxTree.ParseText(text)
+				var root = SyntaxTree.ParseText(Text)
 											.GetRoot()
 											.DescendantNodes()
 											.First(c => c.Kind == SyntaxKind.MethodDeclaration);

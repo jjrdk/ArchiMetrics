@@ -26,7 +26,6 @@ namespace ArchiMetrics.CodeReview.Code
 			}
 		}
 
-
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
@@ -37,9 +36,9 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Method too big", 
-							   Quality = CodeQuality.NeedsRefactoring, 
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
+							   Comment = "Method too big",
+							   Quality = CodeQuality.NeedsRefactoring,
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
 							   Snippet = snippet
 						   };
 			}

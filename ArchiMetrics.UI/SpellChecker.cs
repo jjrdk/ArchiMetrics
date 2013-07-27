@@ -1,8 +1,23 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SpellChecker.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SpellChecker type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI
 {
 	using System;
+	using System.Linq;
+	using System.Text.RegularExpressions;
 	using Common;
 	using NHunspell;
+	using Roslyn.Compilers.CSharp;
 
 	internal class SpellChecker : ISpellChecker
 	{
@@ -11,6 +26,11 @@ namespace ArchiMetrics.UI
 		public SpellChecker(Hunspell speller)
 		{
 			_speller = speller;
+		}
+
+		~SpellChecker()
+		{
+			Dispose(false);
 		}
 
 		public bool Spell(string word)
@@ -22,11 +42,6 @@ namespace ArchiMetrics.UI
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		~SpellChecker()
-		{
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

@@ -59,7 +59,7 @@ namespace ArchiMetrics.UI.ViewModel
 				.GetCircularReferences(edgeItems)
 				.ContinueWith(t =>
 					{
-						if(t.Exception != null)
+						if (t.Exception != null)
 						{
 							IsLoading = false;
 							return;

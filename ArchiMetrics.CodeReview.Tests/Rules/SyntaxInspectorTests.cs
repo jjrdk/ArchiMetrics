@@ -21,10 +21,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public interface IMarkerInterface
-	{
-	}
-
 	public sealed class SyntaxInspectorTests
 	{
 		private SyntaxInspectorTests()
@@ -307,7 +303,7 @@ private void SomeMethod()
 			public void SyntaxDetectionTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
-				
+
 				Assert.AreEqual(1, task.Result.Count());
 			}
 		}

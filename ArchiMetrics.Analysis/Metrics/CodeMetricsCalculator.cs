@@ -223,10 +223,12 @@ namespace ArchiMetrics.Analysis.Metrics
 				return new Tuple<CommonCompilation, ISemanticModel, TypeDeclarationSyntaxInfo>(
 					newCompilation, semanticModel, typeNode);
 			}
+
 			if (!compilation.ContainsSyntaxTree(typeNode.Syntax.SyntaxTree))
 			{
 				compilation = compilation.AddSyntaxTrees(typeNode.Syntax.SyntaxTree);
 			}
+
 			semanticModel = compilation.GetSemanticModel(typeNode.Syntax.SyntaxTree);
 			return new Tuple<CommonCompilation, ISemanticModel, TypeDeclarationSyntaxInfo>(
 				compilation,
@@ -251,10 +253,12 @@ namespace ArchiMetrics.Analysis.Metrics
 				return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(
 					newCompilation, semanticModel, namespaceNode);
 			}
+
 			if (!compilation.ContainsSyntaxTree(namespaceNode.Syntax.SyntaxTree))
 			{
 				compilation = compilation.AddSyntaxTrees(namespaceNode.Syntax.SyntaxTree);
 			}
+
 			semanticModel = compilation.GetSemanticModel(namespaceNode.Syntax.SyntaxTree);
 			return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(
 				compilation,

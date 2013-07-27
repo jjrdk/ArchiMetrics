@@ -30,10 +30,11 @@ namespace ArchiMetrics.UI.Converters
 			return new Thickness(Math.Max(1, length), 0, 0, 0);
 		}
 
-		public object ConvertBack(object value,
-		                          Type targetType,
-		                          object parameter,
-		                          CultureInfo culture)
+		public object ConvertBack(
+			object value,
+			Type targetType,
+			object parameter,
+			CultureInfo culture)
 		{
 			throw new NotImplementedException();
 		}

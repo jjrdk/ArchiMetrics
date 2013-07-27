@@ -57,16 +57,16 @@ namespace ArchiMetrics.CodeReview
 				_evaluations = evaluations;
 			}
 			
-			public void Dispose()
-			{
-				Dispose(true);
-				GC.SuppressFinalize(this);
-			}
-
 			~InnerInspector()
 			{
 				// Simply call Dispose(false).
 				Dispose(false);
+			}
+
+			public void Dispose()
+			{
+				Dispose(true);
+				GC.SuppressFinalize(this);
 			}
 
 			public override void Visit(SyntaxNode node)
