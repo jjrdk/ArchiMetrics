@@ -61,13 +61,25 @@ namespace ArchiMetrics.UI.DataAccess
 					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).Where(p => !p.Contains("QuickStart"))
 												   .Distinct()
 												   .Select(_solutionProvider.Get)
-												   .SelectMany(s => s.Projects)
-												   .Distinct(ProjectComparer.Default)
-												   .SelectMany(p => p.Documents)
-												   .Distinct(DocumentComparer.Default)
-												   .Select(d => new Tuple<string, SyntaxNode>(d.Project.FilePath, d.GetSyntaxTree().GetRoot() as SyntaxNode))
-												   .Where(n => n.Item2 != null)
-												   .Select(t => _inspector.Inspect(t.Item1, t.Item2));
+												   .SelectMany(s => s.Projects.Distinct(ProjectComparer.Default).Select(_ => new { solution = s, project = _ }))
+												   .SelectMany(p => p.project.Documents
+													   .Distinct(DocumentComparer.Default)
+													   .Select(d => new
+														                {
+															                solution = p.solution, 
+																			project = p.project, 
+																			document = d
+														                })
+												   .AsParallel()
+												   .Select(d => new
+													                {
+														                projectPath = d.project.FilePath, 
+																		syntaxTree = d.document.GetSyntaxTree().GetRoot() as SyntaxNode, 
+																		solution = d.solution, 
+																		semanticModel = d.document.GetSemanticModel()
+													                }))
+												   .Where(n => n.syntaxTree != null)
+												   .Select(t => _inspector.Inspect(source, t.syntaxTree, t.semanticModel, t.solution));
 
 					return await Task.Factory
 									 .ContinueWhenAll(

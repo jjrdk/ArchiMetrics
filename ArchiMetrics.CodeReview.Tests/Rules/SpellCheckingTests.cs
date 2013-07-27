@@ -104,6 +104,24 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 
 				Assert.Null(result);
 			}
+
+			[TestCase("<summary>Returns a string.</summary>")]
+			[TestCase("<returns>A string.</returns>")]
+			public void AcceptsEnglishMultiLineXmlComments(string comment)
+			{
+				var method = SyntaxTree.ParseText(
+					string.Format(@"public void SomeMethod() {{
+/* {0} */
+}}", comment));
+				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
+				var nodes = root
+					.DescendantTrivia(descendIntoTrivia: true)
+					.Where(t => t.Kind == SyntaxKind.MultiLineCommentTrivia)
+					.ToArray();
+				var result = _rule.Evaluate(nodes.First());
+
+				Assert.Null(result);
+			}
 		}
 
 		public class GivenASingleLineCommentLanguageRule
@@ -117,6 +135,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			}
 
 			[TestCase("Dette er ikke en engelsk kommentar.")]
+			[TestCase("<returns>Noget tekst.</returns>")]
 			public void FindNonEnglishSingleLineComments(string comment)
 			{
 				var method = SyntaxTree.ParseText(
@@ -138,16 +157,17 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 
 		public class GivenASolutionInspectorWithCommentLanguageRules
 		{
-			private SolutionInspector _inspector;
+			private NodeInspector _inspector;
 
 			[SetUp]
 			public void Setup()
 			{
 				var spellChecker = new SpellChecker();
-				_inspector = new SolutionInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
+				_inspector = new NodeInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
+			[TestCase("// <summary>Dette er ikke en engelsk kommentar.</summary>")]
 			[TestCase("/* Dette er ikke en engelsk kommentar. */")]
 			public void WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
 			{
@@ -159,7 +179,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
    comment));
 				var root = method.GetRoot();
 
-				var task = _inspector.Inspect(string.Empty, root);
+				var task = _inspector.Inspect(string.Empty, root, null, null);
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);

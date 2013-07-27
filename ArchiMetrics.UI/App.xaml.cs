@@ -88,7 +88,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
 			builder.RegisterType<CodeMetricsCalculator>()
 				   .As<ICodeMetricsCalculator>();
-			builder.RegisterType<SolutionInspector>()
+			builder.RegisterType<NodeInspector>()
 				   .As<INodeInspector>();
 			var vertexRuleRepository = new FakeVertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true))

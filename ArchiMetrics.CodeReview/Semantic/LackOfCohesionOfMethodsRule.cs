@@ -13,7 +13,6 @@
 namespace ArchiMetrics.CodeReview.Semantic
 {
 	using System.Linq;
-	using System.Threading;
 	using Code;
 	using Common;
 	using Roslyn.Compilers;
@@ -23,11 +22,11 @@ namespace ArchiMetrics.CodeReview.Semantic
 
 	internal class LackOfCohesionOfMethodsRule : EvaluationBase, ISemanticEvaluation
 	{
-		private static readonly SymbolKind[] MemberKinds =
+		private static readonly CommonSymbolKind[] MemberKinds =
 		{
-			SymbolKind.Event, 
-			SymbolKind.Method, 
-			SymbolKind.Property
+			CommonSymbolKind.Event, 
+			CommonSymbolKind.Method, 
+			CommonSymbolKind.Property
 		};
 
 		private int _threshold = 10;
@@ -45,17 +44,16 @@ namespace ArchiMetrics.CodeReview.Semantic
 		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			var symbol = semanticModel
-				.GetDeclaredSymbol(classDeclaration);
-			var members = (symbol as TypeSymbol)
-				.GetMembers();
+			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(classDeclaration);
+			var members = symbol.GetMembers();
+
 			var memberCount = members.Where(x => MemberKinds.Contains(x.Kind)).Count();
 			if (memberCount < _threshold)
 			{
 				return null;
 			}
 
-			var fields = members.Where(x => x.Kind == SymbolKind.Field).ToArray();
+			var fields = members.Where(x => x.Kind == CommonSymbolKind.Field).ToArray();
 			var fieldCount = fields.Length;
 
 			if (fieldCount < _threshold)
@@ -63,7 +61,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 				return null;
 			}
 
-			var sumFieldUsage = (double)fields.Sum(f => f.FindReferences(solution, CancellationToken.None)
+			var sumFieldUsage = (double)fields.Sum(f => f.FindReferences(solution)
 				.SelectMany(x => x.Locations)
 				.Count());
 
