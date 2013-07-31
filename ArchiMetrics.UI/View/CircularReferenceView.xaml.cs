@@ -17,7 +17,7 @@ namespace ArchiMetrics.UI.View
 	using ViewModel;
 
 	/// <summary>
-	/// Interaction logic for CircularReferenceView.xaml
+	/// Interaction logic for CircularReferenceView.xaml.
 	/// </summary>
 	[DataContext(typeof(CircularReferenceViewModel))]
 	public partial class CircularReferenceView : UserControl

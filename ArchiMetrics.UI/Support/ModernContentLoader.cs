@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ModernContentLoader.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ModernContentLoader type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.Support
 {
 	using System;
@@ -23,30 +35,34 @@ namespace ArchiMetrics.UI.Support
 		{
 			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
 			return Task.Factory.StartNew(() => GetContent(uri), cancellationToken, TaskCreationOptions.None, scheduler)
-					   .ContinueWith(x =>
+					   .ContinueWith(
+					   x =>
+					   {
+						   var content = x.Result;
+						   var element = content as FrameworkElement;
+						   if (element != null)
 						   {
-							   var content = x.Result;
-							   var element = content as FrameworkElement;
-							   if (element != null)
-							   {
-								   var dataContext = content.GetType()
-															.GetCustomAttributes(typeof(DataContextAttribute), true)
-															.OfType<DataContextAttribute>()
-															.FirstOrDefault();
-								   GetContext(dataContext)
-									   .ContinueWith(t =>
-									   {
-										   Application.Current.Dispatcher.Invoke(
-											   DispatcherPriority.DataBind,
-											   new Action(() =>
-												   {
-													   element.DataContext = t.Result;
-												   }));
-									   });
-							   }
+							   var dataContext = content.GetType()
+														.GetCustomAttributes(typeof(DataContextAttribute), true)
+														.OfType<DataContextAttribute>()
+														.FirstOrDefault();
+							   GetContext(dataContext)
+								   .ContinueWith(
+								   t =>
+								   {
+									   Application.Current.Dispatcher.Invoke(
+										   DispatcherPriority.DataBind,
+										   new Action(() =>
+											   {
+												   element.DataContext = t.Result;
+											   }));
+								   },
+								   cancellationToken);
+						   }
 
-							   return content;
-						   });
+						   return content;
+					   },
+						   cancellationToken);
 		}
 
 		private object GetContent(Uri uri)
@@ -65,6 +81,7 @@ namespace ArchiMetrics.UI.Support
 						var context = _container.Resolve(dataContext.DataContextType);
 						return context;
 					}
+
 					return null;
 				});
 		}

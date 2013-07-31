@@ -29,24 +29,24 @@ namespace ArchiMetrics.CodeReview.Code
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;
 			if (memberAccess.Expression.Kind == SyntaxKind.MemberAccessExpression
-			    && ((MemberAccessExpressionSyntax)memberAccess.Expression).Expression.Kind == SyntaxKind.IdentifierName
-			    && ((IdentifierNameSyntax)((MemberAccessExpressionSyntax)memberAccess.Expression).Expression).Identifier.ValueText == "ServiceLocator"
-			    && memberAccess.Name is GenericNameSyntax
-			    && memberAccess.Name.Identifier.ValueText == "Resolve"
-			    && ((GenericNameSyntax)memberAccess.Name).TypeArgumentList.Arguments.Any(a=> a is SimpleNameSyntax && ((SimpleNameSyntax)a).Identifier.ValueText.Contains("UnityContainer")))
+				&& ((MemberAccessExpressionSyntax)memberAccess.Expression).Expression.Kind == SyntaxKind.IdentifierName
+				&& ((IdentifierNameSyntax)((MemberAccessExpressionSyntax)memberAccess.Expression).Expression).Identifier.ValueText == "ServiceLocator"
+				&& memberAccess.Name is GenericNameSyntax
+				&& memberAccess.Name.Identifier.ValueText == "Resolve"
+				&& ((GenericNameSyntax)memberAccess.Name).TypeArgumentList.Arguments.Any(a => a is SimpleNameSyntax && ((SimpleNameSyntax)a).Identifier.ValueText.Contains("UnityContainer")))
 			{
 				var methodParent = FindMethodParent(node);
-				var snippet = methodParent == null 
-					              ? FindClassParent(node).ToFullString() 
-					              : methodParent.ToFullString();
+				var snippet = methodParent == null
+								  ? FindClassParent(node).ToFullString()
+								  : methodParent.ToFullString();
 
 				return new EvaluationResult
-					       {
-							   Comment = "UnityContainer resolved from ServiceLocator.", 
-						       Quality = CodeQuality.Broken, 
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security, 
-						       Snippet = snippet
-					       };
+						   {
+							   Comment = "UnityContainer resolved from ServiceLocator.",
+							   Quality = CodeQuality.Broken,
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security,
+							   Snippet = snippet
+						   };
 			}
 
 			return null;

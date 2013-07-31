@@ -24,7 +24,6 @@ namespace ArchiMetrics.CodeReview.Tests
 			[Test]
 			public void WhenComparingHashCodesThenEqualProjectsHaveEqualHashCodes()
 			{
-
 				var project1 = new ProjectData
 				{
 					ProjectName = "Project 1",

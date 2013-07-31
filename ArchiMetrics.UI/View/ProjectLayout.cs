@@ -15,5 +15,7 @@ namespace ArchiMetrics.UI.View
 	using GraphSharp.Controls;
 	using ViewModel;
 
-	internal class ProjectLayout : GraphLayout<Vertex, ProjectEdge, ProjectGraph> { }
+	internal class ProjectLayout : GraphLayout<Vertex, ProjectEdge, ProjectGraph>
+	{
+	}
 }

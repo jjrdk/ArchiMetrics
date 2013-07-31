@@ -31,7 +31,6 @@ namespace ArchiMetrics.UI.ViewModel
 	public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-
 		private IDisposable _changeSubscription;
 		private bool _isLoading;
 
@@ -48,6 +47,16 @@ namespace ArchiMetrics.UI.ViewModel
 				.ObserveOn(TaskPoolScheduler.Default)
 				.Subscribe(x => Update(true));
 		}
+
+		~ViewModelBase()
+		{
+			Dispose(false);
+		}
+
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public bool IsLoading
 		{
@@ -77,16 +86,6 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// Raised when a property on this object has a new value.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		~ViewModelBase()
-		{
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

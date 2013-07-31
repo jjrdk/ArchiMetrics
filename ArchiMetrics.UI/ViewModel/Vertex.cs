@@ -63,6 +63,16 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public IEnumerable<EvaluationResult> EvaluationResults { get; private set; }
 
+		public static bool operator ==(Vertex left, Vertex right)
+		{
+			return Equals(left, right);
+		}
+
+		public static bool operator !=(Vertex left, Vertex right)
+		{
+			return !Equals(left, right);
+		}
+
 		public bool Equals(Vertex other)
 		{
 			if (ReferenceEquals(null, other))
@@ -83,16 +93,6 @@ namespace ArchiMetrics.UI.ViewModel
 		public override int GetHashCode()
 		{
 			return Name.GetHashCode();
-		}
-
-		public static bool operator ==(Vertex left, Vertex right)
-		{
-			return Equals(left, right);
-		}
-
-		public static bool operator !=(Vertex left, Vertex right)
-		{
-			return !Equals(left, right);
 		}
 
 		public override bool Equals(object obj)

@@ -61,6 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				action(syntaxNode);
 			}
+
 			return GetCollectedTypesNames(_calledProperties, _calledMethods, _usedEvents);
 		}
 

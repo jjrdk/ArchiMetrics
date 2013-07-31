@@ -71,20 +71,19 @@ namespace ArchiMetrics.UI
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
-				dictFile.First(z => z.FileName == "en_US.aff")
-						.Extract(affStream);
-				dictFile.First(z => z.FileName == "en_US.dic")
-						.Extract(dicStream);
+				dictFile.First(z => z.FileName == "en_US.aff").Extract(affStream);
+				dictFile.First(z => z.FileName == "en_US.dic").Extract(dicStream);
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
+
 			foreach (var type in typeof(IEvaluation).Assembly
 												   .GetTypes()
 												   .Where(t => typeof(IEvaluation).IsAssignableFrom(t))
 												   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
-				builder.RegisterType(type)
-					   .As<IEvaluation>();
+				builder.RegisterType(type).As<IEvaluation>();
 			}
+
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
 			builder.RegisterType<CodeMetricsCalculator>()

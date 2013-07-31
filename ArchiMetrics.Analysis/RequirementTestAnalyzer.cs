@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RequirementTestAnalyzer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the RequirementTestAnalyzer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis
 {
 	using System;
@@ -35,25 +47,9 @@ namespace ArchiMetrics.Analysis
 			return syntax
 				.AttributeLists
 				.Any(l => l.Attributes
-					.Select(a=>a.Name)
+					.Select(a => a.Name)
 					.OfType<SimpleNameSyntax>()
 					.Any(s => TestNames.Any(t => s.Identifier.ValueText == t)));
-		}
-
-		private IEnumerable<MethodDeclarationSyntax> GetTests(string tests)
-		{
-			var projects = _provider.GetAll(tests).ToArray();
-			return projects
-				.Where(p => p != null)
-				.Distinct(ProjectComparer.Default)
-				.SelectMany(p => p.Documents)
-				.Select(d => d.GetSyntaxRoot() as SyntaxNode)
-				.Where(n => n != null)
-				.SelectMany(n => n.DescendantNodes(x => true))
-				.Where(n => n.Kind == SyntaxKind.MethodDeclaration)
-				.Cast<MethodDeclarationSyntax>()
-				.Where(IsTestMethod)
-				.ToArray();
 		}
 
 		private static int GetAssertCount(MethodDeclarationSyntax node)
@@ -110,6 +106,22 @@ namespace ArchiMetrics.Analysis
 				.Select(s => Convert.ToInt32(s));
 			var assertCount = GetAssertCount(node);
 			return new TestData(reqAttribute, assertCount, node.Identifier.ValueText, node.ToFullString());
+		}
+
+		private IEnumerable<MethodDeclarationSyntax> GetTests(string tests)
+		{
+			var projects = _provider.GetAll(tests).ToArray();
+			return projects
+				.Where(p => p != null)
+				.Distinct(ProjectComparer.Default)
+				.SelectMany(p => p.Documents)
+				.Select(d => d.GetSyntaxRoot() as SyntaxNode)
+				.Where(n => n != null)
+				.SelectMany(n => n.DescendantNodes(x => true))
+				.Where(n => n.Kind == SyntaxKind.MethodDeclaration)
+				.Cast<MethodDeclarationSyntax>()
+				.Where(IsTestMethod)
+				.ToArray();
 		}
 	}
 }

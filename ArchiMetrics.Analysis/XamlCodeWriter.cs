@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="XamlCodeWriter.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the XamlCodeWriter type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis
 {
 	using System;
@@ -58,7 +70,8 @@ namespace ArchiMetrics.Analysis
 		private static ExpressionStatementSyntax CreateDependencyPropertySyntax(string variableName, XamlNodeAttribute attr)
 		{
 			var memberAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(variableName), Syntax.IdentifierName("SetValue"));
-			var argList = Syntax.SeparatedList(new[] { Syntax.Argument(Syntax.IdentifierName(attr.VariableName + "Property")), Syntax.Argument(Syntax.IdentifierName(attr.Value)) },
+			var argList = Syntax.SeparatedList(
+				new[] { Syntax.Argument(Syntax.IdentifierName(attr.VariableName + "Property")), Syntax.Argument(Syntax.IdentifierName(attr.Value)) },
 				new[] { Syntax.Token(SyntaxKind.CommaToken) });
 			var invocation = Syntax.InvocationExpression(memberAccess, Syntax.ArgumentList(argList));
 			return Syntax.ExpressionStatement(invocation);
@@ -66,14 +79,15 @@ namespace ArchiMetrics.Analysis
 
 		private static LocalDeclarationStatementSyntax CreateLocalDeclaration(XamlNode childNode)
 		{
+			var variables = Syntax.SeparatedList(
+				Syntax.VariableDeclarator(
+					Syntax.Identifier(childNode.VariableName),
+					null,
+					Syntax.EqualsValueClause(Syntax.ObjectCreationExpression(Syntax.ParseTypeName(childNode.ClassName), Syntax.ArgumentList(), null))));
 			return Syntax.LocalDeclarationStatement(
 				Syntax.VariableDeclaration(
 					Syntax.IdentifierName("var"),
-					Syntax.SeparatedList(
-						Syntax.VariableDeclarator(
-							Syntax.Identifier(childNode.VariableName),
-							null,
-							Syntax.EqualsValueClause(Syntax.ObjectCreationExpression(Syntax.ParseTypeName(childNode.ClassName), Syntax.ArgumentList(), null))))));
+					variables));
 		}
 
 		private static ExpressionStatementSyntax CreateParentSyntax(XamlNode childNode)
@@ -81,7 +95,6 @@ namespace ArchiMetrics.Analysis
 			var parent = childNode.Parent;
 			switch (parent.ClassName)
 			{
-
 				case "Canvas":
 				case "StackPanel":
 				case "DockPanel":
@@ -91,23 +104,32 @@ namespace ArchiMetrics.Analysis
 						var addAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, childrenAccess, Syntax.IdentifierName("Add"));
 						return Syntax.ExpressionStatement(Syntax.InvocationExpression(addAccess, Syntax.ArgumentList(Syntax.SeparatedList(Syntax.Argument(Syntax.IdentifierName(childNode.VariableName))))));
 					}
+
 				case "Border":
 					{
 						var childAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(parent.VariableName), Syntax.IdentifierName("Child"));
-						return Syntax.ExpressionStatement(Syntax.BinaryExpression(SyntaxKind.AssignExpression,
+						return Syntax.ExpressionStatement(Syntax.BinaryExpression(
+							SyntaxKind.AssignExpression,
 							childAccess,
 							Syntax.Token(SyntaxKind.EqualsToken),
 							Syntax.IdentifierName(childNode.VariableName)));
 					}
+
 				case "Window":
 				case "UserControl":
-					{
-						var contentAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(parent.VariableName), Syntax.IdentifierName("Content"));
-						return Syntax.ExpressionStatement(Syntax.BinaryExpression(SyntaxKind.AssignExpression,
-							contentAccess,
-							Syntax.Token(SyntaxKind.EqualsToken),
-							Syntax.IdentifierName(childNode.VariableName)));
+				{
+					var contentAccess = Syntax.MemberAccessExpression(
+						SyntaxKind.MemberAccessExpression,
+						Syntax.IdentifierName(parent.VariableName),
+						Syntax.IdentifierName("Content"));
+						return Syntax.ExpressionStatement(
+							Syntax.BinaryExpression(
+								SyntaxKind.AssignExpression,
+								contentAccess,
+								Syntax.Token(SyntaxKind.EqualsToken),
+								Syntax.IdentifierName(childNode.VariableName)));
 					}
+
 				case "ResourceDictionary":
 					{
 						var
@@ -121,6 +143,7 @@ namespace ArchiMetrics.Analysis
 						var separators = new[] { Syntax.Token(SyntaxKind.CommaToken) };
 						return Syntax.ExpressionStatement(Syntax.InvocationExpression(addAccess, Syntax.ArgumentList(Syntax.SeparatedList(arguments, separators))));
 					}
+
 				default:
 					var variableAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(parent.VariableName), Syntax.IdentifierName("AddChild"));
 					return
@@ -145,12 +168,13 @@ namespace ArchiMetrics.Analysis
 		{
 			var strings = inlineValue.Split(',').ToArray();
 			var parameters = strings.SelectMany(p => p.Trim().Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
-			                        .Select(kv => kv.Split('='))
-			                        .Select(t => new Tuple<string, string>(t.First(), string.Join("=", t.Skip(1))))
-			                        .Select(t => Syntax.BinaryExpression(SyntaxKind.AssignExpression, Syntax.IdentifierName(t.Item1), Syntax.IdentifierName(t.Item2.Replace("'", "\""))));
+									.Select(kv => kv.Split('='))
+									.Select(t => new Tuple<string, string>(t.First(), string.Join("=", t.Skip(1))))
+									.Select(t => Syntax.BinaryExpression(SyntaxKind.AssignExpression, Syntax.IdentifierName(t.Item1), Syntax.IdentifierName(t.Item2.Replace("'", "\""))));
 
 			var separators = Enumerable.Repeat(Syntax.Token(SyntaxKind.CommaToken), strings.Length - 1);
-			var binding = Syntax.ObjectCreationExpression(Syntax.ParseTypeName("Binding"),
+			var binding = Syntax.ObjectCreationExpression(
+				Syntax.ParseTypeName("Binding"),
 				null,
 				Syntax.InitializerExpression(SyntaxKind.ObjectInitializerExpression, Syntax.SeparatedList<ExpressionSyntax>(parameters, separators)));
 			var memberAccess = Syntax.MemberAccessExpression(SyntaxKind.MemberAccessExpression, Syntax.IdentifierName(nodeVariableName), Syntax.IdentifierName("SetBinding"));
@@ -187,19 +211,18 @@ namespace ArchiMetrics.Analysis
 				var setAccess = Syntax.ExpressionStatement(Syntax.BinaryExpression(SyntaxKind.AssignExpression, memberAccess, Syntax.Token(SyntaxKind.EqualsToken), GetPropertyIdentifier(prop)));
 
 				yield return setAccess;
-
 			}
 		}
 
 		private IEnumerable<StatementSyntax> WriteAttributes(XamlNode childNode)
 		{
-
 			foreach (var attr in childNode.Attributes)
 			{
 				if (!string.IsNullOrWhiteSpace(attr.ExtraCode))
 				{
 					yield return Syntax.ExpressionStatement(Syntax.ParseExpression(attr.ExtraCode));
 				}
+
 				var bindingMatch = BindingRegex.Match(attr.Value);
 				if (bindingMatch.Success)
 				{
@@ -222,7 +245,6 @@ namespace ArchiMetrics.Analysis
 
 		private IEnumerable<StatementSyntax> GenerateChildStatement(XamlNode childNode, Func<XamlPropertyNode, IEnumerable<StatementSyntax>> propertyCreation)
 		{
-
 			yield return CreateLocalDeclaration(childNode);
 			foreach (var property in WriteProperties(propertyCreation, childNode))
 			{
@@ -275,11 +297,13 @@ namespace ArchiMetrics.Analysis
 			{
 				return GenerateChildStatement(node, p => CreatePropertySyntax(p, ownerSyntax));
 			}
+
 			var nodes = property.Value as IEnumerable<XamlNode>;
 			if (nodes != null)
 			{
 				return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p, ownerSyntax)));
 			}
+
 			return Enumerable.Empty<StatementSyntax>();
 		}
 

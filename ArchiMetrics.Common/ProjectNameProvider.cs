@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProjectNameProvider.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ProjectNameProvider type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;
@@ -11,6 +23,11 @@ namespace ArchiMetrics.Common
 		public ProjectNameProvider(IProvider<string, IProject> projectProvider)
 		{
 			_projectProvider = projectProvider;
+		}
+
+		~ProjectNameProvider()
+		{
+			Dispose(false);
 		}
 
 		public void Dispose()
@@ -35,17 +52,10 @@ namespace ArchiMetrics.Common
 			throw new NotImplementedException();
 		}
 
-		~ProjectNameProvider()
-		{
-			Dispose(false);
-		}
-
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				//Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-
 			}
 		}
 	}

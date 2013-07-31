@@ -118,6 +118,7 @@
     <Compile Include="ResultComparer.cs" />
     <Compile Include="RoslynExtensions.cs" />
     <Compile Include="Structure\CouplingEdge.cs" />
+    <Compile Include="TfsDefinition.cs" />
     <Compile Include="VertexRule.cs" />
     <Compile Include="Xaml\VariableNameProvider.cs" />
     <Compile Include="Xaml\XamlNode.cs" />

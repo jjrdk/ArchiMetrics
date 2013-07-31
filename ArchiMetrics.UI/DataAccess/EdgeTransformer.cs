@@ -31,6 +31,11 @@ namespace ArchiMetrics.UI.DataAccess
 			_copier = copier;
 		}
 
+		~EdgeTransformer()
+		{
+			Dispose(false);
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);
@@ -95,11 +100,6 @@ namespace ArchiMetrics.UI.DataAccess
 				.AsEnumerable();
 
 			return items;
-		}
-
-		~EdgeTransformer()
-		{
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

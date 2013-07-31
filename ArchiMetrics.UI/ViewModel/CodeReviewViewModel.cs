@@ -155,7 +155,6 @@ namespace ArchiMetrics.UI.ViewModel
 								   Snippet = exception.StackTrace
 							   });
 				IsLoading = false;
-
 			}
 			finally
 			{

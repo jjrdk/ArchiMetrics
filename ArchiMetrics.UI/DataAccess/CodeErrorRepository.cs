@@ -42,6 +42,11 @@ namespace ArchiMetrics.UI.DataAccess
 			GetErrorsAsync();
 		}
 
+		~CodeErrorRepository()
+		{
+			Dispose(false);
+		}
+
 		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
 		{
 			if (string.IsNullOrWhiteSpace(source))
@@ -107,11 +112,6 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		~CodeErrorRepository()
-		{
-			Dispose(false);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

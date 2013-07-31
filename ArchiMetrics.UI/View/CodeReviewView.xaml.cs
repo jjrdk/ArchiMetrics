@@ -23,7 +23,7 @@ namespace ArchiMetrics.UI.View
 	using UserControl = System.Windows.Controls.UserControl;
 
 	/// <summary>
-	/// Interaction logic for CodeReviewView.xaml
+	/// Interaction logic for CodeReviewView.xaml.
 	/// </summary>
 	[DataContext(typeof(CodeReviewViewModel))]
 	public partial class CodeReviewView : UserControl

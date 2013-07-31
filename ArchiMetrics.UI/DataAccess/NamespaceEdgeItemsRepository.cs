@@ -30,7 +30,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public NamespaceEdgeItemsRepository(
 			ISolutionEdgeItemsRepositoryConfig config,
-			IProvider<string, ISolution> solutionProvider, 
+			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{
@@ -47,7 +47,7 @@ namespace ArchiMetrics.UI.DataAccess
 								 .Where(g => g.Any())
 								 .Select(g => new NamespaceReference
 												  {
-													  Namespace = g.Key, 
+													  Namespace = g.Key,
 													  References = g.SelectMany(n => n.References.Distinct().ToArray())
 												  })
 												  .SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new ProjectCodeMetrics(), new ProjectCodeMetrics(), results)))
@@ -57,7 +57,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences()
 		{
 			return _namespaceReferences.GetOrAdd(
-				_config.Path, 
+				_config.Path,
 				path => Task.Factory.StartNew(
 					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 								   .AsParallel()
@@ -69,7 +69,11 @@ namespace ArchiMetrics.UI.DataAccess
 								   .Distinct(DocumentComparer.Default)
 								   .Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)
 								   .Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
-								   .SelectMany(t => t.Item2.Select(s => new NamespaceReference { Namespace = s, References = t.Item3.ToArray() }))
+								   .SelectMany(t => t.Item2.Select(s => new NamespaceReference
+																		{
+																			Namespace = s, 
+																			References = t.Item3.ToArray()
+																		}))
 								   .ToArray()
 								   .AsEnumerable()));
 		}

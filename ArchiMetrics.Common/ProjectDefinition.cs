@@ -21,10 +21,4 @@ namespace ArchiMetrics.Common
 		[XmlAttribute]
 		public bool IsTest { get; set; }
 	}
-
-	public class TfsDefinition
-	{
-		[XmlAttribute]
-		public string Definition { get; set; }
-	}
 }

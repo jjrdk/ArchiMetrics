@@ -67,6 +67,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
     <Compile Include="Code\VariableNameShouldNotMatchFieldNameRule.cs" />
     <Compile Include="ICodeEvaluation.cs" />
     <Compile Include="IEvaluation.cs" />
@@ -132,7 +133,7 @@
     <Compile Include="Semantic\UnusedMethodRule.cs" />
     <Compile Include="Semantic\UnusedSetPropertyRule.cs" />
     <Compile Include="NodeInspector.cs" />
-    <Compile Include="Trivia\CommentLanguageRule.cs" />
+    <Compile Include="Trivia\CommentLanguageRuleBase.cs" />
     <Compile Include="Trivia\MultiLineCommentLanguageRule.cs" />
     <Compile Include="Trivia\SingleLineCommentLanguageRule.cs" />
     <Compile Include="Trivia\TriviaEvaluationBase.cs" />

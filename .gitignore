@@ -13,3 +13,5 @@ settings.xml
 x.sln
 TestResult.xml
 *.Cache
+
+*.user

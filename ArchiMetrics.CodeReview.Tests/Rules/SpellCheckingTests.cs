@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SpellCheckingTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2012
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SpellCheckingTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Tests.Rules
 {
 	using System;
@@ -15,14 +27,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	{
 		private SpellCheckingTests()
 		{
-		}
-
-		private class ExemptWords : IKnownWordList
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
-			}
 		}
 
 		public class GivenAMethodNameSpellingRule
@@ -66,9 +70,11 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			public void FindNonEnglishMultiLineComments(string comment)
 			{
 				var method = SyntaxTree.ParseText(
-					string.Format(@"public void SomeMethod() {{
+					string.Format(
+@"public void SomeMethod() {{
 /* {0} */
-}}", comment));
+}}",
+   comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
@@ -84,9 +90,11 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			public void AcceptsEnglishMultiLineComments(string comment)
 			{
 				var method = SyntaxTree.ParseText(
-					string.Format(@"public void SomeMethod() {{
+					string.Format(
+@"public void SomeMethod() {{
 /* {0} */
-}}", comment));
+}}",
+   comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
@@ -131,9 +139,11 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			public void FindNonEnglishSingleLineComments(string comment)
 			{
 				var method = SyntaxTree.ParseText(
-					string.Format(@"public void SomeMethod() {{
+					string.Format(
+@"public void SomeMethod() {{
 //{0}
-}}", comment));
+}}",
+   comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
@@ -162,15 +172,25 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			public void WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
 			{
 				var method = SyntaxTree.ParseText(
-					string.Format(@"public void SomeMethod() {{
+					string.Format(
+@"public void SomeMethod() {{
 {0}
-}}", comment));
+}}",
+   comment));
 				var root = method.GetRoot();
 
 				var task = _inspector.Inspect(string.Empty, root, null, null);
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);
+			}
+		}
+
+		private class ExemptWords : IKnownWordList
+		{
+			public bool IsExempt(string word)
+			{
+				return false;
 			}
 		}
 
@@ -190,6 +210,11 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				}
 			}
 
+			~SpellChecker()
+			{
+				Dispose(false);
+			}
+
 			public bool Spell(string word)
 			{
 				return _speller.Spell(word);
@@ -199,11 +224,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			{
 				Dispose(true);
 				GC.SuppressFinalize(this);
-			}
-
-			~SpellChecker()
-			{
-				Dispose(false);
 			}
 
 			protected virtual void Dispose(bool isDisposing)

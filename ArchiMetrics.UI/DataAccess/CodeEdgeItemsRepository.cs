@@ -30,12 +30,17 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<EdgeItem>> _edgeItems;
 
 		public CodeEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
+			ISolutionEdgeItemsRepositoryConfig config,
 			ICodeErrorRepository codeErrorRepository)
 		{
 			_config = config;
 			_codeErrorRepository = codeErrorRepository;
 			_config.PropertyChanged += ConfigPropertyChanged;
+		}
+
+		~CodeEdgeItemsRepository()
+		{
+			Dispose(false);
 		}
 
 		public void Dispose()
@@ -53,9 +58,30 @@ namespace ArchiMetrics.UI.DataAccess
 														 : LoadWithoutCodeReview());
 		}
 
-		~CodeEdgeItemsRepository()
+		protected static EdgeItem CreateEdgeItem(
+			string dependant,
+			string dependency,
+			string projectPath,
+			ProjectCodeMetrics dependantMetrics,
+			ProjectCodeMetrics dependencyMetrics,
+			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
-			Dispose(false);
+			return new EdgeItem
+					   {
+						   Dependant = dependant,
+						   Dependency = dependency,
+						   DependantLinesOfCode = dependantMetrics.LinesOfCode,
+						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex,
+						   DependantComplexity = dependantMetrics.CyclomaticComplexity,
+						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode,
+						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex,
+						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity,
+						   CodeIssues =
+							   results.Where(e => e.Key == projectPath)
+									  .SelectMany(er => er)
+									  .ToArray()
+									  .AsEnumerable()
+					   };
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -67,32 +93,6 @@ namespace ArchiMetrics.UI.DataAccess
 		}
 
 		protected abstract Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results);
-
-		protected static EdgeItem CreateEdgeItem(
-			string dependant, 
-			string dependency, 
-			string projectPath, 
-			ProjectCodeMetrics dependantMetrics, 
-			ProjectCodeMetrics dependencyMetrics, 
-			IEnumerable<IGrouping<string, EvaluationResult>> results)
-		{
-			return new EdgeItem
-					   {
-						   Dependant = dependant, 
-						   Dependency = dependency, 
-						   DependantLinesOfCode = dependantMetrics.LinesOfCode, 
-						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex, 
-						   DependantComplexity = dependantMetrics.CyclomaticComplexity, 
-						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode, 
-						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex, 
-						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity, 
-						   CodeIssues =
-							   results.Where(e => e.Key == projectPath)
-									  .SelectMany(er => er)
-									  .ToArray()
-									  .AsEnumerable()
-					   };
-		}
 
 		protected int GetLinesOfCode(CommonSyntaxNode node)
 		{

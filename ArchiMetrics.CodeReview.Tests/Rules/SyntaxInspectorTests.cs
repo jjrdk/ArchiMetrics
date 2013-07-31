@@ -21,10 +21,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public interface IMarkerInterface
-	{
-	}
-
 	public sealed class SyntaxInspectorTests
 	{
 		private SyntaxInspectorTests()
@@ -296,6 +292,17 @@ private void SomeMethod()
 		{
 			public const string SomeValue = ""Something"";
 		}", typeof(NoPublicConstantRule))]
+			[TestCase(@"private void SomeMethod()
+			{
+				try
+				{
+					Int32.Parse (""Broken!"");
+				} 
+				catch (Exception ex)
+				{
+					throw ex;
+				}
+			}", typeof(DoNotDestroyStackTraceRule))]
 			[TestCase(@"public class InnerClass
 		{
 			private int field = 0;
@@ -342,6 +349,20 @@ private void SomeMethod()
 				while(true);
 			}
 		}", typeof(DoLoopSleepErrorRule))]
+			[TestCase(@"public class InnerClass : ICustomInterface
+		{
+			private void SomeMethod()
+			{
+				try
+				{
+					Int32.Parse (""Broken!"");
+				} 
+				catch (Exception ex)
+				{
+					throw;
+				}
+			}
+		}", typeof(DoNotDestroyStackTraceRule))]
 			[TestCase(@"public class InnerClass : ICustomInterface
 		{
 			private void SomeMethod()
