@@ -6,7 +6,7 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for TestErrorGraphView.xaml
+//   Interaction logic for TestErrorGraphView.xaml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 

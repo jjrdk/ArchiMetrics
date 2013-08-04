@@ -9,9 +9,10 @@
 //   Defines the NoPublicConstantRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class NoPublicConstantRule : CodeEvaluationBase

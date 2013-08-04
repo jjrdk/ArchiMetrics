@@ -15,7 +15,7 @@ namespace ArchiMetrics.CodeReview
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public static class ReportUtils
 	{

@@ -9,6 +9,7 @@
 //   Defines the ProjectProvider type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;
@@ -30,7 +31,7 @@ namespace ArchiMetrics.Common
 		public IProject Get(string source)
 		{
 			return Cache.GetOrAdd(
-				source,
+				source, 
 				path =>
 				{
 					IWorkspace workspace = null;

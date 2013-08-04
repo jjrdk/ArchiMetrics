@@ -9,6 +9,7 @@
 //   Defines the IHalsteadAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common.Metrics
 {
 	public interface IHalsteadAnalyzer

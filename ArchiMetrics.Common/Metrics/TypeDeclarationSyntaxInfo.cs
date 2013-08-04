@@ -9,6 +9,7 @@
 //   Defines the TypeDeclarationSyntaxInfo type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common.Metrics
 {
 	using Roslyn.Compilers.Common;

@@ -15,7 +15,7 @@ namespace ArchiMetrics.Analysis
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
+	using ArchiMetrics.Common;
 
 	/// <summary>
 	/// Defines the DependencyAnalyzer class.

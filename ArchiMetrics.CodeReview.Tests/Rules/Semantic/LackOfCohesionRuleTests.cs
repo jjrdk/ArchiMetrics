@@ -13,7 +13,7 @@
 namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 {
 	using System.Linq;
-	using CodeReview.Semantic;
+	using ArchiMetrics.CodeReview.Semantic;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
@@ -25,33 +25,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 
 		public class GivenALackOfCohesionOfMethodsRule : SolutionTestsBase
 		{
-			private LackOfCohesionOfMethodsRule _rule;
-
-			[SetUp]
-			public void Setup()
-			{
-				_rule = new LackOfCohesionOfMethodsRule();
-			}
-
-			[Test]
-			public void WhenAnalyzingAnUncohesiveClassThenReturnsError()
-			{
-				var solution = CreateSolution(Uncohesive);
-				var classDeclaration = (from p in solution.Projects
-										from d in p.Documents
-										let model = d.GetSemanticModel()
-										let root = d.GetSyntaxRoot()
-										from n in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
-										select new
-											   {
-												   semanticModel = model,
-												   node = n
-											   }).First();
-				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
-
-				Assert.NotNull(result);
-			}
-
 			private const string Uncohesive = @"namespace MyNamespace
 {
 	public class MyClass
@@ -124,6 +97,33 @@ namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 		}
 	}
 }";
+
+			private LackOfCohesionOfMethodsRule _rule;
+
+			[SetUp]
+			public void Setup()
+			{
+				_rule = new LackOfCohesionOfMethodsRule();
+			}
+
+			[Test]
+			public void WhenAnalyzingAnUncohesiveClassThenReturnsError()
+			{
+				var solution = CreateSolution(Uncohesive);
+				var classDeclaration = (from p in solution.Projects
+										from d in p.Documents
+										let model = d.GetSemanticModel()
+										let root = d.GetSyntaxRoot()
+										from n in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
+										select new
+											   {
+												   semanticModel = model, 
+												   node = n
+											   }).First();
+				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
+
+				Assert.NotNull(result);
+			}
 		}
 	}
 }

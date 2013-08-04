@@ -9,6 +9,7 @@
 //   Defines the IProjectData type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	public interface IProjectData

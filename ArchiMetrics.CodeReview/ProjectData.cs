@@ -9,6 +9,7 @@
 //   Defines the ProjectData type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview
 {
 	public class ProjectData

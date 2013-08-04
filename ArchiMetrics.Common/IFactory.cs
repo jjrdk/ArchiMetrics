@@ -9,6 +9,7 @@
 //   Defines the IFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

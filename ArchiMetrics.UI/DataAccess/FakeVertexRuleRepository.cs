@@ -9,12 +9,13 @@
 //   Defines the FakeVertexRuleRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Xml.Serialization;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class FakeVertexRuleRepository : FakeRepositoryBase, IVertexRuleRepository
 	{

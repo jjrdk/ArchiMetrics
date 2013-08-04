@@ -9,10 +9,11 @@
 //   Defines the LeakingTypeRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class LeakingTypeRule : CodeEvaluationBase

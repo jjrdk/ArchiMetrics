@@ -9,6 +9,7 @@
 //   Defines the CodeErrorRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -18,7 +19,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -30,8 +31,8 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
-			IProvider<string, ISolution> solutionProvider,
+			ISolutionEdgeItemsRepositoryConfig config, 
+			IProvider<string, ISolution> solutionProvider, 
 			INodeInspector inspector)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
@@ -55,7 +56,7 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 
 			return _edgeItems.GetOrAdd(
-				source,
+				source, 
 				async path =>
 				{
 					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).Where(p => !p.Contains("QuickStart"))
@@ -83,7 +84,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 					return await Task.Factory
 									 .ContinueWhenAll(
-										 inspectionTasks.ToArray(),
+										 inspectionTasks.ToArray(), 
 										 results => results.SelectMany(x => x.Result)
 														   .Distinct(new ResultComparer())
 														   .ToArray()

@@ -13,9 +13,9 @@
 namespace ArchiMetrics.CodeReview
 {
 	using System;
-	using Analysis.Metrics;
-	using Common;
-	using Common.Metrics;
+	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
 
 	public class ProjectMetricsCalculatorFactory : IFactory<ProjectSettings, ICodeMetricsCalculator>
 	{

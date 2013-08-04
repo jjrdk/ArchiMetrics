@@ -9,6 +9,7 @@
 //   Defines the IReadOnlyDataSession type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

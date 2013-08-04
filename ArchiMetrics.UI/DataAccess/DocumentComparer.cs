@@ -9,6 +9,7 @@
 //   Defines the DocumentComparer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System.Collections.Generic;

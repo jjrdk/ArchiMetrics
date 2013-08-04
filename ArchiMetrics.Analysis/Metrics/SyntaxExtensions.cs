@@ -9,6 +9,7 @@
 //   Defines the SyntaxExtensions type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using Roslyn.Compilers.Common;

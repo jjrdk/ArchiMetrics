@@ -9,6 +9,7 @@
 //   Defines the TypeExtensions type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Linq;

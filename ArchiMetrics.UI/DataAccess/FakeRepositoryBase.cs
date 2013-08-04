@@ -9,6 +9,7 @@
 //   Defines the FakeRepositoryBase type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System.IO;

@@ -16,8 +16,8 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Globalization;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Analysis;
-	using Common;
+	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 
 	internal class RequirementGraphViewModel : ViewModelBase
 	{

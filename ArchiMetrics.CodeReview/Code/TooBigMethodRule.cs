@@ -9,9 +9,10 @@
 //   Defines the TooBigMethodRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class TooBigMethodRule : CodeEvaluationBase
@@ -36,9 +37,9 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Method too big",
-							   Quality = CodeQuality.NeedsRefactoring,
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
+							   Comment = "Method too big", 
+							   Quality = CodeQuality.NeedsRefactoring, 
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 							   Snippet = snippet
 						   };
 			}

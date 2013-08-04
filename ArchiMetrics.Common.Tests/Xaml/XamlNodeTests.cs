@@ -9,10 +9,11 @@
 //   Defines the XamlNodeTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common.Tests.Xaml
 {
 	using System.Xml.Linq;
-	using Common.Xaml;
+	using ArchiMetrics.Common.Xaml;
 	using NUnit.Framework;
 
 	public sealed class XamlNodeTests

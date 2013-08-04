@@ -9,10 +9,11 @@
 //   Defines the ServiceLocatorResolvesContainerRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class ServiceLocatorResolvesContainerRule : CodeEvaluationBase
@@ -42,9 +43,9 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 						   {
-							   Comment = "UnityContainer resolved from ServiceLocator.",
-							   Quality = CodeQuality.Broken,
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security,
+							   Comment = "UnityContainer resolved from ServiceLocator.", 
+							   Quality = CodeQuality.Broken, 
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security, 
 							   Snippet = snippet
 						   };
 			}

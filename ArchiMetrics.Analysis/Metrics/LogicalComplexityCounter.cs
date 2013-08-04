@@ -9,9 +9,10 @@
 //   Defines the LogicalComplexityCounter type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Common.Metrics;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 

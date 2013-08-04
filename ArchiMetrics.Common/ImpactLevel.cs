@@ -9,6 +9,7 @@
 //   Defines the ImpactLevel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	public enum ImpactLevel

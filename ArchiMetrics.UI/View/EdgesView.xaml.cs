@@ -6,15 +6,15 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for DependencyItemsView.xaml
+//   Interaction logic for DependencyItemsView.xaml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.UI.View
 {
 	using System.Windows.Controls;
-	using Support;
-	using ViewModel;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 
 	/// <summary>
 	/// Interaction logic for DependencyItemsView.xaml.

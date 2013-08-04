@@ -13,7 +13,7 @@
 namespace ArchiMetrics.Analysis
 {
 	using System;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class PathFilter
 	{

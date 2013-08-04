@@ -9,6 +9,7 @@
 //   Defines the LeakingSessionRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	internal class LeakingSessionRule : LeakingTypeRule

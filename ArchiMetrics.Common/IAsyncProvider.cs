@@ -9,6 +9,7 @@
 //   Defines the IAsyncProvider type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

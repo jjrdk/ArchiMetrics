@@ -9,6 +9,7 @@
 //   Defines the NamespaceEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -17,8 +18,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -29,8 +30,8 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public NamespaceEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
-			IProvider<string, ISolution> solutionProvider,
+			ISolutionEdgeItemsRepositoryConfig config, 
+			IProvider<string, ISolution> solutionProvider, 
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{
@@ -47,7 +48,7 @@ namespace ArchiMetrics.UI.DataAccess
 								 .Where(g => g.Any())
 								 .Select(g => new NamespaceReference
 												  {
-													  Namespace = g.Key,
+													  Namespace = g.Key, 
 													  References = g.SelectMany(n => n.References.Distinct().ToArray())
 												  })
 												  .SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new ProjectCodeMetrics(), new ProjectCodeMetrics(), results)))
@@ -57,7 +58,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences()
 		{
 			return _namespaceReferences.GetOrAdd(
-				_config.Path,
+				_config.Path, 
 				path => Task.Factory.StartNew(
 					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 								   .AsParallel()

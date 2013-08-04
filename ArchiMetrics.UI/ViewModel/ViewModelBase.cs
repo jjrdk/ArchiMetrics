@@ -20,8 +20,8 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
-	using Common;
-	using Properties;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.UI.Properties;
 
 	/// <summary>
 	/// Base class for all ViewModel classes in the application.
@@ -41,7 +41,7 @@ namespace ArchiMetrics.UI.ViewModel
 			DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-					h => _config.PropertyChanged += h,
+					h => _config.PropertyChanged += h, 
 					h => _config.PropertyChanged -= h)
 				.SubscribeOn(TaskPoolScheduler.Default)
 				.ObserveOn(TaskPoolScheduler.Default)
@@ -52,11 +52,6 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			Dispose(false);
 		}
-
-		/// <summary>
-		/// Raised when a property on this object has a new value.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public bool IsLoading
 		{
@@ -87,6 +82,11 @@ namespace ArchiMetrics.UI.ViewModel
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
+
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		protected virtual void Dispose(bool isDisposing)
 		{

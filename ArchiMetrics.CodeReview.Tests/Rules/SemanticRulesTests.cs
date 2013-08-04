@@ -14,7 +14,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 {
 	using System;
 	using System.Linq;
-	using CodeReview.Semantic;
+	using ArchiMetrics.CodeReview.Semantic;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
@@ -36,7 +36,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 									.Select(r =>
 										new
 										{
-											node = r,
+											node = r, 
 											model = semanticModel
 										});
 							})

@@ -10,9 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
+
 
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -39,7 +37,7 @@ using System.Windows;
 // the NeutralResourceLanguage attribute below.  Update the "en-US" in
 // the line below to match the UICulture setting in the project file.
 [assembly: ThemeInfo(
-	ResourceDictionaryLocation.None,
+	ResourceDictionaryLocation.None, 
 	ResourceDictionaryLocation.SourceAssembly)]
 
 // Version information for an assembly consists of the following four values:

@@ -25,7 +25,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			DocumentId did;
 			var solution = code.Aggregate(
 				Solution.Create(SolutionId.CreateNewId("Semantic"))
-					.AddCSharpProject("testcode.dll", "testcode", out pid),
+					.AddCSharpProject("testcode.dll", "testcode", out pid), 
 				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
 				.AddProjectReferences(pid, new ProjectId[0])
 				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));

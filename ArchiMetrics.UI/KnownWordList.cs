@@ -13,7 +13,7 @@
 namespace ArchiMetrics.UI
 {
 	using System.Collections.Generic;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class KnownWordList : IKnownWordList
 	{

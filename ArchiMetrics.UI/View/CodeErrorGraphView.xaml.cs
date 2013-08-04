@@ -6,15 +6,15 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for CodeErrorGraphView.xaml
+//   Interaction logic for CodeErrorGraphView.xaml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.UI.View
 {
 	using System.Windows.Controls;
-	using Support;
-	using ViewModel;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 
 	/// <summary>
 	/// Interaction logic for CodeErrorGraphView.xaml.

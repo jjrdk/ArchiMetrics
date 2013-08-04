@@ -9,10 +9,11 @@
 //   Defines the MultipleAssertsInTestErrorRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class MultipleAssertsInTestErrorRule : CodeEvaluationBase

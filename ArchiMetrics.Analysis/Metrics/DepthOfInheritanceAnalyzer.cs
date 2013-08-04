@@ -9,6 +9,7 @@
 //   Defines the DepthOfInheritanceAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;

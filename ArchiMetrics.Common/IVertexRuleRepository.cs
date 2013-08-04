@@ -9,6 +9,7 @@
 //   Defines the IVertexRuleRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

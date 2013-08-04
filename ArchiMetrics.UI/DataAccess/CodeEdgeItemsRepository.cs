@@ -9,6 +9,7 @@
 //   Defines the CodeEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -17,8 +18,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
@@ -30,7 +31,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<EdgeItem>> _edgeItems;
 
 		public CodeEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
+			ISolutionEdgeItemsRepositoryConfig config, 
 			ICodeErrorRepository codeErrorRepository)
 		{
 			_config = config;
@@ -59,23 +60,23 @@ namespace ArchiMetrics.UI.DataAccess
 		}
 
 		protected static EdgeItem CreateEdgeItem(
-			string dependant,
-			string dependency,
-			string projectPath,
-			ProjectCodeMetrics dependantMetrics,
-			ProjectCodeMetrics dependencyMetrics,
+			string dependant, 
+			string dependency, 
+			string projectPath, 
+			ProjectCodeMetrics dependantMetrics, 
+			ProjectCodeMetrics dependencyMetrics, 
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new EdgeItem
 					   {
-						   Dependant = dependant,
-						   Dependency = dependency,
-						   DependantLinesOfCode = dependantMetrics.LinesOfCode,
-						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex,
-						   DependantComplexity = dependantMetrics.CyclomaticComplexity,
-						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode,
-						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex,
-						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity,
+						   Dependant = dependant, 
+						   Dependency = dependency, 
+						   DependantLinesOfCode = dependantMetrics.LinesOfCode, 
+						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex, 
+						   DependantComplexity = dependantMetrics.CyclomaticComplexity, 
+						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode, 
+						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex, 
+						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity, 
 						   CodeIssues =
 							   results.Where(e => e.Key == projectPath)
 									  .SelectMany(er => er)

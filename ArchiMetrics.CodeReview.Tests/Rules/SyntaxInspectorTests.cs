@@ -6,7 +6,7 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IMarkerInterface type.
+//   Defines the SyntaxInspectorTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Code;
-	using Common;
+	using ArchiMetrics.CodeReview.Code;
+	using ArchiMetrics.Common;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 

@@ -13,7 +13,7 @@
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class EmptyDoErrorRule : CodeEvaluationBase
@@ -37,9 +37,9 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 						   {
-							   Comment = "Empty do loop found in code.",
-							   Quality = CodeQuality.Incompetent,
-							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
+							   Comment = "Empty do loop found in code.", 
+							   Quality = CodeQuality.Incompetent, 
+							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
 							   Snippet = snippet
 						   };
 			}

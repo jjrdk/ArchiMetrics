@@ -15,7 +15,7 @@ namespace ArchiMetrics.CodeReview.Code
 	using System;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class MethodNamePairRule : CodeEvaluationBase
@@ -36,11 +36,11 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Pair method missing",
-							   ErrorCount = 1,
-							   ImpactLevel = ImpactLevel.Type,
-							   Quality = CodeQuality.NeedsRefactoring,
-							   QualityAttribute = QualityAttribute.Conformance,
+							   Comment = "Pair method missing", 
+							   ErrorCount = 1, 
+							   ImpactLevel = ImpactLevel.Type, 
+							   Quality = CodeQuality.NeedsRefactoring, 
+							   QualityAttribute = QualityAttribute.Conformance, 
 							   Snippet = method.ToFullString()
 						   };
 			}

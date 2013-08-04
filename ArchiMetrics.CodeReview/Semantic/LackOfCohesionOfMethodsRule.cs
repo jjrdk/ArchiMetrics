@@ -13,8 +13,8 @@
 namespace ArchiMetrics.CodeReview.Semantic
 {
 	using System.Linq;
-	using Code;
-	using Common;
+	using ArchiMetrics.CodeReview.Code;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
@@ -34,11 +34,6 @@ namespace ArchiMetrics.CodeReview.Semantic
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.ClassDeclaration; }
-		}
-
-		public void SetThreshold(int threshold)
-		{
-			_threshold = threshold;
 		}
 
 		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
@@ -74,13 +69,18 @@ namespace ArchiMetrics.CodeReview.Semantic
 			var snippet = node.ToFullString();
 			return new EvaluationResult
 				   {
-					   Comment = "High lack of cohesion detected.",
-					   ImpactLevel = ImpactLevel.Type,
-					   LinesOfCodeAffected = GetLinesOfCode(snippet),
-					   Quality = CodeQuality.NeedsRefactoring,
-					   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability,
+					   Comment = "High lack of cohesion detected.", 
+					   ImpactLevel = ImpactLevel.Type, 
+					   LinesOfCodeAffected = GetLinesOfCode(snippet), 
+					   Quality = CodeQuality.NeedsRefactoring, 
+					   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability, 
 					   Snippet = snippet
 				   };
+		}
+
+		public void SetThreshold(int threshold)
+		{
+			_threshold = threshold;
 		}
 	}
 }

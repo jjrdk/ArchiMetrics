@@ -9,6 +9,7 @@
 //   Defines the NamespaceDeclaration type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;

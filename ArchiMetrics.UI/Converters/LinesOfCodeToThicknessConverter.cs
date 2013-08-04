@@ -20,9 +20,9 @@ namespace ArchiMetrics.UI.Converters
 	internal class LinesOfCodeToThicknessConverter : IValueConverter
 	{
 		public object Convert(
-			object value,
-			Type targetType,
-			object parameter,
+			object value, 
+			Type targetType, 
+			object parameter, 
 			CultureInfo culture)
 		{
 			var linesOfCode = (int)value;
@@ -31,9 +31,9 @@ namespace ArchiMetrics.UI.Converters
 		}
 
 		public object ConvertBack(
-			object value,
-			Type targetType,
-			object parameter,
+			object value, 
+			Type targetType, 
+			object parameter, 
 			CultureInfo culture)
 		{
 			throw new NotImplementedException();

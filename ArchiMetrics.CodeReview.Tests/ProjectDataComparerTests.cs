@@ -9,6 +9,7 @@
 //   Defines the ProjectDataComparerTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Tests
 {
 	using NUnit.Framework;
@@ -26,13 +27,13 @@ namespace ArchiMetrics.CodeReview.Tests
 			{
 				var project1 = new ProjectData
 				{
-					ProjectName = "Project 1",
+					ProjectName = "Project 1", 
 					ProjectVersion = "1"
 				};
 
 				var project2 = new ProjectData
 				{
-					ProjectName = "Project 1",
+					ProjectName = "Project 1", 
 					ProjectVersion = "1"
 				};
 				var hashCode1 = ProjectDataComparer.Instance.GetHashCode(project1);
@@ -46,13 +47,13 @@ namespace ArchiMetrics.CodeReview.Tests
 			{
 				var project1 = new ProjectData
 							   {
-								   ProjectName = "Project 1",
+								   ProjectName = "Project 1", 
 								   ProjectVersion = "1"
 							   };
 
 				var project2 = new ProjectData
 							   {
-								   ProjectName = "Project 1",
+								   ProjectName = "Project 1", 
 								   ProjectVersion = "1"
 							   };
 

@@ -118,8 +118,8 @@ namespace ArchiMetrics.Common.Xaml
 							}
 
 							AddAttribute(
-								attribute,
-								"Color.FromArgb(col.A, col.R, col.G, col.B)",
+								attribute, 
+								"Color.FromArgb(col.A, col.R, col.G, col.B)", 
 								extraCode);
 						}
 
@@ -172,7 +172,7 @@ namespace ArchiMetrics.Common.Xaml
 												? element.Elements()
 														 .ElementAtOrDefault(1) == null
 													  ? (object)new XamlNode(
-																	null,
+																	null, 
 																	element.Elements().First())
 													  : element.Elements()
 															   .Select(e => new XamlNode(null, e))

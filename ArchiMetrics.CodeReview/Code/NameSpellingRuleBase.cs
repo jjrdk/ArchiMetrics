@@ -15,7 +15,7 @@ namespace ArchiMetrics.CodeReview.Code
 	using System;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using Common;
+	using ArchiMetrics.Common;
 
 	internal abstract class NameSpellingRuleBase : CodeEvaluationBase
 	{

@@ -9,6 +9,7 @@
 //   Defines the CodeQuality type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	public enum CodeQuality

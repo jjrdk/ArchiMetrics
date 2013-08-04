@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Trivia
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class SingleLineCommentLanguageRule : CommentLanguageRuleBase

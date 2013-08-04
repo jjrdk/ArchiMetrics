@@ -9,6 +9,7 @@
 //   Defines the SemanticModelMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using Roslyn.Compilers.Common;

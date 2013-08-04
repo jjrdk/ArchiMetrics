@@ -9,10 +9,11 @@
 //   Defines the TypeDeclaration type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
-	using Common.Metrics;
+	using ArchiMetrics.Common.Metrics;
 
 	public sealed class TypeDeclaration
 	{

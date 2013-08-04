@@ -114,14 +114,14 @@ EndGlobal
 				.ToDictionary(s => s, GetProjectGuid);
 
 			var projectIncludes = string.Join(
-				Environment.NewLine,
+				Environment.NewLine, 
 				distinctProjects
 				.Select(project => string.Format(
-					"Project(\"{{{0}}}\") = \"{1}\", \"{2}\", \"{{{3}}}\"{4}EndProject{4}",
-					GetLanguageGuid(project.LanguageServices.Language),
-					project.Name,
-					MakeRelativePath(project.FilePath, fileName),
-					projectGuids[project.FilePath],
+					"Project(\"{{{0}}}\") = \"{1}\", \"{2}\", \"{{{3}}}\"{4}EndProject{4}", 
+					GetLanguageGuid(project.LanguageServices.Language), 
+					project.Name, 
+					MakeRelativePath(project.FilePath, fileName), 
+					projectGuids[project.FilePath], 
 					Environment.NewLine).Trim()));
 
 			using (var stream = new FileStream(fileName, overwriteExisting ? FileMode.Create : FileMode.CreateNew))
@@ -129,8 +129,8 @@ EndGlobal
 				var writer = new StreamWriter(stream);
 				var configs = projectGuids.Values.Select(v => string.Format(ProjectConfigurationFormat, v));
 				writer.Write(
-					SolutionFormat,
-					projectIncludes.Trim(),
+					SolutionFormat, 
+					projectIncludes.Trim(), 
 					string.Join(Environment.NewLine, configs).Trim());
 				writer.Flush();
 				writer.Close();

@@ -13,8 +13,8 @@
 namespace ArchiMetrics.UI.View
 {
 	using System.Windows.Controls;
-	using Support;
-	using ViewModel;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 
 	/// <summary>
 	/// Interaction logic for GraphView.xaml.

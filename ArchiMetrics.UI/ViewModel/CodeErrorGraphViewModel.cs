@@ -14,7 +14,7 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class CodeErrorGraphViewModel : ViewModelBase
 	{

@@ -9,6 +9,7 @@
 //   Defines the ProjectComparer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System.Collections.Generic;

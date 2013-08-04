@@ -14,8 +14,8 @@ namespace ArchiMetrics.CodeReview.Semantic
 {
 	using System.Linq;
 	using System.Threading;
-	using Code;
-	using Common;
+	using ArchiMetrics.CodeReview.Code;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
@@ -31,12 +31,12 @@ namespace ArchiMetrics.CodeReview.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Uncalled code",
-						   ImpactLevel = ImpactLevel.Member,
+						   Comment = "Uncalled code", 
+						   ImpactLevel = ImpactLevel.Member, 
 						   Namespace = GetCompilationUnitNamespace(node.GetLocation()
-							   .SourceTree.GetRoot()),
-						   Quality = CodeQuality.Incompetent,
-						   QualityAttribute = QualityAttribute.CodeQuality,
+							   .SourceTree.GetRoot()), 
+						   Quality = CodeQuality.Incompetent, 
+						   QualityAttribute = QualityAttribute.CodeQuality, 
 						   Snippet = node.ToFullString()
 					   };
 			}

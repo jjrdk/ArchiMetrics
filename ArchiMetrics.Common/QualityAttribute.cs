@@ -9,6 +9,7 @@
 //   Defines the QualityAttribute type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

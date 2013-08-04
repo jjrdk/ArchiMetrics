@@ -9,6 +9,7 @@
 //   Defines the ProjectEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -17,8 +18,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Services;
 
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository
@@ -30,9 +31,9 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public ProjectEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
-			IProvider<string, ISolution> solutionProvider,
-			ICodeErrorRepository codeErrorRepository,
+			ISolutionEdgeItemsRepositoryConfig config, 
+			IProvider<string, ISolution> solutionProvider, 
+			ICodeErrorRepository codeErrorRepository, 
 			ICodeMetricsCalculator metricsCalculator)
 			: base(config, codeErrorRepository)
 		{
@@ -56,7 +57,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<ProjectReference[]> GetProjectReferences()
 		{
 			return _projectReferences.GetOrAdd(
-				_config.Path,
+				_config.Path, 
 				path =>
 				Task.Factory
 					.StartNew(() =>
@@ -82,7 +83,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<ProjectCodeMetrics> GetProjectMetrics(IProject project)
 		{
 			return _metrics.GetOrAdd(
-				project.FilePath,
+				project.FilePath, 
 				async s =>
 				{
 					try
@@ -92,13 +93,13 @@ namespace ArchiMetrics.UI.DataAccess
 						var linesOfCode = metrics.Sum(x => x.LinesOfCode);
 						return new ProjectCodeMetrics
 								   {
-									   Metrics = metrics,
-									   Project = project.Name,
-									   ProjectPath = s,
-									   Version = project.GetVersion().ToString(),
-									   LinesOfCode = linesOfCode,
-									   DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0,
-									   CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0,
+									   Metrics = metrics, 
+									   Project = project.Name, 
+									   ProjectPath = s, 
+									   Version = project.GetVersion().ToString(), 
+									   LinesOfCode = linesOfCode, 
+									   DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0, 
+									   CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0, 
 									   MaintainabilityIndex = linesOfCode > 0 ? metrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / linesOfCode : 0
 								   };
 					}
@@ -117,14 +118,14 @@ namespace ArchiMetrics.UI.DataAccess
 			return solution.Projects
 						   .Select(p => new ProjectReference
 											{
-												ProjectPath = p.FilePath,
-												Version = p.GetVersion().ToString(),
-												Name = p.Name,
+												ProjectPath = p.FilePath, 
+												Version = p.GetVersion().ToString(), 
+												Name = p.Name, 
 												ProjectReferences = p.ProjectReferences.Select(pr =>
 																								   {
 																									   var project = solution.GetProject(pr);
 																									   return new KeyValuePair<string, string>(project.Name, project.FilePath);
-																								   }),
+																								   }), 
 												AssemblyReferences = p.MetadataReferences.Select(m => Path.GetFileNameWithoutExtension(m.Display))
 											});
 		}

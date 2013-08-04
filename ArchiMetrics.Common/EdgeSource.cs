@@ -9,6 +9,7 @@
 //   Defines the EdgeSource type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	public enum EdgeSource

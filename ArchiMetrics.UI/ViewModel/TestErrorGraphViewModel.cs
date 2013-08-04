@@ -15,7 +15,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class TestErrorGraphViewModel : ViewModelBase
 	{

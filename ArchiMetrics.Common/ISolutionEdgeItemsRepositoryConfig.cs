@@ -9,6 +9,7 @@
 //   Defines the ISolutionEdgeItemsRepositoryConfig type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System.ComponentModel;

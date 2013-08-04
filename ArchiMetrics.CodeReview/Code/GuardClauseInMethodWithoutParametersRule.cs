@@ -9,9 +9,10 @@
 //   Defines the GuardClauseInMethodWithoutParametersRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class GuardClauseInMethodWithoutParametersRule : CodeEvaluationBase

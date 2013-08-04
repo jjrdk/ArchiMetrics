@@ -9,9 +9,10 @@
 //   Defines the CodeEvaluationBase type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class CodeEvaluationBase : EvaluationBase, ICodeEvaluation

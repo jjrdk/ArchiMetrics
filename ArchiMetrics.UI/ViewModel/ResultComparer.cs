@@ -13,7 +13,7 @@
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
-	using Common;
+	using ArchiMetrics.Common;
 
 	internal class ResultComparer : IEqualityComparer<EvaluationResult>
 	{

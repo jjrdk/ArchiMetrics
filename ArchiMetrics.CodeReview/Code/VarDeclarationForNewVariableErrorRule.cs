@@ -9,10 +9,11 @@
 //   Defines the VarDeclarationForNewVariableErrorRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class VarDeclarationForNewVariableErrorRule : CodeEvaluationBase

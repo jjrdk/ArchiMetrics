@@ -9,6 +9,7 @@
 //   Defines the MetricOverview type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;

@@ -17,18 +17,18 @@ namespace ArchiMetrics.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
-	using Analysis;
-	using Analysis.Metrics;
+	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.CodeReview;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
+	using ArchiMetrics.UI.DataAccess;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 	using Autofac;
-	using CodeReview;
-	using Common;
-	using Common.Metrics;
-	using DataAccess;
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
-	using Support;
-	using ViewModel;
 
 	public partial class App : Application
 	{
@@ -37,7 +37,7 @@ namespace ArchiMetrics.UI
 			// Ensure the current culture passed into bindings is the OS culture.
 			// By default, WPF uses en-US as the culture, regardless of the system settings.
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement),
+				typeof(FrameworkElement), 
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 

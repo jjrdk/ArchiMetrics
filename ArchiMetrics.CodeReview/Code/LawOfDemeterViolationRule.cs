@@ -9,9 +9,10 @@
 //   Defines the LawOfDemeterViolationRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class LawOfDemeterViolationRule : CodeEvaluationBase

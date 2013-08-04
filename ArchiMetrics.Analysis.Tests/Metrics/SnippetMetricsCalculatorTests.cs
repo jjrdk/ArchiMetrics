@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
-	using Analysis.Metrics;
+	using ArchiMetrics.Analysis.Metrics;
 	using NUnit.Framework;
 
 	public class SnippetMetricsCalculatorTests

@@ -13,9 +13,7 @@
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-
 	using ArchiMetrics.Common;
-
 	using Roslyn.Compilers.CSharp;
 
 	internal class DoNotDestroyStackTraceRule : CodeEvaluationBase
@@ -45,10 +43,10 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				var result = new EvaluationResult
 							 {
-								 Comment = "Stack trace destroyed",
-								 ImpactLevel = ImpactLevel.Member,
-								 Quality = CodeQuality.Incompetent,
-								 QualityAttribute = QualityAttribute.CodeQuality,
+								 Comment = "Stack trace destroyed", 
+								 ImpactLevel = ImpactLevel.Member, 
+								 Quality = CodeQuality.Incompetent, 
+								 QualityAttribute = QualityAttribute.CodeQuality, 
 								 Snippet = catchClause.ToFullString()
 							 };
 				return result;

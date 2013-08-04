@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class MethodNameSpellingRule : NameSpellingRuleBase
@@ -37,11 +37,11 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Possible spelling error",
-						   Quality = CodeQuality.NeedsReview,
-						   ImpactLevel = ImpactLevel.Node,
-						   QualityAttribute = QualityAttribute.Conformance,
-						   Snippet = methodName,
+						   Comment = "Possible spelling error", 
+						   Quality = CodeQuality.NeedsReview, 
+						   ImpactLevel = ImpactLevel.Node, 
+						   QualityAttribute = QualityAttribute.Conformance, 
+						   Snippet = methodName, 
 						   ErrorCount = 1
 					   };
 			}

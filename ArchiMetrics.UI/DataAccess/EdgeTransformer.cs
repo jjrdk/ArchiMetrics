@@ -9,6 +9,7 @@
 //   Defines the EdgeTransformer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -17,7 +18,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class EdgeTransformer : IEdgeTransformer, IDisposable
 	{
@@ -61,7 +62,7 @@ namespace ArchiMetrics.UI.DataAccess
 														   .Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
 						{
 							var regex = _regexes.GetOrAdd(
-								rule.Pattern,
+								rule.Pattern, 
 								pattern => new Regex(pattern, RegexOptions.Compiled));
 							item.Dependant = regex.Replace(item.Dependant, rule.Name ?? string.Empty);
 							item.Dependency = regex.Replace(item.Dependency, rule.Name ?? string.Empty);
@@ -82,15 +83,15 @@ namespace ArchiMetrics.UI.DataAccess
 						var first = g.First();
 						return new EdgeItem
 								   {
-									   Dependant = first.Dependant,
-									   Dependency = first.Dependency,
-									   CodeIssues = first.CodeIssues,
-									   MergedEdges = g.Count(),
-									   DependantLinesOfCode = first.DependantLinesOfCode,
-									   DependantComplexity = first.DependantComplexity,
-									   DependantMaintainabilityIndex = first.DependantMaintainabilityIndex,
-									   DependencyLinesOfCode = first.DependencyLinesOfCode,
-									   DependencyComplexity = first.DependencyComplexity,
+									   Dependant = first.Dependant, 
+									   Dependency = first.Dependency, 
+									   CodeIssues = first.CodeIssues, 
+									   MergedEdges = g.Count(), 
+									   DependantLinesOfCode = first.DependantLinesOfCode, 
+									   DependantComplexity = first.DependantComplexity, 
+									   DependantMaintainabilityIndex = first.DependantMaintainabilityIndex, 
+									   DependencyLinesOfCode = first.DependencyLinesOfCode, 
+									   DependencyComplexity = first.DependencyComplexity, 
 									   DependencyMaintainabilityIndex = first.DependencyMaintainabilityIndex
 								   };
 					})

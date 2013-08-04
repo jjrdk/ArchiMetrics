@@ -9,6 +9,7 @@
 //   Defines the EdgeItem type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

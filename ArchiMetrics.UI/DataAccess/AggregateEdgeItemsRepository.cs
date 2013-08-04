@@ -9,13 +9,14 @@
 //   Defines the AggregateEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
+	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Services;
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
@@ -26,7 +27,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly ProjectEdgeItemsRepository _projectEdgeRepository;
 
 		public AggregateEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
+			ISolutionEdgeItemsRepositoryConfig config, 
 			IProvider<string, ISolution> solutionProvider, 
 			ICodeErrorRepository codeErrorRepository, 
 			ICodeMetricsCalculator metricsCalculator)

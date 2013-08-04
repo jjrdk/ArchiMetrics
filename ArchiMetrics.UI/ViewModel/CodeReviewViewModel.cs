@@ -16,7 +16,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Windows.Data;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public sealed class CodeReviewViewModel : ViewModelBase
 	{
@@ -150,8 +150,8 @@ namespace ArchiMetrics.UI.ViewModel
 			{
 				CodeErrors.Add(new EvaluationResult
 							   {
-								   Quality = CodeQuality.Broken,
-								   Comment = exception.Message,
+								   Quality = CodeQuality.Broken, 
+								   Comment = exception.Message, 
 								   Snippet = exception.StackTrace
 							   });
 				IsLoading = false;

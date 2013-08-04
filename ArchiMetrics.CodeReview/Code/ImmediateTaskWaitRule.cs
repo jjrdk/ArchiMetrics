@@ -9,11 +9,12 @@
 //   Defines the ImmediateTaskWaitRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class ImmediateTaskWaitRule : CodeEvaluationBase

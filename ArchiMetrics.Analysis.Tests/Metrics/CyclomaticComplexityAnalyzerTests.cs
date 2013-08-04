@@ -9,11 +9,12 @@
 //   Defines the CyclomaticComplexityAnalyzerTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
-	using Analysis.Metrics;
-	using Common.Metrics;
+	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.Common.Metrics;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 

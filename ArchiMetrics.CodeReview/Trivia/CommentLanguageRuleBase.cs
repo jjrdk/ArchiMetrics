@@ -14,14 +14,14 @@ namespace ArchiMetrics.CodeReview.Trivia
 {
 	using System.Linq;
 	using System.Text.RegularExpressions;
-
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class CommentLanguageRuleBase : TriviaEvaluationBase
 	{
-		private readonly ISpellChecker _spellChecker;
 		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
+
+		private readonly ISpellChecker _spellChecker;
 
 		public CommentLanguageRuleBase(ISpellChecker spellChecker)
 		{
@@ -42,11 +42,11 @@ namespace ArchiMetrics.CodeReview.Trivia
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Suspicious language comment",
-							   ErrorCount = 1,
-							   ImpactLevel = ImpactLevel.Member,
-							   Quality = CodeQuality.NeedsReview,
-							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance,
+							   Comment = "Suspicious language comment", 
+							   ErrorCount = 1, 
+							   ImpactLevel = ImpactLevel.Member, 
+							   Quality = CodeQuality.NeedsReview, 
+							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance, 
 							   Snippet = node.ToFullString()
 						   };
 			}

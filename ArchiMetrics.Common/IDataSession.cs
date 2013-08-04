@@ -9,6 +9,7 @@
 //   Defines the IDataSession type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System.Threading.Tasks;

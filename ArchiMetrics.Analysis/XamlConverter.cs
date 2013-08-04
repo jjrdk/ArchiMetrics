@@ -14,7 +14,7 @@ namespace ArchiMetrics.Analysis
 {
 	using System.IO;
 	using System.Xml.Linq;
-	using Common.Xaml;
+	using ArchiMetrics.Common.Xaml;
 	using Roslyn.Compilers.CSharp;
 
 	public class XamlConverter

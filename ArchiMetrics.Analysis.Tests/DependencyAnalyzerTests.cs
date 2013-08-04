@@ -13,9 +13,7 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
-
-	using Common;
-
+	using ArchiMetrics.Common;
 	using NUnit.Framework;
 
 	public class DependencyAnalyzerTests
@@ -26,7 +24,7 @@ namespace ArchiMetrics.Analysis.Tests
 			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
-							new EdgeItem { Dependant = "A", Dependency = "B" },
+							new EdgeItem { Dependant = "A", Dependency = "B" }, 
 							new EdgeItem { Dependant = "B", Dependency = "A" }
 						};
 			var task = analyzer.GetCircularReferences(items);
@@ -42,10 +40,10 @@ namespace ArchiMetrics.Analysis.Tests
 			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
-							new EdgeItem { Dependant = "A", Dependency = "B" },
-							new EdgeItem { Dependant = "A", Dependency = "D" },
-							new EdgeItem { Dependant = "D", Dependency = "E" },
-							new EdgeItem { Dependant = "B", Dependency = "C" },
+							new EdgeItem { Dependant = "A", Dependency = "B" }, 
+							new EdgeItem { Dependant = "A", Dependency = "D" }, 
+							new EdgeItem { Dependant = "D", Dependency = "E" }, 
+							new EdgeItem { Dependant = "B", Dependency = "C" }, 
 							new EdgeItem { Dependant = "C", Dependency = "A" }
 						};
 			var task = analyzer.GetCircularReferences(items);
@@ -61,11 +59,11 @@ namespace ArchiMetrics.Analysis.Tests
 			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
-							new EdgeItem { Dependant = "A", Dependency = "B" },
-							new EdgeItem { Dependant = "A", Dependency = "D" },
-							new EdgeItem { Dependant = "D", Dependency = "E" },
-							new EdgeItem { Dependant = "B", Dependency = "C" },
-							new EdgeItem { Dependant = "C", Dependency = "A" },
+							new EdgeItem { Dependant = "A", Dependency = "B" }, 
+							new EdgeItem { Dependant = "A", Dependency = "D" }, 
+							new EdgeItem { Dependant = "D", Dependency = "E" }, 
+							new EdgeItem { Dependant = "B", Dependency = "C" }, 
+							new EdgeItem { Dependant = "C", Dependency = "A" }, 
 							new EdgeItem { Dependant = "E", Dependency = "A" }
 						};
 			var task = analyzer.GetCircularReferences(items);

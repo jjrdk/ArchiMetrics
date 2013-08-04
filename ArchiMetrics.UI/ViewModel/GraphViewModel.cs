@@ -14,8 +14,8 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Analysis;
-	using Common;
+	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 
 	internal class GraphViewModel : ViewModelBase
 	{
@@ -96,7 +96,7 @@ namespace ArchiMetrics.UI.ViewModel
 				.Select(
 					dependencyItemViewModel =>
 					new ProjectEdge(
-						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
+						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant), 
 						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
 								   .Where(e => e.Target.Name != e.Source.Name);
 			var g = new ProjectGraph();

@@ -9,6 +9,7 @@
 //   Defines the MethodLocalVariablesAnalyzer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using Roslyn.Compilers.Common;

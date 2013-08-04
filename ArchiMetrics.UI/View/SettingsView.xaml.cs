@@ -6,7 +6,7 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for SettingsView.xaml
+//   Interaction logic for SettingsView.xaml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,8 +15,8 @@ namespace ArchiMetrics.UI.View
 	using System.Windows;
 	using System.Windows.Controls;
 	using System.Windows.Forms;
-	using Support;
-	using ViewModel;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 	using UserControl = System.Windows.Controls.UserControl;
 
 	/// <summary>

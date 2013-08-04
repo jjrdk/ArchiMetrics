@@ -9,10 +9,11 @@
 //   Defines the TypeCouplingComparer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
-	using Common.Metrics;
+	using ArchiMetrics.Common.Metrics;
 
 	internal class TypeCouplingComparer : IEqualityComparer<TypeCoupling>
 	{

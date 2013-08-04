@@ -14,8 +14,8 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Analysis;
-	using Common;
+	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{
@@ -23,9 +23,9 @@ namespace ArchiMetrics.UI.ViewModel
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
-			IEdgeItemsRepository repository,
-			IEdgeTransformer filter,
-			IVertexRuleDefinition ruleDefinition,
+			IEdgeItemsRepository repository, 
+			IEdgeTransformer filter, 
+			IVertexRuleDefinition ruleDefinition, 
 			ISolutionEdgeItemsRepositoryConfig config)
 			: base(repository, filter, ruleDefinition, config)
 		{

@@ -9,11 +9,12 @@
 //   Defines the DoLoopSleepErrorRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class DoLoopSleepErrorRule : CodeEvaluationBase
@@ -39,9 +40,9 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 					   {
-						   Comment = "Sleep loop found in code.",
-						   Quality = CodeQuality.Incompetent,
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
+						   Comment = "Sleep loop found in code.", 
+						   Quality = CodeQuality.Incompetent, 
+						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
 						   Snippet = snippet
 					   };
 			}

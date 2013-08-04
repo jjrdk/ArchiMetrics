@@ -36,9 +36,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			return new SyntaxDeclarations
 			{
-				MemberDeclarations = _members.ToArray(),
-				NamespaceDeclarations = _namespaces.ToArray(),
-				Statements = _statements.ToArray(),
+				MemberDeclarations = _members.ToArray(), 
+				NamespaceDeclarations = _namespaces.ToArray(), 
+				Statements = _statements.ToArray(), 
 				TypeDeclarations = _types.ToArray()
 			};
 		}

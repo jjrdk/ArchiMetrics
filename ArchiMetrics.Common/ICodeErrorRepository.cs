@@ -9,6 +9,7 @@
 //   Defines the ICodeErrorRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;

@@ -15,7 +15,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 
 	internal class Vertex : IEquatable<Vertex>
 	{
@@ -63,16 +63,6 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public IEnumerable<EvaluationResult> EvaluationResults { get; private set; }
 
-		public static bool operator ==(Vertex left, Vertex right)
-		{
-			return Equals(left, right);
-		}
-
-		public static bool operator !=(Vertex left, Vertex right)
-		{
-			return !Equals(left, right);
-		}
-
 		public bool Equals(Vertex other)
 		{
 			if (ReferenceEquals(null, other))
@@ -86,8 +76,18 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 
 			return string.Equals(Name, other.Name)
-				&& CodeIssues.Equals(other.CodeIssues)
-				&& LinesOfCode.Equals(other.LinesOfCode);
+				   && CodeIssues.Equals(other.CodeIssues)
+				   && LinesOfCode.Equals(other.LinesOfCode);
+		}
+
+		public static bool operator ==(Vertex left, Vertex right)
+		{
+			return Equals(left, right);
+		}
+
+		public static bool operator !=(Vertex left, Vertex right)
+		{
+			return !Equals(left, right);
 		}
 
 		public override int GetHashCode()

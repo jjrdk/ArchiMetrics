@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.CodeReview
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	public interface ITriviaEvaluation : IEvaluation

@@ -16,7 +16,7 @@ namespace ArchiMetrics.Analysis
 	using System.IO;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Services;
 	using Roslyn.Services.Formatting;

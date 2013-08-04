@@ -9,6 +9,7 @@
 //   Defines the ReportConfig type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System.Collections.ObjectModel;

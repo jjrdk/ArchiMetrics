@@ -9,6 +9,7 @@
 //   Defines the LeakingDomainStorageRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	internal class LeakingDomainStorageRule : LeakingTypeRule

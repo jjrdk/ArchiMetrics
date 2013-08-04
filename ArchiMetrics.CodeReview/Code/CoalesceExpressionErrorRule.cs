@@ -9,10 +9,11 @@
 //   Defines the CoalesceExpressionErrorRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class CoalesceExpressionErrorRule : CodeEvaluationBase
@@ -35,11 +36,11 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Coalesce expression found",
-							   Quality = CodeQuality.Broken,
-							   ImpactLevel = ImpactLevel.Member,
-							   QualityAttribute = QualityAttribute.Conformance,
-							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())),
+							   Comment = "Coalesce expression found", 
+							   Quality = CodeQuality.Broken, 
+							   ImpactLevel = ImpactLevel.Member, 
+							   QualityAttribute = QualityAttribute.Conformance, 
+							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())), 
 							   ErrorCount = conditionalExpressions.Length
 						   };
 			}

@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Code
 {
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class VariableNameShouldNotMatchFieldNameRule : CodeEvaluationBase
@@ -45,9 +45,9 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Suspicious field assignment.",
-						   ImpactLevel = ImpactLevel.Member,
-						   Quality = CodeQuality.NeedsReview,
+						   Comment = "Suspicious field assignment.", 
+						   ImpactLevel = ImpactLevel.Member, 
+						   Quality = CodeQuality.NeedsReview, 
 						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability
 					   };
 			}

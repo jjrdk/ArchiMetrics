@@ -12,8 +12,8 @@
 
 namespace ArchiMetrics.CodeReview.Trivia
 {
-	using Code;
-	using Common;
+	using ArchiMetrics.CodeReview.Code;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class TriviaEvaluationBase : EvaluationBase, ITriviaEvaluation

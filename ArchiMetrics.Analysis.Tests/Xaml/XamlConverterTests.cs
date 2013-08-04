@@ -9,6 +9,7 @@
 //   Defines the XamlConverterTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Tests.Xaml
 {
 	using System;

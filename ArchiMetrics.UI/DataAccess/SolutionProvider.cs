@@ -9,6 +9,7 @@
 //   Defines the SolutionProvider type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -16,7 +17,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Services;
 
 	public class SolutionProvider : IProvider<string, ISolution>
@@ -31,7 +32,7 @@ namespace ArchiMetrics.UI.DataAccess
 		public ISolution Get(string path)
 		{
 			return _cache.GetOrAdd(
-				path,
+				path, 
 				p =>
 				{
 					var workspace = Workspace.LoadSolution(p, "Release", "AnyCPU");

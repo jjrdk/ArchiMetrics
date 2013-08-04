@@ -9,10 +9,11 @@
 //   Defines the HalsteadMetrics type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
-	using Common.Metrics;
+	using ArchiMetrics.Common.Metrics;
 
 	internal sealed class HalsteadMetrics : IHalsteadMetrics
 	{

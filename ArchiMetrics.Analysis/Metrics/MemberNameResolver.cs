@@ -9,13 +9,14 @@
 //   Defines the MemberNameResolver type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using Common.Metrics;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 

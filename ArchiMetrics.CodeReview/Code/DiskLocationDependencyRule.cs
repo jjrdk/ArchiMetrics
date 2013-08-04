@@ -9,10 +9,11 @@
 //   Defines the DiskLocationDependencyRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Text.RegularExpressions;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal class DiskLocationDependencyRule : CodeEvaluationBase

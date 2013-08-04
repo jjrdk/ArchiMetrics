@@ -9,13 +9,14 @@
 //   Defines the NodeInspector type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
@@ -30,9 +31,9 @@ namespace ArchiMetrics.CodeReview
 		}
 
 		public virtual Task<IEnumerable<EvaluationResult>> Inspect(
-			string projectPath,
-			SyntaxNode node,
-			ISemanticModel semanticModel,
+			string projectPath, 
+			SyntaxNode node, 
+			ISemanticModel semanticModel, 
 			ISolution solution)
 		{
 			return Task.Factory.StartNew(() =>
@@ -54,9 +55,11 @@ namespace ArchiMetrics.CodeReview
 		private class InnerInspector : SyntaxWalker, IDisposable
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
+
+			private readonly List<EvaluationResult> _inspectionResults = new List<EvaluationResult>();
+
 			private readonly ISemanticModel _model;
 			private readonly ISolution _solution;
-			private readonly List<EvaluationResult> _inspectionResults = new List<EvaluationResult>();
 
 			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, ISemanticModel model, ISolution solution)
 				: base(SyntaxWalkerDepth.Trivia)
@@ -107,9 +110,9 @@ namespace ArchiMetrics.CodeReview
 							{
 								return new EvaluationResult
 										   {
-											   Comment = ex.Message,
-											   ErrorCount = 1,
-											   Snippet = node.ToFullString(),
+											   Comment = ex.Message, 
+											   ErrorCount = 1, 
+											   Snippet = node.ToFullString(), 
 											   Quality = CodeQuality.Broken
 										   };
 							}
@@ -137,9 +140,9 @@ namespace ArchiMetrics.CodeReview
 							{
 								return new EvaluationResult
 									       {
-										       Comment = ex.Message,
-										       ErrorCount = 1,
-										       Snippet = node.ToFullString(),
+										       Comment = ex.Message, 
+										       ErrorCount = 1, 
+										       Snippet = node.ToFullString(), 
 										       Quality = CodeQuality.Broken
 									       };
 							}
@@ -165,9 +168,9 @@ namespace ArchiMetrics.CodeReview
 							{
 								return new EvaluationResult
 								{
-									Comment = ex.Message,
-									ErrorCount = 1,
-									Snippet = trivia.ToFullString(),
+									Comment = ex.Message, 
+									ErrorCount = 1, 
+									Snippet = trivia.ToFullString(), 
 									Quality = CodeQuality.Broken
 								};
 							}

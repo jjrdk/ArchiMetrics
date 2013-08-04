@@ -9,6 +9,7 @@
 //   Defines the IHalsteadMetrics type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common.Metrics
 {
 	using System;

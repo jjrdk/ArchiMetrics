@@ -9,12 +9,13 @@
 //   Defines the SolutionEdgeItemsRepositoryConfig type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.ComponentModel;
 	using System.Runtime.CompilerServices;
-	using Common;
+	using ArchiMetrics.Common;
 
 	public class SolutionEdgeItemsRepositoryConfig : ISolutionEdgeItemsRepositoryConfig
 	{
@@ -26,10 +27,10 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			CutOff = TimeSpan.FromDays(7);
 		}
-		
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public TimeSpan CutOff { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public string Path
 		{

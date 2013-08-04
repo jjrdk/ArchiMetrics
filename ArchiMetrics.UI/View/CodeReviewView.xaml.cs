@@ -6,7 +6,7 @@
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for CodeReviewView.xaml
+//   Interaction logic for CodeReviewView.xaml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ namespace ArchiMetrics.UI.View
 	using System.Windows;
 	using System.Windows.Forms;
 	using System.Windows.Input;
-	using Support;
-	using ViewModel;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 	using Clipboard = System.Windows.Clipboard;
 	using DataFormats = System.Windows.DataFormats;
 	using UserControl = System.Windows.Controls.UserControl;

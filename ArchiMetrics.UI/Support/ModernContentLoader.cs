@@ -51,17 +51,17 @@ namespace ArchiMetrics.UI.Support
 								   t =>
 								   {
 									   Application.Current.Dispatcher.Invoke(
-										   DispatcherPriority.DataBind,
+										   DispatcherPriority.DataBind, 
 										   new Action(() =>
 											   {
 												   element.DataContext = t.Result;
 											   }));
-								   },
+								   }, 
 								   cancellationToken);
 						   }
 
 						   return content;
-					   },
+					   }, 
 						   cancellationToken);
 		}
 

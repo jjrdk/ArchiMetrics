@@ -15,18 +15,26 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using System;
 	using System.IO;
 	using System.Linq;
-	using Code;
-	using Common;
+	using ArchiMetrics.CodeReview.Code;
+	using ArchiMetrics.CodeReview.Trivia;
+	using ArchiMetrics.Common;
 	using Ionic.Zip;
 	using NHunspell;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
-	using Trivia;
 
 	public sealed class SpellCheckingTests
 	{
 		private SpellCheckingTests()
 		{
+		}
+
+		private class ExemptWords : IKnownWordList
+		{
+			public bool IsExempt(string word)
+			{
+				return false;
+			}
 		}
 
 		public class GivenAMethodNameSpellingRule
@@ -73,7 +81,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}",
+}}", 
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -93,7 +101,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}",
+}}", 
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -142,7 +150,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 //{0}
-}}",
+}}", 
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -175,7 +183,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 {0}
-}}",
+}}", 
    comment));
 				var root = method.GetRoot();
 
@@ -183,14 +191,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);
-			}
-		}
-
-		private class ExemptWords : IKnownWordList
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
 			}
 		}
 

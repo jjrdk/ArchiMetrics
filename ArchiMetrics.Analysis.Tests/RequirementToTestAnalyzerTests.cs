@@ -15,7 +15,7 @@ namespace ArchiMetrics.Analysis.Tests
 	using System.Linq;
 	using System.Threading;
 	using System.Xml.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Moq;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;

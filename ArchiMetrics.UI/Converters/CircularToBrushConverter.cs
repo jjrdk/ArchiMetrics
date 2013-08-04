@@ -20,9 +20,9 @@ namespace ArchiMetrics.UI.Converters
 	internal class CircularToBrushConverter : IValueConverter
 	{
 		public object Convert(
-			object value,
-			Type targetType,
-			object parameter,
+			object value, 
+			Type targetType, 
+			object parameter, 
 			CultureInfo culture)
 		{
 			var isCircular = (bool)value;
@@ -30,9 +30,9 @@ namespace ArchiMetrics.UI.Converters
 		}
 
 		public object ConvertBack(
-			object value,
-			Type targetType,
-			object parameter,
+			object value, 
+			Type targetType, 
+			object parameter, 
 			CultureInfo culture)
 		{
 			throw new NotImplementedException();

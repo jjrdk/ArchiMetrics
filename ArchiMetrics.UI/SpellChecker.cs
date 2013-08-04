@@ -13,11 +13,8 @@
 namespace ArchiMetrics.UI
 {
 	using System;
-	using System.Linq;
-	using System.Text.RegularExpressions;
-	using Common;
+	using ArchiMetrics.Common;
 	using NHunspell;
-	using Roslyn.Compilers.CSharp;
 
 	internal class SpellChecker : ISpellChecker
 	{

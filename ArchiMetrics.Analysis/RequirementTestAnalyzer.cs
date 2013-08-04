@@ -15,7 +15,7 @@ namespace ArchiMetrics.Analysis
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 

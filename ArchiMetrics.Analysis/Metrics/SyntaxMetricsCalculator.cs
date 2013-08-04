@@ -9,12 +9,13 @@
 //   Defines the SyntaxMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Common.Metrics;
+	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 

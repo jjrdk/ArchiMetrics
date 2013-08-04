@@ -9,6 +9,7 @@
 //   Defines the ProjectDataComparer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview
 {
 	using System.Collections.Generic;

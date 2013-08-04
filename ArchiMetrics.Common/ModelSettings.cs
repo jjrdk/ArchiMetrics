@@ -9,6 +9,7 @@
 //   Defines the ModelSettings type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System.Xml.Serialization;

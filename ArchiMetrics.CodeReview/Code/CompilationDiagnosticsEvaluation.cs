@@ -9,10 +9,11 @@
 //   Defines the CompilationDiagnosticsEvaluation type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Linq;
-	using Common;
+	using ArchiMetrics.Common;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 
