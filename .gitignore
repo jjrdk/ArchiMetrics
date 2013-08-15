@@ -15,3 +15,5 @@ TestResult.xml
 *.Cache
 
 *.user
+
+*.ide
