@@ -29,14 +29,6 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 		{
 		}
 
-		private class ExemptWords : IKnownWordList
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
-			}
-		}
-
 		public class GivenAMethodNameSpellingRule
 		{
 			private MethodNameSpellingRule _rule;
@@ -69,7 +61,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			[SetUp]
 			public void Setup()
 			{
-				_rule = new MultiLineCommentLanguageRule(new SpellChecker());
+				_rule = new MultiLineCommentLanguageRule(new SpellChecker(), new ExemptWords());
 			}
 
 			[TestCase("ASP.NET MVC is a .NET acronym.")]
@@ -81,7 +73,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}", 
+}}",
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -101,7 +93,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}", 
+}}",
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -139,7 +131,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			[SetUp]
 			public void Setup()
 			{
-				_rule = new SingleLineCommentLanguageRule(new SpellChecker());
+				_rule = new SingleLineCommentLanguageRule(new SpellChecker(), new ExemptWords());
 			}
 
 			[TestCase("Dette er ikke en engelsk kommentar.")]
@@ -150,7 +142,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 //{0}
-}}", 
+}}",
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -171,7 +163,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			public void Setup()
 			{
 				var spellChecker = new SpellChecker();
-				_inspector = new NodeInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
+				_inspector = new NodeInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker, new ExemptWords()), new MultiLineCommentLanguageRule(spellChecker, new ExemptWords()) });
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
@@ -183,7 +175,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 {0}
-}}", 
+}}",
    comment));
 				var root = method.GetRoot();
 
@@ -191,6 +183,14 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);
+			}
+		}
+
+		private class ExemptWords : IKnownWordList
+		{
+			public bool IsExempt(string word)
+			{
+				return false;
 			}
 		}
 
