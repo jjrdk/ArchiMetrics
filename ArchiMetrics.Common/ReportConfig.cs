@@ -18,6 +18,24 @@ namespace ArchiMetrics.Common
 	[XmlRoot("ReportConfig")]
 	public class ReportConfig
 	{
+		public ReportConfig()
+		{
+		}
+
+		public ReportConfig(string databaseUrl, string apiKey, string outputFile, string tfsConnectionString, string tfsServerUrl, Collection<ModelSettings> modelSettings, Collection<string> couplings)
+		{
+			DatabaseUrl = databaseUrl;
+			ApiKey = apiKey;
+			OutputFile = outputFile;
+			TfsConnectionString = tfsConnectionString;
+			TfsServerUrl = tfsServerUrl;
+			Models = modelSettings;
+			Couplings = couplings;
+		}
+
+		[XmlAttribute("TfsServerUrl")]
+		public string TfsServerUrl { get; set; }
+
 		[XmlAttribute("DatabaseUrl")]
 		public string DatabaseUrl { get; set; }
 
@@ -31,7 +49,7 @@ namespace ArchiMetrics.Common
 		public string TfsConnectionString { get; set; }
 
 		[XmlElement("Project")]
-		public Collection<ProjectSettings> Projects { get; set; }
+		public virtual Collection<ProjectSettings> Projects { get; set; }
 
 		[XmlElement("Model")]
 		public Collection<ModelSettings> Models { get; set; }

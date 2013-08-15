@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview
 {
 	using System;
+	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
@@ -30,34 +31,30 @@ namespace ArchiMetrics.CodeReview
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public virtual Task<IEnumerable<EvaluationResult>> Inspect(
-			string projectPath, 
-			SyntaxNode node, 
-			ISemanticModel semanticModel, 
+		public async virtual Task<IEnumerable<EvaluationResult>> Inspect(
+			string projectPath,
+			SyntaxNode node,
+			ISemanticModel semanticModel,
 			ISolution solution)
 		{
-			return Task.Factory.StartNew(() =>
-				{
-					var inspector = new InnerInspector(_evaluations, semanticModel, solution);
-					inspector.Visit(node);
-					var inspectionResults = inspector.GetResults();
-					foreach (var result in inspectionResults)
-					{
-						result.ProjectPath = projectPath;
-					}
+			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
+			inspector.Visit(node);
+			var inspectionResults = await inspector.GetResults();
+			foreach (var result in inspectionResults.Where(x => x != null))
+			{
+				result.ProjectPath = projectPath;
+			}
 
-					var returnValue = inspectionResults.ToArray();
-					inspector.Dispose();
-					return returnValue.AsEnumerable();
-				});
+			var returnValue = inspectionResults.ToArray();
+			inspector.Dispose();
+			return returnValue.AsEnumerable();
 		}
 
 		private class InnerInspector : SyntaxWalker, IDisposable
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
-
-			private readonly List<EvaluationResult> _inspectionResults = new List<EvaluationResult>();
-
+			private readonly ConcurrentQueue<Task> _inspectionTasks = new ConcurrentQueue<Task>();
+			private readonly ConcurrentBag<EvaluationResult> _inspectionResults = new ConcurrentBag<EvaluationResult>();
 			private readonly ISemanticModel _model;
 			private readonly ISolution _solution;
 
@@ -89,66 +86,82 @@ namespace ArchiMetrics.CodeReview
 					var codeResults = GetCodeEvaluations(node, nodeEvaluations);
 					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations, _model, _solution);
 
-					_inspectionResults.AddRange(codeResults);
-					_inspectionResults.AddRange(semmanticResults);
+					var continuation = Task.WhenAll(codeResults, semmanticResults).ContinueWith(t =>
+					{
+						foreach (var source in t.Result.SelectMany(x => x).ToArray())
+						{
+							_inspectionResults.Add(source);
+						}
+					});
+
+					_inspectionTasks.Enqueue(continuation);
 				}
 
 				base.Visit(node);
 			}
 
-			private IEnumerable<EvaluationResult> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
+			private Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
 			{
-				var results = nodeEvaluations
-					.OfType<ICodeEvaluation>()
-					.Select(x =>
-						{
-							try
-							{
-								return x.Evaluate(node);
-							}
-							catch (Exception ex)
-							{
-								return new EvaluationResult
-										   {
-											   Comment = ex.Message, 
-											   ErrorCount = 1, 
-											   Snippet = node.ToFullString(), 
-											   Quality = CodeQuality.Broken
-										   };
-							}
-						})
-					.Where(x => x != null && x.Quality != CodeQuality.Good);
-				return results;
+				return Task.Factory.StartNew(() =>
+					{
+						var results = nodeEvaluations
+							.OfType<ICodeEvaluation>()
+							.Select(x =>
+								{
+									try
+									{
+										return x.Evaluate(node);
+									}
+									catch (Exception ex)
+									{
+										return new EvaluationResult
+												   {
+													   Comment = ex.Message,
+													   ErrorCount = 1,
+													   Snippet = node.ToFullString(),
+													   Quality = CodeQuality.Broken
+												   };
+									}
+								})
+							.Where(x => x != null && x.Quality != CodeQuality.Good)
+							.ToArray()
+							.AsEnumerable();
+						return results;
+					});
 			}
 
-			private IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			private Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
 			{
-				if (model == null || solution == null)
-				{
-					return Enumerable.Empty<EvaluationResult>();
-				}
-
-				var results = nodeEvaluations
-					.OfType<ISemanticEvaluation>()
-					.Select(x =>
+				return Task.Factory.StartNew(() =>
+					{
+						if (model == null || solution == null)
 						{
-							try
-							{
-								return x.Evaluate(node, model, solution);
-							}
-							catch (Exception ex)
-							{
-								return new EvaluationResult
-									       {
-										       Comment = ex.Message, 
-										       ErrorCount = 1, 
-										       Snippet = node.ToFullString(), 
-										       Quality = CodeQuality.Broken
-									       };
-							}
-						})
-					.Where(x => x != null && x.Quality != CodeQuality.Good);
-				return results;
+							return Enumerable.Empty<EvaluationResult>();
+						}
+
+						var results = nodeEvaluations
+							.OfType<ISemanticEvaluation>()
+							.Select(x =>
+								{
+									try
+									{
+										return x.Evaluate(node, model, solution);
+									}
+									catch (Exception ex)
+									{
+										return new EvaluationResult
+												   {
+													   Comment = ex.Message,
+													   ErrorCount = 1,
+													   Snippet = node.ToFullString(),
+													   Quality = CodeQuality.Broken
+												   };
+									}
+								})
+							.Where(x => x != null && x.Quality != CodeQuality.Good)
+							.ToArray();
+						return results;
+					});
 			}
 
 			public override void VisitTrivia(SyntaxTrivia trivia)
@@ -168,23 +181,34 @@ namespace ArchiMetrics.CodeReview
 							{
 								return new EvaluationResult
 								{
-									Comment = ex.Message, 
-									ErrorCount = 1, 
-									Snippet = trivia.ToFullString(), 
+									Comment = ex.Message,
+									ErrorCount = 1,
+									Snippet = trivia.ToFullString(),
 									Quality = CodeQuality.Broken
 								};
 							}
 						})
 						.Where(x => x != null && x.Quality != CodeQuality.Good);
-					_inspectionResults.AddRange(results);
+					foreach (var result in results)
+					{
+						_inspectionResults.Add(result);
+					}
 				}
 
 				base.VisitTrivia(trivia);
 			}
 
-			public EvaluationResult[] GetResults()
+			public async Task<EvaluationResult[]> GetResults()
 			{
-				return _inspectionResults.ToArray();
+				await Task.WhenAll(_inspectionTasks);
+				var results = _inspectionResults.Where(x => x != null).ToArray();
+				while (_inspectionTasks.Count > 0)
+				{
+					Task t;
+					_inspectionTasks.TryDequeue(out t);
+					t.Dispose();
+				}
+				return results;
 			}
 
 			protected virtual void Dispose(bool isDisposing)
@@ -192,7 +216,12 @@ namespace ArchiMetrics.CodeReview
 				if (isDisposing)
 				{
 					// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-					_inspectionResults.Clear();
+					while (_inspectionTasks.Count > 0)
+					{
+						Task t;
+						_inspectionTasks.TryDequeue(out t);
+						t.Dispose();
+					}
 				}
 			}
 		}

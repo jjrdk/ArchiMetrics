@@ -31,10 +31,9 @@ namespace ArchiMetrics.CodeReview.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Uncalled code", 
+						   Comment = "Uncalled code detected.", 
 						   ImpactLevel = ImpactLevel.Member, 
-						   Namespace = GetCompilationUnitNamespace(node.GetLocation()
-							   .SourceTree.GetRoot()), 
+						   Namespace = GetCompilationUnitNamespace(node.GetLocation().SourceTree.GetRoot()), 
 						   Quality = CodeQuality.Incompetent, 
 						   QualityAttribute = QualityAttribute.CodeQuality, 
 						   Snippet = node.ToFullString()

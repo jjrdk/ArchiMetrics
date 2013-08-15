@@ -28,6 +28,12 @@ namespace ArchiMetrics.Common
 		public string Tag { get; set; }
 
 		[XmlAttribute]
+		public string TfsPath { get; set; }
+
+		[XmlAttribute]
+		public string GitBranch { get; set; }
+
+		[XmlAttribute]
 		public DateTime Date { get; set; }
 
 		[XmlElement("Root")]

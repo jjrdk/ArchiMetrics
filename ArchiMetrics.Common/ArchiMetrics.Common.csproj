@@ -91,6 +91,7 @@
     <Compile Include="ISpellChecker.cs" />
     <Compile Include="IVertexRuleDefinition.cs" />
     <Compile Include="IVertexRuleRepository.cs" />
+    <Compile Include="LinqExtensions.cs" />
     <Compile Include="Metrics\CodeMetrics.cs" />
     <Compile Include="Metrics\IHalsteadAnalyzer.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />

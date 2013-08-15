@@ -133,7 +133,6 @@ EndGlobal
 					projectIncludes.Trim(), 
 					string.Join(Environment.NewLine, configs).Trim());
 				writer.Flush();
-				writer.Close();
 			}
 		}
 

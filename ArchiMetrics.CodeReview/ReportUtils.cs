@@ -12,57 +12,11 @@
 
 namespace ArchiMetrics.CodeReview
 {
-	using System;
-	using System.Globalization;
 	using System.Linq;
-	using ArchiMetrics.Common;
 
 	public static class ReportUtils
 	{
-		private static readonly string[] TestNames = new[]
-										  {
-											"Tests", 
-											"TestInterceptor", 
-											"Testing", 
-											"SchedulerTest", 
-											"Demo", 
-											"UnitTest", 
-											"Mock", 
-											"DevTest", 
-											"CodedUI", 
-											"Fakes", 
-											"Simulator"
-										  };
-
-		private static readonly string[] KnownTestAttributes = new[] { "Test", "TestMethod", "Fact" };
-
-		public static string GetMonth()
-		{
-			return string.Format("{0} {1}", DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month), DateTime.Now.Year);
-		}
-
-		public static bool TestCode(ProjectDefinition path)
-		{
-			var result = AllCode(path)
-				&& (path.IsTest
-					|| path.Source.EndsWith("test", StringComparison.OrdinalIgnoreCase)
-					|| TestNames.Any(n => path.Source.IndexOf(n, StringComparison.OrdinalIgnoreCase) >= 0));
-			return result;
-		}
-
-		public static bool ProductionCode(ProjectDefinition path)
-		{
-			return !path.IsTest
-				&& AllCode(path)
-				&& !path.Source.EndsWith("test", StringComparison.OrdinalIgnoreCase)
-				&& TestNames.All(n => path.Source.IndexOf(n, StringComparison.OrdinalIgnoreCase) == -1);
-		}
-
-		public static bool AllCode(ProjectDefinition path)
-		{
-			return path.Source.IndexOf("QuickStart", StringComparison.OrdinalIgnoreCase) == -1
-				   && path.Source.IndexOf("Demo", StringComparison.OrdinalIgnoreCase) == -1;
-		}
+		private static readonly string[] KnownTestAttributes = { "Test", "TestCase", "TestMethod", "Fact", "Theory" };
 
 		internal static bool IsKnownTestAttribute(this string text)
 		{
