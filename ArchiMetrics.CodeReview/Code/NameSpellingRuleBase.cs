@@ -20,13 +20,13 @@ namespace ArchiMetrics.CodeReview.Code
 	internal abstract class NameSpellingRuleBase : CodeEvaluationBase
 	{
 		private static readonly Regex CapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
-		private readonly IKnownWordList _knownWordList;
+		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _speller;
 
-		public NameSpellingRuleBase(ISpellChecker speller, IKnownWordList knownWordList)
+		public NameSpellingRuleBase(ISpellChecker speller, IKnownPatterns knownPatterns)
 		{
 			_speller = speller;
-			_knownWordList = knownWordList;
+			_knownPatterns = knownPatterns;
 		}
 
 		protected bool IsSpelledCorrectly(string name)
@@ -34,7 +34,7 @@ namespace ArchiMetrics.CodeReview.Code
 			var wordParts = CapitalRegex.Replace(name, m => " " + m)
 				.Trim()
 				.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-				.Where(s => !_knownWordList.IsExempt(s));
+				.Where(s => !_knownPatterns.IsExempt(s));
 			return wordParts.Aggregate(true, (b, s) => b && _speller.Spell(s));
 		}
 	}

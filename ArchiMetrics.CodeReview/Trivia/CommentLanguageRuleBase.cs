@@ -22,12 +22,12 @@ namespace ArchiMetrics.CodeReview.Trivia
 		private static readonly Regex NumberRegex = new Regex("[1-9]+", RegexOptions.Compiled);
 		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
 		private readonly ISpellChecker _spellChecker;
-		private readonly IKnownWordList _knownWordList;
+		private readonly IKnownPatterns _knownPatterns;
 
-		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownWordList knownWordList)
+		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
 		{
 			_spellChecker = spellChecker;
-			_knownWordList = knownWordList;
+			_knownPatterns = knownPatterns;
 		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxTrivia node)
@@ -41,7 +41,7 @@ namespace ArchiMetrics.CodeReview.Trivia
 				.Select(s => s.TrimEnd('.', ','))
 				.Where(IsNotNumber)
 				.ToArray();
-			var errorCount = commentWords.Aggregate(0, (i, s) => i + ((_knownWordList.IsExempt(s) || _spellChecker.Spell(s)) ? 0 : 1));
+			var errorCount = commentWords.Aggregate(0, (i, s) => i + ((_knownPatterns.IsExempt(s) || _spellChecker.Spell(s)) ? 0 : 1));
 			if (errorCount >= 0.50 * commentWords.Length)
 			{
 				return new EvaluationResult

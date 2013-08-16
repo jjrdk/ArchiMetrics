@@ -17,8 +17,8 @@ namespace ArchiMetrics.CodeReview.Code
 
 	internal class MethodNameSpellingRule : NameSpellingRuleBase
 	{
-		public MethodNameSpellingRule(ISpellChecker speller, IKnownWordList knownWordList)
-			: base(speller, knownWordList)
+		public MethodNameSpellingRule(ISpellChecker speller, IKnownPatterns knownPatterns)
+			: base(speller, knownPatterns)
 		{
 		}
 

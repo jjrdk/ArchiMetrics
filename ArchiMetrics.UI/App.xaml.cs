@@ -85,7 +85,7 @@ namespace ArchiMetrics.UI
 			}
 
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
-			builder.RegisterType<KnownWordList>().As<IKnownWordList>();
+			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>();
 			builder.RegisterType<CodeMetricsCalculator>()
 				   .As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeInspector>()

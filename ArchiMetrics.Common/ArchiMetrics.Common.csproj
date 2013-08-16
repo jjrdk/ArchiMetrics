@@ -81,7 +81,7 @@
     <Compile Include="IEdgeItemsRepository.cs" />
     <Compile Include="IEdgeTransformer.cs" />
     <Compile Include="IFactory.cs" />
-    <Compile Include="IKnownWordList.cs" />
+    <Compile Include="IKnownPatterns.cs" />
     <Compile Include="ImpactLevel.cs" />
     <Compile Include="INodeInspector.cs" />
     <Compile Include="IProjectData.cs" />

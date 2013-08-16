@@ -164,7 +164,7 @@
     <Compile Include="DataAccess\SolutionProvider.cs" />
     <Compile Include="Support\DataContextAttribute.cs" />
     <Compile Include="Support\DefaultCollectionCopier.cs" />
-    <Compile Include="KnownWordList.cs" />
+    <Compile Include="KnownPatterns.cs" />
     <Compile Include="Support\DelegateCommand.cs" />
     <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />

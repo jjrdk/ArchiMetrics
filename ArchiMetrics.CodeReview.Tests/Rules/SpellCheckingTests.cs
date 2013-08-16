@@ -186,11 +186,19 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			}
 		}
 
-		private class ExemptWords : IKnownWordList
+		private class ExemptWords : IKnownPatterns
 		{
 			public bool IsExempt(string word)
 			{
 				return false;
+			}
+
+			public void Add(params string[] patterns)
+			{
+			}
+
+			public void Clear()
+			{
 			}
 		}
 
