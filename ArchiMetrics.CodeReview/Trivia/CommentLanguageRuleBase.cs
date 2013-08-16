@@ -22,8 +22,8 @@ namespace ArchiMetrics.CodeReview.Trivia
 		private static readonly Regex StrippedRegex = new Regex(@"[""'*©®º()!%\[\]{}/]+", RegexOptions.Compiled);
 		private static readonly Regex NumberRegex = new Regex("[1-9]+", RegexOptions.Compiled);
 		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
-		private readonly ISpellChecker _spellChecker;
 		private readonly IKnownPatterns _knownPatterns;
+		private readonly ISpellChecker _spellChecker;
 
 		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
 		{
@@ -45,11 +45,11 @@ namespace ArchiMetrics.CodeReview.Trivia
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Suspicious language comment",
-							   ErrorCount = 1,
-							   ImpactLevel = ImpactLevel.Member,
-							   Quality = CodeQuality.NeedsReview,
-							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance,
+							   Comment = "Suspicious language comment", 
+							   ErrorCount = 1, 
+							   ImpactLevel = ImpactLevel.Member, 
+							   Quality = CodeQuality.NeedsReview, 
+							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance, 
 							   Snippet = node.ToFullString()
 						   };
 			}

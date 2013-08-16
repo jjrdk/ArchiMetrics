@@ -35,10 +35,10 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Method too complex.",
-							   ErrorCount = 1,
-							   Quality = CodeQuality.NeedsRefactoring,
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
+							   Comment = "Method too complex.", 
+							   ErrorCount = 1, 
+							   Quality = CodeQuality.NeedsRefactoring, 
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 							   Snippet = node.ToFullString()
 						   };
 			}

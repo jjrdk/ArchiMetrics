@@ -32,9 +32,9 @@ namespace ArchiMetrics.CodeReview
 		}
 
 		public async virtual Task<IEnumerable<EvaluationResult>> Inspect(
-			string projectPath,
-			SyntaxNode node,
-			ISemanticModel semanticModel,
+			string projectPath, 
+			SyntaxNode node, 
+			ISemanticModel semanticModel, 
 			ISolution solution)
 		{
 			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
@@ -53,8 +53,8 @@ namespace ArchiMetrics.CodeReview
 		private class InnerInspector : SyntaxWalker, IDisposable
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
-			private readonly ConcurrentQueue<Task> _inspectionTasks = new ConcurrentQueue<Task>();
 			private readonly ConcurrentBag<EvaluationResult> _inspectionResults = new ConcurrentBag<EvaluationResult>();
+			private readonly ConcurrentQueue<Task> _inspectionTasks = new ConcurrentQueue<Task>();
 			private readonly ISemanticModel _model;
 			private readonly ISolution _solution;
 
@@ -131,6 +131,7 @@ namespace ArchiMetrics.CodeReview
 					_inspectionTasks.TryDequeue(out t);
 					t.Dispose();
 				}
+
 				return results;
 			}
 
@@ -152,9 +153,9 @@ namespace ArchiMetrics.CodeReview
 									{
 										return new EvaluationResult
 											   {
-												   Comment = ex.Message,
-												   ErrorCount = 1,
-												   Snippet = trivia.ToFullString(),
+												   Comment = ex.Message, 
+												   ErrorCount = 1, 
+												   Snippet = trivia.ToFullString(), 
 												   Quality = CodeQuality.Broken
 											   };
 									}
@@ -181,9 +182,9 @@ namespace ArchiMetrics.CodeReview
 									{
 										return new EvaluationResult
 												   {
-													   Comment = ex.Message,
-													   ErrorCount = 1,
-													   Snippet = node.ToFullString(),
+													   Comment = ex.Message, 
+													   ErrorCount = 1, 
+													   Snippet = node.ToFullString(), 
 													   Quality = CodeQuality.Broken
 												   };
 									}
@@ -216,9 +217,9 @@ namespace ArchiMetrics.CodeReview
 									{
 										return new EvaluationResult
 												   {
-													   Comment = ex.Message,
-													   ErrorCount = 1,
-													   Snippet = node.ToFullString(),
+													   Comment = ex.Message, 
+													   ErrorCount = 1, 
+													   Snippet = node.ToFullString(), 
 													   Quality = CodeQuality.Broken
 												   };
 									}

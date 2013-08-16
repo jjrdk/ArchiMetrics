@@ -26,6 +26,8 @@ namespace ArchiMetrics.CodeReview.Semantic
 			Threshold = 40;
 		}
 
+		public int Threshold { get; set; }
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get
@@ -33,8 +35,6 @@ namespace ArchiMetrics.CodeReview.Semantic
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
-
-		public int Threshold { get; set; }
 
 		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
@@ -51,10 +51,10 @@ namespace ArchiMetrics.CodeReview.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Possible unmaintainable method.",
-						   ErrorCount = 1,
-						   Quality = CodeQuality.NeedsRefactoring,
-						   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
+						   Comment = "Possible unmaintainable method.", 
+						   ErrorCount = 1, 
+						   Quality = CodeQuality.NeedsRefactoring, 
+						   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 						   Snippet = node.ToFullString()
 					   };
 			}

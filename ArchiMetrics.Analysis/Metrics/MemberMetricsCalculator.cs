@@ -139,17 +139,17 @@ namespace ArchiMetrics.Analysis.Metrics
 			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
 			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
 			return new MemberMetric(
-				node.CodeFile,
-				halsteadMetrics,
-				memberMetricKind,
-				node.LineNumber,
-				linesOfCode,
-				maintainabilityIndex,
-				complexity,
-				node.DisplayName,
-				logicalComplexity,
-				source.ToArray(),
-				numberOfParameters,
+				node.CodeFile, 
+				halsteadMetrics, 
+				memberMetricKind, 
+				node.LineNumber, 
+				linesOfCode, 
+				maintainabilityIndex, 
+				complexity, 
+				node.DisplayName, 
+				logicalComplexity, 
+				source.ToArray(), 
+				numberOfParameters, 
 				numberOfLocalVariables);
 		}
 

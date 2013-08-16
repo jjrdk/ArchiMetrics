@@ -73,7 +73,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}",
+}}", 
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -93,7 +93,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}",
+}}", 
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -142,7 +142,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 //{0}
-}}",
+}}", 
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -175,7 +175,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 {0}
-}}",
+}}", 
    comment));
 				var root = method.GetRoot();
 
