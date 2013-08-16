@@ -20,7 +20,7 @@ namespace ArchiMetrics.CodeReview.Code
 	internal class TooHighCyclomaticComplexityRule : CodeEvaluationBase
 	{
 		private const int Limit = 8;
-		readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
+		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 
 		public override SyntaxKind EvaluatedKind
 		{

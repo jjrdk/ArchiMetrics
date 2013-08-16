@@ -135,6 +135,20 @@ namespace ArchiMetrics.CodeReview
 				return results;
 			}
 
+			protected virtual void Dispose(bool isDisposing)
+			{
+				if (isDisposing)
+				{
+					// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
+					while (_inspectionTasks.Count > 0)
+					{
+						Task t;
+						_inspectionTasks.TryDequeue(out t);
+						t.Dispose();
+					}
+				}
+			}
+
 			private Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
 			{
 				return Task.Factory.StartNew(
@@ -228,20 +242,6 @@ namespace ArchiMetrics.CodeReview
 							.ToArray();
 						return results;
 					});
-			}
-
-			protected virtual void Dispose(bool isDisposing)
-			{
-				if (isDisposing)
-				{
-					// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
-					while (_inspectionTasks.Count > 0)
-					{
-						Task t;
-						_inspectionTasks.TryDequeue(out t);
-						t.Dispose();
-					}
-				}
 			}
 		}
 	}

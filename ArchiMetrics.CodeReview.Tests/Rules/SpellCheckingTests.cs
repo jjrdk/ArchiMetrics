@@ -73,7 +73,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}", 
+}}",
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -93,7 +93,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
-}}", 
+}}",
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -110,9 +110,11 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 			public void AcceptsEnglishMultiLineXmlComments(string comment)
 			{
 				var method = SyntaxTree.ParseText(
-					string.Format(@"public void SomeMethod() {{
+					string.Format(
+						@"public void SomeMethod() {{
 /* {0} */
-}}", comment));
+}}",
+						comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
@@ -142,7 +144,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 //{0}
-}}", 
+}}",
    comment));
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
@@ -175,7 +177,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 					string.Format(
 @"public void SomeMethod() {{
 {0}
-}}", 
+}}",
    comment));
 				var root = method.GetRoot();
 
