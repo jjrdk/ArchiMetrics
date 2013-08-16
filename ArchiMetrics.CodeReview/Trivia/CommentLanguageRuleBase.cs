@@ -19,6 +19,7 @@ namespace ArchiMetrics.CodeReview.Trivia
 
 	internal abstract class CommentLanguageRuleBase : TriviaEvaluationBase
 	{
+		private static readonly Regex StrippedRegex = new Regex(@"[""'*©®º()!%\[\]{}/]+", RegexOptions.Compiled);
 		private static readonly Regex NumberRegex = new Regex("[1-9]+", RegexOptions.Compiled);
 		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
 		private readonly ISpellChecker _spellChecker;
@@ -32,9 +33,7 @@ namespace ArchiMetrics.CodeReview.Trivia
 
 		protected override EvaluationResult EvaluateImpl(SyntaxTrivia node)
 		{
-			var trimmed = node.ToFullString()
-				.Trim('/', '*')
-				.Trim();
+			var trimmed = StrippedRegex.Replace(node.ToFullString(), string.Empty).Trim();
 			var commentWords = RemoveXml(trimmed)
 				.Split(' ')
 				.Select(RemoveXml)
