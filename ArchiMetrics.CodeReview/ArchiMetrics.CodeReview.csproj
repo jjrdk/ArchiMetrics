@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
+    <Compile Include="Semantic\TooLowMaintainabilityIndexRule.cs" />
     <Compile Include="Code\VariableNameShouldNotMatchFieldNameRule.cs" />
     <Compile Include="ICodeEvaluation.cs" />
     <Compile Include="IEvaluation.cs" />

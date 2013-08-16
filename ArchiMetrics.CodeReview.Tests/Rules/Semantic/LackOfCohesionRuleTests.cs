@@ -117,7 +117,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 										from n in root.DescendantNodes().OfType<ClassDeclarationSyntax>()
 										select new
 											   {
-												   semanticModel = model, 
+												   semanticModel = model,
 												   node = n
 											   }).First();
 				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);

@@ -21,7 +21,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly CyclomaticComplexityCounter counter = new CyclomaticComplexityCounter();
+		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 
 		public MemberMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
@@ -47,6 +47,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			return CalculateMemberMetrics(members).ToArray();
+		}
+
+		public MemberMetric Calculate(MethodDeclarationSyntax methodDeclaration)
+		{
+			var member = new MemberNode(string.Empty, methodDeclaration.Identifier.ValueText, MemberKind.Method, 0, methodDeclaration);
+			return CalculateMemberMetric(member);
 		}
 
 		private static int CalculateLinesOfCode(MemberNode node)
@@ -97,7 +103,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private int CalculateCyclomaticComplexity(MemberNode node)
 		{
-			return counter.Calculate(node);
+			return _counter.Calculate(node);
 		}
 
 		private IEnumerable<TypeCoupling> CalculateClassCoupling(MemberNode node)
@@ -109,31 +115,42 @@ namespace ArchiMetrics.Analysis.Metrics
 		private IEnumerable<MemberMetric> CalculateMemberMetrics(IEnumerable<MemberNode> nodes)
 		{
 			return from node in nodes
-				   let analyzer = new HalsteadAnalyzer()
-				   let halsteadMetrics = analyzer.Calculate(node)
-				   where halsteadMetrics != null
-				   let syntaxNode = node.SyntaxNode
-				   let memberMetricKind = GetMemberMetricKind(node)
-				   let source = CalculateClassCoupling(node)
-				   let complexity = CalculateCyclomaticComplexity(node)
-				   let logicalComplexity = CalculateLogicalComplexity(node)
-				   let linesOfCode = CalculateLinesOfCode(node)
-				   let numberOfParameters = CalculateNumberOfParameters(syntaxNode)
-				   let numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode)
-				   let maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics)
-				   select new MemberMetric(
-					   node.CodeFile, 
-					   halsteadMetrics, 
-					   memberMetricKind, 
-					   node.LineNumber, 
-					   linesOfCode, 
-					   maintainabilityIndex, 
-					   complexity, 
-					   node.DisplayName, 
-					   logicalComplexity, 
-					   source.ToArray(), 
-					   numberOfParameters, 
-					   numberOfLocalVariables);
+				   let metric = CalculateMemberMetric(node)
+				   where metric != null
+				   select metric;
+		}
+
+		private MemberMetric CalculateMemberMetric(MemberNode node)
+		{
+			var analyzer = new HalsteadAnalyzer();
+			var halsteadMetrics = analyzer.Calculate(node);
+			if (halsteadMetrics == null)
+			{
+				return null;
+			}
+
+			var syntaxNode = node.SyntaxNode;
+			var memberMetricKind = GetMemberMetricKind(node);
+			var source = CalculateClassCoupling(node);
+			var complexity = CalculateCyclomaticComplexity(node);
+			var logicalComplexity = CalculateLogicalComplexity(node);
+			var linesOfCode = CalculateLinesOfCode(node);
+			var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
+			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
+			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
+			return new MemberMetric(
+				node.CodeFile,
+				halsteadMetrics,
+				memberMetricKind,
+				node.LineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
+				node.DisplayName,
+				logicalComplexity,
+				source.ToArray(),
+				numberOfParameters,
+				numberOfLocalVariables);
 		}
 
 		private int CalculateNumberOfLocalVariables(CommonSyntaxNode node)
