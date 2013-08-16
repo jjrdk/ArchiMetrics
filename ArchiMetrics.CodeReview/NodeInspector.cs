@@ -100,6 +100,71 @@ namespace ArchiMetrics.CodeReview
 				base.Visit(node);
 			}
 
+			public override void VisitTrivia(SyntaxTrivia trivia)
+			{
+				if (_evaluations.ContainsKey(trivia.Kind))
+				{
+					var nodeEvaluations = _evaluations[trivia.Kind];
+					var task = GetTriviaEvaluations(trivia, nodeEvaluations)
+						.ContinueWith(
+							t =>
+								{
+									foreach (var result in t.Result)
+									{
+										_inspectionResults.Add(result);
+									}
+								});
+
+					_inspectionTasks.Enqueue(task);
+				}
+
+				base.VisitTrivia(trivia);
+			}
+
+			public async Task<EvaluationResult[]> GetResults()
+			{
+				await Task.WhenAll(_inspectionTasks);
+				var results = _inspectionResults.Where(x => x != null).ToArray();
+				while (_inspectionTasks.Count > 0)
+				{
+					Task t;
+					_inspectionTasks.TryDequeue(out t);
+					t.Dispose();
+				}
+				return results;
+			}
+
+			private Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
+			{
+				return Task.Factory.StartNew(
+					() =>
+					{
+						var results = nodeEvaluations
+							.OfType<ITriviaEvaluation>()
+							.Select(
+								x =>
+								{
+									try
+									{
+										return x.Evaluate(trivia);
+									}
+									catch (Exception ex)
+									{
+										return new EvaluationResult
+											   {
+												   Comment = ex.Message,
+												   ErrorCount = 1,
+												   Snippet = trivia.ToFullString(),
+												   Quality = CodeQuality.Broken
+											   };
+									}
+								})
+							.Where(x => x != null && x.Quality != CodeQuality.Good)
+							.ToArray();
+						return results.AsEnumerable();
+					});
+			}
+
 			private Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
 			{
 				return Task.Factory.StartNew(() =>
@@ -162,53 +227,6 @@ namespace ArchiMetrics.CodeReview
 							.ToArray();
 						return results;
 					});
-			}
-
-			public override void VisitTrivia(SyntaxTrivia trivia)
-			{
-				if (_evaluations.ContainsKey(trivia.Kind))
-				{
-					var nodeEvaluations = _evaluations[trivia.Kind];
-					var results = nodeEvaluations
-						.OfType<ITriviaEvaluation>()
-						.Select(x =>
-						{
-							try
-							{
-								return x.Evaluate(trivia);
-							}
-							catch (Exception ex)
-							{
-								return new EvaluationResult
-								{
-									Comment = ex.Message,
-									ErrorCount = 1,
-									Snippet = trivia.ToFullString(),
-									Quality = CodeQuality.Broken
-								};
-							}
-						})
-						.Where(x => x != null && x.Quality != CodeQuality.Good);
-					foreach (var result in results)
-					{
-						_inspectionResults.Add(result);
-					}
-				}
-
-				base.VisitTrivia(trivia);
-			}
-
-			public async Task<EvaluationResult[]> GetResults()
-			{
-				await Task.WhenAll(_inspectionTasks);
-				var results = _inspectionResults.Where(x => x != null).ToArray();
-				while (_inspectionTasks.Count > 0)
-				{
-					Task t;
-					_inspectionTasks.TryDequeue(out t);
-					t.Dispose();
-				}
-				return results;
 			}
 
 			protected virtual void Dispose(bool isDisposing)
