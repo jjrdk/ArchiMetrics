@@ -20,7 +20,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	internal class LackOfCohesionOfMethodsRule : EvaluationBase, ISemanticEvaluation
+	internal class LackOfCohesionOfMethodsRule : SemanticEvaluationBase
 	{
 		private static readonly CommonSymbolKind[] MemberKinds =
 		{
@@ -36,7 +36,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 			get { return SyntaxKind.ClassDeclaration; }
 		}
 
-		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
 			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(classDeclaration);

@@ -13,13 +13,12 @@
 namespace ArchiMetrics.CodeReview.Semantic
 {
 	using ArchiMetrics.Analysis.Metrics;
-	using ArchiMetrics.CodeReview.Code;
 	using ArchiMetrics.Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	internal class TooLowMaintainabilityIndexRule : EvaluationBase, ISemanticEvaluation
+	internal class TooLowMaintainabilityIndexRule : SemanticEvaluationBase
 	{
 		public TooLowMaintainabilityIndexRule()
 		{
@@ -36,7 +35,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 
 		public int Threshold { get; set; }
 
-		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			if (semanticModel == null)
 			{
@@ -49,14 +48,15 @@ namespace ArchiMetrics.CodeReview.Semantic
 			var metric = counter.Calculate(methodDeclaration);
 			if (metric.MaintainabilityIndex <= Threshold)
 			{
+				var snippet = node.ToFullString();
 				return new EvaluationResult
-					   {
-						   Comment = "Possible unmaintainable method.",
-						   ErrorCount = 1,
-						   Quality = CodeQuality.NeedsRefactoring,
-						   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
-						   Snippet = node.ToFullString()
-					   };
+				{
+					Comment = "Possible unmaintainable method.",
+					ErrorCount = 1,
+					Quality = CodeQuality.NeedsRefactoring,
+					QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
+					Snippet = snippet
+				};
 			}
 
 			return null;

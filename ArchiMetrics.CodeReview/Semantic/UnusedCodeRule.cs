@@ -14,15 +14,14 @@ namespace ArchiMetrics.CodeReview.Semantic
 {
 	using System.Linq;
 	using System.Threading;
-	using ArchiMetrics.CodeReview.Code;
 	using ArchiMetrics.Common;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	internal abstract class UnusedCodeRule : EvaluationBase, ISemanticEvaluation
+	internal abstract class UnusedCodeRule : SemanticEvaluationBase
 	{
-		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var symbol = semanticModel.GetDeclaredSymbol(node);
 			var callers = symbol.FindCallers(solution, CancellationToken.None);
