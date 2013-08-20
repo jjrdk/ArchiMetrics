@@ -33,6 +33,7 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 					       {
+							   ImpactLevel = ImpactLevel.Member,
 						       Comment = "Using reflection to find current member name.", 
 						       Quality = CodeQuality.Incompetent, 
 							   QualityAttribute = QualityAttribute.CodeQuality, 

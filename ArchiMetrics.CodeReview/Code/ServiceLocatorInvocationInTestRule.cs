@@ -47,7 +47,7 @@ namespace ArchiMetrics.CodeReview.Code
 								   Quality = CodeQuality.Incompetent, 
 								   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 								   Snippet = snippet, 
-								   ImpactLevel = methodParent == null ? ImpactLevel.Type : ImpactLevel.Member
+								   ImpactLevel = ImpactLevel.Member
 							   };
 				}
 			}

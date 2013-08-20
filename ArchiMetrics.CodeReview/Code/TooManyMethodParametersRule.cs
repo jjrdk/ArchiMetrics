@@ -38,6 +38,7 @@ namespace ArchiMetrics.CodeReview.Code
 						   {
 							   Comment = "More than " + Limit + " parameters on method", 
 							   ErrorCount = parameterCount, 
+							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsReEngineering, 
 							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 							   Snippet = methodDeclaration.ToFullString()

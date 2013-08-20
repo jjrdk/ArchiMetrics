@@ -37,6 +37,8 @@ namespace ArchiMetrics.CodeReview.Code
 						   {
 							   Comment = "Type Obfuscation", 
 							   Quality = CodeQuality.NeedsRefactoring, 
+							   QualityAttribute = QualityAttribute.CodeQuality,
+							   ImpactLevel = ImpactLevel.Member,
 							   Snippet = (FindMethodParent(node) ?? FindClassParent(node)).ToFullString()
 						   };
 			}

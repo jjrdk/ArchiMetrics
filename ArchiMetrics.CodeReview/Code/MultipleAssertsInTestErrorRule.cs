@@ -49,10 +49,11 @@ namespace ArchiMetrics.CodeReview.Code
 				return total >= 0
 						   ? new EvaluationResult
 								 {
+									 ImpactLevel = ImpactLevel.Member,
 									 Comment = "Multiple asserts found in test.", // assertsFound + " asserts found in test.",
-									 Quality = CodeQuality.Broken, 
-									 QualityAttribute = QualityAttribute.Testability | QualityAttribute.CodeQuality, 
-									 Snippet = node.ToFullString(), 
+									 Quality = CodeQuality.Broken,
+									 QualityAttribute = QualityAttribute.Testability | QualityAttribute.CodeQuality,
+									 Snippet = node.ToFullString(),
 									 ErrorCount = total
 								 }
 						   : null;

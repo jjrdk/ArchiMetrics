@@ -37,7 +37,8 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 					       {
-							   Comment = "Class too big", 
+							   Comment = "Class too big.",
+ 							   ImpactLevel = ImpactLevel.Type,
 						       Quality = CodeQuality.NeedsRefactoring, 
 							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 						       Snippet = snippet

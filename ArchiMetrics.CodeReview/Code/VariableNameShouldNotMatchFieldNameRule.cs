@@ -48,7 +48,8 @@ namespace ArchiMetrics.CodeReview.Code
 						   Comment = "Suspicious field assignment.", 
 						   ImpactLevel = ImpactLevel.Member, 
 						   Quality = CodeQuality.NeedsReview, 
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability
+						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability,
+						   Snippet = assignment.ToFullString()
 					   };
 			}
 

@@ -39,9 +39,10 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 						   {
-							   Comment = "Local time creation found.", 
-							   Quality = CodeQuality.NeedsReview, 
-							   QualityAttribute = QualityAttribute.Conformance, 
+							   ImpactLevel = ImpactLevel.Member,
+							   Comment = "Local time creation found.",
+							   Quality = CodeQuality.NeedsReview,
+							   QualityAttribute = QualityAttribute.Conformance,
 							   Snippet = snippet
 						   };
 			}

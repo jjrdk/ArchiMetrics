@@ -38,7 +38,8 @@ namespace ArchiMetrics.CodeReview.Code
 							       Comment = "Protected field declaration in public class", 
 							       Quality = CodeQuality.Broken, 
 								   QualityAttribute = QualityAttribute.Modifiability, 
-							       Snippet = classParent.ToFullString()
+							       Snippet = classParent.ToFullString(),
+								   ImpactLevel = ImpactLevel.Type
 						       };
 				}
 			}

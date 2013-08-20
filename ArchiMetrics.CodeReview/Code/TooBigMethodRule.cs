@@ -17,7 +17,7 @@ namespace ArchiMetrics.CodeReview.Code
 
 	internal class TooBigMethodRule : CodeEvaluationBase
 	{
-		private const int Limit = 15;
+		private const int Limit = 30;
 
 		public override SyntaxKind EvaluatedKind
 		{
@@ -37,7 +37,8 @@ namespace ArchiMetrics.CodeReview.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Method too big", 
+							   Comment = "Method too big.",
+ 							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsRefactoring, 
 							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 							   Snippet = snippet

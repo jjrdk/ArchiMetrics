@@ -21,7 +21,7 @@ namespace ArchiMetrics.CodeReview.Code
 	internal class PublicInterfaceImplementationWarningRule : CodeEvaluationBase
 	{
 		private static IEnumerable<Type> _appDomainTypes;
-		
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get
@@ -46,9 +46,10 @@ namespace ArchiMetrics.CodeReview.Code
 
 						return new EvaluationResult
 								   {
-									   Comment = "Public class as known interface implementation.", 
-									   Quality = CodeQuality.NeedsReview, 
-									   QualityAttribute = QualityAttribute.Modifiability, 
+									   ImpactLevel = ImpactLevel.Project,
+									   Comment = "Public class as known interface implementation.",
+									   Quality = CodeQuality.NeedsReview,
+									   QualityAttribute = QualityAttribute.Modifiability,
 									   Snippet = snippet
 								   };
 					}

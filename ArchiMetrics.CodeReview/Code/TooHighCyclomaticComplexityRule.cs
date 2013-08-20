@@ -19,7 +19,7 @@ namespace ArchiMetrics.CodeReview.Code
 
 	internal class TooHighCyclomaticComplexityRule : CodeEvaluationBase
 	{
-		private const int Limit = 8;
+		private const int Limit = 10;
 		readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 
 		public override SyntaxKind EvaluatedKind
@@ -37,6 +37,7 @@ namespace ArchiMetrics.CodeReview.Code
 						   {
 							   Comment = "Method too complex.",
 							   ErrorCount = 1,
+							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsRefactoring,
 							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
 							   Snippet = node.ToFullString()
