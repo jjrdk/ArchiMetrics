@@ -52,7 +52,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 										from n in root.DescendantNodes().OfType<MethodDeclarationSyntax>()
 										select new
 										{
-											semanticModel = model,
+											semanticModel = model, 
 											node = n
 										})
 										.First();

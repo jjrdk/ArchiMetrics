@@ -26,9 +26,9 @@ namespace ArchiMetrics.CodeReview.Code
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
-			var doStatement = (DoStatementSyntax)node;
+			var statement = (DoStatementSyntax)node;
 
-			var sleepLoopFound = doStatement.DescendantNodes()
+			var sleepLoopFound = statement.DescendantNodes()
 											.OfType<MemberAccessExpressionSyntax>()
 											.Select(x => new Tuple<SimpleNameSyntax, SimpleNameSyntax>(x.Expression as SimpleNameSyntax, x.Name))
 											.Where(x => x.Item1 != null)

@@ -60,7 +60,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 				.SelectMany(x => x.Locations)
 				.Count());
 
-			var lcomhs = (memberCount - sumFieldUsage / fieldCount) / (memberCount - 1);
+			var lcomhs = (memberCount - (sumFieldUsage / fieldCount)) / (memberCount - 1);
 			if (lcomhs < 1)
 			{
 				return null;
