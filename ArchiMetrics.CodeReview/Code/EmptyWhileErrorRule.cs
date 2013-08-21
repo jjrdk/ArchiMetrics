@@ -40,6 +40,7 @@ namespace ArchiMetrics.CodeReview.Code
 						   Comment = "Empty while loop found in code.", 
 						   Quality = CodeQuality.Incompetent, 
 						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
+						   ImpactLevel = ImpactLevel.Member,
 						   Snippet = snippet
 					   };
 			}

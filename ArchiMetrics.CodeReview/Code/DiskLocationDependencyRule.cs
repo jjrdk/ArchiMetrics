@@ -38,12 +38,13 @@ namespace ArchiMetrics.CodeReview.Code
 				if (DiskLocationRegex.IsMatch(assignmentToken))
 				{
 					return new EvaluationResult
-						       {
-							       Comment = "FileSystem dependency detected", 
-							       Quality = CodeQuality.Broken, 
-								   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability, 
-							       Snippet = FindMethodParent(node).ToFullString()
-						       };
+							   {
+								   Comment = "FileSystem dependency detected",
+								   Quality = CodeQuality.Broken,
+								   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability,
+								   ImpactLevel = ImpactLevel.Project,
+								   Snippet = FindMethodParent(node).ToFullString()
+							   };
 				}
 			}
 

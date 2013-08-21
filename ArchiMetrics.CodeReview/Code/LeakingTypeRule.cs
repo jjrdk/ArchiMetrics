@@ -42,9 +42,10 @@ namespace ArchiMetrics.CodeReview.Code
 					{
 						return new EvaluationResult
 								   {
-									   Comment = TypeIdentifier + " leaked from publicly accessible property.", 
-									   Quality = CodeQuality.Broken, 
-									   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Reusability, 
+									   Comment = TypeIdentifier + " leaked from publicly accessible property.",
+									   Quality = CodeQuality.Broken,
+									   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Reusability,
+									   ImpactLevel = ImpactLevel.Member,
 									   Snippet = parentClass.ToFullString()
 								   };
 					}

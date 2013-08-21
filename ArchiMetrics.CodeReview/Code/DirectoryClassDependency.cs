@@ -41,6 +41,7 @@ namespace ArchiMetrics.CodeReview.Code
 						       Comment = "Directory dependency found.", 
 						       Quality = CodeQuality.Broken, 
 							   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability, 
+							   ImpactLevel = ImpactLevel.Type,
 						       Snippet = snippet
 					       };
 			}

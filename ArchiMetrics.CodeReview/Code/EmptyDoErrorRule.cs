@@ -37,9 +37,10 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 						   {
-							   Comment = "Empty do loop found in code.", 
-							   Quality = CodeQuality.Incompetent, 
-							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
+							   Comment = "Empty do loop found in code.",
+							   Quality = CodeQuality.Incompetent,
+							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
+							   ImpactLevel = ImpactLevel.Member,
 							   Snippet = snippet
 						   };
 			}

@@ -29,18 +29,19 @@ namespace ArchiMetrics.CodeReview.Code
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;
 			if (memberAccess.Expression.Kind == SyntaxKind.IdentifierName
-			    && ((IdentifierNameSyntax)memberAccess.Expression).Identifier.ValueText == "Guard")
+				&& ((IdentifierNameSyntax)memberAccess.Expression).Identifier.ValueText == "Guard")
 			{
 				var methodParent = FindMethodParent(node) as MethodDeclarationSyntax;
 				if (methodParent != null && !methodParent.Modifiers.Any(SyntaxKind.PublicKeyword))
 				{
 					return new EvaluationResult
-						       {
-							       Comment = "Guard clause in non-public method.", 
-							       Quality = CodeQuality.Incompetent, 
-								   QualityAttribute = QualityAttribute.CodeQuality, 
-							       Snippet = methodParent.ToFullString()
-						       };
+							   {
+								   Comment = "Guard clause in non-public method.",
+								   Quality = CodeQuality.Incompetent,
+								   QualityAttribute = QualityAttribute.CodeQuality,
+								   ImpactLevel = ImpactLevel.Member,
+								   Snippet = methodParent.ToFullString()
+							   };
 				}
 			}
 

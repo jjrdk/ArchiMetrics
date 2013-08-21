@@ -40,9 +40,10 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 					   {
-						   Comment = "Sleep loop found in code.", 
-						   Quality = CodeQuality.Incompetent, 
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
+						   Comment = "Sleep loop found in code.",
+						   Quality = CodeQuality.Incompetent,
+						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
+						   ImpactLevel = ImpactLevel.Type,
 						   Snippet = snippet
 					   };
 			}

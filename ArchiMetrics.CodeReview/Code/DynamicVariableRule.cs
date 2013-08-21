@@ -38,6 +38,7 @@ namespace ArchiMetrics.CodeReview.Code
 						       Comment = "Use of dynamic variable.", 
 						       Quality = CodeQuality.Broken, 
 							   QualityAttribute = QualityAttribute.Conformance, 
+							   ImpactLevel = ImpactLevel.Member,
 						       Snippet = snippet
 					       };
 			}

@@ -42,6 +42,7 @@ namespace ArchiMetrics.CodeReview.Code
 							   Comment = "Compilation Diagnostics", // string.Join(Environment.NewLine, new[] { "Compilation Diagnostics" }.Concat(diagnostics.Select(d => d.Info.GetMessage()))),
 							   Quality = quality, 
 							   QualityAttribute = QualityAttribute.CodeQuality, 
+							   ImpactLevel = ImpactLevel.Project,
 							   Snippet = node.ToFullString()
 						   };
 			}

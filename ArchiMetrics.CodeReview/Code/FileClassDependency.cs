@@ -38,9 +38,10 @@ namespace ArchiMetrics.CodeReview.Code
 
 				return new EvaluationResult
 						   {
-							   Comment = "File dependency found.", 
-							   Quality = CodeQuality.Broken, 
-							   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability, 
+							   Comment = "File dependency found.",
+							   Quality = CodeQuality.Broken,
+							   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability,
+							   ImpactLevel = ImpactLevel.Type,
 							   Snippet = snippet
 						   };
 			}

@@ -38,8 +38,10 @@ namespace ArchiMetrics.CodeReview.Code
 				{
 					return new EvaluationResult
 						   {
-							   Comment = "Empty test found.", 
-							   QualityAttribute = QualityAttribute.Testability, 
+							   Comment = "Empty test found.",
+							   Quality = CodeQuality.NeedsReview,
+							   QualityAttribute = QualityAttribute.Testability,
+							   ImpactLevel = ImpactLevel.Member,
 							   Snippet = (FindClassParent(node) ?? node).ToFullString()
 						   };
 				}

@@ -33,9 +33,10 @@ namespace ArchiMetrics.CodeReview.Code
 				{
 					return new EvaluationResult
 						   {
-							   Comment = "Violation of Law of Demeter", 
-							   Quality = CodeQuality.NeedsReview, 
-							   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Reusability | QualityAttribute.Maintainability, 
+							   Comment = "Violation of Law of Demeter",
+							   Quality = CodeQuality.NeedsReview,
+							   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Reusability | QualityAttribute.Maintainability,
+							   ImpactLevel = ImpactLevel.Member,
 							   Snippet = node.ToFullString()
 						   };
 				}
