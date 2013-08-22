@@ -18,6 +18,7 @@ namespace ArchiMetrics.UI
 	using System.Windows;
 	using System.Windows.Markup;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Analysis.CodeReview;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.CodeReview;
 	using ArchiMetrics.Common;

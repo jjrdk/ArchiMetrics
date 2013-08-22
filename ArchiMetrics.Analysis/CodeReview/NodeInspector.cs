@@ -10,17 +10,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview
+namespace ArchiMetrics.Analysis.CodeReview
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 	using Roslyn.Services;
 
 	public class NodeInspector : INodeInspector

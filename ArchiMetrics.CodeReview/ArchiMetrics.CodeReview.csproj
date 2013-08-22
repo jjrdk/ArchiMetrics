@@ -127,7 +127,6 @@
     <Compile Include="Semantic\UnusedGetPropertyRule.cs" />
     <Compile Include="Semantic\UnusedMethodRule.cs" />
     <Compile Include="Semantic\UnusedSetPropertyRule.cs" />
-    <Compile Include="NodeInspector.cs" />
     <Compile Include="Trivia\CommentLanguageRuleBase.cs" />
     <Compile Include="Trivia\MultiLineCommentLanguageRule.cs" />
     <Compile Include="Trivia\SingleLineCommentLanguageRule.cs" />
@@ -147,9 +146,7 @@
       <Name>ArchiMetrics.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Metrics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\..\.nuget\nuget.targets" />
   <PropertyGroup>
