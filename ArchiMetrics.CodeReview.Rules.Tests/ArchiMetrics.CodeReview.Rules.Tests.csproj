@@ -90,7 +90,7 @@
       <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
       <Name>ArchiMetrics.Analysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArchiMetrics.CodeReview\ArchiMetrics.CodeReview.Rules.csproj">
+    <ProjectReference Include="..\ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.csproj">
       <Project>{5c12dfb6-05dc-4941-b69f-b99903e89b1d}</Project>
       <Name>ArchiMetrics.CodeReview.Rules</Name>
     </ProjectReference>
