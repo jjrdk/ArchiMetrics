@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Code
 {
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 
 	internal class NoProtectedFieldsInPublicClassesRule : CodeEvaluationBase

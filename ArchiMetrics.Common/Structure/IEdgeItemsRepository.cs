@@ -1,25 +1,22 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ISolutionEdgeItemsRepositoryConfig.cs" company="Reimers.dk">
+// <copyright file="IEdgeItemsRepository.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ISolutionEdgeItemsRepositoryConfig type.
+//   Defines the IEdgeItemsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.Structure
 {
-	using System.ComponentModel;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
 
-	public interface ISolutionEdgeItemsRepositoryConfig : INotifyPropertyChanged
+	public interface IEdgeItemsRepository
 	{
-		string Path { get; set; }
-
-		EdgeSource Source { get; set; }
-
-		bool IncludeCodeReview { get; set; }
+		Task<IEnumerable<EdgeItem>> GetEdgesAsync();
 	}
 }

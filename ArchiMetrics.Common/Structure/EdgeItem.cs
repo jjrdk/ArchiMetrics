@@ -10,10 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.Structure
 {
 	using System;
 	using System.Collections.Generic;
+	using ArchiMetrics.Common.CodeReview;
 
 	[Serializable]
 	public class EdgeItem

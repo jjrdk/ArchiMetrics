@@ -10,11 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview
+namespace ArchiMetrics.Common.CodeReview
 {
-	using ArchiMetrics.Common;
-	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 	using Roslyn.Services;
 
 	public interface ISemanticEvaluation : IEvaluation

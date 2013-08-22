@@ -1,29 +1,28 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICodeErrorRepository.cs" company="Reimers.dk">
+// <copyright file="QualityAttribute.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ICodeErrorRepository type.
+//   Defines the QualityAttribute type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.CodeReview
 {
 	using System;
-	using System.Collections.Generic;
-	using System.Threading.Tasks;
 
-	public interface ICodeErrorRepository : IDisposable
+	[Flags]
+	public enum QualityAttribute
 	{
-		Task<IEnumerable<EvaluationResult>> GetErrorsAsync();
-
-		Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest);
-
-		IEnumerable<EvaluationResult> GetErrors();
-
-		IEnumerable<EvaluationResult> GetErrors(string source, bool isTest);
+		CodeQuality = 1, 
+		Maintainability = 2, 
+		Testability = 4, 
+		Modifiability = 8, 
+		Reusability = 16, 
+		Conformance = 32, 
+		Security = 64
 	}
 }

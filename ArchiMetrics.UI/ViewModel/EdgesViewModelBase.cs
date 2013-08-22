@@ -15,6 +15,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	public abstract class EdgesViewModelBase : ViewModelBase
 	{

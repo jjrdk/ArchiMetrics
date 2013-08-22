@@ -16,7 +16,9 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
+	using ArchiMetrics.Common.Structure;
 	using Roslyn.Services;
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable

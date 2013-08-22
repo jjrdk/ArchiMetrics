@@ -1,22 +1,24 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEdgeItemsRepository.cs" company="Reimers.dk">
+// <copyright file="CodeQuality.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IEdgeItemsRepository type.
+//   Defines the CodeQuality type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.CodeReview
 {
-	using System.Collections.Generic;
-	using System.Threading.Tasks;
-
-	public interface IEdgeItemsRepository
+	public enum CodeQuality
 	{
-		Task<IEnumerable<EdgeItem>> GetEdgesAsync();
+		Broken = 0, 
+		NeedsReEngineering = 1, 
+		NeedsRefactoring = 2, 
+		Incompetent = 3, 
+		NeedsReview = 4, 
+		Good = 5
 	}
 }

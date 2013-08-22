@@ -13,6 +13,7 @@
 namespace ArchiMetrics.UI.ViewModel
 {
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	/// <summary>
 	/// The ViewModel for the application's main window.

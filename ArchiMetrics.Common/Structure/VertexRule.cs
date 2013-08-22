@@ -1,22 +1,26 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITriviaEvaluation.cs" company="Reimers.dk">
+// <copyright file="VertexRule.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ITriviaEvaluation type.
+//   Defines the VertexRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview
+namespace ArchiMetrics.Common.Structure
 {
-	using ArchiMetrics.Common;
-	using Roslyn.Compilers.CSharp;
+	using System.Xml.Serialization;
 
-	public interface ITriviaEvaluation : IEvaluation
+	[XmlRoot(ElementName = "VertexRule")]
+	public class VertexRule
 	{
-		EvaluationResult Evaluate(SyntaxTrivia trivia);
+		[XmlAttribute]
+		public string Pattern { get; set; }
+
+		[XmlAttribute]
+		public string Name { get; set; }
 	}
 }

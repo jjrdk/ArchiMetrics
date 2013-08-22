@@ -16,6 +16,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{

@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Code
 {
 	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 
 	internal class DiskLocationDependencyRule : CodeEvaluationBase

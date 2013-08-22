@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 	using NUnit.Framework;
 
 	public class DependencyAnalyzerTests

@@ -1,24 +1,21 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IVertexRuleRepository.cs" company="Reimers.dk">
+// <copyright file="IEvaluation.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IVertexRuleRepository type.
+//   Defines the IEvaluation type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.CodeReview
 {
-	using System;
-	using System.Collections.Generic;
+	using Roslyn.Compilers.CSharp;
 
-	public interface IVertexRuleRepository : IVertexRuleDefinition
+	public interface IEvaluation
 	{
-		IEnumerable<Func<string, string>> GetAllVertexPreTransforms();
-
-		IEnumerable<Func<string, string>> GetAllVertexPostTransforms();
+		SyntaxKind EvaluatedKind { get; }
 	}
 }

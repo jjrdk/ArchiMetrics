@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Code
 {
 	using System;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class LeakingTypeRule : CodeEvaluationBase

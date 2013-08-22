@@ -1,21 +1,23 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ISpellChecker.cs" company="Reimers.dk">
+// <copyright file="IKnownPatterns.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ISpellChecker type.
+//   Defines the IKnownPatterns type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.CodeReview
 {
-	using System;
-
-	public interface ISpellChecker : IDisposable
+	public interface IKnownPatterns
 	{
-		bool Spell(string word);
+		bool IsExempt(string word);
+
+		void Add(params string[] patterns);
+
+		void Clear();
 	}
 }

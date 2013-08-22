@@ -17,6 +17,8 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using System.Windows.Data;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
+	using ArchiMetrics.Common.Structure;
 
 	public sealed class CodeReviewViewModel : ViewModelBase
 	{

@@ -6,7 +6,8 @@
 			 xmlns:contracts="clr-namespace:ArchiMetrics.Common;assembly=ArchiMetrics.Common"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-			 mc:Ignorable="d"
+             xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
+             mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:SettingsViewModel}">
@@ -15,7 +16,7 @@
 							ObjectType="{x:Type sys:Enum}"
 							x:Key="EdgeSourceValues">
 			<ObjectDataProvider.MethodParameters>
-				<x:Type TypeName="contracts:EdgeSource" />
+				<x:Type TypeName="structure:EdgeSource" />
 			</ObjectDataProvider.MethodParameters>
 		</ObjectDataProvider>
 	</UserControl.Resources>

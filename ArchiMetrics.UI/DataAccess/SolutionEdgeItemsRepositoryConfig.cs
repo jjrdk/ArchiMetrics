@@ -16,6 +16,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.ComponentModel;
 	using System.Runtime.CompilerServices;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	public class SolutionEdgeItemsRepositoryConfig : ISolutionEdgeItemsRepositoryConfig
 	{

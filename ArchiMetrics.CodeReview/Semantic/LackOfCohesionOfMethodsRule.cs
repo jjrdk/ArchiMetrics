@@ -15,6 +15,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 	using System.Linq;
 	using ArchiMetrics.CodeReview.Code;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;

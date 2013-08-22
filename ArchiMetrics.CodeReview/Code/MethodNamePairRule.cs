@@ -16,6 +16,7 @@ namespace ArchiMetrics.CodeReview.Code
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class MethodNamePairRule : CodeEvaluationBase

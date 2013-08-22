@@ -16,6 +16,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Windows.Data;
 	using System.Windows.Input;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;
 
 	public class EdgesViewModel : EdgesViewModelBase

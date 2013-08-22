@@ -2,6 +2,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 {
 	using ArchiMetrics.CodeReview.Code;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Services;

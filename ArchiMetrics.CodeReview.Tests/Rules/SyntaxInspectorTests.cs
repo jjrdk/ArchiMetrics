@@ -18,6 +18,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using System.Threading.Tasks;
 	using ArchiMetrics.CodeReview.Code;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 

@@ -1,26 +1,22 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VertexRule.cs" company="Reimers.dk">
+// <copyright file="IEdgeTransformer.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the VertexRule type.
+//   Defines the IEdgeTransformer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common
+namespace ArchiMetrics.Common.Structure
 {
-	using System.Xml.Serialization;
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
 
-	[XmlRoot(ElementName = "VertexRule")]
-	public class VertexRule
+	public interface IEdgeTransformer
 	{
-		[XmlAttribute]
-		public string Pattern { get; set; }
-
-		[XmlAttribute]
-		public string Name { get; set; }
+		Task<IEnumerable<EdgeItem>> TransformAsync(IEnumerable<EdgeItem> source);
 	}
 }
