@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Code
+namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	internal class OpenClosePairRule : MethodNamePairRule
 	{

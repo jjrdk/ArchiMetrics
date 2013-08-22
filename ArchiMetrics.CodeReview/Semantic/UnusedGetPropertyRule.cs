@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Semantic
+namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using Roslyn.Compilers.CSharp;
 

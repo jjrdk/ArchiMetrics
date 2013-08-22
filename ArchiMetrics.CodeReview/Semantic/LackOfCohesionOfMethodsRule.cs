@@ -10,11 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Semantic
+namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
-	using ArchiMetrics.CodeReview.Code;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;

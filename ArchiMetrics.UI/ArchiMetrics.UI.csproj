@@ -288,9 +288,9 @@
       <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
       <Name>ArchiMetrics.Analysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ArchiMetrics.CodeReview\ArchiMetrics.CodeReview.csproj">
+    <ProjectReference Include="..\ArchiMetrics.CodeReview\ArchiMetrics.CodeReview.Rules.csproj">
       <Project>{5C12DFB6-05DC-4941-B69F-B99903E89B1D}</Project>
-      <Name>ArchiMetrics.CodeReview</Name>
+      <Name>ArchiMetrics.CodeReview.Rules</Name>
     </ProjectReference>
     <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>

@@ -10,9 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Trivia
+namespace ArchiMetrics.CodeReview.Rules.Trivia
 {
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 

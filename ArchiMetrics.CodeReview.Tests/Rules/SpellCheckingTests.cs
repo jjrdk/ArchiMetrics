@@ -16,8 +16,8 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 	using System.IO;
 	using System.Linq;
 	using ArchiMetrics.Analysis.CodeReview;
-	using ArchiMetrics.CodeReview.Code;
-	using ArchiMetrics.CodeReview.Trivia;
+	using ArchiMetrics.CodeReview.Rules.Code;
+	using ArchiMetrics.CodeReview.Rules.Trivia;
 	using ArchiMetrics.Common.CodeReview;
 	using Ionic.Zip;
 	using NHunspell;

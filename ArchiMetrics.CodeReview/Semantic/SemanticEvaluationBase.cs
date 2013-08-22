@@ -1,7 +1,6 @@
-namespace ArchiMetrics.CodeReview.Semantic
+namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
-	using ArchiMetrics.CodeReview.Code;
-	using ArchiMetrics.Common;
+	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;

@@ -10,11 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Trivia
+namespace ArchiMetrics.CodeReview.Rules.Trivia
 {
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 

@@ -13,7 +13,7 @@
 namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
 {
 	using System.Linq;
-	using ArchiMetrics.CodeReview.Semantic;
+	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 

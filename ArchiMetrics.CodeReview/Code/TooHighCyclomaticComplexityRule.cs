@@ -10,10 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Code
+namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Analysis.Metrics;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.CSharp;

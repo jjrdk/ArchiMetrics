@@ -14,7 +14,7 @@ namespace ArchiMetrics.CodeReview.Tests.Rules
 {
 	using System;
 	using System.Linq;
-	using ArchiMetrics.CodeReview.Semantic;
+	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
