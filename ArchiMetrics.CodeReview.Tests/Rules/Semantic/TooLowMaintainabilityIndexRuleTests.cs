@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Tests.Rules.Semantic
+namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
 	using System.Linq;
 	using ArchiMetrics.CodeReview.Rules.Semantic;

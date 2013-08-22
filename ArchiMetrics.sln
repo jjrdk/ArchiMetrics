@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules", "ArchiMetrics.CodeReview\ArchiMetrics.CodeReview.Rules.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Tests", "ArchiMetrics.CodeReview.Tests\ArchiMetrics.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules.Tests", "ArchiMetrics.CodeReview.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSL", "SampleSL\SampleSL.csproj", "{DC19D087-F074-47B1-BC83-4CA74A24278E}"
 EndProject

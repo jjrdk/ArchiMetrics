@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Tests.Rules
+namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Linq;
 	using Roslyn.Compilers;

@@ -43,4 +43,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("0.2.1.0")]
 [assembly: InternalsVisibleTo("ScriptCs.CodeReview")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Raven")]
-[assembly: InternalsVisibleTo("ArchiMetrics.CodeReview.Tests")]
+[assembly: InternalsVisibleTo("ArchiMetrics.CodeReview.Rules.Tests")]
