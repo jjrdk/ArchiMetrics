@@ -15,22 +15,10 @@ namespace ArchiMetrics.Common
 	using System;
 	using System.Collections.Generic;
 
-	public interface IProvider<out T> : IDisposable
-	{
-		T Get();
-	}
-
 	public interface IProvider<in TKey, out T> : IDisposable
 	{
 		T Get(TKey key);
 
 		IEnumerable<T> GetAll(TKey key);
-	}
-
-	public interface IProvider<in TKey1, in TKey2, out T> : IDisposable
-	{
-		T Get(TKey1 key1, TKey2 key2);
-
-		IEnumerable<T> GetAll(TKey1 key1, TKey2 key2);
 	}
 }
