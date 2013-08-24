@@ -20,6 +20,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
+	using ArchiMetrics.Common.Structure;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 

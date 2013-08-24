@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Common
 {
 	using System.Collections.Generic;
+	using ArchiMetrics.Common.CodeReview;
 
 	public class ResultComparer : IEqualityComparer<EvaluationResult>
 	{

@@ -18,10 +18,13 @@ namespace ArchiMetrics.UI
 	using System.Windows;
 	using System.Windows.Markup;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Analysis.CodeReview;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.CodeReview;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
+	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.DataAccess;
 	using ArchiMetrics.UI.Support;
 	using ArchiMetrics.UI.ViewModel;

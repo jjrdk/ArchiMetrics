@@ -16,6 +16,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.Xml.Serialization;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	public class FakeVertexRuleRepository : FakeRepositoryBase, IVertexRuleRepository
 	{

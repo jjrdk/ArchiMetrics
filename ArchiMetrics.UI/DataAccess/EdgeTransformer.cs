@@ -19,6 +19,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	public class EdgeTransformer : IEdgeTransformer, IDisposable
 	{

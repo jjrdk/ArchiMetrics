@@ -19,7 +19,9 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
+	using ArchiMetrics.Common.Structure;
 	using Roslyn.Services;
 
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository

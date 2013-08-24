@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests", "ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview", "ArchiMetrics.CodeReview\ArchiMetrics.CodeReview.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules", "ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Tests", "ArchiMetrics.CodeReview.Tests\ArchiMetrics.CodeReview.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules.Tests", "ArchiMetrics.CodeReview.Rules.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSL", "SampleSL\SampleSL.csproj", "{DC19D087-F074-47B1-BC83-4CA74A24278E}"
 EndProject
@@ -77,7 +77,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

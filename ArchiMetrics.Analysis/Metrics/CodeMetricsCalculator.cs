@@ -67,7 +67,7 @@ namespace ArchiMetrics.Analysis.Metrics
 					var declarations = _syntaxCollector.GetDeclarations(trees);
 					var statementMembers = declarations.Statements.Select(s =>
 						Syntax.MethodDeclaration(
-							Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)), 
+							Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)),
 							Guid.NewGuid().ToString("N"))
 							.WithBody(Syntax.Block(s)));
 					var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
@@ -96,13 +96,13 @@ namespace ArchiMetrics.Analysis.Metrics
 						.Concat(anonNs)
 						.Select(x => new NamespaceDeclarationSyntaxInfo
 									 {
-										 Name = x.GetName(x), 
+										 Name = x.GetName(x),
 										 Syntax = x
 									 })
 						.GroupBy(x => x.Name)
 						.Select(g => new NamespaceDeclaration
 									 {
-										 Name = g.Key, 
+										 Name = g.Key,
 										 SyntaxNodes = g.ToArray()
 									 })
 						.ToArray();
@@ -121,8 +121,8 @@ namespace ArchiMetrics.Analysis.Metrics
 													   var tuple = CalculateTypeMetrics(compilation, arg);
 													   return new
 															  {
-																  NamespaceDeclaration = arg, 
-																  Compilation = tuple.Item1, 
+																  NamespaceDeclaration = arg,
+																  Compilation = tuple.Item1,
 																  Metrics = tuple.Item2
 															  };
 												   })
@@ -173,8 +173,8 @@ namespace ArchiMetrics.Analysis.Metrics
 							comp = tuple.Item1;
 							return new
 								   {
-									   comp, 
-									   typeNodes, 
+									   comp,
+									   typeNodes,
 									   memberMetrics = metrics
 								   };
 						})
@@ -199,7 +199,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				var typeNode = tuple.Item3;
 				var calculator = new TypeMetricsCalculator(semanticModel);
 				return new Tuple<CommonCompilation, TypeMetric>(
-					compilation, 
+					compilation,
 					calculator.CalculateFrom(typeNode, memberMetrics));
 			}
 
@@ -231,8 +231,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			semanticModel = compilation.GetSemanticModel(typeNode.Syntax.SyntaxTree);
 			return new Tuple<CommonCompilation, ISemanticModel, TypeDeclarationSyntaxInfo>(
-				compilation, 
-				semanticModel, 
+				compilation,
+				semanticModel,
 				typeNode);
 		}
 
@@ -241,17 +241,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			ISemanticModel semanticModel;
 			if (namespaceNode.Syntax.SyntaxTree == null)
 			{
-				var cu = SyntaxTree.Create(
-					Syntax
-					.CompilationUnit()
-					.WithMembers(Syntax.List((MemberDeclarationSyntax)namespaceNode.Syntax)));
-				namespaceNode.Syntax = cu.GetRoot()
-					.ChildNodes()
-					.First();
+				var root = Syntax.CompilationUnit().WithMembers(Syntax.List((MemberDeclarationSyntax)namespaceNode.Syntax));
+				var cu = SyntaxTree.Create(root);
+				namespaceNode.Syntax = cu.GetRoot().ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
 				semanticModel = newCompilation.GetSemanticModel(cu);
-				return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(
-					newCompilation, semanticModel, namespaceNode);
+				return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(newCompilation, semanticModel, namespaceNode);
 			}
 
 			if (!compilation.ContainsSyntaxTree(namespaceNode.Syntax.SyntaxTree))
@@ -260,32 +255,24 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			semanticModel = compilation.GetSemanticModel(namespaceNode.Syntax.SyntaxTree);
-			return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(
-				compilation, 
-				semanticModel, 
-				namespaceNode);
+			return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(compilation, semanticModel, namespaceNode);
 		}
 
 		private static IEnumerable<NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
 		{
 			return project.Documents
-						  .Select(document => new { document, codeFile = document.FilePath })
-						  .Where(@t => !ignoreGeneratedCode || !IsGeneratedCodeFile(t.document, Patterns))
-						  .Select(@t => new { t, collector = new NamespaceCollector() })
-						  .Select(@t => new { t, syntaxRoot = t.@t.document.GetSyntaxRoot() })
-						  .SelectMany(@t => t.@t.collector.GetNamespaces<NamespaceDeclarationSyntax>(t.syntaxRoot)
-											   .Select(x => new NamespaceDeclarationSyntaxInfo
-																{
-																	Name = x.GetName(x.SyntaxTree.GetRoot()), 
-																	CodeFile = t.@t.@t.codeFile, 
-																	Syntax = x
-																}))
-						  .GroupBy(x => x.Name)
-						  .Select(y => new NamespaceDeclaration
-									   {
-										   Name = y.Key, 
-										   SyntaxNodes = y
-									   });
+			              .Select(document => new { document, codeFile = document.FilePath })
+			              .Where(t => !ignoreGeneratedCode || !IsGeneratedCodeFile(t.document, Patterns))
+			              .Select(t => new { t.codeFile, collector = new NamespaceCollector(), syntaxRoot = t.document.GetSyntaxRoot() })
+			              .SelectMany(t => t.collector.GetNamespaces(t.syntaxRoot)
+			                                 .Select(x => new NamespaceDeclarationSyntaxInfo
+				                                              {
+					                                              Name = x.GetName(x.SyntaxTree.GetRoot()),
+					                                              CodeFile = t.codeFile,
+					                                              Syntax = x
+				                                              }))
+			              .GroupBy(x => x.Name)
+			              .Select(y => new NamespaceDeclaration { Name = y.Key, SyntaxNodes = y });
 		}
 
 		private static bool IsGeneratedCodeFile(IDocument doc, IEnumerable<Regex> patterns)
@@ -297,34 +284,17 @@ namespace ArchiMetrics.Analysis.Metrics
 		private static IEnumerable<TypeDeclaration> GetTypeDeclarations(NamespaceDeclaration namespaceDeclaration)
 		{
 			return namespaceDeclaration.SyntaxNodes
-									   .Select(namespaceNode => new
-																	{
-																		namespaceNode.Syntax, 
-																		node = namespaceNode
-																	})
+									   .Select(namespaceNode => new { namespaceNode.Syntax, node = namespaceNode })
 									   .Select(@t =>
 										   {
-											   Func<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo> selector =
+											   Func<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo> selector = 
 												   x => new TypeDeclarationSyntaxInfo(t.node.CodeFile, x.SyntaxTree == null ? x.Identifier.ValueText : x.GetName(x.SyntaxTree.GetRoot()), x);
-											   return new
-														  {
-															  t, 
-															  selector
-														  };
+											   return new { t, selector };
 										   })
-									   .Select(@t => new
-														 {
-															 t, 
-															 collector = new TypeCollector()
-														 })
+									   .Select(@t => new { t, collector = new TypeCollector() })
 									   .SelectMany(@t => t.collector.GetTypes<TypeDeclarationSyntax>(t.@t.@t.Syntax).Select<TypeDeclarationSyntax, TypeDeclarationSyntaxInfo>(t.@t.selector))
 									   .GroupBy(x => x.Name)
-									   .Select(x =>
-											   new TypeDeclaration
-												   {
-													   Name = x.Key, 
-													   SyntaxNodes = x
-												   });
+									   .Select(x => new TypeDeclaration { Name = x.Key, SyntaxNodes = x });
 		}
 
 		private IProject GetDocuments(IProject project)
@@ -340,7 +310,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				   .OrderByDescending(x => x);
 
 			project = filePaths.Aggregate(
-				project, 
+				project,
 				(p, s) =>
 				{
 					DocumentId did;

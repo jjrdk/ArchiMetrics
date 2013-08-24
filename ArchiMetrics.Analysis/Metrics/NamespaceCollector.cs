@@ -27,7 +27,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			_namespaces = new List<NamespaceDeclarationSyntax>();
 		}
 
-		public IEnumerable<T> GetNamespaces<T>(CommonSyntaxNode commonNode) where T : CommonSyntaxNode
+		public IEnumerable<NamespaceDeclarationSyntax> GetNamespaces(CommonSyntaxNode commonNode)
 		{
 			var node = commonNode as SyntaxNode;
 			if (node != null)
@@ -35,7 +35,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				Visit(node);
 			}
 
-			return _namespaces.Cast<T>().ToList<T>().AsReadOnly();
+			return _namespaces.ToArray();
 		}
 
 		public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)

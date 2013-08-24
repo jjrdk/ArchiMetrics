@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.Structure;
 
 	internal class SettingsViewModel : ViewModelBase
 	{

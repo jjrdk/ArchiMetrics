@@ -6,7 +6,8 @@
 			 xmlns:model="clr-namespace:ArchiMetrics.Common;assembly=ArchiMetrics.Common"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-			 mc:Ignorable="d"
+             xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
+             mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}"
@@ -26,10 +27,10 @@
 				  EnableRowVirtualization="True"
 				  ItemsSource="{Binding Path=DependencyItems}">
 			<DataGrid.Columns>
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=model:EdgeItem}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:EdgeItem}"
 									Header="Dependant"
 									Binding="{Binding Path=Dependant}" />
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=model:EdgeItem}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:EdgeItem}"
 									Header="Dependency"
 									Binding="{Binding Path=Dependency}" />
 			</DataGrid.Columns>
@@ -42,10 +43,10 @@
 				  CanUserDeleteRows="True"
 				  CanUserSortColumns="False">
 			<DataGrid.Columns>
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=model:VertexRule}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:VertexRule}"
 									Header="Pattern"
 									Binding="{Binding Path=Pattern}" />
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=model:VertexRule}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:VertexRule}"
 									Header="Name"
 									Binding="{Binding Path=Name}" />
 			</DataGrid.Columns>
