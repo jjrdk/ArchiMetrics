@@ -99,7 +99,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		var numbers = new[] { 1, 2, 3 };
 		var odds = numbers.Where(n => { if(n != 1) { return n %2 == 0; } else { return false; } }).ToArray();
 	}
-}", 2)]
+}", 3)]
 			[TestCase(@"
 namespace MyNs
 {
@@ -113,7 +113,7 @@ namespace MyNs
 				var task = Task.Factory.StartNew(() => { Console.WriteLine(""blah""); });
 		}
 	}
-}", 2)]
+}", 1)]
 			public void MethodHasExpectedComplexity(string method, int expectedComplexity)
 			{
 				var tree = SyntaxTree.ParseText(method);
