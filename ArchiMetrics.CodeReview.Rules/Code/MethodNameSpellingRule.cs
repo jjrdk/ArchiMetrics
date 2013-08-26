@@ -51,7 +51,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Possible spelling error", 
 						   Quality = CodeQuality.NeedsReview, 
 						   ImpactLevel = ImpactLevel.Node, 
 						   QualityAttribute = QualityAttribute.Conformance, 

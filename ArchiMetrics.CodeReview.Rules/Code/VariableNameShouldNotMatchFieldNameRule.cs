@@ -61,7 +61,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Suspicious field assignment.", 
 						   ImpactLevel = ImpactLevel.Member, 
 						   Quality = CodeQuality.NeedsReview, 
 						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability,

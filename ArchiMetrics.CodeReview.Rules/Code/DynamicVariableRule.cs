@@ -49,7 +49,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 					       {
-						       Comment = "Use of dynamic variable.", 
 						       Quality = CodeQuality.Broken, 
 							   QualityAttribute = QualityAttribute.Conformance, 
 							   ImpactLevel = ImpactLevel.Member,

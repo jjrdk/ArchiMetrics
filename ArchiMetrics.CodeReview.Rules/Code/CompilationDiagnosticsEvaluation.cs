@@ -55,7 +55,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 								  : CodeQuality.NeedsReview;
 				return new EvaluationResult
 						   {
-							   Comment = "Compilation Diagnostics", // string.Join(Environment.NewLine, new[] { "Compilation Diagnostics" }.Concat(diagnostics.Select(d => d.Info.GetMessage()))),
 							   Quality = quality, 
 							   QualityAttribute = QualityAttribute.CodeQuality, 
 							   ImpactLevel = ImpactLevel.Project,

@@ -61,7 +61,6 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Suspicious language comment",
 							   ErrorCount = 1,
 							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsReview,

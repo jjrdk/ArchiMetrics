@@ -53,8 +53,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Method too big.",
- 							   ImpactLevel = ImpactLevel.Member,
+							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsRefactoring, 
 							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 							   Snippet = snippet

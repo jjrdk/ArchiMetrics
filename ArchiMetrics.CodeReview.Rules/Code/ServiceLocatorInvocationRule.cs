@@ -54,7 +54,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 				{
-					Comment = "ServiceLocator invocation found.", 
 					Quality = CodeQuality.Broken, 
 					QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
 					Snippet = snippet, 

@@ -16,7 +16,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Windows.Data;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
@@ -127,7 +126,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 				var errors = await _repository.GetErrorsAsync(_config.Path, false);
 
-				var results = errors.Where(x => x.Comment != "Multiple asserts found in test." || x.ErrorCount != 1).ToArray();
+				var results = errors.Where(x => x.Title != "Multiple Asserts in Test" || x.ErrorCount != 1).ToArray();
 				foreach (var result in results)
 				{
 					CodeErrors.Add(result);
@@ -136,7 +135,7 @@ namespace ArchiMetrics.UI.ViewModel
 				ErrorsShown = CodeErrors.Count;
 				if (CodeErrors.Count == 0)
 				{
-					CodeErrors.Add(new EvaluationResult { Comment = "No Errors", Quality = CodeQuality.Good });
+					CodeErrors.Add(new EvaluationResult { Title = "No Errors", Quality = CodeQuality.Good });
 				}
 
 				FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
@@ -153,7 +152,7 @@ namespace ArchiMetrics.UI.ViewModel
 				CodeErrors.Add(new EvaluationResult
 							   {
 								   Quality = CodeQuality.Broken, 
-								   Comment = exception.Message, 
+								   Title = exception.Message, 
 								   Snippet = exception.StackTrace
 							   });
 				IsLoading = false;

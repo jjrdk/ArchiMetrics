@@ -49,7 +49,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Type Obfuscation", 
 							   Quality = CodeQuality.NeedsRefactoring, 
 							   QualityAttribute = QualityAttribute.CodeQuality,
 							   ImpactLevel = ImpactLevel.Member,

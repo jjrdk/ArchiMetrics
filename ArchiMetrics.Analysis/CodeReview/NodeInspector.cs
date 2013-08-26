@@ -107,12 +107,12 @@ namespace ArchiMetrics.Analysis.CodeReview
 					var task = GetTriviaEvaluations(trivia, nodeEvaluations)
 						.ContinueWith(
 							t =>
+							{
+								foreach (var result in t.Result)
 								{
-									foreach (var result in t.Result)
-									{
-										_inspectionResults.Add(result);
-									}
-								});
+									_inspectionResults.Add(result);
+								}
+							});
 
 					_inspectionTasks.Enqueue(task);
 				}
@@ -151,7 +151,8 @@ namespace ArchiMetrics.Analysis.CodeReview
 									{
 										return new EvaluationResult
 											   {
-												   Comment = ex.Message,
+												   Title = ex.Message,
+												   Suggestion = ex.StackTrace,
 												   ErrorCount = 1,
 												   Snippet = trivia.ToFullString(),
 												   Quality = CodeQuality.Broken
@@ -180,7 +181,8 @@ namespace ArchiMetrics.Analysis.CodeReview
 									{
 										return new EvaluationResult
 												   {
-													   Comment = ex.Message,
+													   Title = ex.Message,
+													   Suggestion = ex.StackTrace,
 													   ErrorCount = 1,
 													   Snippet = node.ToFullString(),
 													   Quality = CodeQuality.Broken
@@ -215,7 +217,8 @@ namespace ArchiMetrics.Analysis.CodeReview
 									{
 										return new EvaluationResult
 												   {
-													   Comment = ex.Message,
+													   Title = ex.Message,
+													   Suggestion = ex.StackTrace,
 													   ErrorCount = 1,
 													   Snippet = node.ToFullString(),
 													   Quality = CodeQuality.Broken
@@ -228,7 +231,7 @@ namespace ArchiMetrics.Analysis.CodeReview
 					});
 			}
 
-			protected virtual void Dispose(bool isDisposing)
+			private void Dispose(bool isDisposing)
 			{
 				if (isDisposing)
 				{

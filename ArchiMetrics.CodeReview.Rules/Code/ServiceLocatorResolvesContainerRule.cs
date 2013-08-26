@@ -58,7 +58,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return new EvaluationResult
 						   {
 							   ImpactLevel = ImpactLevel.Member,
-							   Comment = "UnityContainer resolved from ServiceLocator.",
 							   Quality = CodeQuality.Broken,
 							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security,
 							   Snippet = snippet

@@ -54,7 +54,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return new EvaluationResult
 						   {
 							   ImpactLevel = ImpactLevel.Member,
-							   Comment = "Local time creation found.",
 							   Quality = CodeQuality.NeedsReview,
 							   QualityAttribute = QualityAttribute.Conformance,
 							   Snippet = snippet

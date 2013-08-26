@@ -53,7 +53,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 						   {
-							   Comment = "Empty do loop found in code.",
 							   Quality = CodeQuality.Incompetent,
 							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
 							   ImpactLevel = ImpactLevel.Member,

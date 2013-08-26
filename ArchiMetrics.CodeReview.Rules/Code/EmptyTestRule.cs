@@ -54,7 +54,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 						   {
-							   Comment = "Empty test found.",
 							   Quality = CodeQuality.NeedsReview,
 							   QualityAttribute = QualityAttribute.Testability,
 							   ImpactLevel = ImpactLevel.Member,

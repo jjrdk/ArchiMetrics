@@ -56,7 +56,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return new EvaluationResult
 				{
 					ImpactLevel = ImpactLevel.Member,
-					Comment = "ServiceLocator passed as parameter.", 
 					Quality = CodeQuality.Broken, 
 					QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Reusability | QualityAttribute.Testability, 
 					Snippet = snippet

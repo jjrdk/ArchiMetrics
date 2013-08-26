@@ -58,7 +58,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 					{
 						return new EvaluationResult
 								   {
-									   Comment = TypeIdentifier + " leaked from publicly accessible property.",
 									   Quality = CodeQuality.Broken,
 									   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Reusability,
 									   ImpactLevel = ImpactLevel.Member,

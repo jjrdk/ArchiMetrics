@@ -52,7 +52,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 							   {
-								   Comment = "Guard clause without parameters.",
 								   Quality = CodeQuality.Broken,
 								   QualityAttribute = QualityAttribute.CodeQuality,
 								   ImpactLevel = ImpactLevel.Member,

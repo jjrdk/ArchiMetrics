@@ -53,7 +53,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			var results = result
-				.GroupBy(x => x.Comment)
+				.GroupBy(x => x.Title)
 				.Select(x => new KeyValuePair<string, int>(x.Key, x.Count()))
 				.OrderBy(x => x.Key)
 				.ToList();

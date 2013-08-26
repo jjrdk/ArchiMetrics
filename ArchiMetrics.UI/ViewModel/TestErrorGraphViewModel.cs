@@ -33,7 +33,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
 		{
 			IsLoading = true;
-			var results = task.Result.Where(x => x.Comment == "Multiple asserts found in test.")
+			var results = task.Result.Where(x => x.Title == "Multiple Asserts in Test")
 							  .GroupBy(x => x.ErrorCount).Select(x => new KeyValuePair<int, int>(x.Key, x.Count())).OrderBy(x => x.Key);
 			Errors = new List<KeyValuePair<int, int>>(results);
 			IsLoading = false;

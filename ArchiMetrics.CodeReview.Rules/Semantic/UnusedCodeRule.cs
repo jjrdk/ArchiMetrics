@@ -44,7 +44,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Uncalled code detected.",
 						   ImpactLevel = ImpactLevel.Member,
 						   Namespace = GetCompilationUnitNamespace(node.GetLocation().SourceTree.GetRoot()),
 						   Quality = CodeQuality.Incompetent,

@@ -49,7 +49,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Var used for new variable.", 
 							   ErrorCount = declaration.Variables.Count, 
 							   ImpactLevel = ImpactLevel.Line, 
 							   Quality = CodeQuality.Broken, 

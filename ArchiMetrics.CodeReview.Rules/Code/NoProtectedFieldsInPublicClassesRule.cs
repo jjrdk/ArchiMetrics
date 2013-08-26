@@ -49,7 +49,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 						       {
-							       Comment = "Protected field declaration in public class", 
 							       Quality = CodeQuality.Broken, 
 								   QualityAttribute = QualityAttribute.Modifiability, 
 							       Snippet = classParent.ToFullString(),

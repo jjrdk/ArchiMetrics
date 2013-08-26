@@ -59,7 +59,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				var result = new EvaluationResult
 							 {
-								 Comment = "Stack trace destroyed", 
 								 ImpactLevel = ImpactLevel.Member, 
 								 Quality = CodeQuality.Incompetent, 
 								 QualityAttribute = QualityAttribute.CodeQuality, 

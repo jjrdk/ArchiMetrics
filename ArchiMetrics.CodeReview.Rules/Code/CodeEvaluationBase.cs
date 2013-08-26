@@ -25,6 +25,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				var sourceTree = node.GetLocation().SourceTree;
 				var filePath = sourceTree.FilePath;
 				var unitNamespace = GetCompilationUnitNamespace(sourceTree.GetRoot());
+				result.Title = Title;
+				result.Suggestion = Suggestion;
 				result.Namespace = unitNamespace;
 				result.FilePath = filePath;
 				result.LinesOfCodeAffected = GetLinesOfCode(result.Snippet);

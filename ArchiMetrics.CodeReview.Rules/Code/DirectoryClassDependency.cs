@@ -54,7 +54,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 					       {
-						       Comment = "Directory dependency found.", 
 						       Quality = CodeQuality.Broken, 
 							   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability, 
 							   ImpactLevel = ImpactLevel.Type,

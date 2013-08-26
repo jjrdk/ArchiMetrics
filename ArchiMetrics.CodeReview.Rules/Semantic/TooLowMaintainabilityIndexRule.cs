@@ -67,7 +67,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				var snippet = node.ToFullString();
 				return new EvaluationResult
 				{
-					Comment = "Possible unmaintainable method.",
 					ErrorCount = 1,
 					Quality = CodeQuality.NeedsRefactoring,
 					QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,

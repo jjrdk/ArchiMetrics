@@ -52,7 +52,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 							   {
-								   Comment = "Guard clause in non-public method.",
 								   Quality = CodeQuality.Incompetent,
 								   QualityAttribute = QualityAttribute.CodeQuality,
 								   ImpactLevel = ImpactLevel.Member,

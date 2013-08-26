@@ -50,7 +50,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 					       {
-						       Comment = "Conditional expression found", 
 						       Quality = CodeQuality.Broken, 
 						       ImpactLevel = ImpactLevel.Member, 
 						       QualityAttribute = QualityAttribute.Conformance, 

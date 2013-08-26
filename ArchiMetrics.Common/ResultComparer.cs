@@ -26,7 +26,8 @@ namespace ArchiMetrics.Common
 							 && x.FilePath == y.FilePath
 							 && x.Quality == y.Quality
 							 && x.LinesOfCodeAffected == y.LinesOfCodeAffected
-							 && x.Comment == y.Comment
+							 && x.Title == y.Title
+							 && x.Suggestion == y.Suggestion
 							 && x.Snippet == y.Snippet);
 		}
 

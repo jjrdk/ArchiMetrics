@@ -23,7 +23,9 @@ namespace ArchiMetrics.Common.CodeReview
 
 		public string FilePath { get; set; }
 
-		public string Comment { get; set; }
+		public string Title { get; set; }
+
+		public string Suggestion { get; set; }
 
 		public string Snippet { get; set; }
 

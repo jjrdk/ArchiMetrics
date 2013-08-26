@@ -64,7 +64,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 						   ? new EvaluationResult
 								 {
 									 ImpactLevel = ImpactLevel.Member,
-									 Comment = "Multiple asserts found in test.", // assertsFound + " asserts found in test.",
 									 Quality = CodeQuality.Broken,
 									 QualityAttribute = QualityAttribute.Testability | QualityAttribute.CodeQuality,
 									 Snippet = node.ToFullString(),

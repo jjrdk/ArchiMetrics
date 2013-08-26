@@ -43,7 +43,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			return new EvaluationResult
 					   {
-						   Comment = "Goto statement", 
 						   Quality = CodeQuality.Broken, 
 						   ImpactLevel = ImpactLevel.Member, 
 						   QualityAttribute = QualityAttribute.Conformance, 

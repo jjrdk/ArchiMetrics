@@ -61,7 +61,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 						return new EvaluationResult
 								   {
 									   ImpactLevel = ImpactLevel.Project,
-									   Comment = "Public class as known interface implementation.",
 									   Quality = CodeQuality.NeedsReview,
 									   QualityAttribute = QualityAttribute.Modifiability,
 									   Snippet = snippet

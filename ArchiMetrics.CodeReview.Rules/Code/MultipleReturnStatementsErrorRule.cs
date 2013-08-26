@@ -48,7 +48,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Multiple return statements", 
 							   Quality = CodeQuality.Broken, 
 							   ImpactLevel = ImpactLevel.Member, 
 							   QualityAttribute = QualityAttribute.Conformance, 

@@ -84,7 +84,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var snippet = node.ToFullString();
 			return new EvaluationResult
 				   {
-					   Comment = "High lack of cohesion detected.", 
 					   ImpactLevel = ImpactLevel.Type, 
 					   LinesOfCodeAffected = GetLinesOfCode(snippet), 
 					   Quality = CodeQuality.NeedsRefactoring, 

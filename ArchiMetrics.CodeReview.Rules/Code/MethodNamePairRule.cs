@@ -36,7 +36,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Pair method missing", 
 							   ErrorCount = 1, 
 							   ImpactLevel = ImpactLevel.Type, 
 							   Quality = CodeQuality.NeedsRefactoring, 

@@ -55,7 +55,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 							   {
-								   Comment = "FileSystem dependency detected",
 								   Quality = CodeQuality.Broken,
 								   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability,
 								   ImpactLevel = ImpactLevel.Project,

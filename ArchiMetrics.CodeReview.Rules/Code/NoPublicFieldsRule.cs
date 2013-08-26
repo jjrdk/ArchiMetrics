@@ -46,7 +46,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Public field declaration", 
 							   Quality = CodeQuality.Broken, 
 							   QualityAttribute = QualityAttribute.Modifiability, 
 							   Snippet = node.ToFullString(), 

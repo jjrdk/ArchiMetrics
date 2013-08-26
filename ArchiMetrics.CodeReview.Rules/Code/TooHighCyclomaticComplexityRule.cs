@@ -49,7 +49,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Method too complex.",
 							   ErrorCount = 1,
 							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsRefactoring,

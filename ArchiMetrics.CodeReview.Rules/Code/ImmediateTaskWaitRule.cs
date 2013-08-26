@@ -66,7 +66,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 							return new EvaluationResult
 									   {
-										   Comment = "Immediately waiting on newly created asynchronous Task.",
 										   Quality = CodeQuality.Incompetent,
 										   QualityAttribute = QualityAttribute.CodeQuality,
 										   ImpactLevel = ImpactLevel.Member,

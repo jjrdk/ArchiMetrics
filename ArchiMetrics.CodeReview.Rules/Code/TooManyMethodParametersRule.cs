@@ -50,7 +50,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "More than " + Limit + " parameters on method", 
 							   ErrorCount = parameterCount, 
 							   ImpactLevel = ImpactLevel.Member,
 							   Quality = CodeQuality.NeedsReEngineering, 
