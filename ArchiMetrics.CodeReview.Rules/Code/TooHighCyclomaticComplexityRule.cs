@@ -26,11 +26,25 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.MethodDeclaration; }
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Method Too Complex.";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor to reduce number of code paths through method.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var complexity = _counter.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration));
+			var complexity = _counter.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration, null));
 			if (complexity >= Limit)
 			{
 				return new EvaluationResult

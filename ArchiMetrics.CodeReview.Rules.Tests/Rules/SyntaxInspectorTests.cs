@@ -180,10 +180,10 @@ private void SomeMethod()
 				}
 			}
 		}", typeof(TooHighCyclomaticComplexityRule))]
-			[TestCase(@"private void SomeMethod(MyClass x)
-        {
-			var value = FirstLevel.SecondLevel.ThirdLevelMethod();
-		}", typeof(LawOfDemeterViolationRule))]
+//			[TestCase(@"private void SomeMethod(MyClass x)
+//        {
+//			var value = FirstLevel.SecondLevel.ThirdLevelMethod();
+//		}", typeof(LawOfDemeterViolationRule))]
 			[TestCase(@"private void SomeMethod(MyClass x)
         {
 			object value = null;

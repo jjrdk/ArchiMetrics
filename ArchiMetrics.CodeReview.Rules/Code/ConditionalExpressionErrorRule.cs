@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Conditional Expressions";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider replacing the condition with an explicit if statement.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

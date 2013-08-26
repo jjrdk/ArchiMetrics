@@ -20,6 +20,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	internal abstract class EvaluationBase : IEvaluation
 	{
 		public abstract SyntaxKind EvaluatedKind { get; }
+		
+		public abstract string Title { get; }
+
+		public abstract string Suggestion { get; }
 
 		protected static string GetCompilationUnitNamespace(CompilationUnitSyntax node)
 		{
@@ -44,7 +48,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			return FindClassParent(node.Parent);
 		}
 
-		protected SyntaxNode FindMethodParent(SyntaxNode node)
+		protected static SyntaxNode FindMethodParent(SyntaxNode node)
 		{
 			if (node.Parent == null)
 			{
@@ -59,7 +63,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			return FindMethodParent(node.Parent);
 		}
 
-		protected int GetLinesOfCode(string node)
+		protected static int GetLinesOfCode(string node)
 		{
 			return node.Split('\n').Count(s => Regex.IsMatch(s.Trim(), @"^(?!(\s*\/\/))\s*.{3,}"));
 		}

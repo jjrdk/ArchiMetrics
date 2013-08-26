@@ -25,6 +25,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Guard Clause in Non-Public Method.";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Remove Guard clause and verify internal state by other means.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;

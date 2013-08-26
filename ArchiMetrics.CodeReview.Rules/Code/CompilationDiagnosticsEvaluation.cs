@@ -27,6 +27,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Compilation Failure";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Check the compilation error for details about reason for failure.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			// Roslyn does not handle async await keywords.

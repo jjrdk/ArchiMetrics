@@ -25,6 +25,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Directory Class Dependency";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider breaking the direct dependency on the file system with an abstraction.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;

@@ -26,6 +26,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Var Keyword Used in Variable Declaration";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider using an explicit type for variable.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var declaration = (VariableDeclarationSyntax)node;

@@ -26,6 +26,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Stack Trace Destroyed";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Use only 'throw' to rethrow the original stack trace.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var catchClause = (CatchClauseSyntax)node;

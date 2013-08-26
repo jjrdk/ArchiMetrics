@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.FieldDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "No Protected Fields";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Encapsulate all public fields in properties, or internalize them.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

@@ -23,6 +23,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			get { return SyntaxKind.MethodDeclaration; }
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "No Assertion in Test";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Add an assertion to the test.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodParent = (MethodDeclarationSyntax)node;

@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.GotoStatement;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Goto Statement";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor to use method calls.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

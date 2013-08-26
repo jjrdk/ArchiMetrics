@@ -13,9 +13,11 @@
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
 	using NUnit.Framework;
+	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 
 	public sealed class CyclomaticComplexityAnalyzerTests
@@ -26,12 +28,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 		public class GivenACyclomaticComplexityAnalyzer
 		{
-			private CyclomaticComplexityCounter counter;
+			private CyclomaticComplexityCounter _counter;
 
 			[SetUp]
 			public void SetUp()
 			{
-				counter = new CyclomaticComplexityCounter();
+				_counter = new CyclomaticComplexityCounter();
 			}
 
 			[TestCase("public abstract void DoSomething();", 1)]
@@ -90,18 +92,46 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 }", 2)]
 			[TestCase(@"public int DoSomething(){
 		var numbers = new[] { 1, 2, 3 };
-		var odds = numbers.Where(n => n != 1).ToArray();
+		var n = numbers.Where(n => n != 1).ToArray();
 	}
 }", 1)]
+			[TestCase(@"public int DoSomething(){
+		var numbers = new[] { 1, 2, 3 };
+		var odds = numbers.Where(n => { if(n != 1) { return n %2 == 0; } else { return false; } }).ToArray();
+	}
+}", 2)]
+			[TestCase(@"
+namespace MyNs
+{
+	using System;
+	using System.Threading.Tasks;
+
+	public class MyClass
+	{
+		public void DoSomething()
+		{
+				var task = Task.Factory.StartNew(() => { Console.WriteLine(""blah""); });
+		}
+	}
+}", 2)]
 			public void MethodHasExpectedComplexity(string method, int expectedComplexity)
 			{
-				var syntaxNode = SyntaxTree.ParseText(method)
+				var tree = SyntaxTree.ParseText(method);
+				var compilation = Compilation.Create("x",
+					syntaxTrees: new[] { tree },
+					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
+					options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
+				//var diagnostics = compilation.GetDiagnostics().ToArray();
+				//var l = diagnostics.Length;
+				var model = compilation.GetSemanticModel(tree);
+				var syntaxNode = tree
 					.GetRoot()
 					.DescendantNodes()
 					.OfType<MethodDeclarationSyntax>()
 					.First();
-				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode);
-				var result = counter.Calculate(node);
+
+				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode, model);
+				var result = _counter.Calculate(node);
 
 				Assert.AreEqual(expectedComplexity, result);
 			}

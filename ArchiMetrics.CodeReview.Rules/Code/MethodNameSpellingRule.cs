@@ -26,6 +26,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.MethodDeclaration; }
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Method Name Spelling";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Check that the method name is spelled correctly. Consider adding exceptions to the dictionary.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

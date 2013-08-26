@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "ServiceLocator Invocation in Test";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Replace ServiceLocator with explicit setup using either a concrete instance, mock or fake.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

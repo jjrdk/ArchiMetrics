@@ -46,11 +46,14 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				}
 			}";
 
-				var root = SyntaxTree.ParseText(Text)
+				var syntaxTree = SyntaxTree.ParseText(Text);
+				var compilation = Compilation.Create("x", syntaxTrees: new[] { syntaxTree });
+				var model = compilation.GetSemanticModel(syntaxTree);
+				var root = syntaxTree
 											.GetRoot()
 											.DescendantNodes()
 											.First(c => c.Kind == SyntaxKind.MethodDeclaration);
-				var node = new MemberNode("a", "b", MemberKind.Method, 0, root);
+				var node = new MemberNode("a", "b", MemberKind.Method, 0, root, model);
 				var loc = _analyzer.Calculate(node);
 
 				Assert.AreEqual(0, loc);

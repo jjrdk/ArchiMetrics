@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.Parameter;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "ServiceLocator Passed as Parameter";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Remove ServiceLocator parameter and inject only needed dependencies.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

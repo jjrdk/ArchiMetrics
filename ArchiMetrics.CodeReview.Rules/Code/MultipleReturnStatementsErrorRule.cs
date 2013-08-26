@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Multiple Return Statements";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "If your company's coding standards requires only a single exit point, then refactor method to have only single return statement.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

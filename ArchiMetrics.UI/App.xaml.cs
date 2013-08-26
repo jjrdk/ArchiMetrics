@@ -20,7 +20,7 @@ namespace ArchiMetrics.UI
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Analysis.CodeReview;
 	using ArchiMetrics.Analysis.Metrics;
-	using ArchiMetrics.CodeReview;
+	using ArchiMetrics.CodeReview.Rules;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
@@ -61,7 +61,7 @@ namespace ArchiMetrics.UI
 				   .SingleInstance();
 			var config = new SolutionEdgeItemsRepositoryConfig();
 			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
-			foreach (var type in typeof(ICodeEvaluation).Assembly
+			foreach (var type in typeof(ReportUtils).Assembly
 													   .GetTypes()
 													   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
 													   .Where(t => !t.IsInterface && !t.IsAbstract))

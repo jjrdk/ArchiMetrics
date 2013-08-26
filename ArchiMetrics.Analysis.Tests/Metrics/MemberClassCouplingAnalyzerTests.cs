@@ -75,15 +75,14 @@ namespace MyNamespace
 
 			private IEnumerable<TypeCoupling> GetTypeCouplings()
 			{
-				var method = _solution.Projects
-				                      .SelectMany(p => p.Documents)
-				                      .First()
-				                      .GetSyntaxRoot()
-				                      .DescendantNodes()
-				                      .OfType<SyntaxNode>()
-				                      .First(n => n.Kind == SyntaxKind.MethodDeclaration);
+				var document = _solution.Projects.SelectMany(p => p.Documents).First();
+				var method = document
+					.GetSyntaxRoot()
+					.DescendantNodes()
+					.OfType<SyntaxNode>()
+					.First(n => n.Kind == SyntaxKind.MethodDeclaration);
 
-				var couplings = _analyzer.Calculate(new MemberNode("blah", "blah", MemberKind.Method, 0, method));
+				var couplings = _analyzer.Calculate(new MemberNode("blah", "blah", MemberKind.Method, 0, method, document.GetSemanticModel()));
 				return couplings;
 			}
 

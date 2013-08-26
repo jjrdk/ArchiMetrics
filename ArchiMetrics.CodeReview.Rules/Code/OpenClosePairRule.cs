@@ -23,5 +23,21 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return "Close"; }
 		}
+
+		public override string Title
+		{
+			get
+			{
+				return "Open/Close Method Pair";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Methods names OpenSomething should have a matching CloseSomething and vice versa.";
+			}
+		}
 	}
 }

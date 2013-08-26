@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Local Time Creation";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Replace with call to DateTime.UtcNow";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

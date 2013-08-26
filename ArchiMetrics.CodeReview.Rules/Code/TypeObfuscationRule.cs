@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.LocalDeclarationStatement;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Type Obfuscation";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Assigning a value to a variable of type object bypasses type checking.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

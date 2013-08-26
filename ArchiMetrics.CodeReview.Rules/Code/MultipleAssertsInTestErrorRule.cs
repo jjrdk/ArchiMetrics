@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Multiple Asserts in Test";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor tests to only have a single assert.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

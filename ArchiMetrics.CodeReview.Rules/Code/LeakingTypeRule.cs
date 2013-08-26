@@ -26,6 +26,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Current Type Exposes " + TypeIdentifier;
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Remove public access to " + TypeIdentifier;
+			}
+		}
+
 		protected abstract string TypeIdentifier { get; }
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)

@@ -29,6 +29,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.ClassDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Public Interface Implementation";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider whether the interface implementation also needs to be public.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "ServiceLocator Invocation";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider injecting needed dependencies explicitly.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

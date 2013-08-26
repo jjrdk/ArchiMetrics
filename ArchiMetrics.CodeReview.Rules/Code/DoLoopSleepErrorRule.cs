@@ -23,6 +23,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.DoStatement; }
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Do Statement Sleep Loop";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Use a wait handle to synchronize timing issues.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

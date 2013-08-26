@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.VariableDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Dynamic Variable";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider using a typed variable.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

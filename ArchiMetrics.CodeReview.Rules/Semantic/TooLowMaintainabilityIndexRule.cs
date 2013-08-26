@@ -33,6 +33,22 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Method Unmaintainable";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor method to improve maintainability.";
+			}
+		}
+
 		public int Threshold { get; set; }
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)

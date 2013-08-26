@@ -25,6 +25,22 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _spellChecker;
 
+		public override string Title
+		{
+			get
+			{
+				return "Suspicious Language Comment";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Check spelling of comment.";
+			}
+		}
+
 		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
 		{
 			_spellChecker = spellChecker;
@@ -45,11 +61,11 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			{
 				return new EvaluationResult
 						   {
-							   Comment = "Suspicious language comment", 
-							   ErrorCount = 1, 
-							   ImpactLevel = ImpactLevel.Member, 
-							   Quality = CodeQuality.NeedsReview, 
-							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance, 
+							   Comment = "Suspicious language comment",
+							   ErrorCount = 1,
+							   ImpactLevel = ImpactLevel.Member,
+							   Quality = CodeQuality.NeedsReview,
+							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance,
 							   Snippet = node.ToFullString()
 						   };
 			}

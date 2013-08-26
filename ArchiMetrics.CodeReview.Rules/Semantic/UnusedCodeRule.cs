@@ -21,6 +21,20 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal abstract class UnusedCodeRule : SemanticEvaluationBase
 	{
+		public override string Title
+		{
+			get
+			{
+				return "Unused " + EvaluatedKind.ToString().ToTitleCase();
+			}
+		}
+
+		public override string Suggestion
+		{
+			get {
+				return "Remove unused code."; }
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var symbol = semanticModel.GetDeclaredSymbol(node);
@@ -30,11 +44,11 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   Comment = "Uncalled code detected.", 
-						   ImpactLevel = ImpactLevel.Member, 
-						   Namespace = GetCompilationUnitNamespace(node.GetLocation().SourceTree.GetRoot()), 
-						   Quality = CodeQuality.Incompetent, 
-						   QualityAttribute = QualityAttribute.CodeQuality, 
+						   Comment = "Uncalled code detected.",
+						   ImpactLevel = ImpactLevel.Member,
+						   Namespace = GetCompilationUnitNamespace(node.GetLocation().SourceTree.GetRoot()),
+						   Quality = CodeQuality.Incompetent,
+						   QualityAttribute = QualityAttribute.CodeQuality,
 						   Snippet = node.ToFullString()
 					   };
 			}

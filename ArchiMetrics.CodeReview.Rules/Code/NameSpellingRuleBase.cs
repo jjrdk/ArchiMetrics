@@ -19,7 +19,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal abstract class NameSpellingRuleBase : CodeEvaluationBase
 	{
-		private static readonly Regex CapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
 		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _speller;
 
@@ -31,8 +30,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		protected bool IsSpelledCorrectly(string name)
 		{
-			var wordParts = CapitalRegex.Replace(name, m => " " + m)
-				.Trim()
+			var wordParts = name.ToTitleCase()
 				.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
 				.Where(s => !_knownPatterns.IsExempt(s));
 			return wordParts.Aggregate(true, (b, s) => b && _speller.Spell(s));

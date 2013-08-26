@@ -27,6 +27,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Method Too Big";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor method to make it more manageable.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;

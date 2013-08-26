@@ -18,7 +18,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	internal class TooBigClassRule : CodeEvaluationBase
 	{
 		private const int Limit = 400;
-		
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get
@@ -26,7 +26,23 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.ClassDeclaration;
 			}
 		}
-		
+
+		public override string Title
+		{
+			get
+			{
+				return "Class Too Big";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor class to make it more manageable.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var declarationSyntax = (TypeDeclarationSyntax)node;
@@ -36,13 +52,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			if (linesOfCode >= Limit)
 			{
 				return new EvaluationResult
-					       {
+						   {
 							   Comment = "Class too big.",
- 							   ImpactLevel = ImpactLevel.Type,
-						       Quality = CodeQuality.NeedsRefactoring, 
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
-						       Snippet = snippet
-					       };
+							   ImpactLevel = ImpactLevel.Type,
+							   Quality = CodeQuality.NeedsRefactoring,
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
+							   Snippet = snippet
+						   };
 			}
 
 			return null;

@@ -25,6 +25,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Variable Name Should Not Match Field Name";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Rename variable to avoid confusion with assigned field.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var assignment = (BinaryExpressionSyntax)node;

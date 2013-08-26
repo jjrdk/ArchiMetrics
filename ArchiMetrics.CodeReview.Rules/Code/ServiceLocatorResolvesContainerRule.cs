@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "ServiceLocator Resolves Container.";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "A ServiceLocator should never resolve its own DI container. Refactor to pass dependencies explicitly.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
@@ -44,9 +58,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return new EvaluationResult
 						   {
 							   ImpactLevel = ImpactLevel.Member,
-							   Comment = "UnityContainer resolved from ServiceLocator.", 
-							   Quality = CodeQuality.Broken, 
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security, 
+							   Comment = "UnityContainer resolved from ServiceLocator.",
+							   Quality = CodeQuality.Broken,
+							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Security,
 							   Snippet = snippet
 						   };
 			}

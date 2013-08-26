@@ -27,6 +27,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.AssignExpression;
 			}
 		}
+		
+		public override string Title
+		{
+			get
+			{
+				return "Disk Location Dependency";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Replace the dependency on a specific disk location with an abstraction.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

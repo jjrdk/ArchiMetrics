@@ -41,7 +41,7 @@ namespace ArchiMetrics.Analysis.Metrics
 											   .WithBody(Syntax.Block());
 				members = members.Concat(new[]
 										 {
-											 new MemberNode(typeNode.CodeFile, typeNode.Name, MemberKind.Constructor, 0, defaultConstructor)
+											 new MemberNode(typeNode.CodeFile, typeNode.Name, MemberKind.Constructor, 0, defaultConstructor, Model)
 										 })
 										 .ToArray();
 			}
@@ -51,7 +51,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public MemberMetric Calculate(MethodDeclarationSyntax methodDeclaration)
 		{
-			var member = new MemberNode(string.Empty, methodDeclaration.Identifier.ValueText, MemberKind.Method, 0, methodDeclaration);
+			var member = new MemberNode(string.Empty, methodDeclaration.Identifier.ValueText, MemberKind.Method, 0, methodDeclaration, Model);
 			return CalculateMemberMetric(member);
 		}
 

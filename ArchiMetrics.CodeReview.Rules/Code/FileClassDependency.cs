@@ -25,6 +25,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "File Class Dependency";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Replace explicit file dependency to reduce coupling with file system.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;

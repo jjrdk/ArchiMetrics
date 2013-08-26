@@ -26,6 +26,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.PropertyDeclaration; }
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Property Name Spelling";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Check that the property name is spelled correctly. Consider adding exceptions to the dictionary.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

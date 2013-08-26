@@ -35,6 +35,22 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			get { return SyntaxKind.ClassDeclaration; }
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Lack of Cohesion of Methods";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor class into separate classes with single responsibility.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;

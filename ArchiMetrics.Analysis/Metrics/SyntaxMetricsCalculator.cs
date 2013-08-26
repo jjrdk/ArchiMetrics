@@ -18,6 +18,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 
 	public sealed class SyntaxMetricsCalculator
 	{
@@ -32,7 +33,6 @@ namespace ArchiMetrics.Analysis.Metrics
 				var tree = SyntaxTree.ParseText(code);
 				var root = tree.GetRoot();
 				var metrics = Calculate(root);
-
 				return metrics;
 			}
 			catch (Exception ex)
@@ -86,13 +86,14 @@ namespace ArchiMetrics.Analysis.Metrics
 						   string.Empty, 
 						   MemberKind.Method, 
 						   0, 
-						   fakeMethod))
+						   fakeMethod,
+						   null))
 				   };
 		}
 
 		private MemberNode CreateMemberNode(MemberKind kind, SyntaxNode node)
 		{
-			return new MemberNode(string.Empty, string.Empty, kind, 0, node);
+			return new MemberNode(string.Empty, string.Empty, kind, 0, node, null);
 		}
 	}
 }

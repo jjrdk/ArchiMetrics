@@ -18,7 +18,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				var unitNamespace = GetCompilationUnitNamespace(sourceTree.GetRoot());
 				result.Namespace = unitNamespace;
 				result.FilePath = filePath;
-				result.LinesOfCodeAffected = this.GetLinesOfCode(result.Snippet);
+				result.LinesOfCodeAffected = GetLinesOfCode(result.Snippet);
 			}
 
 			return result;

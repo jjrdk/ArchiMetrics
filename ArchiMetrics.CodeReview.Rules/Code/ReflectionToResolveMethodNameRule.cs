@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Using Reflection to Resolve Member Name";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Consider using a string for the method name for performance and to make it readable after obfuscation.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

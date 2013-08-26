@@ -25,6 +25,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Guard Clause in Method Without Parameters";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Remove guard clause.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;

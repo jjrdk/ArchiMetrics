@@ -13,14 +13,21 @@
 namespace ArchiMetrics.CodeReview.Rules
 {
 	using System.Linq;
+	using System.Text.RegularExpressions;
 
 	public static class ReportUtils
 	{
+		private static readonly Regex CapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
 		private static readonly string[] KnownTestAttributes = { "Test", "TestCase", "TestMethod", "Fact", "Theory" };
 
 		internal static bool IsKnownTestAttribute(this string text)
 		{
 			return KnownTestAttributes.Contains(text);
+		}
+
+		internal static string ToTitleCase(this string input)
+		{
+			return CapitalRegex.Replace(input, m => " " + m).Trim();
 		}
 	}
 }

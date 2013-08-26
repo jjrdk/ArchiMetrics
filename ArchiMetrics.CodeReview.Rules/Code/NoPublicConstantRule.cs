@@ -24,6 +24,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.FieldDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "No Public Constants";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Expose public constants as public static readonly instead in order to avoid that they get compiled into a calling assembly.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

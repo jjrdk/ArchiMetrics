@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
+	using System;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
@@ -21,7 +22,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		public int Calculate(MemberNode node)
 		{
-			var analyzer = new InnerComplexityAnalyzer();
+			var analyzer = new InnerComplexityAnalyzer(node.SemanticModel);
 			var result = analyzer.Calculate(node);
 
 			return result;
@@ -39,12 +40,15 @@ namespace ArchiMetrics.Analysis.Metrics
 																	SyntaxKind.LogicalNotExpression
 																};
 
+			private static readonly string[] LazyTypes = new[] { "System.Threading.Tasks.Task" };
+			private readonly ISemanticModel _semanticModel;
 			private int _counter;
 			private BlockSyntax _syntax;
 
-			public InnerComplexityAnalyzer()
+			public InnerComplexityAnalyzer(ISemanticModel semanticModel)
 				: base(SyntaxWalkerDepth.Node)
 			{
+				_semanticModel = semanticModel;
 				_counter = 1;
 			}
 
@@ -84,6 +88,46 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				base.VisitForEachStatement(node);
 				_counter++;
+			}
+
+			public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+			{
+				if (_semanticModel != null)
+				{
+					var symbol = _semanticModel.GetSymbolInfo(node).Symbol;
+					if (symbol != null)
+					{
+						switch (symbol.Kind)
+						{
+							case CommonSymbolKind.Method:
+								var returnType = ((IMethodSymbol)symbol).ReturnType;
+								Console.WriteLine(returnType.ToDisplayString());
+								break;
+						}
+					}
+				}
+				base.VisitInvocationExpression(node);
+			}
+
+			public override void VisitArgument(ArgumentSyntax node)
+			{
+				switch (node.Expression.Kind)
+				{
+					case SyntaxKind.ParenthesizedLambdaExpression:
+						{
+							var lambda = (ParenthesizedLambdaExpressionSyntax)node.Expression;
+							Visit(lambda.Body);
+						}
+						break;
+					case SyntaxKind.SimpleLambdaExpression:
+						{
+							var lambda = (SimpleLambdaExpressionSyntax)node.Expression;
+							Visit(lambda.Body);
+						}
+						break;
+				}
+
+				base.VisitArgument(node);
 			}
 
 			public override void VisitDefaultExpression(DefaultExpressionSyntax node)

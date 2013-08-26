@@ -16,13 +16,14 @@ namespace ArchiMetrics.Common.Metrics
 
 	public class MemberNode
 	{
-		public MemberNode(string codeFile, string displayName, MemberKind kind, int lineNumber, CommonSyntaxNode syntaxNode)
+		public MemberNode(string codeFile, string displayName, MemberKind kind, int lineNumber, CommonSyntaxNode syntaxNode, ISemanticModel semanticModel)
 		{
 			CodeFile = codeFile;
 			DisplayName = displayName;
 			Kind = kind;
 			LineNumber = lineNumber;
 			SyntaxNode = syntaxNode;
+			SemanticModel = semanticModel;
 		}
 
 		public string CodeFile { get; set; }
@@ -34,5 +35,7 @@ namespace ArchiMetrics.Common.Metrics
 		public int LineNumber { get; set; }
 
 		public CommonSyntaxNode SyntaxNode { get; set; }
+
+		public ISemanticModel SemanticModel { get; set; }
 	}
 }

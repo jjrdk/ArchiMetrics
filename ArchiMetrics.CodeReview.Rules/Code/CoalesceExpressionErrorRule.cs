@@ -25,6 +25,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "Coalesce Expression";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Use an explicit if statement to assign a value if it is null.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{

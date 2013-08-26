@@ -27,6 +27,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Immediate Task Wait.";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Immediately awaiting a Task has same effect as executing code synchonously.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;

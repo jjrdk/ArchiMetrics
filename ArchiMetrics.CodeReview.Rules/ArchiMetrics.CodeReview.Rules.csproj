@@ -91,7 +91,6 @@
     <Compile Include="Code\GuardClauseInMethodWithoutParametersRule.cs" />
     <Compile Include="Code\GuardClauseInNonPublicMethodRule.cs" />
     <Compile Include="Code\ImmediateTaskWaitRule.cs" />
-    <Compile Include="Code\LawOfDemeterViolationRule.cs" />
     <Compile Include="Code\LeakingDomainStorageRule.cs" />
     <Compile Include="Code\LeakingServiceLocatorRule.cs" />
     <Compile Include="Code\LeakingSessionRule.cs" />

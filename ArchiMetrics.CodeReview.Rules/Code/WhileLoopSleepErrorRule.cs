@@ -24,6 +24,22 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			get { return SyntaxKind.WhileStatement; }
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Sleep Loop";
+			}
+		}
+
+		public override string Suggestion
+		{
+			get
+			{
+				return "Use a wait handle to synchronize control flows.";
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var whileStatement = (WhileStatementSyntax)node;

@@ -26,6 +26,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+		public override string Title
+		{
+			get
+			{
+				return "More than " + Limit + " parameters on method";
+			}
+		}
+		public override string Suggestion
+		{
+			get
+			{
+				return "Refactor method to reduce number of dependencies passed.";
+			}
+		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
