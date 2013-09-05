@@ -16,7 +16,7 @@ namespace ArchiMetrics.Common.Metrics
 
 	public class MetricOverview
 	{
-		public MetricOverview(int sourceLinesOfCode, IEnumerable<TypeMetric> metrics)
+		public MetricOverview(int sourceLinesOfCode, IEnumerable<ITypeMetric> metrics)
 		{
 			SourceLinesOfCode = sourceLinesOfCode;
 			Metrics = metrics;
@@ -24,6 +24,6 @@ namespace ArchiMetrics.Common.Metrics
 
 		public int SourceLinesOfCode { get; set; }
 
-		public IEnumerable<TypeMetric> Metrics { get; set; }
+		public IEnumerable<ITypeMetric> Metrics { get; set; }
 	}
 }

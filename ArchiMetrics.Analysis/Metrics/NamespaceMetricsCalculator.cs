@@ -25,7 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 		}
 
-		public NamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<TypeMetric> metrics)
+		public INamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<ITypeMetric> metrics)
 		{
 			var typeMetrics = metrics.ToArray();
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);

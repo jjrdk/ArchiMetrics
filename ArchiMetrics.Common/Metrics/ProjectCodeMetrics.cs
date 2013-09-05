@@ -22,6 +22,6 @@ namespace ArchiMetrics.Common.Metrics
 
 		public string Version { get; set; }
 
-		public IEnumerable<NamespaceMetric> Metrics { get; set; }
+		public IEnumerable<INamespaceMetric> Metrics { get; set; }
 	}
 }

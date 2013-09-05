@@ -26,7 +26,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 		}
 
-		public TypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<MemberMetric> metrics)
+		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
 		{
 			var memberMetrics = metrics.ToArray();
 			var type = (TypeDeclarationSyntax)typeNode.Syntax;
@@ -47,7 +47,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				type.GetName());
 		}
 
-		private static double CalculateAveMaintainabilityIndex(IEnumerable<MemberMetric> memberMetrics)
+		private static double CalculateAveMaintainabilityIndex(IEnumerable<IMemberMetric> memberMetrics)
 		{
 			var source = memberMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).ToArray();
 			if (source.Any())
@@ -74,7 +74,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private IEnumerable<TypeCoupling> CalculateClassCoupling(TypeDeclarationSyntax type, IEnumerable<MemberMetric> memberMetrics)
+		private IEnumerable<TypeCoupling> CalculateClassCoupling(TypeDeclarationSyntax type, IEnumerable<IMemberMetric> memberMetrics)
 		{
 			var second = new TypeClassCouplingAnalyzer(Model).Calculate(type);
 			return memberMetrics.SelectMany(x => x.ClassCouplings)

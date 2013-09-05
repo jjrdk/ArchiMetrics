@@ -45,7 +45,7 @@ namespace ArchiMetrics.Analysis
 
 		public bool IgnoreGeneratedCode { get; set; }
 
-		public virtual Task<IEnumerable<NamespaceMetric>> Calculate(IProject project)
+		public virtual Task<IEnumerable<INamespaceMetric>> Calculate(IProject project)
 		{
 			return Task.Factory
 				.StartNew(() =>
@@ -59,7 +59,7 @@ namespace ArchiMetrics.Analysis
 							  });
 		}
 
-		public Task<IEnumerable<NamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
+		public Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
 		{
 			return Task.Factory.StartNew(() =>
 				{
@@ -113,7 +113,7 @@ namespace ArchiMetrics.Analysis
 				});
 		}
 
-		private static IEnumerable<NamespaceMetric> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
+		private static IEnumerable<INamespaceMetric> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
 		{
 			var metrics = namespaceDeclarations.Select(declaration => declaration)
 											   .Select(
@@ -132,7 +132,7 @@ namespace ArchiMetrics.Analysis
 			return metrics;
 		}
 
-		private static Tuple<CommonCompilation, IEnumerable<MemberMetric>> CalculateMemberMetrics(CommonCompilation compilation, TypeDeclaration typeNodes)
+		private static Tuple<CommonCompilation, IEnumerable<IMemberMetric>> CalculateMemberMetrics(CommonCompilation compilation, TypeDeclaration typeNodes)
 		{
 			var comp = compilation;
 			var metrics = typeNodes.SyntaxNodes
@@ -145,10 +145,10 @@ namespace ArchiMetrics.Analysis
 
 								return calculator.Calculate(info);
 							});
-			return new Tuple<CommonCompilation, IEnumerable<MemberMetric>>(comp, metrics.ToArray());
+			return new Tuple<CommonCompilation, IEnumerable<IMemberMetric>>(comp, metrics.ToArray());
 		}
 
-		private static Tuple<CommonCompilation, NamespaceMetric> CalculateNamespaceMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes, IEnumerable<TypeMetric> typeMetrics)
+		private static Tuple<CommonCompilation, INamespaceMetric> CalculateNamespaceMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes, IEnumerable<ITypeMetric> typeMetrics)
 		{
 			var namespaceNode = namespaceNodes.SyntaxNodes.FirstOrDefault();
 			if (namespaceNode == null)
@@ -160,10 +160,10 @@ namespace ArchiMetrics.Analysis
 			compilation = tuple.Item1;
 			var semanticModel = compilation.GetSemanticModel(namespaceNode.Syntax.SyntaxTree);
 			var calculator = new NamespaceMetricsCalculator(semanticModel);
-			return new Tuple<CommonCompilation, NamespaceMetric>(compilation, calculator.CalculateFrom(namespaceNode, typeMetrics));
+			return new Tuple<CommonCompilation, INamespaceMetric>(compilation, calculator.CalculateFrom(namespaceNode, typeMetrics));
 		}
 
-		private static Tuple<CommonCompilation, IEnumerable<TypeMetric>> CalculateTypeMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes)
+		private static Tuple<CommonCompilation, IEnumerable<ITypeMetric>> CalculateTypeMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes)
 		{
 			var comp = compilation;
 			var typeMetrics = GetTypeDeclarations(namespaceNodes)
@@ -187,10 +187,10 @@ namespace ArchiMetrics.Analysis
 						})
 				.ToArray();
 
-			return new Tuple<CommonCompilation, IEnumerable<TypeMetric>>(comp, typeMetrics);
+			return new Tuple<CommonCompilation, IEnumerable<ITypeMetric>>(comp, typeMetrics);
 		}
 
-		private static Tuple<CommonCompilation, TypeMetric> CalculateTypeMetrics(CommonCompilation compilation, TypeDeclaration typeNodes, IEnumerable<MemberMetric> memberMetrics)
+		private static Tuple<CommonCompilation, ITypeMetric> CalculateTypeMetrics(CommonCompilation compilation, TypeDeclaration typeNodes, IEnumerable<IMemberMetric> memberMetrics)
 		{
 			if (typeNodes.SyntaxNodes.Any())
 			{
@@ -199,7 +199,7 @@ namespace ArchiMetrics.Analysis
 				compilation = tuple.Item1;
 				var typeNode = tuple.Item3;
 				var calculator = new TypeMetricsCalculator(semanticModel);
-				return new Tuple<CommonCompilation, TypeMetric>(
+				return new Tuple<CommonCompilation, ITypeMetric>(
 					compilation,
 					calculator.CalculateFrom(typeNode, memberMetrics));
 			}

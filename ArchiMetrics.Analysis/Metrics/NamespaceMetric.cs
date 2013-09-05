@@ -10,11 +10,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
+	using ArchiMetrics.Common.Metrics;
 
-	public class NamespaceMetric
+	internal class NamespaceMetric : INamespaceMetric
 	{
 		public NamespaceMetric(
 			double maintainabilityIndex, 
@@ -23,7 +24,7 @@ namespace ArchiMetrics.Common.Metrics
 			IEnumerable<TypeCoupling> classCouplings, 
 			int depthOfInheritance, 
 			string name, 
-			IEnumerable<TypeMetric> typeMetrics)
+			IEnumerable<ITypeMetric> typeMetrics)
 		{
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
@@ -46,6 +47,6 @@ namespace ArchiMetrics.Common.Metrics
 
 		public string Name { get; private set; }
 
-		public IEnumerable<TypeMetric> TypeMetrics { get; private set; }
+		public IEnumerable<ITypeMetric> TypeMetrics { get; private set; }
 	}
 }

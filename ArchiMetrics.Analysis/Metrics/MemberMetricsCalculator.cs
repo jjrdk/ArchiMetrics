@@ -28,7 +28,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 		}
 
-		public IEnumerable<MemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
+		public IEnumerable<IMemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
 			var walker = new MemberCollector(Root);
 			var members = walker.GetMembers(Model, typeNode).ToArray();
@@ -49,7 +49,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return CalculateMemberMetrics(members).ToArray();
 		}
 
-		public MemberMetric Calculate(MethodDeclarationSyntax methodDeclaration)
+		public IMemberMetric Calculate(MethodDeclarationSyntax methodDeclaration)
 		{
 			var member = new MemberNode(string.Empty, methodDeclaration.Identifier.ValueText, MemberKind.Method, 0, methodDeclaration, Model);
 			return CalculateMemberMetric(member);
@@ -112,7 +112,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return provider.Calculate(node);
 		}
 
-		private IEnumerable<MemberMetric> CalculateMemberMetrics(IEnumerable<MemberNode> nodes)
+		private IEnumerable<IMemberMetric> CalculateMemberMetrics(IEnumerable<MemberNode> nodes)
 		{
 			return from node in nodes
 				   let metric = CalculateMemberMetric(node)
@@ -120,7 +120,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				   select metric;
 		}
 
-		private MemberMetric CalculateMemberMetric(MemberNode node)
+		private IMemberMetric CalculateMemberMetric(MemberNode node)
 		{
 			var analyzer = new HalsteadAnalyzer();
 			var halsteadMetrics = analyzer.Calculate(node);

@@ -20,6 +20,6 @@ namespace ArchiMetrics.Common.Metrics
 	{
 		bool IgnoreGeneratedCode { get; set; }
 
-		Task<IEnumerable<NamespaceMetric>> Calculate(IProject project);
+		Task<IEnumerable<INamespaceMetric>> Calculate(IProject project);
 	}
 }

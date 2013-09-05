@@ -10,16 +10,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common.Metrics;
 
-	public class TypeMetric
+	internal class TypeMetric : ITypeMetric
 	{
 		public TypeMetric(
 			TypeMetricKind kind, 
-			IEnumerable<MemberMetric> memberMetrics, 
+			IEnumerable<IMemberMetric> memberMetrics, 
 			int linesOfCode, 
 			int cyclomaticComplexity, 
 			double maintainabilityIndex, 
@@ -41,7 +42,7 @@ namespace ArchiMetrics.Common.Metrics
 
 		public TypeMetricKind Kind { get; private set; }
 
-		public IEnumerable<MemberMetric> MemberMetrics { get; private set; }
+		public IEnumerable<IMemberMetric> MemberMetrics { get; private set; }
 
 		public int LinesOfCode { get; private set; }
 

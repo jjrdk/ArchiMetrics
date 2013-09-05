@@ -10,11 +10,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Metrics
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
+	using ArchiMetrics.Common.Metrics;
 
-	public class MemberMetric
+	internal class MemberMetric : IMemberMetric
 	{
 		private readonly IHalsteadMetrics _halstead;
 

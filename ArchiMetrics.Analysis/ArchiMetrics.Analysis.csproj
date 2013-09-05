@@ -71,7 +71,9 @@
     <Compile Include="Metrics\DepthOfInheritanceAnalyzer.cs" />
     <Compile Include="Metrics\HalsteadAnalyzer.cs" />
     <Compile Include="Metrics\HalsteadMetrics.cs" />
+    <Compile Include="Metrics\MemberMetric.cs" />
     <Compile Include="Metrics\NamespaceCollector.cs" />
+    <Compile Include="Metrics\NamespaceMetric.cs" />
     <Compile Include="Metrics\Operands.cs" />
     <Compile Include="Metrics\Operators.cs" />
     <Compile Include="Metrics\LogicalComplexityCounter.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Metrics\TypeCollector.cs" />
     <Compile Include="Metrics\TypeCouplingComparer.cs" />
     <Compile Include="Metrics\TypeDeclaration.cs" />
+    <Compile Include="Metrics\TypeMetric.cs" />
     <Compile Include="Metrics\TypeMetricsCalculator.cs" />
     <Compile Include="Metrics\TypeExtensions.cs" />
     <Compile Include="NodeReviewer.cs" />
