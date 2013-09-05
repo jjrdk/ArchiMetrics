@@ -16,7 +16,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Analysis.CodeReview;
+	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
@@ -30,7 +30,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		private static Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
-			var inspector = new NodeInspector(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
+			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			var tree = SyntaxTree.ParseText("public class ParseClass { " + code + " }");
 
 			var task = inspector.Inspect(string.Empty, tree.GetRoot(), null, null);

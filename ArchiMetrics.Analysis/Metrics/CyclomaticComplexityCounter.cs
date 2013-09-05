@@ -40,7 +40,7 @@ namespace ArchiMetrics.Analysis.Metrics
 																	SyntaxKind.LogicalNotExpression
 																};
 
-			private static readonly string[] LazyTypes = new[] { "System.Threading.Tasks.Task" };
+			// private static readonly string[] LazyTypes = new[] { "System.Threading.Tasks.Task" };
 			private readonly ISemanticModel _semanticModel;
 			private int _counter;
 			private BlockSyntax _syntax;

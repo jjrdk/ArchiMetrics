@@ -17,7 +17,7 @@ namespace ArchiMetrics.Analysis
 	using ArchiMetrics.Common.Xaml;
 	using Roslyn.Compilers.CSharp;
 
-	public class XamlConverter
+	internal class XamlConverter
 	{
 		private static readonly XamlCodeWriter CodeWriter = new XamlCodeWriter();
 

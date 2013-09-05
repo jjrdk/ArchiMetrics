@@ -21,7 +21,7 @@ namespace ArchiMetrics.Analysis
 	using Roslyn.Services;
 	using Roslyn.Services.Formatting;
 
-	public class XamlCodeWriter
+	internal class XamlCodeWriter
 	{
 		private static readonly Regex BindingRegex = new Regex("^{Binding(.+)?}$", RegexOptions.Compiled);
 

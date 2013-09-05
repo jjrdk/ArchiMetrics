@@ -37,6 +37,8 @@ namespace ArchiMetrics.Common.Metrics
 			Name = name;
 		}
 
+		public string Name { get; private set; }
+
 		public TypeMetricKind Kind { get; private set; }
 
 		public IEnumerable<MemberMetric> MemberMetrics { get; private set; }
@@ -55,7 +57,5 @@ namespace ArchiMetrics.Common.Metrics
 		{
 			get { return ClassCouplings.Count(); }
 		}
-
-		public string Name { get; private set; }
 	}
 }

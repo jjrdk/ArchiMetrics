@@ -18,7 +18,6 @@ namespace ArchiMetrics.UI
 	using System.Windows;
 	using System.Windows.Markup;
 	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Analysis.CodeReview;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.CodeReview.Rules;
 	using ArchiMetrics.Common;
@@ -91,7 +90,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>();
 			builder.RegisterType<CodeMetricsCalculator>()
 				   .As<ICodeMetricsCalculator>();
-			builder.RegisterType<NodeInspector>()
+			builder.RegisterType<NodeReviewer>()
 				   .As<INodeInspector>();
 			var vertexRuleRepository = new FakeVertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true))

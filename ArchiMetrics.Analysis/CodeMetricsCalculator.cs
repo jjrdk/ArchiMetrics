@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Analysis.Metrics
+namespace ArchiMetrics.Analysis
 {
 	using System;
 	using System.Collections.Generic;
@@ -19,9 +19,10 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
 	using System.Xml.Linq;
+	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Compilers.Common;
 	using Roslyn.Services;
 
 	public class CodeMetricsCalculator : ICodeMetricsCalculator

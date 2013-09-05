@@ -15,7 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System;
 	using System.IO;
 	using System.Linq;
-	using ArchiMetrics.Analysis.CodeReview;
+	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Trivia;
 	using ArchiMetrics.Common.CodeReview;
@@ -160,13 +160,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		public class GivenASolutionInspectorWithCommentLanguageRules
 		{
-			private NodeInspector _inspector;
+			private NodeReviewer _reviewer;
 
 			[SetUp]
 			public void Setup()
 			{
 				var spellChecker = new SpellChecker();
-				_inspector = new NodeInspector(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker, new ExemptWords()), new MultiLineCommentLanguageRule(spellChecker, new ExemptWords()) });
+				_reviewer = new NodeReviewer(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker, new ExemptWords()), new MultiLineCommentLanguageRule(spellChecker, new ExemptWords()) });
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
@@ -182,7 +182,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
    comment));
 				var root = method.GetRoot();
 
-				var task = _inspector.Inspect(string.Empty, root, null, null);
+				var task = _reviewer.Inspect(string.Empty, root, null, null);
 				task.Wait();
 
 				Assert.IsNotEmpty(task.Result);

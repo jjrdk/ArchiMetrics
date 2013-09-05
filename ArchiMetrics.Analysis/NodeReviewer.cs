@@ -1,16 +1,16 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NodeInspector.cs" company="Reimers.dk">
+// <copyright file="NodeReviewer.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the NodeInspector type.
+//   Defines the NodeReviewer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Analysis.CodeReview
+namespace ArchiMetrics.Analysis
 {
 	using System;
 	using System.Collections.Concurrent;
@@ -22,11 +22,11 @@ namespace ArchiMetrics.Analysis.CodeReview
 	using Roslyn.Compilers.Common;
 	using Roslyn.Services;
 
-	public class NodeInspector : INodeInspector
+	public class NodeReviewer : INodeInspector
 	{
 		private readonly Dictionary<SyntaxKind, IEvaluation[]> _evaluations;
 
-		public NodeInspector(IEnumerable<IEvaluation> evaluations)
+		public NodeReviewer(IEnumerable<IEvaluation> evaluations)
 		{
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
@@ -133,7 +133,7 @@ namespace ArchiMetrics.Analysis.CodeReview
 				return results;
 			}
 
-			private Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
+			private static Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
 			{
 				return Task.Factory.StartNew(
 					() =>
@@ -165,7 +165,7 @@ namespace ArchiMetrics.Analysis.CodeReview
 					});
 			}
 
-			private Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
+			private static Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
 			{
 				return Task.Factory.StartNew(() =>
 					{
@@ -196,7 +196,7 @@ namespace ArchiMetrics.Analysis.CodeReview
 					});
 			}
 
-			private Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			private static Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
 			{
 				return Task.Factory.StartNew(() =>
 					{
