@@ -39,6 +39,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.CodeQuality;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodParent = (MethodDeclarationSyntax)node;
@@ -54,9 +78,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 						   {
-							   Quality = CodeQuality.NeedsReview,
-							   QualityAttribute = QualityAttribute.Testability,
-							   ImpactLevel = ImpactLevel.Member,
 							   Snippet = (FindClassParent(node) ?? node).ToFullString()
 						   };
 				}

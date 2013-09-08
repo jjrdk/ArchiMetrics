@@ -22,6 +22,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.WhileStatement; }
 		}
+
 		public override string Title
 		{
 			get
@@ -29,11 +30,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Empty While Statement";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Use a wait handle to synchronize asynchronous flows, or let the thread sleep.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality | QualityAttribute.Testability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -51,9 +77,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 					   {
-						   Quality = CodeQuality.Incompetent, 
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability, 
-						   ImpactLevel = ImpactLevel.Member,
 						   Snippet = snippet
 					   };
 			}

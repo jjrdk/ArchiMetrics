@@ -43,21 +43,38 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Project;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			// Roslyn does not handle async await keywords.
 			var diagnostics = node.GetDiagnostics();
 			if (diagnostics.Any(d => d.Info.Severity != DiagnosticSeverity.Info))
 			{
-				var quality = diagnostics.Select(d => (d.Info.Severity == DiagnosticSeverity.Warning && d.Info.IsWarningAsError) ? DiagnosticSeverity.Error : d.Info.Severity)
-										 .Any(s => s == DiagnosticSeverity.Error)
-								  ? CodeQuality.Broken
-								  : CodeQuality.NeedsReview;
 				return new EvaluationResult
 						   {
-							   Quality = quality, 
-							   QualityAttribute = QualityAttribute.CodeQuality, 
-							   ImpactLevel = ImpactLevel.Project,
 							   Snippet = node.ToFullString()
 						   };
 			}

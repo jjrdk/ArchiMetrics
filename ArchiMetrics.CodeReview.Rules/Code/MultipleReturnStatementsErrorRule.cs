@@ -25,6 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -32,11 +33,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Multiple Return Statements";
 			}
 		}
+		
 		public override string Suggestion
 		{
 			get
 			{
 				return "If your company's coding standards requires only a single exit point, then refactor method to have only single return statement.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -47,10 +73,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			if (returnStatements.Length > 1)
 			{
 				return new EvaluationResult
-						   {
-							   Quality = CodeQuality.Broken, 
-							   ImpactLevel = ImpactLevel.Member, 
-							   QualityAttribute = QualityAttribute.Conformance, 
+						   { 
 							   Snippet = node.ToFullString(), 
 							   ErrorCount = returnStatements.Length
 						   };

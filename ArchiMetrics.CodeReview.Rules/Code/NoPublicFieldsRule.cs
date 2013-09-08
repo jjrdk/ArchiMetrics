@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.FieldDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,11 +32,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "No Public Field";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Encapsulate all public fields in properties, or internalize them.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Type;
 			}
 		}
 
@@ -46,10 +72,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Quality = CodeQuality.Broken, 
-							   QualityAttribute = QualityAttribute.Modifiability, 
-							   Snippet = node.ToFullString(), 
-							   ImpactLevel = ImpactLevel.Type
+							   Snippet = node.ToFullString()
 						   };
 			}
 

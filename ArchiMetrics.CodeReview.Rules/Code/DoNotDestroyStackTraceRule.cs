@@ -42,6 +42,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var catchClause = (CatchClauseSyntax)node;
@@ -59,9 +83,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				var result = new EvaluationResult
 							 {
-								 ImpactLevel = ImpactLevel.Member, 
-								 Quality = CodeQuality.Incompetent, 
-								 QualityAttribute = QualityAttribute.CodeQuality, 
 								 Snippet = catchClause.ToFullString()
 							 };
 				return result;

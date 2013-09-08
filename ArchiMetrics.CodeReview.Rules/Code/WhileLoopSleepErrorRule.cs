@@ -40,6 +40,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality | QualityAttribute.Testability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var whileStatement = (WhileStatementSyntax)node;
@@ -56,9 +80,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 					   {
-						   Quality = CodeQuality.Incompetent, 
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
- 						   ImpactLevel = ImpactLevel.Member,
 						   Snippet = snippet
 					   };
 			}

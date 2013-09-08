@@ -25,6 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.LocalDeclarationStatement;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -32,11 +33,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Type Obfuscation";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Assigning a value to a variable of type object bypasses type checking.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -49,9 +75,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Quality = CodeQuality.NeedsRefactoring, 
-							   QualityAttribute = QualityAttribute.CodeQuality,
-							   ImpactLevel = ImpactLevel.Member,
 							   Snippet = (FindMethodParent(node) ?? FindClassParent(node)).ToFullString()
 						   };
 			}

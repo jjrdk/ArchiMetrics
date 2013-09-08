@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.Parameter;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,11 +32,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "ServiceLocator Passed as Parameter";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Remove ServiceLocator parameter and inject only needed dependencies.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Reusability | QualityAttribute.Testability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -55,9 +81,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 				{
-					ImpactLevel = ImpactLevel.Member,
-					Quality = CodeQuality.Broken, 
-					QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Modifiability | QualityAttribute.Reusability | QualityAttribute.Testability, 
 					Snippet = snippet
 				};
 			}

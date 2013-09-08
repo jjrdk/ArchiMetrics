@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,11 +32,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Using Reflection to Resolve Member Name";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Consider using a string for the method name for performance and to make it readable after obfuscation.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -46,12 +72,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				&& memberAccess.Expression.GetText().ToString().Trim() == "MethodBase.GetCurrentMethod()")
 			{
 				return new EvaluationResult
-					       {
-							   ImpactLevel = ImpactLevel.Member,
-						       Quality = CodeQuality.Incompetent, 
-							   QualityAttribute = QualityAttribute.CodeQuality, 
-						       Snippet = node.ToFullString()
-					       };
+						   {
+							   Snippet = node.ToFullString()
+						   };
 			}
 
 			return null;

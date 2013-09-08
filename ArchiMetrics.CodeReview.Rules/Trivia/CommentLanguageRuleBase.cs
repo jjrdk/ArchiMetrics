@@ -25,6 +25,12 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _spellChecker;
 
+		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
+		{
+			_spellChecker = spellChecker;
+			_knownPatterns = knownPatterns;
+		}
+
 		public override string Title
 		{
 			get
@@ -41,10 +47,28 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			}
 		}
 
-		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
+		public override CodeQuality Quality
 		{
-			_spellChecker = spellChecker;
-			_knownPatterns = knownPatterns;
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Maintainability | QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
 		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxTrivia node)
@@ -61,10 +85,6 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = 1,
-							   ImpactLevel = ImpactLevel.Member,
-							   Quality = CodeQuality.NeedsReview,
-							   QualityAttribute = QualityAttribute.Maintainability | QualityAttribute.Conformance,
 							   Snippet = node.ToFullString()
 						   };
 			}

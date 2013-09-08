@@ -44,6 +44,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Modifiability | QualityAttribute.Testability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Project;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var assignExpression = (BinaryExpressionSyntax)node;
@@ -55,9 +79,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				{
 					return new EvaluationResult
 							   {
-								   Quality = CodeQuality.Broken,
-								   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Testability,
-								   ImpactLevel = ImpactLevel.Project,
 								   Snippet = FindMethodParent(node).ToFullString()
 							   };
 				}

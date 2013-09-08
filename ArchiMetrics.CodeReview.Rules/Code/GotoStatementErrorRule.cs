@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.GotoStatement;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,6 +32,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Goto Statement";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
@@ -39,13 +41,34 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			return new EvaluationResult
 					   {
-						   Quality = CodeQuality.Broken, 
-						   ImpactLevel = ImpactLevel.Member, 
-						   QualityAttribute = QualityAttribute.Conformance, 
 						   Snippet = node.ToFullString()
 					   };
 		}

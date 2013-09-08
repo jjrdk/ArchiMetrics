@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,11 +32,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Local Time Creation";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Replace with call to DateTime.UtcNow";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -53,9 +79,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 						   {
-							   ImpactLevel = ImpactLevel.Member,
-							   Quality = CodeQuality.NeedsReview,
-							   QualityAttribute = QualityAttribute.Conformance,
 							   Snippet = snippet
 						   };
 			}
