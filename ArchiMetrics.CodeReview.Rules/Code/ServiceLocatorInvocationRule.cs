@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,11 +32,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "ServiceLocator Invocation";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Consider injecting needed dependencies explicitly.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Type;
 			}
 		}
 
@@ -54,10 +80,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 				{
-					Quality = CodeQuality.Broken, 
-					QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
-					Snippet = snippet, 
-					ImpactLevel = methodParent == null ? ImpactLevel.Type : ImpactLevel.Member
+					Snippet = snippet
 				};
 			}
 

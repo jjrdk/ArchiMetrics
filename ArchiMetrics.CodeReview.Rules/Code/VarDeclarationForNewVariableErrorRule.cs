@@ -42,6 +42,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Line;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var declaration = (VariableDeclarationSyntax)node;
@@ -49,10 +73,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = declaration.Variables.Count, 
-							   ImpactLevel = ImpactLevel.Line, 
-							   Quality = CodeQuality.Broken, 
-							   QualityAttribute = QualityAttribute.Conformance, 
+							   ErrorCount = declaration.Variables.Count,
 							   Snippet = declaration.ToFullString()
 						   };
 			}

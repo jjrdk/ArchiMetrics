@@ -25,6 +25,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			get { return SyntaxKind.MethodDeclaration; }
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Type;
+			}
+		}
+
 		protected abstract string BeginToken { get; }
 
 		protected abstract string PairToken { get; }
@@ -36,10 +60,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = 1, 
-							   ImpactLevel = ImpactLevel.Type, 
-							   Quality = CodeQuality.NeedsRefactoring, 
-							   QualityAttribute = QualityAttribute.Conformance, 
 							   Snippet = method.ToFullString()
 						   };
 			}

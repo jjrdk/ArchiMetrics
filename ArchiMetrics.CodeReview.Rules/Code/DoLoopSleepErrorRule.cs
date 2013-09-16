@@ -23,6 +23,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.DoStatement; }
 		}
+
 		public override string Title
 		{
 			get
@@ -30,11 +31,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Do Statement Sleep Loop";
 			}
 		}
+		
 		public override string Suggestion
 		{
 			get
 			{
 				return "Use a wait handle to synchronize timing issues.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality | QualityAttribute.Testability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -54,9 +80,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 				return new EvaluationResult
 					   {
-						   Quality = CodeQuality.Incompetent,
-						   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Testability,
-						   ImpactLevel = ImpactLevel.Type,
 						   Snippet = snippet
 					   };
 			}

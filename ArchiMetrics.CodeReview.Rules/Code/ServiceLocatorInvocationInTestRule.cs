@@ -25,6 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MemberAccessExpression;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -32,11 +33,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "ServiceLocator Invocation in Test";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Replace ServiceLocator with explicit setup using either a concrete instance, mock or fake.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality | QualityAttribute.Maintainability | QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -57,10 +83,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 					return new EvaluationResult
 							   {
-								   Quality = CodeQuality.Incompetent, 
-								   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
-								   Snippet = snippet, 
-								   ImpactLevel = ImpactLevel.Member
+								   Snippet = snippet,
 							   };
 				}
 			}

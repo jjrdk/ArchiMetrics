@@ -24,6 +24,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.VariableDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -31,11 +32,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Dynamic Variable";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Consider using a typed variable.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -48,12 +74,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				var snippet = methodParent.ToFullString();
 
 				return new EvaluationResult
-					       {
-						       Quality = CodeQuality.Broken, 
-							   QualityAttribute = QualityAttribute.Conformance, 
-							   ImpactLevel = ImpactLevel.Member,
-						       Snippet = snippet
-					       };
+						   {
+							   Snippet = snippet
+						   };
 			}
 
 			return null;

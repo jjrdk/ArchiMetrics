@@ -18,7 +18,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	internal class TooManyMethodParametersRule : CodeEvaluationBase
 	{
 		private const int Limit = 5;
-		
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get
@@ -26,6 +26,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -33,11 +34,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "More than " + Limit + " parameters on method";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Refactor method to reduce number of dependencies passed.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -50,10 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = parameterCount, 
-							   ImpactLevel = ImpactLevel.Member,
-							   Quality = CodeQuality.NeedsReEngineering, 
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability, 
+							   ErrorCount = parameterCount,
 							   Snippet = methodDeclaration.ToFullString()
 						   };
 			}

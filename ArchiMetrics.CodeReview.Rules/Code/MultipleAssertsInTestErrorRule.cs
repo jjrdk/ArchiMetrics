@@ -25,6 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -32,11 +33,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Multiple Asserts in Test";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Refactor tests to only have a single assert.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.CodeQuality;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -63,9 +89,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return total >= 0
 						   ? new EvaluationResult
 								 {
-									 ImpactLevel = ImpactLevel.Member,
-									 Quality = CodeQuality.Broken,
-									 QualityAttribute = QualityAttribute.Testability | QualityAttribute.CodeQuality,
 									 Snippet = node.ToFullString(),
 									 ErrorCount = total
 								 }

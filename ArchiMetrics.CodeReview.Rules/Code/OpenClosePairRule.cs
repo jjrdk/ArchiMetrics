@@ -12,18 +12,10 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
+	using ArchiMetrics.Common.CodeReview;
+
 	internal class OpenClosePairRule : MethodNamePairRule
 	{
-		protected override string BeginToken
-		{
-			get { return "Open"; }
-		}
-
-		protected override string PairToken
-		{
-			get { return "Close"; }
-		}
-
 		public override string Title
 		{
 			get
@@ -38,6 +30,16 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return "Methods names OpenSomething should have a matching CloseSomething and vice versa.";
 			}
+		}
+
+		protected override string BeginToken
+		{
+			get { return "Open"; }
+		}
+
+		protected override string PairToken
+		{
+			get { return "Close"; }
 		}
 	}
 }

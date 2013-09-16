@@ -25,6 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -32,6 +33,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Conditional Expressions";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
@@ -40,22 +42,43 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			var conditionalExpressions = methodDeclaration.DescendantNodes()
-			                                              .Where(n => n.Kind == SyntaxKind.ConditionalExpression)
-			                                              .ToArray();
+														  .Where(n => n.Kind == SyntaxKind.ConditionalExpression)
+														  .ToArray();
 			if (conditionalExpressions.Any())
 			{
 				return new EvaluationResult
-					       {
-						       Quality = CodeQuality.Broken, 
-						       ImpactLevel = ImpactLevel.Member, 
-						       QualityAttribute = QualityAttribute.Conformance, 
-						       Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())), 
-						       ErrorCount = conditionalExpressions.Length
-					       };
+						   {
+							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())),
+							   ErrorCount = conditionalExpressions.Length
+						   };
 			}
 
 			return null;

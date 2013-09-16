@@ -43,6 +43,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Type;
+			}
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var declarationSyntax = (TypeDeclarationSyntax)node;
@@ -53,9 +77,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ImpactLevel = ImpactLevel.Type,
-							   Quality = CodeQuality.NeedsRefactoring,
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
 							   Snippet = snippet
 						   };
 			}

@@ -25,6 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -32,11 +33,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Coalesce Expression";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Use an explicit if statement to assign a value if it is null.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -50,10 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Quality = CodeQuality.Broken, 
-							   ImpactLevel = ImpactLevel.Member, 
-							   QualityAttribute = QualityAttribute.Conformance, 
-							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())), 
+							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())),
 							   ErrorCount = conditionalExpressions.Length
 						   };
 			}

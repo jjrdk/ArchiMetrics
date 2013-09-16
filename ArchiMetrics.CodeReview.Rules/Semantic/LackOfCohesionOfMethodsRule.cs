@@ -51,6 +51,35 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality | QualityAttribute.Maintainability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Type;
+			}
+		}
+
+		public void SetThreshold(int threshold)
+		{
+			_threshold = threshold;
+		}
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
@@ -84,17 +113,9 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var snippet = node.ToFullString();
 			return new EvaluationResult
 				   {
-					   ImpactLevel = ImpactLevel.Type, 
-					   LinesOfCodeAffected = GetLinesOfCode(snippet), 
-					   Quality = CodeQuality.NeedsRefactoring, 
-					   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Maintainability, 
+					   LinesOfCodeAffected = GetLinesOfCode(snippet),
 					   Snippet = snippet
 				   };
-		}
-
-		public void SetThreshold(int threshold)
-		{
-			_threshold = threshold;
 		}
 	}
 }

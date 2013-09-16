@@ -49,6 +49,30 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		public int Threshold { get; set; }
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
@@ -68,8 +92,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				return new EvaluationResult
 				{
 					ErrorCount = 1,
-					Quality = CodeQuality.NeedsRefactoring,
-					QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
 					Snippet = snippet
 				};
 			}

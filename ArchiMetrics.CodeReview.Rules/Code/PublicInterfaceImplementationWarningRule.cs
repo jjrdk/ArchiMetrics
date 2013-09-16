@@ -29,6 +29,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.ClassDeclaration;
 			}
 		}
+
 		public override string Title
 		{
 			get
@@ -36,11 +37,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Public Interface Implementation";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Consider whether the interface implementation also needs to be public.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Project;
 			}
 		}
 
@@ -60,9 +86,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 						return new EvaluationResult
 								   {
-									   ImpactLevel = ImpactLevel.Project,
-									   Quality = CodeQuality.NeedsReview,
-									   QualityAttribute = QualityAttribute.Modifiability,
 									   Snippet = snippet
 								   };
 					}

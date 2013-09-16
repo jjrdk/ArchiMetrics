@@ -42,6 +42,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Broken;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Modifiability | QualityAttribute.Reusability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
 		protected abstract string TypeIdentifier { get; }
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
@@ -58,9 +82,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 					{
 						return new EvaluationResult
 								   {
-									   Quality = CodeQuality.Broken,
-									   QualityAttribute = QualityAttribute.Modifiability | QualityAttribute.Reusability,
-									   ImpactLevel = ImpactLevel.Member,
 									   Snippet = parentClass.ToFullString()
 								   };
 					}

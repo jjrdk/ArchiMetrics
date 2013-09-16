@@ -14,7 +14,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System;
 	using System.Linq;
-	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common.CodeReview;
 
 	internal abstract class NameSpellingRuleBase : CodeEvaluationBase
@@ -26,6 +25,30 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			_speller = speller;
 			_knownPatterns = knownPatterns;
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsReview;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Conformance;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Node;
+			}
 		}
 
 		protected bool IsSpelledCorrectly(string name)

@@ -20,12 +20,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	internal class TooHighCyclomaticComplexityRule : CodeEvaluationBase
 	{
 		private const int Limit = 10;
-		readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
+		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.MethodDeclaration; }
 		}
+
 		public override string Title
 		{
 			get
@@ -33,11 +34,36 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Method Too Complex.";
 			}
 		}
+
 		public override string Suggestion
 		{
 			get
 			{
 				return "Refactor to reduce number of code paths through method.";
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability;
+			}
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
 			}
 		}
 
@@ -49,10 +75,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = 1,
-							   ImpactLevel = ImpactLevel.Member,
-							   Quality = CodeQuality.NeedsRefactoring,
-							   QualityAttribute = QualityAttribute.Testability | QualityAttribute.Maintainability | QualityAttribute.Modifiability,
 							   Snippet = node.ToFullString()
 						   };
 			}

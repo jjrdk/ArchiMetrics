@@ -31,8 +31,31 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 		public override string Suggestion
 		{
-			get {
-				return "Remove unused code."; }
+			get { return "Remove unused code."; }
+		}
+
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Member;
+			}
+		}
+
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.Incompetent;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.CodeQuality;
+			}
 		}
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
@@ -44,10 +67,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   ImpactLevel = ImpactLevel.Member,
 						   Namespace = GetCompilationUnitNamespace(node.GetLocation().SourceTree.GetRoot()),
-						   Quality = CodeQuality.Incompetent,
-						   QualityAttribute = QualityAttribute.CodeQuality,
 						   Snippet = node.ToFullString()
 					   };
 			}
