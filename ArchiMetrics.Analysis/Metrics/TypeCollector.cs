@@ -17,43 +17,52 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
-	internal sealed class TypeCollector : SyntaxWalker
+	internal sealed class TypeCollector
 	{
-		private readonly IList<TypeDeclarationSyntax> _types;
-
-		public TypeCollector()
-			: base(SyntaxWalkerDepth.Node)
+		public IEnumerable<TypeDeclarationSyntax> GetTypes(CommonSyntaxNode namespaceNode)
 		{
-			_types = new List<TypeDeclarationSyntax>();
-		}
+			var innerCollector = new InnerTypeCollector();
+			return innerCollector.GetTypes(namespaceNode);
+		} 
 
-		public IEnumerable<T> GetTypes<T>(CommonSyntaxNode namespaceNode) where T : CommonSyntaxNode
+		private class InnerTypeCollector : SyntaxWalker
 		{
-			var node = namespaceNode as NamespaceDeclarationSyntax;
-			if (node != null)
+			private readonly IList<TypeDeclarationSyntax> _types;
+
+			public InnerTypeCollector()
+				: base(SyntaxWalkerDepth.Node)
 			{
-				Visit(node);
+				_types = new List<TypeDeclarationSyntax>();
 			}
 
-			return _types.OfType<T>().ToArray();
-		}
+			public IEnumerable<TypeDeclarationSyntax> GetTypes(CommonSyntaxNode namespaceNode)
+			{
+				var node = namespaceNode as NamespaceDeclarationSyntax;
+				if (node != null)
+				{
+					Visit(node);
+				}
 
-		public override void VisitClassDeclaration(ClassDeclarationSyntax node)
-		{
-			base.VisitClassDeclaration(node);
-			_types.Add(node);
-		}
+				return _types.ToArray();
+			}
 
-		public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
-		{
-			base.VisitInterfaceDeclaration(node);
-			_types.Add(node);
-		}
+			public override void VisitClassDeclaration(ClassDeclarationSyntax node)
+			{
+				base.VisitClassDeclaration(node);
+				_types.Add(node);
+			}
 
-		public override void VisitStructDeclaration(StructDeclarationSyntax node)
-		{
-			base.VisitStructDeclaration(node);
-			_types.Add(node);
+			public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
+			{
+				base.VisitInterfaceDeclaration(node);
+				_types.Add(node);
+			}
+
+			public override void VisitStructDeclaration(StructDeclarationSyntax node)
+			{
+				base.VisitStructDeclaration(node);
+				_types.Add(node);
+			}
 		}
 	}
 }
