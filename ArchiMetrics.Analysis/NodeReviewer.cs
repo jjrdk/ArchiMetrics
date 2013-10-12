@@ -18,8 +18,8 @@ namespace ArchiMetrics.Analysis
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public class NodeReviewer : INodeInspector
