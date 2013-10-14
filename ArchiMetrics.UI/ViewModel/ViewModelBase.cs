@@ -20,7 +20,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Properties;
 
