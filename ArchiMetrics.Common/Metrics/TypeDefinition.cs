@@ -21,6 +21,30 @@ namespace ArchiMetrics.Common.Metrics
 
 		public string Assembly { get; private set; }
 
+		public static bool operator ==(TypeDefinition c1, TypeDefinition c2)
+		{
+			return ReferenceEquals(c1, null)
+					   ? ReferenceEquals(c2, null)
+					   : c1.CompareTo(c2) == 0;
+		}
+
+		public static bool operator !=(TypeDefinition c1, TypeDefinition c2)
+		{
+			return ReferenceEquals(c1, null)
+					   ? !ReferenceEquals(c2, null)
+					   : c1.CompareTo(c2) != 0;
+		}
+
+		public static bool operator <(TypeDefinition c1, TypeDefinition c2)
+		{
+			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) < 0;
+		}
+
+		public static bool operator >(TypeDefinition c1, TypeDefinition c2)
+		{
+			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) > 0;
+		}
+
 		public virtual int CompareTo(object obj)
 		{
 			var other = obj as TypeDefinition;

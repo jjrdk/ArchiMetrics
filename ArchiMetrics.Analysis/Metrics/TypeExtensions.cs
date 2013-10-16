@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
 	using ArchiMetrics.Common.Metrics;
@@ -62,21 +63,19 @@ namespace ArchiMetrics.Analysis.Metrics
 				name = name + string.Format("<{0}>", joined);
 			}
 
-			string namespaceName = string.Empty;
+			var namespaceNames = new List<string>();
 			for (var containingSymbol = symbol.ContainingSymbol; (containingSymbol != null) && (containingSymbol.Kind == CommonSymbolKind.Namespace); containingSymbol = containingSymbol.ContainingSymbol)
 			{
 				var namespaceSymbol = (NamespaceSymbol)containingSymbol;
-				namespaceName = namespaceSymbol.Name;
 				if (namespaceSymbol.IsGlobalNamespace)
 				{
-					return new TypeDefinition(name, namespaceName, namespaceSymbol.ContainingAssembly.Name);
-					//name + string.Format(", {0}", namespaceSymbol.ContainingAssembly.Name);
+					return new TypeDefinition(name, string.Join(".", namespaceNames), namespaceSymbol.ContainingAssembly.Name);
 				}
 
-				name = containingSymbol.Name + "." + name;
+				namespaceNames.Add(namespaceSymbol.Name);
 			}
 
-			return new TypeDefinition(name, namespaceName, string.Empty);
+			return new TypeDefinition(name, string.Join(".", namespaceNames), string.Empty);
 		}
 
 		private static string GetContainingTypeName(ISymbol symbol)
