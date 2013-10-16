@@ -16,26 +16,15 @@ namespace ArchiMetrics.Common.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 
-	public class TypeCoupling : IComparable
+	public class TypeCoupling : TypeDefinition, IComparable<TypeCoupling>
 	{
-		private readonly string _fullName;
-
 		public TypeCoupling(string className, string namespaceName, string assemblyName, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> useEvents)
+			: base(className, namespaceName, assemblyName)
 		{
-			ClassName = className;
-			Namespace = namespaceName;
-			Assembly = assemblyName;
 			UsedMethods = usedMethods.ToArray();
 			UsedProperties = usedProperties.ToArray();
 			UsedEvents = useEvents.ToArray();
-			_fullName = string.Format("{0}.{1}, {2}", namespaceName, className, assemblyName);
 		}
-
-		public string ClassName { get; private set; }
-
-		public string Namespace { get; private set; }
-
-		public string Assembly { get; private set; }
 
 		public string[] UsedMethods { get; private set; }
 
@@ -74,22 +63,22 @@ namespace ArchiMetrics.Common.Metrics
 		/// A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="obj"/> in the sort order. Zero This instance occurs in the same position in the sort order as <paramref name="obj"/>. Greater than zero This instance follows <paramref name="obj"/> in the sort order. 
 		/// </returns>
 		/// <param name="obj">An object to compare with this instance. </param><exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
-		public int CompareTo(object obj)
+		public override int CompareTo(object obj)
 		{
 			var other = obj as TypeCoupling;
-			return other == null
-					   ? -1
-					   : string.Compare(_fullName, other._fullName, StringComparison.InvariantCultureIgnoreCase);
+			return CompareTo(other);
 		}
 
-		public override string ToString()
+		public int CompareTo(TypeCoupling other)
 		{
-			return _fullName;
+			return other == null
+				? -1
+				: string.Compare(ToString(), other.ToString(), StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		public override int GetHashCode()
 		{
-			return _fullName.GetHashCode();
+			return ToString().GetHashCode();
 		}
 
 		public override bool Equals(object obj)

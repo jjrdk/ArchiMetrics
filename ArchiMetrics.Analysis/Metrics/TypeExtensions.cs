@@ -14,6 +14,8 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Linq;
 	using System.Text;
+	using ArchiMetrics.Common.Metrics;
+	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
@@ -43,7 +45,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return builder.ToString();
 		}
 
-		public static string GetQualifiedName(this ITypeSymbol symbol)
+		public static TypeDefinition GetQualifiedName(this ITypeSymbol symbol)
 		{
 			var name = symbol.Name;
 			var containingTypeName = GetContainingTypeName(symbol.ContainingSymbol);
@@ -52,26 +54,29 @@ namespace ArchiMetrics.Analysis.Metrics
 				name = containingTypeName + "." + name;
 			}
 
-			var symbol2 = (NamedTypeSymbol)symbol;
-			if ((symbol2.TypeParameters != null) && symbol2.TypeParameters.Any())
+			var namedTypeSymbol = symbol as NamedTypeSymbol;
+			if (namedTypeSymbol != null && namedTypeSymbol.TypeParameters != null && namedTypeSymbol.TypeParameters.Any())
 			{
-				var values = (from x in symbol2.TypeParameters.AsEnumerable() select x.Name).ToArray<string>();
-				var str3 = string.Join(", ", values);
-				name = name + string.Format("<{0}>", str3);
+				var values = namedTypeSymbol.TypeParameters.Select(x => x.Name).ToArray();
+				var joined = string.Join(", ", values);
+				name = name + string.Format("<{0}>", joined);
 			}
 
-			for (var symbol3 = symbol.ContainingSymbol; (symbol3 != null) && (symbol3.Kind == CommonSymbolKind.Namespace); symbol3 = symbol3.ContainingSymbol)
+			string namespaceName = string.Empty;
+			for (var containingSymbol = symbol.ContainingSymbol; (containingSymbol != null) && (containingSymbol.Kind == CommonSymbolKind.Namespace); containingSymbol = containingSymbol.ContainingSymbol)
 			{
-				var symbol4 = (NamespaceSymbol)symbol3;
-				if (symbol4.IsGlobalNamespace)
+				var namespaceSymbol = (NamespaceSymbol)containingSymbol;
+				namespaceName = namespaceSymbol.Name;
+				if (namespaceSymbol.IsGlobalNamespace)
 				{
-					return name + string.Format(", {0}", symbol4.ContainingAssembly.Name);
+					return new TypeDefinition(name, namespaceName, namespaceSymbol.ContainingAssembly.Name);
+					//name + string.Format(", {0}", namespaceSymbol.ContainingAssembly.Name);
 				}
 
-				name = symbol3.Name + "." + name;
+				name = containingSymbol.Name + "." + name;
 			}
 
-			return name;
+			return new TypeDefinition(name, namespaceName, string.Empty);
 		}
 
 		private static string GetContainingTypeName(ISymbol symbol)

@@ -89,6 +89,7 @@
     <Compile Include="Metrics\MetricOverview.cs" />
     <Compile Include="Metrics\ProjectCodeMetrics.cs" />
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
+    <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />
     <Compile Include="ProjectComparer.cs" />
     <Compile Include="ProjectDefinition.cs" />

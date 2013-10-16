@@ -20,9 +20,12 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class NamespaceMetricsCalculator : SemanticModelMetricsCalculator
 	{
+		private readonly ComparableComparer<TypeCoupling> _comparer;
+
 		public NamespaceMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
+			_comparer = new ComparableComparer<TypeCoupling>();
 		}
 
 		public INamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<ITypeMetric> metrics)
@@ -30,20 +33,20 @@ namespace ArchiMetrics.Analysis.Metrics
 			var typeMetrics = metrics.ToArray();
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
-						  .Distinct(TypeCouplingComparer.Default)
+						  .Distinct(_comparer)
 						  .OrderBy(x => x.ClassName)
-						  .ToList();
+						  .ToArray();
 			var maintainabilitySource = typeMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).ToArray();
 			var maintainabilityIndex = linesOfCode > 0 && maintainabilitySource.Any() ? maintainabilitySource.Sum(x => x.Item1 * x.Item2) / linesOfCode : 100.0;
 			var cyclomaticComplexity = typeMetrics.Sum(x => x.CyclomaticComplexity);
 			var depthOfInheritance = typeMetrics.Any() ? typeMetrics.Max(x => x.DepthOfInheritance) : 0;
 			return new NamespaceMetric(
-				maintainabilityIndex, 
-				cyclomaticComplexity, 
-				linesOfCode, 
-				source, 
-				depthOfInheritance, 
-				namespaceNode.Name, 
+				maintainabilityIndex,
+				cyclomaticComplexity,
+				linesOfCode,
+				source,
+				depthOfInheritance,
+				namespaceNode.Name,
 				typeMetrics);
 		}
 	}

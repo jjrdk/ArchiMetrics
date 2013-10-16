@@ -21,9 +21,12 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
+		private readonly ComparableComparer<TypeCoupling> _comparer;
+
 		public TypeMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
+			_comparer = new ComparableComparer<TypeCoupling>();
 		}
 
 		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
@@ -37,13 +40,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			var linesOfCode = memberMetrics.Sum(x => x.LinesOfCode);
 			var maintainabilityIndex = CalculateAveMaintainabilityIndex(memberMetrics);
 			return new TypeMetric(
-				metricKind, 
-				memberMetrics, 
-				linesOfCode, 
-				cyclomaticComplexity, 
-				maintainabilityIndex, 
-				depthOfInheritance, 
-				source, 
+				metricKind,
+				memberMetrics,
+				linesOfCode,
+				cyclomaticComplexity,
+				maintainabilityIndex,
+				depthOfInheritance,
+				source,
 				type.GetName());
 		}
 
@@ -79,7 +82,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var second = new TypeClassCouplingAnalyzer(Model).Calculate(type);
 			return memberMetrics.SelectMany(x => x.ClassCouplings)
 				.Concat(second)
-				.Distinct(TypeCouplingComparer.Default)
+				.Distinct(_comparer)
 				.OrderBy(x => x.ClassName)
 				.ToArray();
 		}

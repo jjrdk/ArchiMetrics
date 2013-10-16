@@ -12,22 +12,12 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
+	using System;
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.Metrics;
 
-	internal class TypeCouplingComparer : IEqualityComparer<TypeCoupling>
+	internal class ComparableComparer<T> : IEqualityComparer<T> where T : IComparable<T>
 	{
-		private static readonly TypeCouplingComparer Instance = new TypeCouplingComparer();
-
-		private TypeCouplingComparer()
-		{
-		}
-
-		public static TypeCouplingComparer Default
-		{
-			get { return Instance; }
-		}
-
 		/// <summary>
 		/// Determines whether the specified objects are equal.
 		/// </summary>
@@ -35,13 +25,11 @@ namespace ArchiMetrics.Analysis.Metrics
 		/// True if the specified objects are equal; otherwise, false.
 		/// </returns>
 		/// <param name="x">The first object of type <paramref name="x"/> to compare.</param><param name="y">The second object of type <paramref name="y"/> to compare.</param>
-		public bool Equals(TypeCoupling x, TypeCoupling y)
+		public bool Equals(T x, T y)
 		{
-			return x == null
-					   ? y == null
-					   : y != null && y.ClassName == x.ClassName
-						 && y.Namespace == x.Namespace
-						 && y.Assembly == x.Assembly;
+			return ReferenceEquals(x, null)
+				? ReferenceEquals(y, null)
+				: x.CompareTo(y) == 0;
 		}
 
 		/// <summary>
@@ -51,9 +39,11 @@ namespace ArchiMetrics.Analysis.Metrics
 		/// A hash code for the specified object.
 		/// </returns>
 		/// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param><exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
-		public int GetHashCode(TypeCoupling obj)
+		public int GetHashCode(T obj)
 		{
-			return (obj.ClassName + obj.Namespace + obj.Assembly).GetHashCode();
+			return ReferenceEquals(obj, null)
+				? 0
+				: obj.GetHashCode();
 		}
 	}
 }
