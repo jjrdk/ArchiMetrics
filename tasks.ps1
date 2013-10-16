@@ -22,9 +22,9 @@ task BuildPackages -depends Test {
 
 task Test -depends Compile, Clean {
 	'Running Tests'
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Analysis.Tests\bin\$configuration\ArchiMetrics.Analysis.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.CodeReview.Tests\bin\$configuration\ArchiMetrics.CodeReview.Tests.dll }
-	Exec { .\packages\NUnit.Runners.2.6.2\tools\nunit-console.exe .\ArchiMetrics.Common.Tests\bin\$configuration\ArchiMetrics.Common.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe .\ArchiMetrics.Analysis.Tests\bin\$configuration\ArchiMetrics.Analysis.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe .\ArchiMetrics.CodeReview.Rules.Tests\bin\$configuration\ArchiMetrics.CodeReview.Rules.Tests.dll }
+	Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe .\ArchiMetrics.Common.Tests\bin\$configuration\ArchiMetrics.Common.Tests.dll }
 }
 
 task Compile -depends UpdatePackages { 

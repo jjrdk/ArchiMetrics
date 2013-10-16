@@ -2,6 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
+		<title>Roslyn Code Analysis</title>
 		<version>0.3.0.0</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
@@ -9,6 +10,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
 		<description>A Roslyn based code analysis library.</description>
+		<summary>The package provides code analysis features using the Roslyn CTP.</summary>
 		<releaseNotes />
 		<tags>metrics analysis roslyn</tags>
 		<dependencies>
