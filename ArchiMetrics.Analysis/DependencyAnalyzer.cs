@@ -19,7 +19,6 @@ namespace ArchiMetrics.Analysis
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	/// <summary>
@@ -52,36 +51,6 @@ namespace ArchiMetrics.Analysis
 				.Distinct(_comparer);
 
 			return nodes;
-		}
-
-		public async Task<IEnumerable<IControlFlowAnalysis>> GetControlFlows(IDocument document)
-		{
-			var modelTask = document.GetSemanticModelAsync();
-			var methodsTask = document.GetSyntaxRootAsync();
-
-			await Task.WhenAll(modelTask, methodsTask);
-
-			var methods = methodsTask.Result
-				.DescendantNodes()
-				.OfType<MethodDeclarationSyntax>()
-				.Select(x => x.Body)
-				.Where(x => x != null)
-				.Select(x => x.ChildNodes())
-				.Where(x => x.Any())
-				.Select(x => GetControlFlow(x.First(), x.Last(), modelTask.Result));
-
-			return methods;
-		}
-
-		public IControlFlowAnalysis GetControlFlow(CommonSyntaxNode start, CommonSyntaxNode end, ISemanticModel semanticModel)
-		{
-			var flow = semanticModel.AnalyzeControlFlow(start, end);
-			if (flow.Succeeded)
-			{
-				var x = flow.ExitPoints;
-			}
-
-			return flow;
 		}
 
 		private static TypeDefinition GetUsedType(CommonSyntaxNode node, ISemanticModel semanticModel)

@@ -65,6 +65,7 @@
     <Compile Include="CodeMetricsCalculator.cs" />
     <Compile Include="DependencyAnalyzer.cs" />
     <Compile Include="DependencyChain.cs" />
+    <Compile Include="FlowAnalyzer.cs" />
     <Compile Include="IRequirementTestAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />
