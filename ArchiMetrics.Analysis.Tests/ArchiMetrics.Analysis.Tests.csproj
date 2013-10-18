@@ -72,8 +72,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlFlowAnalyzerTests.cs" />
     <Compile Include="DependencyAnalyzerTests.cs" />
+    <Compile Include="SemanticAnalyzerTests.cs" />
     <Compile Include="LocCounterTests.cs" />
     <Compile Include="Metrics\CodeMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\CyclomaticComplexityAnalyzerTests.cs" />

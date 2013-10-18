@@ -8,16 +8,49 @@ namespace ArchiMetrics.Analysis
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	public class FlowAnalyzer
+	public class SemanticAnalyzer
 	{
-		public Task<IEnumerable<IControlFlowAnalysis>> GetControlFlows(IDocument document)
+		private readonly ISemanticModel _model;
+
+		public SemanticAnalyzer(ISemanticModel model)
 		{
-			return GetFlow(document, GetControlFlow);
+			_model = model;
 		}
 
-		public Task<IEnumerable<IDataFlowAnalysis>> GetDataFlows(IDocument document)
+		public IEnumerable<ParameterSyntax> GetUnusedParameters(MethodDeclarationSyntax method)
 		{
-			return GetFlow(document, GetDataFlow);
+			if (method.ParameterList.Parameters.Count == 0)
+			{
+				return new ParameterSyntax[0];
+			}
+
+			var bodyNodes = method.Body.ChildNodes();
+			var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
+
+			var usedParameterNames = dataflow.DataFlowsIn
+				.Where(x => x.Kind == CommonSymbolKind.Parameter)
+				.Select(x => x.Name)
+				.ToArray();
+
+			var unusedParameters = method.ParameterList.Parameters
+				.Where(p => !usedParameterNames.Contains(p.Identifier.ValueText))
+				.ToArray();
+			return unusedParameters;
+		}
+
+		public IEnumerable<MethodDeclarationSyntax> GetPossibleStaticMethods(TypeDeclarationSyntax type)
+		{
+			return type.DescendantNodes()
+				.OfType<MethodDeclarationSyntax>()
+				.Where(x => !x.Modifiers.Any(SyntaxKind.StaticKeyword))
+				.Where(method =>
+				{
+					var bodyNodes = method.Body.ChildNodes();
+					var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
+					var hasThisReference = dataflow.DataFlowsIn.Any(x => x.Kind == CommonSymbolKind.Parameter && x.Name == "this");
+					return !hasThisReference;
+				})
+				.ToArray();
 		}
 
 		private static IDataFlowAnalysis GetDataFlow(
