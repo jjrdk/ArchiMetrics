@@ -14,7 +14,7 @@ namespace ArchiMetrics.Analysis
 			_model = model;
 		}
 
-		public IEnumerable<ParameterSyntax> GetUnusedParameters(MethodDeclarationSyntax method)
+		public IEnumerable<ParameterSyntax> GetUnusedParameters(BaseMethodDeclarationSyntax method)
 		{
 			if (method.ParameterList.Parameters.Count == 0)
 			{
@@ -40,15 +40,17 @@ namespace ArchiMetrics.Analysis
 			return type.DescendantNodes()
 				.OfType<MethodDeclarationSyntax>()
 				.Where(x => !x.Modifiers.Any(SyntaxKind.StaticKeyword))
-				.Where(method =>
-				{
-					var bodyNodes = method.Body.ChildNodes();
-					var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
-					var hasThisReference = dataflow.DataFlowsIn
-						.Any(x => x.Kind == CommonSymbolKind.Parameter && x.Name == Syntax.Token(SyntaxKind.ThisKeyword).ToFullString());
-					return !hasThisReference;
-				})
+				.Where(CanBeMadeStatic)
 				.ToArray();
+		}
+
+		public bool CanBeMadeStatic(BaseMethodDeclarationSyntax method)
+		{
+			var bodyNodes = method.Body.ChildNodes();
+			var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
+			var hasThisReference = dataflow.DataFlowsIn
+				.Any(x => x.Kind == CommonSymbolKind.Parameter && x.Name == Syntax.Token(SyntaxKind.ThisKeyword).ToFullString());
+			return !hasThisReference;
 		}
 	}
 }

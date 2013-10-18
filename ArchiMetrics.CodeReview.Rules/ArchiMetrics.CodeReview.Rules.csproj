@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
     <Compile Include="Code\NoUnsafeCodeRule.cs" />
+    <Compile Include="Semantic\PossibleStaticMethod.cs" />
     <Compile Include="Semantic\SemanticEvaluationBase.cs" />
     <Compile Include="Semantic\TooLowMaintainabilityIndexRule.cs" />
     <Compile Include="Code\VariableNameShouldNotMatchFieldNameRule.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Semantic\UnusedEventRule.cs" />
     <Compile Include="Semantic\UnusedGetPropertyRule.cs" />
     <Compile Include="Semantic\UnusedMethodRule.cs" />
+    <Compile Include="Semantic\UnusedParametersInMethodRule.cs" />
     <Compile Include="Semantic\UnusedSetPropertyRule.cs" />
     <Compile Include="Trivia\CommentLanguageRuleBase.cs" />
     <Compile Include="Trivia\MultiLineCommentLanguageRule.cs" />
