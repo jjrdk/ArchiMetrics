@@ -27,10 +27,10 @@ namespace ArchiMetrics.Analysis.Tests
 			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
-							new EdgeItem { Dependant = "A", Dependency = "B" }, 
-							new EdgeItem { Dependant = "B", Dependency = "A" }
+							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
+							new MetricsEdgeItem { Dependant = "B", Dependency = "A" }
 						};
-			var task = analyzer.GetCircularReferences(items);
+			var task = DependencyAnalyzer.GetCircularReferences(items);
 			task.Wait();
 			var chains = task.Result.ToArray();
 
@@ -43,13 +43,13 @@ namespace ArchiMetrics.Analysis.Tests
 			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
-							new EdgeItem { Dependant = "A", Dependency = "B" }, 
-							new EdgeItem { Dependant = "A", Dependency = "D" }, 
-							new EdgeItem { Dependant = "D", Dependency = "E" }, 
-							new EdgeItem { Dependant = "B", Dependency = "C" }, 
-							new EdgeItem { Dependant = "C", Dependency = "A" }
+							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
+							new MetricsEdgeItem { Dependant = "A", Dependency = "D" }, 
+							new MetricsEdgeItem { Dependant = "D", Dependency = "E" }, 
+							new MetricsEdgeItem { Dependant = "B", Dependency = "C" }, 
+							new MetricsEdgeItem { Dependant = "C", Dependency = "A" }
 						};
-			var task = analyzer.GetCircularReferences(items);
+			var task = DependencyAnalyzer.GetCircularReferences(items);
 			task.Wait();
 			var chains = task.Result.ToArray();
 
@@ -62,14 +62,14 @@ namespace ArchiMetrics.Analysis.Tests
 			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
-							new EdgeItem { Dependant = "A", Dependency = "B" }, 
-							new EdgeItem { Dependant = "A", Dependency = "D" }, 
-							new EdgeItem { Dependant = "D", Dependency = "E" }, 
-							new EdgeItem { Dependant = "B", Dependency = "C" }, 
-							new EdgeItem { Dependant = "C", Dependency = "A" }, 
-							new EdgeItem { Dependant = "E", Dependency = "A" }
+							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
+							new MetricsEdgeItem { Dependant = "A", Dependency = "D" }, 
+							new MetricsEdgeItem { Dependant = "D", Dependency = "E" }, 
+							new MetricsEdgeItem { Dependant = "B", Dependency = "C" }, 
+							new MetricsEdgeItem { Dependant = "C", Dependency = "A" }, 
+							new MetricsEdgeItem { Dependant = "E", Dependency = "A" }
 						};
-			var task = analyzer.GetCircularReferences(items);
+			var task = DependencyAnalyzer.GetCircularReferences(items);
 			task.Wait();
 			var chains = task.Result.ToArray();
 
@@ -91,14 +91,13 @@ namespace ArchiMetrics.Analysis.Tests
 }";
 			DocumentId did;
 			ProjectId pid;
-			var analyzer = new DependencyAnalyzer();
 			var solution = Solution.Create(SolutionId.CreateNewId("test"))
 				.AddCSharpProject("sample", "sampleAssembly", out pid)
 				.AddDocument(pid, "x.cs", Text, out did)
 				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
 
 			var doc = solution.GetDocument(did);
-			var types = await analyzer.GetUsedTypes(doc);
+            var types = await DependencyAnalyzer.GetUsedTypes(doc);
 
 			var collection = types.ToArray();
 			CollectionAssert.IsNotEmpty(collection);

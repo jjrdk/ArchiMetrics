@@ -15,14 +15,13 @@ namespace ArchiMetrics.Analysis
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	public class DependencyChain
 	{
-		private readonly EdgeItem[] _chain;
+		private readonly EdgeItemBase[] _chain;
 
-		public DependencyChain(IEnumerable<EdgeItem> referenceChain, EdgeItem root, EdgeItem lastEdge)
+		public DependencyChain(IEnumerable<EdgeItemBase> referenceChain, EdgeItemBase root, EdgeItemBase lastEdge)
 		{
 			_chain = referenceChain.Concat(new[] { lastEdge }).ToArray();
 			Length = _chain.Length;
@@ -34,27 +33,27 @@ namespace ArchiMetrics.Analysis
 
 		public string Name { get; private set; }
 
-		public IEnumerable<EdgeItem> ReferenceChain
+		public IEnumerable<EdgeItemBase> ReferenceChain
 		{
 			get { return _chain; }
 		}
 
-		public EdgeItem Root { get; private set; }
+		public EdgeItemBase Root { get; private set; }
 
-		public EdgeItem LastEdge { get; private set; }
+		public EdgeItemBase LastEdge { get; private set; }
 
 		public int Length { get; private set; }
 
 		public bool IsCircular { get; private set; }
 
-		public bool IsContinuation(EdgeItem edge)
+		public bool IsContinuation(EdgeItemBase edge)
 		{
 			return LastEdge.Dependency == edge.Dependant && ReferenceChain.All(e => e.Dependant != edge.Dependant);
 		}
 
-		public bool Contains(EdgeItem edge)
+		public bool Contains(MetricsEdgeItem metricsEdge)
 		{
-			return ReferenceChain.Any(e => e.Dependant == edge.Dependant && e.Dependency == edge.Dependency);
+			return ReferenceChain.Any(e => e.Dependant == metricsEdge.Dependant && e.Dependency == metricsEdge.Dependency);
 		}
 
 		public override string ToString()

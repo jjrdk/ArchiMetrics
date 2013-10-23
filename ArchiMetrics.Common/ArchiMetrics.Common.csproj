@@ -82,6 +82,7 @@
     <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
     <Compile Include="Metrics\IMemberMetric.cs" />
     <Compile Include="Metrics\INamespaceMetric.cs" />
+    <Compile Include="Metrics\IProjectMetric.cs" />
     <Compile Include="Metrics\ITypeMetric.cs" />
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />
@@ -98,7 +99,8 @@
     <Compile Include="Metrics\TypeCoupling.cs" />
     <Compile Include="ResultComparer.cs" />
     <Compile Include="Structure\CouplingEdge.cs" />
-    <Compile Include="Structure\EdgeItem.cs" />
+    <Compile Include="Structure\MetricsEdgeItem.cs" />
+    <Compile Include="Structure\EdgeItemBase.cs" />
     <Compile Include="Structure\EdgeSource.cs" />
     <Compile Include="Structure\IEdgeItemsRepository.cs" />
     <Compile Include="Structure\IEdgeTransformer.cs" />

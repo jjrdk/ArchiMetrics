@@ -65,6 +65,8 @@
     <Compile Include="CodeMetricsCalculator.cs" />
     <Compile Include="DependencyAnalyzer.cs" />
     <Compile Include="DependencyChain.cs" />
+    <Compile Include="Metrics\ProjectMetric.cs" />
+    <Compile Include="ProjectMetricsCalculator.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="IRequirementTestAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
