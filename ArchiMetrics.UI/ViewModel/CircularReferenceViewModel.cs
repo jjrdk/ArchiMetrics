@@ -54,10 +54,9 @@ namespace ArchiMetrics.UI.ViewModel
 		protected async override void UpdateInternal()
 		{
 			IsLoading = true;
-			var edgeItems = await Filter.TransformAsync(AllEdges);
+			var edgeItems = await Filter.TransformAsync(AllMetricsEdges);
 
-			await _analyzer
-				.GetCircularReferences(edgeItems)
+			await DependencyAnalyzer.GetCircularReferences(edgeItems)
 				.ContinueWith(t =>
 					{
 						if (t.Exception != null)

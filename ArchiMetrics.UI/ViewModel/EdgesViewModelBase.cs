@@ -21,7 +21,7 @@ namespace ArchiMetrics.UI.ViewModel
 	{
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
-		private EdgeItem[] _allEdges;
+		private MetricsEdgeItem[] _allMetricsEdges;
 
 		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
@@ -41,11 +41,11 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		protected EdgeItem[] AllEdges
+		protected MetricsEdgeItem[] AllMetricsEdges
 		{
 			get
 			{
-				return _allEdges;
+				return _allMetricsEdges;
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace ArchiMetrics.UI.ViewModel
 			_repository.GetEdgesAsync()
 			           .ContinueWith(t =>
 				           {
-					           _allEdges = t.Result.ToArray();
+					           _allMetricsEdges = t.Result.ToArray();
 					           UpdateInternal();
 				           });
 		}
@@ -79,7 +79,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			if (isDisposing)
 			{
-				_allEdges = null;
+				_allMetricsEdges = null;
 			}
 
 			base.Dispose(isDisposing);

@@ -17,6 +17,6 @@ namespace ArchiMetrics.Common.Structure
 
 	public interface IEdgeItemsRepository
 	{
-		Task<IEnumerable<EdgeItem>> GetEdgesAsync();
+		Task<IEnumerable<MetricsEdgeItem>> GetEdgesAsync();
 	}
 }

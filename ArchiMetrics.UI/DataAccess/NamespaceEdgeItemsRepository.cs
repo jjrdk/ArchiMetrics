@@ -41,7 +41,7 @@ namespace ArchiMetrics.UI.DataAccess
 			_solutionProvider = solutionProvider;
 		}
 
-		protected override async Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
+		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
 		{
 			var results = source.GroupBy(x => x.Namespace).ToArray();
 			var namespaceReferences = await GetNamespaceReferences();

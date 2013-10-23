@@ -51,7 +51,7 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public Task<IEnumerable<EdgeItem>> GetEdgesAsync()
+		public Task<IEnumerable<MetricsEdgeItem>> GetEdgesAsync()
 		{
 			switch (_config.Source)
 			{

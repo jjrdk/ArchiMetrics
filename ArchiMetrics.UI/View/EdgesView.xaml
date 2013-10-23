@@ -27,10 +27,10 @@
 				  EnableRowVirtualization="True"
 				  ItemsSource="{Binding Path=DependencyItems}">
 			<DataGrid.Columns>
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:EdgeItem}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:MetricsEdgeItem}"
 									Header="Dependant"
 									Binding="{Binding Path=Dependant}" />
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:EdgeItem}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:MetricsEdgeItem}"
 									Header="Dependency"
 									Binding="{Binding Path=Dependency}" />
 			</DataGrid.Columns>

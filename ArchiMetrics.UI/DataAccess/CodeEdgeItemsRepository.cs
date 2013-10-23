@@ -30,7 +30,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private static readonly Regex LocRegex = new Regex(@"^(?!(\s*\/\/))\s*.{3,}", RegexOptions.Compiled);
 		private readonly ICodeErrorRepository _codeErrorRepository;
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private Task<IEnumerable<EdgeItem>> _edgeItems;
+		private Task<IEnumerable<MetricsEdgeItem>> _edgeItems;
 
 		public CodeEdgeItemsRepository(
 			ISolutionEdgeItemsRepositoryConfig config, 
@@ -52,16 +52,16 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public Task<IEnumerable<EdgeItem>> GetEdgesAsync()
+		public Task<IEnumerable<MetricsEdgeItem>> GetEdgesAsync()
 		{
 			return _edgeItems ?? (_edgeItems = string.IsNullOrWhiteSpace(_config.Path)
-												   ? Task.Factory.StartNew(() => new EdgeItem[0].AsEnumerable())
+												   ? Task.Factory.StartNew(() => new MetricsEdgeItem[0].AsEnumerable())
 												   : _config.IncludeCodeReview
 														 ? LoadWithCodeReview()
 														 : LoadWithoutCodeReview());
 		}
 
-		protected static EdgeItem CreateEdgeItem(
+		protected static MetricsEdgeItem CreateEdgeItem(
 			string dependant, 
 			string dependency, 
 			string projectPath, 
@@ -69,7 +69,7 @@ namespace ArchiMetrics.UI.DataAccess
 			ProjectCodeMetrics dependencyMetrics, 
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
-			return new EdgeItem
+			return new MetricsEdgeItem
 					   {
 						   Dependant = dependant, 
 						   Dependency = dependency, 
@@ -95,7 +95,7 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		protected abstract Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results);
+		protected abstract Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results);
 
 		protected int GetLinesOfCode(CommonSyntaxNode node)
 		{
@@ -121,7 +121,7 @@ namespace ArchiMetrics.UI.DataAccess
 					   .Select(n => n.Name.GetText().ToString().Trim());
 		}
 
-		private async Task<IEnumerable<EdgeItem>> LoadWithCodeReview()
+		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview()
 		{
 			var errors = await _codeErrorRepository.GetErrorsAsync();
 			var edges = await CreateEdges(errors);
@@ -129,7 +129,7 @@ namespace ArchiMetrics.UI.DataAccess
 			return edges;
 		}
 
-		private Task<IEnumerable<EdgeItem>> LoadWithoutCodeReview()
+		private Task<IEnumerable<MetricsEdgeItem>> LoadWithoutCodeReview()
 		{
 			return CreateEdges(new EvaluationResult[0]);
 		}

@@ -44,7 +44,7 @@ namespace ArchiMetrics.UI.DataAccess
 			_metricsCalculator = metricsCalculator;
 		}
 
-		protected override async Task<IEnumerable<EdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
+		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
 		{
 			var results = source.GroupBy(er => er.ProjectPath).ToArray();
 			var references = await GetProjectReferences();

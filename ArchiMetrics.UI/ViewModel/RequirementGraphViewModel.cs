@@ -26,7 +26,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IRequirementTestAnalyzer _analyzer;
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly IEdgeTransformer _filter;
-		private EdgeItem[] _allEdges;
+		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 
 		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, ISolutionEdgeItemsRepositoryConfig config, IEdgeTransformer filter)
@@ -72,7 +72,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = true;
 			var g = new ProjectGraph();
 
-			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
+			var nonEmptySourceItems = (await _filter.TransformAsync(_allMetricsEdges))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
@@ -106,7 +106,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = false;
 		}
 
-		private IEnumerable<Vertex> CreateVertices(EdgeItem item)
+		private IEnumerable<Vertex> CreateVertices(MetricsEdgeItem item)
 		{
 			yield return new Vertex(item.Dependant, false, item.DependantComplexity, item.DependantMaintainabilityIndex, item.DependantLinesOfCode);
 			if (!string.IsNullOrWhiteSpace(item.Dependency))
@@ -120,11 +120,11 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			var edges = await Task.Factory.StartNew(() => _analyzer.GetTestData(_config.Path));
-			_allEdges = await Task.Factory.StartNew(() => edges.SelectMany(ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
+			_allMetricsEdges = await Task.Factory.StartNew(() => edges.SelectMany(ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
 			UpdateInternal();
 		}
 
-		private IEnumerable<EdgeItem> ConvertToEdgeItem(TestData data)
+		private IEnumerable<MetricsEdgeItem> ConvertToEdgeItem(TestData data)
 		{
 			return data.RequirementIds.SelectMany(
 				i => data.RequirementIds.Except(new[]
@@ -133,7 +133,7 @@ namespace ArchiMetrics.UI.ViewModel
 												})
 						 .Select(
 							 o =>
-							 new EdgeItem
+							 new MetricsEdgeItem
 							 {
 								 Dependant = i.ToString(CultureInfo.InvariantCulture), 
 								 Dependency = o.ToString(CultureInfo.InvariantCulture), 
@@ -141,16 +141,16 @@ namespace ArchiMetrics.UI.ViewModel
 							 }));
 		}
 
-		private class RequirementsEqualityComparer : IEqualityComparer<EdgeItem>
+		private class RequirementsEqualityComparer : IEqualityComparer<MetricsEdgeItem>
 		{
-			public bool Equals(EdgeItem x, EdgeItem y)
+			public bool Equals(MetricsEdgeItem x, MetricsEdgeItem y)
 			{
 				return x == null
 						   ? y == null
 						   : y != null && ((x.Dependant == y.Dependant && x.Dependency == y.Dependency) || (x.Dependant == y.Dependency && x.Dependency == y.Dependant));
 			}
 
-			public int GetHashCode(EdgeItem obj)
+			public int GetHashCode(MetricsEdgeItem obj)
 			{
 				return string.Join(";", new[] { obj.Dependant, obj.Dependency }.OrderBy(x => x)).GetHashCode();
 			}

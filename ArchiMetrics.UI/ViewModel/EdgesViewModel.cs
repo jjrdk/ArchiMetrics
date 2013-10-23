@@ -23,17 +23,17 @@ namespace ArchiMetrics.UI.ViewModel
 	{
 		private readonly object _syncLock = new object();
 		private readonly DelegateCommand _updateCommand;
-		private ObservableCollection<EdgeItem> _dependencyItems;
+		private ObservableCollection<MetricsEdgeItem> _dependencyItems;
 
 		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
 			: base(repository, filter, ruleDefinition, config)
 		{
-			DependencyItems = new ObservableCollection<EdgeItem>();
+			DependencyItems = new ObservableCollection<MetricsEdgeItem>();
 			LoadEdges();
 			_updateCommand = new DelegateCommand(o => true, o => UpdateInternal());
 		}
 
-		public ObservableCollection<EdgeItem> DependencyItems
+		public ObservableCollection<MetricsEdgeItem> DependencyItems
 		{
 			get
 			{
@@ -72,8 +72,8 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 
-			var results = await Filter.TransformAsync(AllEdges);
-			var newCollection = new ObservableCollection<EdgeItem>(results);
+			var results = await Filter.TransformAsync(AllMetricsEdges);
+			var newCollection = new ObservableCollection<MetricsEdgeItem>(results);
 			DependencyItems = newCollection;
 			IsLoading = false;
 		}

@@ -17,6 +17,6 @@ namespace ArchiMetrics.Common.Structure
 
 	public interface IEdgeTransformer
 	{
-		Task<IEnumerable<EdgeItem>> TransformAsync(IEnumerable<EdgeItem> source);
+		Task<IEnumerable<MetricsEdgeItem>> TransformAsync(IEnumerable<MetricsEdgeItem> source);
 	}
 }

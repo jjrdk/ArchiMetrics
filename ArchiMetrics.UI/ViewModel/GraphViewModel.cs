@@ -23,7 +23,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly DependencyAnalyzer _analyzer = new DependencyAnalyzer();
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
-		private EdgeItem[] _allEdges;
+		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 
 		public GraphViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, ISolutionEdgeItemsRepositoryConfig config)
@@ -66,7 +66,7 @@ namespace ArchiMetrics.UI.ViewModel
 		protected override void Dispose(bool isDisposing)
 		{
 			_graphToVisualize = null;
-			_allEdges = null;
+			_allMetricsEdges = null;
 			base.Dispose(isDisposing);
 		}
 
@@ -74,10 +74,10 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 
-			var nonEmptySourceItems = (await _filter.TransformAsync(_allEdges))
+			var nonEmptySourceItems = (await _filter.TransformAsync(_allMetricsEdges))
 				.ToArray();
 
-			var circularReferences = (await _analyzer.GetCircularReferences(nonEmptySourceItems))
+			var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
@@ -116,7 +116,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = false;
 		}
 
-		private IEnumerable<Vertex> CreateVertices(EdgeItem item, bool isCircular)
+		private IEnumerable<Vertex> CreateVertices(MetricsEdgeItem item, bool isCircular)
 		{
 			yield return new Vertex(item.Dependant, isCircular, item.DependantComplexity, item.DependantMaintainabilityIndex, item.DependantLinesOfCode);
 			if (!string.IsNullOrWhiteSpace(item.Dependency))
@@ -132,7 +132,7 @@ namespace ArchiMetrics.UI.ViewModel
 			_repository.GetEdgesAsync()
 				.ContinueWith(t =>
 				{
-					_allEdges = t.Result.Where(e => e.Dependant != e.Dependency).ToArray();
+					_allMetricsEdges = t.Result.Where(e => e.Dependant != e.Dependency).ToArray();
 					UpdateInternal();
 				});
 		}

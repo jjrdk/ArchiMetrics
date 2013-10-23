@@ -44,7 +44,7 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public async Task<IEnumerable<EdgeItem>> TransformAsync(IEnumerable<EdgeItem> source)
+		public async Task<IEnumerable<MetricsEdgeItem>> TransformAsync(IEnumerable<MetricsEdgeItem> source)
 		{
 			var copy = await _copier.Copy(source);
 
@@ -82,7 +82,7 @@ namespace ArchiMetrics.UI.DataAccess
 				.Select(g =>
 					{
 						var first = g.First();
-						return new EdgeItem
+						return new MetricsEdgeItem
 								   {
 									   Dependant = first.Dependant, 
 									   Dependency = first.Dependency, 
