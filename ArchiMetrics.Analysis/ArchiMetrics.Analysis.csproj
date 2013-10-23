@@ -111,6 +111,7 @@
     <Compile Include="RequirementToTestReport.cs" />
     <Compile Include="SlocCounter.cs" />
     <Compile Include="TestData.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="XamlCodeWriter.cs" />
     <Compile Include="XamlConverter.cs" />
   </ItemGroup>

@@ -10,66 +10,81 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using ArchiMetrics.Common;
+
 namespace ArchiMetrics.Analysis
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using ArchiMetrics.Analysis.Metrics;
-    using ArchiMetrics.Common.Metrics;
-    using ArchiMetrics.Common.Structure;
-    using Roslyn.Compilers.Common;
-    using Roslyn.Services;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.Common.Metrics;
+	using ArchiMetrics.Common.Structure;
+	using Roslyn.Compilers.Common;
+	using Roslyn.Services;
 
-    /// <summary>
-    /// Defines the DependencyAnalyzer class.
-    /// </summary>
-    public class DependencyAnalyzer
-    {
-        private static readonly ComparableComparer<TypeDefinition> Comparer = new ComparableComparer<TypeDefinition>();
+	/// <summary>
+	/// Defines the DependencyAnalyzer class.
+	/// </summary>
+	public class DependencyAnalyzer
+	{
+		private static readonly ComparableComparer<TypeDefinition> Comparer = new ComparableComparer<TypeDefinition>();
 
-        public static Task<IEnumerable<DependencyChain>> GetCirculatReferences(IEnumerable<IProjectMetric> projectMetrics)
-        {
-            var edges = projectMetrics.SelectMany(p=>p.ReferencedProjects.Select(r=>new MetricsEdgeItem))
-        } 
+		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<IProjectMetric> projectMetrics)
+		{
+			var edges =
+				projectMetrics
+					.SelectMany(
+						p => p.ReferencedProjects.Select(
+							r => new EdgeItemBase
+							{
+								Dependant = p.Name,
+								Dependency = r,
+								MergedEdges = 0
+							}))
+					.ToArray();
 
-        public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<EdgeItemBase> items)
-        {
-            var edgeItems = items.ToArray();
-            return Task.Factory.StartNew(() => edgeItems.SelectMany(e => GetDependencyChain(new DependencyChain(Enumerable.Empty<MetricsEdgeItem>(), e, e), edgeItems))
-                .Where(c => c.IsCircular)
-                .Distinct());
-        }
+			return GetCircularReferences(edges);
+		}
 
-        public static async Task<IEnumerable<TypeDefinition>> GetUsedTypes(IDocument document)
-        {
-            var semanticModel = await document.GetSemanticModelAsync();
-            var nodes = (await document.GetSyntaxRootAsync())
-                .DescendantNodes()
-                .Select(x => GetUsedType(x, semanticModel))
-                .Where(x => x != null)
-                .Distinct(Comparer);
+		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<EdgeItemBase> items)
+		{
+			var edgeItems = items.WhereNotNull().ToArray();
+			return Task.Factory.StartNew(() => edgeItems.SelectMany(e => GetDependencyChain(new DependencyChain(Enumerable.Empty<MetricsEdgeItem>(), e, e), edgeItems))
+				.Where(c => c.IsCircular)
+				.Distinct());
+		}
 
-            return nodes;
-        }
+		public static async Task<IEnumerable<TypeDefinition>> GetUsedTypes(IDocument document)
+		{
+			var semanticModel = await document.GetSemanticModelAsync();
+			var nodes = (await document.GetSyntaxRootAsync())
+				.DescendantNodes()
+				.Select(x => GetUsedType(x, semanticModel))
+				.WhereNotNull()
+				.Distinct(Comparer);
 
-        private static TypeDefinition GetUsedType(CommonSyntaxNode node, ISemanticModel semanticModel)
-        {
-            var typeSymbol = semanticModel.GetTypeInfo(node).Type;
-            if (typeSymbol == null || typeSymbol.TypeKind == CommonTypeKind.Error)
-            {
-                return null;
-            }
-            var qualifiedName = typeSymbol.GetQualifiedName();
+			return nodes;
+		}
 
-            return qualifiedName;
-        }
+		private static TypeDefinition GetUsedType(CommonSyntaxNode node, ISemanticModel semanticModel)
+		{
+			var typeSymbol = semanticModel.GetTypeInfo(node).Type;
+			if (typeSymbol == null || typeSymbol.TypeKind == CommonTypeKind.Error)
+			{
+				return null;
+			}
 
-        private static IEnumerable<DependencyChain> GetDependencyChain(DependencyChain chain, EdgeItemBase[] source)
-        {
-            return chain.IsCircular
-                       ? new[] { chain }
-                       : source.Where(chain.IsContinuation).SelectMany(i => GetDependencyChain(new DependencyChain(chain.ReferenceChain, chain.Root, i), source));
-        }
-    }
+			var qualifiedName = typeSymbol.GetQualifiedName();
+
+			return qualifiedName;
+		}
+
+		private static IEnumerable<DependencyChain> GetDependencyChain(DependencyChain chain, IEnumerable<EdgeItemBase> source)
+		{
+			return chain.IsCircular
+					   ? new[] { chain }
+					   : source.Where(chain.IsContinuation).SelectMany(i => GetDependencyChain(new DependencyChain(chain.ReferenceChain, chain.Root, i), source));
+		}
+	}
 }

@@ -1,28 +1,25 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EdgeItemBase.cs" company="Reimers.dk">
+// <copyright file="Utils.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the EdgeItemBase type.
+//   Defines the Utils type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Structure
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ArchiMetrics.Analysis
 {
-    public class EdgeItemBase
-    {
-        public string Dependant { get; set; }
-
-        public string Dependency { get; set; }
-
-        public int MergedEdges { get; set; }
-
-        public override string ToString()
-        {
-            return string.Format("({0} -> {1})", Dependant, Dependency);
-        }
-    }
+	internal static class Utils
+	{
+		public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> source) where T : class
+		{
+			return source.Where(x => x != null);
+		}
+	}
 }
