@@ -36,14 +36,14 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 			[Test]
 			public void WhenFieldIsNeverReadThenReturnsError()
 			{
-				const string Code = @"namespace MyNamespace
+				const string code = @"namespace MyNamespace
 {
 	public class MyClass
 	{
 		private object _field = new object();
 	}
 }";
-				var solution = CreateSolution(Code);
+				var solution = CreateSolution(code);
 				var classDeclaration = (from p in solution.Projects
 										from d in p.Documents
 										let model = d.GetSemanticModel()
@@ -62,7 +62,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 			[Test]
 			public void WhenFieldIsReadThenDoesNotReturnError()
 			{
-				const string Code = @"namespace MyNamespace
+				const string code = @"namespace MyNamespace
 {
 	public class MyClass
 	{
@@ -70,14 +70,14 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 
 		public void Write()
 		{
-			if(_field == null)
+			if(this._field == null)
 			{
 				System.Console.WriteLine(""null"");
 			}
 		}
 	}
 }";
-				var solution = CreateSolution(Code);
+				var solution = CreateSolution(code);
 				var classDeclaration = (from p in solution.Projects
 										from d in p.Documents
 										let model = d.GetSemanticModel()

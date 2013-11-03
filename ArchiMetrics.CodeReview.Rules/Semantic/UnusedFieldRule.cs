@@ -57,7 +57,9 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 			var symbols = declaration.Declaration.Variables.Select(x => semanticModel.GetDeclaredSymbol(x)).ToArray();
 			var callers = symbols
-				.SelectMany(x => x.FindCallers(solution, CancellationToken.None));
+				.SelectMany(x => x.FindReferences(solution, CancellationToken.None))
+				.Where(x => x.Locations.Any())
+				.ToArray();
 
 			if (!callers.Any())
 			{
