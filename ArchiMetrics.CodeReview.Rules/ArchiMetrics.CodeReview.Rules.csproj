@@ -123,6 +123,7 @@
     <Compile Include="Semantic\LackOfCohesionOfMethodsRule.cs" />
     <Compile Include="Semantic\UnusedCodeRule.cs" />
     <Compile Include="Semantic\UnusedEventRule.cs" />
+    <Compile Include="Semantic\UnusedFieldRule.cs" />
     <Compile Include="Semantic\UnusedGetPropertyRule.cs" />
     <Compile Include="Semantic\UnusedMethodRule.cs" />
     <Compile Include="Semantic\UnusedParametersInMethodRule.cs" />
