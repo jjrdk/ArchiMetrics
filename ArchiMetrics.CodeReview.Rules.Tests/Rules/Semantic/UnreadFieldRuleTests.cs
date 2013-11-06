@@ -48,7 +48,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 
 		public MyClass()
 		{
-			_field = new object();
+			_field = 
+
+new object();
 		}
 	}
 }")]

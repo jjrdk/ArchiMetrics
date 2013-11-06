@@ -63,22 +63,20 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.Select(x => new
 				{
 					Root = x.Location.SourceTree.GetRoot(),
-					Span = x.Location.GetLineSpan(false)
+					Start = x.Location.SourceSpan.Start
 				})
 				.Select(
 					x =>
 						new
 						{
-							Source = x.Root
-								.GetText()
-								.GetLineFromLineNumber(x.Span.StartLinePosition.Line)
-								.ToString()
+							// TODO: Support multiline.
+							Source = x.Root.FindToken(x.Start).Parent.Parent
 						})
 				.Select(x =>
 				{
 					try
 					{
-						return Syntax.ParseStatement(x.Source);
+						return Syntax.ParseStatement(x.Source.ToFullString());
 					}
 					catch
 					{
@@ -100,7 +98,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			return null;
 		}
 
-		private bool IsNotAssignment(StatementSyntax statementSyntax)
+		private static bool IsNotAssignment(StatementSyntax statementSyntax)
 		{
 			var expression = statementSyntax as ExpressionStatementSyntax;
 			if (expression != null)
