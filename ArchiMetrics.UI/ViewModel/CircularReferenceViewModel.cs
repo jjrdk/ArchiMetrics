@@ -15,12 +15,10 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{
-		private readonly DependencyAnalyzer _analyzer = new DependencyAnalyzer();
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(

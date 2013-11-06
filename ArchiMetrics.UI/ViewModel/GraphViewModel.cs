@@ -15,12 +15,10 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	internal class GraphViewModel : ViewModelBase
 	{
-		private readonly DependencyAnalyzer _analyzer = new DependencyAnalyzer();
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
 		private MetricsEdgeItem[] _allMetricsEdges;

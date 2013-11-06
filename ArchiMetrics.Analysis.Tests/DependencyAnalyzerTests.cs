@@ -17,14 +17,12 @@ namespace ArchiMetrics.Analysis.Tests
 	using NUnit.Framework;
 	using Roslyn.Compilers;
 	using Roslyn.Services;
-	using Roslyn.Services.CSharp;
 
 	public class DependencyAnalyzerTests
 	{
 		[Test]
 		public void CanCreateDirectDepencyChain()
 		{
-			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
 							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
@@ -40,7 +38,6 @@ namespace ArchiMetrics.Analysis.Tests
 		[Test]
 		public void CanCreateNonDirectDepencyChain()
 		{
-			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
 							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
@@ -59,7 +56,6 @@ namespace ArchiMetrics.Analysis.Tests
 		[Test]
 		public void CanCreateMultipleNonDirectDepencyChain()
 		{
-			var analyzer = new DependencyAnalyzer();
 			var items = new[]
 						{
 							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
