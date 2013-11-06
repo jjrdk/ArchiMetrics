@@ -1,25 +1,26 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UnusedFieldRule.cs" company="Reimers.dk">
+// <copyright file="UnreadFieldRule.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2012
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the UnusedFieldRule type.
+//   Defines the UnreadFieldRule type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Linq;
 using System.Threading;
 using ArchiMetrics.Common.CodeReview;
+using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
 using Roslyn.Services;
 
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
-	internal class UnusedFieldRule : SemanticEvaluationBase
+	internal class UnreadFieldRule : SemanticEvaluationBase
 	{
 		public override SyntaxKind EvaluatedKind
 		{
@@ -56,12 +57,39 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var declaration = (FieldDeclarationSyntax)node;
 
 			var symbols = declaration.Declaration.Variables.Select(x => semanticModel.GetDeclaredSymbol(x)).ToArray();
-			var callers = symbols
+			var references = symbols
 				.SelectMany(x => x.FindReferences(solution, CancellationToken.None))
-				.Where(x => x.Locations.Any())
+				.SelectMany(x => x.Locations)
+				.Select(x => new
+				{
+					Root = x.Location.SourceTree.GetRoot(),
+					Span = x.Location.GetLineSpan(false)
+				})
+				.Select(
+					x =>
+						new
+						{
+							Source = x.Root
+								.GetText()
+								.GetLineFromLineNumber(x.Span.StartLinePosition.Line)
+								.ToString()
+						})
+				.Select(x =>
+				{
+					try
+					{
+						return Syntax.ParseStatement(x.Source);
+					}
+					catch
+					{
+						return null;
+					}
+				})
+				.Where(x => x != null)
+				.Where(IsNotAssignment)
 				.ToArray();
 
-			if (!callers.Any())
+			if (!references.Any())
 			{
 				return new EvaluationResult
 				{
@@ -70,6 +98,17 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 
 			return null;
+		}
+
+		private bool IsNotAssignment(StatementSyntax statementSyntax)
+		{
+			var expression = statementSyntax as ExpressionStatementSyntax;
+			if (expression != null)
+			{
+				return expression.Expression.Kind != SyntaxKind.AssignExpression;
+			}
+
+			return true;
 		}
 	}
 }
