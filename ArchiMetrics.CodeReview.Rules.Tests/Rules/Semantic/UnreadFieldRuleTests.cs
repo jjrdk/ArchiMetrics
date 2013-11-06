@@ -54,6 +54,18 @@ new object();
 		}
 	}
 }")]
+			[TestCase(@"namespace MyNamespace
+{
+	public class MyClass
+	{
+		private object _field;
+
+		public void Something()
+		{
+			_field = new object();
+		}
+	}
+}")]
 			public void WhenFieldIsNeverReadThenReturnsError(string code)
 			{
 				var solution = CreateSolution(code);

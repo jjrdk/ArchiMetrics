@@ -13,7 +13,6 @@
 using System.Linq;
 using System.Threading;
 using ArchiMetrics.Common.CodeReview;
-using Roslyn.Compilers;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
 using Roslyn.Services;
@@ -60,30 +59,10 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var references = symbols
 				.SelectMany(x => x.FindReferences(solution, CancellationToken.None))
 				.SelectMany(x => x.Locations)
-				.Select(x => new
-				{
-					Root = x.Location.SourceTree.GetRoot(),
-					Start = x.Location.SourceSpan.Start
-				})
-				.Select(
-					x =>
-						new
-						{
-							// TODO: Support multiline.
-							Source = x.Root.FindToken(x.Start).Parent.Parent
-						})
-				.Select(x =>
-				{
-					try
-					{
-						return Syntax.ParseStatement(x.Source.ToFullString());
-					}
-					catch
-					{
-						return null;
-					}
-				})
+				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))
+				.Select(x => x.Parent)
 				.Where(x => x != null)
+				.Select(x => x.Parent)
 				.Where(IsNotAssignment)
 				.ToArray();
 
@@ -98,12 +77,12 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			return null;
 		}
 
-		private static bool IsNotAssignment(StatementSyntax statementSyntax)
+		private static bool IsNotAssignment(CommonSyntaxNode syntax)
 		{
-			var expression = statementSyntax as ExpressionStatementSyntax;
+			var expression = syntax as BinaryExpressionSyntax;
 			if (expression != null)
 			{
-				return expression.Expression.Kind != SyntaxKind.AssignExpression;
+				return expression.Kind != SyntaxKind.AssignExpression;
 			}
 
 			return true;

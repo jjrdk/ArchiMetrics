@@ -26,7 +26,7 @@ namespace ArchiMetrics.Analysis
 	/// <summary>
 	/// Defines the DependencyAnalyzer class.
 	/// </summary>
-	public class DependencyAnalyzer
+	public static class DependencyAnalyzer
 	{
 		private static readonly ComparableComparer<TypeDefinition> Comparer = new ComparableComparer<TypeDefinition>();
 
