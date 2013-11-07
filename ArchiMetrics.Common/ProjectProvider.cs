@@ -34,24 +34,15 @@ namespace ArchiMetrics.Common
 				source, 
 				path =>
 				{
-					IWorkspace workspace = null;
 					try
 					{
-						workspace = Workspace.LoadStandAloneProject(path, "Release", "AnyCPU");
-						var project = workspace.CurrentSolution.Projects.FirstOrDefault();
+						var project = Solution.LoadStandAloneProject(path, "Release", "AnyCPU");
 						return project != null && project.HasDocuments ? project : null;
 					}
 					catch
 					{
 						Console.WriteLine("% - " + path);
 						return null;
-					}
-					finally
-					{
-						if (workspace != null)
-						{
-							workspace.Dispose();
-						}
 					}
 				});
 		}

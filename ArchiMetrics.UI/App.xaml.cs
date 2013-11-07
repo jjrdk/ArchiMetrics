@@ -17,8 +17,8 @@ namespace ArchiMetrics.UI
 	using System.Linq;
 	using System.Windows;
 	using System.Windows.Markup;
+	using System.Windows.Threading;
 	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.CodeReview.Rules;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
@@ -41,6 +41,17 @@ namespace ArchiMetrics.UI
 			FrameworkElement.LanguageProperty.OverrideMetadata(
 				typeof(FrameworkElement), 
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+		}
+
+		public App()
+		{
+			DispatcherUnhandledException += OnDispatcherUnhandledException;
+		}
+
+		protected override void OnExit(ExitEventArgs e)
+		{
+			DispatcherUnhandledException -= OnDispatcherUnhandledException;
+			base.OnExit(e);
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
@@ -136,6 +147,12 @@ namespace ArchiMetrics.UI
 			var container = builder.Build();
 
 			return container;
+		}
+
+		private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+		{
+			MessageBox.Show(e.Exception.Message);
+			Shutdown(1);
 		}
 	}
 }
