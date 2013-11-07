@@ -82,15 +82,20 @@ namespace ArchiMetrics.UI.DataAccess
 																		semanticModel = d.document.GetSemanticModel()
 													                }))
 												   .Where(n => n.syntaxTree != null)
-												   .Select(t => _inspector.Inspect(source, t.syntaxTree, t.semanticModel, t.solution));
+												   .Select(t => _inspector.Inspect(source, t.syntaxTree, t.semanticModel, t.solution))
+												   .ToArray();
+					if (inspectionTasks.Length == 0)
+					{
+						return new EvaluationResult[0];
+					}
 
 					return await Task.Factory
-									 .ContinueWhenAll(
-										 inspectionTasks.ToArray(), 
-										 results => results.SelectMany(x => x.Result)
-														   .Distinct(new ResultComparer())
-														   .ToArray()
-														   .AsEnumerable());
+						.ContinueWhenAll(
+							inspectionTasks,
+							results => results.SelectMany(x => x.Result)
+								.Distinct(new ResultComparer())
+								.ToArray()
+								.AsEnumerable());
 				});
 		}
 

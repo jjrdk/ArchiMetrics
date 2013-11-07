@@ -35,8 +35,8 @@ namespace ArchiMetrics.UI.DataAccess
 				path, 
 				p =>
 				{
-					var workspace = Workspace.LoadSolution(p, "Release", "AnyCPU");
-					return workspace.CurrentSolution;
+					var solution = Solution.Load(p, "Release", "AnyCPU");
+					return solution;
 				});
 		}
 

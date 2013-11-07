@@ -24,7 +24,6 @@ namespace ArchiMetrics.UI.DataAccess
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly ICodeMetricsCalculator _metricsCalculator;
 		private readonly NamespaceEdgeItemsRepository _namespaceEdgeRepository;
 		private readonly ProjectEdgeItemsRepository _projectEdgeRepository;
 
@@ -35,9 +34,8 @@ namespace ArchiMetrics.UI.DataAccess
 			ICodeMetricsCalculator metricsCalculator)
 		{
 			_config = config;
-			_metricsCalculator = metricsCalculator;
 			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, codeErrorRepository);
-			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, _metricsCalculator);
+			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, metricsCalculator);
 		}
 
 		~AggregateEdgeItemsRepository()

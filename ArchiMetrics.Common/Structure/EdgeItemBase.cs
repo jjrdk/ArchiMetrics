@@ -10,8 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace ArchiMetrics.Common.Structure
 {
+	[Serializable]
     public class EdgeItemBase
     {
         public string Dependant { get; set; }
