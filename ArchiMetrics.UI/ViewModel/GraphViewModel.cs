@@ -79,7 +79,6 @@ namespace ArchiMetrics.UI.ViewModel
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
-				.AsParallel()
 				.SelectMany(item =>
 					{
 						var isCircular = circularReferences.Any(c => c.Contains(item));

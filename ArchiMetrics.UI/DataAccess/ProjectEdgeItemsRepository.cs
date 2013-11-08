@@ -65,7 +65,7 @@ namespace ArchiMetrics.UI.DataAccess
 					.StartNew(() =>
 							  Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 									   .Where(s => !s.Contains("QuickStart"))
-									   .AsParallel()
+									   //.AsParallel()
 									   .SelectMany(GetProjectDependencies)
 									   .ToArray()));
 		}
@@ -74,7 +74,7 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			var metricTasks = Directory.GetFiles(_config.Path, "*.sln", SearchOption.AllDirectories)
 									   .Where(s => !s.Contains("QuickStart"))
-									   .AsParallel()
+									   //.AsParallel()
 									   .Select(_solutionProvider.Get)
 									   .SelectMany(s => s.Projects)
 									   .Distinct(ProjectComparer.Default)

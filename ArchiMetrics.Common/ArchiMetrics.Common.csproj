@@ -108,7 +108,6 @@
     <Compile Include="Structure\IVertexRuleDefinition.cs" />
     <Compile Include="Structure\IVertexRuleRepository.cs" />
     <Compile Include="Structure\VertexRule.cs" />
-    <Compile Include="TfsDefinition.cs" />
     <Compile Include="Xaml\VariableNameProvider.cs" />
     <Compile Include="Xaml\XamlNode.cs" />
     <Compile Include="Xaml\XamlNodeAttribute.cs" />

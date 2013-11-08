@@ -35,7 +35,6 @@ namespace ArchiMetrics.Analysis
 		{
 			return Extensions
 				.SelectMany(s => Directory.GetFiles(path, s, SearchOption.AllDirectories))
-				.AsParallel()
 				.Where(s => !exclusions.Any(e => e.ToLowerInvariant().Contains(s.ToLowerInvariant())))
 				.Select(s => File.OpenText(s).ReadToEnd().Split('\n'))
 				.Select(CountStrings)

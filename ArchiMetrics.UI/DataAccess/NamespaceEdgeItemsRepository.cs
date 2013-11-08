@@ -63,7 +63,6 @@ namespace ArchiMetrics.UI.DataAccess
 				_config.Path, 
 				path => Task.Factory.StartNew(
 					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
-								   .AsParallel()
 								   .Select(_solutionProvider.Get)
 								   .SelectMany(s => s.Projects)
 								   .ToArray()

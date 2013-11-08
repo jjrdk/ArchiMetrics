@@ -49,7 +49,6 @@ namespace ArchiMetrics.UI.DataAccess
 			var copy = await _copier.Copy(source);
 
 			var items = copy
-				.AsParallel()
 				.Select(item =>
 					{
 						foreach (var transform in _ruleRepository.GetAllVertexPreTransforms())
@@ -77,7 +76,6 @@ namespace ArchiMetrics.UI.DataAccess
 
 						return item;
 					})
-				.AsSequential()
 				.GroupBy(e => e.ToString())
 				.Select(g =>
 					{
