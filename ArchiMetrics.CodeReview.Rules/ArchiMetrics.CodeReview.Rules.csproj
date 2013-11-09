@@ -124,6 +124,8 @@
     <Compile Include="Code\VarDeclarationForNewVariableErrorRule.cs" />
     <Compile Include="Code\WhileLoopSleepErrorRule.cs" />
     <Compile Include="Semantic\LackOfCohesionOfMethodsRule.cs" />
+    <Compile Include="Semantic\UnreadValueRule.cs" />
+    <Compile Include="Semantic\UnreadVariableRule.cs" />
     <Compile Include="Semantic\UnusedCodeRule.cs" />
     <Compile Include="Semantic\UnusedEventRule.cs" />
     <Compile Include="Semantic\UnreadFieldRule.cs" />
