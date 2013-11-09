@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
     <Compile Include="Code\NoUnsafeCodeRule.cs" />
+    <Compile Include="Code\MethodTooDeepNestingRule.cs" />
+    <Compile Include="Code\PropertyTooDeepNestingRule.cs" />
+    <Compile Include="Code\TooDeepNestingRuleBase.cs" />
     <Compile Include="Semantic\PossibleStaticMethod.cs" />
     <Compile Include="Semantic\SemanticEvaluationBase.cs" />
     <Compile Include="Semantic\TooLowMaintainabilityIndexRule.cs" />

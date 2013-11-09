@@ -17,7 +17,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MethodParameterAnalyzer : SyntaxWalker
 	{
-		private int numParameters;
+		private int _numberOfParameters;
 
 		public MethodParameterAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
@@ -32,13 +32,13 @@ namespace ArchiMetrics.Analysis.Metrics
 				Visit(node);
 			}
 
-			return numParameters;
+			return _numberOfParameters;
 		}
 
 		public override void VisitParameter(ParameterSyntax node)
 		{
 			base.VisitParameter(node);
-			numParameters++;
+			_numberOfParameters++;
 		}
 	}
 }
