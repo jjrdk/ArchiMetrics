@@ -103,7 +103,7 @@ namespace ArchiMetrics.UI
 				   .As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>()
 				   .As<INodeInspector>();
-			var vertexRuleRepository = new FakeVertexRuleRepository();
+			var vertexRuleRepository = new VertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true))
 				   .As<PathFilter>();
 			builder.RegisterType<SolutionProvider>()

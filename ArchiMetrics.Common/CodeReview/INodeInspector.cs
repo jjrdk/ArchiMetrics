@@ -14,8 +14,8 @@ namespace ArchiMetrics.Common.CodeReview
 {
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public interface INodeInspector

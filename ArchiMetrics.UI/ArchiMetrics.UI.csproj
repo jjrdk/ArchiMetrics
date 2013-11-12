@@ -148,8 +148,8 @@
     <Compile Include="DataAccess\CodeErrorRepository.cs" />
     <Compile Include="DataAccess\DocumentComparer.cs" />
     <Compile Include="DataAccess\EdgeTransformer.cs" />
-    <Compile Include="DataAccess\FakeRepositoryBase.cs" />
-    <Compile Include="DataAccess\FakeVertexRuleRepository.cs" />
+    <Compile Include="DataAccess\RepositoryBase.cs" />
+    <Compile Include="DataAccess\VertexRuleRepository.cs" />
     <Compile Include="DataAccess\NamespaceEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\NamespaceReference.cs" />
     <Compile Include="DataAccess\ProjectEdgeItemsRepository.cs" />

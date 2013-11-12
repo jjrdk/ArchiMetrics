@@ -130,6 +130,7 @@ namespace ArchiMetrics.Analysis
 					_inspectionTasks.TryDequeue(out t);
 					t.Dispose();
 				}
+
 				return results;
 			}
 

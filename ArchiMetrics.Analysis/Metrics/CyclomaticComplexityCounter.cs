@@ -118,12 +118,14 @@ namespace ArchiMetrics.Analysis.Metrics
 							var lambda = (ParenthesizedLambdaExpressionSyntax)node.Expression;
 							Visit(lambda.Body);
 						}
+
 						break;
 					case SyntaxKind.SimpleLambdaExpression:
 						{
 							var lambda = (SimpleLambdaExpressionSyntax)node.Expression;
 							Visit(lambda.Body);
 						}
+
 						break;
 				}
 

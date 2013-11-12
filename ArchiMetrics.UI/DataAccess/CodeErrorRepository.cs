@@ -33,8 +33,8 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
-			IProvider<string, ISolution> solutionProvider, 
+			ISolutionEdgeItemsRepositoryConfig config,
+			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
@@ -50,52 +50,62 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
+		public async Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
 		{
 			if (string.IsNullOrWhiteSpace(source))
 			{
-				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
+				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			return _edgeItems.GetOrAdd(
-				source, 
+			var cachedEdges = _edgeItems.GetOrAdd(
+				source,
 				async path =>
 				{
-					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories).Where(p => !p.Contains("QuickStart"))
-												   .Distinct()
-												   .Select(_solutionProvider.Get)
-												   .SelectMany(s => s.Projects.Distinct(ProjectComparer.Default).Select(_ => new { solution = s, project = _ }))
-												   .SelectMany(p => p.project.Documents
-													   .Distinct(DocumentComparer.Default)
-													   .Select(d => new
-														                {
-															                solution = p.solution, 
-																			project = p.project, 
-																			document = d
-														                })
-												   .Select(d => new
-													                {
-														                projectPath = d.project.FilePath, 
-																		syntaxTree = d.document.GetSyntaxTree().GetRoot() as SyntaxNode, 
-																		solution = d.solution, 
-																		semanticModel = d.document.GetSemanticModel()
-													                }))
-												   .Where(n => n.syntaxTree != null)
-												   .Select(t => _inspector.Inspect(source, t.syntaxTree, t.semanticModel, t.solution))
-												   .ToArray();
+					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
+						.Where(p => !p.Contains("QuickStart"))
+						.Distinct()
+						.Select(_solutionProvider.Get)
+						.SelectMany(
+							s => s.Projects.Distinct(ProjectComparer.Default)
+									 .Select(_ => new
+												  {
+													  solution = s,
+													  project = _
+												  }))
+						.SelectMany(
+							p => p.project.Documents
+									 .Distinct(DocumentComparer.Default)
+									 .Select(
+										 d => new
+											  {
+												  solution = p.solution,
+												  project = p.project,
+												  document = d
+											  })
+									 .Select(
+										 d => new
+											  {
+												  projectPath = d.project.FilePath,
+												  syntaxTree = d.document.GetSyntaxTree()
+																   .GetRoot() as SyntaxNode,
+												  solution = d.solution,
+												  semanticModel = d.document.GetSemanticModel()
+											  }))
+						.Where(n => n.syntaxTree != null)
+						.Select(t => _inspector.Inspect(source, t.syntaxTree, t.semanticModel, t.solution))
+						.ToArray();
 					if (inspectionTasks.Length == 0)
 					{
-						return new EvaluationResult[0];
+						return Enumerable.Empty<EvaluationResult>();
 					}
 
-					return await Task.Factory
-						.ContinueWhenAll(
-							inspectionTasks,
-							results => results.SelectMany(x => x.Result)
-								.Distinct(new ResultComparer())
-								.ToArray()
-								.AsEnumerable());
+					var results = await Task.WhenAll(inspectionTasks);
+					return results.SelectMany(x => x)
+							.Distinct(new ResultComparer())
+							.ToArray();
 				});
+
+			return await cachedEdges;
 		}
 
 		public IEnumerable<EvaluationResult> GetErrors()

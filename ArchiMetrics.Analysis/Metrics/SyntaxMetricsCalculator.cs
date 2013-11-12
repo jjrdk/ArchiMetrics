@@ -18,7 +18,6 @@ namespace ArchiMetrics.Analysis.Metrics
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
-	using Roslyn.Compilers.Common;
 
 	public sealed class SyntaxMetricsCalculator
 	{

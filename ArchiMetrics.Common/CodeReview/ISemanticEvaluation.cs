@@ -12,8 +12,8 @@
 
 namespace ArchiMetrics.Common.CodeReview
 {
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Compilers.Common;
+	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public interface ISemanticEvaluation : IEvaluation

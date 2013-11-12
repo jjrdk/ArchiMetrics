@@ -64,8 +64,8 @@ namespace ArchiMetrics.UI.DataAccess
 			string dependant, 
 			string dependency, 
 			string projectPath, 
-			ProjectCodeMetrics dependantMetrics, 
-			ProjectCodeMetrics dependencyMetrics, 
+			CodeMetrics dependantMetrics, 
+			CodeMetrics dependencyMetrics, 
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new MetricsEdgeItem

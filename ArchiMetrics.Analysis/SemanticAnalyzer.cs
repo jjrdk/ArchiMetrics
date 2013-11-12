@@ -1,6 +1,19 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SemanticAnalyzer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SemanticAnalyzer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis
 {
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
@@ -35,6 +48,7 @@ namespace ArchiMetrics.Analysis
 			return unusedParameters;
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "TypeDeclarationSyntax intended.")]
 		public IEnumerable<MethodDeclarationSyntax> GetPossibleStaticMethods(TypeDeclarationSyntax type)
 		{
 			return type.DescendantNodes()

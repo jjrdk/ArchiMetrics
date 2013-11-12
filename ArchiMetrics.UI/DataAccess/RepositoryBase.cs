@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FakeRepositoryBase.cs" company="Reimers.dk">
+// <copyright file="RepositoryBase.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the FakeRepositoryBase type.
+//   Defines the RepositoryBase type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,15 +14,15 @@ namespace ArchiMetrics.UI.DataAccess
 {
 	using System.IO;
 
-	public class FakeRepositoryBase
+	public class RepositoryBase
 	{
-		protected FakeRepositoryBase()
+		protected RepositoryBase()
 		{
 		}
 
 		protected Stream GetResourceStream(string resourceFile)
 		{
-			var assembly = typeof(FakeRepositoryBase).Assembly;
+			var assembly = typeof(RepositoryBase).Assembly;
 			var resourceName = string.Format("{0}.Data.{1}", assembly.GetName().Name, resourceFile);
 			var info = assembly.GetManifestResourceStream(resourceName);
 			

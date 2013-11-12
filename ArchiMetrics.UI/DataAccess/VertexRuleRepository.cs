@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FakeVertexRuleRepository.cs" company="Reimers.dk">
+// <copyright file="VertexRuleRepository.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the FakeVertexRuleRepository type.
+//   Defines the VertexRuleRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,12 +15,11 @@ namespace ArchiMetrics.UI.DataAccess
 	using System;
 	using System.Collections.Generic;
 	using System.Xml.Serialization;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
-	public class FakeVertexRuleRepository : FakeRepositoryBase, IVertexRuleRepository
+	public class VertexRuleRepository : RepositoryBase, IVertexRuleRepository
 	{
-		public FakeVertexRuleRepository()
+		public VertexRuleRepository()
 		{
 			var rules = new List<VertexRule>(LoadAllVertexRules());
 			VertexRules = rules;

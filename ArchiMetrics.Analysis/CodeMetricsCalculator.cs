@@ -318,6 +318,7 @@ namespace ArchiMetrics.Analysis
 							{
 								return p;
 							}
+
 							var filepath = Path.Combine(root, s);
 							var sourceCode = s.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)
 								? _converter.Convert(filepath)

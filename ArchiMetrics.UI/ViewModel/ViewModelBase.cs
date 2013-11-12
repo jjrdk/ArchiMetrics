@@ -116,6 +116,7 @@ namespace ArchiMetrics.UI.ViewModel
 			RaisePropertyChanged(e);
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Event invocation method.")]
 		protected void RaisePropertyChanged(PropertyChangedEventArgs args)
 		{
 			var handler = PropertyChanged;

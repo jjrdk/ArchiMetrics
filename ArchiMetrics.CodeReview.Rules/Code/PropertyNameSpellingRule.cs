@@ -26,6 +26,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get { return SyntaxKind.PropertyDeclaration; }
 		}
+
 		public override string Title
 		{
 			get
@@ -33,6 +34,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Property Name Spelling";
 			}
 		}
+		
 		public override string Suggestion
 		{
 			get
