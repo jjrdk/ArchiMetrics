@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ArchiMetrics.Analysis
 {
 	using System.Collections.Generic;
@@ -35,6 +37,7 @@ namespace ArchiMetrics.Analysis
 			return unusedParameters;
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "TypeDeclaration constraint intended.")]
 		public IEnumerable<MethodDeclarationSyntax> GetPossibleStaticMethods(TypeDeclarationSyntax type)
 		{
 			return type.DescendantNodes()
