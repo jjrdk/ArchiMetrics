@@ -26,7 +26,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int Calculate(CommonSyntaxNode memberNode)
 		{
-			//////Verify.NotNull<CommonSyntaxNode>(Expression.Lambda<Func<CommonSyntaxNode>>(Expression.Constant(memberNode), new ParameterExpression[0]), (string)null);
 			var node = memberNode as SyntaxNode;
 			if (node != null)
 			{

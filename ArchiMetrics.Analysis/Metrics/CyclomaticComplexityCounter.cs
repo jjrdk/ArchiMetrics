@@ -90,24 +90,24 @@ namespace ArchiMetrics.Analysis.Metrics
 				_counter++;
 			}
 
-			public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-			{
-				if (_semanticModel != null)
-				{
-					var symbol = _semanticModel.GetSymbolInfo(node).Symbol;
-					if (symbol != null)
-					{
-						switch (symbol.Kind)
-						{
-							case CommonSymbolKind.Method:
-								var returnType = ((IMethodSymbol)symbol).ReturnType;
-								Console.WriteLine(returnType.ToDisplayString());
-								break;
-						}
-					}
-				}
-				base.VisitInvocationExpression(node);
-			}
+			////public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+			////{
+			////	if (_semanticModel != null)
+			////	{
+			////		var symbol = _semanticModel.GetSymbolInfo(node).Symbol;
+			////		if (symbol != null)
+			////		{
+			////			switch (symbol.Kind)
+			////			{
+			////				case CommonSymbolKind.Method:
+			////					var returnType = ((IMethodSymbol)symbol).ReturnType;
+			////					break;
+			////			}
+			////		}
+			////	}
+
+			////	base.VisitInvocationExpression(node);
+			////}
 
 			public override void VisitArgument(ArgumentSyntax node)
 			{

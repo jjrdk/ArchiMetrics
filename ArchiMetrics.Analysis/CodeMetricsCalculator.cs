@@ -115,8 +115,7 @@ namespace ArchiMetrics.Analysis
 
 		private static IEnumerable<INamespaceMetric> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
 		{
-			var metrics = namespaceDeclarations.Select(declaration => declaration)
-											   .Select(
+			var metrics = namespaceDeclarations.Select(
 												   arg =>
 												   {
 													   var tuple = CalculateTypeMetrics(compilation, arg);

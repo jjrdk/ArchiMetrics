@@ -18,7 +18,6 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;

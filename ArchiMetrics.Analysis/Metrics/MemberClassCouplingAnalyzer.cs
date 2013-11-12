@@ -132,6 +132,11 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void CollectMemberCouplings(SyntaxNode syntax)
 		{
+			if (syntax == null)
+			{
+				return;
+			}
+
 			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax)
 				.Union(GetMemberCouplings<IdentifierNameSyntax>(syntax))
 				.Where(x => x.Kind == CommonSymbolKind.Method || x.Kind == CommonSymbolKind.Property || x.Kind == CommonSymbolKind.Event)
@@ -150,7 +155,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Select(r =>
 						new
 							{
-								node = r, 
+								node = r,
 								model = SemanticModel
 							})
 				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)
