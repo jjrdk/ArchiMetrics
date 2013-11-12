@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProjectEdgeItemsRepository.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -65,7 +65,6 @@ namespace ArchiMetrics.UI.DataAccess
 					.StartNew(() =>
 							  Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
 									   .Where(s => !s.Contains("QuickStart"))
-								  //.AsParallel()
 									   .SelectMany(GetProjectDependencies)
 									   .ToArray()));
 		}
@@ -74,7 +73,6 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			var metricTasks = Directory.GetFiles(_config.Path, "*.sln", SearchOption.AllDirectories)
 				.Where(s => !s.Contains("QuickStart"))
-				//.AsParallel()
 				.Select(_solutionProvider.Get)
 				.SelectMany(s => s.Projects)
 				.Distinct(ProjectComparer.Default)
@@ -101,8 +99,7 @@ namespace ArchiMetrics.UI.DataAccess
 						   Metrics = metrics,
 						   Project = project.Name,
 						   ProjectPath = s,
-						   Version = project.GetVersion()
-							   .ToString(),
+						   Version = project.GetVersion().ToString(),
 						   LinesOfCode = linesOfCode,
 						   DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0,
 						   CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0,
@@ -121,18 +118,20 @@ namespace ArchiMetrics.UI.DataAccess
 			var solution = _solutionProvider.Get(path);
 
 			return solution.Projects
-						   .Select(p => new ProjectReference
-											{
-												ProjectPath = p.FilePath,
-												Version = p.GetVersion().ToString(),
-												Name = p.Name,
-												ProjectReferences = p.ProjectReferences.Select(pr =>
-																								   {
-																									   var project = solution.GetProject(pr);
-																									   return new KeyValuePair<string, string>(project.Name, project.FilePath);
-																								   }),
-												AssemblyReferences = p.MetadataReferences.Select(m => Path.GetFileNameWithoutExtension(m.Display))
-											});
+				.Select(
+					p => new ProjectReference
+						 {
+							 ProjectPath = p.FilePath,
+							 Version = p.GetVersion().ToString(),
+							 Name = p.Name,
+							 ProjectReferences = p.ProjectReferences.Select(
+								 pr =>
+									 {
+										 var project = solution.GetProject(pr);
+										 return new KeyValuePair<string, string>(project.Name, project.FilePath);
+									 }),
+							 AssemblyReferences = p.MetadataReferences.Select(m => Path.GetFileNameWithoutExtension(m.Display))
+						 });
 		}
 	}
 }
