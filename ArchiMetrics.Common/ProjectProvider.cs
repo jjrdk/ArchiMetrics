@@ -36,12 +36,11 @@ namespace ArchiMetrics.Common
 				{
 					try
 					{
-						var project = Solution.LoadStandAloneProject(path, "Release", "AnyCPU");
+						var project = Solution.LoadStandAloneProject(path, "Release");
 						return project != null && project.HasDocuments ? project : null;
 					}
 					catch
 					{
-						Console.WriteLine("% - " + path);
 						return null;
 					}
 				});
@@ -55,7 +54,6 @@ namespace ArchiMetrics.Common
 			}
 
 			return from file in Directory.GetFiles(key, "*.csproj", SearchOption.AllDirectories)
-				   where IsValid(file)
 				   let p = Get(file)
 				   where p != null
 				   select p;
@@ -72,12 +70,6 @@ namespace ArchiMetrics.Common
 			if (isDisposing)
 			{
 			}
-		}
-
-		private bool IsValid(string source)
-		{
-			return source.IndexOf("QuickStart", StringComparison.OrdinalIgnoreCase) == -1
-			&& source.IndexOf("Demo", StringComparison.OrdinalIgnoreCase) == -1;
 		}
 	}
 }

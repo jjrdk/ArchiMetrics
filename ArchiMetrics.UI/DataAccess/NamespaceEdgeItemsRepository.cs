@@ -62,11 +62,8 @@ namespace ArchiMetrics.UI.DataAccess
 			return _namespaceReferences.GetOrAdd(
 				_config.Path, 
 				path => Task.Factory.StartNew(
-					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
-								   .Select(_solutionProvider.Get)
-								   .SelectMany(s => s.Projects)
-								   .ToArray()
-								   .Distinct(ProjectComparer.Default)
+					() => _solutionProvider.Get(path)
+								   .Projects
 								   .SelectMany(p => p.Documents)
 								   .Distinct(DocumentComparer.Default)
 								   .Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)

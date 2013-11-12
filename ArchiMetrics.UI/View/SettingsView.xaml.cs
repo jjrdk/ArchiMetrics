@@ -32,11 +32,13 @@ namespace ArchiMetrics.UI.View
 
 		private void OnClick(object sender, RoutedEventArgs e)
 		{
-			using (var directoryOpener = new FolderBrowserDialog())
+			using (var fileDialog = new OpenFileDialog())
 			{
-				if (directoryOpener.ShowDialog() == DialogResult.OK)
+				fileDialog.Multiselect = false;
+				fileDialog.Filter = "Solution Files (*.sln)|*.sln|All Files (*.*)|*.*";
+				if (fileDialog.ShowDialog() == DialogResult.OK)
 				{
-					PathBox.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
+					PathBox.SetValue(TextBlock.TextProperty, fileDialog.FileName);
 				}
 			}
 		}

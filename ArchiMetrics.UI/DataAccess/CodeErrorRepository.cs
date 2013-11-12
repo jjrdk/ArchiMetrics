@@ -61,17 +61,14 @@ namespace ArchiMetrics.UI.DataAccess
 				source,
 				async path =>
 				{
-					var inspectionTasks = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
-						.Where(p => !p.Contains("QuickStart"))
-						.Distinct()
-						.Select(_solutionProvider.Get)
-						.SelectMany(
-							s => s.Projects.Distinct(ProjectComparer.Default)
-									 .Select(_ => new
-												  {
-													  solution = s,
-													  project = _
-												  }))
+					var solution = _solutionProvider.Get(path);
+					var inspectionTasks = solution.Projects
+						.Select(
+							_ => new
+								 {
+									 solution = solution,
+									 project = _
+								 })
 						.SelectMany(
 							p => p.project.Documents
 									 .Distinct(DocumentComparer.Default)
