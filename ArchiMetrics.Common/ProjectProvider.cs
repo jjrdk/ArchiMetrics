@@ -36,12 +36,11 @@ namespace ArchiMetrics.Common
 				{
 					try
 					{
-						var project = Solution.LoadStandAloneProject(path, "Release", "AnyCPU");
+						var project = Solution.LoadStandAloneProject(path, "Release");
 						return project != null && project.HasDocuments ? project : null;
 					}
 					catch
 					{
-						Console.WriteLine("% - " + path);
 						return null;
 					}
 				});
