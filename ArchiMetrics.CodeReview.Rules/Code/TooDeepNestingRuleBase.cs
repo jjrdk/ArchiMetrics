@@ -71,16 +71,16 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		protected abstract BlockSyntax GetBody(SyntaxNode node);
+
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
-			var member = (MethodDeclarationSyntax)node;
-			var body = member.Body;
-
-			if (HasDeepNesting(body, 0))
+			var body = GetBody(node);
+			if (body != null && HasDeepNesting(body, 0))
 			{
 				return new EvaluationResult
 					   {
-						   Snippet = member.ToFullString()
+						   Snippet = node.ToFullString()
 					   };
 			}
 

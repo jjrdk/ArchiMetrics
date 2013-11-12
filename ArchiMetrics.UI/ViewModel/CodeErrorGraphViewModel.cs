@@ -34,7 +34,7 @@ namespace ArchiMetrics.UI.ViewModel
 			base.Update(forceUpdate);
 			if (forceUpdate)
 			{
-				var result = await _repository.GetErrorsAsync();
+				var result = await _repository.GetErrors();
 				DisplayErrors(result);
 			}
 		}

@@ -23,11 +23,10 @@ namespace ArchiMetrics.UI.ViewModel
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ICodeErrorRepository _repository;
-		private readonly object _syncLock = new object();
 		private int _brokenCode;
-		private ObservableCollection<EvaluationResult> _codeErrors;
 		private int _errorsShown;
 		private int _filesWithErrors;
+		private ObservableCollection<EvaluationResult> _codeErrors;
 
 		public CodeReviewViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
@@ -99,43 +98,29 @@ namespace ArchiMetrics.UI.ViewModel
 
 			private set
 			{
-				if (value != _codeErrors)
-				{
-					if (_codeErrors != null)
-					{
-						BindingOperations.DisableCollectionSynchronization(_codeErrors);
-					}
-
-					_codeErrors = value;
-					if (_codeErrors != null)
-					{
-						BindingOperations.EnableCollectionSynchronization(_codeErrors, _syncLock);
-					}
-
-					RaisePropertyChanged();
-				}
+				_codeErrors = value;
+				RaisePropertyChanged();
 			}
 		}
 
 		protected async override void Update(bool forceUpdate)
 		{
+			var newErrors = new ObservableCollection<EvaluationResult>();
 			try
 			{
 				ErrorsShown = 0;
 				CodeErrors.Clear();
 
-				var errors = await _repository.GetErrorsAsync(_config.Path, false);
-
+				var errors = await _repository.GetErrors(_config.Path);
 				var results = errors.Where(x => x.Title != "Multiple Asserts in Test" || x.ErrorCount != 1).ToArray();
 				foreach (var result in results)
 				{
-					CodeErrors.Add(result);
+					newErrors.Add(result);
 				}
 
-				ErrorsShown = CodeErrors.Count;
-				if (CodeErrors.Count == 0)
+				if (newErrors.Count == 0)
 				{
-					CodeErrors.Add(new EvaluationResult { Title = "No Errors", Quality = CodeQuality.Good });
+					newErrors.Add(new EvaluationResult { Title = "No Errors", Quality = CodeQuality.Good });
 				}
 
 				FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
@@ -144,22 +129,25 @@ namespace ArchiMetrics.UI.ViewModel
 					.Sum(x => (double)x.LinesOfCodeAffected)
 								   + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
 									   .Sum(x => x.LinesOfCodeAffected * .5)
-								   + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
+								   + results.Where(x => x.Quality == CodeQuality.NeedsRefactoring)
 									   .Sum(x => x.LinesOfCodeAffected * .2));
 			}
-			catch (AggregateException exception)
+			catch (Exception exception)
 			{
-				CodeErrors.Add(new EvaluationResult
-							   {
-								   Quality = CodeQuality.Broken, 
-								   Title = exception.Message, 
-								   Snippet = exception.StackTrace
-							   });
+				var result = new EvaluationResult
+									   {
+										   Quality = CodeQuality.Broken,
+										   Title = exception.Message,
+										   Snippet = exception.StackTrace
+									   };
+				newErrors.Add(result);
 				IsLoading = false;
 			}
 			finally
 			{
 				IsLoading = false;
+				CodeErrors = newErrors;
+				ErrorsShown = newErrors.Count;
 			}
 		}
 	}

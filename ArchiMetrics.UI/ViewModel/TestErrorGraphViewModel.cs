@@ -24,7 +24,7 @@ namespace ArchiMetrics.UI.ViewModel
 		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
-			repository.GetErrorsAsync()
+			repository.GetErrors()
 					  .ContinueWith(DisplayErrors);
 		}
 

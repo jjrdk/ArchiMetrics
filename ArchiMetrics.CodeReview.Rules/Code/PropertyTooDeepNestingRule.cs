@@ -23,5 +23,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.PropertyDeclaration;
 			}
 		}
+
+		protected override BlockSyntax GetBody(SyntaxNode node)
+		{
+			return null;
+		}
 	}
 }

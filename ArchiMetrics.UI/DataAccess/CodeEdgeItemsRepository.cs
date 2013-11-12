@@ -122,7 +122,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview()
 		{
-			var errors = await _codeErrorRepository.GetErrorsAsync();
+			var errors = await _codeErrorRepository.GetErrors();
 			var edges = await CreateEdges(errors);
 
 			return edges;

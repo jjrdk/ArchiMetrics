@@ -14,12 +14,12 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-[assembly: AssemblyTitle("ArchiCop")]
+[assembly: AssemblyTitle("ArchiMetrics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Reimers.dk")]
-[assembly: AssemblyProduct("ArchiCop")]
-[assembly: AssemblyCopyright("Copyright © Reimers.dk 2008")]
+[assembly: AssemblyProduct("ArchiMetrics")]
+[assembly: AssemblyCopyright("Copyright © Reimers.dk 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

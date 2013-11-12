@@ -23,5 +23,11 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.MethodDeclaration;
 			}
 		}
+
+		protected override BlockSyntax GetBody(SyntaxNode node)
+		{
+			var member = (MethodDeclarationSyntax)node;
+			return member.Body;
+		}
 	}
 }

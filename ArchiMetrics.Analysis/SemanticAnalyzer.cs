@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis
 
 		public IEnumerable<ParameterSyntax> GetUnusedParameters(BaseMethodDeclarationSyntax method)
 		{
-			if (method.ParameterList.Parameters.Count == 0)
+			if (method.ParameterList.Parameters.Count == 0 || method.Body == null)
 			{
 				return new ParameterSyntax[0];
 			}
@@ -60,6 +60,11 @@ namespace ArchiMetrics.Analysis
 
 		public bool CanBeMadeStatic(BaseMethodDeclarationSyntax method)
 		{
+			if (method.Body == null)
+			{
+				return false;
+			}
+
 			var bodyNodes = method.Body.ChildNodes();
 			var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
 			var hasThisReference = dataflow.DataFlowsIn

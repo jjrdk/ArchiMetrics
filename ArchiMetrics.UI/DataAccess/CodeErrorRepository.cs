@@ -28,7 +28,7 @@ namespace ArchiMetrics.UI.DataAccess
 	public class CodeErrorRepository : ICodeErrorRepository
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>> _edgeItems;
+		private readonly ConcurrentDictionary<string, EvaluationResult[]> _edgeItems;
 		private readonly INodeInspector _inspector;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
@@ -37,12 +37,12 @@ namespace ArchiMetrics.UI.DataAccess
 			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector)
 		{
-			_edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<EvaluationResult>>>();
+			_edgeItems = new ConcurrentDictionary<string, EvaluationResult[]>();
 			_config = config;
 			_solutionProvider = solutionProvider;
 			_inspector = inspector;
 			_config.PropertyChanged += ConfigPropertyChanged;
-			GetErrorsAsync();
+			GetErrors();
 		}
 
 		~CodeErrorRepository()
@@ -50,76 +50,33 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public async Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest)
+		public Task<IEnumerable<EvaluationResult>> GetErrors(string source)
 		{
 			if (string.IsNullOrWhiteSpace(source))
 			{
-				return Enumerable.Empty<EvaluationResult>();
+				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
 			}
 
-			var cachedEdges = _edgeItems.GetOrAdd(
-				source,
-				async path =>
+			return Task.Factory.StartNew(
+				() =>
 				{
-					var solution = _solutionProvider.Get(path);
-					var inspectionTasks = solution.Projects
-						.Select(
-							_ => new
-								 {
-									 solution = solution,
-									 project = _
-								 })
-						.SelectMany(
-							p => p.project.Documents
-									 .Distinct(DocumentComparer.Default)
-									 .Select(
-										 d => new
-											  {
-												  solution = p.solution,
-												  project = p.project,
-												  document = d
-											  })
-									 .Select(
-										 d => new
-											  {
-												  projectPath = d.project.FilePath,
-												  syntaxTree = d.document.GetSyntaxTree()
-																   .GetRoot() as SyntaxNode,
-												  solution = d.solution,
-												  semanticModel = d.document.GetSemanticModel()
-											  }))
-						.Where(n => n.syntaxTree != null)
-						.Select(t => _inspector.Inspect(source, t.syntaxTree, t.semanticModel, t.solution))
-						.ToArray();
-					if (inspectionTasks.Length == 0)
-					{
-						return Enumerable.Empty<EvaluationResult>();
-					}
+					var cachedEdges = _edgeItems.GetOrAdd(
+						source,
+						path =>
+						{
+							var loadTask = LoadEvaluationResults(path);
+							return loadTask.Result;
+						});
 
-					var results = await Task.WhenAll(inspectionTasks);
-					return results.SelectMany(x => x)
-							.Distinct(new ResultComparer())
-							.ToArray();
+					return cachedEdges.AsEnumerable();
 				});
-
-			return await cachedEdges;
 		}
 
-		public IEnumerable<EvaluationResult> GetErrors()
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<EvaluationResult> GetErrors(string obj0, bool isTest)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<EvaluationResult>> GetErrorsAsync()
+		public Task<IEnumerable<EvaluationResult>> GetErrors()
 		{
 			return string.IsNullOrWhiteSpace(_config.Path)
 								  ? Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable())
-								  : GetErrorsAsync(_config.Path, false);
+								  : GetErrors(_config.Path);
 		}
 
 		public void Dispose()
@@ -132,17 +89,53 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			if (isDisposing)
 			{
-				var tasks = _edgeItems.Values.ToArray();
-				foreach (var task in tasks)
-				{
-					task.Dispose();
-				}
-
 				_edgeItems.Clear();
-
-				// Dispose of any managed resources here. If this class contains unmanaged resources, dispose of them outside of this block. If this class derives from an IDisposable class, wrap everything you do in this method in a try-finally and call base.Dispose in the finally.
 				_config.PropertyChanged -= ConfigPropertyChanged;
 			}
+		}
+
+		private async Task<EvaluationResult[]> LoadEvaluationResults(string path)
+		{
+			var solution = _solutionProvider.Get(path);
+			var inspectionTasks = solution.Projects
+				.Select(
+					_ => new
+						 {
+							 solution = solution,
+							 project = _
+						 })
+				.SelectMany(
+					p => p.project.Documents
+							 .Distinct(DocumentComparer.Default)
+							 .Select(
+								 d => new
+									  {
+										  solution = p.solution,
+										  project = p.project,
+										  document = d
+									  })
+							 .Select(
+								 d => new
+									  {
+										  projectPath = d.project.FilePath,
+										  syntaxTree = d.document.GetSyntaxTree()
+														   .GetRoot() as SyntaxNode,
+										  solution = d.solution,
+										  semanticModel = d.document.GetSemanticModel()
+									  }))
+				.Where(n => n.syntaxTree != null)
+				.AsParallel()
+				.Select(t => _inspector.Inspect(t.projectPath, t.syntaxTree, t.semanticModel, t.solution))
+				.ToArray();
+			if (inspectionTasks.Length == 0)
+			{
+				return new EvaluationResult[0];
+			}
+
+			var results = await Task.WhenAll(inspectionTasks);
+			return results.SelectMany(x => x)
+				.Distinct(new ResultComparer())
+				.ToArray();
 		}
 
 		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -152,7 +145,7 @@ namespace ArchiMetrics.UI.DataAccess
 				return;
 			}
 
-			GetErrorsAsync();
+			GetErrors();
 		}
 	}
 }

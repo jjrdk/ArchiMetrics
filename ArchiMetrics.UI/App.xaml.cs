@@ -71,15 +71,7 @@ namespace ArchiMetrics.UI
 				   .SingleInstance();
 			var config = new SolutionEdgeItemsRepositoryConfig();
 			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
-			foreach (var type in typeof(ReportUtils).Assembly
-													   .GetTypes()
-													   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
-													   .Where(t => !t.IsInterface && !t.IsAbstract))
-			{
-				builder.RegisterType(type)
-					   .As<ICodeEvaluation>();
-			}
-
+			
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
 				var affStream = new MemoryStream();
@@ -89,9 +81,9 @@ namespace ArchiMetrics.UI
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
 
-			foreach (var type in typeof(IEvaluation).Assembly
+			foreach (var type in typeof(ReportUtils).Assembly
 												   .GetTypes()
-												   .Where(t => typeof(IEvaluation).IsAssignableFrom(t))
+												   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
 												   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type).As<IEvaluation>();
@@ -99,51 +91,26 @@ namespace ArchiMetrics.UI
 
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>();
-			builder.RegisterType<CodeMetricsCalculator>()
-				   .As<ICodeMetricsCalculator>();
-			builder.RegisterType<NodeReviewer>()
-				   .As<INodeInspector>();
+			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
+			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			var vertexRuleRepository = new VertexRuleRepository();
-			builder.RegisterInstance(new PathFilter(x => true))
-				   .As<PathFilter>();
-			builder.RegisterType<SolutionProvider>()
-				   .As<IProvider<string, ISolution>>();
-			builder.RegisterType<ProjectProvider>()
-				   .As<IProvider<string, IProject>>();
-			builder.RegisterType<CodeErrorRepository>()
-				   .As<ICodeErrorRepository>();
-			builder.RegisterType<AggregateEdgeItemsRepository>()
-				   .As<IEdgeItemsRepository>();
+			builder.RegisterInstance(new PathFilter(x => true)).As<PathFilter>();
+			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>();
+			builder.RegisterType<ProjectProvider>().As<IProvider<string, IProject>>();
+			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>();
+			builder.RegisterType<AggregateEdgeItemsRepository>().As<IEdgeItemsRepository>();
 			builder.RegisterInstance<IVertexRuleRepository>(vertexRuleRepository);
 			builder.RegisterInstance<IVertexRuleDefinition>(vertexRuleRepository);
-			builder.RegisterType<EdgeTransformer>()
-				   .As<IEdgeTransformer>();
-			builder.RegisterType<RequirementTestAnalyzer>()
-				   .As<IRequirementTestAnalyzer>();
-			builder.RegisterType<EdgesViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<CircularReferenceViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<CodeErrorGraphViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<CodeReviewViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<GraphViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<RequirementGraphViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<TestErrorGraphViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
-			builder.RegisterType<SettingsViewModel>()
-				   .As<ViewModelBase>()
-				   .AsSelf();
+			builder.RegisterType<EdgeTransformer>().As<IEdgeTransformer>();
+			builder.RegisterType<RequirementTestAnalyzer>().As<IRequirementTestAnalyzer>();
+			builder.RegisterType<EdgesViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<CircularReferenceViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<CodeErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<CodeReviewViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<GraphViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<RequirementGraphViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf();
 			var container = builder.Build();
 
 			return container;

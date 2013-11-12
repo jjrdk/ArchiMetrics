@@ -18,12 +18,8 @@ namespace ArchiMetrics.Common.CodeReview
 
 	public interface ICodeErrorRepository : IDisposable
 	{
-		Task<IEnumerable<EvaluationResult>> GetErrorsAsync();
+		Task<IEnumerable<EvaluationResult>> GetErrors();
 
-		Task<IEnumerable<EvaluationResult>> GetErrorsAsync(string source, bool isTest);
-
-		IEnumerable<EvaluationResult> GetErrors();
-
-		IEnumerable<EvaluationResult> GetErrors(string source, bool isTest);
+		Task<IEnumerable<EvaluationResult>> GetErrors(string s);
 	}
 }

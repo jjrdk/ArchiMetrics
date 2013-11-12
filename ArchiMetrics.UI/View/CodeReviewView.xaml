@@ -51,12 +51,16 @@
 			<DataGrid.Columns>
 				<!--<DataGridTextColumn Header="Quality"
 									Binding="{Binding Path=Quality}" />-->
+				<DataGridTextColumn Header="Finding"
+									Binding="{Binding Path=Title}" />
 				<DataGridTextColumn Header="Comment"
-									Binding="{Binding Path=Comment}" />
+									Binding="{Binding Path=Suggestion}" />
 				<DataGridTextColumn Header="LoC"
 									Binding="{Binding Path=LinesOfCodeAffected}" />
 				<DataGridTextColumn Header="Snippet"
 									Binding="{Binding Path=Snippet}" />
+				<DataGridTextColumn Header="Namespace"
+									Binding="{Binding Path=Namespace}" />
 				<DataGridTextColumn Header="File"
 									Binding="{Binding Path=FilePath}" />
 				<DataGridTextColumn Header="Project"
