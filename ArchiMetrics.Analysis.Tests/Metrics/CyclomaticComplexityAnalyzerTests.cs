@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CyclomaticComplexityAnalyzerTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -117,12 +117,12 @@ namespace MyNs
 			public void MethodHasExpectedComplexity(string method, int expectedComplexity)
 			{
 				var tree = SyntaxTree.ParseText(method);
-				var compilation = Compilation.Create("x",
+				var compilation = Compilation.Create(
+					"x",
 					syntaxTrees: new[] { tree },
 					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
 					options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
-				//var diagnostics = compilation.GetDiagnostics().ToArray();
-				//var l = diagnostics.Length;
+				
 				var model = compilation.GetSemanticModel(tree);
 				var syntaxNode = tree
 					.GetRoot()

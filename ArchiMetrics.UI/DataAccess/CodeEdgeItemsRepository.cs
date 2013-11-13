@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CodeEdgeItemsRepository.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -18,7 +18,6 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
@@ -66,7 +65,7 @@ namespace ArchiMetrics.UI.DataAccess
 			string dependency, 
 			string projectPath, 
 			CodeMetrics dependantMetrics, 
-			ProjectCodeMetrics dependencyMetrics, 
+			CodeMetrics dependencyMetrics, 
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new MetricsEdgeItem
@@ -123,7 +122,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview()
 		{
-			var errors = await _codeErrorRepository.GetErrorsAsync();
+			var errors = await _codeErrorRepository.GetErrors();
 			var edges = await CreateEdges(errors);
 
 			return edges;

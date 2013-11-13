@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
     <Compile Include="Code\NoUnsafeCodeRule.cs" />
+    <Compile Include="Code\MethodTooDeepNestingRule.cs" />
+    <Compile Include="Code\PropertyTooDeepNestingRule.cs" />
+    <Compile Include="Code\TooDeepNestingRuleBase.cs" />
     <Compile Include="Semantic\PossibleStaticMethod.cs" />
     <Compile Include="Semantic\SemanticEvaluationBase.cs" />
     <Compile Include="Semantic\TooLowMaintainabilityIndexRule.cs" />
@@ -121,6 +124,8 @@
     <Compile Include="Code\VarDeclarationForNewVariableErrorRule.cs" />
     <Compile Include="Code\WhileLoopSleepErrorRule.cs" />
     <Compile Include="Semantic\LackOfCohesionOfMethodsRule.cs" />
+    <Compile Include="Semantic\UnreadValueRule.cs" />
+    <Compile Include="Semantic\UnreadVariableRule.cs" />
     <Compile Include="Semantic\UnusedCodeRule.cs" />
     <Compile Include="Semantic\UnusedEventRule.cs" />
     <Compile Include="Semantic\UnreadFieldRule.cs" />
@@ -149,12 +154,11 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(ProjectDir)\..\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

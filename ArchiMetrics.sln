@@ -23,11 +23,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Common.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis", "ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
 		ArchiMetrics.Analysis.nuspec = ArchiMetrics.Analysis.nuspec
 		build.ps1 = build.ps1
 		psake.psm1 = psake.psm1
+		SolutionSettings.StyleCop = SolutionSettings.StyleCop
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject

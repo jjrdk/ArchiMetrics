@@ -1,8 +1,19 @@
-using System.Diagnostics.CodeAnalysis;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SemanticAnalyzer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SemanticAnalyzer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.Analysis
 {
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
@@ -18,7 +29,7 @@ namespace ArchiMetrics.Analysis
 
 		public IEnumerable<ParameterSyntax> GetUnusedParameters(BaseMethodDeclarationSyntax method)
 		{
-			if (method.ParameterList.Parameters.Count == 0)
+			if (method.ParameterList.Parameters.Count == 0 || method.Body == null)
 			{
 				return new ParameterSyntax[0];
 			}
@@ -49,6 +60,11 @@ namespace ArchiMetrics.Analysis
 
 		public bool CanBeMadeStatic(BaseMethodDeclarationSyntax method)
 		{
+			if (method.Body == null)
+			{
+				return false;
+			}
+
 			var bodyNodes = method.Body.ChildNodes();
 			var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
 			var hasThisReference = dataflow.DataFlowsIn

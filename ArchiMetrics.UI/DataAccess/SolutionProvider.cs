@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SolutionProvider.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -43,7 +43,6 @@ namespace ArchiMetrics.UI.DataAccess
 		public IEnumerable<ISolution> GetAll(string key)
 		{
 			return from file in Directory.GetFiles(key, "*.sln", SearchOption.AllDirectories)
-				   where IsValid(file)
 				   let s = Get(file)
 				   where s != null
 				   select s;
@@ -65,12 +64,6 @@ namespace ArchiMetrics.UI.DataAccess
 					_cache = null;
 				}
 			}
-		}
-
-		private bool IsValid(string source)
-		{
-			return source.IndexOf("QuickStart", StringComparison.OrdinalIgnoreCase) == -1
-			&& source.IndexOf("Demo", StringComparison.OrdinalIgnoreCase) == -1;
 		}
 	}
 }

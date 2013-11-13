@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MethodLocalVariablesAnalyzer.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -26,7 +26,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int Calculate(CommonSyntaxNode memberNode)
 		{
-			//////Verify.NotNull<CommonSyntaxNode>(Expression.Lambda<Func<CommonSyntaxNode>>(Expression.Constant(memberNode), new ParameterExpression[0]), (string)null);
 			var node = memberNode as SyntaxNode;
 			if (node != null)
 			{

@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProjectProvider.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -54,7 +54,6 @@ namespace ArchiMetrics.Common
 			}
 
 			return from file in Directory.GetFiles(key, "*.csproj", SearchOption.AllDirectories)
-				   where IsValid(file)
 				   let p = Get(file)
 				   where p != null
 				   select p;
@@ -71,12 +70,6 @@ namespace ArchiMetrics.Common
 			if (isDisposing)
 			{
 			}
-		}
-
-		private bool IsValid(string source)
-		{
-			return source.IndexOf("QuickStart", StringComparison.OrdinalIgnoreCase) == -1
-			&& source.IndexOf("Demo", StringComparison.OrdinalIgnoreCase) == -1;
 		}
 	}
 }

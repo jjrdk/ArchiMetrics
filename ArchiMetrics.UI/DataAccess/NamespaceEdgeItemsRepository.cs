@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="NamespaceEdgeItemsRepository.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -62,11 +62,8 @@ namespace ArchiMetrics.UI.DataAccess
 			return _namespaceReferences.GetOrAdd(
 				_config.Path, 
 				path => Task.Factory.StartNew(
-					() => Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories)
-								   .Select(_solutionProvider.Get)
-								   .SelectMany(s => s.Projects)
-								   .ToArray()
-								   .Distinct(ProjectComparer.Default)
+					() => _solutionProvider.Get(path)
+								   .Projects
 								   .SelectMany(p => p.Documents)
 								   .Distinct(DocumentComparer.Default)
 								   .Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)

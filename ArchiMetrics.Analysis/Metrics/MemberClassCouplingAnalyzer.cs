@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MemberClassCouplingAnalyzer.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -132,6 +132,11 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void CollectMemberCouplings(SyntaxNode syntax)
 		{
+			if (syntax == null)
+			{
+				return;
+			}
+
 			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax)
 				.Union(GetMemberCouplings<IdentifierNameSyntax>(syntax))
 				.Where(x => x.Kind == CommonSymbolKind.Method || x.Kind == CommonSymbolKind.Property || x.Kind == CommonSymbolKind.Event)
@@ -150,7 +155,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Select(r =>
 						new
 							{
-								node = r, 
+								node = r,
 								model = SemanticModel
 							})
 				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)

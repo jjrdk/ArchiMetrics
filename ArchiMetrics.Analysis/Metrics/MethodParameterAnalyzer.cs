@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MethodParameterAnalyzer.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -17,7 +17,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MethodParameterAnalyzer : SyntaxWalker
 	{
-		private int numParameters;
+		private int _numberOfParameters;
 
 		public MethodParameterAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
@@ -32,13 +32,13 @@ namespace ArchiMetrics.Analysis.Metrics
 				Visit(node);
 			}
 
-			return numParameters;
+			return _numberOfParameters;
 		}
 
 		public override void VisitParameter(ParameterSyntax node)
 		{
 			base.VisitParameter(node);
-			numParameters++;
+			_numberOfParameters++;
 		}
 	}
 }

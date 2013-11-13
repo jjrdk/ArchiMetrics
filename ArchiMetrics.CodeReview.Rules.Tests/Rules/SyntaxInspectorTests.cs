@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SyntaxInspectorTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -180,10 +180,6 @@ private void SomeMethod()
 				}
 			}
 		}", typeof(TooHighCyclomaticComplexityRule))]
-//			[TestCase(@"private void SomeMethod(MyClass x)
-//        {
-//			var value = FirstLevel.SecondLevel.ThirdLevelMethod();
-//		}", typeof(LawOfDemeterViolationRule))]
 			[TestCase(@"private void SomeMethod(MyClass x)
         {
 			object value = null;
@@ -312,11 +308,62 @@ private void SomeMethod()
 				this.field = field;
 			}
 		}", typeof(VariableNameShouldNotMatchFieldNameRule))]
+			[TestCase(@"private void MyMethod(int x)
+{
+	if(DateTime.Now.Millisecond == 100)
+	{
+		switch(x)
+		{
+			case 1:
+			case 2:
+				{
+					if(x == 1)
+					{
+						Console.WriteLine(""Hello"");
+					}
+					else
+					{
+						Console.WriteLine(""World"");
+					}
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}", typeof(MethodTooDeepNestingRule))]
+			[TestCase(@"private int MyProperty
+{
+	get
+	{
+		if(DateTime.Now.Millisecond == 100)
+		{
+			switch(value)
+			{
+				case 1:
+				case 2:
+					{
+						if(value == 1)
+						{
+							return 10
+						}
+						else
+						{
+							return 3
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
+}", typeof(PropertyTooDeepNestingRule))]
 			public void SyntaxDetectionTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);
 				var count = task.Result.Count();
-
+				
 				Assert.AreEqual(1, count);
 			}
 		}
@@ -414,6 +461,14 @@ private void SomeMethod()
 				this.field = value;
 			}
 		}", typeof(VariableNameShouldNotMatchFieldNameRule))]
+			[TestCase(@"public class InnerClass
+		{
+			private int field = 0;
+			public void AssignMethod(int value)
+			{
+				this.field = value;
+			}
+		}", typeof(MethodTooDeepNestingRule))]
 			public void NegativeTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);

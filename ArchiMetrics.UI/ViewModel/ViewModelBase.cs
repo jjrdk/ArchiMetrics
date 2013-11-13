@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ViewModelBase.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -116,7 +116,7 @@ namespace ArchiMetrics.UI.ViewModel
 			RaisePropertyChanged(e);
 		}
 
-		[SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Event invocation methd.")]
+		[SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Event invocation method.")]
 		protected void RaisePropertyChanged(PropertyChangedEventArgs args)
 		{
 			var handler = PropertyChanged;

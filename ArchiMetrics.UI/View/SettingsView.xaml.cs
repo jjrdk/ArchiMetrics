@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SettingsView.xaml.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -32,11 +32,13 @@ namespace ArchiMetrics.UI.View
 
 		private void OnClick(object sender, RoutedEventArgs e)
 		{
-			using (var directoryOpener = new FolderBrowserDialog())
+			using (var fileDialog = new OpenFileDialog())
 			{
-				if (directoryOpener.ShowDialog() == DialogResult.OK)
+				fileDialog.Multiselect = false;
+				fileDialog.Filter = "Solution Files (*.sln)|*.sln|All Files (*.*)|*.*";
+				if (fileDialog.ShowDialog() == DialogResult.OK)
 				{
-					PathBox.SetValue(TextBlock.TextProperty, directoryOpener.SelectedPath);
+					PathBox.SetValue(TextBlock.TextProperty, fileDialog.FileName);
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CyclomaticComplexityCounter.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2012
+//   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -90,24 +90,24 @@ namespace ArchiMetrics.Analysis.Metrics
 				_counter++;
 			}
 
-			public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-			{
-				if (_semanticModel != null)
-				{
-					var symbol = _semanticModel.GetSymbolInfo(node).Symbol;
-					if (symbol != null)
-					{
-						switch (symbol.Kind)
-						{
-							case CommonSymbolKind.Method:
-								var returnType = ((IMethodSymbol)symbol).ReturnType;
-								Console.WriteLine(returnType.ToDisplayString());
-								break;
-						}
-					}
-				}
-				base.VisitInvocationExpression(node);
-			}
+			////public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+			////{
+			////	if (_semanticModel != null)
+			////	{
+			////		var symbol = _semanticModel.GetSymbolInfo(node).Symbol;
+			////		if (symbol != null)
+			////		{
+			////			switch (symbol.Kind)
+			////			{
+			////				case CommonSymbolKind.Method:
+			////					var returnType = ((IMethodSymbol)symbol).ReturnType;
+			////					break;
+			////			}
+			////		}
+			////	}
+
+			////	base.VisitInvocationExpression(node);
+			////}
 
 			public override void VisitArgument(ArgumentSyntax node)
 			{
@@ -118,12 +118,14 @@ namespace ArchiMetrics.Analysis.Metrics
 							var lambda = (ParenthesizedLambdaExpressionSyntax)node.Expression;
 							Visit(lambda.Body);
 						}
+
 						break;
 					case SyntaxKind.SimpleLambdaExpression:
 						{
 							var lambda = (SimpleLambdaExpressionSyntax)node.Expression;
 							Visit(lambda.Body);
 						}
+
 						break;
 				}
 

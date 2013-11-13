@@ -115,8 +115,7 @@ namespace ArchiMetrics.Analysis
 
 		private static IEnumerable<INamespaceMetric> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
 		{
-			var metrics = namespaceDeclarations.Select(declaration => declaration)
-											   .Select(
+			var metrics = namespaceDeclarations.Select(
 												   arg =>
 												   {
 													   var tuple = CalculateTypeMetrics(compilation, arg);
@@ -319,6 +318,7 @@ namespace ArchiMetrics.Analysis
 							{
 								return p;
 							}
+
 							var filepath = Path.Combine(root, s);
 							var sourceCode = s.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)
 								? _converter.Convert(filepath)

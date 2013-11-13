@@ -99,7 +99,7 @@
     <Compile Include="Metrics\SyntaxMetricsCalculator.cs" />
     <Compile Include="Metrics\TypeClassCouplingAnalyzer.cs" />
     <Compile Include="Metrics\TypeCollector.cs" />
-    <Compile Include="Metrics\TypeCouplingComparer.cs" />
+    <Compile Include="Metrics\ComparableComparer.cs" />
     <Compile Include="Metrics\TypeDeclaration.cs" />
     <Compile Include="Metrics\TypeMetric.cs" />
     <Compile Include="Metrics\TypeMetricsCalculator.cs" />
