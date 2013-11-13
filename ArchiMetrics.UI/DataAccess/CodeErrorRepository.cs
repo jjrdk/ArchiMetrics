@@ -10,13 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Threading;
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.ComponentModel;
-	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
@@ -28,7 +29,7 @@ namespace ArchiMetrics.UI.DataAccess
 	public class CodeErrorRepository : ICodeErrorRepository
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly ConcurrentDictionary<string, EvaluationResult[]> _edgeItems;
+		private readonly ConcurrentDictionary<string, Lazy<EvaluationResult[]>> _edgeItems;
 		private readonly INodeInspector _inspector;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
@@ -37,7 +38,7 @@ namespace ArchiMetrics.UI.DataAccess
 			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector)
 		{
-			_edgeItems = new ConcurrentDictionary<string, EvaluationResult[]>();
+			_edgeItems = new ConcurrentDictionary<string, Lazy<EvaluationResult[]>>();
 			_config = config;
 			_solutionProvider = solutionProvider;
 			_inspector = inspector;
@@ -64,19 +65,19 @@ namespace ArchiMetrics.UI.DataAccess
 						source,
 						path =>
 						{
-							var loadTask = LoadEvaluationResults(path);
-							return loadTask.Result;
+							var loadTask = new Lazy<EvaluationResult[]>(() => LoadEvaluationResults(path), LazyThreadSafetyMode.ExecutionAndPublication);
+							return loadTask;
 						});
 
-					return cachedEdges.AsEnumerable();
+					return cachedEdges.Value.AsEnumerable();
 				});
 		}
 
 		public Task<IEnumerable<EvaluationResult>> GetErrors()
 		{
-			return string.IsNullOrWhiteSpace(_config.Path)
-								  ? Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable())
-								  : GetErrors(_config.Path);
+			return _config.IncludeCodeReview && !string.IsNullOrWhiteSpace(_config.Path)
+								  ? GetErrors(_config.Path)
+								  : Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable());
 		}
 
 		public void Dispose()
@@ -94,7 +95,7 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		private async Task<EvaluationResult[]> LoadEvaluationResults(string path)
+		private EvaluationResult[] LoadEvaluationResults(string path)
 		{
 			var solution = _solutionProvider.Get(path);
 			var inspectionTasks = solution.Projects
@@ -105,26 +106,30 @@ namespace ArchiMetrics.UI.DataAccess
 							 project = _
 						 })
 				.SelectMany(
-					p => p.project.Documents
-							 .Distinct(DocumentComparer.Default)
-							 .Select(
-								 d => new
-									  {
-										  solution = p.solution,
-										  project = p.project,
-										  document = d
-									  })
-							 .Select(
-								 d => new
-									  {
-										  projectPath = d.project.FilePath,
-										  syntaxTree = d.document.GetSyntaxTree()
-														   .GetRoot() as SyntaxNode,
-										  solution = d.solution,
-										  semanticModel = d.document.GetSemanticModel()
-									  }))
+					p =>
+					{
+						var compilation = p.project.GetCompilation();
+						var nodes = p.project.Documents
+							.Distinct(DocumentComparer.Default)
+							.Select(d => d.GetSyntaxTree())
+							.Select(
+								d => new
+								{
+									solution = p.solution,
+									project = p.project,
+									tree = d
+								})
+							.Select(d =>
+								new
+								{
+									projectPath = p.project.FilePath,
+									syntaxTree = d.tree.GetRoot() as SyntaxNode,
+									solution = p.solution,
+									semanticModel = compilation.GetSemanticModel(d.tree)
+								});
+						return nodes;
+					})
 				.Where(n => n.syntaxTree != null)
-				.AsParallel()
 				.Select(t => _inspector.Inspect(t.projectPath, t.syntaxTree, t.semanticModel, t.solution))
 				.ToArray();
 			if (inspectionTasks.Length == 0)
@@ -132,8 +137,9 @@ namespace ArchiMetrics.UI.DataAccess
 				return new EvaluationResult[0];
 			}
 
-			var results = await Task.WhenAll(inspectionTasks);
-			return results.SelectMany(x => x)
+			Task.WaitAll(inspectionTasks);
+
+			return inspectionTasks.SelectMany(x => x.Result)
 				.Distinct(new ResultComparer())
 				.ToArray();
 		}

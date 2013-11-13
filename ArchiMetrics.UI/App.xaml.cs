@@ -95,10 +95,10 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			var vertexRuleRepository = new VertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true)).As<PathFilter>();
-			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>();
-			builder.RegisterType<ProjectProvider>().As<IProvider<string, IProject>>();
-			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>();
-			builder.RegisterType<AggregateEdgeItemsRepository>().As<IEdgeItemsRepository>();
+			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
+			builder.RegisterType<ProjectProvider>().As<IProvider<string, IProject>>().SingleInstance();
+			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().SingleInstance();
+			builder.RegisterType<AggregateEdgeItemsRepository>().As<IEdgeItemsRepository>().SingleInstance();
 			builder.RegisterInstance<IVertexRuleRepository>(vertexRuleRepository);
 			builder.RegisterInstance<IVertexRuleDefinition>(vertexRuleRepository);
 			builder.RegisterType<EdgeTransformer>().As<IEdgeTransformer>();

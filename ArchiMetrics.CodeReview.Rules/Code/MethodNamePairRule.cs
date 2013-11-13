@@ -72,8 +72,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var methodName = method.Identifier.ValueText;
 			if (methodName.StartsWith(start, StringComparison.InvariantCultureIgnoreCase))
 			{
-				var parentClass = FindClassParent(method);
 				var pairMethodName = Regex.Replace(methodName, "^" + start, match);
+				var parentClass = FindClassParent(method);
+				if (parentClass == null)
+				{
+					return true;
+				}
+
 				return parentClass
 					.ChildNodes()
 					.OfType<MethodDeclarationSyntax>()

@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ArchiMetrics.Common;
-
 namespace ArchiMetrics.Analysis
 {
 	using System.Collections.Generic;
@@ -50,9 +48,13 @@ namespace ArchiMetrics.Analysis
 		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<EdgeItemBase> items)
 		{
 			var edgeItems = items.WhereNotNull().ToArray();
-			return Task.Factory.StartNew(() => edgeItems.SelectMany(e => GetDependencyChain(new DependencyChain(Enumerable.Empty<MetricsEdgeItem>(), e, e), edgeItems))
-				.Where(c => c.IsCircular)
-				.Distinct());
+			return Task.Factory.StartNew(
+				() => edgeItems
+					.AsParallel()
+					.SelectMany(e => GetDependencyChain(new DependencyChain(Enumerable.Empty<MetricsEdgeItem>(), e, e), edgeItems))
+					.Where(c => c.IsCircular)
+					.AsSequential()
+					.Distinct());
 		}
 
 		public static async Task<IEnumerable<TypeDefinition>> GetUsedTypes(IDocument document)

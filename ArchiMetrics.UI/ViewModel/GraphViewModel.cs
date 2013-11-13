@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -75,28 +77,28 @@ namespace ArchiMetrics.UI.ViewModel
 			var nonEmptySourceItems = (await _filter.TransformAsync(_allMetricsEdges))
 				.ToArray();
 
-			var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems))
-				.ToArray();
+			//var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems))
+			//	.ToArray();
 
 			var projectVertices = nonEmptySourceItems
 				.SelectMany(item =>
-					{
-						var isCircular = circularReferences.Any(c => c.Contains(item));
-						return CreateVertices(item, isCircular);
-					})
+				{
+					var isCircular = false; // circularReferences.Any(c => c.Contains(item));
+					return CreateVertices(item, isCircular);
+				})
 				.GroupBy(v => v.Name)
 				.Select(grouping => grouping.First())
 				.ToArray();
 
 			var edges =
 				nonEmptySourceItems
-				.Where(e => !string.IsNullOrWhiteSpace(e.Dependency))
-				.Select(
-					dependencyItemViewModel =>
-					new ProjectEdge(
-						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant), 
-						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
-								   .Where(e => e.Target.Name != e.Source.Name);
+					.Where(e => !string.IsNullOrWhiteSpace(e.Dependency))
+					.Select(
+						dependencyItemViewModel =>
+							new ProjectEdge(
+								projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
+								projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
+					.Where(e => e.Target.Name != e.Source.Name);
 			var g = new ProjectGraph();
 
 			foreach (var vertex in projectVertices)

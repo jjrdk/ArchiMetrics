@@ -31,32 +31,34 @@ namespace ArchiMetrics.Analysis
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public async virtual Task<IEnumerable<EvaluationResult>> Inspect(
+		public virtual Task<IEnumerable<EvaluationResult>> Inspect(
 			string projectPath,
 			SyntaxNode node,
 			ISemanticModel semanticModel,
 			ISolution solution)
 		{
-			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
-			inspector.Visit(node);
-			var inspectionResults = await inspector.GetResults();
-			foreach (var result in inspectionResults.Where(x => x != null))
+			return Task.Factory.StartNew(() =>
 			{
-				result.ProjectPath = projectPath;
-			}
+				using (var inspector = new InnerInspector(_evaluations, semanticModel, solution))
+				{
+					inspector.Visit(node);
+					var inspectionResults = inspector.GetResults();
+					foreach (var result in inspectionResults.Where(x => x != null))
+					{
+						result.ProjectPath = projectPath;
+					}
 
-			var returnValue = inspectionResults.ToArray();
-			inspector.Dispose();
-			return returnValue.AsEnumerable();
+					return inspectionResults.AsEnumerable();
+				}
+			});
 		}
 
 		private class InnerInspector : SyntaxWalker, IDisposable
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
-			private readonly ConcurrentQueue<Task> _inspectionTasks = new ConcurrentQueue<Task>();
-			private readonly ConcurrentBag<EvaluationResult> _inspectionResults = new ConcurrentBag<EvaluationResult>();
 			private readonly ISemanticModel _model;
 			private readonly ISolution _solution;
+			private ConcurrentBag<EvaluationResult> _inspectionResults = new ConcurrentBag<EvaluationResult>();
 
 			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, ISemanticModel model, ISolution solution)
 				: base(SyntaxWalkerDepth.Trivia)
@@ -85,15 +87,10 @@ namespace ArchiMetrics.Analysis
 					var codeResults = GetCodeEvaluations(node, nodeEvaluations);
 					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations, _model, _solution);
 
-					var continuation = Task.WhenAll(codeResults, semmanticResults).ContinueWith(t =>
+					foreach (var source in codeResults.Concat(semmanticResults))
 					{
-						foreach (var source in t.Result.SelectMany(x => x).ToArray())
-						{
-							_inspectionResults.Add(source);
-						}
-					});
-
-					_inspectionTasks.Enqueue(continuation);
+						_inspectionResults.Add(source);
+					}
 				}
 
 				base.Visit(node);
@@ -104,144 +101,116 @@ namespace ArchiMetrics.Analysis
 				if (_evaluations.ContainsKey(trivia.Kind))
 				{
 					var nodeEvaluations = _evaluations[trivia.Kind];
-					var task = GetTriviaEvaluations(trivia, nodeEvaluations)
-						.ContinueWith(
-							t =>
-							{
-								foreach (var result in t.Result)
-								{
-									_inspectionResults.Add(result);
-								}
-							});
-
-					_inspectionTasks.Enqueue(task);
+					var results = GetTriviaEvaluations(trivia, nodeEvaluations);
+					foreach (var result in results)
+					{
+						_inspectionResults.Add(result);
+					}
 				}
 
 				base.VisitTrivia(trivia);
 			}
 
-			public async Task<EvaluationResult[]> GetResults()
+			public EvaluationResult[] GetResults()
 			{
-				await Task.WhenAll(_inspectionTasks);
 				var results = _inspectionResults.Where(x => x != null).ToArray();
-				while (_inspectionTasks.Count > 0)
-				{
-					Task t;
-					_inspectionTasks.TryDequeue(out t);
-					t.Dispose();
-				}
 
 				return results;
 			}
 
-			private static Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
+			private static IEnumerable<EvaluationResult> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
 			{
-				return Task.Factory.StartNew(
-					() =>
-					{
-						var results = nodeEvaluations
-							.OfType<ITriviaEvaluation>()
-							.Select(
-								x =>
-								{
-									try
-									{
-										return x.Evaluate(trivia);
-									}
-									catch (Exception ex)
-									{
-										return new EvaluationResult
-											   {
-												   Title = ex.Message,
-												   Suggestion = ex.StackTrace,
-												   ErrorCount = 1,
-												   Snippet = trivia.ToFullString(),
-												   Quality = CodeQuality.Broken
-											   };
-									}
-								})
-							.Where(x => x != null && x.Quality != CodeQuality.Good)
-							.ToArray();
-						return results.AsEnumerable();
-					});
-			}
-
-			private static Task<IEnumerable<EvaluationResult>> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
-			{
-				return Task.Factory.StartNew(() =>
-					{
-						var results = nodeEvaluations
-							.OfType<ICodeEvaluation>()
-							.Select(x =>
-								{
-									try
-									{
-										return x.Evaluate(node);
-									}
-									catch (Exception ex)
-									{
-										return new EvaluationResult
-												   {
-													   Title = ex.Message,
-													   Suggestion = ex.StackTrace,
-													   ErrorCount = 1,
-													   Snippet = node.ToFullString(),
-													   Quality = CodeQuality.Broken
-												   };
-									}
-								})
-							.Where(x => x != null && x.Quality != CodeQuality.Good)
-							.ToArray()
-							.AsEnumerable();
-						return results;
-					});
-			}
-
-			private static Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
-			{
-				return Task.Factory.StartNew(() =>
-					{
-						if (model == null || solution == null)
+				var results = nodeEvaluations
+					.OfType<ITriviaEvaluation>()
+					.Select(
+						x =>
 						{
-							return Enumerable.Empty<EvaluationResult>();
-						}
+							try
+							{
+								return x.Evaluate(trivia);
+							}
+							catch (Exception ex)
+							{
+								return new EvaluationResult
+									   {
+										   Title = ex.Message,
+										   Suggestion = ex.StackTrace,
+										   ErrorCount = 1,
+										   Snippet = trivia.ToFullString(),
+										   Quality = CodeQuality.Broken
+									   };
+							}
+						})
+					.Where(x => x != null && x.Quality != CodeQuality.Good)
+					.ToArray();
+				return results;
+			}
 
-						var results = nodeEvaluations
-							.OfType<ISemanticEvaluation>()
-							.Select(x =>
-								{
-									try
-									{
-										return x.Evaluate(node, model, solution);
-									}
-									catch (Exception ex)
-									{
-										return new EvaluationResult
-												   {
-													   Title = ex.Message,
-													   Suggestion = ex.StackTrace,
-													   ErrorCount = 1,
-													   Snippet = node.ToFullString(),
-													   Quality = CodeQuality.Broken
-												   };
-									}
-								})
-							.Where(x => x != null && x.Quality != CodeQuality.Good)
-							.ToArray();
-						return results;
-					});
+			private static IEnumerable<EvaluationResult> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
+			{
+				var results = nodeEvaluations
+					.OfType<ICodeEvaluation>()
+					.Select(x =>
+					{
+						try
+						{
+							return x.Evaluate(node);
+						}
+						catch (Exception ex)
+						{
+							return new EvaluationResult
+							{
+								Title = ex.Message,
+								Suggestion = ex.StackTrace,
+								ErrorCount = 1,
+								Snippet = node.ToFullString(),
+								Quality = CodeQuality.Broken
+							};
+						}
+					})
+					.Where(x => x != null && x.Quality != CodeQuality.Good)
+					.ToArray();
+				return results;
+			}
+
+			private static IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			{
+				if (model == null || solution == null)
+				{
+					return Enumerable.Empty<EvaluationResult>();
+				}
+
+				var results = nodeEvaluations
+					.OfType<ISemanticEvaluation>()
+					.Select(x =>
+						{
+							try
+							{
+								return x.Evaluate(node, model, solution);
+							}
+							catch (Exception ex)
+							{
+								return new EvaluationResult
+										   {
+											   Title = ex.Message,
+											   Suggestion = ex.StackTrace,
+											   ErrorCount = 1,
+											   Snippet = node.ToFullString(),
+											   Quality = CodeQuality.Broken
+										   };
+							}
+						})
+					.Where(x => x != null && x.Quality != CodeQuality.Good)
+					.ToArray();
+				return results;
 			}
 
 			private void Dispose(bool isDisposing)
 			{
 				if (isDisposing)
 				{
-					while (_inspectionTasks.Count > 0)
-					{
-						Task t;
-						_inspectionTasks.TryDequeue(out t);
-						t.Dispose();
-					}
+					_evaluations.Clear();
+					_inspectionResults = null;
 				}
 			}
 		}

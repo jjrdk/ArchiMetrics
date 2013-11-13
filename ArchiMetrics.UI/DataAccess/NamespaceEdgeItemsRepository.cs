@@ -28,12 +28,12 @@ namespace ArchiMetrics.UI.DataAccess
 	public class NamespaceEdgeItemsRepository : CodeEdgeItemsRepository
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly ConcurrentDictionary<string, Task<IEnumerable<NamespaceReference>>> _namespaceReferences = new ConcurrentDictionary<string, Task<IEnumerable<NamespaceReference>>>();
+		private readonly ConcurrentDictionary<string, IEnumerable<NamespaceReference>> _namespaceReferences = new ConcurrentDictionary<string, IEnumerable<NamespaceReference>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public NamespaceEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
-			IProvider<string, ISolution> solutionProvider, 
+			ISolutionEdgeItemsRepositoryConfig config,
+			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{
@@ -46,35 +46,46 @@ namespace ArchiMetrics.UI.DataAccess
 			var results = source.GroupBy(x => x.Namespace).ToArray();
 			var namespaceReferences = await GetNamespaceReferences();
 			return namespaceReferences
-								 .GroupBy(n => n.Namespace)
-								 .Where(g => g.Any())
-								 .Select(g => new NamespaceReference
-												  {
-													  Namespace = g.Key, 
-													  References = g.SelectMany(n => n.References.Distinct().ToArray())
-												  })
-												  .SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new ProjectCodeMetrics(), new ProjectCodeMetrics(), results)))
-								 .ToArray();
+				.GroupBy(n => n.Namespace)
+				.Where(g => g.Any())
+				.Select(g => new NamespaceReference
+				{
+					Namespace = g.Key,
+					References = g.SelectMany(n => n.References.Distinct().ToArray())
+				})
+				.SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new ProjectCodeMetrics(), new ProjectCodeMetrics(), results)))
+				.ToArray();
 		}
 
 		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences()
 		{
-			return _namespaceReferences.GetOrAdd(
-				_config.Path, 
-				path => Task.Factory.StartNew(
-					() => _solutionProvider.Get(path)
-								   .Projects
-								   .SelectMany(p => p.Documents)
-								   .Distinct(DocumentComparer.Default)
-								   .Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)
-								   .Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
-								   .SelectMany(t => t.Item2.Select(s => new NamespaceReference
-																		{
-																			Namespace = s, 
-																			References = t.Item3.ToArray()
-																		}))
-								   .ToArray()
-								   .AsEnumerable()));
+			return Task.Factory.StartNew(
+				() => _namespaceReferences.GetOrAdd(
+					_config.Path,
+					path => _solutionProvider.Get(path)
+						.Projects
+						.Where(x =>
+						{
+							try
+							{
+								return x.HasDocuments;
+							}
+							catch
+							{
+								return false;
+							}
+						})
+						.SelectMany(p => p.Documents)
+						.Distinct(DocumentComparer.Default)
+						.Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)
+						.Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
+						.SelectMany(t => t.Item2.Select(s => new NamespaceReference
+						{
+							Namespace = s,
+							References = t.Item3.ToArray()
+						}))
+						.ToArray()
+						.AsEnumerable()));
 		}
 	}
 }
