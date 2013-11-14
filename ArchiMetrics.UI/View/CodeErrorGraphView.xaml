@@ -9,7 +9,8 @@
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeErrorGraphViewModel}">
 	<ScrollViewer VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch">
-		<tk:ClusteredColumnChart ChartTitle="Errors by Kind"
+		<tk:ClusteredColumnChart ChartTitle="Errors Found"
+								 ChartSubTitle="By Kind"
 								 VerticalAlignment="Stretch"
 								 VerticalContentAlignment="Stretch">
 			<tk:ClusteredColumnChart.Series>

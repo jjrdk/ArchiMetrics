@@ -16,7 +16,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Threading;
-	using System.Windows.Data;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
@@ -107,6 +106,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected async override void Update(bool forceUpdate)
 		{
+			IsLoading = true;
 			if (_tokenSource != null)
 			{
 				_tokenSource.Cancel(false);
@@ -117,8 +117,8 @@ namespace ArchiMetrics.UI.ViewModel
 			var newErrors = new ObservableCollection<EvaluationResult>();
 			try
 			{
+				CodeErrors = new ObservableCollection<EvaluationResult>();
 				ErrorsShown = 0;
-				CodeErrors.Clear();
 
 				var errors = await _repository.GetErrors(_config.Path, _tokenSource.Token);
 				var results = errors.Where(x => x.Title != "Multiple Asserts in Test" || x.ErrorCount != 1).ToArray();

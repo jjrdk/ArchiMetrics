@@ -10,6 +10,7 @@
 	<ScrollViewer VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch">
 		<tk:ClusteredColumnChart ChartTitle="Asserts in Tests"
+								 ChartSubTitle="Grouped"
 								 VerticalAlignment="Stretch"
 								 VerticalContentAlignment="Stretch">
 			<tk:ClusteredColumnChart.Series>

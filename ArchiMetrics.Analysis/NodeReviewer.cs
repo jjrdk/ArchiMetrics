@@ -206,7 +206,6 @@ namespace ArchiMetrics.Analysis
 			{
 				if (isDisposing)
 				{
-					_evaluations.Clear();
 					_inspectionResults = null;
 				}
 			}
