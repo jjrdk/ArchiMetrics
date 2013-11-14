@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
@@ -28,10 +29,11 @@ namespace ArchiMetrics.Analysis
 	{
 		private static readonly ComparableComparer<TypeDefinition> Comparer = new ComparableComparer<TypeDefinition>();
 
-		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<IProjectMetric> projectMetrics)
+		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<IProjectMetric> projectMetrics, CancellationToken cancellationToken)
 		{
 			var edges =
 				projectMetrics
+				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 					.SelectMany(
 						p => p.ReferencedProjects.Select(
 							r => new EdgeItemBase
@@ -42,10 +44,12 @@ namespace ArchiMetrics.Analysis
 							}))
 					.ToArray();
 
-			return GetCircularReferences(edges);
+			return cancellationToken.IsCancellationRequested
+				? Task.FromResult(Enumerable.Empty<DependencyChain>())
+				: GetCircularReferences(edges, cancellationToken);
 		}
 
-		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<EdgeItemBase> items)
+		public static Task<IEnumerable<DependencyChain>> GetCircularReferences(IEnumerable<EdgeItemBase> items, CancellationToken cancellationToken)
 		{
 			var edgeItems = items.WhereNotNull().ToArray();
 			return Task.Factory.StartNew(
@@ -54,7 +58,8 @@ namespace ArchiMetrics.Analysis
 					.SelectMany(e => GetDependencyChain(new DependencyChain(Enumerable.Empty<MetricsEdgeItem>(), e, e), edgeItems))
 					.Where(c => c.IsCircular)
 					.AsSequential()
-					.Distinct());
+					.Distinct(),
+					cancellationToken);
 		}
 
 		public static async Task<IEnumerable<TypeDefinition>> GetUsedTypes(IDocument document)
@@ -86,7 +91,7 @@ namespace ArchiMetrics.Analysis
 		{
 			return chain.IsCircular
 					   ? new[] { chain }
-					   : source.Where(chain.IsContinuation).SelectMany(i => GetDependencyChain(new DependencyChain(chain.ReferenceChain, chain.Root, i), source));
+					   : source.Where(x => chain.IsContinuation(x)).SelectMany(i => GetDependencyChain(new DependencyChain(chain.ReferenceChain, chain.Root, i), source));
 		}
 	}
 }

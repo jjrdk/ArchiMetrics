@@ -14,6 +14,7 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.Structure;
 
@@ -22,14 +23,14 @@ namespace ArchiMetrics.UI.ViewModel
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
-			IEdgeItemsRepository repository, 
-			IEdgeTransformer filter, 
-			IVertexRuleDefinition ruleDefinition, 
+			IEdgeItemsRepository repository,
+			IEdgeTransformer filter,
+			IVertexRuleDefinition ruleDefinition,
 			ISolutionEdgeItemsRepositoryConfig config)
 			: base(repository, filter, ruleDefinition, config)
 		{
 			_circularReferences = new List<DependencyChain>();
-			LoadEdges();
+			UpdateImpl(true);
 		}
 
 		public IEnumerable<DependencyChain> CircularReferences
@@ -49,14 +50,20 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		protected async override void UpdateInternal()
+		protected async override void UpdateInternal(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			var edgeItems = await Filter.TransformAsync(AllMetricsEdges);
+			var edgeItems = await Filter.Transform(AllMetricsEdges, cancellationToken);
 
-			await DependencyAnalyzer.GetCircularReferences(edgeItems)
-				.ContinueWith(t =>
+			await DependencyAnalyzer.GetCircularReferences(edgeItems, cancellationToken)
+				.ContinueWith(
+					t =>
 					{
+						if (t.IsCanceled)
+						{
+							return;
+						}
+
 						if (t.Exception != null)
 						{
 							IsLoading = false;
@@ -65,7 +72,8 @@ namespace ArchiMetrics.UI.ViewModel
 
 						CircularReferences = t.Result.ToArray();
 						IsLoading = false;
-					});
+					},
+					cancellationToken);
 		}
 	}
 }

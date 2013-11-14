@@ -14,12 +14,13 @@ namespace ArchiMetrics.Common.CodeReview
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
 
 	public interface ICodeErrorRepository : IDisposable
 	{
-		Task<IEnumerable<EvaluationResult>> GetErrors();
+		Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken);
 
-		Task<IEnumerable<EvaluationResult>> GetErrors(string s);
+		Task<IEnumerable<EvaluationResult>> GetErrors(string s, CancellationToken cancellationToken);
 	}
 }

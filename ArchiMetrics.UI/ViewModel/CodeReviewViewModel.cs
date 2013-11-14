@@ -15,6 +15,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Threading;
 	using System.Windows.Data;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
@@ -27,6 +28,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private int _errorsShown;
 		private int _filesWithErrors;
 		private ObservableCollection<EvaluationResult> _codeErrors;
+		private CancellationTokenSource _tokenSource;
 
 		public CodeReviewViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
@@ -105,13 +107,20 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected async override void Update(bool forceUpdate)
 		{
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel(false);
+				_tokenSource.Dispose();
+			}
+
+			_tokenSource = new CancellationTokenSource();
 			var newErrors = new ObservableCollection<EvaluationResult>();
 			try
 			{
 				ErrorsShown = 0;
 				CodeErrors.Clear();
 
-				var errors = await _repository.GetErrors(_config.Path);
+				var errors = await _repository.GetErrors(_config.Path, _tokenSource.Token);
 				var results = errors.Where(x => x.Title != "Multiple Asserts in Test" || x.ErrorCount != 1).ToArray();
 				foreach (var result in results)
 				{

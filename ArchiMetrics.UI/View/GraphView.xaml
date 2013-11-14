@@ -58,10 +58,21 @@
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
 			<RowDefinition />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
+		<zoom:ZoomControl Grid.Row="0"
+						  Grid.RowSpan="2"
+						  Background="Transparent">
+			<view:ProjectLayout Graph="{Binding Path=GraphToVisualize}"
+								LayoutAlgorithmType="{Binding ElementName=layoutBox, Path=SelectedValue, Mode=OneWay}"
+								LayoutMode="Automatic"
+								AsyncCompute="True"
+								OverlapRemovalAlgorithmType="FSA"
+								HighlightAlgorithmType="Simple" />
+		</zoom:ZoomControl>
 		<ComboBox x:Name="layoutBox"
+				  Grid.Row="1"
 				  SelectedIndex="0"
 				  SelectedValuePath="Content"
 				  VerticalAlignment="Top"
@@ -75,21 +86,18 @@
 				<ComboBoxItem Content="Tree" />
 			</ComboBox.Items>
 		</ComboBox>
-		<zoom:ZoomControl Grid.Row="1"
-						  Background="Transparent">
-			<view:ProjectLayout Graph="{Binding Path=GraphToVisualize}"
-								LayoutAlgorithmType="{Binding ElementName=layoutBox, Path=SelectedValue, Mode=OneWay}"
-								LayoutMode="Automatic"
-								AsyncCompute="True"
-								OverlapRemovalAlgorithmType="FSA"
-								HighlightAlgorithmType="Simple" />
-		</zoom:ZoomControl>
-		<ProgressBar Margin="100,0,25,0"
+		<ProgressBar Grid.Row="0"
+					 Margin="100,0,25,0"
 					 Height="25"
 					 MinWidth="200"
 					 IsIndeterminate="True"
 					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}"
 					 VerticalAlignment="Center"
 					 HorizontalAlignment="Stretch" />
+		<Button Grid.Row="1"
+				HorizontalAlignment="Right"
+				Content="Update"
+				Command="{Binding Path=UpdateGraph}" />
+
 	</Grid>
 </UserControl>

@@ -14,8 +14,8 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
@@ -24,7 +24,7 @@ namespace ArchiMetrics.UI.ViewModel
 		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
-			repository.GetErrors()
+			repository.GetErrors(CancellationToken.None)
 					  .ContinueWith(DisplayErrors);
 		}
 

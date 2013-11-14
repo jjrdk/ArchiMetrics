@@ -51,7 +51,7 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public Task<IEnumerable<EvaluationResult>> GetErrors(string source)
+		public Task<IEnumerable<EvaluationResult>> GetErrors(string source, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			if (string.IsNullOrWhiteSpace(source))
 			{
@@ -69,15 +69,18 @@ namespace ArchiMetrics.UI.DataAccess
 							return loadTask;
 						});
 
-					return cachedEdges.Value.AsEnumerable();
-				});
+					return cancellationToken.IsCancellationRequested
+						? Enumerable.Empty<EvaluationResult>()
+						: cachedEdges.Value.AsEnumerable();
+				},
+				cancellationToken);
 		}
 
-		public Task<IEnumerable<EvaluationResult>> GetErrors()
+		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))
 		{
 			return _config.IncludeCodeReview && !string.IsNullOrWhiteSpace(_config.Path)
-								  ? GetErrors(_config.Path)
-								  : Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable());
+								  ? GetErrors(_config.Path, cancellationToken)
+								  : Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable(), cancellationToken);
 		}
 
 		public void Dispose()

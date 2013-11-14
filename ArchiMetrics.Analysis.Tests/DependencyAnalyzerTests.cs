@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
+	using System.Threading;
 	using ArchiMetrics.Common.Structure;
 	using NUnit.Framework;
 	using Roslyn.Compilers;
@@ -28,7 +29,7 @@ namespace ArchiMetrics.Analysis.Tests
 							new MetricsEdgeItem { Dependant = "A", Dependency = "B" }, 
 							new MetricsEdgeItem { Dependant = "B", Dependency = "A" }
 						};
-			var task = DependencyAnalyzer.GetCircularReferences(items);
+			var task = DependencyAnalyzer.GetCircularReferences(items, CancellationToken.None);
 			task.Wait();
 			var chains = task.Result.ToArray();
 
@@ -46,7 +47,7 @@ namespace ArchiMetrics.Analysis.Tests
 							new MetricsEdgeItem { Dependant = "B", Dependency = "C" }, 
 							new MetricsEdgeItem { Dependant = "C", Dependency = "A" }
 						};
-			var task = DependencyAnalyzer.GetCircularReferences(items);
+			var task = DependencyAnalyzer.GetCircularReferences(items, CancellationToken.None);
 			task.Wait();
 			var chains = task.Result.ToArray();
 
@@ -65,7 +66,7 @@ namespace ArchiMetrics.Analysis.Tests
 							new MetricsEdgeItem { Dependant = "C", Dependency = "A" }, 
 							new MetricsEdgeItem { Dependant = "E", Dependency = "A" }
 						};
-			var task = DependencyAnalyzer.GetCircularReferences(items);
+			var task = DependencyAnalyzer.GetCircularReferences(items, CancellationToken.None);
 			task.Wait();
 			var chains = task.Result.ToArray();
 

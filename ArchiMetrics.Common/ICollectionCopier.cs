@@ -13,10 +13,11 @@
 namespace ArchiMetrics.Common
 {
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
 
 	public interface ICollectionCopier
 	{
-		Task<IEnumerable<T>> Copy<T>(IEnumerable<T> source);
+		Task<IEnumerable<T>> Copy<T>(IEnumerable<T> source, CancellationToken cancellationToken);
 	}
 }

@@ -14,6 +14,7 @@ namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
@@ -49,15 +50,15 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public Task<IEnumerable<MetricsEdgeItem>> GetEdgesAsync()
+		public Task<IEnumerable<MetricsEdgeItem>> GetEdges(CancellationToken cancellationToken = default(CancellationToken))
 		{
 			switch (_config.Source)
 			{
 				case EdgeSource.Namespace:
-					return _namespaceEdgeRepository.GetEdgesAsync();
+					return _namespaceEdgeRepository.GetEdges();
 				case EdgeSource.Project:
 				default:
-					return _projectEdgeRepository.GetEdgesAsync();
+					return _projectEdgeRepository.GetEdges();
 			}
 		}
 

@@ -13,10 +13,11 @@
 namespace ArchiMetrics.Common.Structure
 {
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
 
 	public interface IEdgeItemsRepository
 	{
-		Task<IEnumerable<MetricsEdgeItem>> GetEdgesAsync();
+		Task<IEnumerable<MetricsEdgeItem>> GetEdges(CancellationToken cancellationToken);
 	}
 }

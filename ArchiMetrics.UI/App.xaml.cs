@@ -15,6 +15,7 @@ namespace ArchiMetrics.UI
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
+	using System.Threading;
 	using System.Windows;
 	using System.Windows.Markup;
 	using System.Windows.Threading;

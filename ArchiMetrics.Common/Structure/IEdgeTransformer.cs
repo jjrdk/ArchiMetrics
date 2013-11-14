@@ -13,10 +13,11 @@
 namespace ArchiMetrics.Common.Structure
 {
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
 
 	public interface IEdgeTransformer
 	{
-		Task<IEnumerable<MetricsEdgeItem>> TransformAsync(IEnumerable<MetricsEdgeItem> source);
+		Task<IEnumerable<MetricsEdgeItem>> Transform(IEnumerable<MetricsEdgeItem> source, CancellationToken cancellationToken);
 	}
 }

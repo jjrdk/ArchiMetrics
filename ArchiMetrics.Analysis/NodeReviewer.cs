@@ -16,6 +16,7 @@ namespace ArchiMetrics.Analysis
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.Common;
@@ -31,11 +32,7 @@ namespace ArchiMetrics.Analysis
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public virtual Task<IEnumerable<EvaluationResult>> Inspect(
-			string projectPath,
-			SyntaxNode node,
-			ISemanticModel semanticModel,
-			ISolution solution)
+		public virtual Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			return Task.Factory.StartNew(() =>
 			{

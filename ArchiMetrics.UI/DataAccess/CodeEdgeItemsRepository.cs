@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.ComponentModel;
 	using System.Linq;
 	using System.Text.RegularExpressions;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
@@ -51,12 +52,12 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public Task<IEnumerable<MetricsEdgeItem>> GetEdgesAsync()
+		public Task<IEnumerable<MetricsEdgeItem>> GetEdges(CancellationToken cancellationToken = default(CancellationToken))
 		{
 			return _edgeItems ?? (_edgeItems = string.IsNullOrWhiteSpace(_config.Path)
-												   ? Task.Factory.StartNew(() => new MetricsEdgeItem[0].AsEnumerable())
+												   ? Task.Factory.StartNew(() => new MetricsEdgeItem[0].AsEnumerable(), cancellationToken)
 												   : _config.IncludeCodeReview
-														 ? LoadWithCodeReview()
+														 ? LoadWithCodeReview(cancellationToken)
 														 : LoadWithoutCodeReview());
 		}
 
@@ -120,9 +121,9 @@ namespace ArchiMetrics.UI.DataAccess
 					   .Select(n => n.Name.GetText().ToString().Trim());
 		}
 
-		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview()
+		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview(CancellationToken cancellationToken)
 		{
-			var errors = await _codeErrorRepository.GetErrors();
+			var errors = await _codeErrorRepository.GetErrors(cancellationToken);
 			var edges = await CreateEdges(errors);
 
 			return edges;

@@ -13,9 +13,9 @@
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
+	using System.Threading;
 	using System.Windows.Data;
 	using System.Windows.Input;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;
 
@@ -29,8 +29,8 @@ namespace ArchiMetrics.UI.ViewModel
 			: base(repository, filter, ruleDefinition, config)
 		{
 			DependencyItems = new ObservableCollection<MetricsEdgeItem>();
-			LoadEdges();
-			_updateCommand = new DelegateCommand(o => true, o => UpdateInternal());
+			UpdateImpl(true);
+			_updateCommand = new DelegateCommand(o => true, o => UpdateImpl(false));
 		}
 
 		public ObservableCollection<MetricsEdgeItem> DependencyItems
@@ -68,11 +68,11 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		protected async override void UpdateInternal()
+		protected async override void UpdateInternal(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
 
-			var results = await Filter.TransformAsync(AllMetricsEdges);
+			var results = await Filter.Transform(AllMetricsEdges, cancellationToken);
 			var newCollection = new ObservableCollection<MetricsEdgeItem>(results);
 			DependencyItems = newCollection;
 			IsLoading = false;

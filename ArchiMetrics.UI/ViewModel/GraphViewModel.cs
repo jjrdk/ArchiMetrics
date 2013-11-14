@@ -10,28 +10,32 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
+	using System.Windows.Input;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.Structure;
+	using ArchiMetrics.UI.Support;
 
 	internal class GraphViewModel : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
+		private readonly DelegateCommand _updateCommand;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
+		private CancellationTokenSource _tokenSource;
 
 		public GraphViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
 			_repository = repository;
 			_filter = filter;
-			LoadAllEdges();
+			UpdateImpl(true);
+			_updateCommand = new DelegateCommand(o => true, o => Update(true));
 		}
 
 		public ProjectGraph GraphToVisualize
@@ -51,16 +55,17 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
+		public ICommand UpdateGraph
+		{
+			get
+			{
+				return _updateCommand;
+			}
+		}
+
 		protected override void Update(bool forceUpdate)
 		{
-			if (forceUpdate)
-			{
-				LoadAllEdges();
-			}
-			else
-			{
-				UpdateInternal();
-			}
+			UpdateImpl(forceUpdate);
 		}
 
 		protected override void Dispose(bool isDisposing)
@@ -70,20 +75,40 @@ namespace ArchiMetrics.UI.ViewModel
 			base.Dispose(isDisposing);
 		}
 
-		private async void UpdateInternal()
+		private void UpdateImpl(bool forceUpdate)
+		{
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel();
+				_tokenSource.Dispose();
+			}
+
+			_tokenSource = new CancellationTokenSource();
+			if (forceUpdate)
+			{
+				LoadAllEdges(_tokenSource.Token);
+			}
+			else
+			{
+				UpdateInternal(_tokenSource.Token);
+			}
+		}
+
+		private async void UpdateInternal(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
 
-			var nonEmptySourceItems = (await _filter.TransformAsync(_allMetricsEdges))
+			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, cancellationToken))
 				.ToArray();
 
-			//var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems))
-			//	.ToArray();
+			var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems, cancellationToken))
+				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
+				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 				.SelectMany(item =>
 				{
-					var isCircular = false; // circularReferences.Any(c => c.Contains(item));
+					var isCircular = circularReferences.Any(c => c.Contains(item));
 					return CreateVertices(item, isCircular);
 				})
 				.GroupBy(v => v.Name)
@@ -93,25 +118,32 @@ namespace ArchiMetrics.UI.ViewModel
 			var edges =
 				nonEmptySourceItems
 					.Where(e => !string.IsNullOrWhiteSpace(e.Dependency))
+					.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 					.Select(
 						dependencyItemViewModel =>
-							new ProjectEdge(
-								projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
-								projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
+						new ProjectEdge(
+							projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
+							projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
 					.Where(e => e.Target.Name != e.Source.Name);
 			var g = new ProjectGraph();
 
-			foreach (var vertex in projectVertices)
+			foreach (var vertex in projectVertices
+				.TakeWhile(x => !cancellationToken.IsCancellationRequested))
 			{
 				g.AddVertex(vertex);
 			}
 
-			foreach (var edge in edges)
+			foreach (var edge in edges
+				.TakeWhile(x => !cancellationToken.IsCancellationRequested))
 			{
 				g.AddEdge(edge);
 			}
 
-			GraphToVisualize = g;
+			if (!cancellationToken.IsCancellationRequested)
+			{
+				GraphToVisualize = g;
+			}
+
 			IsLoading = false;
 		}
 
@@ -125,15 +157,18 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		private void LoadAllEdges()
+		private void LoadAllEdges(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			_repository.GetEdgesAsync()
-				.ContinueWith(t =>
-				{
-					_allMetricsEdges = t.Result.Where(e => e.Dependant != e.Dependency).ToArray();
-					UpdateInternal();
-				});
+			_repository.GetEdges(cancellationToken)
+				.ContinueWith(
+					t =>
+					{
+						_allMetricsEdges = t.Result.Where(e => e.Dependant != e.Dependency)
+							.ToArray();
+						Update(false);
+					},
+					cancellationToken);
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace ArchiMetrics.UI.Support
 	using System.IO;
 	using System.Linq;
 	using System.Runtime.Serialization.Formatters.Binary;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 
@@ -23,14 +24,21 @@ namespace ArchiMetrics.UI.Support
 	{
 		private readonly BinaryFormatter _formatter = new BinaryFormatter();
 
-		public async Task<IEnumerable<T>> Copy<T>(IEnumerable<T> source)
+		public async Task<IEnumerable<T>> Copy<T>(IEnumerable<T> source, CancellationToken cancellationToken)
 		{
+			if (source == null)
+			{
+				return Enumerable.Empty<T>();
+			}
+
 			using (var memoryStream = new MemoryStream())
 			{
 				_formatter.Serialize(memoryStream, source.ToArray());
-				await memoryStream.FlushAsync();
+				await memoryStream.FlushAsync(cancellationToken);
 				memoryStream.Seek(0, SeekOrigin.Begin);
-				return (T[])_formatter.Deserialize(memoryStream);
+				return cancellationToken.IsCancellationRequested
+					? Enumerable.Empty<T>()
+					: (T[])_formatter.Deserialize(memoryStream);
 			}
 		}
 	}

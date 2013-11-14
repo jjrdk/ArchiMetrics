@@ -15,6 +15,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common;
@@ -28,6 +29,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IEdgeTransformer _filter;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
+		private CancellationTokenSource _tokenSource;
 
 		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, ISolutionEdgeItemsRepositoryConfig config, IEdgeTransformer filter)
 			: base(config)
@@ -35,7 +37,7 @@ namespace ArchiMetrics.UI.ViewModel
 			_analyzer = analyzer;
 			_config = config;
 			_filter = filter;
-			LoadAllEdges();
+			UpdateImpl(true);
 		}
 
 		public ProjectGraph GraphToVisualize
@@ -57,22 +59,34 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected override void Update(bool forceUpdate)
 		{
+			UpdateImpl(forceUpdate);
+		}
+
+		private void UpdateImpl(bool forceUpdate)
+		{
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel();
+				_tokenSource.Dispose();
+			}
+
+			_tokenSource = new CancellationTokenSource();
 			if (forceUpdate)
 			{
-				LoadAllEdges();
+				LoadAllEdges(_tokenSource.Token);
 			}
 			else
 			{
-				UpdateInternal();
+				UpdateInternal(_tokenSource.Token);
 			}
 		}
 
-		private async void UpdateInternal()
+		private async void UpdateInternal(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
 			var g = new ProjectGraph();
 
-			var nonEmptySourceItems = (await _filter.TransformAsync(_allMetricsEdges))
+			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, cancellationToken))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems
@@ -87,7 +101,7 @@ namespace ArchiMetrics.UI.ViewModel
 				.Select(
 					dependencyItemViewModel =>
 					new ProjectEdge(
-						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant), 
+						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
 						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
 								   .Where(e => e.Target.Name != e.Source.Name)
 								   .ToList();
@@ -102,7 +116,11 @@ namespace ArchiMetrics.UI.ViewModel
 				g.AddEdge(edge);
 			}
 
-			GraphToVisualize = g;
+			if (!cancellationToken.IsCancellationRequested)
+			{
+				GraphToVisualize = g;
+			}
+
 			IsLoading = false;
 		}
 
@@ -116,12 +134,12 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		private async void LoadAllEdges()
+		private async void LoadAllEdges(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			var edges = await Task.Factory.StartNew(() => _analyzer.GetTestData(_config.Path));
-			_allMetricsEdges = await Task.Factory.StartNew(() => edges.SelectMany(ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray());
-			UpdateInternal();
+			var edges = await Task.Factory.StartNew(() => _analyzer.GetTestData(_config.Path), cancellationToken);
+			_allMetricsEdges = await Task.Factory.StartNew(() => edges.SelectMany(ConvertToEdgeItem).Where(e => e.Dependant != e.Dependency).Distinct(new RequirementsEqualityComparer()).ToArray(), cancellationToken);
+			UpdateInternal(cancellationToken);
 		}
 
 		private IEnumerable<MetricsEdgeItem> ConvertToEdgeItem(TestData data)
@@ -135,8 +153,8 @@ namespace ArchiMetrics.UI.ViewModel
 							 o =>
 							 new MetricsEdgeItem
 							 {
-								 Dependant = i.ToString(CultureInfo.InvariantCulture), 
-								 Dependency = o.ToString(CultureInfo.InvariantCulture), 
+								 Dependant = i.ToString(CultureInfo.InvariantCulture),
+								 Dependency = o.ToString(CultureInfo.InvariantCulture),
 								 CodeIssues = new EvaluationResult[0]
 							 }));
 		}

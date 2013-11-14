@@ -12,14 +12,17 @@
 
 namespace ArchiMetrics.UI.ViewModel
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
 	public class CodeErrorGraphViewModel : ViewModelBase
 	{
 		private readonly ICodeErrorRepository _repository;
+		private CancellationTokenSource _tokenSource;
 
 		public CodeErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
@@ -31,11 +34,21 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected async override void Update(bool forceUpdate)
 		{
+			if (_tokenSource != null)
+			{
+				_tokenSource.Cancel(false);
+				_tokenSource.Dispose();
+			}
+
+			_tokenSource = new CancellationTokenSource();
 			base.Update(forceUpdate);
 			if (forceUpdate)
 			{
-				var result = await _repository.GetErrors();
-				DisplayErrors(result);
+				var result = await _repository.GetErrors(_tokenSource.Token);
+				if (!_tokenSource.IsCancellationRequested)
+				{
+					DisplayErrors(result);
+				}
 			}
 		}
 

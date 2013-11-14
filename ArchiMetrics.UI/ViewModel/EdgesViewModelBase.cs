@@ -14,14 +14,15 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using ArchiMetrics.Common;
+	using System.Threading;
 	using ArchiMetrics.Common.Structure;
 
 	public abstract class EdgesViewModelBase : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
-		private MetricsEdgeItem[] _allMetricsEdges;
+		private MetricsEdgeItem[] _allMetricsEdges = new MetricsEdgeItem[0];
+		private CancellationTokenSource _tokenSource;
 
 		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
@@ -51,29 +52,30 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected override void Update(bool forceUpdate)
 		{
-			base.Update(forceUpdate);
-			if (forceUpdate)
+			UpdateImpl(forceUpdate);
+		}
+
+		protected void UpdateImpl(bool forceUpdate)
+		{
+			if (_tokenSource != null)
 			{
-				LoadEdges();
+				_tokenSource.Cancel(false);
+				_tokenSource.Dispose();
+			}
+
+			_tokenSource = new CancellationTokenSource();
+			base.Update(forceUpdate);
+			if (forceUpdate || !_allMetricsEdges.Any())
+			{
+				LoadEdges(_tokenSource.Token);
 			}
 			else
 			{
-				UpdateInternal();
+				UpdateInternal(_tokenSource.Token);
 			}
 		}
 
-		protected void LoadEdges()
-		{
-			IsLoading = true;
-			_repository.GetEdgesAsync()
-			           .ContinueWith(t =>
-				           {
-					           _allMetricsEdges = t.Result.ToArray();
-					           UpdateInternal();
-				           });
-		}
-
-		protected abstract void UpdateInternal();
+		protected abstract void UpdateInternal(CancellationToken cancellationToken);
 
 		protected override void Dispose(bool isDisposing)
 		{
@@ -83,6 +85,19 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 
 			base.Dispose(isDisposing);
+		}
+
+		private void LoadEdges(CancellationToken cancellationToken)
+		{
+			IsLoading = true;
+			_repository.GetEdges(cancellationToken)
+				.ContinueWith(
+					t =>
+					{
+						_allMetricsEdges = t.Result.ToArray();
+						UpdateInternal(cancellationToken);
+					},
+					cancellationToken);
 		}
 	}
 }
