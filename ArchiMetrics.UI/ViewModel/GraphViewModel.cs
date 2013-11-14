@@ -101,14 +101,14 @@ namespace ArchiMetrics.UI.ViewModel
 			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, cancellationToken))
 				.ToArray();
 
-			var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems, cancellationToken))
-				.ToArray();
+			////var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems, cancellationToken))
+			////	.ToArray();
 
 			var projectVertices = nonEmptySourceItems
 				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 				.SelectMany(item =>
-				{
-					var isCircular = circularReferences.Any(c => c.Contains(item));
+					{
+						var isCircular = false; // circularReferences.Any(c => c.Contains(item));
 					return CreateVertices(item, isCircular);
 				})
 				.GroupBy(v => v.Name)

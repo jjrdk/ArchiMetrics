@@ -40,7 +40,7 @@ namespace ArchiMetrics.UI
 			// Ensure the current culture passed into bindings is the OS culture.
 			// By default, WPF uses en-US as the culture, regardless of the system settings.
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement), 
+				typeof(FrameworkElement),
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 
@@ -72,7 +72,7 @@ namespace ArchiMetrics.UI
 				   .SingleInstance();
 			var config = new SolutionEdgeItemsRepositoryConfig();
 			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
-			
+
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
 				var affStream = new MemoryStream();
@@ -94,6 +94,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
+			builder.RegisterType<MetricsStore>().As<IMetricsRepository>().SingleInstance();
 			var vertexRuleRepository = new VertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true)).As<PathFilter>();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();

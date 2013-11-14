@@ -28,21 +28,20 @@ namespace ArchiMetrics.UI.DataAccess
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository
 	{
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private readonly ConcurrentDictionary<string, Task<ProjectCodeMetrics>> _metrics = new ConcurrentDictionary<string, Task<ProjectCodeMetrics>>();
-		private readonly ICodeMetricsCalculator _metricsCalculator;
 		private readonly ConcurrentDictionary<string, Task<ProjectReference[]>> _projectReferences = new ConcurrentDictionary<string, Task<ProjectReference[]>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
+		private readonly IMetricsRepository _metricsRepository;
 
 		public ProjectEdgeItemsRepository(
 			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
-			ICodeMetricsCalculator metricsCalculator)
+			IMetricsRepository metricsRepository)
 			: base(config, codeErrorRepository)
 		{
 			_config = config;
 			_solutionProvider = solutionProvider;
-			_metricsCalculator = metricsCalculator;
+			_metricsRepository = metricsRepository;
 		}
 
 		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
@@ -79,37 +78,12 @@ namespace ArchiMetrics.UI.DataAccess
 			var solution = _solutionProvider.Get(_config.Path);
 			var metricTasks = solution.Projects
 				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
-				.Select(GetProjectMetrics);
+				.Select(x => _metricsRepository.Get(x.FilePath, _config.Path));
 			var metrics = await Task.WhenAll(metricTasks);
 
 			return cancellationToken.IsCancellationRequested
 				? Enumerable.Empty<ProjectCodeMetrics>()
 				: metrics.Where(x => x != null).ToArray();
-		}
-
-		private Task<ProjectCodeMetrics> GetProjectMetrics(IProject project)
-		{
-			return _metrics.GetOrAdd(
-				project.FilePath,
-				async s => await LoadMetrics(project, s));
-		}
-
-		private async Task<ProjectCodeMetrics> LoadMetrics(IProject project, string s)
-		{
-			var metrics = (await _metricsCalculator.Calculate(project)).ToArray();
-
-			var linesOfCode = metrics.Sum(x => x.LinesOfCode);
-			return new ProjectCodeMetrics
-				   {
-					   Metrics = metrics,
-					   Project = project.Name,
-					   ProjectPath = s,
-					   Version = project.GetVersion().ToString(),
-					   LinesOfCode = linesOfCode,
-					   DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0,
-					   CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0,
-					   MaintainabilityIndex = linesOfCode > 0 ? metrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / linesOfCode : 0
-				   };
 		}
 
 		private IEnumerable<ProjectReference> GetProjectDependencies(string path)

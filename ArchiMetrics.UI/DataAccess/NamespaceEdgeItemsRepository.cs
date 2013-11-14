@@ -15,6 +15,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
+	using ArchiMetrics.UI.Support;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -30,21 +32,53 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, IEnumerable<NamespaceReference>> _namespaceReferences = new ConcurrentDictionary<string, IEnumerable<NamespaceReference>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
+		private readonly IMetricsRepository _metricsProvider;
 
 		public NamespaceEdgeItemsRepository(
 			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
+			IMetricsRepository metricsRepository,
 			ICodeErrorRepository codeErrorRepository)
 			: base(config, codeErrorRepository)
 		{
 			_config = config;
 			_solutionProvider = solutionProvider;
+			_metricsProvider = metricsRepository;
 		}
 
 		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
 		{
 			var results = source.GroupBy(x => x.Namespace).ToArray();
-			var namespaceReferences = await GetNamespaceReferences(cancellationToken);
+			var namespaceReferences = (await GetNamespaceReferences(cancellationToken)).ToArray();
+			var metrics = (await GetCodeMetrics(namespaceReferences, cancellationToken))
+				.SelectMany(x => x.Metrics.Select(_ => new
+				{
+					Name = _.Name,
+					ProjectName = x.Project,
+					ProjectPath = x.ProjectPath,
+					ProjectVersion = x.Version,
+					Metrics = _
+				}))
+				.Where(x => x.Metrics != null)
+				.GroupBy(x => x.Name)
+				.Select(
+					metricsGroup =>
+					{
+						var linesOfCode = metricsGroup.Sum(x => x.Metrics.LinesOfCode);
+						var first = metricsGroup.First();
+						return new ProjectCodeMetrics
+						{
+							Metrics = metricsGroup.Select(x => x.Metrics).ToArray(),
+							Project = first.Name,
+							ProjectPath = first.ProjectPath,
+							Version = first.ProjectVersion,
+							LinesOfCode = linesOfCode,
+							DepthOfInheritance = linesOfCode > 0 ? (int)metricsGroup.Average(x => x.Metrics.DepthOfInheritance) : 0,
+							CyclomaticComplexity = linesOfCode > 0 ? metricsGroup.Sum(x => x.Metrics.CyclomaticComplexity * linesOfCode) / linesOfCode : 0,
+							MaintainabilityIndex = linesOfCode > 0 ? metricsGroup.Sum(x => x.Metrics.MaintainabilityIndex * linesOfCode) / linesOfCode : 0
+						};
+					})
+					.ToDictionary(x => x.Project);
 			return namespaceReferences
 				.GroupBy(n => n.Namespace)
 				.Where(g => g.Any())
@@ -53,8 +87,15 @@ namespace ArchiMetrics.UI.DataAccess
 					Namespace = g.Key,
 					References = g.SelectMany(n => n.References.Distinct().ToArray())
 				})
-				.SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, new ProjectCodeMetrics(), new ProjectCodeMetrics(), results)))
+				.SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, GetMetrics(metrics, r.Namespace), GetMetrics(metrics, x), results)))
 				.ToArray();
+		}
+
+		private ProjectCodeMetrics GetMetrics(IDictionary<string, ProjectCodeMetrics> source, string namespaceName)
+		{
+			return source.ContainsKey(namespaceName)
+					   ? source[namespaceName]
+					   : new ProjectCodeMetrics();
 		}
 
 		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences(CancellationToken cancellationToken)
@@ -66,32 +107,53 @@ namespace ArchiMetrics.UI.DataAccess
 								.Projects
 								.Where(
 									x =>
+									{
+										try
 										{
-											try
-											{
-												return x.HasDocuments;
-											}
-											catch
-											{
-												return false;
-											}
-										})
+											return x.HasDocuments;
+										}
+										catch
+										{
+											return false;
+										}
+									})
 								.SelectMany(p => p.Documents)
 								.Distinct(DocumentComparer.Default)
+								.Select(d => new { Node = d.GetSyntaxTree().GetRoot() as SyntaxNode, Project = d.Project })
 								.Select(
-									d => d.GetSyntaxTree()
-											 .GetRoot() as SyntaxNode)
-								.Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
+									x => new
+											{
+												Project = x.Project,
+												LoC = GetLinesOfCode(x.Node),
+												NamespaceNames = GetNamespaceNames(x.Node),
+												Usings = GetUsings(x.Node)
+											})
 								.SelectMany(
-									t => t.Item2.Select(
+									t => t.NamespaceNames.Select(
 										s => new NamespaceReference
 											 {
 												 Namespace = s,
-												 References = t.Item3.ToArray()
+												 References = t.Usings.ToArray(),
+												 ProjectPath = t.Project.FilePath,
+												 ProjectVersion = t.Project.GetVersion().ToString()
 											 }))
 								.ToArray()
 								.AsEnumerable()),
 				cancellationToken);
+		}
+
+		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics(IEnumerable<NamespaceReference> namespaceReferences, CancellationToken cancellationToken)
+		{
+			var metrics = namespaceReferences.Select(x => x.ProjectPath)
+			.Distinct()
+			.Select(x => _metricsProvider.Get(x, _config.Path))
+			.ToArray();
+
+			await Task.WhenAll(metrics);
+
+			return cancellationToken.IsCancellationRequested
+				? Enumerable.Empty<ProjectCodeMetrics>()
+				: metrics.Select(x => x.Result);
 		}
 	}
 }

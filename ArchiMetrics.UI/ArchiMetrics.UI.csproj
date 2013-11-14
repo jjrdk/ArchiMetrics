@@ -160,6 +160,7 @@
     <Compile Include="Support\DefaultCollectionCopier.cs" />
     <Compile Include="KnownPatterns.cs" />
     <Compile Include="Support\DelegateCommand.cs" />
+    <Compile Include="Support\MetricsStore.cs" />
     <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />
     <Compile Include="Support\PriorityScheduler.cs" />

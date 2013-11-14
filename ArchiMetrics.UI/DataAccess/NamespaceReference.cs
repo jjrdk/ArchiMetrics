@@ -20,8 +20,6 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public string ProjectVersion { get; set; }
 
-		public string Source { get; set; }
-
 		public string Namespace { get; set; }
 
 		public IEnumerable<string> References { get; set; }

@@ -18,8 +18,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
+	using ArchiMetrics.UI.Support;
 	using Roslyn.Services;
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
@@ -32,11 +32,11 @@ namespace ArchiMetrics.UI.DataAccess
 			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
-			ICodeMetricsCalculator metricsCalculator)
+			IMetricsRepository metricsRepository)
 		{
 			_config = config;
-			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, codeErrorRepository);
-			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, metricsCalculator);
+			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, metricsRepository, codeErrorRepository);
+			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, metricsRepository);
 		}
 
 		~AggregateEdgeItemsRepository()
