@@ -15,7 +15,6 @@ namespace ArchiMetrics.UI
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
-	using System.Threading;
 	using System.Windows;
 	using System.Windows.Markup;
 	using System.Windows.Threading;
@@ -37,8 +36,6 @@ namespace ArchiMetrics.UI
 	{
 		static App()
 		{
-			// Ensure the current culture passed into bindings is the OS culture.
-			// By default, WPF uses en-US as the culture, regardless of the system settings.
 			FrameworkElement.LanguageProperty.OverrideMetadata(
 				typeof(FrameworkElement),
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
@@ -84,7 +81,7 @@ namespace ArchiMetrics.UI
 
 			foreach (var type in typeof(ReportUtils).Assembly
 												   .GetTypes()
-												   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
+												   .Where(t => typeof(IEvaluation).IsAssignableFrom(t))
 												   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type).As<IEvaluation>();

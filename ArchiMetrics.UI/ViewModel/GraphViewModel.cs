@@ -70,8 +70,16 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected override void Dispose(bool isDisposing)
 		{
-			_graphToVisualize = null;
-			_allMetricsEdges = null;
+			if (isDisposing)
+			{
+				_graphToVisualize = null;
+				_allMetricsEdges = null;
+				if (_tokenSource != null)
+				{
+					_tokenSource.Dispose();
+				}
+			}
+
 			base.Dispose(isDisposing);
 		}
 
@@ -109,8 +117,8 @@ namespace ArchiMetrics.UI.ViewModel
 				.SelectMany(item =>
 					{
 						var isCircular = false; // circularReferences.Any(c => c.Contains(item));
-					return CreateVertices(item, isCircular);
-				})
+						return CreateVertices(item, isCircular);
+					})
 				.GroupBy(v => v.Name)
 				.Select(grouping => grouping.First())
 				.ToArray();

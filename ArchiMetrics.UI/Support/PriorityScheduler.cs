@@ -15,10 +15,11 @@ namespace ArchiMetrics.UI.Support
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
+	using System.Globalization;
 	using System.Threading;
 	using System.Threading.Tasks;
 
-	public class PriorityScheduler : TaskScheduler
+	public class PriorityScheduler : TaskScheduler, IDisposable
 	{
 		private static readonly PriorityScheduler AboveNormalScheduler = new PriorityScheduler(ThreadPriority.AboveNormal);
 		private static readonly PriorityScheduler BelowNormalScheduler = new PriorityScheduler(ThreadPriority.BelowNormal);
@@ -32,6 +33,11 @@ namespace ArchiMetrics.UI.Support
 		private PriorityScheduler(ThreadPriority priority)
 		{
 			_priority = priority;
+		}
+
+		~PriorityScheduler()
+		{
+			Dispose(false);
 		}
 
 		public static PriorityScheduler AboveNormal
@@ -63,6 +69,20 @@ namespace ArchiMetrics.UI.Support
 			get { return _maximumConcurrencyLevel; }
 		}
 
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				_tasks.Dispose();
+			}
+		}
+
 		protected override IEnumerable<Task> GetScheduledTasks()
 		{
 			return _tasks;
@@ -79,14 +99,14 @@ namespace ArchiMetrics.UI.Support
 				{
 					_threads[i] = new Thread(
 						() =>
+						{
+							foreach (var t in _tasks.GetConsumingEnumerable())
 							{
-								foreach (Task t in _tasks.GetConsumingEnumerable())
-								{
-									TryExecuteTask(t);
-								}
-							})
+								TryExecuteTask(t);
+							}
+						})
 								  {
-									  Name = string.Format("PriorityScheduler: ", i),
+									  Name = "PriorityScheduler: " + i,
 									  Priority = _priority,
 									  IsBackground = true
 								  };

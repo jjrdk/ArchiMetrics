@@ -81,6 +81,11 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			if (isDisposing)
 			{
+				if (_tokenSource != null)
+				{
+					_tokenSource.Dispose();
+				}
+
 				_allMetricsEdges = null;
 			}
 
