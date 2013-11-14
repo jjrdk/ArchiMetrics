@@ -148,6 +148,7 @@
     <Compile Include="DataAccess\CodeErrorRepository.cs" />
     <Compile Include="DataAccess\DocumentComparer.cs" />
     <Compile Include="DataAccess\EdgeTransformer.cs" />
+    <Compile Include="DataAccess\MetricsRepository.cs" />
     <Compile Include="DataAccess\RepositoryBase.cs" />
     <Compile Include="DataAccess\VertexRuleRepository.cs" />
     <Compile Include="DataAccess\NamespaceEdgeItemsRepository.cs" />
@@ -160,7 +161,6 @@
     <Compile Include="Support\DefaultCollectionCopier.cs" />
     <Compile Include="KnownPatterns.cs" />
     <Compile Include="Support\DelegateCommand.cs" />
-    <Compile Include="Support\MetricsStore.cs" />
     <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />
     <Compile Include="Support\PriorityScheduler.cs" />

@@ -1,16 +1,16 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetricsStore.cs" company="Reimers.dk">
+// <copyright file="MetricsRepository.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the MetricsStore type.
+//   Defines the MetricsRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.Support
+namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections.Concurrent;
@@ -18,26 +18,22 @@ namespace ArchiMetrics.UI.Support
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
+	using ArchiMetrics.Common.Structure;
 	using Roslyn.Services;
 
-	public interface IMetricsRepository
-	{
-		Task<ProjectCodeMetrics> Get(string projectPath, string solutionPath);
-	}
-
-	internal class MetricsStore : IMetricsRepository, IDisposable
+	internal class MetricsRepository : IMetricsRepository, IDisposable
 	{
 		private readonly ConcurrentDictionary<string, Task<ProjectCodeMetrics>> _metrics = new ConcurrentDictionary<string, Task<ProjectCodeMetrics>>();
 		private readonly ICodeMetricsCalculator _metricsCalculator;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
-		public MetricsStore(ICodeMetricsCalculator metricsCalculator, IProvider<string, ISolution> solutionProvider)
+		public MetricsRepository(ICodeMetricsCalculator metricsCalculator, IProvider<string, ISolution> solutionProvider)
 		{
 			_metricsCalculator = metricsCalculator;
 			_solutionProvider = solutionProvider;
 		}
 
-		~MetricsStore()
+		~MetricsRepository()
 		{
 			Dispose(false);
 		}
