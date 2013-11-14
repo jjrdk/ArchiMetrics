@@ -15,8 +15,8 @@ namespace ArchiMetrics.UI.DataAccess
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.IO;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
@@ -41,10 +41,10 @@ namespace ArchiMetrics.UI.DataAccess
 			_solutionProvider = solutionProvider;
 		}
 
-		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
+		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
 		{
 			var results = source.GroupBy(x => x.Namespace).ToArray();
-			var namespaceReferences = await GetNamespaceReferences();
+			var namespaceReferences = await GetNamespaceReferences(cancellationToken);
 			return namespaceReferences
 				.GroupBy(n => n.Namespace)
 				.Where(g => g.Any())
@@ -57,35 +57,41 @@ namespace ArchiMetrics.UI.DataAccess
 				.ToArray();
 		}
 
-		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences()
+		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences(CancellationToken cancellationToken)
 		{
 			return Task.Factory.StartNew(
 				() => _namespaceReferences.GetOrAdd(
 					_config.Path,
 					path => _solutionProvider.Get(path)
-						.Projects
-						.Where(x =>
-						{
-							try
-							{
-								return x.HasDocuments;
-							}
-							catch
-							{
-								return false;
-							}
-						})
-						.SelectMany(p => p.Documents)
-						.Distinct(DocumentComparer.Default)
-						.Select(d => d.GetSyntaxTree().GetRoot() as SyntaxNode)
-						.Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
-						.SelectMany(t => t.Item2.Select(s => new NamespaceReference
-						{
-							Namespace = s,
-							References = t.Item3.ToArray()
-						}))
-						.ToArray()
-						.AsEnumerable()));
+								.Projects
+								.Where(
+									x =>
+										{
+											try
+											{
+												return x.HasDocuments;
+											}
+											catch
+											{
+												return false;
+											}
+										})
+								.SelectMany(p => p.Documents)
+								.Distinct(DocumentComparer.Default)
+								.Select(
+									d => d.GetSyntaxTree()
+											 .GetRoot() as SyntaxNode)
+								.Select(node => new Tuple<int, IEnumerable<string>, IEnumerable<string>>(GetLinesOfCode(node), GetNamespaceNames(node), GetUsings(node)))
+								.SelectMany(
+									t => t.Item2.Select(
+										s => new NamespaceReference
+											 {
+												 Namespace = s,
+												 References = t.Item3.ToArray()
+											 }))
+								.ToArray()
+								.AsEnumerable()),
+				cancellationToken);
 		}
 	}
 }

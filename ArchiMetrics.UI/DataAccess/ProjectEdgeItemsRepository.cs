@@ -16,11 +16,13 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
+	using ArchiMetrics.UI.Support;
 	using Roslyn.Services;
 
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository
@@ -43,34 +45,46 @@ namespace ArchiMetrics.UI.DataAccess
 			_metricsCalculator = metricsCalculator;
 		}
 
-		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source)
+		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
 		{
+			var references = await GetProjectReferences(cancellationToken);
+			if (cancellationToken.IsCancellationRequested)
+			{
+				return Enumerable.Empty<MetricsEdgeItem>();
+			}
+
 			var results = source.GroupBy(er => er.ProjectPath).ToArray();
-			var references = await GetProjectReferences();
-			var metrics = (await GetCodeMetrics()).ToDictionary(m => m.ProjectPath);
-			return references
+			var metrics = (await GetCodeMetrics(cancellationToken)).ToDictionary(m => m.ProjectPath);
+			var edges = references
+				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 				.SelectMany(pr => pr.ProjectReferences.Select(r => CreateEdgeItem(pr.Name, r.Key, pr.ProjectPath, metrics[pr.ProjectPath], metrics[r.Value], results))
 					.Concat(pr.AssemblyReferences.Select(a => CreateEdgeItem(pr.Name, a, pr.ProjectPath, metrics[pr.ProjectPath], new ProjectCodeMetrics(), new EvaluationResult[0].GroupBy(x => x.ProjectPath)))))
 					.Concat(references.Select(r => CreateEdgeItem(r.Name, r.Name, r.ProjectPath, metrics[r.ProjectPath], metrics[r.ProjectPath], results)))
 					.ToArray();
+
+			return cancellationToken.IsCancellationRequested
+					   ? Enumerable.Empty<MetricsEdgeItem>()
+					   : edges;
 		}
 
-		private Task<ProjectReference[]> GetProjectReferences()
+		private Task<ProjectReference[]> GetProjectReferences(CancellationToken cancellationToken)
 		{
 			return _projectReferences.GetOrAdd(
 				_config.Path,
-				path =>
-				Task.Factory
-					.StartNew(() => GetProjectDependencies(path).ToArray()));
+				path => Task.Factory.StartNew(() => GetProjectDependencies(path).ToArray(), cancellationToken, TaskCreationOptions.PreferFairness, PriorityScheduler.AboveNormal));
 		}
 
-		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics()
+		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics(CancellationToken cancellationToken)
 		{
 			var solution = _solutionProvider.Get(_config.Path);
-			var metricTasks = solution.Projects.Select(GetProjectMetrics);
+			var metricTasks = solution.Projects
+				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
+				.Select(GetProjectMetrics);
 			var metrics = await Task.WhenAll(metricTasks);
 
-			return metrics.Where(x => x != null).ToArray();
+			return cancellationToken.IsCancellationRequested
+				? Enumerable.Empty<ProjectCodeMetrics>()
+				: metrics.Where(x => x != null).ToArray();
 		}
 
 		private Task<ProjectCodeMetrics> GetProjectMetrics(IProject project)

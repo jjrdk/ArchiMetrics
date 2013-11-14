@@ -33,7 +33,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<MetricsEdgeItem>> _edgeItems;
 
 		public CodeEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
+			ISolutionEdgeItemsRepositoryConfig config,
 			ICodeErrorRepository codeErrorRepository)
 		{
 			_config = config;
@@ -62,23 +62,23 @@ namespace ArchiMetrics.UI.DataAccess
 		}
 
 		protected static MetricsEdgeItem CreateEdgeItem(
-			string dependant, 
-			string dependency, 
-			string projectPath, 
-			CodeMetrics dependantMetrics, 
-			CodeMetrics dependencyMetrics, 
+			string dependant,
+			string dependency,
+			string projectPath,
+			CodeMetrics dependantMetrics,
+			CodeMetrics dependencyMetrics,
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new MetricsEdgeItem
 					   {
-						   Dependant = dependant, 
-						   Dependency = dependency, 
-						   DependantLinesOfCode = dependantMetrics.LinesOfCode, 
-						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex, 
-						   DependantComplexity = dependantMetrics.CyclomaticComplexity, 
-						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode, 
-						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex, 
-						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity, 
+						   Dependant = dependant,
+						   Dependency = dependency,
+						   DependantLinesOfCode = dependantMetrics.LinesOfCode,
+						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex,
+						   DependantComplexity = dependantMetrics.CyclomaticComplexity,
+						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode,
+						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex,
+						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity,
 						   CodeIssues =
 							   results.Where(e => e.Key == projectPath)
 									  .SelectMany(er => er)
@@ -95,7 +95,7 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		protected abstract Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results);
+		protected abstract Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results, CancellationToken cancellationToken);
 
 		protected int GetLinesOfCode(CommonSyntaxNode node)
 		{
@@ -124,14 +124,14 @@ namespace ArchiMetrics.UI.DataAccess
 		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview(CancellationToken cancellationToken)
 		{
 			var errors = await _codeErrorRepository.GetErrors(cancellationToken);
-			var edges = await CreateEdges(errors);
+			var edges = await CreateEdges(errors, cancellationToken);
 
 			return edges;
 		}
 
 		private Task<IEnumerable<MetricsEdgeItem>> LoadWithoutCodeReview()
 		{
-			return CreateEdges(new EvaluationResult[0]);
+			return CreateEdges(new EvaluationResult[0], CancellationToken.None);
 		}
 
 		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)

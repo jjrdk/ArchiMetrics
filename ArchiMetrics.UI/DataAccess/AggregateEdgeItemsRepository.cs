@@ -29,9 +29,9 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly ProjectEdgeItemsRepository _projectEdgeRepository;
 
 		public AggregateEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config, 
-			IProvider<string, ISolution> solutionProvider, 
-			ICodeErrorRepository codeErrorRepository, 
+			ISolutionEdgeItemsRepositoryConfig config,
+			IProvider<string, ISolution> solutionProvider,
+			ICodeErrorRepository codeErrorRepository,
 			ICodeMetricsCalculator metricsCalculator)
 		{
 			_config = config;
@@ -55,10 +55,10 @@ namespace ArchiMetrics.UI.DataAccess
 			switch (_config.Source)
 			{
 				case EdgeSource.Namespace:
-					return _namespaceEdgeRepository.GetEdges();
+					return _namespaceEdgeRepository.GetEdges(cancellationToken);
 				case EdgeSource.Project:
 				default:
-					return _projectEdgeRepository.GetEdges();
+					return _projectEdgeRepository.GetEdges(cancellationToken);
 			}
 		}
 
