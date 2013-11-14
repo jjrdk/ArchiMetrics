@@ -23,6 +23,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
+	using ArchiMetrics.UI.Support;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -73,7 +74,9 @@ namespace ArchiMetrics.UI.DataAccess
 						? Enumerable.Empty<EvaluationResult>()
 						: cachedEdges.Value.AsEnumerable();
 				},
-				cancellationToken);
+				cancellationToken,
+				TaskCreationOptions.PreferFairness,
+				PriorityScheduler.Lowest);
 		}
 
 		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))
