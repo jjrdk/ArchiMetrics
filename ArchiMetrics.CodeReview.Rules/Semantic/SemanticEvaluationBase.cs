@@ -33,6 +33,11 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 					result.Namespace = unitNamespace;
 				}
 
+				result.Title = Title;
+				result.Suggestion = Suggestion;
+				result.Quality = Quality;
+				result.QualityAttribute = QualityAttribute;
+				result.ImpactLevel = ImpactLevel;
 				result.FilePath = filePath;
 				result.LinesOfCodeAffected = GetLinesOfCode(result.Snippet);
 			}

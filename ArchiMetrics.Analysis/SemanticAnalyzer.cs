@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis
 
 		public IEnumerable<ParameterSyntax> GetUnusedParameters(BaseMethodDeclarationSyntax method)
 		{
-			if (method.ParameterList.Parameters.Count == 0 || method.Body == null)
+			if (method.ParameterList.Parameters.Count == 0 || method.Body == null || !method.Body.ChildNodes().Any())
 			{
 				return new ParameterSyntax[0];
 			}
@@ -60,7 +60,7 @@ namespace ArchiMetrics.Analysis
 
 		public bool CanBeMadeStatic(BaseMethodDeclarationSyntax method)
 		{
-			if (method.Body == null)
+			if (method.Body == null || !method.Body.ChildNodes().Any())
 			{
 				return false;
 			}
