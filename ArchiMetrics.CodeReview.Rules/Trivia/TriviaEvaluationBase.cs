@@ -26,7 +26,12 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 				var sourceTree = node.GetLocation().SourceTree;
 				var filePath = sourceTree.FilePath;
 				var unitNamespace = GetCompilationUnitNamespace(sourceTree.GetRoot());
+				result.Title = Title;
+				result.Suggestion = Suggestion;
 				result.Namespace = unitNamespace;
+				result.Quality = Quality;
+				result.QualityAttribute = QualityAttribute;
+				result.ImpactLevel = ImpactLevel;
 				result.FilePath = filePath;
 				result.LinesOfCodeAffected = 0;
 			}
