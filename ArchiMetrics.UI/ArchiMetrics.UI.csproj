@@ -163,7 +163,6 @@
     <Compile Include="Support\DelegateCommand.cs" />
     <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />
-    <Compile Include="Support\PriorityScheduler.cs" />
     <Compile Include="ViewModel\CircularReferenceViewModel.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\CodeReviewViewModel.cs" />

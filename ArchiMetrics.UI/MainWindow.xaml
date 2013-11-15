@@ -8,11 +8,11 @@
                   mc:Ignorable="d"
 				  FontSize="13"
 				  FontFamily="Verdana"
-				  MinWidth="650"
-				  MinHeight="420"
+				  MinWidth="800"
+				  MinHeight="640"
 				  Title="{Binding Path=DisplayName}"
-				  Width="650"
-				  Height="420"
+				  Width="1024"
+				  Height="768"
 				  WindowStartupLocation="CenterScreen"
 				  d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}"
 				  ContentLoader="{DynamicResource Loader}">
@@ -30,14 +30,14 @@
 		</mui:LinkGroup>
 		<mui:LinkGroup DisplayName="Review">
 			<mui:LinkGroup.Links>
-				<mui:Link DisplayName="Circular References"
-						  Source="View/CircularReferenceView.xaml" />
 				<mui:Link DisplayName="Code Review"
 						  Source="View/CodeReviewView.xaml" />
 				<mui:Link DisplayName="Code Errors"
 						  Source="View/CodeErrorGraphView.xaml" />
 				<mui:Link DisplayName="Test Errors"
 						  Source="View/TestErrorGraphView.xaml" />
+				<mui:Link DisplayName="Circular References"
+						  Source="View/CircularReferenceView.xaml" />
 			</mui:LinkGroup.Links>
 		</mui:LinkGroup>
 	</mui:ModernWindow.MenuLinkGroups>

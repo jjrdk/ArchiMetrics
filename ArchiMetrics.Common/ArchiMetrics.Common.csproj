@@ -92,6 +92,7 @@
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />
+    <Compile Include="PriorityScheduler.cs" />
     <Compile Include="ProjectComparer.cs" />
     <Compile Include="ProjectDefinition.cs" />
     <Compile Include="ProjectProvider.cs" />
