@@ -81,7 +81,7 @@ namespace ArchiMetrics.UI
 
 			foreach (var type in typeof(ReportUtils).Assembly
 												   .GetTypes()
-												   .Where(t => typeof(IEvaluation).IsAssignableFrom(t))
+												   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
 												   .Where(t => !t.IsInterface && !t.IsAbstract))
 			{
 				builder.RegisterType(type).As<IEvaluation>();

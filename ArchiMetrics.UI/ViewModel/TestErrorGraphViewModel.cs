@@ -21,6 +21,8 @@ namespace ArchiMetrics.UI.ViewModel
 
 	public class TestErrorGraphViewModel : ViewModelBase
 	{
+		private IList<KeyValuePair<int, int>> _errors;
+
 		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
@@ -28,13 +30,27 @@ namespace ArchiMetrics.UI.ViewModel
 					  .ContinueWith(DisplayErrors);
 		}
 
-		public IList<KeyValuePair<int, int>> Errors { get; private set; }
+		public IList<KeyValuePair<int, int>> Errors
+		{
+			get { return _errors; }
+			private set
+			{
+				if (!ReferenceEquals(_errors, value))
+				{
+					_errors = value;
+					RaisePropertyChanged();
+				}
+			}
+		}
 
 		private void DisplayErrors(Task<IEnumerable<EvaluationResult>> task)
 		{
 			IsLoading = true;
 			var results = task.Result.Where(x => x.Title == "Multiple Asserts in Test")
-							  .GroupBy(x => x.ErrorCount).Select(x => new KeyValuePair<int, int>(x.Key, x.Count())).OrderBy(x => x.Key);
+							  .GroupBy(x => x.ErrorCount)
+							  .Where(x => x.Key != 1)
+							  .Select(x => new KeyValuePair<int, int>(x.Key, x.Count()))
+							  .OrderBy(x => x.Key);
 			Errors = new List<KeyValuePair<int, int>>(results);
 			IsLoading = false;
 		}

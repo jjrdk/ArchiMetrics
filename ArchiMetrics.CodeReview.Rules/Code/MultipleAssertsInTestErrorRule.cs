@@ -86,7 +86,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 						l.Attributes.Any(a => a.Name is SimpleNameSyntax && ((SimpleNameSyntax)a.Name).Identifier.ValueText == "ExpectedException"));
 
 				var total = assertsFound + mockVerifyFound + expectedExceptions;
-				return total >= 0
+				return total != 1
 						   ? new EvaluationResult
 								 {
 									 Snippet = node.ToFullString(),

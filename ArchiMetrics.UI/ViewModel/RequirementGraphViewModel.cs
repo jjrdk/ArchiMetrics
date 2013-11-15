@@ -18,7 +18,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 

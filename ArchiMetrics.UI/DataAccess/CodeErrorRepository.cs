@@ -74,9 +74,7 @@ namespace ArchiMetrics.UI.DataAccess
 						? Enumerable.Empty<EvaluationResult>()
 						: cachedEdges.Value.AsEnumerable();
 				},
-				cancellationToken,
-				TaskCreationOptions.PreferFairness,
-				PriorityScheduler.Lowest);
+				cancellationToken);
 		}
 
 		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))
@@ -104,39 +102,15 @@ namespace ArchiMetrics.UI.DataAccess
 		private EvaluationResult[] LoadEvaluationResults(string path)
 		{
 			var solution = _solutionProvider.Get(path);
-			var inspectionTasks = solution.Projects
-				.Select(
-					_ => new
-						 {
-							 solution = solution,
-							 project = _
-						 })
-				.SelectMany(
-					p =>
-					{
-						var compilation = p.project.GetCompilation();
-						var nodes = p.project.Documents
-							.Distinct(DocumentComparer.Default)
-							.Select(d => d.GetSyntaxTree())
-							.Select(
-								d => new
-								{
-									solution = p.solution,
-									project = p.project,
-									tree = d
-								})
-							.Select(d =>
-								new
-								{
-									projectPath = p.project.FilePath,
-									syntaxTree = d.tree.GetRoot() as SyntaxNode,
-									solution = p.solution,
-									semanticModel = compilation.GetSemanticModel(d.tree)
-								});
-						return nodes;
-					})
-				.Where(n => n.syntaxTree != null)
-				.Select(t => _inspector.Inspect(t.projectPath, t.syntaxTree, t.semanticModel, t.solution))
+
+			var inspectionTasks = (from project in solution.Projects
+								   where project.HasDocuments
+								   let compilation = project.GetCompilation()
+								   from doc in project.Documents
+								   let tree = doc.GetSyntaxTree()
+								   let root = tree.GetRoot() as SyntaxNode
+								   where root != null
+								   select _inspector.Inspect(project.FilePath, root, compilation.GetSemanticModel(tree), solution))
 				.ToArray();
 			if (inspectionTasks.Length == 0)
 			{

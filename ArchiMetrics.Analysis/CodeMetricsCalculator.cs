@@ -309,8 +309,7 @@ namespace ArchiMetrics.Analysis
 					.OrderByDescending(x => x)
 					.Aggregate(
 						project,
-						(p,
-							s) =>
+						(p, s) =>
 						{
 							DocumentId did;
 							var root = Path.GetDirectoryName(project.FilePath);

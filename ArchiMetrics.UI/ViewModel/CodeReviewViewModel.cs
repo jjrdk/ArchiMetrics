@@ -121,7 +121,7 @@ namespace ArchiMetrics.UI.ViewModel
 				ErrorsShown = 0;
 
 				var errors = await _repository.GetErrors(_config.Path, _tokenSource.Token);
-				var results = errors.Where(x => x.Title != "Multiple Asserts in Test" || x.ErrorCount != 1).ToArray();
+				var results = errors.ToArray();
 				foreach (var result in results)
 				{
 					newErrors.Add(result);
@@ -143,6 +143,7 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 			catch (Exception exception)
 			{
+				newErrors.Clear();
 				var result = new EvaluationResult
 									   {
 										   Quality = CodeQuality.Broken,
