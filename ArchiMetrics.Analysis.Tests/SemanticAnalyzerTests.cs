@@ -83,5 +83,37 @@ namespace ArchiMetrics.Analysis.Tests
 
 			CollectionAssert.IsNotEmpty(staticMethods);
 		}
+
+		[Test]
+		public async void DoesNotSuggestAlreadyStaticMethods()
+		{
+			const string Code = @"namespace abc
+{
+	using System;
+
+	public class MyClass
+	{
+		public static int Foo()
+		{
+			return 5;
+		}
+	}
+}";
+			DocumentId did;
+			ProjectId pid;
+			var solution = Solution.Create(SolutionId.CreateNewId("test"))
+				.AddCSharpProject("x", "x", out pid)
+				.AddDocument(pid, "x.cs", Code, out did)
+				.AddMetadataReferences(pid, new[] { new MetadataFileReference(typeof(object).Assembly.Location) });
+			var doc = solution.GetDocument(did);
+
+			var model = await doc.GetSemanticModelAsync();
+			var root = await doc.GetSyntaxRootAsync();
+			var type = root.DescendantNodes().OfType<TypeDeclarationSyntax>().First();
+			var analyzer = new SemanticAnalyzer(model);
+			var staticMethods = analyzer.GetPossibleStaticMethods(type);
+
+			CollectionAssert.IsEmpty(staticMethods);
+		}
 	}
 }

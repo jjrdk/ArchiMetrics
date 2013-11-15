@@ -60,7 +60,9 @@ namespace ArchiMetrics.Analysis
 
 		public bool CanBeMadeStatic(BaseMethodDeclarationSyntax method)
 		{
-			if (method.Body == null || !method.Body.ChildNodes().Any())
+			if (method.Modifiers.Any(SyntaxKind.StaticKeyword) 
+				|| method.Body == null 
+				|| !method.Body.ChildNodes().Any())
 			{
 				return false;
 			}

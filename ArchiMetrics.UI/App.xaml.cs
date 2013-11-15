@@ -79,10 +79,12 @@ namespace ArchiMetrics.UI
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
 
-			foreach (var type in typeof(ReportUtils).Assembly
-												   .GetTypes()
-												   .Where(t => typeof(ICodeEvaluation).IsAssignableFrom(t))
-												   .Where(t => !t.IsInterface && !t.IsAbstract))
+			var evaluationTypes = from type in typeof (ReportUtils).Assembly.GetTypes()
+				where typeof (ICodeEvaluation).IsAssignableFrom(type)
+				where !type.IsInterface && !type.IsAbstract
+				select type;
+
+			foreach (var type in evaluationTypes)
 			{
 				builder.RegisterType(type).As<IEvaluation>();
 			}
