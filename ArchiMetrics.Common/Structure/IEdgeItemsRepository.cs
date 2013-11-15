@@ -18,6 +18,6 @@ namespace ArchiMetrics.Common.Structure
 
 	public interface IEdgeItemsRepository
 	{
-		Task<IEnumerable<MetricsEdgeItem>> GetEdges(CancellationToken cancellationToken);
+		Task<IEnumerable<MetricsEdgeItem>> GetEdges(string path, bool includeReview, CancellationToken cancellationToken);
 	}
 }

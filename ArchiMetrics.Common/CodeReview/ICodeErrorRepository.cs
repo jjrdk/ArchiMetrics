@@ -19,8 +19,6 @@ namespace ArchiMetrics.Common.CodeReview
 
 	public interface ICodeErrorRepository : IDisposable
 	{
-		Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken);
-
 		Task<IEnumerable<EvaluationResult>> GetErrors(string s, CancellationToken cancellationToken);
 	}
 }

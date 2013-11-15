@@ -20,15 +20,21 @@ namespace ArchiMetrics.UI.ViewModel
 	public abstract class EdgesViewModelBase : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
+		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly IEdgeItemsRepository _repository;
 		private MetricsEdgeItem[] _allMetricsEdges = new MetricsEdgeItem[0];
 		private CancellationTokenSource _tokenSource;
 
-		public EdgesViewModelBase(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
+		public EdgesViewModelBase(
+			IEdgeItemsRepository repository, 
+			IEdgeTransformer filter, 
+			IVertexRuleDefinition ruleDefinition, 
+			ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
 			_repository = repository;
 			_filter = filter;
+			_config = config;
 			VertexRules = ruleDefinition.VertexRules;
 		}
 
@@ -95,7 +101,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private void LoadEdges(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			_repository.GetEdges(cancellationToken)
+			_repository.GetEdges(_config.Path, _config.IncludeCodeReview, cancellationToken)
 				.ContinueWith(
 					t =>
 					{

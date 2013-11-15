@@ -26,13 +26,17 @@ namespace ArchiMetrics.UI.ViewModel
 		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
-			repository.GetErrors(CancellationToken.None)
+			repository.GetErrors(config.Path, CancellationToken.None)
 					  .ContinueWith(DisplayErrors);
 		}
 
 		public IList<KeyValuePair<int, int>> Errors
 		{
-			get { return _errors; }
+			get
+			{
+				return _errors;
+			}
+
 			private set
 			{
 				if (!ReferenceEquals(_errors, value))

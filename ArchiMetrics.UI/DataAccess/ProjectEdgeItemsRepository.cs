@@ -22,38 +22,34 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
-	using ArchiMetrics.UI.Support;
 	using Roslyn.Services;
 
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, Task<ProjectReference[]>> _projectReferences = new ConcurrentDictionary<string, Task<ProjectReference[]>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
 		private readonly IMetricsRepository _metricsRepository;
 
 		public ProjectEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
 			IMetricsRepository metricsRepository)
-			: base(config, codeErrorRepository)
+			: base(codeErrorRepository)
 		{
-			_config = config;
 			_solutionProvider = solutionProvider;
 			_metricsRepository = metricsRepository;
 		}
 
-		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
+		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(string path, IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
 		{
-			var references = await GetProjectReferences(cancellationToken);
+			var references = await GetProjectReferences(path, cancellationToken);
 			if (cancellationToken.IsCancellationRequested)
 			{
 				return Enumerable.Empty<MetricsEdgeItem>();
 			}
 
 			var results = source.GroupBy(er => er.ProjectPath).ToArray();
-			var metrics = (await GetCodeMetrics(cancellationToken)).ToDictionary(m => m.ProjectPath);
+			var metrics = (await GetCodeMetrics(path, cancellationToken)).ToDictionary(m => m.ProjectPath);
 			var edges = references
 				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 				.SelectMany(pr => pr.ProjectReferences.Select(r => CreateEdgeItem(pr.Name, r.Key, pr.ProjectPath, metrics[pr.ProjectPath], metrics[r.Value], results))
@@ -66,19 +62,19 @@ namespace ArchiMetrics.UI.DataAccess
 					   : edges;
 		}
 
-		private Task<ProjectReference[]> GetProjectReferences(CancellationToken cancellationToken)
+		private Task<ProjectReference[]> GetProjectReferences(string solutionPath, CancellationToken cancellationToken)
 		{
 			return _projectReferences.GetOrAdd(
-				_config.Path,
+				solutionPath,
 				path => Task.Factory.StartNew(() => GetProjectDependencies(path).ToArray(), cancellationToken, TaskCreationOptions.PreferFairness, PriorityScheduler.AboveNormal));
 		}
 
-		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics(CancellationToken cancellationToken)
+		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics(string path, CancellationToken cancellationToken)
 		{
-			var solution = _solutionProvider.Get(_config.Path);
+			var solution = _solutionProvider.Get(path);
 			var metricTasks = solution.Projects
 				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
-				.Select(x => _metricsRepository.Get(x.FilePath, _config.Path));
+				.Select(x => _metricsRepository.Get(x.FilePath, path));
 			var metrics = await Task.WhenAll(metricTasks);
 
 			return cancellationToken.IsCancellationRequested

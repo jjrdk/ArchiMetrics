@@ -13,8 +13,8 @@
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
+	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.ComponentModel;
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading;
@@ -29,16 +29,12 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private static readonly Regex LocRegex = new Regex(@"^(?!(\s*\/\/))\s*.{3,}", RegexOptions.Compiled);
 		private readonly ICodeErrorRepository _codeErrorRepository;
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
-		private Task<IEnumerable<MetricsEdgeItem>> _edgeItems;
+		private readonly ConcurrentDictionary<string, Task<IEnumerable<MetricsEdgeItem>>> _edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<MetricsEdgeItem>>>();
 
 		public CodeEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
 			ICodeErrorRepository codeErrorRepository)
 		{
-			_config = config;
 			_codeErrorRepository = codeErrorRepository;
-			_config.PropertyChanged += ConfigPropertyChanged;
 		}
 
 		~CodeEdgeItemsRepository()
@@ -52,13 +48,13 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public Task<IEnumerable<MetricsEdgeItem>> GetEdges(CancellationToken cancellationToken = default(CancellationToken))
+		public Task<IEnumerable<MetricsEdgeItem>> GetEdges(string path, bool includeReview, CancellationToken cancellationToken)
 		{
-			return _edgeItems ?? (_edgeItems = string.IsNullOrWhiteSpace(_config.Path)
-												   ? Task.Factory.StartNew(() => new MetricsEdgeItem[0].AsEnumerable(), cancellationToken)
-												   : _config.IncludeCodeReview
-														 ? LoadWithCodeReview(cancellationToken)
-														 : LoadWithoutCodeReview());
+			return string.IsNullOrWhiteSpace(path)
+					   ? Task.Factory.StartNew(() => new MetricsEdgeItem[0].AsEnumerable(), cancellationToken)
+					   : includeReview
+							 ? LoadWithCodeReview(path, cancellationToken)
+							 : LoadWithoutCodeReview(path);
 		}
 
 		protected static MetricsEdgeItem CreateEdgeItem(
@@ -90,11 +86,16 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			if (isDisposing)
 			{
-				_config.PropertyChanged -= ConfigPropertyChanged;
+				foreach (var task in _edgeItems.Values)
+				{
+					task.Dispose();
+				}
+
+				_edgeItems.Clear();
 			}
 		}
 
-		protected abstract Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> results, CancellationToken cancellationToken);
+		protected abstract Task<IEnumerable<MetricsEdgeItem>> CreateEdges(string path, IEnumerable<EvaluationResult> results, CancellationToken cancellationToken);
 
 		protected int GetLinesOfCode(CommonSyntaxNode node)
 		{
@@ -120,27 +121,28 @@ namespace ArchiMetrics.UI.DataAccess
 					   .Select(n => n.Name.GetText().ToString().Trim());
 		}
 
-		private async Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview(CancellationToken cancellationToken)
+		private Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview(string path, CancellationToken cancellationToken)
 		{
-			var errors = await _codeErrorRepository.GetErrors(cancellationToken);
-			var edges = await CreateEdges(errors, cancellationToken);
+			return _edgeItems.GetOrAdd(
+				path + true,
+				async p =>
+				{
+					var errors = await _codeErrorRepository.GetErrors(path, CancellationToken.None);
+					var edges = await CreateEdges(path, errors, cancellationToken);
 
-			return edges;
+					return edges;
+				});
 		}
 
-		private Task<IEnumerable<MetricsEdgeItem>> LoadWithoutCodeReview()
+		private Task<IEnumerable<MetricsEdgeItem>> LoadWithoutCodeReview(string path)
 		{
-			return CreateEdges(new EvaluationResult[0], CancellationToken.None);
-		}
-
-		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (_edgeItems != null)
-			{
-				_edgeItems.Dispose();
-			}
-
-			_edgeItems = null;
+			return _edgeItems.GetOrAdd(
+				path + false,
+				p =>
+				{
+					_codeErrorRepository.GetErrors(path, CancellationToken.None);
+					return CreateEdges(path, new EvaluationResult[0], CancellationToken.None);
+				});
 		}
 	}
 }

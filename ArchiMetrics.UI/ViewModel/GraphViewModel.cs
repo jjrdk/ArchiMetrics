@@ -16,24 +16,28 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using System.Threading;
 	using System.Windows.Input;
-	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;
 
 	internal class GraphViewModel : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
+		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly IEdgeItemsRepository _repository;
 		private readonly DelegateCommand _updateCommand;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 		private CancellationTokenSource _tokenSource;
 
-		public GraphViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, ISolutionEdgeItemsRepositoryConfig config)
+		public GraphViewModel(
+			IEdgeItemsRepository repository,
+			IEdgeTransformer filter,
+			ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
 			_repository = repository;
 			_filter = filter;
+			_config = config;
 			UpdateImpl(true);
 			_updateCommand = new DelegateCommand(o => true, o => Update(true));
 		}
@@ -168,12 +172,11 @@ namespace ArchiMetrics.UI.ViewModel
 		private void LoadAllEdges(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			_repository.GetEdges(cancellationToken)
+			_repository.GetEdges(_config.Path, _config.IncludeCodeReview, cancellationToken)
 				.ContinueWith(
 					t =>
 					{
-						_allMetricsEdges = t.Result.Where(e => e.Dependant != e.Dependency)
-							.ToArray();
+						_allMetricsEdges = t.Result.Where(e => e.Dependant != e.Dependency).ToArray();
 						Update(false);
 					},
 					cancellationToken);

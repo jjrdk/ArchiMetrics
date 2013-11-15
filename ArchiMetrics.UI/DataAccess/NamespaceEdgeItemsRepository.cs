@@ -12,10 +12,8 @@
 
 namespace ArchiMetrics.UI.DataAccess
 {
-	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.IO;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -23,34 +21,30 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
-	using ArchiMetrics.UI.Support;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public class NamespaceEdgeItemsRepository : CodeEdgeItemsRepository
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, IEnumerable<NamespaceReference>> _namespaceReferences = new ConcurrentDictionary<string, IEnumerable<NamespaceReference>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
 		private readonly IMetricsRepository _metricsProvider;
 
 		public NamespaceEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
 			IMetricsRepository metricsRepository,
 			ICodeErrorRepository codeErrorRepository)
-			: base(config, codeErrorRepository)
+			: base(codeErrorRepository)
 		{
-			_config = config;
 			_solutionProvider = solutionProvider;
 			_metricsProvider = metricsRepository;
 		}
 
-		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
+		protected override async Task<IEnumerable<MetricsEdgeItem>> CreateEdges(string path, IEnumerable<EvaluationResult> source, CancellationToken cancellationToken)
 		{
 			var results = source.GroupBy(x => x.Namespace).ToArray();
-			var namespaceReferences = (await GetNamespaceReferences(cancellationToken)).ToArray();
-			var metrics = (await GetCodeMetrics(namespaceReferences, cancellationToken))
+			var namespaceReferences = (await GetNamespaceReferences(path, cancellationToken)).ToArray();
+			var metrics = (await GetCodeMetrics(path, namespaceReferences, cancellationToken))
 				.SelectMany(x => x.Metrics.Select(_ => new
 				{
 					Name = _.Name,
@@ -98,11 +92,11 @@ namespace ArchiMetrics.UI.DataAccess
 					   : new ProjectCodeMetrics();
 		}
 
-		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences(CancellationToken cancellationToken)
+		private Task<IEnumerable<NamespaceReference>> GetNamespaceReferences(string solutionPath, CancellationToken cancellationToken)
 		{
 			return Task.Factory.StartNew(
 				() => _namespaceReferences.GetOrAdd(
-					_config.Path,
+					solutionPath,
 					path => _solutionProvider.Get(path)
 								.Projects
 								.Where(
@@ -142,11 +136,11 @@ namespace ArchiMetrics.UI.DataAccess
 				cancellationToken);
 		}
 
-		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics(IEnumerable<NamespaceReference> namespaceReferences, CancellationToken cancellationToken)
+		private async Task<IEnumerable<ProjectCodeMetrics>> GetCodeMetrics(string path, IEnumerable<NamespaceReference> namespaceReferences, CancellationToken cancellationToken)
 		{
 			var metrics = namespaceReferences.Select(x => x.ProjectPath)
 			.Distinct()
-			.Select(x => _metricsProvider.Get(x, _config.Path))
+			.Select(x => _metricsProvider.Get(x, path))
 			.ToArray();
 
 			await Task.WhenAll(metrics);

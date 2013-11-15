@@ -35,8 +35,8 @@ namespace ArchiMetrics.UI.DataAccess
 			IMetricsRepository metricsRepository)
 		{
 			_config = config;
-			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(config, solutionProvider, metricsRepository, codeErrorRepository);
-			_projectEdgeRepository = new ProjectEdgeItemsRepository(config, solutionProvider, codeErrorRepository, metricsRepository);
+			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(solutionProvider, metricsRepository, codeErrorRepository);
+			_projectEdgeRepository = new ProjectEdgeItemsRepository(solutionProvider, codeErrorRepository, metricsRepository);
 		}
 
 		~AggregateEdgeItemsRepository()
@@ -50,15 +50,15 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public Task<IEnumerable<MetricsEdgeItem>> GetEdges(CancellationToken cancellationToken = default(CancellationToken))
+		public Task<IEnumerable<MetricsEdgeItem>> GetEdges(string path, bool includeReview, CancellationToken cancellationToken)
 		{
 			switch (_config.Source)
 			{
 				case EdgeSource.Namespace:
-					return _namespaceEdgeRepository.GetEdges(cancellationToken);
+					return _namespaceEdgeRepository.GetEdges(path, includeReview, cancellationToken);
 				case EdgeSource.Project:
 				default:
-					return _projectEdgeRepository.GetEdges(cancellationToken);
+					return _projectEdgeRepository.GetEdges(path, includeReview, cancellationToken);
 			}
 		}
 
