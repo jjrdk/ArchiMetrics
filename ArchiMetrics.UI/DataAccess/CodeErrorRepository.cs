@@ -76,7 +76,7 @@ namespace ArchiMetrics.UI.DataAccess
 				},
 				cancellationToken,
 				TaskCreationOptions.PreferFairness,
-				PriorityScheduler.Lowest);
+				PriorityScheduler.BelowNormal);
 		}
 
 		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))

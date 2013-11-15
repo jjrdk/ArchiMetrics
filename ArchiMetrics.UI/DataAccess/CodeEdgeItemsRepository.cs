@@ -70,21 +70,20 @@ namespace ArchiMetrics.UI.DataAccess
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new MetricsEdgeItem
-					   {
-						   Dependant = dependant,
-						   Dependency = dependency,
-						   DependantLinesOfCode = dependantMetrics.LinesOfCode,
-						   DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex,
-						   DependantComplexity = dependantMetrics.CyclomaticComplexity,
-						   DependencyLinesOfCode = dependencyMetrics.LinesOfCode,
-						   DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex,
-						   DependencyComplexity = dependencyMetrics.CyclomaticComplexity,
-						   CodeIssues =
-							   results.Where(e => e.Key == projectPath)
-									  .SelectMany(er => er)
-									  .ToArray()
-									  .AsEnumerable()
-					   };
+			{
+				Dependant = dependant,
+				Dependency = dependency,
+				DependantLinesOfCode = dependantMetrics.LinesOfCode,
+				DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex,
+				DependantComplexity = dependantMetrics.CyclomaticComplexity,
+				DependencyLinesOfCode = dependencyMetrics.LinesOfCode,
+				DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex,
+				DependencyComplexity = dependencyMetrics.CyclomaticComplexity,
+				CodeIssues =
+					results.Where(e => e.Key == projectPath)
+						.SelectMany(er => er)
+						.ToArray()
+			};
 		}
 
 		protected virtual void Dispose(bool isDisposing)
