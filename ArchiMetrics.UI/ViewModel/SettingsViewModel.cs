@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using ArchiMetrics.UI.DataAccess;
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -23,13 +25,14 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IDisposable _changeSubscription;
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 
-		public SettingsViewModel(ISolutionEdgeItemsRepositoryConfig config)
+		public SettingsViewModel(IAvailableRules availableRules, ISolutionEdgeItemsRepositoryConfig config)
 			: base(config)
 		{
+			AvailableRules = availableRules;
 			_config = config;
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-					h => _config.PropertyChanged += h, 
+					h => _config.PropertyChanged += h,
 					h => _config.PropertyChanged -= h)
 				.Select(x => x.EventArgs)
 				.ObserveOn(TaskPoolScheduler.Default)
@@ -53,6 +56,8 @@ namespace ArchiMetrics.UI.ViewModel
 			get { return _config.IncludeCodeReview; }
 			set { _config.IncludeCodeReview = value; }
 		}
+
+		public IAvailableRules AvailableRules { get; private set; }
 
 		protected override void Dispose(bool isDisposing)
 		{

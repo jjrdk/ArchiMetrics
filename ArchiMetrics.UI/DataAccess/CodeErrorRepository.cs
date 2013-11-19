@@ -32,17 +32,20 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly ISolutionEdgeItemsRepositoryConfig _config;
 		private readonly ConcurrentDictionary<string, Lazy<EvaluationResult[]>> _edgeItems;
 		private readonly INodeInspector _inspector;
+		private readonly IAvailableRules _availableRules;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
 			ISolutionEdgeItemsRepositoryConfig config,
 			IProvider<string, ISolution> solutionProvider,
-			INodeInspector inspector)
+			INodeInspector inspector,
+			IAvailableRules availableRules)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Lazy<EvaluationResult[]>>();
 			_config = config;
 			_solutionProvider = solutionProvider;
 			_inspector = inspector;
+			_availableRules = availableRules;
 			_config.PropertyChanged += ConfigPropertyChanged;
 			GetErrors();
 		}
@@ -70,9 +73,13 @@ namespace ArchiMetrics.UI.DataAccess
 							return loadTask;
 						});
 
+					var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
 					return cancellationToken.IsCancellationRequested
 						? Enumerable.Empty<EvaluationResult>()
-						: cachedEdges.Value.AsEnumerable();
+						: cachedEdges.Value
+							.Where(x => availableRules.Contains(x.Title))
+							.ToArray()
+							.AsEnumerable();
 				},
 				cancellationToken);
 		}
