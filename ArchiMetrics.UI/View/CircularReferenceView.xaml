@@ -20,7 +20,7 @@
 				<DataGridTextColumn Header="Last Edge"
 									Binding="{Binding Path=LastEdge}" />
 				<DataGridTextColumn Header="Length"
-									Binding="{Binding Path=ChainLength}" />
+									Binding="{Binding Path=Length}" />
 				<DataGridTextColumn Header="Chain"
 									Binding="{Binding}" />
 			</DataGrid.Columns>

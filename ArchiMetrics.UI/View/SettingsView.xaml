@@ -6,8 +6,9 @@
 			 xmlns:contracts="clr-namespace:ArchiMetrics.Common;assembly=ArchiMetrics.Common"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-             xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
-             mc:Ignorable="d"
+			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
+			 xmlns:dataAccess="clr-namespace:ArchiMetrics.UI.DataAccess"
+			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:SettingsViewModel}">
@@ -22,6 +23,7 @@
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -47,8 +49,8 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock x:Name="PathBox"
-					 Grid.Column="0"
-					 Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					   Grid.Column="0"
+					   Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<Button Grid.Column="1"
 					Content="Set Path"
 					Click="OnClick" />
@@ -74,5 +76,22 @@
 				  SelectedIndex="0"
 				  ItemsSource="{Binding Source={StaticResource EdgeSourceValues}}"
 				  SelectedValue="{Binding Path=Source, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<Label Content="Reviewed Rules"
+			   Grid.Row="4"
+			   Grid.Column="0" />
+		<ListBox Grid.Row="4"
+				 Grid.Column="1"
+				 ItemsSource="{Binding Path=AvailableRules.Availabilities}">
+			<ListBox.ItemTemplate>
+				<DataTemplate DataType="dataAccess:IAvailability">
+					<StackPanel Orientation="Horizontal"
+								Margin="2">
+						<CheckBox IsThreeState="False"
+								  IsChecked="{Binding Path=IsAvailable, Mode=TwoWay}" />
+						<TextBlock Text="{Binding}"></TextBlock>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 	</Grid>
 </UserControl>

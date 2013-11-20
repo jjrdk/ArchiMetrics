@@ -144,10 +144,13 @@
     <Compile Include="Converters\LinesOfCodeToThicknessConverter.cs" />
     <Compile Include="Converters\QualityToBrushConverter.cs" />
     <Compile Include="DataAccess\AggregateEdgeItemsRepository.cs" />
+    <Compile Include="DataAccess\AvailableRules.cs" />
     <Compile Include="DataAccess\CodeEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\CodeErrorRepository.cs" />
     <Compile Include="DataAccess\DocumentComparer.cs" />
     <Compile Include="DataAccess\EdgeTransformer.cs" />
+    <Compile Include="DataAccess\IAvailability.cs" />
+    <Compile Include="DataAccess\IAvailableRules.cs" />
     <Compile Include="DataAccess\MetricsRepository.cs" />
     <Compile Include="DataAccess\RepositoryBase.cs" />
     <Compile Include="DataAccess\VertexRuleRepository.cs" />

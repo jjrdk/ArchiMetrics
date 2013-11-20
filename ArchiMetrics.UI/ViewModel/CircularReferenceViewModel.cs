@@ -50,30 +50,21 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		protected async override void UpdateInternal(CancellationToken cancellationToken)
+		protected override async void UpdateInternal(CancellationToken cancellationToken)
 		{
-			IsLoading = true;
-			var edgeItems = await Filter.Transform(AllMetricsEdges, cancellationToken);
+			try
+			{
+				IsLoading = true;
+				var edgeItems = await Filter.Transform(AllMetricsEdges, cancellationToken);
 
-			await DependencyAnalyzer.GetCircularReferences(edgeItems, cancellationToken)
-				.ContinueWith(
-					t =>
-					{
-						if (t.IsCanceled)
-						{
-							return;
-						}
+				var circularReferences = await DependencyAnalyzer.GetCircularReferences(edgeItems, cancellationToken);
 
-						if (t.Exception != null)
-						{
-							IsLoading = false;
-							return;
-						}
-
-						CircularReferences = t.Result.ToArray();
-						IsLoading = false;
-					},
-					cancellationToken);
+				CircularReferences = circularReferences.ToArray();
+			}
+			finally
+			{
+				IsLoading = false;
+			}
 		}
 	}
 }
