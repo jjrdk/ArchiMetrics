@@ -3,7 +3,6 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:contracts="clr-namespace:ArchiMetrics.Common;assembly=ArchiMetrics.Common"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
@@ -20,6 +19,10 @@
 				<x:Type TypeName="structure:EdgeSource" />
 			</ObjectDataProvider.MethodParameters>
 		</ObjectDataProvider>
+		<Style TargetType="Label">
+			<Setter Property="Margin"
+					Value="0,3" />
+		</Style>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -53,7 +56,9 @@
 					   Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<Button Grid.Column="1"
 					Content="Set Path"
-					Click="OnClick" />
+					Click="OnClick"
+					Height="25"
+					Margin="5,0" />
 		</Grid>
 		<Label Grid.Row="2"
 			   Grid.Column="0"
@@ -64,6 +69,7 @@
 				  Grid.Row="2"
 				  Grid.Column="1"
 				  IsThreeState="False"
+				  Margin="5,0"
 				  IsChecked="{Binding Path=IncludeCodeReview, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		<Label Grid.Row="3"
 			   Grid.Column="0"
@@ -74,6 +80,8 @@
 				  Grid.Row="3"
 				  Grid.Column="1"
 				  SelectedIndex="0"
+				  Height="25"
+				  Margin="5,0"
 				  ItemsSource="{Binding Source={StaticResource EdgeSourceValues}}"
 				  SelectedValue="{Binding Path=Source, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		<Label Content="Reviewed Rules"
@@ -81,7 +89,12 @@
 			   Grid.Column="0" />
 		<ListBox Grid.Row="4"
 				 Grid.Column="1"
-				 ItemsSource="{Binding Path=AvailableRules.Availabilities}">
+				 Margin="5,0"
+				 SelectionMode="Extended"
+				 ScrollViewer.PanningMode="VerticalOnly"
+				 ScrollViewer.VerticalScrollBarVisibility="Auto"
+				 ItemsSource="{Binding Path=AvailableRules.Availabilities}"
+				 MaxHeight="500">
 			<ListBox.ItemTemplate>
 				<DataTemplate DataType="dataAccess:IAvailability">
 					<StackPanel Orientation="Horizontal"

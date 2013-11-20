@@ -67,8 +67,8 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<DefaultCollectionCopier>()
 				   .As<ICollectionCopier>()
 				   .SingleInstance();
-			var config = new SolutionEdgeItemsRepositoryConfig();
-			builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
+			//var config = new SolutionEdgeItemsRepositoryConfig();
+			//builder.RegisterInstance<ISolutionEdgeItemsRepositoryConfig>(config);
 
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
@@ -79,10 +79,10 @@ namespace ArchiMetrics.UI
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
 			}
 
-			var evaluationTypes = from type in typeof (ReportUtils).Assembly.GetTypes()
-				where typeof (ICodeEvaluation).IsAssignableFrom(type)
-				where !type.IsInterface && !type.IsAbstract
-				select type;
+			var evaluationTypes = from type in typeof(ReportUtils).Assembly.GetTypes()
+								  where typeof(ICodeEvaluation).IsAssignableFrom(type)
+								  where !type.IsInterface && !type.IsAbstract
+								  select type;
 
 			foreach (var type in evaluationTypes)
 			{
@@ -113,6 +113,9 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<AvailableRules>().As<IAvailableRules>().SingleInstance();
+			builder.RegisterType<SolutionEdgeItemsRepositoryConfig>()
+				.As<ISolutionEdgeItemsRepositoryConfig>()
+				.SingleInstance();
 			var container = builder.Build();
 
 			return container;

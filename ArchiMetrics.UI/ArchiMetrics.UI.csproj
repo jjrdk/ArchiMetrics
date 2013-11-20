@@ -188,6 +188,9 @@
     <Compile Include="View\CodeReviewView.xaml.cs">
       <DependentUpon>CodeReviewView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RequirementGraphView.xaml.cs">
       <DependentUpon>RequirementGraphView.xaml</DependentUpon>
     </Compile>
@@ -257,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CodeReviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

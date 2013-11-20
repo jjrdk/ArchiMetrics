@@ -87,6 +87,17 @@ namespace ArchiMetrics.UI.DataAccess
 			var solution = _solutionProvider.Get(path);
 
 			return solution.Projects
+				.Where(p =>
+					{
+						try
+						{
+							return p.ProjectReferences.Any() || p.MetadataReferences.Any();
+						}
+						catch
+						{
+							return false;
+						}
+					})
 				.Select(
 					p => new ProjectReference
 						 {

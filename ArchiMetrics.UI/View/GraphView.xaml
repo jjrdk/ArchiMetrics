@@ -86,14 +86,8 @@
 				<ComboBoxItem Content="Tree" />
 			</ComboBox.Items>
 		</ComboBox>
-		<ProgressBar Grid.Row="0"
-					 Margin="100,0,25,0"
-					 Height="25"
-					 MinWidth="200"
-					 IsIndeterminate="True"
-					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}"
-					 VerticalAlignment="Center"
-					 HorizontalAlignment="Stretch" />
+		<view:LoadingControl Grid.Row="0"
+							 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}" />
 		<Button Grid.Row="1"
 				HorizontalAlignment="Right"
 				Content="Update"

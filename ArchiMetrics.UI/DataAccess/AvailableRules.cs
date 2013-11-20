@@ -1,15 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using ArchiMetrics.Common.CodeReview;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AvailableRules.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the AvailableRules type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.UI.DataAccess
 {
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Collections.Specialized;
+	using System.ComponentModel;
+	using System.Linq;
+	using System.Reactive.Linq;
+	using System.Runtime.CompilerServices;
+	using ArchiMetrics.Common.CodeReview;
+
 	internal class AvailableRules : IAvailableRules
 	{
 		private readonly List<AvailableRule> _innerList;
@@ -17,12 +29,29 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public AvailableRules(IEnumerable<IEvaluation> evaluations)
 		{
-			_innerList = evaluations.Select(x => new AvailableRule(x)).ToList();
-			_subscriptions = _innerList.Select(x => Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+			_innerList = (from evaluation in evaluations
+						  orderby evaluation.Title
+						  select new AvailableRule(evaluation))
+				.ToList();
+			_subscriptions = _innerList.Select(
+				x => Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
 				h => x.PropertyChanged += h,
 				h => x.PropertyChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(1))
-				.Subscribe(y => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))));
+				.Subscribe(y => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))))
+				.ToArray();
+		}
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+		public IEnumerable<IAvailability> Availabilities
+		{
+			get { return _innerList; }
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
 		}
 
 		public IEnumerator<IEvaluation> GetEnumerator()
@@ -38,16 +67,10 @@ namespace ArchiMetrics.UI.DataAccess
 			return GetEnumerator();
 		}
 
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-		public IEnumerable<IAvailability> Availabilities
+		protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{
-			get { return _innerList; }
-		}
-
-		public void Dispose()
-		{
-			Dispose(true);
+			var handler = CollectionChanged;
+			if (handler != null) handler(this, e);
 		}
 
 		private void Dispose(bool isDisposing)
@@ -59,12 +82,6 @@ namespace ArchiMetrics.UI.DataAccess
 					subscription.Dispose();
 				}
 			}
-		}
-
-		protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-		{
-			var handler = CollectionChanged;
-			if (handler != null) handler(this, e);
 		}
 
 		private class AvailableRule : IAvailability, INotifyPropertyChanged
@@ -82,7 +99,11 @@ namespace ArchiMetrics.UI.DataAccess
 
 			public bool IsAvailable
 			{
-				get { return _isAvailable; }
+				get
+				{
+					return _isAvailable;
+				}
+
 				set
 				{
 					if (_isAvailable != value)
@@ -95,7 +116,11 @@ namespace ArchiMetrics.UI.DataAccess
 
 			public IEvaluation Rule
 			{
-				get { return _rule; }
+				get
+				{
+					return _rule;
+				}
+
 				private set
 				{
 					if (!ReferenceEquals(_rule, value))

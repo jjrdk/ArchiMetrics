@@ -8,11 +8,11 @@
                   mc:Ignorable="d"
 				  FontSize="13"
 				  FontFamily="Verdana"
-				  MinWidth="800"
-				  MinHeight="640"
 				  Title="{Binding Path=DisplayName}"
 				  Width="1024"
 				  Height="768"
+				  MinWidth="1024"
+				  MinHeight="768"
 				  WindowStartupLocation="CenterScreen"
 				  d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}"
 				  ContentLoader="{DynamicResource Loader}">

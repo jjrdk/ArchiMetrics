@@ -13,18 +13,28 @@
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
+	using System.Collections.Specialized;
 	using System.ComponentModel;
+	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
 	using ArchiMetrics.Common.Structure;
 
 	public class SolutionEdgeItemsRepositoryConfig : ISolutionEdgeItemsRepositoryConfig
 	{
+		private readonly IAvailableRules _availableRules;
 		private bool _includeCodeReview;
 		private string _path;
 		private EdgeSource _source;
+		private IDisposable _subscription;
 
-		public SolutionEdgeItemsRepositoryConfig()
+		public SolutionEdgeItemsRepositoryConfig(IAvailableRules availableRules)
 		{
+			_availableRules = availableRules;
+			_subscription = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+				h => _availableRules.CollectionChanged += h,
+				h => _availableRules.CollectionChanged -= h)
+				.Throttle(TimeSpan.FromSeconds(3))
+				.Subscribe(x => OnPropertyChanged(string.Empty));
 			CutOff = TimeSpan.FromDays(7);
 		}
 

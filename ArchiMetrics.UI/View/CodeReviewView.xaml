@@ -3,8 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-             mc:Ignorable="d"
+			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeReviewViewModel}">
@@ -67,14 +68,8 @@
 									Binding="{Binding Path=ProjectPath}" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<ProgressBar Grid.Row="1"
-					 Grid.ColumnSpan="2"
-					 Margin="25,0"
-					 Height="25"
-					 MinWidth="200"
-					 IsIndeterminate="True"
-					 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}"
-					 VerticalAlignment="Center"
-					 HorizontalAlignment="Stretch" />
+		<view:LoadingControl Grid.Row="0"
+							 Grid.RowSpan="2"
+							 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}" />
 	</Grid>
 </UserControl>
