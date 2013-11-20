@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SolutionEdgeItemsRepositoryConfig.cs" company="Reimers.dk">
+// <copyright file="AppContext.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the SolutionEdgeItemsRepositoryConfig type.
+//   Defines the AppContext type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Runtime.CompilerServices;
 	using ArchiMetrics.Common.Structure;
 
-	public class SolutionEdgeItemsRepositoryConfig : ISolutionEdgeItemsRepositoryConfig
+	public class AppContext : IAppContext
 	{
 		private readonly IAvailableRules _availableRules;
 		private bool _includeCodeReview;
@@ -27,7 +27,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private EdgeSource _source;
 		private IDisposable _subscription;
 
-		public SolutionEdgeItemsRepositoryConfig(IAvailableRules availableRules)
+		public AppContext(IAvailableRules availableRules)
 		{
 			_availableRules = availableRules;
 			_subscription = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(

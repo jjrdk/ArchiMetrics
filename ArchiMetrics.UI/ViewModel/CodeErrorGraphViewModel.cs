@@ -23,11 +23,11 @@ namespace ArchiMetrics.UI.ViewModel
 	public class CodeErrorGraphViewModel : ViewModelBase
 	{
 		private readonly ICodeErrorRepository _repository;
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private CancellationTokenSource _tokenSource;
 		private IList<KeyValuePair<string, int>> _errors;
 
-		public CodeErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+		public CodeErrorGraphViewModel(ICodeErrorRepository repository, IAppContext config)
 			: base(config)
 		{
 			_repository = repository;

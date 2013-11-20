@@ -24,12 +24,12 @@ namespace ArchiMetrics.UI.DataAccess
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private readonly NamespaceEdgeItemsRepository _namespaceEdgeRepository;
 		private readonly ProjectEdgeItemsRepository _projectEdgeRepository;
 
 		public AggregateEdgeItemsRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
+			IAppContext config,
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
 			IMetricsRepository metricsRepository)

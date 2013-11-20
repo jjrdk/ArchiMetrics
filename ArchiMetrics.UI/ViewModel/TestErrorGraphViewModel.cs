@@ -23,7 +23,7 @@ namespace ArchiMetrics.UI.ViewModel
 	{
 		private IList<KeyValuePair<int, int>> _errors;
 
-		public TestErrorGraphViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+		public TestErrorGraphViewModel(ICodeErrorRepository repository, IAppContext config)
 			: base(config)
 		{
 			repository.GetErrors(config.Path, CancellationToken.None)

@@ -26,7 +26,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IEdgeItemsRepository repository,
 			IEdgeTransformer filter,
 			IVertexRuleDefinition ruleDefinition,
-			ISolutionEdgeItemsRepositoryConfig config)
+			IAppContext config)
 			: base(repository, filter, ruleDefinition, config)
 		{
 			_circularReferences = new List<DependencyChain>();

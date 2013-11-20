@@ -106,7 +106,7 @@
     <Compile Include="Structure\EdgeSource.cs" />
     <Compile Include="Structure\IEdgeItemsRepository.cs" />
     <Compile Include="Structure\IEdgeTransformer.cs" />
-    <Compile Include="Structure\ISolutionEdgeItemsRepositoryConfig.cs" />
+    <Compile Include="Structure\IAppContext.cs" />
     <Compile Include="Structure\IVertexRuleDefinition.cs" />
     <Compile Include="Structure\IVertexRuleRepository.cs" />
     <Compile Include="Structure\VertexRule.cs" />

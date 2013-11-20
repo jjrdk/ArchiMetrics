@@ -22,7 +22,7 @@ namespace ArchiMetrics.UI.ViewModel
 	internal class GraphViewModel : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private readonly IEdgeItemsRepository _repository;
 		private readonly DelegateCommand _updateCommand;
 		private MetricsEdgeItem[] _allMetricsEdges;
@@ -32,7 +32,7 @@ namespace ArchiMetrics.UI.ViewModel
 		public GraphViewModel(
 			IEdgeItemsRepository repository,
 			IEdgeTransformer filter,
-			ISolutionEdgeItemsRepositoryConfig config)
+			IAppContext config)
 			: base(config)
 		{
 			_repository = repository;

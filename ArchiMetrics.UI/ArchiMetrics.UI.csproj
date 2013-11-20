@@ -158,7 +158,7 @@
     <Compile Include="DataAccess\NamespaceReference.cs" />
     <Compile Include="DataAccess\ProjectEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\ProjectReference.cs" />
-    <Compile Include="DataAccess\SolutionEdgeItemsRepositoryConfig.cs" />
+    <Compile Include="DataAccess\AppContext.cs" />
     <Compile Include="DataAccess\SolutionProvider.cs" />
     <Compile Include="Support\DataContextAttribute.cs" />
     <Compile Include="Support\DefaultCollectionCopier.cs" />

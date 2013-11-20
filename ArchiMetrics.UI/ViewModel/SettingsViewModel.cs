@@ -23,9 +23,9 @@ namespace ArchiMetrics.UI.ViewModel
 	internal class SettingsViewModel : ViewModelBase
 	{
 		private readonly IDisposable _changeSubscription;
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 
-		public SettingsViewModel(IAvailableRules availableRules, ISolutionEdgeItemsRepositoryConfig config)
+		public SettingsViewModel(IAvailableRules availableRules, IAppContext config)
 			: base(config)
 		{
 			AvailableRules = availableRules;

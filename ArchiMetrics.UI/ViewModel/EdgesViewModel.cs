@@ -25,7 +25,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly DelegateCommand _updateCommand;
 		private ObservableCollection<MetricsEdgeItem> _dependencyItems;
 
-		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, ISolutionEdgeItemsRepositoryConfig config)
+		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, IAppContext config)
 			: base(repository, filter, ruleDefinition, config)
 		{
 			DependencyItems = new ObservableCollection<MetricsEdgeItem>();

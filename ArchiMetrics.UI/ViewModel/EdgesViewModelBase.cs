@@ -20,7 +20,7 @@ namespace ArchiMetrics.UI.ViewModel
 	public abstract class EdgesViewModelBase : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private readonly IEdgeItemsRepository _repository;
 		private MetricsEdgeItem[] _allMetricsEdges = new MetricsEdgeItem[0];
 		private CancellationTokenSource _tokenSource;
@@ -29,7 +29,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IEdgeItemsRepository repository, 
 			IEdgeTransformer filter, 
 			IVertexRuleDefinition ruleDefinition, 
-			ISolutionEdgeItemsRepositoryConfig config)
+			IAppContext config)
 			: base(config)
 		{
 			_repository = repository;

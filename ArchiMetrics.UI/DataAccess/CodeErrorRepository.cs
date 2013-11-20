@@ -29,14 +29,14 @@ namespace ArchiMetrics.UI.DataAccess
 
 	public class CodeErrorRepository : ICodeErrorRepository
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private readonly ConcurrentDictionary<string, Lazy<EvaluationResult[]>> _edgeItems;
 		private readonly INodeInspector _inspector;
 		private readonly IAvailableRules _availableRules;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			ISolutionEdgeItemsRepositoryConfig config,
+			IAppContext config,
 			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector,
 			IAvailableRules availableRules)

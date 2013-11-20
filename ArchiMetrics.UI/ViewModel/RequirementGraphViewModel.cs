@@ -24,13 +24,13 @@ namespace ArchiMetrics.UI.ViewModel
 	internal class RequirementGraphViewModel : ViewModelBase
 	{
 		private readonly IRequirementTestAnalyzer _analyzer;
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private readonly IEdgeTransformer _filter;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 		private CancellationTokenSource _tokenSource;
 
-		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, ISolutionEdgeItemsRepositoryConfig config, IEdgeTransformer filter)
+		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, IAppContext config, IEdgeTransformer filter)
 			: base(config)
 		{
 			_analyzer = analyzer;

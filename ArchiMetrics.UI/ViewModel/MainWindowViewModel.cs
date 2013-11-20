@@ -20,7 +20,7 @@ namespace ArchiMetrics.UI.ViewModel
 	/// </summary>
 	public class MainWindowViewModel : ViewModelBase
 	{
-		public MainWindowViewModel(ISolutionEdgeItemsRepositoryConfig config)
+		public MainWindowViewModel(IAppContext config)
 			: base(config)
 		{
 		}

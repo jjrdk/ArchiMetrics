@@ -21,7 +21,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 	public sealed class CodeReviewViewModel : ViewModelBase
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private readonly ICodeErrorRepository _repository;
 		private int _brokenCode;
 		private int _errorsShown;
@@ -29,7 +29,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private ObservableCollection<EvaluationResult> _codeErrors;
 		private CancellationTokenSource _tokenSource;
 
-		public CodeReviewViewModel(ICodeErrorRepository repository, ISolutionEdgeItemsRepositoryConfig config)
+		public CodeReviewViewModel(ICodeErrorRepository repository, IAppContext config)
 			: base(config)
 		{
 			_repository = repository;
@@ -121,7 +121,7 @@ namespace ArchiMetrics.UI.ViewModel
 				ErrorsShown = 0;
 
 				var errors = await _repository.GetErrors(_config.Path, _tokenSource.Token);
-				var results = errors.ToArray();
+				var results = errors.OrderBy(x => x.Title).ToArray();
 				foreach (var result in results)
 				{
 					newErrors.Add(result);

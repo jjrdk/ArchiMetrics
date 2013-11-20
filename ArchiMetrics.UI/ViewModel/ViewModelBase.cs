@@ -30,11 +30,11 @@ namespace ArchiMetrics.UI.ViewModel
 	/// </summary>
 	public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
 	{
-		private readonly ISolutionEdgeItemsRepositoryConfig _config;
+		private readonly IAppContext _config;
 		private IDisposable _changeSubscription;
 		private bool _isLoading;
 
-		protected ViewModelBase(ISolutionEdgeItemsRepositoryConfig config)
+		protected ViewModelBase(IAppContext config)
 		{
 			_config = config;
 			var type = GetType();
