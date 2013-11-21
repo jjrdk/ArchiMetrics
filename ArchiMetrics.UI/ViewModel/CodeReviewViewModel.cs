@@ -129,7 +129,12 @@ namespace ArchiMetrics.UI.ViewModel
 
 				if (newErrors.Count == 0)
 				{
-					newErrors.Add(new EvaluationResult { Title = "No Errors", Quality = CodeQuality.Good });
+					var noerrors = new EvaluationResult
+					{
+						Title = "No Errors",
+						Quality = CodeQuality.Good
+					};
+					newErrors.Add(noerrors);
 				}
 
 				FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();

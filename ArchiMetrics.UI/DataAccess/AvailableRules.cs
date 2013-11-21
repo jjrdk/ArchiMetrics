@@ -70,7 +70,10 @@ namespace ArchiMetrics.UI.DataAccess
 		protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{
 			var handler = CollectionChanged;
-			if (handler != null) handler(this, e);
+			if (handler != null)
+			{
+				handler(this, e);
+			}
 		}
 
 		private void Dispose(bool isDisposing)

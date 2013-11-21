@@ -67,8 +67,6 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<DefaultCollectionCopier>()
 				   .As<ICollectionCopier>()
 				   .SingleInstance();
-			//var config = new AppContext();
-			//builder.RegisterInstance<IAppContext>(config);
 
 			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 			{
@@ -77,10 +75,13 @@ namespace ArchiMetrics.UI
 				dictFile.First(z => z.FileName == "en_US.aff").Extract(affStream);
 				dictFile.First(z => z.FileName == "en_US.dic").Extract(dicStream);
 				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
+				affStream.Dispose();
+				dicStream.Dispose();
 			}
 
 			var evaluationTypes = from type in typeof(ReportUtils).Assembly.GetTypes()
-								  where typeof(ICodeEvaluation).IsAssignableFrom(type)
+								  where typeof(IEvaluation).IsAssignableFrom(type)
+								  where !typeof(ITriviaEvaluation).IsAssignableFrom(type)
 								  where !type.IsInterface && !type.IsAbstract
 								  select type;
 
