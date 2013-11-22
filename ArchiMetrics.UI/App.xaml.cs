@@ -80,8 +80,7 @@ namespace ArchiMetrics.UI
 			}
 
 			var evaluationTypes = from type in typeof(ReportUtils).Assembly.GetTypes()
-								  where typeof(IEvaluation).IsAssignableFrom(type)
-								  where !typeof(ITriviaEvaluation).IsAssignableFrom(type)
+								  where typeof(ICodeEvaluation).IsAssignableFrom(type)
 								  where !type.IsInterface && !type.IsAbstract
 								  select type;
 

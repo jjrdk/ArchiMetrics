@@ -39,6 +39,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		public class GivenASyntaxInspectorInspectingBrokenCode
 		{
+			[TestCase(@"public class SomeClass : IDisposable { public void Dispose(){ }}", typeof(IncorrectDisposableImplementation))]
 			[TestCase(@"private void ApplicationInitializationStartup()
         {
             if (applicationInitTask == null)
@@ -363,13 +364,29 @@ private void SomeMethod()
 			{
 				var task = PerformInspection(code, evaluatorType);
 				var count = task.Result.Count();
-				
+
 				Assert.AreEqual(1, count);
 			}
 		}
 
 		public class GivenASyntaxInspectorInspectingNonBrokenCode
 		{
+			[TestCase(@"public class InnerClass : IDisposable
+		{
+			~InnerClass()
+			{
+				Dispose(false);
+			}
+
+			public void Dispose()
+			{
+				Dispose(true);
+			}
+
+			protected void Dispose(bool isDisposing)
+			{
+			}
+		}", typeof(IncorrectDisposableImplementation))]
 			[TestCase(@"public class InnerClass : ICustomInterface
 		{
 			private void SomeMethod()

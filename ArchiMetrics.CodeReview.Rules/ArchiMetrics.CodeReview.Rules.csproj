@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
+    <Compile Include="Code\IncorrectDisposableImplementation.cs" />
     <Compile Include="Code\NoUnsafeCodeRule.cs" />
     <Compile Include="Code\MethodTooDeepNestingRule.cs" />
     <Compile Include="Code\PropertyTooDeepNestingRule.cs" />
