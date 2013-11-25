@@ -21,7 +21,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common.Structure;
 	using Roslyn.Services;
 
-	internal class MetricsRepository : IMetricsRepository, IDisposable
+	internal class MetricsRepository : IProjectMetricsRepository, IDisposable
 	{
 		private readonly ConcurrentDictionary<string, Task<ProjectCodeMetrics>> _metrics = new ConcurrentDictionary<string, Task<ProjectCodeMetrics>>();
 		private readonly ICodeMetricsCalculator _metricsCalculator;

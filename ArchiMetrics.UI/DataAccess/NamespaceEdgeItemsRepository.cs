@@ -28,11 +28,11 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private readonly ConcurrentDictionary<string, IEnumerable<NamespaceReference>> _namespaceReferences = new ConcurrentDictionary<string, IEnumerable<NamespaceReference>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
-		private readonly IMetricsRepository _metricsProvider;
+		private readonly IProjectMetricsRepository _metricsProvider;
 
 		public NamespaceEdgeItemsRepository(
 			IProvider<string, ISolution> solutionProvider,
-			IMetricsRepository metricsRepository,
+			IProjectMetricsRepository metricsRepository,
 			ICodeErrorRepository codeErrorRepository)
 			: base(codeErrorRepository)
 		{

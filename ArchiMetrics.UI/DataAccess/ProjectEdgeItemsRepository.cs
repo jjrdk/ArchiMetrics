@@ -28,12 +28,12 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private readonly ConcurrentDictionary<string, Task<ProjectReference[]>> _projectReferences = new ConcurrentDictionary<string, Task<ProjectReference[]>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
-		private readonly IMetricsRepository _metricsRepository;
+		private readonly IProjectMetricsRepository _metricsRepository;
 
 		public ProjectEdgeItemsRepository(
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
-			IMetricsRepository metricsRepository)
+			IProjectMetricsRepository metricsRepository)
 			: base(codeErrorRepository)
 		{
 			_solutionProvider = solutionProvider;

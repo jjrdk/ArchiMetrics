@@ -172,6 +172,7 @@
     <Compile Include="ViewModel\EdgesViewModel.cs" />
     <Compile Include="ViewModel\EdgesViewModelBase.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
+    <Compile Include="ViewModel\MetricsViewModel.cs" />
     <Compile Include="ViewModel\ProjectEdge.cs" />
     <Compile Include="ViewModel\ProjectGraph.cs" />
     <Compile Include="ViewModel\RequirementGraphViewModel.cs" />
@@ -190,6 +191,9 @@
     </Compile>
     <Compile Include="View\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MetricsView.xaml.cs">
+      <DependentUpon>MetricsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RequirementGraphView.xaml.cs">
       <DependentUpon>RequirementGraphView.xaml</DependentUpon>
@@ -264,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MetricsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

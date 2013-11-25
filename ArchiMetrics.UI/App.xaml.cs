@@ -93,7 +93,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
-			builder.RegisterType<MetricsRepository>().As<IMetricsRepository>().SingleInstance();
+			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
 			var vertexRuleRepository = new VertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true)).As<PathFilter>();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();

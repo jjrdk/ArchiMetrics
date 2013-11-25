@@ -30,6 +30,8 @@
 		</mui:LinkGroup>
 		<mui:LinkGroup DisplayName="Review">
 			<mui:LinkGroup.Links>
+				<mui:Link DisplayName="Code Metrics"
+						  Source="View/MetricsView.xaml" />
 				<mui:Link DisplayName="Code Review"
 						  Source="View/CodeReviewView.xaml" />
 				<mui:Link DisplayName="Code Errors"

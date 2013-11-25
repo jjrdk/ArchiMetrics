@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="ArchiMetrics.UI.View.MetricsView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 mc:Ignorable="d"
+			 d:DesignHeight="300"
+			 d:DesignWidth="300"
+			 d:DataContext="{d:DesignInstance Type=viewModel:MetricsViewModel}">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<StackPanel Grid.Row="0"
+					Grid.Column="0"
+					Orientation="Horizontal"
+					HorizontalAlignment="Stretch">
+			<TextBlock Text="{Binding Path=CyclomaticComplexity, StringFormat='Total Complexity: {0}, '}" />
+			<TextBlock Text="{Binding Path=DepthOfInheritance, StringFormat='Max Depth of Inheritance {0} files, '}" />
+			<TextBlock Text="{Binding Path=MaintainabilityIndex, StringFormat='Maintainability Index: {0}.'}" />
+		</StackPanel>
+		<Button Grid.Row="0"
+				Grid.Column="1"
+				Content="Print Report"
+				Click="OnPrintReport" />
+		<DataGrid x:Name="MetricsGrid"
+				  Grid.Row="1"
+				  Grid.Column="0"
+				  Grid.ColumnSpan="2"
+				  ItemsSource="{Binding Path=Metrics}"
+				  AutoGenerateColumns="False"
+				  EnableColumnVirtualization="True"
+				  EnableRowVirtualization="True"
+				  AlternationCount="2"
+				  AlternatingRowBackground="LightGray"
+				  ClipboardCopyMode="IncludeHeader"
+				  GridLinesVisibility="Horizontal"
+				  HeadersVisibility="Column"
+				  CanUserAddRows="False"
+				  CanUserDeleteRows="False"
+				  CanUserReorderColumns="True"
+				  CanUserResizeColumns="True"
+				  CanUserResizeRows="True"
+				  IsReadOnly="True"
+				  CanUserSortColumns="True">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Name"
+									Binding="{Binding Path=Name}" />
+				<DataGridTextColumn Header="Cyclomatic Complexity"
+									Binding="{Binding Path=CyclomaticComplexity}" />
+				<DataGridTextColumn Header="Depth of Inheritance"
+									Binding="{Binding Path=DepthOfInheritance}" />
+				<DataGridTextColumn Header="Maintainability Index"
+									Binding="{Binding Path=MaintainabilityIndex}" />
+				<DataGridTextColumn Header="Coupling"
+									Binding="{Binding Path=ClassCoupling}" />
+			</DataGrid.Columns>
+		</DataGrid>
+		<view:LoadingControl Grid.Row="0"
+							 Grid.Column="0"
+							 Grid.ColumnSpan="2"
+							 Grid.RowSpan="2"
+							 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}" />
+	</Grid>
+</UserControl>

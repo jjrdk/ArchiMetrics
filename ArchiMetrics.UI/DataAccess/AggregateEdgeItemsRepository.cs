@@ -32,7 +32,7 @@ namespace ArchiMetrics.UI.DataAccess
 			IAppContext config,
 			IProvider<string, ISolution> solutionProvider,
 			ICodeErrorRepository codeErrorRepository,
-			IMetricsRepository metricsRepository)
+			IProjectMetricsRepository metricsRepository)
 		{
 			_config = config;
 			_namespaceEdgeRepository = new NamespaceEdgeItemsRepository(solutionProvider, metricsRepository, codeErrorRepository);
