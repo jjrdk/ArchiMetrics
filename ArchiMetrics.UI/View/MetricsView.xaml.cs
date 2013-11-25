@@ -1,15 +1,13 @@
-﻿using System.IO;
-using System.Windows.Forms;
-using System.Windows.Input;
-
-namespace ArchiMetrics.UI.View
+﻿namespace ArchiMetrics.UI.View
 {
-	using System;
+	using System.IO;
+	using forms = System.Windows.Forms;
+	using System.Windows.Input;
 	using System.Windows;
 	using System.Windows.Controls;
 
 	/// <summary>
-	/// Interaction logic for MetricsView.xaml
+	/// Interaction logic for MetricsView.xaml.
 	/// </summary>
 	public partial class MetricsView : UserControl
 	{
@@ -20,8 +18,8 @@ namespace ArchiMetrics.UI.View
 
 		private async void OnPrintReport(object sender, RoutedEventArgs e)
 		{
-			var saveDialog = new SaveFileDialog();
-			if (saveDialog.ShowDialog() == DialogResult.OK)
+			var saveDialog = new forms.SaveFileDialog();
+			if (saveDialog.ShowDialog() == forms.DialogResult.OK)
 			{
 				MetricsGrid.SelectAllCells();
 				ApplicationCommands.Copy.Execute(null, MetricsGrid);

@@ -33,7 +33,11 @@
 
 		public int CyclomaticComplexity
 		{
-			get { return _cyclomaticComplexity; }
+			get
+			{
+				return _cyclomaticComplexity;
+			}
+
 			private set
 			{
 				if (!_cyclomaticComplexity.Equals(value))
@@ -46,7 +50,11 @@
 
 		public int DepthOfInheritance
 		{
-			get { return _depthOfInheritance; }
+			get
+			{
+				return _depthOfInheritance;
+			}
+
 			private set
 			{
 				if (!_depthOfInheritance.Equals(value))
@@ -59,7 +67,11 @@
 
 		public double MaintainabilityIndex
 		{
-			get { return _maintainabilityIndex; }
+			get
+			{
+				return _maintainabilityIndex;
+			}
+
 			private set
 			{
 				if (!_maintainabilityIndex.Equals(value))
@@ -72,7 +84,11 @@
 
 		public IList<ITypeMetric> Metrics
 		{
-			get { return _metrics; }
+			get
+			{
+				return _metrics;
+			}
+
 			private set
 			{
 				if (!ReferenceEquals(_metrics, value))

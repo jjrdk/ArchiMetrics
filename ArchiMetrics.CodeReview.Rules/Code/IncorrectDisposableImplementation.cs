@@ -43,7 +43,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				var methods = classDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>()
 					.Where(m => m.Identifier.ValueText == "Dispose")
-					.Where(m => !m.ParameterList.Parameters.Any() || (m.ParameterList.Parameters.Count == 1) && m.ParameterList.Parameters[0].Type.IsEquivalentTo(Syntax.PredefinedType(Syntax.Token(SyntaxKind.BoolKeyword)))).ToArray();
+					.Where(m => !m.ParameterList.Parameters.Any() || (m.ParameterList.Parameters.Count == 1 && m.ParameterList.Parameters[0].Type.IsEquivalentTo(Syntax.PredefinedType(Syntax.Token(SyntaxKind.BoolKeyword))))).ToArray();
 				var destructor = classDeclaration
 					.ChildNodes()
 					.OfType<DestructorDeclarationSyntax>()
