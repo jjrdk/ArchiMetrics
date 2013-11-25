@@ -107,6 +107,7 @@
 
 		private async void UpdateInternal()
 		{
+			IsLoading = true;
 			var solutionPath = _config.Path;
 			var solution = _solutionProvider.Get(solutionPath);
 			var metricsTasks = solution.Projects.Select(p => _metricsRepository.Get(p.FilePath, solutionPath)).ToArray();
@@ -125,6 +126,7 @@
 			CyclomaticComplexity = cyclomaticComplexity;
 			DepthOfInheritance = depthOfInheritance;
 			Metrics = metrics.SelectMany(x => x.TypeMetrics).ToList();
+			IsLoading = false;
 		}
 	}
 }

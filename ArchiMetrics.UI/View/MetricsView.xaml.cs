@@ -1,5 +1,7 @@
 ﻿namespace ArchiMetrics.UI.View
 {
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
 	using System.IO;
 	using forms = System.Windows.Forms;
 	using System.Windows.Input;
@@ -9,6 +11,7 @@
 	/// <summary>
 	/// Interaction logic for MetricsView.xaml.
 	/// </summary>
+	[DataContext(typeof(MetricsViewModel))]
 	public partial class MetricsView : UserControl
 	{
 		public MetricsView()

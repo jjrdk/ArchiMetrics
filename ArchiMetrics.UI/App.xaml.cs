@@ -112,6 +112,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<RequirementGraphViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<MetricsViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<AvailableRules>().As<IAvailableRules>().SingleInstance();
 			builder.RegisterType<AppContext>()
 				.As<IAppContext>()

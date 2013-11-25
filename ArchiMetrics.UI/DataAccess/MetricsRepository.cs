@@ -38,23 +38,18 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public Task<ProjectCodeMetrics> Get(string key, string solutionPath)
+		public Task<ProjectCodeMetrics> Get(string projectPath, string solutionPath)
 		{
 			var solution = _solutionProvider.Get(solutionPath);
-			var project = solution.Projects.FirstOrDefault(x => x.FilePath == key);
+			var project = solution.Projects.FirstOrDefault(x => x.FilePath == projectPath);
 			if (project == null)
 			{
 				return Task.FromResult(new ProjectCodeMetrics());
 			}
 
-			return Get(project);
-		}
-
-		public Task<ProjectCodeMetrics> Get(IProject project)
-		{
 			return _metrics.GetOrAdd(
 				project.FilePath,
-				async s => await LoadMetrics(project, s));
+				async s => await LoadMetrics(project));
 		}
 
 		public void Dispose()
@@ -71,7 +66,7 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		private async Task<ProjectCodeMetrics> LoadMetrics(IProject project, string s)
+		private async Task<ProjectCodeMetrics> LoadMetrics(IProject project)
 		{
 			var metrics = (await _metricsCalculator.Calculate(project)).ToArray();
 
@@ -80,7 +75,7 @@ namespace ArchiMetrics.UI.DataAccess
 			{
 				Metrics = metrics,
 				Project = project.Name,
-				ProjectPath = s,
+				ProjectPath = project.FilePath,
 				Version = project.GetVersion().ToString(),
 				LinesOfCode = linesOfCode,
 				DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0,
