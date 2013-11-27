@@ -12,6 +12,16 @@
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}"
 			 mui:ModernFrame.KeepAlive="True">
+	<UserControl.Resources>
+		<Style TargetType="Button">
+			<Setter Property="Margin"
+					Value="5,0" />
+			<Setter Property="Margin"
+					Value="5,0" />
+			<Setter Property="Height"
+					Value="25" />
+		</Style>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -66,16 +76,11 @@
 					   Text="{Binding Path=VertexRules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<Button Grid.Column="1"
 					Content="Load Rules"
-					Click="OnClick"
-					Height="25"
-					Margin="5,0" />
+					Click="OnClick" />
 			<Button Grid.Column="2"
 					Content="Save Rules"
-					Click="OnSave"
-					Height="25"
-					Margin="5,0" />
+					Click="OnSave" />
 			<Button Grid.Column="3"
-					Height="25"
 					HorizontalAlignment="Right"
 					Content="Update"
 					Command="{Binding Path=UpdateList}" />

@@ -10,14 +10,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Xml.Serialization;
-
 namespace ArchiMetrics.UI.ViewModel
 {
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.IO;
+	using System.Xml.Serialization;
 	using System.Linq;
 	using System.Threading;
 	using ArchiMetrics.Common.Structure;

@@ -1,16 +1,17 @@
-﻿using System.IO;
-using System.Xml.Serialization;
+﻿using System.Collections.ObjectModel;
 
 namespace ArchiMetrics.UI.DataAccess
 {
+	using System.IO;
+	using System.Xml.Serialization;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
-	internal class VertexTransformProvider : IProvider<string, IEnumerable<VertexTransform>>
+	internal class VertexTransformProvider : IProvider<string, ObservableCollection<VertexTransform>>
 	{
-		private readonly ConcurrentDictionary<string, IEnumerable<VertexTransform>> _knownRules = new ConcurrentDictionary<string, IEnumerable<VertexTransform>>();
+		private readonly ConcurrentDictionary<string, ObservableCollection<VertexTransform>> _knownRules = new ConcurrentDictionary<string, ObservableCollection<VertexTransform>>();
 		private readonly XmlSerializer _serializer;
 
 		public VertexTransformProvider()
@@ -26,17 +27,17 @@ namespace ArchiMetrics.UI.DataAccess
 			_knownRules.Clear();
 		}
 
-		public IEnumerable<VertexTransform> Get(string key)
+		public ObservableCollection<VertexTransform> Get(string key)
 		{
 			return _knownRules.GetOrAdd(key, LoadRules);
 		}
 
-		public IEnumerable<IEnumerable<VertexTransform>> GetAll(string key)
+		public IEnumerable<ObservableCollection<VertexTransform>> GetAll(string key)
 		{
 			return new[] { Get(key) };
 		}
 
-		private IEnumerable<VertexTransform> LoadRules(string filePath)
+		private ObservableCollection<VertexTransform> LoadRules(string filePath)
 		{
 			if (File.Exists(filePath))
 			{
@@ -44,10 +45,10 @@ namespace ArchiMetrics.UI.DataAccess
 				{
 					var deserialized = _serializer.Deserialize(stream);
 					var rules = (List<VertexTransform>)deserialized;
-					return rules;
+					return new ObservableCollection<VertexTransform>(rules);
 				}
 			}
-			return new[] { new VertexTransform { Name = "DotNet", Pattern = @"(mscorlib|System)(\..+)?" } };
+			return new ObservableCollection<VertexTransform> { new VertexTransform { Name = "DotNet", Pattern = @"(mscorlib|System)(\..+)?" } };
 		}
 	}
 }
