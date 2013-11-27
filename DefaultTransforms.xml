@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ArrayOfVertexTransform xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<VertexTransform Pattern="^(mscorlib|System)(\..+)?" Name="DotNet" />
+	<VertexTransform Pattern="^(mscorlib|Microsoft|System)(\..*)?" Name="DotNet" />
+	<VertexTransform Pattern="^(PresentationCore)(\..*)?" Name="DotNet" />
+	<VertexTransform Pattern="^(Roslyn)(\..*)?" Name="Roslyn" />
+	<VertexTransform Pattern="^(Moq|log4net|Demo)(\..*)?" Name="3rdParty"	/>
+	<VertexTransform Pattern="^(Stateless|Mef|VirtualBox)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(UIAutomationTypes|WindowsBase|PresentationFramework)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(PresentationCommon|DevExpress|EnvDTE)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(Devart|AutoMapper|Ionic)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(DotNetContrib|MSTest|NHapi)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(UIAutomationClient|Quartz)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(nunit|NUnit|NHunspell)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(De|FirstFloor|NHunspell)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(QuickGraph|GraphSharp|Autofac)(\..*)?" Name="3rdParty" />
+	<VertexTransform Pattern="^(WPFExtensions)(\..*)?" Name="3rdParty" />
+</ArrayOfVertexTransform>

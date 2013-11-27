@@ -10,6 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using ArchiMetrics.Common;
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
@@ -21,13 +26,21 @@ namespace ArchiMetrics.UI.ViewModel
 
 	public class EdgesViewModel : EdgesViewModelBase
 	{
+		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
+		private readonly IAppContext _config;
 		private readonly object _syncLock = new object();
 		private readonly DelegateCommand _updateCommand;
 		private ObservableCollection<MetricsEdgeItem> _dependencyItems;
 
-		public EdgesViewModel(IEdgeItemsRepository repository, IEdgeTransformer filter, IVertexRuleDefinition ruleDefinition, IAppContext config)
-			: base(repository, filter, ruleDefinition, config)
+		public EdgesViewModel(
+			IEdgeItemsRepository repository,
+			IProvider<string, IEnumerable<VertexTransform>> rulesProvider,
+			IEdgeTransformer filter,
+			IAppContext config)
+			: base(repository, filter, config)
 		{
+			_rulesProvider = rulesProvider;
+			_config = config;
 			DependencyItems = new ObservableCollection<MetricsEdgeItem>();
 			UpdateImpl(true);
 			_updateCommand = new DelegateCommand(o => true, o => UpdateImpl(false));
@@ -71,9 +84,10 @@ namespace ArchiMetrics.UI.ViewModel
 		protected async override void UpdateInternal(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-
-			var results = await Filter.Transform(AllMetricsEdges, cancellationToken);
+			var rules = _rulesProvider.Get(_config.RulesSource).ToArray();
+			var results = await Filter.Transform(AllMetricsEdges, rules, cancellationToken);
 			var newCollection = new ObservableCollection<MetricsEdgeItem>(results);
+			VertexTransforms = new ObservableCollection<VertexTransform>(rules);
 			DependencyItems = newCollection;
 			IsLoading = false;
 		}

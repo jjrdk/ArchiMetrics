@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using ArchiMetrics.Common;
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -24,16 +26,22 @@ namespace ArchiMetrics.UI.ViewModel
 	internal class RequirementGraphViewModel : ViewModelBase
 	{
 		private readonly IRequirementTestAnalyzer _analyzer;
+		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
 		private readonly IEdgeTransformer _filter;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 		private CancellationTokenSource _tokenSource;
 
-		public RequirementGraphViewModel(IRequirementTestAnalyzer analyzer, IAppContext config, IEdgeTransformer filter)
+		public RequirementGraphViewModel(
+			IRequirementTestAnalyzer analyzer,
+			IProvider<string, IEnumerable<VertexTransform>> rulesProvider,
+			IAppContext config,
+			IEdgeTransformer filter)
 			: base(config)
 		{
 			_analyzer = analyzer;
+			_rulesProvider = rulesProvider;
 			_config = config;
 			_filter = filter;
 			UpdateImpl(true);
@@ -85,7 +93,8 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = true;
 			var g = new ProjectGraph();
 
-			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, cancellationToken))
+			var rules = _rulesProvider.Get(_config.RulesSource);
+			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, rules, cancellationToken))
 				.ToArray();
 
 			var projectVertices = nonEmptySourceItems

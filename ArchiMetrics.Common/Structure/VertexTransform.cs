@@ -1,21 +1,26 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IVertexRuleDefinition.cs" company="Reimers.dk">
+// <copyright file="VertexTransform.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IVertexRuleDefinition type.
+//   Defines the VertexTransform type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.Common.Structure
 {
-	using System.Collections.Generic;
+	using System.Xml.Serialization;
 
-	public interface IVertexRuleDefinition
+	[XmlRoot(ElementName = "VertexTransform")]
+	public class VertexTransform
 	{
-		IList<VertexRule> VertexRules { get; }
+		[XmlAttribute]
+		public string Pattern { get; set; }
+
+		[XmlAttribute]
+		public string Name { get; set; }
 	}
 }

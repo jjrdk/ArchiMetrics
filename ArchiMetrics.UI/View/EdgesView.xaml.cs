@@ -10,6 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Windows;
+using System.Windows.Forms;
+
 namespace ArchiMetrics.UI.View
 {
 	using System.Windows.Controls;
@@ -25,6 +28,32 @@ namespace ArchiMetrics.UI.View
 		public EdgesView()
 		{
 			InitializeComponent();
+		}
+
+		private void OnClick(object sender, RoutedEventArgs e)
+		{
+			using (var fileDialog = new OpenFileDialog())
+			{
+				fileDialog.Multiselect = false;
+				fileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+				if (fileDialog.ShowDialog() == DialogResult.OK)
+				{
+					PathBox.SetValue(TextBlock.TextProperty, fileDialog.FileName);
+				}
+			}
+		}
+
+		private void OnSave(object sender, RoutedEventArgs e)
+		{
+			using (var fileDialog = new SaveFileDialog())
+			{
+				fileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+				if (fileDialog.ShowDialog() == DialogResult.OK)
+				{
+					var context = (EdgesViewModel)DataContext;
+					context.SaveTransforms(fileDialog.FileName);
+				}
+			}
 		}
 	}
 }

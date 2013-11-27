@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using ArchiMetrics.Common;
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -20,15 +22,19 @@ namespace ArchiMetrics.UI.ViewModel
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{
+		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
+		private readonly IAppContext _config;
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
 			IEdgeItemsRepository repository,
 			IEdgeTransformer filter,
-			IVertexRuleDefinition ruleDefinition,
+			IProvider<string, IEnumerable<VertexTransform>> rulesProvider,
 			IAppContext config)
-			: base(repository, filter, ruleDefinition, config)
+			: base(repository, filter, config)
 		{
+			_rulesProvider = rulesProvider;
+			_config = config;
 			_circularReferences = new List<DependencyChain>();
 			UpdateImpl(true);
 		}
@@ -55,7 +61,8 @@ namespace ArchiMetrics.UI.ViewModel
 			try
 			{
 				IsLoading = true;
-				var edgeItems = await Filter.Transform(AllMetricsEdges, cancellationToken);
+				var rules = _rulesProvider.Get(_config.RulesSource);
+				var edgeItems = await Filter.Transform(AllMetricsEdges, rules, cancellationToken);
 
 				var circularReferences = await DependencyAnalyzer.GetCircularReferences(edgeItems, cancellationToken);
 

@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using ArchiMetrics.Common;
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace ArchiMetrics.UI.ViewModel
 	internal class GraphViewModel : ViewModelBase
 	{
 		private readonly IEdgeTransformer _filter;
+		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
 		private readonly IEdgeItemsRepository _repository;
 		private readonly DelegateCommand _updateCommand;
@@ -32,11 +35,13 @@ namespace ArchiMetrics.UI.ViewModel
 		public GraphViewModel(
 			IEdgeItemsRepository repository,
 			IEdgeTransformer filter,
+			IProvider<string, IEnumerable<VertexTransform>> rulesProvider,
 			IAppContext config)
 			: base(config)
 		{
 			_repository = repository;
 			_filter = filter;
+			_rulesProvider = rulesProvider;
 			_config = config;
 			UpdateImpl(true);
 			_updateCommand = new DelegateCommand(o => true, o => Update(true));
@@ -110,8 +115,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 
-			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, cancellationToken))
-				.ToArray();
+			var nonEmptySourceItems = (await _filter.Transform(_allMetricsEdges, _rulesProvider.Get(_config.RulesSource), cancellationToken)).ToArray();
 
 			////var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems, cancellationToken))
 			////	.ToArray();

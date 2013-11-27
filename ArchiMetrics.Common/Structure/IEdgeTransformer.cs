@@ -18,6 +18,6 @@ namespace ArchiMetrics.Common.Structure
 
 	public interface IEdgeTransformer
 	{
-		Task<IEnumerable<MetricsEdgeItem>> Transform(IEnumerable<MetricsEdgeItem> source, CancellationToken cancellationToken);
+		Task<IEnumerable<MetricsEdgeItem>> Transform(IEnumerable<MetricsEdgeItem> source, IEnumerable<VertexTransform> rules, CancellationToken cancellationToken);
 	}
 }

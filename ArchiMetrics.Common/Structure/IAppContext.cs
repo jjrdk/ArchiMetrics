@@ -10,16 +10,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace ArchiMetrics.Common.Structure
 {
 	using System.ComponentModel;
 
-	public interface IAppContext : INotifyPropertyChanged
+	public interface IAppContext : INotifyPropertyChanged, IDisposable
 	{
 		string Path { get; set; }
 
 		EdgeSource Source { get; set; }
 
 		bool IncludeCodeReview { get; set; }
+
+		string RulesSource { get; set; }
 	}
 }

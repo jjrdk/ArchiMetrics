@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace ArchiMetrics.UI
 {
 	using System.Globalization;
@@ -94,14 +96,12 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
-			var vertexRuleRepository = new VertexRuleRepository();
 			builder.RegisterInstance(new PathFilter(x => true)).As<PathFilter>();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
 			builder.RegisterType<ProjectProvider>().As<IProvider<string, IProject>>().SingleInstance();
 			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().SingleInstance();
 			builder.RegisterType<AggregateEdgeItemsRepository>().As<IEdgeItemsRepository>().SingleInstance();
-			builder.RegisterInstance<IVertexRuleRepository>(vertexRuleRepository);
-			builder.RegisterInstance<IVertexRuleDefinition>(vertexRuleRepository);
+			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, IEnumerable<VertexTransform>>>();
 			builder.RegisterType<EdgeTransformer>().As<IEdgeTransformer>();
 			builder.RegisterType<RequirementTestAnalyzer>().As<IRequirementTestAnalyzer>();
 			builder.RegisterType<EdgesViewModel>().As<ViewModelBase>().AsSelf();

@@ -26,11 +26,9 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private readonly ICollectionCopier _copier;
 		private readonly ConcurrentDictionary<string, Regex> _regexes = new ConcurrentDictionary<string, Regex>();
-		private readonly IVertexRuleRepository _ruleRepository;
 
-		public EdgeTransformer(IVertexRuleRepository ruleRepository, ICollectionCopier copier)
+		public EdgeTransformer(ICollectionCopier copier)
 		{
-			_ruleRepository = ruleRepository;
 			_copier = copier;
 		}
 
@@ -45,38 +43,20 @@ namespace ArchiMetrics.UI.DataAccess
 			GC.SuppressFinalize(this);
 		}
 
-		public async Task<IEnumerable<MetricsEdgeItem>> Transform(IEnumerable<MetricsEdgeItem> source, CancellationToken cancellationToken)
+		public async Task<IEnumerable<MetricsEdgeItem>> Transform(IEnumerable<MetricsEdgeItem> source, IEnumerable<VertexTransform> rules, CancellationToken cancellationToken)
 		{
 			var copy = await _copier.Copy(source, cancellationToken);
 
 			var items = copy
 				.Select(item =>
 					{
-						foreach (var transform in _ruleRepository.GetAllVertexPreTransforms()
-							.TakeWhile(transform => !cancellationToken.IsCancellationRequested))
+						foreach (var rule in rules.Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
 						{
-							item.Dependant = transform(item.Dependant);
-							item.Dependency = transform(item.Dependency);
-						}
-
-						foreach (var rule in _ruleRepository.VertexRules
-														   .ToArray()
-														   .Where(x => !string.IsNullOrWhiteSpace(x.Pattern)))
-						{
-							var regex = _regexes.GetOrAdd(
-								rule.Pattern,
-								pattern => new Regex(pattern, RegexOptions.Compiled));
+							var regex = _regexes.GetOrAdd(rule.Pattern, pattern => new Regex(pattern, RegexOptions.Compiled));
 							item.Dependant = regex.Replace(item.Dependant, rule.Name ?? string.Empty);
 							item.Dependency = regex.Replace(item.Dependency, rule.Name ?? string.Empty);
 						}
-
-						foreach (var transform in _ruleRepository.GetAllVertexPostTransforms()
-							.TakeWhile(transform => !cancellationToken.IsCancellationRequested))
-						{
-							item.Dependant = transform(item.Dependant);
-							item.Dependency = transform(item.Dependency);
-						}
-
+						
 						return item;
 					})
 				.GroupBy(e => e.ToString())

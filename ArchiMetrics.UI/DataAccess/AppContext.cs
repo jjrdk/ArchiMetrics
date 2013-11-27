@@ -25,10 +25,12 @@ namespace ArchiMetrics.UI.DataAccess
 		private bool _includeCodeReview;
 		private string _path;
 		private EdgeSource _source;
-		private IDisposable _subscription;
+		private readonly IDisposable _subscription;
+		private string _rulesSource;
 
 		public AppContext(IAvailableRules availableRules)
 		{
+			_rulesSource = string.Empty;
 			_availableRules = availableRules;
 			_subscription = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
 				h => _availableRules.CollectionChanged += h,
@@ -36,6 +38,11 @@ namespace ArchiMetrics.UI.DataAccess
 				.Throttle(TimeSpan.FromSeconds(3))
 				.Subscribe(x => OnPropertyChanged(string.Empty));
 			CutOff = TimeSpan.FromDays(7);
+		}
+
+		~AppContext()
+		{
+			Dispose(false);
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -76,6 +83,19 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
+		public string RulesSource
+		{
+			get { return _rulesSource; }
+			set
+			{
+				if (_rulesSource != value)
+				{
+					_rulesSource = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public EdgeSource Source
 		{
 			get
@@ -93,12 +113,25 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			var handler = PropertyChanged;
 			if (handler != null)
 			{
 				handler(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private void Dispose(bool isDisposing)
+		{
+			if (isDisposing)
+			{
+				_subscription.Dispose();
 			}
 		}
 	}

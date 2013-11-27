@@ -10,9 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Xml.Serialization;
+
 namespace ArchiMetrics.UI.ViewModel
 {
-	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
 	using ArchiMetrics.Common.Structure;
@@ -24,21 +29,50 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IEdgeItemsRepository _repository;
 		private MetricsEdgeItem[] _allMetricsEdges = new MetricsEdgeItem[0];
 		private CancellationTokenSource _tokenSource;
+		private ObservableCollection<VertexTransform> _vertexTransforms;
 
 		public EdgesViewModelBase(
-			IEdgeItemsRepository repository, 
-			IEdgeTransformer filter, 
-			IVertexRuleDefinition ruleDefinition, 
+			IEdgeItemsRepository repository,
+			IEdgeTransformer filter,
 			IAppContext config)
 			: base(config)
 		{
 			_repository = repository;
 			_filter = filter;
 			_config = config;
-			VertexRules = ruleDefinition.VertexRules;
 		}
 
-		public ICollection<VertexRule> VertexRules { get; private set; }
+		public string VertexRules
+		{
+			get { return _config.RulesSource; }
+			set
+			{
+				_config.RulesSource = value;
+				RaisePropertyChanged();
+			}
+		}
+
+		public ObservableCollection<VertexTransform> VertexTransforms
+		{
+			get { return _vertexTransforms; }
+			set
+			{
+				if (!ReferenceEquals(_vertexTransforms, value))
+				{
+					_vertexTransforms = value;
+					RaisePropertyChanged();
+				}
+			}
+		}
+
+		public void SaveTransforms(string filePath)
+		{
+			using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+			{
+				var serializer = new XmlSerializer(typeof(List<VertexTransform>));
+				serializer.Serialize(stream, VertexTransforms.ToList());
+			}
+		}
 
 		protected IEdgeTransformer Filter
 		{

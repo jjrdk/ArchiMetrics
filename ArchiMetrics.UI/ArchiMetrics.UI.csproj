@@ -153,13 +153,13 @@
     <Compile Include="DataAccess\IAvailableRules.cs" />
     <Compile Include="DataAccess\MetricsRepository.cs" />
     <Compile Include="DataAccess\RepositoryBase.cs" />
-    <Compile Include="DataAccess\VertexRuleRepository.cs" />
     <Compile Include="DataAccess\NamespaceEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\NamespaceReference.cs" />
     <Compile Include="DataAccess\ProjectEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\ProjectReference.cs" />
     <Compile Include="DataAccess\AppContext.cs" />
     <Compile Include="DataAccess\SolutionProvider.cs" />
+    <Compile Include="DataAccess\VertexTransformProvider.cs" />
     <Compile Include="Support\DataContextAttribute.cs" />
     <Compile Include="Support\DefaultCollectionCopier.cs" />
     <Compile Include="KnownPatterns.cs" />
@@ -312,11 +312,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="archicop.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\vertexrules.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

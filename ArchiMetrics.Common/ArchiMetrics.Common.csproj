@@ -107,9 +107,7 @@
     <Compile Include="Structure\IEdgeItemsRepository.cs" />
     <Compile Include="Structure\IEdgeTransformer.cs" />
     <Compile Include="Structure\IAppContext.cs" />
-    <Compile Include="Structure\IVertexRuleDefinition.cs" />
-    <Compile Include="Structure\IVertexRuleRepository.cs" />
-    <Compile Include="Structure\VertexRule.cs" />
+    <Compile Include="Structure\VertexTransform.cs" />
     <Compile Include="Xaml\VariableNameProvider.cs" />
     <Compile Include="Xaml\XamlNode.cs" />
     <Compile Include="Xaml\XamlNodeAttribute.cs" />
