@@ -50,7 +50,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 					.FirstOrDefault(d => d.Body.ChildNodes().Any(InvokesDispose));
 				if (methods.Length < 2 || destructor == null)
 				{
-					return null;
+					return new EvaluationResult
+					{
+						Snippet = node.ToFullString()
+					};
 				}
 			}
 

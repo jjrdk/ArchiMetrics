@@ -14,19 +14,12 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using Roslyn.Compilers.CSharp;
 
-	internal class PropertyTooDeepNestingRule : TooDeepNestingRuleBase
+	internal abstract class PropertyTooDeepNestingRule : TooDeepNestingRuleBase
 	{
-		public override SyntaxKind EvaluatedKind
-		{
-			get
-			{
-				return SyntaxKind.PropertyDeclaration;
-			}
-		}
-
 		protected override BlockSyntax GetBody(SyntaxNode node)
 		{
-			return null;
+			var property = (AccessorDeclarationSyntax) node;
+			return property.Body;
 		}
 	}
 }

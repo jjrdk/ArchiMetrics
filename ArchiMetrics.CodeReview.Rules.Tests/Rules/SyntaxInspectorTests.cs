@@ -333,7 +333,7 @@ private void SomeMethod()
 		}
 	}
 }", typeof(MethodTooDeepNestingRule))]
-			[TestCase(@"private int MyProperty
+			[TestCase(@"public int MyProperty
 {
 	get
 	{
@@ -359,7 +359,35 @@ private void SomeMethod()
 			}
 		}
 	}
-}", typeof(PropertyTooDeepNestingRule))]
+}", typeof(GetPropertyTooDeepNestingRule))]
+			[TestCase(@"int _field;
+public int MyProperty
+{
+	set
+	{
+		if(DateTime.Now.Millisecond == 100)
+		{
+			switch(value)
+			{
+				case 1:
+				case 2:
+					{
+						if(value == 1)
+						{
+							_field = 10
+						}
+						else
+						{
+							_field = 3
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
+}", typeof(SetPropertyTooDeepNestingRule))]
 			public void SyntaxDetectionTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);

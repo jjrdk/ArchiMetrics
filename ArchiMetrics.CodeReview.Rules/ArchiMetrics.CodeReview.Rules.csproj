@@ -66,10 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\DoNotDestroyStackTraceRule.cs" />
+    <Compile Include="Code\GetPropertyTooDeepNestingRule.cs" />
     <Compile Include="Code\IncorrectDisposableImplementation.cs" />
     <Compile Include="Code\NoUnsafeCodeRule.cs" />
     <Compile Include="Code\MethodTooDeepNestingRule.cs" />
     <Compile Include="Code\PropertyTooDeepNestingRule.cs" />
+    <Compile Include="Code\SetPropertyTooDeepNestingRule.cs" />
     <Compile Include="Code\TooDeepNestingRuleBase.cs" />
     <Compile Include="Semantic\PossibleStaticMethod.cs" />
     <Compile Include="Semantic\SemanticEvaluationBase.cs" />

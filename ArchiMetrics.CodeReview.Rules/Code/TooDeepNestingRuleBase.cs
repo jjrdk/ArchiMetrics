@@ -19,14 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal abstract class TooDeepNestingRuleBase : CodeEvaluationBase
 	{
-		private readonly int _depth = 3;
+		private readonly int _depth;
 
 		public TooDeepNestingRuleBase()
+			: this(3)
 		{
 		}
 
 		public TooDeepNestingRuleBase(int maxDepth)
-			: this()
 		{
 			_depth = maxDepth;
 		}
