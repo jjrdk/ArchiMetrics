@@ -97,7 +97,6 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
-			builder.RegisterInstance(new PathFilter(x => true)).As<PathFilter>();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
 			builder.RegisterType<ProjectProvider>().As<IProvider<string, IProject>>().SingleInstance();
 			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().SingleInstance();
@@ -115,9 +114,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<MetricsViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<AvailableRules>().As<IAvailableRules>().SingleInstance();
-			builder.RegisterType<AppContext>()
-				.As<IAppContext>()
-				.SingleInstance();
+			builder.RegisterType<AppContext>().As<IAppContext>().SingleInstance();
 			var container = builder.Build();
 
 			return container;
