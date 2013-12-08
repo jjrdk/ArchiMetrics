@@ -205,11 +205,11 @@
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Tabs\CodeErrorGraphView.xaml.cs">
-      <DependentUpon>CodeErrorGraphView.xaml</DependentUpon>
+    <Compile Include="View\Tabs\ErrorChartView.xaml.cs">
+      <DependentUpon>ErrorChartView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Tabs\CodeReviewDataGridView.xaml.cs">
-      <DependentUpon>CodeReviewDataGridView.xaml</DependentUpon>
+    <Compile Include="View\Tabs\ErrorDataGridView.xaml.cs">
+      <DependentUpon>ErrorDataGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestErrorGraphView.xaml.cs">
       <DependentUpon>TestErrorGraphView.xaml</DependentUpon>
@@ -290,11 +290,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Tabs\CodeErrorGraphView.xaml">
+    <Page Include="View\Tabs\ErrorChartView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Tabs\CodeReviewDataGridView.xaml">
+    <Page Include="View\Tabs\ErrorDataGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
