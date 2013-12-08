@@ -183,9 +183,6 @@
     <Compile Include="View\CircularReferenceView.xaml.cs">
       <DependentUpon>CircularReferenceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CodeErrorGraphView.xaml.cs">
-      <DependentUpon>CodeErrorGraphView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\CodeReviewView.xaml.cs">
       <DependentUpon>CodeReviewView.xaml</DependentUpon>
     </Compile>
@@ -207,6 +204,12 @@
     <Compile Include="View\ProjectLayout.cs" />
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\CodeErrorGraphView.xaml.cs">
+      <DependentUpon>CodeErrorGraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\CodeReviewDataGridView.xaml.cs">
+      <DependentUpon>CodeReviewDataGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestErrorGraphView.xaml.cs">
       <DependentUpon>TestErrorGraphView.xaml</DependentUpon>
@@ -259,10 +262,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CodeErrorGraphView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\CodeReviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -288,6 +287,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\CodeErrorGraphView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tabs\CodeReviewDataGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,6 +15,7 @@ using ArchiMetrics.Common;
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Threading;
 	using ArchiMetrics.Analysis;
@@ -22,14 +23,14 @@ namespace ArchiMetrics.UI.ViewModel
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{
-		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
+		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
 			IEdgeItemsRepository repository,
 			IEdgeTransformer filter,
-			IProvider<string, IEnumerable<VertexTransform>> rulesProvider,
+			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider,
 			IAppContext config)
 			: base(repository, filter, config)
 		{

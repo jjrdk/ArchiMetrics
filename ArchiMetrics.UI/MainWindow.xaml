@@ -15,7 +15,8 @@
 				  MinHeight="768"
 				  WindowStartupLocation="CenterScreen"
 				  d:DataContext="{d:DesignInstance Type=viewModel:MainWindowViewModel}"
-				  ContentLoader="{DynamicResource Loader}">
+				  ContentLoader="{DynamicResource Loader}"
+				  ContentSource="View/SettingsView.xaml">
 	<mui:ModernWindow.TitleLinks>
 		<mui:Link DisplayName="Settings" Source="View/SettingsView.xaml" />
 	</mui:ModernWindow.TitleLinks>
@@ -34,10 +35,6 @@
 						  Source="View/MetricsView.xaml" />
 				<mui:Link DisplayName="Code Review"
 						  Source="View/CodeReviewView.xaml" />
-				<mui:Link DisplayName="Code Errors"
-						  Source="View/CodeErrorGraphView.xaml" />
-				<mui:Link DisplayName="Test Errors"
-						  Source="View/TestErrorGraphView.xaml" />
 				<mui:Link DisplayName="Circular References"
 						  Source="View/CircularReferenceView.xaml" />
 			</mui:LinkGroup.Links>
