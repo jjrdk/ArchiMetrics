@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.View
+namespace ArchiMetrics.UI.View.Tabs
 {
 	using System.Windows.Controls;
 	using ArchiMetrics.UI.Support;
