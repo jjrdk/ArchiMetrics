@@ -71,12 +71,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			var snippet = methodDeclaration.ToFullString();
-			var linesOfCode = GetLinesOfCode(snippet);
+			var linesOfCode = GetLinesOfCode(node);
 
 			if (linesOfCode >= Limit)
 			{
 				return new EvaluationResult
 						   {
+							   LinesOfCodeAffected = linesOfCode,
 							   Snippet = snippet
 						   };
 			}

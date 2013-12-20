@@ -39,7 +39,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				result.QualityAttribute = QualityAttribute;
 				result.ImpactLevel = ImpactLevel;
 				result.FilePath = filePath;
-				result.LinesOfCodeAffected = GetLinesOfCode(result.Snippet);
+				result.LinesOfCodeAffected = GetLinesOfCode(node);
 			}
 
 			return result;

@@ -10,17 +10,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using ArchiMetrics.Analysis.Metrics;
+
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
-	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 
 	internal abstract class EvaluationBase : IEvaluation
 	{
+		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
+
 		public abstract SyntaxKind EvaluatedKind { get; }
-		
+
 		public abstract string Title { get; }
 
 		public abstract string Suggestion { get; }
@@ -54,9 +57,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			return FindMethodParent(node.Parent);
 		}
 
-		protected static int GetLinesOfCode(string node)
+		protected int GetLinesOfCode(SyntaxNode node)
 		{
-			return node.Split('\n').Count(s => Regex.IsMatch(s.Trim(), @"^(?!(\s*\/\/))\s*.{3,}"));
+			return _locCalculator.Calculate(node);
 		}
 
 		protected TypeDeclarationSyntax FindClassParent(SyntaxNode node)

@@ -17,7 +17,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class TooBigClassRule : CodeEvaluationBase
 	{
-		private const int Limit = 400;
+		private const int Limit = 300;
 
 		public override SyntaxKind EvaluatedKind
 		{
@@ -71,12 +71,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var declarationSyntax = (TypeDeclarationSyntax)node;
 			var snippet = declarationSyntax.ToFullString();
-			var linesOfCode = GetLinesOfCode(snippet);
+			var linesOfCode = GetLinesOfCode(node);
 
 			if (linesOfCode >= Limit)
 			{
 				return new EvaluationResult
 						   {
+							   LinesOfCodeAffected = linesOfCode,
 							   Snippet = snippet
 						   };
 			}

@@ -70,7 +70,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var snippet = node.ToFullString();
 			return new EvaluationResult
 				   {
-					   LinesOfCodeAffected = GetLinesOfCode(snippet),
 					   Snippet = snippet
 				   };
 		}

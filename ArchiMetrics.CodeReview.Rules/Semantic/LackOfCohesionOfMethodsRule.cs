@@ -113,7 +113,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var snippet = node.ToFullString();
 			return new EvaluationResult
 				   {
-					   LinesOfCodeAffected = GetLinesOfCode(snippet),
 					   Snippet = snippet
 				   };
 		}

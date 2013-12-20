@@ -37,7 +37,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				result.QualityAttribute = QualityAttribute;
 				result.ImpactLevel = ImpactLevel;
 				result.FilePath = filePath;
-				result.LinesOfCodeAffected = GetLinesOfCode(result.Snippet);
+				if (result.LinesOfCodeAffected <= 0)
+				{
+					result.LinesOfCodeAffected = GetLinesOfCode(node);
+				}
 			}
 
 			return result;
