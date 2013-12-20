@@ -80,7 +80,7 @@
     <Compile Include="Metrics\MemberClassCouplingAnalyzerTests.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\SnippetMetricsCalculatorTests.cs" />
-    <Compile Include="Metrics\StatementsAnalyzerTests.cs" />
+    <Compile Include="Metrics\LinesOfCodeCalculatorTests.cs" />
     <Compile Include="Metrics\SyntaxCollectorTests.cs" />
     <Compile Include="Metrics\SyntaxMetricsCalculatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

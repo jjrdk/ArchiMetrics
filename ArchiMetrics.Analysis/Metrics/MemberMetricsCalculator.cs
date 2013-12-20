@@ -22,6 +22,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
 		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
+		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 
 		public MemberMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
@@ -55,10 +56,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			return CalculateMemberMetric(member);
 		}
 
-		private static int CalculateLinesOfCode(MemberNode node)
+		private int CalculateLinesOfCode(MemberNode node)
 		{
-			var provider = new StatementsAnalyzer();
-			return provider.Calculate(node);
+			return _locCalculator.Calculate(node);
 		}
 
 		private static int CalculateLogicalComplexity(MemberNode node)
@@ -139,17 +139,17 @@ namespace ArchiMetrics.Analysis.Metrics
 			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
 			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
 			return new MemberMetric(
-				node.CodeFile, 
-				halsteadMetrics, 
-				memberMetricKind, 
-				node.LineNumber, 
-				linesOfCode, 
-				maintainabilityIndex, 
-				complexity, 
-				node.DisplayName, 
-				logicalComplexity, 
-				source.ToArray(), 
-				numberOfParameters, 
+				node.CodeFile,
+				halsteadMetrics,
+				memberMetricKind,
+				node.LineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
+				node.DisplayName,
+				logicalComplexity,
+				source.ToArray(),
+				numberOfParameters,
 				numberOfLocalVariables);
 		}
 
