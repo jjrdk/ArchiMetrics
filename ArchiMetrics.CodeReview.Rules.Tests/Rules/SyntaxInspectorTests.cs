@@ -81,6 +81,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		}", typeof(EmptyWhileErrorRule))]
 			[TestCase(@"private void SomeMethod()
         {
+			throw new NotImplementedException();
+		}", typeof(NoNotImplementedExceptionRule))]
+			[TestCase(@"private void SomeMethod()
+        {
 			do
 			{
 			}
