@@ -18,7 +18,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	{
 		public override SyntaxKind EvaluatedKind
 		{
-			get { return SyntaxKind.SetAccessorDeclaration; }
+			get { return SyntaxKind.GetAccessorDeclaration; }
 		}
 	}
 }
