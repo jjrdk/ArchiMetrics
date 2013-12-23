@@ -21,6 +21,10 @@ namespace ArchiMetrics.Common.CodeReview
 
 		public string Namespace { get; set; }
 
+		public string TypeName { get; set; }
+
+		public string TypeKind { get; set; }
+
 		public string FilePath { get; set; }
 
 		public string Title { get; set; }

@@ -25,15 +25,23 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			{
 				var sourceTree = node.GetLocation().SourceTree;
 				var filePath = sourceTree.FilePath;
-				var unitNamespace = GetCompilationUnitNamespace(sourceTree.GetRoot());
+				var typeDefinition = GetNodeType(node.Token.Parent);
+				var unitNamespace = GetNamespace(node.Token.Parent);
+				if (result.ErrorCount == 0)
+				{
+					result.ErrorCount = 1;
+				}
+
+				result.LinesOfCodeAffected = 0;
+				result.Namespace = unitNamespace;
+				result.TypeKind = typeDefinition.Item1;
+				result.TypeName = typeDefinition.Item2;
 				result.Title = Title;
 				result.Suggestion = Suggestion;
-				result.Namespace = unitNamespace;
 				result.Quality = Quality;
 				result.QualityAttribute = QualityAttribute;
 				result.ImpactLevel = ImpactLevel;
 				result.FilePath = filePath;
-				result.LinesOfCodeAffected = 0;
 			}
 
 			return result;

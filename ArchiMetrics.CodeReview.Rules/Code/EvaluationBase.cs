@@ -14,6 +14,7 @@ using ArchiMetrics.Analysis.Metrics;
 
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
+	using System;
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
@@ -34,12 +35,38 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		public abstract ImpactLevel ImpactLevel { get; }
 
-		protected static string GetCompilationUnitNamespace(CompilationUnitSyntax node)
+		protected static string GetNamespace(SyntaxNode node)
 		{
-			var namespaceDeclaration = node.DescendantNodes()
-				.FirstOrDefault(n => n.Kind == SyntaxKind.NamespaceDeclaration);
+			var namespaceDeclaration = node as NamespaceDeclarationSyntax;
+			if (namespaceDeclaration != null)
+			{
+				return namespaceDeclaration.Name.GetText().ToString().Trim();
+			}
 
-			return namespaceDeclaration == null ? string.Empty : ((NamespaceDeclarationSyntax)namespaceDeclaration).Name.GetText().ToString().Trim();
+			if (node.Parent == null)
+			{
+				return SyntaxKind.GlobalKeyword.ToString();
+			}
+
+			return GetNamespace(node.Parent);
+		}
+
+		protected static Tuple<string, string> GetNodeType(SyntaxNode node)
+		{
+			var declaration = node as TypeDeclarationSyntax;
+			if (declaration != null)
+			{
+				var keyword = declaration.Keyword.ValueText.ToTitleCase();
+				var name = declaration.Identifier.ValueText;
+				return new Tuple<string, string>(keyword, name);
+			}
+
+			if (node.Parent == null)
+			{
+				return new Tuple<string, string>(SyntaxKind.GlobalKeyword.ToString(), string.Empty);
+			}
+
+			return GetNodeType(node.Parent);
 		}
 
 		protected static SyntaxNode FindMethodParent(SyntaxNode node)

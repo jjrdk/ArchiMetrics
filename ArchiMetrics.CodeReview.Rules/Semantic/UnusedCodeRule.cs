@@ -67,7 +67,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			{
 				return new EvaluationResult
 					   {
-						   Namespace = GetCompilationUnitNamespace(node.GetLocation().SourceTree.GetRoot()),
 						   Snippet = node.ToFullString()
 					   };
 			}

@@ -27,19 +27,27 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			{
 				var sourceTree = node.GetLocation().SourceTree;
 				var filePath = sourceTree.FilePath;
-				if (string.IsNullOrWhiteSpace(result.Namespace))
+				var typeDefinition = GetNodeType(node);
+				var unitNamespace = GetNamespace(node);
+				if (result.ErrorCount == 0)
 				{
-					var unitNamespace = GetCompilationUnitNamespace(sourceTree.GetRoot());
-					result.Namespace = unitNamespace;
+					result.ErrorCount = 1;
 				}
 
+				if (result.LinesOfCodeAffected <= 0)
+				{
+					result.LinesOfCodeAffected = GetLinesOfCode(node);
+				}
+
+				result.Namespace = unitNamespace;
+				result.TypeKind = typeDefinition.Item1;
+				result.TypeName = typeDefinition.Item2;
 				result.Title = Title;
 				result.Suggestion = Suggestion;
 				result.Quality = Quality;
 				result.QualityAttribute = QualityAttribute;
 				result.ImpactLevel = ImpactLevel;
 				result.FilePath = filePath;
-				result.LinesOfCodeAffected = GetLinesOfCode(node);
 			}
 
 			return result;
