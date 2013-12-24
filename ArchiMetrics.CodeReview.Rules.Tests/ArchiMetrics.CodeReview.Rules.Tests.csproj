@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\InspectionCodeSource.cs" />
     <Compile Include="Rules\RuleDefinitionTests.cs" />
     <Compile Include="Rules\SemanticRulesTests.cs" />
     <Compile Include="Rules\Semantic\LackOfCohesionRuleTests.cs" />
