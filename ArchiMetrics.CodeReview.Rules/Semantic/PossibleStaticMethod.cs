@@ -69,8 +69,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		}
 
 		protected override EvaluationResult EvaluateImpl(
-			SyntaxNode node,
-			ISemanticModel semanticModel,
+			SyntaxNode node, 
+			ISemanticModel semanticModel, 
 			ISolution solution)
 		{
 			var method = (MethodDeclarationSyntax)node;

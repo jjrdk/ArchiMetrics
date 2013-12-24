@@ -129,10 +129,10 @@ namespace ArchiMetrics.Analysis
 							{
 								return new EvaluationResult
 									   {
-										   Title = ex.Message,
-										   Suggestion = ex.StackTrace,
-										   ErrorCount = 1,
-										   Snippet = trivia.ToFullString(),
+										   Title = ex.Message, 
+										   Suggestion = ex.StackTrace, 
+										   ErrorCount = 1, 
+										   Snippet = trivia.ToFullString(), 
 										   Quality = CodeQuality.Broken
 									   };
 							}
@@ -156,10 +156,10 @@ namespace ArchiMetrics.Analysis
 						{
 							return new EvaluationResult
 							{
-								Title = ex.Message,
-								Suggestion = ex.StackTrace,
-								ErrorCount = 1,
-								Snippet = node.ToFullString(),
+								Title = ex.Message, 
+								Suggestion = ex.StackTrace, 
+								ErrorCount = 1, 
+								Snippet = node.ToFullString(), 
 								Quality = CodeQuality.Broken
 							};
 						}
@@ -188,10 +188,10 @@ namespace ArchiMetrics.Analysis
 							{
 								return new EvaluationResult
 										   {
-											   Title = ex.Message,
-											   Suggestion = ex.StackTrace,
-											   ErrorCount = 1,
-											   Snippet = node.ToFullString(),
+											   Title = ex.Message, 
+											   Suggestion = ex.StackTrace, 
+											   ErrorCount = 1, 
+											   Snippet = node.ToFullString(), 
 											   Quality = CodeQuality.Broken
 										   };
 							}

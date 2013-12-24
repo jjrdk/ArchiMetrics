@@ -18,12 +18,12 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal class NamespaceMetric : INamespaceMetric
 	{
 		public NamespaceMetric(
-			double maintainabilityIndex,
-			int cyclomaticComplexity,
-			int linesOfCode,
-			IEnumerable<TypeCoupling> classCouplings,
-			int depthOfInheritance,
-			string name,
+			double maintainabilityIndex, 
+			int cyclomaticComplexity, 
+			int linesOfCode, 
+			IEnumerable<TypeCoupling> classCouplings, 
+			int depthOfInheritance, 
+			string name, 
 			IEnumerable<ITypeMetric> typeMetrics)
 		{
 			MaintainabilityIndex = maintainabilityIndex;

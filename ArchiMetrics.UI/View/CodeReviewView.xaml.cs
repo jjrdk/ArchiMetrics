@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.UI.View
 {
-	using UserControl = System.Windows.Controls.UserControl;
+	using System.Windows.Controls;
 
 	/// <summary>
 	/// Interaction logic for CodeReviewView.xaml.

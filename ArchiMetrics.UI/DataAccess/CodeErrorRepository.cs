@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Threading;
-
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -19,26 +17,26 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
-	using ArchiMetrics.UI.Support;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
 	public class CodeErrorRepository : ICodeErrorRepository
 	{
+		private readonly IAvailableRules _availableRules;
 		private readonly IAppContext _config;
 		private readonly ConcurrentDictionary<string, Lazy<EvaluationResult[]>> _edgeItems;
 		private readonly INodeInspector _inspector;
-		private readonly IAvailableRules _availableRules;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			IAppContext config,
-			IProvider<string, ISolution> solutionProvider,
-			INodeInspector inspector,
+			IAppContext config, 
+			IProvider<string, ISolution> solutionProvider, 
+			INodeInspector inspector, 
 			IAvailableRules availableRules)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Lazy<EvaluationResult[]>>();
@@ -66,7 +64,7 @@ namespace ArchiMetrics.UI.DataAccess
 				() =>
 				{
 					var cachedEdges = _edgeItems.GetOrAdd(
-						source,
+						source, 
 						path =>
 						{
 							var loadTask = new Lazy<EvaluationResult[]>(() => LoadEvaluationResults(path), LazyThreadSafetyMode.ExecutionAndPublication);
@@ -80,21 +78,21 @@ namespace ArchiMetrics.UI.DataAccess
 							.Where(x => availableRules.Contains(x.Title))
 							.ToArray()
 							.AsEnumerable();
-				},
+				}, 
 				cancellationToken);
-		}
-
-		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))
-		{
-			return _config.IncludeCodeReview && !string.IsNullOrWhiteSpace(_config.Path)
-								  ? GetErrors(_config.Path, cancellationToken)
-								  : Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable(), cancellationToken);
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))
+		{
+			return _config.IncludeCodeReview && !string.IsNullOrWhiteSpace(_config.Path)
+					   ? GetErrors(_config.Path, cancellationToken)
+					   : Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable(), cancellationToken);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

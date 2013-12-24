@@ -10,12 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ArchiMetrics.Analysis.Metrics;
-
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System;
-	using System.Linq;
+	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 
@@ -23,17 +21,17 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 
-		public abstract SyntaxKind EvaluatedKind { get; }
-
-		public abstract string Title { get; }
-
-		public abstract string Suggestion { get; }
-
 		public abstract CodeQuality Quality { get; }
 
 		public abstract QualityAttribute QualityAttribute { get; }
 
 		public abstract ImpactLevel ImpactLevel { get; }
+
+		public abstract SyntaxKind EvaluatedKind { get; }
+
+		public abstract string Title { get; }
+
+		public abstract string Suggestion { get; }
 
 		protected static string GetNamespace(SyntaxNode node)
 		{

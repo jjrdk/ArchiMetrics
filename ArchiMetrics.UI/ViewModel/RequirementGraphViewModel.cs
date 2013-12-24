@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ArchiMetrics.Common;
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -20,23 +18,24 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
 	internal class RequirementGraphViewModel : ViewModelBase
 	{
 		private readonly IRequirementTestAnalyzer _analyzer;
-		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
 		private readonly IEdgeTransformer _filter;
+		private readonly IProvider<string, IEnumerable<VertexTransform>> _rulesProvider;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 		private CancellationTokenSource _tokenSource;
 
 		public RequirementGraphViewModel(
-			IRequirementTestAnalyzer analyzer,
-			IProvider<string, IEnumerable<VertexTransform>> rulesProvider,
-			IAppContext config,
+			IRequirementTestAnalyzer analyzer, 
+			IProvider<string, IEnumerable<VertexTransform>> rulesProvider, 
+			IAppContext config, 
 			IEdgeTransformer filter)
 			: base(config)
 		{
@@ -109,7 +108,7 @@ namespace ArchiMetrics.UI.ViewModel
 				.Select(
 					dependencyItemViewModel =>
 					new ProjectEdge(
-						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
+						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant), 
 						projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
 								   .Where(e => e.Target.Name != e.Source.Name)
 								   .ToList();
@@ -161,8 +160,8 @@ namespace ArchiMetrics.UI.ViewModel
 							 o =>
 							 new MetricsEdgeItem
 							 {
-								 Dependant = i.ToString(CultureInfo.InvariantCulture),
-								 Dependency = o.ToString(CultureInfo.InvariantCulture),
+								 Dependant = i.ToString(CultureInfo.InvariantCulture), 
+								 Dependency = o.ToString(CultureInfo.InvariantCulture), 
 								 CodeIssues = new EvaluationResult[0]
 							 }));
 		}

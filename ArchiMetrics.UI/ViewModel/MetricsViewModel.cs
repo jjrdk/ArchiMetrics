@@ -1,26 +1,38 @@
-﻿namespace ArchiMetrics.UI.ViewModel
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MetricsViewModel.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the MetricsViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using Roslyn.Services;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
+	using Roslyn.Services;
 
 	public class MetricsViewModel : ViewModelBase
 	{
+		private readonly IAppContext _config;
 		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly IProvider<string, ISolution> _solutionProvider;
-		private readonly IAppContext _config;
 		private int _cyclomaticComplexity;
 		private int _depthOfInheritance;
 		private double _maintainabilityIndex;
 		private IList<ITypeMetric> _metrics;
 
 		public MetricsViewModel(
-			IProjectMetricsRepository metricsRepository,
-			IProvider<string, ISolution> solutionProvider,
+			IProjectMetricsRepository metricsRepository, 
+			IProvider<string, ISolution> solutionProvider, 
 			IAppContext config)
 			: base(config)
 		{

@@ -12,9 +12,9 @@
 
 namespace ArchiMetrics.Common.Metrics
 {
-    using System.Collections.Generic;
+	using System.Collections.Generic;
 
-    public interface IProjectMetric : ICodeMetric
+	public interface IProjectMetric : ICodeMetric
     {
         IEnumerable<TypeCoupling> ClassCouplings { get; }
 

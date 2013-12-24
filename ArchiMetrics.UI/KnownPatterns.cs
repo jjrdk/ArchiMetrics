@@ -15,7 +15,6 @@ namespace ArchiMetrics.UI
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text.RegularExpressions;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
 	public class KnownPatterns : IKnownPatterns

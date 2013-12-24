@@ -91,7 +91,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				var snippet = node.ToFullString();
 				return new EvaluationResult
 				{
-					ErrorCount = 1,
+					ErrorCount = 1, 
 					Snippet = snippet
 				};
 			}

@@ -77,7 +77,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   LinesOfCodeAffected = linesOfCode,
+							   LinesOfCodeAffected = linesOfCode, 
 							   Snippet = snippet
 						   };
 			}

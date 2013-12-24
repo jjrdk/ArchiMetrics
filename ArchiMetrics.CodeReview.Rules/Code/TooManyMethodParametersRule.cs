@@ -76,7 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = parameterCount,
+							   ErrorCount = parameterCount, 
 							   Snippet = methodDeclaration.ToFullString()
 						   };
 			}

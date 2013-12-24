@@ -118,9 +118,9 @@ namespace MyNs
 			{
 				var tree = SyntaxTree.ParseText(method);
 				var compilation = Compilation.Create(
-					"x",
-					syntaxTrees: new[] { tree },
-					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
+					"x", 
+					syntaxTrees: new[] { tree }, 
+					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) }, 
 					options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 				
 				var model = compilation.GetSemanticModel(tree);

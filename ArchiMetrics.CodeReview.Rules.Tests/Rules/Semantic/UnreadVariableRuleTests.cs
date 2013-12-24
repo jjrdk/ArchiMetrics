@@ -65,7 +65,7 @@ new object();
 										from n in root.DescendantNodes().OfType<VariableDeclarationSyntax>()
 										select new
 											   {
-												   semanticModel = model,
+												   semanticModel = model, 
 												   node = n
 											   }).First();
 				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
@@ -108,7 +108,7 @@ new object();
 										from n in root.DescendantNodes().OfType<VariableDeclarationSyntax>()
 										select new
 											   {
-												   semanticModel = model,
+												   semanticModel = model, 
 												   node = n
 											   }).First();
 				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);

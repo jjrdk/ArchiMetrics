@@ -10,11 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
 namespace ArchiMetrics.UI
 {
+	using System.Collections.ObjectModel;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
@@ -40,7 +38,7 @@ namespace ArchiMetrics.UI
 		static App()
 		{
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement),
+				typeof(FrameworkElement), 
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 

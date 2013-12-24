@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using System;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
@@ -108,7 +107,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			////	base.VisitInvocationExpression(node);
 			////}
-
 			public override void VisitArgument(ArgumentSyntax node)
 			{
 				switch (node.Expression.Kind)

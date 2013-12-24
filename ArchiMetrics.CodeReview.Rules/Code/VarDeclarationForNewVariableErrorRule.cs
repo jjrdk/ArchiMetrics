@@ -73,7 +73,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   ErrorCount = declaration.Variables.Count,
+							   ErrorCount = declaration.Variables.Count, 
 							   Snippet = declaration.ToFullString()
 						   };
 			}

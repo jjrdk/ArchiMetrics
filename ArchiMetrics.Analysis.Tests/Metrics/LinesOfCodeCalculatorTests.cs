@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StatementsAnalyzerTests.cs" company="Reimers.dk">
+// <copyright file="LinesOfCodeCalculatorTests.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the StatementsAnalyzerTests type.
+//   Defines the LinesOfCodeCalculatorTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,9 +18,9 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public sealed class StatementsAnalyzerTests
+	public sealed class LinesOfCodeCalculatorTests
 	{
-		private StatementsAnalyzerTests()
+		private LinesOfCodeCalculatorTests()
 		{
 		}
 
@@ -72,12 +72,14 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		}", 3, SyntaxKind.MethodDeclaration, MemberKind.Method)]
 			public void WhenCalculatingForMemberNodeHasExpectedLinesOfCode(string code, int expected, SyntaxKind kind, MemberKind memberKind)
 			{
-				var text = string.Format(@"namespace Testing
+				var text = string.Format(
+@"namespace Testing
 			{{
 				public class TestClass {{
 					{0}
 				}}
-			}}", code);
+			}}",
+			   code);
 
 				var syntaxTree = SyntaxTree.ParseText(text);
 				var compilation = Compilation.Create("x", syntaxTrees: new[] { syntaxTree });
@@ -110,12 +112,14 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		}", 3)]
 			public void WhenCountingLinesOfCodeThenHasExpectedCount(string code, int count)
 			{
-				var text = string.Format(@"namespace Testing
+				var text = string.Format(
+@"namespace Testing
 			{{
 				public class TestClass {{
 					{0}
 				}}
-			}}", code);
+			}}", 
+			   code);
 
 				var syntaxTree = SyntaxTree.ParseText(text);
 				var root = syntaxTree.GetRoot();

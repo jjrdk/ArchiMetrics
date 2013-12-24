@@ -10,10 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace ArchiMetrics.Common.Structure
 {
+	using System;
 	using System.ComponentModel;
 
 	public interface IAppContext : INotifyPropertyChanged, IDisposable

@@ -26,13 +26,13 @@ namespace ArchiMetrics.UI.DataAccess
 
 	public class ProjectEdgeItemsRepository : CodeEdgeItemsRepository
 	{
+		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly ConcurrentDictionary<string, Task<ProjectReference[]>> _projectReferences = new ConcurrentDictionary<string, Task<ProjectReference[]>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
-		private readonly IProjectMetricsRepository _metricsRepository;
 
 		public ProjectEdgeItemsRepository(
-			IProvider<string, ISolution> solutionProvider,
-			ICodeErrorRepository codeErrorRepository,
+			IProvider<string, ISolution> solutionProvider, 
+			ICodeErrorRepository codeErrorRepository, 
 			IProjectMetricsRepository metricsRepository)
 			: base(codeErrorRepository)
 		{
@@ -65,7 +65,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<ProjectReference[]> GetProjectReferences(string solutionPath, CancellationToken cancellationToken)
 		{
 			return _projectReferences.GetOrAdd(
-				solutionPath,
+				solutionPath, 
 				path => Task.Factory.StartNew(() => GetProjectDependencies(path).ToArray(), cancellationToken, TaskCreationOptions.PreferFairness, PriorityScheduler.AboveNormal));
 		}
 
@@ -101,15 +101,15 @@ namespace ArchiMetrics.UI.DataAccess
 				.Select(
 					p => new ProjectReference
 						 {
-							 ProjectPath = p.FilePath,
-							 Version = p.GetVersion().ToString(),
-							 Name = p.Name,
+							 ProjectPath = p.FilePath, 
+							 Version = p.GetVersion().ToString(), 
+							 Name = p.Name, 
 							 ProjectReferences = p.ProjectReferences.Select(
 								 pr =>
 								 {
 									 var project = solution.GetProject(pr);
 									 return new KeyValuePair<string, string>(project.Name, project.FilePath);
-								 }),
+								 }), 
 							 AssemblyReferences = p.MetadataReferences.Select(m => Path.GetFileNameWithoutExtension(m.Display))
 						 });
 		}

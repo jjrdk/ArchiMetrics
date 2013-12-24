@@ -56,11 +56,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return CalculateMemberMetric(member);
 		}
 
-		private int CalculateLinesOfCode(MemberNode node)
-		{
-			return _locCalculator.Calculate(node);
-		}
-
 		private static int CalculateLogicalComplexity(MemberNode node)
 		{
 			var provider = new LogicalComplexityCounter();
@@ -101,6 +96,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			return MemberMetricKind.Unknown;
 		}
 
+		private int CalculateLinesOfCode(MemberNode node)
+		{
+			return _locCalculator.Calculate(node);
+		}
+
 		private int CalculateCyclomaticComplexity(MemberNode node)
 		{
 			return _counter.Calculate(node);
@@ -139,17 +139,17 @@ namespace ArchiMetrics.Analysis.Metrics
 			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
 			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
 			return new MemberMetric(
-				node.CodeFile,
-				halsteadMetrics,
-				memberMetricKind,
-				node.LineNumber,
-				linesOfCode,
-				maintainabilityIndex,
-				complexity,
-				node.DisplayName,
-				logicalComplexity,
-				source.ToArray(),
-				numberOfParameters,
+				node.CodeFile, 
+				halsteadMetrics, 
+				memberMetricKind, 
+				node.LineNumber, 
+				linesOfCode, 
+				maintainabilityIndex, 
+				complexity, 
+				node.DisplayName, 
+				logicalComplexity, 
+				source.ToArray(), 
+				numberOfParameters, 
 				numberOfLocalVariables);
 		}
 

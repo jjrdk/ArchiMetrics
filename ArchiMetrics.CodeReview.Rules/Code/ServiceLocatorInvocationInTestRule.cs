@@ -83,7 +83,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 					return new EvaluationResult
 							   {
-								   Snippet = snippet,
+								   Snippet = snippet, 
 							   };
 				}
 			}

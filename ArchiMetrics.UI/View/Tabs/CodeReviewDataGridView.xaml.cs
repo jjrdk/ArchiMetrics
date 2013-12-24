@@ -14,16 +14,14 @@ namespace ArchiMetrics.UI.View.Tabs
 {
 	using System.IO;
 	using System.Windows;
+	using System.Windows.Controls;
 	using System.Windows.Input;
 	using ArchiMetrics.UI.Support;
 	using ArchiMetrics.UI.ViewModel;
 	using Microsoft.Win32;
-	using Clipboard = System.Windows.Clipboard;
-	using DataFormats = System.Windows.DataFormats;
-	using UserControl = System.Windows.Controls.UserControl;
 
 	/// <summary>
-	/// Interaction logic for CodeReviewDataGridView.xaml
+	/// Interaction logic for CodeReviewDataGridView.xaml.
 	/// </summary>
 	[DataContext(typeof(CodeReviewViewModel))]
 	public partial class CodeReviewDataGridView : UserControl

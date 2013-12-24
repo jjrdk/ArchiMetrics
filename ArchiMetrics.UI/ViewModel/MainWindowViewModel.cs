@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.UI.ViewModel
 {
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	/// <summary>

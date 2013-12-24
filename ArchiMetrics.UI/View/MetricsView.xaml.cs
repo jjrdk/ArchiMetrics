@@ -1,12 +1,24 @@
-﻿namespace ArchiMetrics.UI.View
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MetricsView.xaml.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Interaction logic for MetricsView.xaml.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.UI.View
 {
-	using ArchiMetrics.UI.Support;
-	using ArchiMetrics.UI.ViewModel;
 	using System.IO;
-	using forms = System.Windows.Forms;
-	using System.Windows.Input;
 	using System.Windows;
 	using System.Windows.Controls;
+	using System.Windows.Input;
+	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.ViewModel;
+	using forms = System.Windows.Forms;
 
 	/// <summary>
 	/// Interaction logic for MetricsView.xaml.

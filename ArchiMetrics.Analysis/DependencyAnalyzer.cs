@@ -38,8 +38,8 @@ namespace ArchiMetrics.Analysis
 						p => p.ReferencedProjects.Select(
 							r => new EdgeItemBase
 							{
-								Dependant = p.Name,
-								Dependency = r,
+								Dependant = p.Name, 
+								Dependency = r, 
 								MergedEdges = 0
 							}))
 					.ToArray();
@@ -58,7 +58,7 @@ namespace ArchiMetrics.Analysis
 					.SelectMany(e => GetDependencyChain(new DependencyChain(Enumerable.Empty<MetricsEdgeItem>(), e, e), edgeItems))
 					.Where(c => c.IsCircular)
 					.AsSequential()
-					.Distinct(),
+					.Distinct(), 
 					cancellationToken);
 		}
 

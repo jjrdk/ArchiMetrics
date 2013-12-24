@@ -39,7 +39,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				                            signatureResolver.TryResolveMemberSignatureString(x), 
 				                            x.Kind, 
 				                            GetLineNumber(x.SyntaxNode), 
-				                            x.SyntaxNode,
+				                            x.SyntaxNode, 
 											semanticModel));
 		}
 

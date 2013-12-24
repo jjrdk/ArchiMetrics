@@ -13,7 +13,6 @@
 namespace ArchiMetrics.UI
 {
 	using System;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using NHunspell;
 

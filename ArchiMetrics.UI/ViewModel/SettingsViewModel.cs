@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ArchiMetrics.UI.DataAccess;
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -19,6 +17,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using ArchiMetrics.Common.Structure;
+	using ArchiMetrics.UI.DataAccess;
 
 	internal class SettingsViewModel : ViewModelBase
 	{
@@ -32,7 +31,7 @@ namespace ArchiMetrics.UI.ViewModel
 			_config = config;
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-					h => _config.PropertyChanged += h,
+					h => _config.PropertyChanged += h, 
 					h => _config.PropertyChanged -= h)
 				.Select(x => x.EventArgs)
 				.ObserveOn(TaskPoolScheduler.Default)

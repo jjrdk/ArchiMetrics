@@ -10,33 +10,32 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
-using ArchiMetrics.Common;
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Threading;
 	using System.Windows.Input;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;
 
 	internal class GraphViewModel : ViewModelBase
 	{
-		private readonly IEdgeTransformer _filter;
-		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
+		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
+		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private readonly DelegateCommand _updateCommand;
 		private MetricsEdgeItem[] _allMetricsEdges;
 		private ProjectGraph _graphToVisualize;
 		private CancellationTokenSource _tokenSource;
 
 		public GraphViewModel(
-			IEdgeItemsRepository repository,
-			IEdgeTransformer filter,
-			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider,
+			IEdgeItemsRepository repository, 
+			IEdgeTransformer filter, 
+			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider, 
 			IAppContext config)
 			: base(config)
 		{
@@ -121,7 +120,6 @@ namespace ArchiMetrics.UI.ViewModel
 
 			////var circularReferences = (await DependencyAnalyzer.GetCircularReferences(nonEmptySourceItems, cancellationToken))
 			////	.ToArray();
-
 			var projectVertices = nonEmptySourceItems
 				.TakeWhile(x => !cancellationToken.IsCancellationRequested)
 				.SelectMany(item =>
@@ -140,7 +138,7 @@ namespace ArchiMetrics.UI.ViewModel
 					.Select(
 						dependencyItemViewModel =>
 						new ProjectEdge(
-							projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant),
+							projectVertices.First(item => item.Name == dependencyItemViewModel.Dependant), 
 							projectVertices.First(item => item.Name == dependencyItemViewModel.Dependency)))
 					.Where(e => e.Target.Name != e.Source.Name);
 			var g = new ProjectGraph();
@@ -184,7 +182,7 @@ namespace ArchiMetrics.UI.ViewModel
 					{
 						_allMetricsEdges = t.Result.Where(e => e.Dependant != e.Dependency).ToArray();
 						Update(false);
-					},
+					}, 
 					cancellationToken);
 		}
 	}

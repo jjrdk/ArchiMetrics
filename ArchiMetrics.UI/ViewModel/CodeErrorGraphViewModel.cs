@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.UI.ViewModel
 {
-	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
@@ -22,10 +21,10 @@ namespace ArchiMetrics.UI.ViewModel
 
 	public class CodeErrorGraphViewModel : ViewModelBase
 	{
-		private readonly ICodeErrorRepository _repository;
 		private readonly IAppContext _config;
-		private CancellationTokenSource _tokenSource;
+		private readonly ICodeErrorRepository _repository;
 		private IList<KeyValuePair<string, int>> _errors;
+		private CancellationTokenSource _tokenSource;
 
 		public CodeErrorGraphViewModel(ICodeErrorRepository repository, IAppContext config)
 			: base(config)

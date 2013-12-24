@@ -22,18 +22,18 @@ namespace ArchiMetrics.UI.DataAccess
 	public class AppContext : IAppContext
 	{
 		private readonly IAvailableRules _availableRules;
+		private readonly IDisposable _subscription;
 		private bool _includeCodeReview;
 		private string _path;
-		private EdgeSource _source;
-		private readonly IDisposable _subscription;
 		private string _rulesSource;
+		private EdgeSource _source;
 
 		public AppContext(IAvailableRules availableRules)
 		{
 			_rulesSource = string.Empty;
 			_availableRules = availableRules;
 			_subscription = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-				h => _availableRules.CollectionChanged += h,
+				h => _availableRules.CollectionChanged += h, 
 				h => _availableRules.CollectionChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(3))
 				.Subscribe(x => OnPropertyChanged(string.Empty));
@@ -85,7 +85,11 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public string RulesSource
 		{
-			get { return _rulesSource; }
+			get
+			{
+				return _rulesSource;
+			}
+
 			set
 			{
 				if (_rulesSource != value)

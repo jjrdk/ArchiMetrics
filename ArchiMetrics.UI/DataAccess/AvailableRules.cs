@@ -35,7 +35,7 @@ namespace ArchiMetrics.UI.DataAccess
 				.ToList();
 			_subscriptions = _innerList.Select(
 				x => Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-				h => x.PropertyChanged += h,
+				h => x.PropertyChanged += h, 
 				h => x.PropertyChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(1))
 				.Subscribe(y => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))))
@@ -89,8 +89,8 @@ namespace ArchiMetrics.UI.DataAccess
 
 		private class AvailableRule : IAvailability, INotifyPropertyChanged
 		{
-			private IEvaluation _rule;
 			private bool _isAvailable;
+			private IEvaluation _rule;
 
 			public AvailableRule(IEvaluation rule)
 			{
@@ -99,23 +99,6 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 
 			public event PropertyChangedEventHandler PropertyChanged;
-
-			public bool IsAvailable
-			{
-				get
-				{
-					return _isAvailable;
-				}
-
-				set
-				{
-					if (_isAvailable != value)
-					{
-						_isAvailable = value;
-						OnPropertyChanged();
-					}
-				}
-			}
 
 			public IEvaluation Rule
 			{
@@ -129,6 +112,23 @@ namespace ArchiMetrics.UI.DataAccess
 					if (!ReferenceEquals(_rule, value))
 					{
 						_rule = value;
+						OnPropertyChanged();
+					}
+				}
+			}
+
+			public bool IsAvailable
+			{
+				get
+				{
+					return _isAvailable;
+				}
+
+				set
+				{
+					if (_isAvailable != value)
+					{
+						_isAvailable = value;
 						OnPropertyChanged();
 					}
 				}

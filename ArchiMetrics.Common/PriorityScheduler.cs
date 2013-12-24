@@ -25,8 +25,8 @@ namespace ArchiMetrics.Common
 		private static readonly PriorityScheduler LowestScheduler = new PriorityScheduler(ThreadPriority.Lowest);
 
 		private readonly int _maximumConcurrencyLevel = Math.Max(1, Environment.ProcessorCount);
-		private readonly BlockingCollection<Task> _tasks = new BlockingCollection<Task>();
 		private readonly ThreadPriority _priority;
+		private readonly BlockingCollection<Task> _tasks = new BlockingCollection<Task>();
 		private Thread[] _threads;
 
 		private PriorityScheduler(ThreadPriority priority)
@@ -94,7 +94,7 @@ namespace ArchiMetrics.Common
 			if (_threads == null)
 			{
 				_threads = new Thread[_maximumConcurrencyLevel];
-				for (int i = 0; i < _threads.Length; i++)
+				for (var i = 0; i < _threads.Length; i++)
 				{
 					_threads[i] = new Thread(
 						() =>
@@ -105,8 +105,8 @@ namespace ArchiMetrics.Common
 							}
 						})
 								  {
-									  Name = "PriorityScheduler: " + i,
-									  Priority = _priority,
+									  Name = "PriorityScheduler: " + i, 
+									  Priority = _priority, 
 									  IsBackground = true
 								  };
 					_threads[i].Start();

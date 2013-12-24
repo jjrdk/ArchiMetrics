@@ -101,7 +101,7 @@
 								Margin="2">
 						<CheckBox IsThreeState="False"
 								  IsChecked="{Binding Path=IsAvailable, Mode=TwoWay}" />
-						<TextBlock Text="{Binding}"></TextBlock>
+						<TextBlock Text="{Binding}" />
 					</StackPanel>
 				</DataTemplate>
 			</ListBox.ItemTemplate>

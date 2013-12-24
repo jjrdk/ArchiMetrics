@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ArchiMetrics.Common;
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -19,18 +17,19 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using System.Threading;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	internal class CircularReferenceViewModel : EdgesViewModelBase
 	{
-		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
+		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private IEnumerable<DependencyChain> _circularReferences;
 
 		public CircularReferenceViewModel(
-			IEdgeItemsRepository repository,
-			IEdgeTransformer filter,
-			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider,
+			IEdgeItemsRepository repository, 
+			IEdgeTransformer filter, 
+			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider, 
 			IAppContext config)
 			: base(repository, filter, config)
 		{

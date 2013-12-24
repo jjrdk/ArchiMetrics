@@ -53,10 +53,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 					   {
-						   Quality = CodeQuality.NeedsReview,
-						   ImpactLevel = ImpactLevel.Node,
-						   QualityAttribute = QualityAttribute.Conformance,
-						   Snippet = methodName,
+						   Quality = CodeQuality.NeedsReview, 
+						   ImpactLevel = ImpactLevel.Node, 
+						   QualityAttribute = QualityAttribute.Conformance, 
+						   Snippet = methodName, 
 						   ErrorCount = 1
 					   };
 			}

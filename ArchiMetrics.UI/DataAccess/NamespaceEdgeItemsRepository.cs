@@ -26,13 +26,13 @@ namespace ArchiMetrics.UI.DataAccess
 
 	public class NamespaceEdgeItemsRepository : CodeEdgeItemsRepository
 	{
+		private readonly IProjectMetricsRepository _metricsProvider;
 		private readonly ConcurrentDictionary<string, IEnumerable<NamespaceReference>> _namespaceReferences = new ConcurrentDictionary<string, IEnumerable<NamespaceReference>>();
 		private readonly IProvider<string, ISolution> _solutionProvider;
-		private readonly IProjectMetricsRepository _metricsProvider;
 
 		public NamespaceEdgeItemsRepository(
-			IProvider<string, ISolution> solutionProvider,
-			IProjectMetricsRepository metricsRepository,
+			IProvider<string, ISolution> solutionProvider, 
+			IProjectMetricsRepository metricsRepository, 
 			ICodeErrorRepository codeErrorRepository)
 			: base(codeErrorRepository)
 		{
@@ -47,10 +47,10 @@ namespace ArchiMetrics.UI.DataAccess
 			var metrics = (await GetCodeMetrics(path, namespaceReferences, cancellationToken))
 				.SelectMany(x => x.Metrics.Select(_ => new
 				{
-					Name = _.Name,
-					ProjectName = x.Project,
-					ProjectPath = x.ProjectPath,
-					ProjectVersion = x.Version,
+					Name = _.Name, 
+					ProjectName = x.Project, 
+					ProjectPath = x.ProjectPath, 
+					ProjectVersion = x.Version, 
 					Metrics = _
 				}))
 				.Where(x => x.Metrics != null)
@@ -62,13 +62,13 @@ namespace ArchiMetrics.UI.DataAccess
 						var first = metricsGroup.First();
 						return new ProjectCodeMetrics
 						{
-							Metrics = metricsGroup.Select(x => x.Metrics).ToArray(),
-							Project = first.Name,
-							ProjectPath = first.ProjectPath,
-							Version = first.ProjectVersion,
-							LinesOfCode = linesOfCode,
-							DepthOfInheritance = linesOfCode > 0 ? (int)metricsGroup.Average(x => x.Metrics.DepthOfInheritance) : 0,
-							CyclomaticComplexity = linesOfCode > 0 ? metricsGroup.Sum(x => x.Metrics.CyclomaticComplexity * linesOfCode) / linesOfCode : 0,
+							Metrics = metricsGroup.Select(x => x.Metrics).ToArray(), 
+							Project = first.Name, 
+							ProjectPath = first.ProjectPath, 
+							Version = first.ProjectVersion, 
+							LinesOfCode = linesOfCode, 
+							DepthOfInheritance = linesOfCode > 0 ? (int)metricsGroup.Average(x => x.Metrics.DepthOfInheritance) : 0, 
+							CyclomaticComplexity = linesOfCode > 0 ? metricsGroup.Sum(x => x.Metrics.CyclomaticComplexity * linesOfCode) / linesOfCode : 0, 
 							MaintainabilityIndex = linesOfCode > 0 ? metricsGroup.Sum(x => x.Metrics.MaintainabilityIndex * linesOfCode) / linesOfCode : 0
 						};
 					})
@@ -78,7 +78,7 @@ namespace ArchiMetrics.UI.DataAccess
 				.Where(g => g.Any())
 				.Select(g => new NamespaceReference
 				{
-					Namespace = g.Key,
+					Namespace = g.Key, 
 					References = g.SelectMany(n => n.References.Distinct().ToArray())
 				})
 				.SelectMany(r => r.References.Select((x, i) => CreateEdgeItem(r.Namespace, x, r.Namespace, GetMetrics(metrics, r.Namespace), GetMetrics(metrics, x), results)))
@@ -96,7 +96,7 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			return Task.Factory.StartNew(
 				() => _namespaceReferences.GetOrAdd(
-					solutionPath,
+					solutionPath, 
 					path => _solutionProvider.Get(path)
 								.Projects
 								.Where(
@@ -117,22 +117,22 @@ namespace ArchiMetrics.UI.DataAccess
 								.Select(
 									x => new
 											{
-												Project = x.Project,
-												LoC = GetLinesOfCode(x.Node),
-												NamespaceNames = GetNamespaceNames(x.Node),
+												Project = x.Project, 
+												LoC = GetLinesOfCode(x.Node), 
+												NamespaceNames = GetNamespaceNames(x.Node), 
 												Usings = GetUsings(x.Node)
 											})
 								.SelectMany(
 									t => t.NamespaceNames.Select(
 										s => new NamespaceReference
 											 {
-												 Namespace = s,
-												 References = t.Usings.ToArray(),
-												 ProjectPath = t.Project.FilePath,
+												 Namespace = s, 
+												 References = t.Usings.ToArray(), 
+												 ProjectPath = t.Project.FilePath, 
 												 ProjectVersion = t.Project.GetVersion().ToString()
 											 }))
 								.ToArray()
-								.AsEnumerable()),
+								.AsEnumerable()), 
 				cancellationToken);
 		}
 

@@ -10,11 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace ArchiMetrics.Analysis
 {
+	using System.Collections.Generic;
+	using System.Linq;
+
 	internal static class Utils
 	{
 		public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> source) where T : class

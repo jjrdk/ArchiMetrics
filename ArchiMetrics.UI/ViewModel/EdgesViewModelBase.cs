@@ -15,23 +15,23 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using System.IO;
-	using System.Xml.Serialization;
 	using System.Linq;
 	using System.Threading;
+	using System.Xml.Serialization;
 	using ArchiMetrics.Common.Structure;
 
 	public abstract class EdgesViewModelBase : ViewModelBase
 	{
-		private readonly IEdgeTransformer _filter;
 		private readonly IAppContext _config;
+		private readonly IEdgeTransformer _filter;
 		private readonly IEdgeItemsRepository _repository;
 		private MetricsEdgeItem[] _allMetricsEdges = new MetricsEdgeItem[0];
 		private CancellationTokenSource _tokenSource;
 		private ObservableCollection<VertexTransform> _vertexTransforms;
 
 		public EdgesViewModelBase(
-			IEdgeItemsRepository repository,
-			IEdgeTransformer filter,
+			IEdgeItemsRepository repository, 
+			IEdgeTransformer filter, 
 			IAppContext config)
 			: base(config)
 		{
@@ -42,7 +42,11 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public string VertexRules
 		{
-			get { return _config.RulesSource; }
+			get
+			{
+				return _config.RulesSource;
+			}
+
 			set
 			{
 				_config.RulesSource = value;
@@ -52,7 +56,11 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public ObservableCollection<VertexTransform> VertexTransforms
 		{
-			get { return _vertexTransforms; }
+			get
+			{
+				return _vertexTransforms;
+			}
+
 			set
 			{
 				if (!ReferenceEquals(_vertexTransforms, value))
@@ -60,15 +68,6 @@ namespace ArchiMetrics.UI.ViewModel
 					_vertexTransforms = value;
 					RaisePropertyChanged();
 				}
-			}
-		}
-
-		public void SaveTransforms(string filePath)
-		{
-			using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-			{
-				var serializer = new XmlSerializer(typeof(List<VertexTransform>));
-				serializer.Serialize(stream, VertexTransforms.ToList());
 			}
 		}
 
@@ -85,6 +84,15 @@ namespace ArchiMetrics.UI.ViewModel
 			get
 			{
 				return _allMetricsEdges;
+			}
+		}
+
+		public void SaveTransforms(string filePath)
+		{
+			using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+			{
+				var serializer = new XmlSerializer(typeof(List<VertexTransform>));
+				serializer.Serialize(stream, VertexTransforms.ToList());
 			}
 		}
 
@@ -139,7 +147,7 @@ namespace ArchiMetrics.UI.ViewModel
 					{
 						_allMetricsEdges = t.Result.ToArray();
 						UpdateInternal(cancellationToken);
-					},
+					}, 
 					cancellationToken);
 		}
 	}

@@ -30,7 +30,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return innerCalculator.Calculate(node);
 		}
 
-
 		private class InnerLinesOfCodeCalculator : SyntaxWalker
 		{
 			private int _counter;
@@ -96,6 +95,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				{
 					_counter++;
 				}
+
 				base.VisitAccessorDeclaration(node);
 			}
 
@@ -208,7 +208,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				base.VisitConstructorDeclaration(node);
 				_counter++;
-
 			}
 
 			public override void VisitWhileStatement(WhileStatementSyntax node)

@@ -12,14 +12,14 @@
 
 namespace ArchiMetrics.Analysis
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using ArchiMetrics.Analysis.Metrics;
-    using ArchiMetrics.Common.Metrics;
-    using Roslyn.Services;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.Common.Metrics;
+	using Roslyn.Services;
 
-    internal class ProjectMetricsCalculator
+	internal class ProjectMetricsCalculator
     {
         private readonly CodeMetricsCalculator _codeMetricsCalculator;
 
@@ -40,8 +40,8 @@ namespace ArchiMetrics.Analysis
                            select
                                new
                                {
-                                   Name = project.AssemblyName,
-                                   Metrics = codeMetricsTask,
+                                   Name = project.AssemblyName, 
+                                   Metrics = codeMetricsTask, 
                                    References = projectDependencies.Concat(metaReferences).ToArray()
                                }).ToArray();
 

@@ -16,7 +16,7 @@ namespace ArchiMetrics.Common.Structure
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.CodeReview;
 
-    [Serializable]
+	[Serializable]
 	public class MetricsEdgeItem : EdgeItemBase
     {
         public IEnumerable<EvaluationResult> CodeIssues { get; set; }

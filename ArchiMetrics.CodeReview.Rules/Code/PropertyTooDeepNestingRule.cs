@@ -18,7 +18,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		protected override BlockSyntax GetBody(SyntaxNode node)
 		{
-			var property = (AccessorDeclarationSyntax) node;
+			var property = (AccessorDeclarationSyntax)node;
 			return property.Body;
 		}
 	}

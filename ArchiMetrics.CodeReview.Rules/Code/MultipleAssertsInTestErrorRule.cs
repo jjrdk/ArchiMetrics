@@ -89,7 +89,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return total != 1
 						   ? new EvaluationResult
 								 {
-									 Snippet = node.ToFullString(),
+									 Snippet = node.ToFullString(), 
 									 ErrorCount = total
 								 }
 						   : null;

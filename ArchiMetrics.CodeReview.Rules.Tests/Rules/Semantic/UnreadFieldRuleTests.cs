@@ -10,13 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Linq;
-using ArchiMetrics.CodeReview.Rules.Semantic;
-using NUnit.Framework;
-using Roslyn.Compilers.CSharp;
-
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
+	using System.Linq;
+	using ArchiMetrics.CodeReview.Rules.Semantic;
+	using NUnit.Framework;
+	using Roslyn.Compilers.CSharp;
+
 	public sealed class UnreadFieldRuleTests
 	{
 		private UnreadFieldRuleTests()
@@ -76,7 +76,7 @@ new object();
 										from n in root.DescendantNodes().OfType<FieldDeclarationSyntax>()
 										select new
 										{
-											semanticModel = model,
+											semanticModel = model, 
 											node = n
 										}).First();
 				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
@@ -121,7 +121,7 @@ new object();
 										from n in root.DescendantNodes().OfType<FieldDeclarationSyntax>()
 										select new
 										{
-											semanticModel = model,
+											semanticModel = model, 
 											node = n
 										}).First();
 				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);

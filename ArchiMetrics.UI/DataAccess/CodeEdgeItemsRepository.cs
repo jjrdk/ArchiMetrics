@@ -58,23 +58,23 @@ namespace ArchiMetrics.UI.DataAccess
 		}
 
 		protected static MetricsEdgeItem CreateEdgeItem(
-			string dependant,
-			string dependency,
-			string projectPath,
-			CodeMetrics dependantMetrics,
-			CodeMetrics dependencyMetrics,
+			string dependant, 
+			string dependency, 
+			string projectPath, 
+			CodeMetrics dependantMetrics, 
+			CodeMetrics dependencyMetrics, 
 			IEnumerable<IGrouping<string, EvaluationResult>> results)
 		{
 			return new MetricsEdgeItem
 			{
-				Dependant = dependant,
-				Dependency = dependency,
-				DependantLinesOfCode = dependantMetrics.LinesOfCode,
-				DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex,
-				DependantComplexity = dependantMetrics.CyclomaticComplexity,
-				DependencyLinesOfCode = dependencyMetrics.LinesOfCode,
-				DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex,
-				DependencyComplexity = dependencyMetrics.CyclomaticComplexity,
+				Dependant = dependant, 
+				Dependency = dependency, 
+				DependantLinesOfCode = dependantMetrics.LinesOfCode, 
+				DependantMaintainabilityIndex = dependantMetrics.MaintainabilityIndex, 
+				DependantComplexity = dependantMetrics.CyclomaticComplexity, 
+				DependencyLinesOfCode = dependencyMetrics.LinesOfCode, 
+				DependencyMaintainabilityIndex = dependencyMetrics.MaintainabilityIndex, 
+				DependencyComplexity = dependencyMetrics.CyclomaticComplexity, 
 				CodeIssues =
 					results.Where(e => e.Key == projectPath)
 						.SelectMany(er => er)
@@ -124,7 +124,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<MetricsEdgeItem>> LoadWithCodeReview(string path, CancellationToken cancellationToken)
 		{
 			return _edgeItems.GetOrAdd(
-				path + true,
+				path + true, 
 				async p =>
 				{
 					var errors = await _codeErrorRepository.GetErrors(path, CancellationToken.None);
@@ -137,7 +137,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private Task<IEnumerable<MetricsEdgeItem>> LoadWithoutCodeReview(string path)
 		{
 			return _edgeItems.GetOrAdd(
-				path + false,
+				path + false, 
 				p =>
 				{
 					_codeErrorRepository.GetErrors(path, CancellationToken.None);

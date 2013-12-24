@@ -85,7 +85,7 @@ namespace ArchiMetrics.Analysis.Metrics
 						   string.Empty, 
 						   MemberKind.Method, 
 						   0, 
-						   fakeMethod,
+						   fakeMethod, 
 						   null))
 				   };
 		}

@@ -38,6 +38,12 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
 		public Task<ProjectCodeMetrics> Get(string projectPath, string solutionPath)
 		{
 			var solution = _solutionProvider.Get(solutionPath);
@@ -48,14 +54,8 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 
 			return _metrics.GetOrAdd(
-				project.FilePath,
+				project.FilePath, 
 				async s => await LoadMetrics(project));
-		}
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		protected virtual void Dispose(bool disposing)
@@ -73,13 +73,13 @@ namespace ArchiMetrics.UI.DataAccess
 			var linesOfCode = metrics.Sum(x => x.LinesOfCode);
 			return new ProjectCodeMetrics
 			{
-				Metrics = metrics,
-				Project = project.Name,
-				ProjectPath = project.FilePath,
-				Version = project.GetVersion().ToString(),
-				LinesOfCode = linesOfCode,
-				DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0,
-				CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0,
+				Metrics = metrics, 
+				Project = project.Name, 
+				ProjectPath = project.FilePath, 
+				Version = project.GetVersion().ToString(), 
+				LinesOfCode = linesOfCode, 
+				DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0, 
+				CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0, 
 				MaintainabilityIndex = linesOfCode > 0 ? metrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / linesOfCode : 0
 			};
 		}

@@ -56,6 +56,13 @@ namespace ArchiMetrics.Common.Metrics
 			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) > 0;
 		}
 
+		public int CompareTo(TypeCoupling other)
+		{
+			return other == null
+					   ? -1
+					   : string.Compare(ToString(), other.ToString(), StringComparison.InvariantCultureIgnoreCase);
+		}
+
 		/// <summary>
 		/// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
 		/// </summary>
@@ -67,13 +74,6 @@ namespace ArchiMetrics.Common.Metrics
 		{
 			var other = obj as TypeCoupling;
 			return CompareTo(other);
-		}
-
-		public int CompareTo(TypeCoupling other)
-		{
-			return other == null
-				? -1
-				: string.Compare(ToString(), other.ToString(), StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		public override int GetHashCode()

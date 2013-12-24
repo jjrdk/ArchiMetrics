@@ -76,7 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 						   {
-							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())),
+							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())), 
 							   ErrorCount = conditionalExpressions.Length
 						   };
 			}

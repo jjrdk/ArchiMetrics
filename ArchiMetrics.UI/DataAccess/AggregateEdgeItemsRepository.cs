@@ -19,7 +19,6 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
-	using ArchiMetrics.UI.Support;
 	using Roslyn.Services;
 
 	public class AggregateEdgeItemsRepository : IEdgeItemsRepository, IDisposable
@@ -29,9 +28,9 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly ProjectEdgeItemsRepository _projectEdgeRepository;
 
 		public AggregateEdgeItemsRepository(
-			IAppContext config,
-			IProvider<string, ISolution> solutionProvider,
-			ICodeErrorRepository codeErrorRepository,
+			IAppContext config, 
+			IProvider<string, ISolution> solutionProvider, 
+			ICodeErrorRepository codeErrorRepository, 
 			IProjectMetricsRepository metricsRepository)
 		{
 			_config = config;

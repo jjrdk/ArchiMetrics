@@ -24,9 +24,9 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IAppContext _config;
 		private readonly ICodeErrorRepository _repository;
 		private int _brokenCode;
+		private ObservableCollection<EvaluationResult> _codeErrors;
 		private int _errorsShown;
 		private int _filesWithErrors;
-		private ObservableCollection<EvaluationResult> _codeErrors;
 		private CancellationTokenSource _tokenSource;
 
 		public CodeReviewViewModel(ICodeErrorRepository repository, IAppContext config)
@@ -131,7 +131,7 @@ namespace ArchiMetrics.UI.ViewModel
 				{
 					var noerrors = new EvaluationResult
 					{
-						Title = "No Errors",
+						Title = "No Errors", 
 						Quality = CodeQuality.Good
 					};
 					newErrors.Add(noerrors);
@@ -151,8 +151,8 @@ namespace ArchiMetrics.UI.ViewModel
 				newErrors.Clear();
 				var result = new EvaluationResult
 									   {
-										   Quality = CodeQuality.Broken,
-										   Title = exception.Message,
+										   Quality = CodeQuality.Broken, 
+										   Title = exception.Message, 
 										   Snippet = exception.StackTrace
 									   };
 				newErrors.Add(result);

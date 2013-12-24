@@ -10,14 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Windows;
-using System.Windows.Forms;
-
 namespace ArchiMetrics.UI.View
 {
+	using System.Windows;
 	using System.Windows.Controls;
+	using System.Windows.Forms;
 	using ArchiMetrics.UI.Support;
 	using ArchiMetrics.UI.ViewModel;
+	using UserControl = System.Windows.Controls.UserControl;
 
 	/// <summary>
 	/// Interaction logic for DependencyItemsView.xaml.

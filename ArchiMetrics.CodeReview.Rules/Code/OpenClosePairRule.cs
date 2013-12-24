@@ -12,8 +12,6 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
-	using ArchiMetrics.Common.CodeReview;
-
 	internal class OpenClosePairRule : MethodNamePairRule
 	{
 		public override string Title

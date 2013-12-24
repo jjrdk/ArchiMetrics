@@ -66,8 +66,8 @@ namespace ArchiMetrics.Common.Metrics
 		public int CompareTo(TypeDefinition other)
 		{
 			return other == null
-				? -1
-				: string.Compare(_fullName, other._fullName, StringComparison.InvariantCultureIgnoreCase);
+					   ? -1
+					   : string.Compare(_fullName, other._fullName, StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		public override string ToString()

@@ -17,7 +17,6 @@ namespace ArchiMetrics.UI.Converters
 	using System.Globalization;
 	using System.Windows.Data;
 	using System.Windows.Media;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
 	internal class QualityToBrushConverter : IValueConverter

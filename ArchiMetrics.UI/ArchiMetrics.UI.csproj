@@ -214,8 +214,8 @@
     <Compile Include="View\Tabs\ErrorChartView.xaml.cs">
       <DependentUpon>ErrorChartView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Tabs\ErrorDataGridView.xaml.cs">
-      <DependentUpon>ErrorDataGridView.xaml</DependentUpon>
+    <Compile Include="View\Tabs\CodeReviewDataGridView.xaml.cs">
+      <DependentUpon>CodeReviewDataGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestErrorGraphView.xaml.cs">
       <DependentUpon>TestErrorGraphView.xaml</DependentUpon>
@@ -300,7 +300,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Tabs\ErrorDataGridView.xaml">
+    <Page Include="View\Tabs\CodeReviewDataGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

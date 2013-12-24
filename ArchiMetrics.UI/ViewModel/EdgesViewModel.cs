@@ -16,22 +16,22 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Threading;
 	using System.Windows.Data;
 	using System.Windows.Input;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;
-	using ArchiMetrics.Common;
 
 	public class EdgesViewModel : EdgesViewModelBase
 	{
-		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private readonly IAppContext _config;
+		private readonly IProvider<string, ObservableCollection<VertexTransform>> _rulesProvider;
 		private readonly object _syncLock = new object();
 		private readonly DelegateCommand _updateCommand;
 		private ObservableCollection<MetricsEdgeItem> _dependencyItems;
 
 		public EdgesViewModel(
-			IEdgeItemsRepository repository,
-			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider,
-			IEdgeTransformer filter,
+			IEdgeItemsRepository repository, 
+			IProvider<string, ObservableCollection<VertexTransform>> rulesProvider, 
+			IEdgeTransformer filter, 
 			IAppContext config)
 			: base(repository, filter, config)
 		{

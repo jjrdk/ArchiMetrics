@@ -68,7 +68,7 @@ namespace ArchiMetrics.Analysis
 				var declarations = _syntaxCollector.GetDeclarations(trees);
 				var statementMembers = declarations.Statements.Select(s =>
 					Syntax.MethodDeclaration(
-						Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)),
+						Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)), 
 						Guid.NewGuid().ToString("N"))
 						.WithBody(Syntax.Block(s)));
 				var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
@@ -97,13 +97,13 @@ namespace ArchiMetrics.Analysis
 					.Concat(anonNs)
 					.Select(x => new NamespaceDeclarationSyntaxInfo
 					{
-						Name = x.GetName(x),
+						Name = x.GetName(x), 
 						Syntax = x
 					})
 					.GroupBy(x => x.Name)
 					.Select(g => new NamespaceDeclaration
 					{
-						Name = g.Key,
+						Name = g.Key, 
 						SyntaxNodes = g.ToArray()
 					})
 					.ToArray();
@@ -121,8 +121,8 @@ namespace ArchiMetrics.Analysis
 													   var tuple = CalculateTypeMetrics(compilation, arg);
 													   return new
 													   {
-														   NamespaceDeclaration = arg,
-														   Compilation = tuple.Item1,
+														   NamespaceDeclaration = arg, 
+														   Compilation = tuple.Item1, 
 														   Metrics = tuple.Item2
 													   };
 												   })
@@ -173,8 +173,8 @@ namespace ArchiMetrics.Analysis
 					comp = tuple.Item1;
 					return new
 					{
-						comp,
-						typeNodes,
+						comp, 
+						typeNodes, 
 						memberMetrics = metrics
 					};
 				})
@@ -199,7 +199,7 @@ namespace ArchiMetrics.Analysis
 				var typeNode = tuple.Item3;
 				var calculator = new TypeMetricsCalculator(semanticModel);
 				return new Tuple<CommonCompilation, ITypeMetric>(
-					compilation,
+					compilation, 
 					calculator.CalculateFrom(typeNode, memberMetrics));
 			}
 
@@ -231,8 +231,8 @@ namespace ArchiMetrics.Analysis
 
 			semanticModel = compilation.GetSemanticModel(typeNode.Syntax.SyntaxTree);
 			return new Tuple<CommonCompilation, ISemanticModel, TypeDeclarationSyntaxInfo>(
-				compilation,
-				semanticModel,
+				compilation, 
+				semanticModel, 
 				typeNode);
 		}
 
@@ -267,8 +267,8 @@ namespace ArchiMetrics.Analysis
 						  .SelectMany(t => t.collector.GetNamespaces(t.syntaxRoot)
 											 .Select(x => new NamespaceDeclarationSyntaxInfo
 											 {
-												 Name = x.GetName(x.SyntaxTree.GetRoot()),
-												 CodeFile = t.codeFile,
+												 Name = x.GetName(x.SyntaxTree.GetRoot()), 
+												 CodeFile = t.codeFile, 
 												 Syntax = x
 											 }))
 						  .GroupBy(x => x.Name)
@@ -308,7 +308,7 @@ namespace ArchiMetrics.Analysis
 					.Concat(dependents.Select(x => x.Value).Where(x => !x.ToLowerInvariant().EndsWith(".xaml")))
 					.OrderByDescending(x => x)
 					.Aggregate(
-						project,
+						project, 
 						(p, s) =>
 						{
 							DocumentId did;

@@ -14,7 +14,6 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.IO;
 	using System.Linq;
-	using ArchiMetrics.Analysis.Metrics;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;

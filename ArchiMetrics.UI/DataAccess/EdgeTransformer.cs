@@ -65,15 +65,15 @@ namespace ArchiMetrics.UI.DataAccess
 						var first = g.First();
 						return new MetricsEdgeItem
 								   {
-									   Dependant = first.Dependant,
-									   Dependency = first.Dependency,
-									   CodeIssues = first.CodeIssues,
-									   MergedEdges = g.Count(),
-									   DependantLinesOfCode = first.DependantLinesOfCode,
-									   DependantComplexity = first.DependantComplexity,
-									   DependantMaintainabilityIndex = first.DependantMaintainabilityIndex,
-									   DependencyLinesOfCode = first.DependencyLinesOfCode,
-									   DependencyComplexity = first.DependencyComplexity,
+									   Dependant = first.Dependant, 
+									   Dependency = first.Dependency, 
+									   CodeIssues = first.CodeIssues, 
+									   MergedEdges = g.Count(), 
+									   DependantLinesOfCode = first.DependantLinesOfCode, 
+									   DependantComplexity = first.DependantComplexity, 
+									   DependantMaintainabilityIndex = first.DependantMaintainabilityIndex, 
+									   DependencyLinesOfCode = first.DependencyLinesOfCode, 
+									   DependencyComplexity = first.DependencyComplexity, 
 									   DependencyMaintainabilityIndex = first.DependencyMaintainabilityIndex
 								   };
 					})

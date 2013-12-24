@@ -40,13 +40,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			var linesOfCode = memberMetrics.Sum(x => x.LinesOfCode);
 			var maintainabilityIndex = CalculateAveMaintainabilityIndex(memberMetrics);
 			return new TypeMetric(
-				metricKind,
-				memberMetrics,
-				linesOfCode,
-				cyclomaticComplexity,
-				maintainabilityIndex,
-				depthOfInheritance,
-				source,
+				metricKind, 
+				memberMetrics, 
+				linesOfCode, 
+				cyclomaticComplexity, 
+				maintainabilityIndex, 
+				depthOfInheritance, 
+				source, 
 				type.GetName());
 		}
 
