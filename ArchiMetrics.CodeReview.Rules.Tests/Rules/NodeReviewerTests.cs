@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SyntaxInspectorTests.cs" company="Reimers.dk">
+// <copyright file="NodeReviewerTests.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the SyntaxInspectorTests type.
+//   Defines the NodeReviewerTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -22,9 +22,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public sealed class SyntaxInspectorTests
+	public sealed class NodeReviewerTests
 	{
-		private SyntaxInspectorTests()
+		private NodeReviewerTests()
 		{
 		}
 
@@ -37,7 +37,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			return task;
 		}
 
-		public class GivenASyntaxInspectorInspectingBrokenCode
+		public class GivenANodeReviewerInspectingBrokenCode
 		{
 			[TestCase(@"public class SomeClass : IDisposable { public void Dispose(){ }}", typeof(IncorrectDisposableImplementation))]
 			[TestCase(@"private void ApplicationInitializationStartup()

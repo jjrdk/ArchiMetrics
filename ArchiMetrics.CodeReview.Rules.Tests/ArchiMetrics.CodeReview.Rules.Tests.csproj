@@ -83,7 +83,7 @@
     <Compile Include="Rules\Semantic\UnreadVariableRuleTests.cs" />
     <Compile Include="Rules\SolutionTestsBase.cs" />
     <Compile Include="Rules\SpellCheckingTests.cs" />
-    <Compile Include="Rules\SyntaxInspectorTests.cs" />
+    <Compile Include="Rules\NodeReviewerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Libraries\Dictionaries\dict-en.oxt">
