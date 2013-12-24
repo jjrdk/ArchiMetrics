@@ -45,7 +45,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 			if (node.Parent == null)
 			{
-				return SyntaxKind.GlobalKeyword.ToString();
+				return Syntax.Token(SyntaxKind.GlobalKeyword).ValueText;
 			}
 
 			return GetNamespace(node.Parent);
@@ -63,7 +63,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 			if (node.Parent == null)
 			{
-				return new Tuple<string, string>(SyntaxKind.GlobalKeyword.ToString(), string.Empty);
+				return new Tuple<string, string>(Syntax.Token(SyntaxKind.GlobalKeyword).ValueText, string.Empty);
 			}
 
 			return GetNodeType(node.Parent);
