@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyAnalyzerTests.cs" />
+    <Compile Include="ProjectMetricTests.cs" />
     <Compile Include="SemanticAnalyzerTests.cs" />
     <Compile Include="LocCounterTests.cs" />
     <Compile Include="Metrics\CodeMetricsCalculatorTests.cs" />

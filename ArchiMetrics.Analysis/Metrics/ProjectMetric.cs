@@ -26,8 +26,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			ReferencedProjects = referencedProjects.ToArray();
 			NamespaceMetrics = namespaceMetrics.ToArray();
 			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
-			MaintainabilityIndex = NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
-			CyclomaticComplexity = NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
+			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
+			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
 			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Distinct(Comparer).ToArray();
 		}
 
