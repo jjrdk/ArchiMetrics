@@ -92,9 +92,7 @@
     <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />
     <Compile Include="PriorityScheduler.cs" />
-    <Compile Include="ProjectComparer.cs" />
     <Compile Include="ProjectDefinition.cs" />
-    <Compile Include="ProjectProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metrics\TypeCoupling.cs" />
     <Compile Include="ResultComparer.cs" />

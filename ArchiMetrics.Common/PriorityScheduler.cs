@@ -15,23 +15,40 @@ namespace ArchiMetrics.Common
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
 
 	public class PriorityScheduler : TaskScheduler, IDisposable
 	{
-		private static readonly PriorityScheduler AboveNormalScheduler = new PriorityScheduler(ThreadPriority.AboveNormal);
-		private static readonly PriorityScheduler BelowNormalScheduler = new PriorityScheduler(ThreadPriority.BelowNormal);
-		private static readonly PriorityScheduler LowestScheduler = new PriorityScheduler(ThreadPriority.Lowest);
+		private static readonly Lazy<PriorityScheduler> AboveNormalScheduler = new Lazy<PriorityScheduler>(() => new PriorityScheduler(ThreadPriority.AboveNormal), true);
+		private static readonly Lazy<PriorityScheduler> BelowNormalScheduler = new Lazy<PriorityScheduler>(() => new PriorityScheduler(ThreadPriority.BelowNormal), true);
+		private static readonly Lazy<PriorityScheduler> LowestScheduler = new Lazy<PriorityScheduler>(() => new PriorityScheduler(ThreadPriority.Lowest), true);
 
 		private readonly int _maximumConcurrencyLevel = Math.Max(1, Environment.ProcessorCount);
-		private readonly ThreadPriority _priority;
 		private readonly BlockingCollection<Task> _tasks = new BlockingCollection<Task>();
-		private Thread[] _threads;
+		private readonly Thread[] _threads;
 
 		private PriorityScheduler(ThreadPriority priority)
 		{
-			_priority = priority;
+			_threads = new Thread[_maximumConcurrencyLevel];
+			for (var i = 0; i < _threads.Length; i++)
+			{
+				_threads[i] = new Thread(
+					() =>
+					{
+						foreach (var t in _tasks.GetConsumingEnumerable())
+						{
+							TryExecuteTask(t);
+						}
+					})
+				{
+					Name = "PriorityScheduler: " + i,
+					Priority = priority,
+					IsBackground = true
+				};
+				_threads[i].Start();
+			}
 		}
 
 		~PriorityScheduler()
@@ -43,7 +60,7 @@ namespace ArchiMetrics.Common
 		{
 			get
 			{
-				return AboveNormalScheduler;
+				return AboveNormalScheduler.Value;
 			}
 		}
 
@@ -51,7 +68,7 @@ namespace ArchiMetrics.Common
 		{
 			get
 			{
-				return BelowNormalScheduler;
+				return BelowNormalScheduler.Value;
 			}
 		}
 
@@ -59,7 +76,7 @@ namespace ArchiMetrics.Common
 		{
 			get
 			{
-				return LowestScheduler;
+				return LowestScheduler.Value;
 			}
 		}
 
@@ -79,6 +96,10 @@ namespace ArchiMetrics.Common
 			if (disposing)
 			{
 				_tasks.Dispose();
+				foreach (var thread in _threads.Where(thread => !thread.Join(TimeSpan.FromSeconds(30))))
+				{
+					thread.Abort();
+				}
 			}
 		}
 
@@ -90,28 +111,6 @@ namespace ArchiMetrics.Common
 		protected override void QueueTask(Task task)
 		{
 			_tasks.Add(task);
-
-			if (_threads == null)
-			{
-				_threads = new Thread[_maximumConcurrencyLevel];
-				for (var i = 0; i < _threads.Length; i++)
-				{
-					_threads[i] = new Thread(
-						() =>
-						{
-							foreach (var t in _tasks.GetConsumingEnumerable())
-							{
-								TryExecuteTask(t);
-							}
-						})
-								  {
-									  Name = "PriorityScheduler: " + i, 
-									  Priority = _priority, 
-									  IsBackground = true
-								  };
-					_threads[i].Start();
-				}
-			}
 		}
 
 		protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)

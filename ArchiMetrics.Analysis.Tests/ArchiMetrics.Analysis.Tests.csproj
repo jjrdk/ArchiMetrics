@@ -84,7 +84,6 @@
     <Compile Include="Metrics\SyntaxCollectorTests.cs" />
     <Compile Include="Metrics\SyntaxMetricsCalculatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequirementToTestAnalyzerTests.cs" />
     <Compile Include="Xaml\XamlConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>

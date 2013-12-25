@@ -96,12 +96,10 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
-			builder.RegisterType<ProjectProvider>().As<IProvider<string, IProject>>().SingleInstance();
 			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().SingleInstance();
 			builder.RegisterType<AggregateEdgeItemsRepository>().As<IEdgeItemsRepository>().SingleInstance();
 			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<VertexTransform>>>().SingleInstance();
 			builder.RegisterType<EdgeTransformer>().As<IEdgeTransformer>();
-			builder.RegisterType<RequirementTestAnalyzer>().As<IRequirementTestAnalyzer>();
 			builder.RegisterType<EdgesViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<CircularReferenceViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<CodeErrorGraphViewModel>().As<ViewModelBase>().AsSelf();

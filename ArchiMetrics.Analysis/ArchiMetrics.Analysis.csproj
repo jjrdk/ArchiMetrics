@@ -105,7 +105,6 @@
     <Compile Include="Metrics\TypeExtensions.cs" />
     <Compile Include="NodeReviewer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequirementTestAnalyzer.cs" />
     <Compile Include="RequirementToTestReport.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="Utils.cs" />
