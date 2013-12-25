@@ -8,11 +8,6 @@
 			 d:DesignWidth="400">
 	<UserControl.Resources>
 		<NullableBoolConverter x:Key="conv" />
-		<DataTemplate x:Key="dt">
-			<Border>
-				<TextBlock Text="{Binding Path=Value}" />
-			</Border>
-		</DataTemplate>
 	</UserControl.Resources>
 	<UserControl.RenderTransform>
 		<TranslateTransform X="1" />

@@ -98,7 +98,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metrics\TypeCoupling.cs" />
     <Compile Include="ResultComparer.cs" />
-    <Compile Include="Structure\CouplingEdge.cs" />
     <Compile Include="Structure\IProjectMetricsRepository.cs" />
     <Compile Include="Structure\MetricsEdgeItem.cs" />
     <Compile Include="Structure\EdgeItemBase.cs" />
