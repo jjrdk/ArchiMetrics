@@ -181,7 +181,6 @@
     <Compile Include="ViewModel\MetricsViewModel.cs" />
     <Compile Include="ViewModel\ProjectEdge.cs" />
     <Compile Include="ViewModel\ProjectGraph.cs" />
-    <Compile Include="ViewModel\RequirementGraphViewModel.cs" />
     <Compile Include="ViewModel\ResultComparer.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TestErrorGraphViewModel.cs" />
@@ -197,9 +196,6 @@
     </Compile>
     <Compile Include="View\MetricsView.xaml.cs">
       <DependentUpon>MetricsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\RequirementGraphView.xaml.cs">
-      <DependentUpon>RequirementGraphView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EdgesView.xaml.cs">
       <DependentUpon>EdgesView.xaml</DependentUpon>
@@ -228,18 +224,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <EmbeddedResource Include="Properties\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="..\Libraries\Dictionaries\dict-en.oxt">
       <Link>Dictionaries\dict-en.oxt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -279,10 +265,6 @@
     <Page Include="View\MetricsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\RequirementGraphView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\EdgesView.xaml">
       <SubType>Designer</SubType>

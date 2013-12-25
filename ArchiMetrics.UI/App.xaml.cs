@@ -105,7 +105,6 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<CodeErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<CodeReviewViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<GraphViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<RequirementGraphViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf();
 			builder.RegisterType<MetricsViewModel>().As<ViewModelBase>().AsSelf();

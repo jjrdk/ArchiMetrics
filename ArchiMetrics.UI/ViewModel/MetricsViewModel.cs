@@ -31,8 +31,8 @@ namespace ArchiMetrics.UI.ViewModel
 		private IList<ITypeMetric> _metrics;
 
 		public MetricsViewModel(
-			IProjectMetricsRepository metricsRepository, 
-			IProvider<string, ISolution> solutionProvider, 
+			IProjectMetricsRepository metricsRepository,
+			IProvider<string, ISolution> solutionProvider,
 			IAppContext config)
 			: base(config)
 		{
@@ -131,9 +131,9 @@ namespace ArchiMetrics.UI.ViewModel
 				.SelectMany(x => x.Metrics)
 				.ToArray();
 			var loc = metrics.Sum(x => x.LinesOfCode);
-			var maintainabilityIndex = metrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / loc;
-			var cyclomaticComplexity = metrics.Sum(x => x.LinesOfCode * x.CyclomaticComplexity) / loc;
-			var depthOfInheritance = metrics.Max(x => x.DepthOfInheritance);
+			var maintainabilityIndex = loc == 0 ? 100 : metrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / loc;
+			var cyclomaticComplexity = loc == 0 ? 0 : metrics.Sum(x => x.LinesOfCode * x.CyclomaticComplexity) / loc;
+			var depthOfInheritance = metrics.Length == 0 ? 0 : metrics.Max(x => x.DepthOfInheritance);
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
 			DepthOfInheritance = depthOfInheritance;

@@ -21,7 +21,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
 	using ArchiMetrics.Common.Structure;
-	using ArchiMetrics.UI.Properties;
 
 	/// <summary>
 	/// Base class for all ViewModel classes in the application.
@@ -37,8 +36,6 @@ namespace ArchiMetrics.UI.ViewModel
 		protected ViewModelBase(IAppContext config)
 		{
 			_config = config;
-			var type = GetType();
-			DisplayName = Strings.ResourceManager.GetString(type.Name + "_DisplayName");
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
 					h => _config.PropertyChanged += h, 

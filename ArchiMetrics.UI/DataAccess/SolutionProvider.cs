@@ -24,6 +24,11 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private ConcurrentDictionary<string, ISolution> _cache = new ConcurrentDictionary<string, ISolution>();
 
+		public SolutionProvider()
+		{
+			_cache.TryAdd(string.Empty, Solution.Create(SolutionId.CreateNewId("empty")));
+		}
+
 		~SolutionProvider()
 		{
 			Dispose(false);
@@ -32,7 +37,7 @@ namespace ArchiMetrics.UI.DataAccess
 		public ISolution Get(string path)
 		{
 			return _cache.GetOrAdd(
-				path, 
+				path ?? string.Empty,
 				p =>
 				{
 					var solution = Solution.Load(p, "Release");

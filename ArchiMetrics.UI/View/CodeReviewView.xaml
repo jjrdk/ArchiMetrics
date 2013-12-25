@@ -9,11 +9,11 @@
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeReviewViewModel}">
-	<mui:ModernTab SelectedSource="View/Tabs/ErrorDataGridView.xaml"
+	<mui:ModernTab SelectedSource="View/Tabs/CodeReviewDataGridView.xaml"
 				   ContentLoader="{DynamicResource Loader}">
 		<mui:ModernTab.Links>
 			<mui:Link DisplayName="List"
-					  Source="View/Tabs/ErrorDataGridView.xaml" />
+					  Source="View/Tabs/CodeReviewDataGridView.xaml" />
 			<mui:Link DisplayName="Kind"
 					  Source="View/Tabs/ErrorChartView.xaml" />
 		</mui:ModernTab.Links>

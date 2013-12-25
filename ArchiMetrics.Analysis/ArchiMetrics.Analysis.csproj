@@ -68,7 +68,6 @@
     <Compile Include="Metrics\ProjectMetric.cs" />
     <Compile Include="ProjectMetricsCalculator.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
-    <Compile Include="IRequirementTestAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />
     <Compile Include="Metrics\DepthOfInheritanceAnalyzer.cs" />
@@ -105,8 +104,6 @@
     <Compile Include="Metrics\TypeExtensions.cs" />
     <Compile Include="NodeReviewer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequirementToTestReport.cs" />
-    <Compile Include="TestData.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="XamlCodeWriter.cs" />
     <Compile Include="XamlConverter.cs" />
