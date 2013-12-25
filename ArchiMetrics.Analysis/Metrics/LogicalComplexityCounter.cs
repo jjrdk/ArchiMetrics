@@ -27,7 +27,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int Calculate(MemberNode node)
 		{
-			var syntax = MemberBodySelector.FindBody(node);
+			var syntax = node.SyntaxNode as SyntaxNode;
 			if (syntax != null)
 			{
 				Visit(syntax);

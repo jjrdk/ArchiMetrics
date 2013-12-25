@@ -28,7 +28,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			double maintainabilityIndex, 
 			int cyclomaticComplexity, 
 			string name, 
-			int logicalComplexity, 
 			IEnumerable<TypeCoupling> classCouplings, 
 			int numberOfParameters, 
 			int numberOfLocalVariables)
@@ -41,7 +40,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
 			Name = name;
-			LogicalComplexity = logicalComplexity;
 			ClassCouplings = classCouplings;
 			NumberOfParameters = numberOfParameters;
 			NumberOfLocalVariables = numberOfLocalVariables;
@@ -60,8 +58,6 @@ namespace ArchiMetrics.Analysis.Metrics
 		public int CyclomaticComplexity { get; private set; }
 
 		public string Name { get; private set; }
-
-		public int LogicalComplexity { get; private set; }
 
 		public IEnumerable<TypeCoupling> ClassCouplings { get; private set; }
 

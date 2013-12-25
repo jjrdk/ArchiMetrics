@@ -42,7 +42,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			// private static readonly string[] LazyTypes = new[] { "System.Threading.Tasks.Task" };
 			private readonly ISemanticModel _semanticModel;
 			private int _counter;
-			private BlockSyntax _syntax;
+			//private BlockSyntax _syntax;
 
 			public InnerComplexityAnalyzer(ISemanticModel semanticModel)
 				: base(SyntaxWalkerDepth.Node)
@@ -53,10 +53,10 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			public int Calculate(MemberNode node)
 			{
-				_syntax = MemberBodySelector.FindBody(node);
-				if (_syntax != null)
+				var syntax = node.SyntaxNode as SyntaxNode;
+				if (syntax != null)
 				{
-					Visit(_syntax);
+					Visit(syntax);
 				}
 
 				return _counter;

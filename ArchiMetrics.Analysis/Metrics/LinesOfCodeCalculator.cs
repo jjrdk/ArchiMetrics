@@ -51,14 +51,12 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			public int Calculate(MemberNode node)
 			{
-				var syntax = MemberBodySelector.FindBody(node);
+				var syntax = node.SyntaxNode as SyntaxNode;
 				if (syntax != null)
 				{
 					Visit(syntax);
 				}
 
-				CalculateConstructorStatements(node);
-				CalculateCompilerGeneratedPropertyStatements(node);
 				return _counter;
 			}
 
@@ -220,35 +218,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				base.VisitYieldStatement(node);
 				_counter++;
-			}
-
-			private void CalculateCompilerGeneratedPropertyStatements(MemberNode node)
-			{
-				switch (node.Kind)
-				{
-					case MemberKind.GetProperty:
-					case MemberKind.SetProperty:
-						if (MemberBodySelector.FindBody(node) == null)
-						{
-							_counter++;
-						}
-
-						return;
-				}
-			}
-
-			private void CalculateConstructorStatements(MemberNode node)
-			{
-				if (node.Kind == MemberKind.Constructor)
-				{
-					var syntax = node.SyntaxNode as ConstructorDeclarationSyntax;
-					if (syntax != null)
-					{
-						Visit(syntax.Initializer);
-					}
-
-					_counter++;
-				}
 			}
 		}
 	}

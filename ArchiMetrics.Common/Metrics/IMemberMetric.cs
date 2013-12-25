@@ -22,8 +22,6 @@ namespace ArchiMetrics.Common.Metrics
 		
 		int LineNumber { get; }
 		
-		int LogicalComplexity { get; }
-		
 		IEnumerable<TypeCoupling> ClassCouplings { get; }
 		
 		int NumberOfParameters { get; }

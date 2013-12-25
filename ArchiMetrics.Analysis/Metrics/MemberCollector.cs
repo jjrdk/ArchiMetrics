@@ -46,14 +46,14 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
 		{
 			base.VisitConstructorDeclaration(node);
-			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Constructor, 0, node, null);
+			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Constructor, GetLineNumber(node), node, null);
 			_members.Add(item);
 		}
 
 		public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node)
 		{
 			base.VisitDestructorDeclaration(node);
-			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Destructor, 0, node, null);
+			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Destructor, GetLineNumber(node), node, null);
 			_members.Add(item);
 		}
 
@@ -67,7 +67,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
 		{
 			base.VisitMethodDeclaration(node);
-			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, node, null);
+			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Method, GetLineNumber(node), node, null);
 			_members.Add(item);
 		}
 
@@ -82,7 +82,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			if (accessorList.Accessors.Any(x => (x.Kind == filter)))
 			{
-				var item = new MemberNode(string.Empty, string.Empty, kind, 0, node, null);
+				var item = new MemberNode(string.Empty, string.Empty, kind, GetLineNumber(node), node, null);
 				_members.Add(item);
 			}
 		}

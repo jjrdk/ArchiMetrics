@@ -20,9 +20,9 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
 
-	public sealed class CyclomaticComplexityAnalyzerTests
+	public sealed class CyclomaticComplexityCounterTests
 	{
-		private CyclomaticComplexityAnalyzerTests()
+		private CyclomaticComplexityCounterTests()
 		{
 		}
 
@@ -118,11 +118,11 @@ namespace MyNs
 			{
 				var tree = SyntaxTree.ParseText(method);
 				var compilation = Compilation.Create(
-					"x", 
-					syntaxTrees: new[] { tree }, 
-					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) }, 
+					"x",
+					syntaxTrees: new[] { tree },
+					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
 					options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
-				
+
 				var model = compilation.GetSemanticModel(tree);
 				var syntaxNode = tree
 					.GetRoot()
@@ -131,6 +131,41 @@ namespace MyNs
 					.First();
 
 				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode, model);
+				var result = _counter.Calculate(node);
+
+				Assert.AreEqual(expectedComplexity, result);
+			}
+
+			[TestCase(@"namespace MyNs
+{
+	public class MyClass
+	{
+		private EventHandler _innerHandler;
+
+		public event EventHandler MyEvent
+		{
+			add { _innerHandler += value; }
+			remove { _innerHandler -= value; }
+		}
+	}
+}", 1)]
+			public void EventAddAccessorHasExpectedComplexity(string code, int expectedComplexity)
+			{
+				var tree = SyntaxTree.ParseText(code);
+				var compilation = Compilation.Create(
+					"x",
+					syntaxTrees: new[] { tree },
+					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
+					options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
+
+				var model = compilation.GetSemanticModel(tree);
+				var syntaxNode = tree
+					.GetRoot()
+					.DescendantNodes()
+					.OfType<AccessorDeclarationSyntax>()
+					.First();
+
+				var node = new MemberNode(string.Empty, "test", MemberKind.AddEventHandler, 0, syntaxNode, model);
 				var result = _counter.Calculate(node);
 
 				Assert.AreEqual(expectedComplexity, result);

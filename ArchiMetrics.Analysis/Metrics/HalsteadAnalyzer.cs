@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IHalsteadMetrics Calculate(MemberNode node)
 		{
-			var syntax = MemberBodySelector.FindBody(node);
+			var syntax = node.SyntaxNode as SyntaxNode;
 			if (syntax != null)
 			{
 				Visit(syntax);
@@ -87,7 +87,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			if (syntaxNode != null)
 			{
 				var flag = syntaxNode.Modifiers.Any(SyntaxKind.StaticKeyword);
-				if (MemberBodySelector.FindBody(node) == null)
+				if (node.SyntaxNode == null)
 				{
 					switch (node.Kind)
 					{

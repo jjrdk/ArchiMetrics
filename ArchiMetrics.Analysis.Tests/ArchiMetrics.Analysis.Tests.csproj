@@ -76,7 +76,7 @@
     <Compile Include="ProjectMetricTests.cs" />
     <Compile Include="SemanticAnalyzerTests.cs" />
     <Compile Include="Metrics\CodeMetricsCalculatorTests.cs" />
-    <Compile Include="Metrics\CyclomaticComplexityAnalyzerTests.cs" />
+    <Compile Include="Metrics\CyclomaticComplexityCounterTests.cs" />
     <Compile Include="Metrics\MemberClassCouplingAnalyzerTests.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\SnippetMetricsCalculatorTests.cs" />

@@ -51,15 +51,15 @@ namespace ArchiMetrics.Analysis.Metrics
 			var methods = types.SelectMany(n => n.ChildNodes().Where(_isMethod))
 				.Select(n => CreateMemberNode(MemberKind.Method, n));
 			var getProperties = types.SelectMany(n => n.ChildNodes().Where(_isGetProperty))
-				.Select(n => CreateMemberNode(MemberKind.GetProperty, n));
+				.Select(n => CreateMemberNode(MemberKind.GetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.GetAccessorDeclaration)));
 			var setProperties = types.SelectMany(n => n.ChildNodes().Where(_isSetProperty))
-				.Select(n => CreateMemberNode(MemberKind.SetProperty, n));
+				.Select(n => CreateMemberNode(MemberKind.SetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.SetAccessorDeclaration)));
 			var looseMethods = childNodes.Where(_isMethod)
 				.Select(n => CreateMemberNode(MemberKind.Method, n));
 			var looseGetProperties = childNodes.Where(_isGetProperty)
-				.Select(n => CreateMemberNode(MemberKind.GetProperty, n));
+				.Select(n => CreateMemberNode(MemberKind.GetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.GetAccessorDeclaration)));
 			var looseSetProperties = childNodes.Where(_isSetProperty)
-				.Select(n => CreateMemberNode(MemberKind.SetProperty, n));
+				.Select(n => CreateMemberNode(MemberKind.GetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.SetAccessorDeclaration)));
 			var members = methods.Concat(getProperties)
 								 .Concat(setProperties)
 								 .Concat(looseMethods)

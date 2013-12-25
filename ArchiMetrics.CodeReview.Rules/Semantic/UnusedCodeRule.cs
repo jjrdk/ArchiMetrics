@@ -60,16 +60,16 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
-			var symbol = semanticModel.GetDeclaredSymbol(node);
-			var callers = symbol.FindCallers(solution, CancellationToken.None);
+			////var symbol = semanticModel.GetDeclaredSymbol(node);
+			////var callers = symbol.FindCallers(solution, CancellationToken.None);
 
-			if (!callers.Any())
-			{
-				return new EvaluationResult
-					   {
-						   Snippet = node.ToFullString()
-					   };
-			}
+			////if (!callers.Any())
+			////{
+			////	return new EvaluationResult
+			////		   {
+			////			   Snippet = node.ToFullString()
+			////		   };
+			////}
 
 			return null;
 		}
