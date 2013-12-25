@@ -17,7 +17,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MethodLocalVariablesAnalyzer : SyntaxWalker
 	{
-		private int numLocalVariables;
+		private int _numLocalVariables;
 
 		public MethodLocalVariablesAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
@@ -32,13 +32,13 @@ namespace ArchiMetrics.Analysis.Metrics
 				Visit(node);
 			}
 
-			return numLocalVariables;
+			return _numLocalVariables;
 		}
 
 		public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
 		{
 			base.VisitVariableDeclaration(node);
-			numLocalVariables++;
+			_numLocalVariables++;
 		}
 	}
 }

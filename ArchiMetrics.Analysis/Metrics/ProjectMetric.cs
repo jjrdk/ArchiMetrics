@@ -39,7 +39,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Name { get; private set; }
 
-		public IEnumerable<string> ReferencedProjects { get; set; }
+		public IEnumerable<string> ReferencedProjects { get; private set; }
 
 		public IEnumerable<INamespaceMetric> NamespaceMetrics { get; private set; }
 

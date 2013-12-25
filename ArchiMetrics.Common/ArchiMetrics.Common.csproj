@@ -77,7 +77,6 @@
     <Compile Include="IProvider.cs" />
     <Compile Include="Metrics\CodeMetrics.cs" />
     <Compile Include="Metrics\ICodeMetric.cs" />
-    <Compile Include="Metrics\IHalsteadAnalyzer.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
     <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
     <Compile Include="Metrics\IMemberMetric.cs" />
@@ -87,7 +86,6 @@
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />
     <Compile Include="Metrics\MemberNode.cs" />
-    <Compile Include="Metrics\MetricOverview.cs" />
     <Compile Include="Metrics\ProjectCodeMetrics.cs" />
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\TypeDefinition.cs" />

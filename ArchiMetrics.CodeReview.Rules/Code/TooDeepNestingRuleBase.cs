@@ -21,12 +21,12 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		private readonly int _depth;
 
-		public TooDeepNestingRuleBase()
+		protected TooDeepNestingRuleBase()
 			: this(3)
 		{
 		}
 
-		public TooDeepNestingRuleBase(int maxDepth)
+		protected TooDeepNestingRuleBase(int maxDepth)
 		{
 			_depth = maxDepth;
 		}
