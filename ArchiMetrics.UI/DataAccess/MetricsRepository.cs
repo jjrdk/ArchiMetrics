@@ -23,7 +23,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 	internal class MetricsRepository : IProjectMetricsRepository, IDisposable
 	{
-		private readonly ConcurrentDictionary<string, Task<ProjectCodeMetrics>> _metrics = new ConcurrentDictionary<string, Task<ProjectCodeMetrics>>();
+		private readonly ConcurrentDictionary<Tuple<string, string>, Task<ProjectCodeMetrics>> _metrics = new ConcurrentDictionary<Tuple<string, string>, Task<ProjectCodeMetrics>>();
 		private readonly ICodeMetricsCalculator _metricsCalculator;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
@@ -46,16 +46,9 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public Task<ProjectCodeMetrics> Get(string projectPath, string solutionPath)
 		{
-			var solution = _solutionProvider.Get(solutionPath);
-			var project = solution.Projects.FirstOrDefault(x => x.FilePath == projectPath);
-			if (project == null)
-			{
-				return Task.FromResult(new ProjectCodeMetrics());
-			}
-
 			return _metrics.GetOrAdd(
-				project.FilePath, 
-				async s => await LoadMetrics(project));
+				new Tuple<string, string>(projectPath, solutionPath),
+				async t => await LoadMetrics(t.Item1, t.Item2));
 		}
 
 		protected virtual void Dispose(bool disposing)
@@ -66,20 +59,27 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		private async Task<ProjectCodeMetrics> LoadMetrics(IProject project)
+		private async Task<ProjectCodeMetrics> LoadMetrics(string projectPath, string solutionPath)
 		{
+			var solution = _solutionProvider.Get(solutionPath);
+			var project = solution.Projects.FirstOrDefault(x => x.FilePath == projectPath);
+			if (project == null)
+			{
+				return new ProjectCodeMetrics();
+			}
+
 			var metrics = (await _metricsCalculator.Calculate(project)).ToArray();
 
 			var linesOfCode = metrics.Sum(x => x.LinesOfCode);
 			return new ProjectCodeMetrics
 			{
-				Metrics = metrics, 
-				Project = project.Name, 
-				ProjectPath = project.FilePath, 
-				Version = project.GetVersion().ToString(), 
-				LinesOfCode = linesOfCode, 
-				DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0, 
-				CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0, 
+				Metrics = metrics,
+				Project = project.Name,
+				ProjectPath = project.FilePath,
+				Version = project.GetVersion().ToString(),
+				LinesOfCode = linesOfCode,
+				DepthOfInheritance = linesOfCode > 0 ? (int)metrics.Average(x => x.DepthOfInheritance) : 0,
+				CyclomaticComplexity = linesOfCode > 0 ? metrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / linesOfCode : 0,
 				MaintainabilityIndex = linesOfCode > 0 ? metrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / linesOfCode : 0
 			};
 		}

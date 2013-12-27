@@ -47,88 +47,80 @@ namespace ArchiMetrics.Analysis
 
 		public virtual Task<IEnumerable<INamespaceMetric>> Calculate(IProject project)
 		{
-			return Task.Factory
-				.StartNew(() =>
-				{
-					var calcProject = project.HasDocuments
-										  ? project
-										  : GetDocuments(project);
-					var compilation = calcProject.GetCompilation();
-					var namespaceDeclarations = GetNamespaceDeclarations(calcProject, IgnoreGeneratedCode);
-					return CalculateNamespaceMetrics(namespaceDeclarations, compilation);
-				});
+			var calcProject = project.HasDocuments
+								  ? project
+								  : GetDocuments(project);
+			var compilation = calcProject.GetCompilation();
+			var namespaceDeclarations = GetNamespaceDeclarations(calcProject, IgnoreGeneratedCode);
+			return CalculateNamespaceMetrics(namespaceDeclarations, compilation);
 		}
 
-		public Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
+		public async Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
 		{
-			return Task.Factory.StartNew(() =>
-			{
-				var trees = syntaxTrees.ToArray();
-				var commonCompilation = Compilation.Create("x", syntaxTrees: trees);
-				var declarations = _syntaxCollector.GetDeclarations(trees);
-				var statementMembers = declarations.Statements.Select(s =>
-					Syntax.MethodDeclaration(
-						Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)), 
-						Guid.NewGuid().ToString("N"))
-						.WithBody(Syntax.Block(s)));
-				var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
-				var anonClass = members.Any()
-					? new[]
+			var trees = syntaxTrees.ToArray();
+			var commonCompilation = Compilation.Create("x", syntaxTrees: trees);
+			var declarations = _syntaxCollector.GetDeclarations(trees);
+			var statementMembers = declarations.Statements.Select(s =>
+				Syntax.MethodDeclaration(
+					Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)),
+					Guid.NewGuid().ToString("N"))
+					.WithBody(Syntax.Block(s)));
+			var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
+			var anonClass = members.Any()
+				? new[]
 						  {
 							  Syntax.ClassDeclaration(
 								  "UnnamedClass")
 								  .WithModifiers(Syntax.Token(SyntaxKind.PublicKeyword))
 								  .WithMembers(Syntax.List(members))
 						  }
-					: new TypeDeclarationSyntax[0];
-				var array = declarations.TypeDeclarations
-					.Concat(anonClass)
-					.Cast<MemberDeclarationSyntax>()
-					.ToArray();
-				var anonNs = array.Any()
-					? new[]
+				: new TypeDeclarationSyntax[0];
+			var array = declarations.TypeDeclarations
+				.Concat(anonClass)
+				.Cast<MemberDeclarationSyntax>()
+				.ToArray();
+			var anonNs = array.Any()
+				? new[]
 						  {
 							  Syntax.NamespaceDeclaration(Syntax.ParseName("Unnamed"))
 								  .WithMembers(Syntax.List(array))
 						  }
-					: new NamespaceDeclarationSyntax[0];
-				var namespaceDeclarations = declarations
-					.NamespaceDeclarations
-					.Concat(anonNs)
-					.Select(x => new NamespaceDeclarationSyntaxInfo
-					{
-						Name = x.GetName(x), 
-						Syntax = x
-					})
-					.GroupBy(x => x.Name)
-					.Select(g => new NamespaceDeclaration
-					{
-						Name = g.Key, 
-						SyntaxNodes = g.ToArray()
-					})
-					.ToArray();
+				: new NamespaceDeclarationSyntax[0];
+			var namespaceDeclarations = declarations
+				.NamespaceDeclarations
+				.Concat(anonNs)
+				.Select(x => new NamespaceDeclarationSyntaxInfo
+				{
+					Name = x.GetName(x),
+					Syntax = x
+				})
+				.GroupBy(x => x.Name)
+				.Select(g => new NamespaceDeclaration
+				{
+					Name = g.Key,
+					SyntaxNodes = g.ToArray()
+				})
+				.ToArray();
 
-				var namespaceMetrics = CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation);
-				return namespaceMetrics;
-			});
+			var namespaceMetrics = await CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation);
+			return namespaceMetrics;
 		}
 
-		private static IEnumerable<INamespaceMetric> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
+		private static async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
 		{
 			var metrics = namespaceDeclarations.Select(
-												   arg =>
-												   {
-													   var tuple = CalculateTypeMetrics(compilation, arg);
-													   return new
-													   {
-														   NamespaceDeclaration = arg, 
-														   Compilation = tuple.Item1, 
-														   Metrics = tuple.Item2
-													   };
-												   })
-											   .Select(b => CalculateNamespaceMetrics(b.Compilation, b.NamespaceDeclaration, b.Metrics))
-											   .Select(t => t.Item2);
-			return metrics;
+				arg =>
+				{
+					var tuple = CalculateTypeMetrics(compilation, arg);
+					return new
+						   {
+							   NamespaceDeclaration = arg,
+							   Compilation = tuple.Item1,
+							   Metrics = tuple.Item2
+						   };
+				})
+				.Select(b => CalculateNamespaceMetrics(b.Compilation, b.NamespaceDeclaration, b.Metrics));
+			return await Task.WhenAll(metrics);
 		}
 
 		private static Tuple<CommonCompilation, IEnumerable<IMemberMetric>> CalculateMemberMetrics(CommonCompilation compilation, TypeDeclaration typeNodes)
@@ -147,7 +139,7 @@ namespace ArchiMetrics.Analysis
 			return new Tuple<CommonCompilation, IEnumerable<IMemberMetric>>(comp, metrics.ToArray());
 		}
 
-		private static Tuple<CommonCompilation, INamespaceMetric> CalculateNamespaceMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes, IEnumerable<ITypeMetric> typeMetrics)
+		private static async Task<INamespaceMetric> CalculateNamespaceMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes, IEnumerable<ITypeMetric> typeMetrics)
 		{
 			var namespaceNode = namespaceNodes.SyntaxNodes.FirstOrDefault();
 			if (namespaceNode == null)
@@ -155,11 +147,11 @@ namespace ArchiMetrics.Analysis
 				return null;
 			}
 
-			var tuple = VerifyCompilation(compilation, namespaceNode);
+			var tuple = await VerifyCompilation(compilation, namespaceNode);
 			compilation = tuple.Item1;
 			var semanticModel = compilation.GetSemanticModel(namespaceNode.Syntax.SyntaxTree);
 			var calculator = new NamespaceMetricsCalculator(semanticModel);
-			return new Tuple<CommonCompilation, INamespaceMetric>(compilation, calculator.CalculateFrom(namespaceNode, typeMetrics));
+			return calculator.CalculateFrom(namespaceNode, typeMetrics);
 		}
 
 		private static Tuple<CommonCompilation, IEnumerable<ITypeMetric>> CalculateTypeMetrics(CommonCompilation compilation, NamespaceDeclaration namespaceNodes)
@@ -173,8 +165,8 @@ namespace ArchiMetrics.Analysis
 					comp = tuple.Item1;
 					return new
 					{
-						comp, 
-						typeNodes, 
+						comp,
+						typeNodes,
 						memberMetrics = metrics
 					};
 				})
@@ -199,7 +191,7 @@ namespace ArchiMetrics.Analysis
 				var typeNode = tuple.Item3;
 				var calculator = new TypeMetricsCalculator(semanticModel);
 				return new Tuple<CommonCompilation, ITypeMetric>(
-					compilation, 
+					compilation,
 					calculator.CalculateFrom(typeNode, memberMetrics));
 			}
 
@@ -231,19 +223,21 @@ namespace ArchiMetrics.Analysis
 
 			semanticModel = compilation.GetSemanticModel(typeNode.Syntax.SyntaxTree);
 			return new Tuple<CommonCompilation, ISemanticModel, TypeDeclarationSyntaxInfo>(
-				compilation, 
-				semanticModel, 
+				compilation,
+				semanticModel,
 				typeNode);
 		}
 
-		private static Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo> VerifyCompilation(CommonCompilation compilation, NamespaceDeclarationSyntaxInfo namespaceNode)
+		private static async Task<Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>> VerifyCompilation(CommonCompilation compilation, NamespaceDeclarationSyntaxInfo namespaceNode)
 		{
 			ISemanticModel semanticModel;
 			if (namespaceNode.Syntax.SyntaxTree == null)
 			{
-				var root = Syntax.CompilationUnit().WithMembers(Syntax.List((MemberDeclarationSyntax)namespaceNode.Syntax));
-				var cu = SyntaxTree.Create(root);
-				namespaceNode.Syntax = cu.GetRoot().ChildNodes().First();
+				var compilationUnit = Syntax.CompilationUnit()
+					.WithMembers(Syntax.List((MemberDeclarationSyntax)namespaceNode.Syntax));
+				var cu = SyntaxTree.Create(compilationUnit);
+				var root = await cu.GetRootAsync();
+				namespaceNode.Syntax = root.ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
 				semanticModel = newCompilation.GetSemanticModel(cu);
 				return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(newCompilation, semanticModel, namespaceNode);
@@ -261,18 +255,26 @@ namespace ArchiMetrics.Analysis
 		private static IEnumerable<NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
 		{
 			return project.Documents
-						  .Select(document => new { document, codeFile = document.FilePath })
-						  .Where(t => !ignoreGeneratedCode || !IsGeneratedCodeFile(t.document, Patterns))
-						  .Select(t => new { t.codeFile, collector = new NamespaceCollector(), syntaxRoot = t.document.GetSyntaxRoot() })
-						  .SelectMany(t => t.collector.GetNamespaces(t.syntaxRoot)
-											 .Select(x => new NamespaceDeclarationSyntaxInfo
-											 {
-												 Name = x.GetName(x.SyntaxTree.GetRoot()), 
-												 CodeFile = t.codeFile, 
-												 Syntax = x
-											 }))
-						  .GroupBy(x => x.Name)
-						  .Select(y => new NamespaceDeclaration { Name = y.Key, SyntaxNodes = y });
+				.Select(document => new { document, codeFile = document.FilePath })
+				.Where(t => !ignoreGeneratedCode || !IsGeneratedCodeFile(t.document, Patterns))
+				.Select(
+					t => new
+						 {
+							 t.codeFile,
+							 collector = new NamespaceCollector(),
+							 syntaxRoot = t.document.GetSyntaxRoot()
+						 })
+				.SelectMany(
+					t => t.collector.GetNamespaces(t.syntaxRoot)
+							 .Select(
+								 x => new NamespaceDeclarationSyntaxInfo
+									  {
+										  Name = x.GetName(x.SyntaxTree.GetRoot()),
+										  CodeFile = t.codeFile,
+										  Syntax = x
+									  }))
+				.GroupBy(x => x.Name)
+				.Select(y => new NamespaceDeclaration { Name = y.Key, SyntaxNodes = y });
 		}
 
 		private static bool IsGeneratedCodeFile(IDocument doc, IEnumerable<Regex> patterns)
@@ -308,7 +310,7 @@ namespace ArchiMetrics.Analysis
 					.Concat(dependents.Select(x => x.Value).Where(x => !x.ToLowerInvariant().EndsWith(".xaml")))
 					.OrderByDescending(x => x)
 					.Aggregate(
-						project, 
+						project,
 						(p, s) =>
 						{
 							DocumentId did;

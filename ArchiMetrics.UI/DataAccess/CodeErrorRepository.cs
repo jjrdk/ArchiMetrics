@@ -22,6 +22,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
+	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
@@ -29,7 +30,7 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private readonly IAvailableRules _availableRules;
 		private readonly IAppContext _config;
-		private readonly ConcurrentDictionary<string, Lazy<EvaluationResult[]>> _edgeItems;
+		private readonly ConcurrentDictionary<string, Task<EvaluationResult[]>> _edgeItems;
 		private readonly INodeInspector _inspector;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
@@ -39,7 +40,7 @@ namespace ArchiMetrics.UI.DataAccess
 			INodeInspector inspector,
 			IAvailableRules availableRules)
 		{
-			_edgeItems = new ConcurrentDictionary<string, Lazy<EvaluationResult[]>>();
+			_edgeItems = new ConcurrentDictionary<string, Task<EvaluationResult[]>>();
 			_config = config;
 			_solutionProvider = solutionProvider;
 			_inspector = inspector;
@@ -53,33 +54,19 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public Task<IEnumerable<EvaluationResult>> GetErrors(string source, CancellationToken cancellationToken = default(CancellationToken))
+		public async Task<IEnumerable<EvaluationResult>> GetErrors(string source, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			if (string.IsNullOrWhiteSpace(source))
 			{
-				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
+				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			return Task.Factory.StartNew(
-				() =>
-				{
-					var cachedEdges = _edgeItems.GetOrAdd(
-						source,
-						path =>
-						{
-							var loadTask = new Lazy<EvaluationResult[]>(() => LoadEvaluationResults(path));
-							return loadTask;
-						});
+			var results = await _edgeItems.GetOrAdd(source, LoadEvaluationResults);
 
-					var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
-					return cancellationToken.IsCancellationRequested
-						? Enumerable.Empty<EvaluationResult>()
-						: cachedEdges.Value
-							.Where(x => availableRules.Contains(x.Title))
-							.ToArray()
-							.AsEnumerable();
-				},
-				cancellationToken);
+			var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
+			return cancellationToken.IsCancellationRequested
+					   ? Enumerable.Empty<EvaluationResult>()
+					   : results.Where(x => availableRules.Contains(x.Title)).ToArray();
 		}
 
 		public void Dispose()
@@ -97,29 +84,41 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		private EvaluationResult[] LoadEvaluationResults(string path)
+		private async Task<EvaluationResult[]> LoadEvaluationResults(string path)
 		{
 			var solution = _solutionProvider.Get(path);
-
-			var inspectionTasks = (from project in solution.Projects
+			var projects = solution.Projects.ToArray();
+			var inspectionTasks = (from project in projects
 								   where project.HasDocuments
-								   let compilation = project.GetCompilation()
-								   from doc in project.Documents
-								   let tree = doc.GetSyntaxTree()
-								   let root = tree.GetRoot() as SyntaxNode
-								   where root != null
-								   select _inspector.Inspect(project.FilePath, root, compilation.GetSemanticModel(tree), solution))
+								   let compilation = project.GetCompilationAsync()
+								   from doc in project.Documents.ToArray()
+								   let tree = doc.GetSyntaxTreeAsync()
+								   select GetInspections(project.FilePath, tree, compilation, solution))
 				.ToArray();
 			if (inspectionTasks.Length == 0)
 			{
 				return new EvaluationResult[0];
 			}
 
-			Task.WaitAll(inspectionTasks);
+			var results = await Task.WhenAll(inspectionTasks);
+			return results.SelectMany(x => x).Distinct(new ResultComparer()).ToArray();
+		}
 
-			return inspectionTasks.SelectMany(x => x.Result)
-				.Distinct(new ResultComparer())
-				.ToArray();
+		private async Task<IEnumerable<EvaluationResult>> GetInspections(
+			string filePath,
+			Task<CommonSyntaxTree> treeTask,
+			Task<CommonCompilation> compilationTask,
+			ISolution solution)
+		{
+			var tree = await treeTask;
+			var root = (await tree.GetRootAsync()) as SyntaxNode;
+			if (root == null)
+			{
+				return Enumerable.Empty<EvaluationResult>();
+			}
+
+			var compilation = await compilationTask;
+			return await _inspector.Inspect(filePath, root, compilation.GetSemanticModel(tree), solution);
 		}
 
 		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)

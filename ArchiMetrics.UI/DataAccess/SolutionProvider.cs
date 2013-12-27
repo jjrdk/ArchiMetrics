@@ -38,11 +38,7 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			var solution = _cache.GetOrAdd(
 				path ?? string.Empty,
-				p =>
-				{
-					var sln = Solution.Load(p, "Release");
-					return sln;
-				});
+				p => Solution.Load(p, "Release"));
 
 			return solution.Clone();
 		}

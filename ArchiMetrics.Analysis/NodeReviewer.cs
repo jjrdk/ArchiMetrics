@@ -65,16 +65,18 @@ namespace ArchiMetrics.Analysis
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
+				var baseResultTasks = await Task.WhenAll(node.ChildNodes().Select(Visit));
+				var baseResults = baseResultTasks.SelectMany(x => x);
 				if (_evaluations.ContainsKey(node.Kind))
 				{
 					var nodeEvaluations = _evaluations[node.Kind];
 					var codeResults = GetCodeEvaluations(node, nodeEvaluations.OfType<ICodeEvaluation>());
 					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations.OfType<ISemanticEvaluation>(), _model, _solution);
-					var baseResults = await Task.WhenAll(node.ChildNodes().Select(Visit));
-					return codeResults.Concat(semmanticResults).Concat(baseResults.SelectMany(x => x));
+
+					return codeResults.Concat(semmanticResults).Concat(baseResults).ToArray();
 				}
 
-				return await base.Visit(node);
+				return baseResults.ToArray();
 			}
 
 			public override async Task<IEnumerable<EvaluationResult>> DefaultVisit(SyntaxNode node)
