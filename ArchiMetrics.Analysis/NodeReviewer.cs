@@ -31,121 +31,117 @@ namespace ArchiMetrics.Analysis
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public virtual Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		public virtual async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
-			return Task.Factory.StartNew(() =>
-			{
-				using (var inspector = new InnerInspector(_evaluations, semanticModel, solution))
-				{
-					inspector.Visit(node);
-					var inspectionResults = inspector.GetResults();
-					foreach (var result in inspectionResults.Where(x => x != null))
-					{
-						result.ProjectPath = projectPath;
-					}
+			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
 
-					return inspectionResults.AsEnumerable();
-				}
-			});
+			var inspectionTasks = await inspector.Visit(node);
+			var inspectionResults = inspectionTasks.ToArray();
+			foreach (var result in inspectionResults)
+			{
+				result.ProjectPath = projectPath;
+			}
+
+			return inspectionResults.AsEnumerable();
 		}
 
-		private class InnerInspector : SyntaxWalker, IDisposable
+		private class InnerInspector : SyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
 			private readonly ISemanticModel _model;
 			private readonly ISolution _solution;
-			private ConcurrentBag<EvaluationResult> _inspectionResults = new ConcurrentBag<EvaluationResult>();
 
 			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, ISemanticModel model, ISolution solution)
-				: base(SyntaxWalkerDepth.Trivia)
 			{
 				_evaluations = evaluations;
 				_model = model;
 				_solution = solution;
 			}
 
-			~InnerInspector()
+			public override async Task<IEnumerable<EvaluationResult>> Visit(SyntaxNode node)
 			{
-				Dispose(false);
-			}
+				if (node == null)
+				{
+					return Enumerable.Empty<EvaluationResult>();
+				}
 
-			public void Dispose()
-			{
-				Dispose(true);
-				GC.SuppressFinalize(this);
-			}
-
-			public override void Visit(SyntaxNode node)
-			{
 				if (_evaluations.ContainsKey(node.Kind))
 				{
 					var nodeEvaluations = _evaluations[node.Kind];
-					var codeResults = GetCodeEvaluations(node, nodeEvaluations);
-					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations, _model, _solution);
-
-					foreach (var source in codeResults.Concat(semmanticResults))
-					{
-						_inspectionResults.Add(source);
-					}
+					var codeResults = GetCodeEvaluations(node, nodeEvaluations.OfType<ICodeEvaluation>());
+					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations.OfType<ISemanticEvaluation>(), _model, _solution);
+					var baseResults = await Task.WhenAll(node.ChildNodes().Select(Visit));
+					return codeResults.Concat(semmanticResults).Concat(baseResults.SelectMany(x => x));
 				}
 
-				base.Visit(node);
+				return await base.Visit(node);
 			}
 
-			public override void VisitTrivia(SyntaxTrivia trivia)
+			public override async Task<IEnumerable<EvaluationResult>> DefaultVisit(SyntaxNode node)
+			{
+				var tasks =
+					node.ChildNodesAndTokens()
+						.Select(VisitNodeOrToken)
+						.Concat(node.DescendantTrivia(x => x == node).Select(VisitTrivia));
+				return (await Task.WhenAll(tasks)).SelectMany(x => x);
+			}
+
+			private Task<IEnumerable<EvaluationResult>> VisitNodeOrToken(SyntaxNodeOrToken nodeOrToken)
+			{
+				var node = nodeOrToken.AsNode();
+				return node == null ? VisitToken(nodeOrToken.AsToken()) : Visit(node);
+			}
+
+			public virtual async Task<IEnumerable<EvaluationResult>> VisitToken(SyntaxToken token)
+			{
+				var tasks = await Task.WhenAll(token.LeadingTrivia.Concat(token.TrailingTrivia).Select(VisitTrivia));
+				return tasks.SelectMany(x => x);
+			}
+
+			private async Task<IEnumerable<EvaluationResult>> VisitTrivia(SyntaxTrivia trivia)
 			{
 				if (_evaluations.ContainsKey(trivia.Kind))
 				{
 					var nodeEvaluations = _evaluations[trivia.Kind];
-					var results = GetTriviaEvaluations(trivia, nodeEvaluations);
-					foreach (var result in results)
-					{
-						_inspectionResults.Add(result);
-					}
+					return await GetTriviaEvaluations(trivia, nodeEvaluations.OfType<ITriviaEvaluation>());
 				}
 
-				base.VisitTrivia(trivia);
+				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			public EvaluationResult[] GetResults()
+			private static Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<ITriviaEvaluation> nodeEvaluations)
 			{
-				var results = _inspectionResults.Where(x => x != null).ToArray();
-
-				return results;
+				return Task.Factory.StartNew(
+					() =>
+					{
+						var results = nodeEvaluations.Select(
+							x =>
+							{
+								try
+								{
+									return x.Evaluate(trivia);
+								}
+								catch (Exception ex)
+								{
+									return new EvaluationResult
+											   {
+												   Title = ex.Message,
+												   Suggestion = ex.StackTrace,
+												   ErrorCount = 1,
+												   Snippet = trivia.ToFullString(),
+												   Quality = CodeQuality.Broken
+											   };
+								}
+							})
+								.Where(x => x != null && x.Quality != CodeQuality.Good)
+								.ToArray();
+						return results.AsEnumerable();
+					});
 			}
 
-			private static IEnumerable<EvaluationResult> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<IEvaluation> nodeEvaluations)
+			private static IEnumerable<EvaluationResult> GetCodeEvaluations(SyntaxNode node, IEnumerable<ICodeEvaluation> nodeEvaluations)
 			{
 				var results = nodeEvaluations
-					.OfType<ITriviaEvaluation>()
-					.Select(
-						x =>
-						{
-							try
-							{
-								return x.Evaluate(trivia);
-							}
-							catch (Exception ex)
-							{
-								return new EvaluationResult
-									   {
-										   Title = ex.Message, 
-										   Suggestion = ex.StackTrace, 
-										   ErrorCount = 1, 
-										   Snippet = trivia.ToFullString(), 
-										   Quality = CodeQuality.Broken
-									   };
-							}
-						})
-					.Where(x => x != null && x.Quality != CodeQuality.Good)
-					.ToArray();
-				return results;
-			}
-
-			private static IEnumerable<EvaluationResult> GetCodeEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations)
-			{
-				var results = nodeEvaluations
-					.OfType<ICodeEvaluation>()
 					.Select(x =>
 					{
 						try
@@ -156,10 +152,10 @@ namespace ArchiMetrics.Analysis
 						{
 							return new EvaluationResult
 							{
-								Title = ex.Message, 
-								Suggestion = ex.StackTrace, 
-								ErrorCount = 1, 
-								Snippet = node.ToFullString(), 
+								Title = ex.Message,
+								Suggestion = ex.StackTrace,
+								ErrorCount = 1,
+								Snippet = node.ToFullString(),
 								Quality = CodeQuality.Broken
 							};
 						}
@@ -169,7 +165,7 @@ namespace ArchiMetrics.Analysis
 				return results;
 			}
 
-			private static IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<IEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			private static IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<ISemanticEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
 			{
 				if (model == null || solution == null)
 				{
@@ -177,7 +173,6 @@ namespace ArchiMetrics.Analysis
 				}
 
 				var results = nodeEvaluations
-					.OfType<ISemanticEvaluation>()
 					.Select(x =>
 						{
 							try
@@ -188,10 +183,10 @@ namespace ArchiMetrics.Analysis
 							{
 								return new EvaluationResult
 										   {
-											   Title = ex.Message, 
-											   Suggestion = ex.StackTrace, 
-											   ErrorCount = 1, 
-											   Snippet = node.ToFullString(), 
+											   Title = ex.Message,
+											   Suggestion = ex.StackTrace,
+											   ErrorCount = 1,
+											   Snippet = node.ToFullString(),
 											   Quality = CodeQuality.Broken
 										   };
 							}
@@ -199,14 +194,6 @@ namespace ArchiMetrics.Analysis
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
 					.ToArray();
 				return results;
-			}
-
-			private void Dispose(bool isDisposing)
-			{
-				if (isDisposing)
-				{
-					_inspectionResults = null;
-				}
 			}
 		}
 	}
