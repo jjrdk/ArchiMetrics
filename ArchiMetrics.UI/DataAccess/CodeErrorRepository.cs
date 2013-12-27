@@ -34,9 +34,9 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			IAppContext config, 
-			IProvider<string, ISolution> solutionProvider, 
-			INodeInspector inspector, 
+			IAppContext config,
+			IProvider<string, ISolution> solutionProvider,
+			INodeInspector inspector,
 			IAvailableRules availableRules)
 		{
 			_edgeItems = new ConcurrentDictionary<string, Lazy<EvaluationResult[]>>();
@@ -45,7 +45,7 @@ namespace ArchiMetrics.UI.DataAccess
 			_inspector = inspector;
 			_availableRules = availableRules;
 			_config.PropertyChanged += ConfigPropertyChanged;
-			GetErrors();
+			GetErrors(_config.Path);
 		}
 
 		~CodeErrorRepository()
@@ -64,10 +64,10 @@ namespace ArchiMetrics.UI.DataAccess
 				() =>
 				{
 					var cachedEdges = _edgeItems.GetOrAdd(
-						source, 
+						source,
 						path =>
 						{
-							var loadTask = new Lazy<EvaluationResult[]>(() => LoadEvaluationResults(path), LazyThreadSafetyMode.ExecutionAndPublication);
+							var loadTask = new Lazy<EvaluationResult[]>(() => LoadEvaluationResults(path));
 							return loadTask;
 						});
 
@@ -78,7 +78,7 @@ namespace ArchiMetrics.UI.DataAccess
 							.Where(x => availableRules.Contains(x.Title))
 							.ToArray()
 							.AsEnumerable();
-				}, 
+				},
 				cancellationToken);
 		}
 
@@ -86,13 +86,6 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
-		}
-
-		public Task<IEnumerable<EvaluationResult>> GetErrors(CancellationToken cancellationToken = default(CancellationToken))
-		{
-			return _config.IncludeCodeReview && !string.IsNullOrWhiteSpace(_config.Path)
-					   ? GetErrors(_config.Path, cancellationToken)
-					   : Task.Factory.StartNew(() => new EvaluationResult[0].AsEnumerable(), cancellationToken);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
@@ -136,7 +129,7 @@ namespace ArchiMetrics.UI.DataAccess
 				return;
 			}
 
-			GetErrors();
+			GetErrors(_config.Path);
 		}
 	}
 }

@@ -36,13 +36,15 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public ISolution Get(string path)
 		{
-			return _cache.GetOrAdd(
+			var solution = _cache.GetOrAdd(
 				path ?? string.Empty,
 				p =>
 				{
-					var solution = Solution.Load(p, "Release");
-					return solution;
+					var sln = Solution.Load(p, "Release");
+					return sln;
 				});
+
+			return solution.Clone();
 		}
 
 		public IEnumerable<ISolution> GetAll(string key)
