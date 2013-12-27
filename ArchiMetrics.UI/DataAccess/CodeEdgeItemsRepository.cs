@@ -31,7 +31,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly ICodeErrorRepository _codeErrorRepository;
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<MetricsEdgeItem>>> _edgeItems = new ConcurrentDictionary<string, Task<IEnumerable<MetricsEdgeItem>>>();
 
-		public CodeEdgeItemsRepository(
+		protected CodeEdgeItemsRepository(
 			ICodeErrorRepository codeErrorRepository)
 		{
 			_codeErrorRepository = codeErrorRepository;

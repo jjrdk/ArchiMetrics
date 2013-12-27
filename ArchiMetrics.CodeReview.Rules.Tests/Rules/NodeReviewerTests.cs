@@ -39,10 +39,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		public class GivenANodeReviewerInspectingBrokenCode
 		{
 			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
-			public void SyntaxDetectionTest(string code, Type evaluatorType)
+			public async Task SyntaxDetectionTest(string code, Type evaluatorType)
 			{
-				var task = PerformInspection(code, evaluatorType);
-				var count = task.Result.Count();
+				var task = await PerformInspection(code, evaluatorType);
+				var count = task.Count();
 
 				Assert.AreEqual(1, count);
 			}

@@ -29,7 +29,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private CancellationTokenSource _tokenSource;
 		private ObservableCollection<VertexTransform> _vertexTransforms;
 
-		public EdgesViewModelBase(
+		protected EdgesViewModelBase(
 			IEdgeItemsRepository repository, 
 			IEdgeTransformer filter, 
 			IAppContext config)

@@ -21,7 +21,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _speller;
 
-		public NameSpellingRuleBase(ISpellChecker speller, IKnownPatterns knownPatterns)
+		protected NameSpellingRuleBase(ISpellChecker speller, IKnownPatterns knownPatterns)
 		{
 			_speller = speller;
 			_knownPatterns = knownPatterns;

@@ -26,16 +26,16 @@ namespace ArchiMetrics.Common.Metrics
 			SemanticModel = semanticModel;
 		}
 
-		public string CodeFile { get; set; }
+		public string CodeFile { get; private set; }
 
-		public string DisplayName { get; set; }
+		public string DisplayName { get; private set; }
 
-		public MemberKind Kind { get; set; }
+		public MemberKind Kind { get; private set; }
 
-		public int LineNumber { get; set; }
+		public int LineNumber { get; private set; }
 
-		public CommonSyntaxNode SyntaxNode { get; set; }
+		public CommonSyntaxNode SyntaxNode { get; private set; }
 
-		public ISemanticModel SemanticModel { get; set; }
+		public ISemanticModel SemanticModel { get; private set; }
 	}
 }

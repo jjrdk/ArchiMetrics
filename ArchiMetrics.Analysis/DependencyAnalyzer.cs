@@ -91,7 +91,7 @@ namespace ArchiMetrics.Analysis
 		{
 			return chain.IsCircular
 					   ? new[] { chain }
-					   : source.Where(x => chain.IsContinuation(x)).SelectMany(i => GetDependencyChain(new DependencyChain(chain.ReferenceChain, chain.Root, i), source));
+					   : source.Where(chain.IsContinuation).SelectMany(i => GetDependencyChain(new DependencyChain(chain.ReferenceChain, chain.Root, i), source));
 		}
 	}
 }

@@ -77,7 +77,6 @@
     <Compile Include="IProvider.cs" />
     <Compile Include="Metrics\CodeMetrics.cs" />
     <Compile Include="Metrics\ICodeMetric.cs" />
-    <Compile Include="Metrics\IHalsteadAnalyzer.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
     <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
     <Compile Include="Metrics\IMemberMetric.cs" />
