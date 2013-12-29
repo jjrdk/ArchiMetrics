@@ -31,7 +31,27 @@ namespace ArchiMetrics.Analysis
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public virtual async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		public async Task<IEnumerable<EvaluationResult>> Inspect(ISolution solution)
+		{
+			if (solution == null)
+			{
+				return Enumerable.Empty<EvaluationResult>();
+			}
+
+			var inspectionTasks = (from project in solution.Projects
+								   where project.HasDocuments
+								   let compilation = project.GetCompilationAsync()
+								   from doc in project.Documents.ToArray()
+								   let tree = doc.GetSyntaxTreeAsync()
+								   select GetInspections(project.FilePath, tree, compilation, solution))
+						   .ToArray();
+
+			var results = await Task.WhenAll(inspectionTasks);
+
+			return results.SelectMany(x => x).ToArray();
+		}
+
+		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
 
@@ -43,6 +63,23 @@ namespace ArchiMetrics.Analysis
 			}
 
 			return inspectionResults.AsEnumerable();
+		}
+
+		private async Task<IEnumerable<EvaluationResult>> GetInspections(
+			string filePath,
+			Task<CommonSyntaxTree> treeTask,
+			Task<CommonCompilation> compilationTask,
+			ISolution solution)
+		{
+			var tree = await treeTask;
+			var root = (await tree.GetRootAsync()) as SyntaxNode;
+			if (root == null)
+			{
+				return Enumerable.Empty<EvaluationResult>();
+			}
+
+			var compilation = await compilationTask;
+			return await Inspect(filePath, root, compilation.GetSemanticModel(tree), solution);
 		}
 
 		private class InnerInspector : SyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
@@ -88,27 +125,10 @@ namespace ArchiMetrics.Analysis
 				return (await Task.WhenAll(tasks)).SelectMany(x => x);
 			}
 
-			private Task<IEnumerable<EvaluationResult>> VisitNodeOrToken(SyntaxNodeOrToken nodeOrToken)
-			{
-				var node = nodeOrToken.AsNode();
-				return node == null ? VisitToken(nodeOrToken.AsToken()) : Visit(node);
-			}
-
 			public virtual async Task<IEnumerable<EvaluationResult>> VisitToken(SyntaxToken token)
 			{
 				var tasks = await Task.WhenAll(token.LeadingTrivia.Concat(token.TrailingTrivia).Select(VisitTrivia));
 				return tasks.SelectMany(x => x);
-			}
-
-			private async Task<IEnumerable<EvaluationResult>> VisitTrivia(SyntaxTrivia trivia)
-			{
-				if (_evaluations.ContainsKey(trivia.Kind))
-				{
-					var nodeEvaluations = _evaluations[trivia.Kind];
-					return await GetTriviaEvaluations(trivia, nodeEvaluations.OfType<ITriviaEvaluation>());
-				}
-
-				return Enumerable.Empty<EvaluationResult>();
 			}
 
 			private static Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<ITriviaEvaluation> nodeEvaluations)
@@ -196,6 +216,23 @@ namespace ArchiMetrics.Analysis
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
 					.ToArray();
 				return results;
+			}
+
+			private async Task<IEnumerable<EvaluationResult>> VisitTrivia(SyntaxTrivia trivia)
+			{
+				if (_evaluations.ContainsKey(trivia.Kind))
+				{
+					var nodeEvaluations = _evaluations[trivia.Kind];
+					return await GetTriviaEvaluations(trivia, nodeEvaluations.OfType<ITriviaEvaluation>());
+				}
+
+				return Enumerable.Empty<EvaluationResult>();
+			}
+
+			private Task<IEnumerable<EvaluationResult>> VisitNodeOrToken(SyntaxNodeOrToken nodeOrToken)
+			{
+				var node = nodeOrToken.AsNode();
+				return node == null ? VisitToken(nodeOrToken.AsToken()) : Visit(node);
 			}
 		}
 	}

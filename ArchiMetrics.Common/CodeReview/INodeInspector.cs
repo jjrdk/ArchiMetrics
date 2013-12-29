@@ -20,6 +20,8 @@ namespace ArchiMetrics.Common.CodeReview
 
 	public interface INodeInspector
 	{
+		Task<IEnumerable<EvaluationResult>> Inspect(ISolution solution);
+		
 		Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution);
 	}
 }

@@ -87,38 +87,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private async Task<EvaluationResult[]> LoadEvaluationResults(string path)
 		{
 			var solution = _solutionProvider.Get(path);
-			var projects = solution.Projects.ToArray();
-			var inspectionTasks = (from project in projects
-								   where project.HasDocuments
-								   let compilation = project.GetCompilationAsync()
-								   from doc in project.Documents.ToArray()
-								   let tree = doc.GetSyntaxTreeAsync()
-								   select GetInspections(project.FilePath, tree, compilation, solution))
-				.ToArray();
-			if (inspectionTasks.Length == 0)
-			{
-				return new EvaluationResult[0];
-			}
-
-			var results = await Task.WhenAll(inspectionTasks);
-			return results.SelectMany(x => x).Distinct(new ResultComparer()).ToArray();
-		}
-
-		private async Task<IEnumerable<EvaluationResult>> GetInspections(
-			string filePath,
-			Task<CommonSyntaxTree> treeTask,
-			Task<CommonCompilation> compilationTask,
-			ISolution solution)
-		{
-			var tree = await treeTask;
-			var root = (await tree.GetRootAsync()) as SyntaxNode;
-			if (root == null)
-			{
-				return Enumerable.Empty<EvaluationResult>();
-			}
-
-			var compilation = await compilationTask;
-			return await _inspector.Inspect(filePath, root, compilation.GetSemanticModel(tree), solution);
+			return (await _inspector.Inspect(solution)).ToArray();
 		}
 
 		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)
