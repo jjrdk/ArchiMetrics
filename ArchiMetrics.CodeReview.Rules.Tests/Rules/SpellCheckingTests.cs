@@ -15,6 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System;
 	using System.IO;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Trivia;
@@ -172,7 +173,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
 			[TestCase("// <summary>Dette er ikke en engelsk kommentar.</summary>")]
 			[TestCase("/* Dette er ikke en engelsk kommentar. */")]
-			public void WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
+			public async Task WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
 			{
 				var method = SyntaxTree.ParseText(
 					string.Format(
@@ -182,10 +183,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
    comment));
 				var root = method.GetRoot();
 
-				var task = _reviewer.Inspect(string.Empty, root, null, null);
-				task.Wait();
-
-				Assert.IsNotEmpty(task.Result);
+				var task = await _reviewer.Inspect(string.Empty, root, null, null);
+				
+				Assert.IsNotEmpty(task);
 			}
 		}
 

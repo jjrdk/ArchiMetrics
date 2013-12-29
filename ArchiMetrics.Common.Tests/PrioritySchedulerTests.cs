@@ -12,12 +12,21 @@
 
 namespace ArchiMetrics.Common.Tests
 {
+	using System;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using NUnit.Framework;
 
 	public class PrioritySchedulerTests
 	{
+		[Test]
+		public void MaximumConcurrencyLevelEqualsProcessorCount()
+		{
+			var processorCount = Environment.ProcessorCount;
+
+			Assert.AreEqual(processorCount, PriorityScheduler.AboveNormal.MaximumConcurrencyLevel);
+		}
+
 		[Test]
 		public void AboveNormalPrioritySchedulerIsNotNull()
 		{
@@ -58,6 +67,12 @@ namespace ArchiMetrics.Common.Tests
 			var value = await GetValue(PriorityScheduler.Lowest);
 
 			Assert.AreEqual(100, value);
+		}
+
+		[Test]
+		public void WhenDisposingThenDoesNotThrow()
+		{
+			Assert.DoesNotThrow(() => PriorityScheduler.AboveNormal.Dispose());
 		}
 
 		private static async Task<int> GetValue(TaskScheduler scheduler)

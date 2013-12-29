@@ -72,6 +72,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeMetricsCalculatorTests.cs" />
     <Compile Include="DependencyAnalyzerTests.cs" />
     <Compile Include="ProjectMetricTests.cs" />
     <Compile Include="SemanticAnalyzerTests.cs" />

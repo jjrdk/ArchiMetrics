@@ -16,7 +16,7 @@ namespace ArchiMetrics.Common.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 
-	public class TypeCoupling : TypeDefinition, IComparable<TypeCoupling>
+	public class TypeCoupling : TypeDefinition
 	{
 		public TypeCoupling(string className, string namespaceName, string assemblyName, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> useEvents)
 			: base(className, namespaceName, assemblyName)
@@ -31,59 +31,5 @@ namespace ArchiMetrics.Common.Metrics
 		public string[] UsedProperties { get; private set; }
 
 		public string[] UsedEvents { get; private set; }
-
-		public static bool operator ==(TypeCoupling c1, TypeCoupling c2)
-		{
-			return ReferenceEquals(c1, null)
-					   ? ReferenceEquals(c2, null)
-					   : c1.CompareTo(c2) == 0;
-		}
-
-		public static bool operator !=(TypeCoupling c1, TypeCoupling c2)
-		{
-			return ReferenceEquals(c1, null)
-					   ? !ReferenceEquals(c2, null)
-					   : c1.CompareTo(c2) != 0;
-		}
-
-		public static bool operator <(TypeCoupling c1, TypeCoupling c2)
-		{
-			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) < 0;
-		}
-
-		public static bool operator >(TypeCoupling c1, TypeCoupling c2)
-		{
-			return !ReferenceEquals(c1, null) && c1.CompareTo(c2) > 0;
-		}
-
-		public int CompareTo(TypeCoupling other)
-		{
-			return other == null
-					   ? -1
-					   : string.Compare(ToString(), other.ToString(), StringComparison.InvariantCultureIgnoreCase);
-		}
-
-		/// <summary>
-		/// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
-		/// </summary>
-		/// <returns>
-		/// A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="obj"/> in the sort order. Zero This instance occurs in the same position in the sort order as <paramref name="obj"/>. Greater than zero This instance follows <paramref name="obj"/> in the sort order. 
-		/// </returns>
-		/// <param name="obj">An object to compare with this instance. </param><exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception>
-		public override int CompareTo(object obj)
-		{
-			var other = obj as TypeCoupling;
-			return CompareTo(other);
-		}
-
-		public override int GetHashCode()
-		{
-			return ToString().GetHashCode();
-		}
-
-		public override bool Equals(object obj)
-		{
-			return CompareTo(obj) == 0;
-		}
 	}
 }

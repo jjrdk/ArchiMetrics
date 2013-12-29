@@ -20,6 +20,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Services;
 
 	public sealed class NodeReviewerTests
 	{
@@ -33,6 +34,20 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			var tree = SyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
 
 			var task = inspector.Inspect(string.Empty, tree.GetRoot(), null, null);
+			return task;
+		}
+
+		private static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
+		{
+			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
+			code = "namespace TestSpace { public class ParseClass { " + code + " } }";
+			ProjectId pid;
+			DocumentId did;
+			var solution =
+				Solution.Create(SolutionId.CreateNewId("test"))
+					.AddCSharpProject("project", "project.dll", out pid)
+					.AddDocument(pid, "broken", code, out did);
+			var task = inspector.Inspect(solution);
 			return task;
 		}
 
@@ -64,7 +79,19 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			}
 		}
 
-		public class GivenASyntaxInspectorInspectingNonBrokenCode
+		public class GivenANodeInspectorInspectingBrokenSolution
+		{
+			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
+			public async Task WhenInspectingSolutionThenFindsErrors(string code, Type evaluatorType)
+			{
+				var task = await PerformSolutionInspection(code, evaluatorType);
+				var count = task.Count();
+
+				Assert.AreEqual(1, count);
+			}
+		}
+
+		public class GivenANodeReviewerInspectingNonBrokenCode
 		{
 			[TestCaseSource(typeof(InspectionCodeSource), "WrokingCode")]
 			public void NegativeTest(string code, Type evaluatorType)

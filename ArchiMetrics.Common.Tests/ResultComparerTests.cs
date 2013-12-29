@@ -52,7 +52,7 @@ namespace ArchiMetrics.Common.Tests
 			[Test]
 			public void WhenGettingHashCodeForNullObjectThenThrows()
 			{
-				Assert.Throws<ArgumentNullException>(() => _comparer.GetHashCode(null));
+				Assert.Throws<NullReferenceException>(() => _comparer.GetHashCode(null));
 			}
 
 			[Test]

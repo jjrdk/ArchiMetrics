@@ -102,7 +102,7 @@ namespace ArchiMetrics.Analysis
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
-				var baseResultTasks = await Task.WhenAll(node.ChildNodes().Select(Visit));
+				var baseResultTasks = await Task.WhenAll(node.ChildNodesAndTokens().Select(VisitNodeOrToken));
 				var baseResults = baseResultTasks.SelectMany(x => x);
 				if (_evaluations.ContainsKey(node.Kind))
 				{
