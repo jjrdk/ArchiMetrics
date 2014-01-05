@@ -46,8 +46,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				var tree = SyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
-				Assert.IsNotEmpty(result.NamespaceDeclarations);
-				Assert.IsEmpty(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.TypeDeclarations));
+				CollectionAssert.AllItemsAreInstancesOfType(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations).Concat(result.TypeDeclarations), typeof(NamespaceDeclarationSyntax));
 			}
 
 			[Test]
@@ -62,6 +61,34 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 				Assert.IsNotEmpty(result.TypeDeclarations);
 				Assert.IsEmpty(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations));
+			}
+
+			[Test]
+			public void WhenSnippetRootIsStructThenOnlyFindsType()
+			{
+				const string Snippet = @"public struct Foo
+{
+	private string x = ""a"";
+
+	public string Text { get{ return x; } }
+}";
+				var tree = SyntaxTree.ParseText(Snippet);
+				var result = _collector.GetDeclarations(new[] { tree });
+
+				CollectionAssert.AllItemsAreInstancesOfType(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations).Concat(result.TypeDeclarations), typeof(TypeDeclarationSyntax));
+			}
+
+			[Test]
+			public void WhenSnippetRootIsInterfaceThenOnlyFindsType()
+			{
+				const string Snippet = @"public interface Foo
+{
+	string Text { get; }
+}";
+				var tree = SyntaxTree.ParseText(Snippet);
+				var result = _collector.GetDeclarations(new[] { tree });
+
+				CollectionAssert.AllItemsAreInstancesOfType(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations).Concat(result.TypeDeclarations), typeof(TypeDeclarationSyntax));
 			}
 
 			[Test]

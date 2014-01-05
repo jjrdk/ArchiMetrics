@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.IO;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
@@ -35,6 +36,23 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}
 
 			[Test]
+			public async Task CanCalculateMetricsForSnippet()
+			{
+				const string Snippet = @"
+namespace SomeNamespace
+{
+	public class Something {
+		publis string Name { get; set; }
+	}
+}
+";
+				var tree = SyntaxTree.ParseText(Snippet);
+				var metrics = await _analyzer.Calculate(new[] { tree });
+
+				Assert.NotNull(metrics);
+			}
+
+			[Test]
 			public void WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
 			{
 				Assert.DoesNotThrow(() =>
@@ -49,7 +67,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}
 
 			[Test]
-			public void CanCalculateMetricsForNamespaceSnippet()
+			public async Task CanCalculateMetricsForNamespaceSnippet()
 			{
 				const string Snippet = @"
 namespace SomeNamespace
@@ -60,15 +78,14 @@ namespace SomeNamespace
 }
 ";
 				var tree = SyntaxTree.ParseText(Snippet);
-				var task = _analyzer.Calculate(new[] { tree });
-				task.Wait();
+				var task = await _analyzer.Calculate(new[] { tree });
 
-				var metrics = task.Result.ToArray();
+				var metrics = task.ToArray();
 				Assert.IsNotEmpty(metrics);
 			}
 
 			[Test]
-			public void CanCalculateMetricsForClassSnippet()
+			public async Task CanCalculateMetricsForClassSnippet()
 			{
 				const string Snippet = @"
 public class Something {
@@ -76,57 +93,52 @@ public class Something {
 }
 ";
 				var tree = SyntaxTree.ParseText(Snippet);
-				var task = _analyzer.Calculate(new[] { tree });
-				task.Wait();
+				var task = await _analyzer.Calculate(new[] { tree });
 
-				var metrics = task.Result.ToArray();
+				var metrics = task.ToArray();
 				Assert.IsNotEmpty(metrics);
 			}
 
 			[Test]
-			public void CanCalculateMetricsForMethodSnippet()
+			public async Task CanCalculateMetricsForMethodSnippet()
 			{
 				const string Snippet = @"
 public int Foo() { return 1; }
 ";
 				var tree = SyntaxTree.ParseText(Snippet);
-				var task = _analyzer.Calculate(new[] { tree });
-				task.Wait();
+				var task = await _analyzer.Calculate(new[] { tree });
 
-				var metrics = task.Result.ToArray();
+				var metrics = task.ToArray();
 				Assert.IsNotEmpty(metrics);
 			}
 
 			[Test]
-			public void CanCalculateMetricsForSilverlightProject()
+			public async Task CanCalculateMetricsForSilverlightProject()
 			{
 				var path = Path.GetFullPath(@"..\..\..\SampleSL\SampleSL.csproj");
 				var workspace = Workspace.LoadStandAloneProject(path);
 				var project = workspace.CurrentSolution.Projects.First();
-				var task = _analyzer.Calculate(project);
-				task.Wait();
-				var metrics = task.Result.ToArray();
+				var task = await _analyzer.Calculate(project);
+				var metrics = task.ToArray();
 
 				Assert.IsNotEmpty(metrics);
 			}
 
 			[Test]
-			public void WhenClassDefinitionIsEmptyThenHasCyclomaticComplexityOfOne()
+			public async Task WhenClassDefinitionIsEmptyThenHasCyclomaticComplexityOfOne()
 			{
 				const string Text = @"namespace Testing
 			{
 				public class TestClass { }
 			}";
 
-				var task = _analyzer.Calculate(CreateProject(Text));
-				task.Wait();
-				var metrics = task.Result;
+				var metrics = await _analyzer.Calculate(CreateProject(Text));
 
 				Assert.AreEqual(1, metrics.First().CyclomaticComplexity);
 			}
 
 			[Test]
-			public void WhenClassDefinitionHasEmptyConstructorThenHasCyclomaticComplexityOfOne()
+			public async Task WhenClassDefinitionHasEmptyConstructorThenHasCyclomaticComplexityOfOne()
 			{
 				const string Text = @"namespace Testing
 			{
@@ -135,10 +147,8 @@ public int Foo() { return 1; }
 }
 			}";
 
-				var task = _analyzer.Calculate(CreateProject(Text));
-				task.Wait();
-				var metrics = task.Result;
-
+				var metrics = await _analyzer.Calculate(CreateProject(Text));
+				
 				Assert.AreEqual(1, metrics.First().CyclomaticComplexity);
 			}
 
@@ -215,11 +225,9 @@ using System.Linq;
 					}
 				}
 			}", 4)]
-			public void CodeHasExpectedLinesOfCode(string code, int loc)
+			public async Task CodeHasExpectedLinesOfCode(string code, int loc)
 			{
-				var task = _analyzer.Calculate(CreateProject(code));
-				task.Wait();
-				var metrics = task.Result;
+				var metrics = await _analyzer.Calculate(CreateProject(code));
 
 				Assert.AreEqual(loc, metrics.First().LinesOfCode);
 			}

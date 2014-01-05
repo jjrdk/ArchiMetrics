@@ -14,7 +14,6 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Text;
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;
@@ -24,49 +23,35 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		public static string GetName(this TypeDeclarationSyntax syntax)
 		{
-			var valueText = syntax.Identifier.ValueText;
-			var containingTypeName = GetContainingTypeName(syntax.Parent);
-			if (!string.IsNullOrWhiteSpace(containingTypeName))
-			{
-				valueText = containingTypeName + "." + valueText;
-			}
-
-			var builder = new StringBuilder();
-			builder.Append(valueText);
+			var containingTypeName = string.Join(".", GetContainingTypeName(syntax).Reverse());
 			if (syntax.TypeParameterList != null)
 			{
 				var parameters = syntax.TypeParameterList.Parameters;
 				if (parameters.Any())
 				{
 					var str3 = string.Join(", ", from x in parameters select x.Identifier.ValueText);
-					builder.AppendFormat("<{0}>", str3);
+					containingTypeName = containingTypeName + string.Format("<{0}>", str3);
 				}
 			}
 
-			return builder.ToString();
+			return containingTypeName;
 		}
 
 		public static TypeDefinition GetQualifiedName(this ITypeSymbol symbol)
 		{
-			var name = symbol.Name;
-			var containingTypeName = GetContainingTypeName(symbol.ContainingSymbol);
-			if (!string.IsNullOrWhiteSpace(containingTypeName))
-			{
-				name = containingTypeName + "." + name;
-			}
+			var name = string.Join(".", GetContainingTypeName(symbol).Reverse());
 
-			var namedTypeSymbol = symbol as NamedTypeSymbol;
+			var namedTypeSymbol = symbol as INamedTypeSymbol;
 			if (namedTypeSymbol != null && namedTypeSymbol.TypeParameters != null && namedTypeSymbol.TypeParameters.Any())
 			{
-				var values = namedTypeSymbol.TypeParameters.Select(x => x.Name).ToArray();
-				var joined = string.Join(", ", values);
+				var joined = string.Join(", ", namedTypeSymbol.TypeParameters.Select(x => x.Name));
 				name = name + string.Format("<{0}>", joined);
 			}
 
 			var namespaceNames = new List<string>();
 			for (var containingSymbol = symbol.ContainingSymbol; (containingSymbol != null) && (containingSymbol.Kind == CommonSymbolKind.Namespace); containingSymbol = containingSymbol.ContainingSymbol)
 			{
-				var namespaceSymbol = (NamespaceSymbol)containingSymbol;
+				var namespaceSymbol = (INamespaceSymbol)containingSymbol;
 				if (namespaceSymbol.IsGlobalNamespace)
 				{
 					return new TypeDefinition(name, string.Join(".", namespaceNames), namespaceSymbol.ContainingAssembly.Name);
@@ -78,40 +63,20 @@ namespace ArchiMetrics.Analysis.Metrics
 			return new TypeDefinition(name, string.Join(".", namespaceNames), string.Empty);
 		}
 
-		private static string GetContainingTypeName(ISymbol symbol)
+		private static IEnumerable<string> GetContainingTypeName(TypeDeclarationSyntax syntax)
 		{
-			var symbol2 = symbol as NamedTypeSymbol;
-			if (symbol2 == null)
+			for (var typeDeclaration = syntax; typeDeclaration != null; typeDeclaration = typeDeclaration.Parent as TypeDeclarationSyntax)
 			{
-				return null;
+				yield return typeDeclaration.Identifier.ValueText;
 			}
-
-			var name = symbol2.Name;
-			var containingTypeName = GetContainingTypeName(symbol2.ContainingSymbol);
-			if (!string.IsNullOrWhiteSpace(containingTypeName))
-			{
-				return containingTypeName + "." + name;
-			}
-
-			return name;
 		}
 
-		private static string GetContainingTypeName(CommonSyntaxNode syntax)
+		private static IEnumerable<string> GetContainingTypeName(ITypeSymbol symbol)
 		{
-			var syntax2 = syntax as TypeDeclarationSyntax;
-			if (syntax2 == null)
+			for (var typeSymbol = symbol; typeSymbol != null; typeSymbol = typeSymbol.ContainingSymbol as ITypeSymbol)
 			{
-				return null;
+				yield return typeSymbol.Name;
 			}
-
-			var valueText = syntax2.Identifier.ValueText;
-			var containingTypeName = GetContainingTypeName(syntax2.Parent);
-			if (!string.IsNullOrWhiteSpace(containingTypeName))
-			{
-				return containingTypeName + "." + valueText;
-			}
-
-			return valueText;
 		}
 	}
 }

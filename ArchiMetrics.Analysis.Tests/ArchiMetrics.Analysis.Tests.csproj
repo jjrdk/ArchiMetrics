@@ -74,12 +74,12 @@
   <ItemGroup>
     <Compile Include="CodeMetricsCalculatorTests.cs" />
     <Compile Include="DependencyAnalyzerTests.cs" />
+    <Compile Include="Metrics\TypeExtensionsTests.cs" />
     <Compile Include="ProjectMetricTests.cs" />
     <Compile Include="SemanticAnalyzerTests.cs" />
     <Compile Include="Metrics\CodeMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounterTests.cs" />
     <Compile Include="Metrics\MemberClassCouplingAnalyzerTests.cs" />
-    <Compile Include="Metrics\ProjectMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\SnippetMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\LinesOfCodeCalculatorTests.cs" />
     <Compile Include="Metrics\SyntaxCollectorTests.cs" />

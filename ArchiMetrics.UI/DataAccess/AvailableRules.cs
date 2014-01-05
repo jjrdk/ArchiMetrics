@@ -35,7 +35,7 @@ namespace ArchiMetrics.UI.DataAccess
 				.ToList();
 			_subscriptions = _innerList.Select(
 				x => Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-				h => x.PropertyChanged += h, 
+				h => x.PropertyChanged += h,
 				h => x.PropertyChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(1))
 				.Subscribe(y => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))))
@@ -131,6 +131,14 @@ namespace ArchiMetrics.UI.DataAccess
 						_isAvailable = value;
 						OnPropertyChanged();
 					}
+				}
+			}
+
+			public string Title
+			{
+				get
+				{
+					return _rule.Title;
 				}
 			}
 

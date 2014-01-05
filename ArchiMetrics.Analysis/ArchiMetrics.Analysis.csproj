@@ -77,7 +77,6 @@
     <Compile Include="Metrics\NamespaceMetric.cs" />
     <Compile Include="Metrics\Operands.cs" />
     <Compile Include="Metrics\Operators.cs" />
-    <Compile Include="Metrics\LogicalComplexityCounter.cs" />
     <Compile Include="Metrics\MemberClassCouplingAnalyzer.cs" />
     <Compile Include="Metrics\MemberCollector.cs" />
     <Compile Include="Metrics\MemberMetricsCalculator.cs" />
