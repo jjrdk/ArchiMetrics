@@ -3,12 +3,11 @@
 				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-                  xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-                  mc:Ignorable="d"
+				  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+				  xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+				  mc:Ignorable="d"
 				  FontSize="13"
 				  FontFamily="Verdana"
-				  Title="{Binding Path=DisplayName}"
 				  Width="1024"
 				  Height="768"
 				  MinWidth="1024"
@@ -18,15 +17,18 @@
 				  ContentLoader="{DynamicResource Loader}"
 				  ContentSource="View/SettingsView.xaml">
 	<mui:ModernWindow.TitleLinks>
-		<mui:Link DisplayName="Settings" Source="View/SettingsView.xaml" />
+		<mui:Link DisplayName="Settings"
+				  Source="View/SettingsView.xaml" />
+		<mui:Link DisplayName="About"
+				  Source="View/AboutView.xaml" />
 	</mui:ModernWindow.TitleLinks>
 	<mui:ModernWindow.MenuLinkGroups>
 		<mui:LinkGroup DisplayName="Structures">
 			<mui:LinkGroup.Links>
 				<mui:Link DisplayName="Edges"
 						  Source="View/EdgesView.xaml" />
-				<mui:Link DisplayName="Graph"
-						  Source="View/GraphView.xaml" />
+				<mui:Link DisplayName="Validation"
+						  Source="View/ValidateStructureView.xaml" />
 			</mui:LinkGroup.Links>
 		</mui:LinkGroup>
 		<mui:LinkGroup DisplayName="Review">
@@ -35,8 +37,6 @@
 						  Source="View/MetricsView.xaml" />
 				<mui:Link DisplayName="Code Review"
 						  Source="View/CodeReviewView.xaml" />
-				<mui:Link DisplayName="Circular References"
-						  Source="View/CircularReferenceView.xaml" />
 			</mui:LinkGroup.Links>
 		</mui:LinkGroup>
 	</mui:ModernWindow.MenuLinkGroups>

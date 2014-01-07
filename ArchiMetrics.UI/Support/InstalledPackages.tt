@@ -1,0 +1,71 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ output extension=".cs" #>
+<#
+var packagesFile = Host.ResolvePath(@"..\packages.config");
+var packagesXml=XDocument.Load(packagesFile);
+var root = packagesXml.Root;
+var packages = root.Elements("package");#>// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InstalledPackages.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the InstalledPackages type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.UI.Support
+{
+	using System.Collections;
+	using System.Collections.Generic;
+
+	internal class InstalledPackages : IEnumerable<string>
+	{
+		private static readonly IList<string> PackageStrings = new[]
+		{
+			"Microsoft .NET Framework, version 4.5",
+<# foreach(var package in packages){#>
+			"<#= package.Attribute("id").Value #>, version <#= package.Attribute("version").Value #>",
+<#}#>
+		};
+		
+		private static readonly InstalledPackages InnerInstance = new InstalledPackages();
+
+		private InstalledPackages()
+		{
+		}
+
+		public static InstalledPackages Instance
+		{
+			get { return InnerInstance; }
+		}
+
+		/// <summary>
+		/// Returns an enumerator that iterates through the collection.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+		/// </returns>
+		public IEnumerator<string> GetEnumerator()
+		{
+			return PackageStrings.GetEnumerator();
+		}
+
+		/// <summary>
+		/// Returns an enumerator that iterates through a collection.
+		/// </summary>
+		/// <returns>
+		/// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+		/// </returns>
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+	}
+}

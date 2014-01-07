@@ -14,6 +14,7 @@ namespace ArchiMetrics.UI.Support
 {
 	using System;
 	using System.Windows.Input;
+	using System.Windows.Threading;
 
 	internal class DelegateCommand : ICommand
 	{
@@ -46,7 +47,7 @@ namespace ArchiMetrics.UI.Support
 			var handler = CanExecuteChanged;
 			if (handler != null)
 			{
-				CanExecuteChanged(this, EventArgs.Empty);
+				Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => handler(this, EventArgs.Empty)));
 			}
 		}
 	}

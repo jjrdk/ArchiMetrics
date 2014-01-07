@@ -65,9 +65,16 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int NumberOfLocalVariables { get; private set; }
 
+		public IHalsteadMetrics GetHalsteadMetrics()
+		{
+			return _halstead;
+		}
+
 		public double GetVolume()
 		{
-			return _halstead.GetVolume();
+			return _halstead == null
+			? 0d
+			: _halstead.GetVolume();
 		}
 	}
 }

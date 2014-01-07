@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.Common.Metrics
 {
-	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 
@@ -21,9 +20,9 @@ namespace ArchiMetrics.Common.Metrics
 		public TypeCoupling(string className, string namespaceName, string assemblyName, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> useEvents)
 			: base(className, namespaceName, assemblyName)
 		{
-			UsedMethods = usedMethods.ToArray();
-			UsedProperties = usedProperties.ToArray();
-			UsedEvents = useEvents.ToArray();
+			UsedMethods = usedMethods.Distinct().ToArray();
+			UsedProperties = usedProperties.Distinct().ToArray();
+			UsedEvents = useEvents.Distinct().ToArray();
 		}
 
 		public string[] UsedMethods { get; private set; }

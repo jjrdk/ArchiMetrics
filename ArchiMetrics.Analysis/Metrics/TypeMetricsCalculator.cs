@@ -40,13 +40,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			var linesOfCode = memberMetrics.Sum(x => x.LinesOfCode);
 			var maintainabilityIndex = CalculateAveMaintainabilityIndex(memberMetrics);
 			return new TypeMetric(
-				metricKind, 
-				memberMetrics, 
-				linesOfCode, 
-				cyclomaticComplexity, 
-				maintainabilityIndex, 
-				depthOfInheritance, 
-				source, 
+				metricKind,
+				memberMetrics,
+				linesOfCode,
+				cyclomaticComplexity,
+				maintainabilityIndex,
+				depthOfInheritance,
+				source,
 				type.GetName());
 		}
 
@@ -82,7 +82,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			var second = new TypeClassCouplingAnalyzer(Model).Calculate(type);
 			return memberMetrics.SelectMany(x => x.ClassCouplings)
 				.Concat(second)
-				.Distinct(_comparer)
+				.GroupBy(x => x.ToString())
+				.Select(x => new TypeCoupling(x.First().ClassName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
 				.OrderBy(x => x.ClassName)
 				.ToArray();
 		}

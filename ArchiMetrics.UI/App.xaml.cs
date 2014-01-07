@@ -12,15 +12,23 @@
 
 namespace ArchiMetrics.UI
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using System.Globalization;
 	using System.IO;
 	using System.Linq;
+	using System.Reactive.Concurrency;
+	using System.Reflection;
+	using System.Text.RegularExpressions;
 	using System.Windows;
 	using System.Windows.Markup;
 	using System.Windows.Threading;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Analysis.Model;
+	using ArchiMetrics.Analysis.Validation;
 	using ArchiMetrics.CodeReview.Rules;
+	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;
@@ -32,6 +40,7 @@ namespace ArchiMetrics.UI
 	using Ionic.Zip;
 	using NHunspell;
 	using Roslyn.Services;
+	using Support.Messages;
 
 	public partial class App : Application
 	{
@@ -55,21 +64,57 @@ namespace ArchiMetrics.UI
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			PrepNativeAssemblies();
+			Schedulers.Dispatcher = new DispatcherScheduler(Dispatcher);
+			Schedulers.Taskpool = TaskPoolScheduler.Default;
 			var container = BuildContainer();
 			var loader = new ModernContentLoader(container);
 			Resources.Add("Loader", loader);
 			base.OnStartup(e);
 		}
 
+		private static void PrepNativeAssemblies()
+		{
+			var tempFolder = Path.Combine(Path.GetTempPath(), "ArchiMetrics");
+			if (!Directory.Exists(tempFolder))
+			{
+				Directory.CreateDirectory(tempFolder);
+			}
+
+			var x86FileName = Path.Combine(tempFolder, "HUnspellx86.dll");
+			var executingAssembly = Assembly.GetExecutingAssembly();
+			if (!File.Exists(x86FileName))
+			{
+				using (var x86 = executingAssembly.GetManifestResourceStream("ArchiMetrics.UI.Native.Hunspellx86.dll"))
+				{
+					using (var x86File = File.Create(x86FileName))
+					{
+						x86.CopyTo(x86File);
+					}
+				}
+			}
+
+			var x64FileName = Path.Combine(tempFolder, "HUnspellx64.dll");
+			if (!File.Exists(x64FileName))
+			{
+				using (var x64 = executingAssembly.GetManifestResourceStream("ArchiMetrics.UI.Native.Hunspellx64.dll"))
+				{
+					using (var x64File = File.Create(x64FileName))
+					{
+						x64.CopyTo(x64File);
+					}
+				}
+			}
+
+			Hunspell.NativeDllPath = tempFolder;
+		}
+
 		private static IContainer BuildContainer()
 		{
 			var builder = new ContainerBuilder();
 
-			builder.RegisterType<DefaultCollectionCopier>()
-				   .As<ICollectionCopier>()
-				   .SingleInstance();
-
-			using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
+			var defaultDictionary = Assembly.GetExecutingAssembly().GetManifestResourceStream("ArchiMetrics.UI.Dictionaries.dict-en.oxt");
+			using (var dictFile = ZipFile.Read(defaultDictionary))
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
@@ -80,9 +125,8 @@ namespace ArchiMetrics.UI
 				dicStream.Dispose();
 			}
 
-			var evaluationTypes = from type in typeof(ReportUtils).Assembly.GetTypes()
+			var evaluationTypes = from type in AllRules.GetRules()
 								  where typeof(ICodeEvaluation).IsAssignableFrom(type)
-								  where !type.IsInterface && !type.IsAbstract
 								  select type;
 
 			foreach (var type in evaluationTypes)
@@ -90,25 +134,29 @@ namespace ArchiMetrics.UI
 				builder.RegisterType(type).As<IEvaluation>();
 			}
 
+			builder.RegisterType<EventAggregator>().AsSelf().As<IObservable<IMessage>>().SingleInstance();
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
-			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>();
+			builder.RegisterType<ModelEdgeItemFactory>().As<IAsyncFactory<IEnumerable<IModelNode>, IEnumerable<ModelEdgeItem>>>();
+			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>().As<ICollection<Regex>>().SingleInstance();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
-			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().SingleInstance();
-			builder.RegisterType<AggregateEdgeItemsRepository>().As<IEdgeItemsRepository>().SingleInstance();
-			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<VertexTransform>>>().SingleInstance();
-			builder.RegisterType<EdgeTransformer>().As<IEdgeTransformer>();
-			builder.RegisterType<EdgesViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<CircularReferenceViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<CodeErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<CodeReviewViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<GraphViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf();
-			builder.RegisterType<MetricsViewModel>().As<ViewModelBase>().AsSelf();
+			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
+			builder.RegisterType<SolutionVertexRepository>().As<IVertexRepository>().SingleInstance();
+			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<TransformRule>>>().SingleInstance();
+			builder.RegisterType<VertexViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<CodeErrorGraphViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<CodeReviewViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<GraphViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<StructureRulesViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<MetricsDataGridViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<MetricsChartViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
 			builder.RegisterType<AvailableRules>().As<IAvailableRules>().SingleInstance();
+			builder.RegisterType<ModelValidator>().As<IModelValidator>();
+			builder.RegisterType<SyntaxTransformer>().As<ISyntaxTransformer>();
 			builder.RegisterType<AppContext>().As<IAppContext>().SingleInstance();
 			var container = builder.Build();
 

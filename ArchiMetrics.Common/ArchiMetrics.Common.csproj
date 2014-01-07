@@ -55,6 +55,12 @@
     <Reference Include="Roslyn.Services">
       <HintPath>..\packages\Roslyn.Services.Common.1.2.20906.2\lib\net45\Roslyn.Services.dll</HintPath>
     </Reference>
+    <Reference Include="Roslyn.Services.CSharp">
+      <HintPath>..\packages\Roslyn.Services.CSharp.1.2.20906.2\lib\net45\Roslyn.Services.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Utilities">
+      <HintPath>..\packages\Roslyn.Services.Common.1.2.20906.2\lib\net45\Roslyn.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,9 +79,12 @@
     <Compile Include="CodeReview\ISpellChecker.cs" />
     <Compile Include="CodeReview\ITriviaEvaluation.cs" />
     <Compile Include="CodeReview\QualityAttribute.cs" />
-    <Compile Include="ICollectionCopier.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GeneralExtensions.cs" />
+    <Compile Include="IAsyncFactory.cs" />
     <Compile Include="IProvider.cs" />
-    <Compile Include="Metrics\CodeMetrics.cs" />
+    <Compile Include="IResetable.cs" />
+    <Compile Include="LinqExtensions.cs" />
     <Compile Include="Metrics\ICodeMetric.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
     <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
@@ -86,23 +95,27 @@
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />
     <Compile Include="Metrics\MemberNode.cs" />
-    <Compile Include="Metrics\ProjectCodeMetrics.cs" />
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />
+    <Compile Include="ModelSettings.cs" />
     <Compile Include="PriorityScheduler.cs" />
-    <Compile Include="ProjectDefinition.cs" />
+    <Compile Include="SolutionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Metrics\TypeCoupling.cs" />
     <Compile Include="ResultComparer.cs" />
+    <Compile Include="Structure\ComparisonResult.cs" />
+    <Compile Include="Structure\ComparisonResultKind.cs" />
+    <Compile Include="Structure\IModelNode.cs" />
     <Compile Include="Structure\IProjectMetricsRepository.cs" />
-    <Compile Include="Structure\MetricsEdgeItem.cs" />
-    <Compile Include="Structure\EdgeItemBase.cs" />
-    <Compile Include="Structure\EdgeSource.cs" />
-    <Compile Include="Structure\IEdgeItemsRepository.cs" />
-    <Compile Include="Structure\IEdgeTransformer.cs" />
+    <Compile Include="Structure\ISyntaxTransformer.cs" />
+    <Compile Include="Structure\IVertexRepository.cs" />
     <Compile Include="Structure\IAppContext.cs" />
-    <Compile Include="Structure\VertexTransform.cs" />
+    <Compile Include="Structure\ModelEdgeItem.cs" />
+    <Compile Include="Structure\ModelNode.cs" />
+    <Compile Include="Structure\NodeKind.cs" />
+    <Compile Include="Structure\StaticModelNode.cs" />
+    <Compile Include="Structure\TransformRule.cs" />
     <Compile Include="Xaml\VariableNameProvider.cs" />
     <Compile Include="Xaml\XamlNode.cs" />
     <Compile Include="Xaml\XamlNodeAttribute.cs" />

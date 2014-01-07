@@ -33,7 +33,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			var typeMetrics = metrics.ToArray();
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
-						  .Distinct(_comparer)
+						  .GroupBy(x => x.ToString())
+						  .Select(x => new TypeCoupling(x.First().ClassName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
 						  .OrderBy(x => x.ClassName)
 						  .ToArray();
 			var maintainabilitySource = typeMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).ToArray();
@@ -41,12 +42,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			var cyclomaticComplexity = typeMetrics.Sum(x => x.CyclomaticComplexity);
 			var depthOfInheritance = typeMetrics.Any() ? typeMetrics.Max(x => x.DepthOfInheritance) : 0;
 			return new NamespaceMetric(
-				maintainabilityIndex, 
-				cyclomaticComplexity, 
-				linesOfCode, 
-				source, 
-				depthOfInheritance, 
-				namespaceNode.Name, 
+				maintainabilityIndex,
+				cyclomaticComplexity,
+				linesOfCode,
+				source,
+				depthOfInheritance,
+				namespaceNode.Name,
 				typeMetrics);
 		}
 	}

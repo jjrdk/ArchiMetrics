@@ -16,7 +16,7 @@ namespace ArchiMetrics.Common.Tests
 	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 
-	public class ResultComparerTests
+	public sealed class ResultComparerTests
 	{
 		private ResultComparerTests()
 		{

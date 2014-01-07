@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 

@@ -18,6 +18,8 @@ namespace ArchiMetrics.Common.CodeReview
 
 		void Add(params string[] patterns);
 
+		void Remove(string pattern);
+
 		void Clear();
 	}
 }

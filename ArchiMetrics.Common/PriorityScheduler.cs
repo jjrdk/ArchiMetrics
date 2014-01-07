@@ -96,9 +96,9 @@ namespace ArchiMetrics.Common
 			if (disposing)
 			{
 				_tasks.Dispose();
-				foreach (var thread in _threads.Where(thread => !thread.Join(TimeSpan.FromSeconds(30))))
+				foreach (var thread in _threads.Where(thread => !thread.Join(TimeSpan.FromSeconds(10))))
 				{
-					thread.Abort();
+					thread.Interrupt();
 				}
 			}
 		}

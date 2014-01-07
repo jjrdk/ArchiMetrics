@@ -14,17 +14,16 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
 	internal abstract class NameSpellingRuleBase : CodeEvaluationBase
 	{
-		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _speller;
 
-		protected NameSpellingRuleBase(ISpellChecker speller, IKnownPatterns knownPatterns)
+		protected NameSpellingRuleBase(ISpellChecker speller)
 		{
 			_speller = speller;
-			_knownPatterns = knownPatterns;
 		}
 
 		public override CodeQuality Quality
@@ -53,10 +52,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		protected bool IsSpelledCorrectly(string name)
 		{
-			var wordParts = name.ToTitleCase()
+			return name.ToTitleCase()
 				.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries)
-				.Where(s => !_knownPatterns.IsExempt(s));
-			return wordParts.Aggregate(true, (b, s) => b && _speller.Spell(s));
+				.Aggregate(true, (b, s) => b && _speller.Spell(s));
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace ArchiMetrics.UI.ViewModel
 	/// <summary>
 	/// The ViewModel for the application's main window.
 	/// </summary>
-	public class MainWindowViewModel : ViewModelBase
+	internal class MainWindowViewModel : ViewModelBase
 	{
 		public MainWindowViewModel(IAppContext config)
 			: base(config)

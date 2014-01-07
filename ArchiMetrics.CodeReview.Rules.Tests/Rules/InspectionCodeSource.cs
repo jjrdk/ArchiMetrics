@@ -16,7 +16,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using NUnit.Framework;
 
-	public class InspectionCodeSource
+	public static class InspectionCodeSource
 	{
 		public static IEnumerable BrokenCode
 		{

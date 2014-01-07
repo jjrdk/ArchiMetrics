@@ -15,7 +15,7 @@ namespace ArchiMetrics.Analysis.Tests
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
-	public class CodeMetricsCalculatorTests
+	public sealed class CodeMetricsCalculatorTests
 	{
 		private CodeMetricsCalculatorTests()
 		{

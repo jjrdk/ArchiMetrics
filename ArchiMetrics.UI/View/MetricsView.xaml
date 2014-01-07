@@ -3,70 +3,19 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
-			 d:DesignWidth="300"
-			 d:DataContext="{d:DesignInstance Type=viewModel:MetricsViewModel}">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Row="0"
-					Grid.Column="0"
-					Orientation="Horizontal"
-					HorizontalAlignment="Stretch">
-			<TextBlock Text="{Binding Path=CyclomaticComplexity, StringFormat='Total Complexity: {0}, '}" />
-			<TextBlock Text="{Binding Path=DepthOfInheritance, StringFormat='Max Depth of Inheritance {0} files, '}" />
-			<TextBlock Text="{Binding Path=MaintainabilityIndex, StringFormat='Maintainability Index: {0}.'}" />
-		</StackPanel>
-		<Button Grid.Row="0"
-				Grid.Column="1"
-				Content="Print Report"
-				Click="OnPrintReport" />
-		<DataGrid x:Name="MetricsGrid"
-				  Grid.Row="1"
-				  Grid.Column="0"
-				  Grid.ColumnSpan="2"
-				  ItemsSource="{Binding Path=Metrics}"
-				  AutoGenerateColumns="False"
-				  EnableColumnVirtualization="True"
-				  EnableRowVirtualization="True"
-				  AlternationCount="2"
-				  AlternatingRowBackground="LightGray"
-				  ClipboardCopyMode="IncludeHeader"
-				  GridLinesVisibility="Horizontal"
-				  HeadersVisibility="Column"
-				  CanUserAddRows="False"
-				  CanUserDeleteRows="False"
-				  CanUserReorderColumns="True"
-				  CanUserResizeColumns="True"
-				  CanUserResizeRows="True"
-				  IsReadOnly="True"
-				  CanUserSortColumns="True">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Name"
-									Binding="{Binding Path=Name}" />
-				<DataGridTextColumn Header="Cyclomatic Complexity"
-									Binding="{Binding Path=CyclomaticComplexity}" />
-				<DataGridTextColumn Header="Depth of Inheritance"
-									Binding="{Binding Path=DepthOfInheritance}" />
-				<DataGridTextColumn Header="Maintainability Index"
-									Binding="{Binding Path=MaintainabilityIndex}" />
-				<DataGridTextColumn Header="Coupling"
-									Binding="{Binding Path=ClassCoupling}" />
-			</DataGrid.Columns>
-		</DataGrid>
-		<view:LoadingControl Grid.Row="0"
-							 Grid.Column="0"
-							 Grid.ColumnSpan="2"
-							 Grid.RowSpan="2"
-							 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}" />
-	</Grid>
+			 d:DesignWidth="300">
+	<mui:ModernTab SelectedSource="View/Tabs/MetricsTypeDataGridView.xaml"
+				   ContentLoader="{DynamicResource Loader}">
+		<mui:ModernTab.Links>
+			<mui:Link DisplayName="Types"
+					  Source="View/Tabs/MetricsTypeDataGridView.xaml" />
+			<mui:Link DisplayName="Members"
+					  Source="View/Tabs/MetricsMemberDataGridView.xaml" />
+			<mui:Link DisplayName="Charts"
+					  Source="View/Tabs/MetricsChart.xaml" />
+		</mui:ModernTab.Links>
+	</mui:ModernTab>
 </UserControl>

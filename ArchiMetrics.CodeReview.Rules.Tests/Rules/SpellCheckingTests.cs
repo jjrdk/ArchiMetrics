@@ -38,7 +38,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[SetUp]
 			public void Setup()
 			{
-				_rule = new MethodNameSpellingRule(new SpellChecker(), new ExemptWords());
+				_rule = new MethodNameSpellingRule(new SpellChecker(new ExemptPatterns()));
 			}
 
 			[TestCase("SomMethod")]
@@ -63,7 +63,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[SetUp]
 			public void Setup()
 			{
-				_rule = new MultiLineCommentLanguageRule(new SpellChecker(), new ExemptWords());
+				_rule = new MultiLineCommentLanguageRule(new SpellChecker(new ExemptPatterns()));
 			}
 
 			[TestCase("ASP.NET MVC is a .NET acronym.")]
@@ -135,7 +135,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[SetUp]
 			public void Setup()
 			{
-				_rule = new SingleLineCommentLanguageRule(new SpellChecker(), new ExemptWords());
+				_rule = new SingleLineCommentLanguageRule(new SpellChecker(new ExemptPatterns()));
 			}
 
 			[TestCase("Dette er ikke en engelsk kommentar.")]
@@ -166,8 +166,8 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[SetUp]
 			public void Setup()
 			{
-				var spellChecker = new SpellChecker();
-				_reviewer = new NodeReviewer(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker, new ExemptWords()), new MultiLineCommentLanguageRule(spellChecker, new ExemptWords()) });
+				var spellChecker = new SpellChecker(new ExemptPatterns());
+				_reviewer = new NodeReviewer(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]
@@ -183,13 +183,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
    comment));
 				var root = method.GetRoot();
 
-				var task = await _reviewer.Inspect(string.Empty, root, null, null);
+				var task = await _reviewer.Inspect(string.Empty, string.Empty, root, null, null);
 				
 				Assert.IsNotEmpty(task);
 			}
 		}
 
-		private class ExemptWords : IKnownPatterns
+		private class ExemptPatterns : IKnownPatterns
 		{
 			public bool IsExempt(string word)
 			{
@@ -200,6 +200,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 			}
 
+			public void Remove(string pattern)
+			{
+			}
+
 			public void Clear()
 			{
 			}
@@ -207,10 +211,12 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		private class SpellChecker : ISpellChecker
 		{
+			private readonly IKnownPatterns _knownPatterns;
 			private readonly Hunspell _speller;
 
-			public SpellChecker()
+			public SpellChecker(IKnownPatterns knownPatterns)
 			{
+				_knownPatterns = knownPatterns;
 				using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
 				{
 					var affStream = new MemoryStream();
@@ -228,7 +234,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 			public bool Spell(string word)
 			{
-				return _speller.Spell(word);
+				return _knownPatterns.IsExempt(word) || _speller.Spell(word);
 			}
 
 			public void Dispose()

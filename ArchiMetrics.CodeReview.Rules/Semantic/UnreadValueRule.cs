@@ -42,7 +42,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var references = GetSymbols(node, semanticModel)
-				.SelectMany(x => SymbolExtensions.FindReferences(x, solution, CancellationToken.None))
+				.SelectMany(x => x.FindReferences(solution, CancellationToken.None))
 				.SelectMany(x => x.Locations)
 				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))
 				.Select(x => x.Parent)

@@ -33,7 +33,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			var tree = SyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
 
-			var task = inspector.Inspect(string.Empty, tree.GetRoot(), null, null);
+			var task = inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 			return task;
 		}
 

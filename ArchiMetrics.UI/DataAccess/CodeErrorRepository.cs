@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.UI.DataAccess
 {
-	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.ComponentModel;
@@ -22,15 +21,13 @@ namespace ArchiMetrics.UI.DataAccess
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	public class CodeErrorRepository : ICodeErrorRepository
+	public class CodeErrorRepository : ICodeErrorRepository, IResetable
 	{
 		private readonly IAvailableRules _availableRules;
 		private readonly IAppContext _config;
-		private readonly ConcurrentDictionary<string, Task<EvaluationResult[]>> _edgeItems;
+		private readonly ConcurrentDictionary<string, Task<EvaluationResult[]>> _evaluations;
 		private readonly INodeInspector _inspector;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
@@ -40,7 +37,7 @@ namespace ArchiMetrics.UI.DataAccess
 			INodeInspector inspector,
 			IAvailableRules availableRules)
 		{
-			_edgeItems = new ConcurrentDictionary<string, Task<EvaluationResult[]>>();
+			_evaluations = new ConcurrentDictionary<string, Task<EvaluationResult[]>>();
 			_config = config;
 			_solutionProvider = solutionProvider;
 			_inspector = inspector;
@@ -54,14 +51,19 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public async Task<IEnumerable<EvaluationResult>> GetErrors(string source, CancellationToken cancellationToken = default(CancellationToken))
+		public void Reset()
 		{
-			if (string.IsNullOrWhiteSpace(source))
+			_evaluations.Clear();
+		}
+
+		public async Task<IEnumerable<EvaluationResult>> GetErrors(string solutionFile, CancellationToken cancellationToken = default(CancellationToken))
+		{
+			if (string.IsNullOrWhiteSpace(solutionFile))
 			{
 				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			var results = await _edgeItems.GetOrAdd(source, LoadEvaluationResults);
+			var results = await _evaluations.GetOrAdd(solutionFile, LoadEvaluationResults);
 
 			var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
 			return cancellationToken.IsCancellationRequested
@@ -72,14 +74,13 @@ namespace ArchiMetrics.UI.DataAccess
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
 			{
-				_edgeItems.Clear();
+				_evaluations.Clear();
 				_config.PropertyChanged -= ConfigPropertyChanged;
 			}
 		}

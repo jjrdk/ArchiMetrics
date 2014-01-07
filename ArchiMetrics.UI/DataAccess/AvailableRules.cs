@@ -124,13 +124,10 @@ namespace ArchiMetrics.UI.DataAccess
 					return _isAvailable;
 				}
 
-				set
+				private set
 				{
-					if (_isAvailable != value)
-					{
-						_isAvailable = value;
-						OnPropertyChanged();
-					}
+					_isAvailable = value;
+					OnPropertyChanged();
 				}
 			}
 

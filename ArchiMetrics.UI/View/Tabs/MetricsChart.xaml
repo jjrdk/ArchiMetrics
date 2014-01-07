@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ArchiMetrics.UI.View.Tabs.MetricsChart"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
+			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 mc:Ignorable="d"
+			 d:DesignHeight="300"
+			 d:DesignWidth="300"
+			 d:DataContext="{d:DesignInstance Type=viewModel:MetricsChartViewModel}">
+	<ScrollViewer VerticalAlignment="Stretch"
+				  HorizontalAlignment="Stretch">
+		<metroChart:StackedColumnChart ChartTitle="Metrics"
+									   ChartSubTitle="Percent of code in group"
+									   VerticalAlignment="Stretch"
+									   HorizontalAlignment="Stretch"
+									   ChartLegendVisibility="Collapsed">
+			<metroChart:StackedColumnChart.Series>
+				<metroChart:ChartSeries ValueMember="Value"
+										VerticalAlignment="Stretch"
+										HorizontalAlignment="Stretch"
+										SeriesTitle="Maintainability"
+										DisplayMember="Key"
+										ItemsSource="{Binding Path=MetricsByMaintainability}" />
+				<metroChart:ChartSeries ValueMember="Value"
+										VerticalAlignment="Stretch"
+										HorizontalAlignment="Stretch"
+										SeriesTitle="Complexity"
+										DisplayMember="Key"
+										ItemsSource="{Binding Path=MetricsByComplexity}" />
+				<metroChart:ChartSeries ValueMember="Value"
+										VerticalAlignment="Stretch"
+										HorizontalAlignment="Stretch"
+										SeriesTitle="LinesOfCode"
+										DisplayMember="Key"
+										ItemsSource="{Binding Path=MetricsByLinesOfCode}" />
+			</metroChart:StackedColumnChart.Series>
+		</metroChart:StackedColumnChart>
+	</ScrollViewer>
+</UserControl>

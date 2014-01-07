@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArchiMetrics.UI</RootNamespace>
-    <AssemblyName>ArchiMetrics.UI</AssemblyName>
+    <AssemblyName>ArchiMetrics</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,6 +54,9 @@
   <PropertyGroup>
     <ApplicationIcon>archicop.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ArchiMetrics.UI.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -76,6 +79,9 @@
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHunspell">
       <HintPath>..\packages\NHunspell.1.1.1\lib\net\NHunspell.dll</HintPath>
@@ -123,11 +129,11 @@
     </Reference>
     <Reference Include="System.Reactive.Windows.Threading, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-XAML.2.2.2\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <HintPath>..\packages\Rx-Xaml.2.2.2\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -149,47 +155,57 @@
     <Compile Include="Converters\CircularToBrushConverter.cs" />
     <Compile Include="Converters\LinesOfCodeToThicknessConverter.cs" />
     <Compile Include="Converters\QualityToBrushConverter.cs" />
-    <Compile Include="DataAccess\AggregateEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\AvailableRules.cs" />
-    <Compile Include="DataAccess\CodeEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\CodeErrorRepository.cs" />
     <Compile Include="DataAccess\DocumentComparer.cs" />
-    <Compile Include="DataAccess\EdgeTransformer.cs" />
     <Compile Include="DataAccess\IAvailability.cs" />
     <Compile Include="DataAccess\IAvailableRules.cs" />
     <Compile Include="DataAccess\MetricsRepository.cs" />
     <Compile Include="DataAccess\RepositoryBase.cs" />
-    <Compile Include="DataAccess\NamespaceEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\NamespaceReference.cs" />
-    <Compile Include="DataAccess\ProjectEdgeItemsRepository.cs" />
     <Compile Include="DataAccess\ProjectReference.cs" />
     <Compile Include="DataAccess\AppContext.cs" />
-    <Compile Include="DataAccess\SolutionProvider.cs" />
     <Compile Include="DataAccess\VertexTransformProvider.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Schedulers.cs" />
+    <Compile Include="Support\AggregateDisposable.cs" />
     <Compile Include="Support\DataContextAttribute.cs" />
-    <Compile Include="Support\DefaultCollectionCopier.cs" />
     <Compile Include="KnownPatterns.cs" />
     <Compile Include="Support\DelegateCommand.cs" />
+    <Compile Include="Support\EventAggregator.cs" />
+    <Compile Include="Support\InstalledPackages.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InstalledPackages.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Support\Messages\CodeReviewResetMessage.cs" />
+    <Compile Include="Support\Messages\IMessage.cs" />
+    <Compile Include="Support\ModelEdge.cs" />
     <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />
-    <Compile Include="ViewModel\CircularReferenceViewModel.cs" />
+    <Compile Include="Support\NestedVertexModel.cs" />
+    <Compile Include="Support\ObservableProxyCollection.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\CodeReviewViewModel.cs" />
-    <Compile Include="ViewModel\EdgesViewModel.cs" />
-    <Compile Include="ViewModel\EdgesViewModelBase.cs" />
+    <Compile Include="ViewModel\StructureRulesViewModel.cs" />
+    <Compile Include="ViewModel\VertexViewModel.cs" />
+    <Compile Include="ViewModel\VertexViewModelBase.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
-    <Compile Include="ViewModel\MetricsViewModel.cs" />
-    <Compile Include="ViewModel\ProjectEdge.cs" />
-    <Compile Include="ViewModel\ProjectGraph.cs" />
+    <Compile Include="ViewModel\MetricsDataGridViewModel.cs" />
+    <Compile Include="ViewModel\MetricsChartViewModel.cs" />
+    <Compile Include="ViewModel\ModelGraph.cs" />
+    <Compile Include="ViewModel\ObservableModelNode.cs" />
     <Compile Include="ViewModel\ResultComparer.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TestErrorGraphViewModel.cs" />
-    <Compile Include="ViewModel\Vertex.cs" />
-    <Compile Include="View\CircularReferenceView.xaml.cs">
-      <DependentUpon>CircularReferenceView.xaml</DependentUpon>
+    <Compile Include="View\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CodeReviewView.xaml.cs">
       <DependentUpon>CodeReviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\DefineStructureRulesView.xaml.cs">
+      <DependentUpon>DefineStructureRulesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoadingControl.xaml.cs">
       <DependentUpon>LoadingControl.xaml</DependentUpon>
@@ -197,24 +213,60 @@
     <Compile Include="View\MetricsView.xaml.cs">
       <DependentUpon>MetricsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ModelLayout.cs" />
     <Compile Include="View\EdgesView.xaml.cs">
       <DependentUpon>EdgesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GraphView.xaml.cs">
-      <DependentUpon>GraphView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ProjectLayout.cs" />
     <Compile Include="View\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Tabs\ErrorChartView.xaml.cs">
-      <DependentUpon>ErrorChartView.xaml</DependentUpon>
+    <Compile Include="View\Tabs\CodeErrorGraphView.xaml.cs">
+      <DependentUpon>CodeErrorGraphView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tabs\CodeReviewDataGridView.xaml.cs">
       <DependentUpon>CodeReviewDataGridView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Tabs\EdgeTransformationView.xaml.cs">
+      <DependentUpon>EdgeTransformationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\ErrorNamespaceChart.xaml.cs">
+      <DependentUpon>ErrorNamespaceChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\ErrorQualityAttributeChart.xaml.cs">
+      <DependentUpon>ErrorQualityAttributeChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\EdgesGraphView.xaml.cs">
+      <DependentUpon>EdgesGraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\MetricsMemberDataGridView.xaml.cs">
+      <DependentUpon>MetricsMemberDataGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\MetricsChart.xaml.cs">
+      <DependentUpon>MetricsChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\MetricsTypeDataGridView.xaml.cs">
+      <DependentUpon>MetricsTypeDataGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\ModelTransformationView.xaml.cs">
+      <DependentUpon>ModelTransformationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\ModelValidationResultView.xaml.cs">
+      <DependentUpon>ModelValidationResultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\SettingsBasic.xaml.cs">
+      <DependentUpon>SettingsBasic.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\SettingsRules.xaml.cs">
+      <DependentUpon>SettingsRules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\SettingsSpelling.xaml.cs">
+      <DependentUpon>SettingsSpelling.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TestErrorGraphView.xaml.cs">
       <DependentUpon>TestErrorGraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ValidateStructureView.xaml.cs">
+      <DependentUpon>ValidateStructureView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -226,16 +278,19 @@
     </Compile>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <None Include="..\Libraries\Dictionaries\dict-en.oxt">
+    <EmbeddedResource Include="..\Libraries\Dictionaries\dict-en.oxt">
       <Link>Dictionaries\dict-en.oxt</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="Settings.StyleCop" />
+    <None Include="Support\InstalledPackages.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InstalledPackages.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">
@@ -250,11 +305,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CircularReferenceView.xaml">
+    <Page Include="Templates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CodeReviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\DefineStructureRulesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -270,15 +333,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GraphView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Tabs\ErrorChartView.xaml">
+    <Page Include="View\Tabs\CodeErrorGraphView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -286,7 +345,59 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Tabs\EdgeTransformationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\ErrorNamespaceChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\ErrorQualityAttributeChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\EdgesGraphView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tabs\MetricsChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\MetricsMemberDataGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tabs\MetricsTypeDataGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\ModelTransformationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\ModelValidationResultView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tabs\SettingsBasic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\SettingsRules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\SettingsSpelling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TestErrorGraphView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ValidateStructureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,8 +419,27 @@
   <ItemGroup>
     <Resource Include="archicop.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\NHunspell.1.1.1\native\Hunspellx64.dll">
+      <Link>Native\Hunspellx64.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\NHunspell.1.1.1\native\Hunspellx86.dll">
+      <Link>Native\Hunspellx86.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Target Name="AfterResolveReferences">
+    <ItemGroup>
+      <EmbeddedResource Include="@(ReferencePath)" Condition="'%(ReferencePath.Extension)' == '.dll'">
+        <LogicalName>%(ReferencePath.DestinationSubDirectory)%(ReferencePath.Filename)%(ReferencePath.Extension)</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(SolutionDir)packages\NHunspell.1.1.1\native\*.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>

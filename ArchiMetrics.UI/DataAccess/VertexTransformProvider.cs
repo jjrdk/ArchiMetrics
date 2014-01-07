@@ -16,18 +16,16 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using System.IO;
-	using System.Xml.Serialization;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
+	using Newtonsoft.Json;
 
-	internal class VertexTransformProvider : IProvider<string, ObservableCollection<VertexTransform>>
+	internal class VertexTransformProvider : IProvider<string, ObservableCollection<TransformRule>>
 	{
-		private readonly ConcurrentDictionary<string, ObservableCollection<VertexTransform>> _knownRules = new ConcurrentDictionary<string, ObservableCollection<VertexTransform>>();
-		private readonly XmlSerializer _serializer;
+		private readonly ConcurrentDictionary<string, ObservableCollection<TransformRule>> _knownRules = new ConcurrentDictionary<string, ObservableCollection<TransformRule>>();
 
 		public VertexTransformProvider()
 		{
-			_serializer = new XmlSerializer(typeof(List<VertexTransform>));
 		}
 
 		/// <summary>
@@ -38,29 +36,29 @@ namespace ArchiMetrics.UI.DataAccess
 			_knownRules.Clear();
 		}
 
-		public ObservableCollection<VertexTransform> Get(string key)
+		public ObservableCollection<TransformRule> Get(string key)
 		{
 			return _knownRules.GetOrAdd(key, LoadRules);
 		}
 
-		public IEnumerable<ObservableCollection<VertexTransform>> GetAll(string key)
+		public IEnumerable<ObservableCollection<TransformRule>> GetAll(string key)
 		{
 			return new[] { Get(key) };
 		}
 
-		private ObservableCollection<VertexTransform> LoadRules(string filePath)
+		private ObservableCollection<TransformRule> LoadRules(string filePath)
 		{
 			if (File.Exists(filePath))
 			{
 				using (var stream = File.OpenRead(filePath))
+				using (var reader = new StreamReader(stream))
 				{
-					var deserialized = _serializer.Deserialize(stream);
-					var rules = (List<VertexTransform>)deserialized;
-					return new ObservableCollection<VertexTransform>(rules);
+					var rules = JsonConvert.DeserializeObject<List<TransformRule>>(reader.ReadToEnd());
+					return new ObservableCollection<TransformRule>(rules);
 				}
 			}
 
-			return new ObservableCollection<VertexTransform> { new VertexTransform { Name = "DotNet", Pattern = @"(mscorlib|System)(\..+)?" } };
+			return new ObservableCollection<TransformRule> { new TransformRule { Name = "DotNet", Pattern = @"^(mscorlib|System)(\..+)?" } };
 		}
 	}
 }

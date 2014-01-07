@@ -15,12 +15,17 @@ namespace ArchiMetrics.UI.ViewModel
 	using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Reactive.Linq;
 	using System.Threading;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
+	using Common;
+	using Support;
+	using Support.Messages;
 
-	public sealed class CodeReviewViewModel : ViewModelBase
+	internal sealed class CodeReviewViewModel : ViewModelBase
 	{
+		private readonly IDisposable _subscription;
 		private readonly IAppContext _config;
 		private readonly ICodeErrorRepository _repository;
 		private int _brokenCode;
@@ -29,9 +34,10 @@ namespace ArchiMetrics.UI.ViewModel
 		private int _filesWithErrors;
 		private CancellationTokenSource _tokenSource;
 
-		public CodeReviewViewModel(ICodeErrorRepository repository, IAppContext config)
+		public CodeReviewViewModel(ICodeErrorRepository repository, IAppContext config, IObservable<IMessage> eventAggregator)
 			: base(config)
 		{
+			_subscription = eventAggregator.OfType<CodeReviewResetMessage>().Subscribe(x => Update(true));
 			_repository = repository;
 			_config = config;
 			IsLoading = true;
@@ -164,6 +170,18 @@ namespace ArchiMetrics.UI.ViewModel
 				CodeErrors = newErrors;
 				ErrorsShown = newErrors.Count;
 			}
+		}
+
+		protected override void Dispose(bool isDisposing)
+		{
+			if (isDisposing)
+			{
+				_codeErrors.Clear();
+				_tokenSource.DisposeNotNull();
+				_subscription.Dispose();
+			}
+
+			base.Dispose(isDisposing);
 		}
 	}
 }

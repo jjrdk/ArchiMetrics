@@ -33,12 +33,5 @@ namespace ArchiMetrics.Analysis
 			var text = File.ReadAllText(filepath);
 			return ConvertSnippet(text);
 		}
-
-		private string GetNodeName(string propertyName, XElement currentXamlNode)
-		{
-			return string.IsNullOrWhiteSpace(propertyName) 
-				? currentXamlNode.Name.LocalName 
-				: propertyName;
-		}
 	}
 }

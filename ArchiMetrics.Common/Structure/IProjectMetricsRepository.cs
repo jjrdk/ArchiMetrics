@@ -12,11 +12,13 @@
 
 namespace ArchiMetrics.Common.Structure
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.Metrics;
 
-	public interface IProjectMetricsRepository
+	public interface IProjectMetricsRepository : IDisposable
 	{
-		Task<ProjectCodeMetrics> Get(string projectPath, string solutionPath);
+		Task<IEnumerable<IProjectMetric>> Get(string solutionPath);
 	}
 }

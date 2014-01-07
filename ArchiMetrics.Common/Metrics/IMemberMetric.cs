@@ -29,5 +29,7 @@ namespace ArchiMetrics.Common.Metrics
 		int NumberOfLocalVariables { get; }
 
 		double GetVolume();
+
+		IHalsteadMetrics GetHalsteadMetrics();
 	}
 }

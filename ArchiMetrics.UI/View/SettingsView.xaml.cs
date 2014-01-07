@@ -12,9 +12,6 @@
 
 namespace ArchiMetrics.UI.View
 {
-	using System.Windows;
-	using System.Windows.Controls;
-	using System.Windows.Forms;
 	using ArchiMetrics.UI.Support;
 	using ArchiMetrics.UI.ViewModel;
 	using UserControl = System.Windows.Controls.UserControl;
@@ -28,19 +25,6 @@ namespace ArchiMetrics.UI.View
 		public SettingsView()
 		{
 			InitializeComponent();
-		}
-
-		private void OnClick(object sender, RoutedEventArgs e)
-		{
-			using (var fileDialog = new OpenFileDialog())
-			{
-				fileDialog.Multiselect = false;
-				fileDialog.Filter = "Solution Files (*.sln)|*.sln|All Files (*.*)|*.*";
-				if (fileDialog.ShowDialog() == DialogResult.OK)
-				{
-					PathBox.SetValue(TextBlock.TextProperty, fileDialog.FileName);
-				}
-			}
 		}
 	}
 }

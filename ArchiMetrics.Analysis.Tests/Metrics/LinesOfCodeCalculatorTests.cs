@@ -118,7 +118,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				public class TestClass {{
 					{0}
 				}}
-			}}", 
+			}}",
 			   code);
 
 				var syntaxTree = SyntaxTree.ParseText(text);

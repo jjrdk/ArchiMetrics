@@ -17,6 +17,8 @@ namespace ArchiMetrics.Common.CodeReview
 	[Serializable]
 	public class EvaluationResult
 	{
+		public string ProjectName { get; set; }
+
 		public string ProjectPath { get; set; }
 
 		public string Namespace { get; set; }

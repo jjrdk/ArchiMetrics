@@ -3,108 +3,21 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
-			 xmlns:dataAccess="clr-namespace:ArchiMetrics.UI.DataAccess"
+			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:SettingsViewModel}">
-	<UserControl.Resources>
-		<ObjectDataProvider MethodName="GetValues"
-							ObjectType="{x:Type sys:Enum}"
-							x:Key="EdgeSourceValues">
-			<ObjectDataProvider.MethodParameters>
-				<x:Type TypeName="structure:EdgeSource" />
-			</ObjectDataProvider.MethodParameters>
-		</ObjectDataProvider>
-		<Style TargetType="Label">
-			<Setter Property="Margin"
-					Value="0,3" />
-		</Style>
-	</UserControl.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<Label Content="Setting" />
-		<Label Grid.Row="0"
-			   Grid.Column="1"
-			   Content="Value" />
-		<Label Grid.Row="1"
-			   Grid.Column="0"
-			   VerticalAlignment="Center"
-			   Content="_Path:"
-			   Target="{Binding ElementName=PathBox}" />
-		<Grid Grid.Row="1"
-			  Grid.Column="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<TextBlock x:Name="PathBox"
-					   Grid.Column="0"
-					   Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-			<Button Grid.Column="1"
-					Content="Set Path"
-					Click="OnClick"
-					Height="25"
-					Margin="5,0" />
-		</Grid>
-		<Label Grid.Row="2"
-			   Grid.Column="0"
-			   VerticalAlignment="Center"
-			   Content="Include _Code Review:"
-			   Target="{Binding ElementName=CodeReviewCheck}" />
-		<CheckBox x:Name="CodeReviewCheck"
-				  Grid.Row="2"
-				  Grid.Column="1"
-				  IsThreeState="False"
-				  Margin="5,0"
-				  IsChecked="{Binding Path=IncludeCodeReview, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-		<Label Grid.Row="3"
-			   Grid.Column="0"
-			   VerticalAlignment="Center"
-			   Content="_Edge Source:"
-			   Target="{Binding ElementName=EdgeSource}" />
-		<ComboBox x:Name="EdgeSource"
-				  Grid.Row="3"
-				  Grid.Column="1"
-				  SelectedIndex="0"
-				  Height="25"
-				  Margin="5,0"
-				  ItemsSource="{Binding Source={StaticResource EdgeSourceValues}}"
-				  SelectedValue="{Binding Path=Source, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-		<Label Content="Reviewed Rules"
-			   Grid.Row="4"
-			   Grid.Column="0" />
-		<ListBox Grid.Row="4"
-				 Grid.Column="1"
-				 Margin="5,0"
-				 SelectionMode="Extended"
-				 ScrollViewer.PanningMode="VerticalOnly"
-				 ScrollViewer.VerticalScrollBarVisibility="Auto"
-				 ItemsSource="{Binding Path=AvailableRules.Availabilities}"
-				 MaxHeight="500">
-			<ListBox.ItemTemplate>
-				<DataTemplate DataType="dataAccess:IAvailability">
-					<StackPanel Orientation="Horizontal"
-								Margin="2">
-						<CheckBox IsThreeState="False"
-								  IsChecked="{Binding Path=IsAvailable, Mode=TwoWay}" />
-						<TextBlock Text="{Binding}" />
-					</StackPanel>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
-	</Grid>
+	<mui:ModernTab SelectedSource="/View/Tabs/SettingsBasic.xaml"
+				   ContentLoader="{DynamicResource Loader}">
+		<mui:ModernTab.Links>
+			<mui:Link Source="/View/Tabs/SettingsBasic.xaml"
+					  DisplayName="General" />
+			<mui:Link Source="/View/Tabs/SettingsRules.xaml"
+					  DisplayName="Rules" />
+			<mui:Link Source="/View/Tabs/SettingsSpelling.xaml"
+					  DisplayName="Spelling" />
+		</mui:ModernTab.Links>
+	</mui:ModernTab>
 </UserControl>

@@ -19,10 +19,10 @@ namespace ArchiMetrics.Common.Structure
 	{
 		string Path { get; set; }
 
-		EdgeSource Source { get; set; }
-
 		bool IncludeCodeReview { get; set; }
 
 		string RulesSource { get; set; }
+
+		int MaxNamespaceDepth { get; set; }
 	}
 }

@@ -5,81 +5,18 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
-			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
-			 d:DataContext="{d:DesignInstance Type=viewModel:EdgesViewModel}"
+			 d:DataContext="{d:DesignInstance Type=viewModel:VertexViewModel}"
 			 mui:ModernFrame.KeepAlive="True">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<DataGrid Grid.Column="0"
-				  AutoGenerateColumns="False"
-				  EnableColumnVirtualization="False"
-				  EnableRowVirtualization="True"
-				  ItemsSource="{Binding Path=DependencyItems}">
-			<DataGrid.Columns>
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:MetricsEdgeItem}"
-									Header="Dependant"
-									Binding="{Binding Path=Dependant}" />
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:MetricsEdgeItem}"
-									Header="Dependency"
-									Binding="{Binding Path=Dependency}" />
-			</DataGrid.Columns>
-		</DataGrid>
-		<DataGrid Grid.Column="1"
-				  AutoGenerateColumns="False"
-				  ItemsSource="{Binding Path=VertexTransforms}"
-				  CanUserAddRows="True"
-				  CanUserReorderColumns="False"
-				  CanUserDeleteRows="True"
-				  CanUserSortColumns="False">
-			<DataGrid.Columns>
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:VertexTransform}"
-									Header="Pattern"
-									Binding="{Binding Path=Pattern, Mode=TwoWay}" />
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:VertexTransform}"
-									Header="Name"
-									Binding="{Binding Path=Name, Mode=TwoWay}" />
-			</DataGrid.Columns>
-		</DataGrid>
-		<view:LoadingControl Grid.ColumnSpan="2"
-							 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}, Mode=OneWay}" />
-		<Grid Grid.Row="1"
-			  Grid.ColumnSpan="2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<TextBlock x:Name="PathBox"
-					   Grid.Column="0"
-					   Text="{Binding Path=VertexRules, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-			<Button Grid.Column="1"
-					Content="Load Rules"
-					Height="25"
-					Margin="5,0"
-					Click="OnClick" />
-			<Button Grid.Column="2"
-					Content="Save Rules"
-					Height="25"
-					Margin="5,0"
-					Click="OnSave" />
-			<Button Grid.Column="3"
-					HorizontalAlignment="Right"
-					Content="Update"
-					Height="25"
-					Margin="5,0"
-					Command="{Binding Path=UpdateList}" />
-		</Grid>
-	</Grid>
+	<mui:ModernTab SelectedSource="View/Tabs/EdgeTransformationView.xaml"
+				   ContentLoader="{DynamicResource Loader}">
+		<mui:ModernTab.Links>
+			<mui:Link DisplayName="Tranform"
+					  Source="View/Tabs/EdgeTransformationView.xaml" />
+			<mui:Link DisplayName="Graph"
+					  Source="View/Tabs/EdgesGraphView.xaml" />
+		</mui:ModernTab.Links>
+	</mui:ModernTab>
 </UserControl>

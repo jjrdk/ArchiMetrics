@@ -12,39 +12,16 @@
 
 namespace ArchiMetrics.UI.View
 {
-	using System.IO;
-	using System.Windows;
 	using System.Windows.Controls;
-	using System.Windows.Input;
-	using ArchiMetrics.UI.Support;
-	using ArchiMetrics.UI.ViewModel;
-	using forms = System.Windows.Forms;
 
 	/// <summary>
 	/// Interaction logic for MetricsView.xaml.
 	/// </summary>
-	[DataContext(typeof(MetricsViewModel))]
 	public partial class MetricsView : UserControl
 	{
 		public MetricsView()
 		{
 			InitializeComponent();
-		}
-
-		private async void OnPrintReport(object sender, RoutedEventArgs e)
-		{
-			var saveDialog = new forms.SaveFileDialog();
-			if (saveDialog.ShowDialog() == forms.DialogResult.OK)
-			{
-				MetricsGrid.SelectAllCells();
-				ApplicationCommands.Copy.Execute(null, MetricsGrid);
-				MetricsGrid.UnselectAllCells();
-				var data = (string)Clipboard.GetData(DataFormats.Html);
-				Clipboard.Clear();
-				var writer = new StreamWriter(saveDialog.FileName);
-				await writer.WriteAsync(data);
-				writer.Close();
-			}
 		}
 	}
 }

@@ -14,11 +14,9 @@ namespace ArchiMetrics.Analysis
 {
 	using System;
 	using System.Collections.Generic;
-	using System.IO;
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using System.Threading.Tasks;
-	using System.Xml.Linq;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
@@ -34,12 +32,10 @@ namespace ArchiMetrics.Analysis
 														   new Regex(@".*\.designer\.cs$", RegexOptions.Compiled)
 													   };
 
-		private readonly XamlConverter _converter;
 		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
 		public CodeMetricsCalculator()
 		{
-			_converter = new XamlConverter();
 			IgnoreGeneratedCode = true;
 		}
 
@@ -47,9 +43,7 @@ namespace ArchiMetrics.Analysis
 
 		public virtual Task<IEnumerable<INamespaceMetric>> Calculate(IProject project)
 		{
-			var calcProject = project.HasDocuments
-								  ? project
-								  : GetDocuments(project);
+			var calcProject = project.WithDocuments();
 			var compilation = calcProject.GetCompilation();
 			var namespaceDeclarations = GetNamespaceDeclarations(calcProject, IgnoreGeneratedCode);
 			return CalculateNamespaceMetrics(namespaceDeclarations, compilation);
@@ -109,17 +103,18 @@ namespace ArchiMetrics.Analysis
 		private static async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation)
 		{
 			var metrics = namespaceDeclarations.Select(
-				arg =>
-				{
-					var tuple = CalculateTypeMetrics(compilation, arg);
-					return new
-						   {
-							   NamespaceDeclaration = arg,
-							   Compilation = tuple.Item1,
-							   Metrics = tuple.Item2
-						   };
-				})
-				.Select(b => CalculateNamespaceMetrics(b.Compilation, b.NamespaceDeclaration, b.Metrics));
+												   arg =>
+												   {
+													   var tuple = CalculateTypeMetrics(compilation, arg);
+													   return new
+													   {
+														   NamespaceDeclaration = arg,
+														   Compilation = tuple.Item1,
+														   Metrics = tuple.Item2.ToArray()
+													   };
+												   })
+											   .Select(b => CalculateNamespaceMetrics(b.Compilation, b.NamespaceDeclaration, b.Metrics))
+											   .ToArray();
 			return await Task.WhenAll(metrics);
 		}
 
@@ -173,9 +168,15 @@ namespace ArchiMetrics.Analysis
 				.Select(@t =>
 				{
 					var tuple = CalculateTypeMetrics(t.comp, t.typeNodes, t.memberMetrics);
+					if (tuple == null)
+					{
+						return null;
+					}
+
 					comp = tuple.Item1;
 					return tuple.Item2;
 				})
+				.Where(x => x != null)
 				.ToArray();
 
 			return new Tuple<CommonCompilation, IEnumerable<ITypeMetric>>(comp, typeMetrics);
@@ -296,38 +297,6 @@ namespace ArchiMetrics.Analysis
 				.SelectMany(x => collector.GetTypes(x.info.Syntax).Select(x.selector))
 				.GroupBy(x => x.Name)
 				.Select(x => new TypeDeclaration { Name = x.Key, SyntaxNodes = x });
-		}
-
-		private IProject GetDocuments(IProject project)
-		{
-			var doc = XDocument.Load(project.FilePath);
-			var defaultNs = doc.Root.GetDefaultNamespace();
-			var compiles = doc.Descendants(defaultNs + "Compile");
-			var dependents = doc.Descendants(defaultNs + "DependentUpon");
-			project =
-				compiles
-					.Select(x => x.Attribute("Include").Value)
-					.Concat(dependents.Select(x => x.Value).Where(x => !x.ToLowerInvariant().EndsWith(".xaml")))
-					.OrderByDescending(x => x)
-					.Aggregate(
-						project,
-						(p, s) =>
-						{
-							DocumentId did;
-							var root = Path.GetDirectoryName(project.FilePath);
-							if (root == null)
-							{
-								return p;
-							}
-
-							var filepath = Path.Combine(root, s);
-							var sourceCode = s.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)
-								? _converter.Convert(filepath)
-								: SyntaxTree.ParseFile(filepath);
-							return p.AddDocument(s, sourceCode.GetText(), out did);
-						});
-
-			return project;
 		}
 	}
 }

@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System;
 	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.CSharp;
 

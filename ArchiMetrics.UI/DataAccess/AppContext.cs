@@ -21,12 +21,12 @@ namespace ArchiMetrics.UI.DataAccess
 
 	public class AppContext : IAppContext
 	{
-		private readonly IAvailableRules _availableRules;
 		private readonly IDisposable _subscription;
+		private readonly IAvailableRules _availableRules;
 		private bool _includeCodeReview;
 		private string _path;
 		private string _rulesSource;
-		private EdgeSource _source;
+		private int _maxNamespaceDepth = 2;
 
 		public AppContext(IAvailableRules availableRules)
 		{
@@ -100,18 +100,18 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		public EdgeSource Source
+		public int MaxNamespaceDepth
 		{
 			get
 			{
-				return _source;
+				return _maxNamespaceDepth;
 			}
 
 			set
 			{
-				if (_source != value)
+				if (!_maxNamespaceDepth.Equals(value))
 				{
-					_source = value;
+					_maxNamespaceDepth = value;
 					OnPropertyChanged();
 				}
 			}

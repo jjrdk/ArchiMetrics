@@ -63,9 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeMetricsCalculator.cs" />
-    <Compile Include="DependencyAnalyzer.cs" />
-    <Compile Include="DependencyChain.cs" />
     <Compile Include="Metrics\ProjectMetric.cs" />
+    <Compile Include="Model\ModelEdgeItemFactory.cs" />
+    <Compile Include="Model\NodeMerger.cs" />
+    <Compile Include="Model\SolutionVertexRepository.cs" />
+    <Compile Include="Model\SyntaxTransformer.cs" />
+    <Compile Include="Model\TransformerBase.cs" />
+    <Compile Include="RoslynExtensions.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />
@@ -103,6 +107,15 @@
     <Compile Include="NodeReviewer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="Validation\BranchModelRule.cs" />
+    <Compile Include="Validation\BranchResult.cs" />
+    <Compile Include="Validation\IModelRule.cs" />
+    <Compile Include="Validation\IModelValidator.cs" />
+    <Compile Include="Validation\IValidationResult.cs" />
+    <Compile Include="Validation\KpiModelRule.cs" />
+    <Compile Include="Validation\KpiResult.cs" />
+    <Compile Include="Validation\ModelValidator.cs" />
+    <Compile Include="Validation\ValidationResultBase.cs" />
     <Compile Include="XamlCodeWriter.cs" />
     <Compile Include="XamlConverter.cs" />
   </ItemGroup>

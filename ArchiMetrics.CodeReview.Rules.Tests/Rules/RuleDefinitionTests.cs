@@ -47,7 +47,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			/// </returns>
 			public IEnumerator<Type> GetEnumerator()
 			{
-				return typeof(ReportUtils).Assembly
+				return typeof(AllRules).Assembly
 					.GetTypes()
 					.Where(t => typeof(IEvaluation).IsAssignableFrom(t))
 					.Where(t => !t.IsAbstract)

@@ -116,7 +116,10 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			Visit(syntax);
 			FilterType(syntax.ReturnType);
-			CollectMemberCouplings(syntax.Body);
+			if (syntax.Body != null)
+			{
+				CollectMemberCouplings(syntax.Body);
+			}
 		}
 
 		private void CalculatePropertyClassCoupling(PropertyDeclarationSyntax syntax, SyntaxKind kind)

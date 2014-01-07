@@ -19,13 +19,13 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal class TypeMetric : ITypeMetric
 	{
 		public TypeMetric(
-			TypeMetricKind kind, 
-			IEnumerable<IMemberMetric> memberMetrics, 
-			int linesOfCode, 
-			int cyclomaticComplexity, 
-			double maintainabilityIndex, 
-			int depthOfInheritance, 
-			IEnumerable<TypeCoupling> classCouplings, 
+			TypeMetricKind kind,
+			IEnumerable<IMemberMetric> memberMetrics,
+			int linesOfCode,
+			int cyclomaticComplexity,
+			double maintainabilityIndex,
+			int depthOfInheritance,
+			IEnumerable<TypeCoupling> classCouplings,
 			string name)
 		{
 			Kind = kind;

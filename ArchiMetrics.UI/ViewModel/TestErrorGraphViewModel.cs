@@ -19,7 +19,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
-	public class TestErrorGraphViewModel : ViewModelBase
+	internal class TestErrorGraphViewModel : ViewModelBase
 	{
 		private IList<KeyValuePair<int, int>> _errors;
 

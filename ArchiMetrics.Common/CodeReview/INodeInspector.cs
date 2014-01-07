@@ -22,6 +22,6 @@ namespace ArchiMetrics.Common.CodeReview
 	{
 		Task<IEnumerable<EvaluationResult>> Inspect(ISolution solution);
 		
-		Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution);
+		Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, ISemanticModel semanticModel, ISolution solution);
 	}
 }

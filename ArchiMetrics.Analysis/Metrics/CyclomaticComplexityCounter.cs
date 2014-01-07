@@ -89,6 +89,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				_counter++;
 			}
 
+			//// TODO: Calculate for tasks
 			////public override void VisitInvocationExpression(InvocationExpressionSyntax node)
 			////{
 			////	if (_semanticModel != null)
@@ -104,6 +105,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			////			}
 			////		}
 			////	}
+			////	base.VisitInvocationExpression(node);
+			////}
 
 			////	base.VisitInvocationExpression(node);
 			////}

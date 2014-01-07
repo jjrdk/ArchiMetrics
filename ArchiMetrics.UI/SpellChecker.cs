@@ -19,10 +19,12 @@ namespace ArchiMetrics.UI
 	internal class SpellChecker : ISpellChecker
 	{
 		private readonly Hunspell _speller;
+		private readonly IKnownPatterns _knownPatterns;
 
-		public SpellChecker(Hunspell speller)
+		public SpellChecker(Hunspell speller, IKnownPatterns knownPatterns)
 		{
 			_speller = speller;
+			_knownPatterns = knownPatterns;
 		}
 
 		~SpellChecker()
@@ -32,7 +34,7 @@ namespace ArchiMetrics.UI
 
 		public bool Spell(string word)
 		{
-			return _speller.Spell(word);
+			return _knownPatterns.IsExempt(word) || _speller.Spell(word);
 		}
 
 		public void Dispose()

@@ -26,7 +26,7 @@ namespace ArchiMetrics.UI.Converters
 			CultureInfo culture)
 		{
 			var linesOfCode = (int)value;
-			var length = Math.Log(linesOfCode) * 2;
+			var length = Math.Log(linesOfCode) * 25;
 			return new Thickness(Math.Max(1, length), 0, 0, 0);
 		}
 

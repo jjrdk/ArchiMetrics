@@ -27,7 +27,7 @@ namespace ArchiMetrics.Analysis
 
 		public SyntaxTree CreateSyntax(XamlNode node)
 		{
-			var properties = node.Properties.SelectMany(p => CreatePropertySyntax(p, Syntax.ThisExpression()));
+			var properties = node.Properties.SelectMany(p => CreatePropertySyntax(p));
 			var assignments = node.Properties.SelectMany(p => CreatePropertyAssignment(p, Syntax.ThisExpression()));
 
 			var codeRoot = properties.Concat(assignments).Concat(CreateSyntax(node.Children, Syntax.IdentifierName(node.VariableName)));
@@ -290,18 +290,18 @@ namespace ArchiMetrics.Analysis
 			}
 		}
 
-		private IEnumerable<StatementSyntax> CreatePropertySyntax(XamlPropertyNode property, ExpressionSyntax ownerSyntax)
+		private IEnumerable<StatementSyntax> CreatePropertySyntax(XamlPropertyNode property)
 		{
 			var node = property.Value as XamlNode;
 			if (node != null)
 			{
-				return GenerateChildStatement(node, p => CreatePropertySyntax(p, ownerSyntax));
+				return GenerateChildStatement(node, p => CreatePropertySyntax(p));
 			}
 
 			var nodes = property.Value as IEnumerable<XamlNode>;
 			if (nodes != null)
 			{
-				return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p, ownerSyntax)));
+				return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p)));
 			}
 
 			return Enumerable.Empty<StatementSyntax>();
@@ -309,7 +309,7 @@ namespace ArchiMetrics.Analysis
 
 		private IEnumerable<StatementSyntax> CreateSyntax(IEnumerable<XamlNode> nodes, ExpressionSyntax ownerSyntax)
 		{
-			return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p, ownerSyntax)))
+			return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p)))
 					 .Select(s => s.WithTrailingTrivia(Syntax.ElasticCarriageReturnLineFeed));
 		}
 	}

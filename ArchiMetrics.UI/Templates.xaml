@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:converters="clr-namespace:ArchiMetrics.UI.Converters"
+					xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
+					xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls">
+	<converters:QualityToBrushConverter x:Key="QualityConverter" />
+	<converters:CircularToBrushConverter x:Key="CircularConverter" />
+	<converters:LinesOfCodeToThicknessConverter x:Key="LoCConverter" />
+	<BooleanToVisibilityConverter x:Key="TrueVisibility" />
+	<Style x:Key="CenterTextStyle"
+		   TargetType="TextBlock">
+		<Setter Property="Foreground"
+				Value="White" />
+		<Setter Property="HorizontalAlignment"
+				Value="Center" />
+	</Style>
+	<DataTemplate x:Key="VertexTemplate"
+				  DataType="structure:IModelNode">
+		<Border BorderBrush="{Binding Path=Quality, Converter={StaticResource QualityConverter}}"
+				BorderThickness="{Binding Path=LinesOfCode, Converter={StaticResource LoCConverter}}"
+				Padding="0"
+				SnapsToDevicePixels="True">
+			<Border BorderBrush="DarkGray"
+					Background="DarkGray"
+					BorderThickness="0,1,1,1"
+					Padding="5"
+					SnapsToDevicePixels="True">
+				<Border.ToolTip>
+					<StackPanel Orientation="Vertical">
+						<TextBlock HorizontalAlignment="Center"
+								   Text="{Binding Path=Type, StringFormat='«{0}»'}" />
+						<TextBlock HorizontalAlignment="Center"
+								   Margin="0,0,0,5"
+								   Text="{Binding Path=DisplayName}" />
+						<TextBlock Text="{Binding Path=LinesOfCode, StringFormat='Lines of Code: {0}'}" />
+						<TextBlock Text="{Binding Path=MaintainabilityIndex, StringFormat='Maintainability Index: {0:n2}'}" />
+						<TextBlock Text="{Binding Path=CyclomaticComplexity, StringFormat='Cyclomatic Complexity: {0}'}" />
+					</StackPanel>
+				</Border.ToolTip>
+				<StackPanel Orientation="Vertical">
+					<TextBlock Style="{StaticResource CenterTextStyle}"
+							   Text="{Binding Path=Type, StringFormat='«{0}»'}" />
+					<TextBlock Style="{StaticResource CenterTextStyle}"
+							   Text="{Binding Path=DisplayName}" />
+				</StackPanel>
+			</Border>
+		</Border>
+	</DataTemplate>
+	<Style TargetType="{x:Type graphsharp:VertexControl}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type graphsharp:VertexControl}">
+					<ContentPresenter Content="{TemplateBinding Vertex}"
+									  ContentTemplate="{StaticResource VertexTemplate}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

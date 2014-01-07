@@ -22,7 +22,7 @@ namespace ArchiMetrics.UI.DataAccess
 
 		public string Name { get; set; }
 
-		public IEnumerable<KeyValuePair<string, string>> ProjectReferences { get; set; }
+		public IEnumerable<string> ProjectReferences { get; set; }
 
 		public IEnumerable<string> AssemblyReferences { get; set; }
 	}

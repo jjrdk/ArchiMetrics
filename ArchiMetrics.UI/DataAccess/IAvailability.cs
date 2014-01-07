@@ -15,5 +15,7 @@ namespace ArchiMetrics.UI.DataAccess
 	public interface IAvailability
 	{
 		bool IsAvailable { get; }
+
+		string Title { get; }
 	}
 }

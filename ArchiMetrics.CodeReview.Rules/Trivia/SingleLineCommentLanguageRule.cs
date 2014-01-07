@@ -17,8 +17,8 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 
 	internal class SingleLineCommentLanguageRule : CommentLanguageRuleBase
 	{
-		public SingleLineCommentLanguageRule(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
-			: base(spellChecker, knownPatterns)
+		public SingleLineCommentLanguageRule(ISpellChecker spellChecker)
+			: base(spellChecker)
 		{
 		}
 

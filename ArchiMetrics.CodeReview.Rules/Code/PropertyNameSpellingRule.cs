@@ -17,8 +17,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class PropertyNameSpellingRule : NameSpellingRuleBase
 	{
-		public PropertyNameSpellingRule(ISpellChecker speller, IKnownPatterns knownPatterns)
-			: base(speller, knownPatterns)
+		public PropertyNameSpellingRule(ISpellChecker speller)
+			: base(speller)
 		{
 		}
 
@@ -34,7 +34,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return "Property Name Spelling";
 			}
 		}
-		
+
 		public override string Suggestion
 		{
 			get
@@ -53,10 +53,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				return new EvaluationResult
 					   {
-						   Quality = CodeQuality.NeedsReview, 
-						   ImpactLevel = ImpactLevel.Node, 
-						   QualityAttribute = QualityAttribute.Conformance, 
-						   Snippet = propertyName, 
+						   Quality = CodeQuality.NeedsReview,
+						   ImpactLevel = ImpactLevel.Node,
+						   QualityAttribute = QualityAttribute.Conformance,
+						   Snippet = propertyName,
 						   ErrorCount = 1
 					   };
 			}

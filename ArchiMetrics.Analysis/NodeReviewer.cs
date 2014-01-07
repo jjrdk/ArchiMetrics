@@ -13,7 +13,6 @@
 namespace ArchiMetrics.Analysis
 {
 	using System;
-	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
@@ -43,7 +42,7 @@ namespace ArchiMetrics.Analysis
 								   let compilation = project.GetCompilationAsync()
 								   from doc in project.Documents.ToArray()
 								   let tree = doc.GetSyntaxTreeAsync()
-								   select GetInspections(project.FilePath, tree, compilation, solution))
+								   select GetInspections(project.FilePath, project.Name, tree, compilation, solution))
 						   .ToArray();
 
 			var results = await Task.WhenAll(inspectionTasks);
@@ -51,7 +50,7 @@ namespace ArchiMetrics.Analysis
 			return results.SelectMany(x => x).ToArray();
 		}
 
-		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
 
@@ -59,6 +58,7 @@ namespace ArchiMetrics.Analysis
 			var inspectionResults = inspectionTasks.ToArray();
 			foreach (var result in inspectionResults)
 			{
+				result.ProjectName = projectName;
 				result.ProjectPath = projectPath;
 			}
 
@@ -67,6 +67,7 @@ namespace ArchiMetrics.Analysis
 
 		private async Task<IEnumerable<EvaluationResult>> GetInspections(
 			string filePath,
+			string projectName,
 			Task<CommonSyntaxTree> treeTask,
 			Task<CommonCompilation> compilationTask,
 			ISolution solution)
@@ -79,7 +80,7 @@ namespace ArchiMetrics.Analysis
 			}
 
 			var compilation = await compilationTask;
-			return await Inspect(filePath, root, compilation.GetSemanticModel(tree), solution);
+			return await Inspect(filePath, projectName, root, compilation.GetSemanticModel(tree), solution);
 		}
 
 		private class InnerInspector : SyntaxVisitor<Task<IEnumerable<EvaluationResult>>>

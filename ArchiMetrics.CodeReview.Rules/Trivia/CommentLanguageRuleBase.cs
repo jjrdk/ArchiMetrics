@@ -22,13 +22,11 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		private static readonly Regex StrippedRegex = new Regex(@"[""'*©®º()!%\[\]{}/]+", RegexOptions.Compiled);
 		private static readonly Regex NumberRegex = new Regex("[1-9]+", RegexOptions.Compiled);
 		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
-		private readonly IKnownPatterns _knownPatterns;
 		private readonly ISpellChecker _spellChecker;
 
-		protected CommentLanguageRuleBase(ISpellChecker spellChecker, IKnownPatterns knownPatterns)
+		protected CommentLanguageRuleBase(ISpellChecker spellChecker)
 		{
 			_spellChecker = spellChecker;
-			_knownPatterns = knownPatterns;
 		}
 
 		public override string Title
@@ -77,10 +75,10 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			var commentWords = RemoveXml(trimmed)
 				.Split(' ')
 				.Select(RemoveXml)
-				.Select(s => s.TrimEnd('.', ','))
+				.Select(s => s.TrimEnd('.', ',', '_'))
 				.Where(IsNotNumber)
 				.ToArray();
-			var errorCount = commentWords.Aggregate(0, (i, s) => i + ((_knownPatterns.IsExempt(s) || _spellChecker.Spell(s)) ? 0 : 1));
+			var errorCount = commentWords.Aggregate(0, (i, s) => i + (_spellChecker.Spell(s) ? 0 : 1));
 			if (errorCount >= 0.50 * commentWords.Length)
 			{
 				return new EvaluationResult

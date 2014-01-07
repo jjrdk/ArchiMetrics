@@ -17,7 +17,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using System;
 	using System.ComponentModel;
 	using System.Diagnostics.CodeAnalysis;
-	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
 	using ArchiMetrics.Common.Structure;
@@ -27,7 +26,7 @@ namespace ArchiMetrics.UI.ViewModel
 	/// It provides support for property change notifications 
 	/// and has a DisplayName property.  This class is abstract.
 	/// </summary>
-	public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
+	internal abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
 	{
 		private readonly IAppContext _config;
 		private IDisposable _changeSubscription;
@@ -40,8 +39,8 @@ namespace ArchiMetrics.UI.ViewModel
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
 					h => _config.PropertyChanged += h, 
 					h => _config.PropertyChanged -= h)
-				.SubscribeOn(TaskPoolScheduler.Default)
-				.ObserveOn(TaskPoolScheduler.Default)
+				.SubscribeOn(Schedulers.Taskpool)
+				.ObserveOn(Schedulers.Taskpool)
 				.Subscribe(x => Update(true));
 		}
 
@@ -71,13 +70,6 @@ namespace ArchiMetrics.UI.ViewModel
 				}
 			}
 		}
-
-		/// <summary>
-		/// Returns the user-friendly name of this object.
-		/// Child classes can set this property to a new value,
-		/// or override it to determine the value on-demand.
-		/// </summary>
-		public string DisplayName { get; protected set; }
 
 		public void Dispose()
 		{
