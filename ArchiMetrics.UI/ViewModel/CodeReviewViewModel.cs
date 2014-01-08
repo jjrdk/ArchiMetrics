@@ -145,7 +145,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 				FilesWithErrors = results.GroupBy(x => x.FilePath).Select(x => x.Key).Count();
 				BrokenCode = (int)(results
-					.Where(x => x.Quality == CodeQuality.Broken || x.Quality == CodeQuality.Incompetent)
+					.Where(x => x.Quality == CodeQuality.Broken || x.Quality == CodeQuality.NeedsCleanup)
 					.Sum(x => (double)x.LinesOfCodeAffected)
 								   + results.Where(x => x.Quality == CodeQuality.NeedsReEngineering)
 									   .Sum(x => x.LinesOfCodeAffected * .5)

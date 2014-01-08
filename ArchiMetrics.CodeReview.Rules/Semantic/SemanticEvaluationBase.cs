@@ -22,6 +22,11 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	{
 		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
+			if (semanticModel == null || solution == null)
+			{
+				return null;
+			}
+
 			var result = EvaluateImpl(node, semanticModel, solution);
 			if (result != null)
 			{

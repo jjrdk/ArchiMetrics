@@ -47,7 +47,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		{
 			get
 			{
-				return CodeQuality.Incompetent;
+				return CodeQuality.NeedsCleanup;
 			}
 		}
 

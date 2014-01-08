@@ -43,7 +43,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return CodeQuality.Incompetent;
+				return CodeQuality.NeedsCleanup;
 			}
 		}
 

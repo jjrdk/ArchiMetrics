@@ -28,7 +28,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			CommonSymbolKind.Property
 		};
 
-		private int _threshold = 10;
+		private int _threshold = 6;
 
 		public override SyntaxKind EvaluatedKind
 		{

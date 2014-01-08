@@ -30,7 +30,7 @@ namespace ArchiMetrics.UI.Converters
 			_brushes.Add(CodeQuality.NeedsRefactoring, GetBrush(Brushes.Yellow));
 			_brushes.Add(CodeQuality.NeedsReEngineering, GetBrush(Brushes.Orange));
 			_brushes.Add(CodeQuality.Broken, GetBrush(Brushes.Red));
-			_brushes.Add(CodeQuality.Incompetent, GetBrush(Brushes.HotPink));
+			_brushes.Add(CodeQuality.NeedsCleanup, GetBrush(Brushes.HotPink));
 		}
 
 		public object Convert(

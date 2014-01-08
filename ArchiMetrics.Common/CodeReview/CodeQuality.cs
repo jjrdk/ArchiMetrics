@@ -17,7 +17,7 @@ namespace ArchiMetrics.Common.CodeReview
 		Broken = 0, 
 		NeedsReEngineering = 1, 
 		NeedsRefactoring = 2, 
-		Incompetent = 3, 
+		NeedsCleanup = 3, 
 		NeedsReview = 4, 
 		Good = 5
 	}

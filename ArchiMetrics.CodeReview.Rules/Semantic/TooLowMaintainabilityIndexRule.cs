@@ -77,11 +77,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
-			if (semanticModel == null)
-			{
-				return null;
-			}
-
 			var counter = new MemberMetricsCalculator(semanticModel);
 
 			var methodDeclaration = (MethodDeclarationSyntax)node;

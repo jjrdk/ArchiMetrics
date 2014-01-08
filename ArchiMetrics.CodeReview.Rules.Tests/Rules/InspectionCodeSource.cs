@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Collections;
 	using ArchiMetrics.CodeReview.Rules.Code;
+	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using NUnit.Framework;
 
 	public static class InspectionCodeSource
@@ -181,11 +182,23 @@ private void SomeMethod()
 		}",
 		  typeof(ReflectionToResolveMethodNameRule));
 				yield return new TestCaseData(
+@"private void SomeMethod(int x)
+        {
+			var name = MethodBase.GetCurrentMethod().Name;
+		}",
+		  typeof(UnusedParametersInMethodRule));
+				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var time = DateTime.Now;
 		}",
 		  typeof(LocalTimeCreationRule));
+				yield return new TestCaseData(
+@"private int SomeMethod(int x)
+        {
+			return x;
+		}",
+		  typeof(PossibleStaticMethod));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
