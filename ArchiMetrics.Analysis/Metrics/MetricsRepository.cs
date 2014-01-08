@@ -10,20 +10,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.DataAccess
+namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 	using Roslyn.Services;
 
-	internal class MetricsRepository : IProjectMetricsRepository, IDisposable
+	internal class MetricsRepository : IProjectMetricsRepository
 	{
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>> _metrics = new ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>>();
 		private readonly ICodeMetricsCalculator _metricsCalculator;

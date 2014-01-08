@@ -10,40 +10,33 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.DataAccess
+namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.ComponentModel;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using ArchiMetrics.Common.Structure;
 	using Roslyn.Services;
 
 	public class CodeErrorRepository : ICodeErrorRepository, IResetable
 	{
 		private readonly IAvailableRules _availableRules;
-		private readonly IAppContext _config;
 		private readonly ConcurrentDictionary<string, Task<EvaluationResult[]>> _evaluations;
 		private readonly INodeInspector _inspector;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
 		public CodeErrorRepository(
-			IAppContext config,
 			IProvider<string, ISolution> solutionProvider,
 			INodeInspector inspector,
 			IAvailableRules availableRules)
 		{
 			_evaluations = new ConcurrentDictionary<string, Task<EvaluationResult[]>>();
-			_config = config;
 			_solutionProvider = solutionProvider;
 			_inspector = inspector;
 			_availableRules = availableRules;
-			_config.PropertyChanged += ConfigPropertyChanged;
-			GetErrors(_config.Path);
 		}
 
 		~CodeErrorRepository()
@@ -81,7 +74,6 @@ namespace ArchiMetrics.UI.DataAccess
 			if (isDisposing)
 			{
 				_evaluations.Clear();
-				_config.PropertyChanged -= ConfigPropertyChanged;
 			}
 		}
 
@@ -89,16 +81,6 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			var solution = _solutionProvider.Get(path);
 			return (await _inspector.Inspect(solution)).ToArray();
-		}
-
-		private void ConfigPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName != "Path")
-			{
-				return;
-			}
-
-			GetErrors(_config.Path);
 		}
 	}
 }

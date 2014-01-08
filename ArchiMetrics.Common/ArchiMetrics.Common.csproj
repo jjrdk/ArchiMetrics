@@ -82,6 +82,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="GeneralExtensions.cs" />
     <Compile Include="IAsyncFactory.cs" />
+    <Compile Include="IAvailability.cs" />
+    <Compile Include="IAvailableRules.cs" />
     <Compile Include="IProvider.cs" />
     <Compile Include="IResetable.cs" />
     <Compile Include="LinqExtensions.cs" />

@@ -156,15 +156,12 @@
     <Compile Include="Converters\LinesOfCodeToThicknessConverter.cs" />
     <Compile Include="Converters\QualityToBrushConverter.cs" />
     <Compile Include="DataAccess\AvailableRules.cs" />
-    <Compile Include="DataAccess\CodeErrorRepository.cs" />
     <Compile Include="DataAccess\DocumentComparer.cs" />
-    <Compile Include="DataAccess\IAvailability.cs" />
-    <Compile Include="DataAccess\IAvailableRules.cs" />
-    <Compile Include="DataAccess\MetricsRepository.cs" />
     <Compile Include="DataAccess\RepositoryBase.cs" />
     <Compile Include="DataAccess\NamespaceReference.cs" />
     <Compile Include="DataAccess\ProjectReference.cs" />
     <Compile Include="DataAccess\AppContext.cs" />
+    <Compile Include="DataAccess\TrackingCodeErrorRepository.cs" />
     <Compile Include="DataAccess\VertexTransformProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Schedulers.cs" />

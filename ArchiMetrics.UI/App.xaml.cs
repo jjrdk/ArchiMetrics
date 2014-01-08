@@ -25,6 +25,7 @@ namespace ArchiMetrics.UI
 	using System.Windows.Markup;
 	using System.Windows.Threading;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Analysis.Model;
 	using ArchiMetrics.Analysis.Validation;
 	using ArchiMetrics.CodeReview.Rules;
@@ -142,7 +143,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
-			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
+			builder.RegisterType<TrackingCodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
 			builder.RegisterType<SolutionVertexRepository>().As<IVertexRepository>().SingleInstance();
 			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<TransformRule>>>().SingleInstance();
 			builder.RegisterType<VertexViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();

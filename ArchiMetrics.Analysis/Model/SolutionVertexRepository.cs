@@ -39,11 +39,11 @@ namespace ArchiMetrics.Analysis.Model
 
 		public async Task<IEnumerable<IModelNode>> GetVertices(string solutionPath, CancellationToken cancellationToken)
 		{
-			var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken)).ToArray();
 			var projectVertices = await _knownVertices.GetOrAdd(
 				solutionPath,
 				async path =>
 				{
+					var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken)).ToArray();
 					var projectMetrics = (await _metricsRepository.Get(solutionPath)).ToArray();
 					var vertices = projectMetrics.Select(projectMetric => CreateProjectNode(projectMetric, projectMetrics, evaluationResults)).ToArray();
 

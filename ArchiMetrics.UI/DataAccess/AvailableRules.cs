@@ -20,6 +20,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.Linq;
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
 	internal class AvailableRules : IAvailableRules

@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.UI.DataAccess
+namespace ArchiMetrics.Common
 {
 	using System;
 	using System.Collections.Generic;

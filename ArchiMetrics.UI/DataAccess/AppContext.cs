@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.DataAccess
 	using System.ComponentModel;
 	using System.Reactive.Linq;
 	using System.Runtime.CompilerServices;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	public class AppContext : IAppContext

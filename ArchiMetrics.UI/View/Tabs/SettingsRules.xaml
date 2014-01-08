@@ -5,6 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:dataAccess="clr-namespace:ArchiMetrics.UI.DataAccess"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:common="clr-namespace:ArchiMetrics.Common;assembly=ArchiMetrics.Common"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -23,7 +24,7 @@
 				 ScrollViewer.VerticalScrollBarVisibility="Auto"
 				 ItemsSource="{Binding Path=AvailableRules.Availabilities}">
 			<ListBox.ItemTemplate>
-				<DataTemplate DataType="dataAccess:IAvailability">
+				<DataTemplate DataType="common:IAvailability">
 					<CheckBox IsThreeState="False"
 							  IsChecked="{Binding Path=IsAvailable, Mode=TwoWay}"
 							  Content="{Binding Path=Title}" />
