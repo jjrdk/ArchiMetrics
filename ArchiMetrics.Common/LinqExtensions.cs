@@ -25,18 +25,6 @@ namespace ArchiMetrics.Common
 			return source.Distinct(comparer);
 		}
 
-		public static IEnumerable<T> FlattenFrom<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> func)
-		{
-			foreach (var item in source)
-			{
-				yield return item;
-				foreach (var child in FlattenFrom(func(item), func))
-				{
-					yield return child;
-				}
-			}
-		}
-
 		public static IEnumerable<T> WhereNot<T>(this IEnumerable<T> source, Func<T, bool> filter)
 		{
 			return source.Where(x => !filter(x));
