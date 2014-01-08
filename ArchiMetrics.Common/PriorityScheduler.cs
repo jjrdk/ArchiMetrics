@@ -21,16 +21,20 @@ namespace ArchiMetrics.Common
 
 	public class PriorityScheduler : TaskScheduler, IDisposable
 	{
-		private static readonly Lazy<PriorityScheduler> AboveNormalScheduler = new Lazy<PriorityScheduler>(() => new PriorityScheduler(ThreadPriority.AboveNormal), true);
-		private static readonly Lazy<PriorityScheduler> BelowNormalScheduler = new Lazy<PriorityScheduler>(() => new PriorityScheduler(ThreadPriority.BelowNormal), true);
-		private static readonly Lazy<PriorityScheduler> LowestScheduler = new Lazy<PriorityScheduler>(() => new PriorityScheduler(ThreadPriority.Lowest), true);
-
 		private readonly int _maximumConcurrencyLevel = Math.Max(1, Environment.ProcessorCount);
+		private readonly double _shutdownTimeout;
 		private readonly BlockingCollection<Task> _tasks = new BlockingCollection<Task>();
 		private readonly Thread[] _threads;
 
-		private PriorityScheduler(ThreadPriority priority)
+		public PriorityScheduler(ThreadPriority priority)
+			: this(priority, Environment.ProcessorCount, 100)
 		{
+		}
+
+		public PriorityScheduler(ThreadPriority priority, int maxConcurrencyLevel, double shutdownTimeout)
+		{
+			_maximumConcurrencyLevel = maxConcurrencyLevel;
+			_shutdownTimeout = shutdownTimeout;
 			_threads = new Thread[_maximumConcurrencyLevel];
 			for (var i = 0; i < _threads.Length; i++)
 			{
@@ -56,30 +60,6 @@ namespace ArchiMetrics.Common
 			Dispose(false);
 		}
 
-		public static PriorityScheduler AboveNormal
-		{
-			get
-			{
-				return AboveNormalScheduler.Value;
-			}
-		}
-
-		public static PriorityScheduler BelowNormal
-		{
-			get
-			{
-				return BelowNormalScheduler.Value;
-			}
-		}
-
-		public static PriorityScheduler Lowest
-		{
-			get
-			{
-				return LowestScheduler.Value;
-			}
-		}
-
 		public override int MaximumConcurrencyLevel
 		{
 			get { return _maximumConcurrencyLevel; }
@@ -96,7 +76,7 @@ namespace ArchiMetrics.Common
 			if (disposing)
 			{
 				_tasks.Dispose();
-				foreach (var thread in _threads.Where(thread => !thread.Join(TimeSpan.FromSeconds(10))))
+				foreach (var thread in _threads.Where(thread => !thread.Join(TimeSpan.FromMilliseconds(_shutdownTimeout))))
 				{
 					thread.Interrupt();
 				}

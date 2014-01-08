@@ -13,58 +13,39 @@
 namespace ArchiMetrics.Common.Tests
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using NUnit.Framework;
 
 	public class PrioritySchedulerTests
 	{
+		private TestPriorityScheduler _scheduler;
+
+		[SetUp]
+		public void Setup()
+		{
+			_scheduler = new TestPriorityScheduler(ThreadPriority.AboveNormal);
+		}
+
+		[TearDown]
+		public void Teardown()
+		{
+			_scheduler.Dispose();
+		}
+
 		[Test]
 		public void MaximumConcurrencyLevelEqualsProcessorCount()
 		{
 			var processorCount = Environment.ProcessorCount;
 
-			Assert.AreEqual(processorCount, PriorityScheduler.AboveNormal.MaximumConcurrencyLevel);
+			Assert.AreEqual(processorCount, _scheduler.MaximumConcurrencyLevel);
 		}
 
 		[Test]
-		public void AboveNormalPrioritySchedulerIsNotNull()
+		public async Task WhenExecutingTaskOnSchedulerThenExecutes()
 		{
-			Assert.NotNull(PriorityScheduler.AboveNormal);
-		}
-
-		[Test]
-		public void BelowNormalPrioritySchedulerIsNotNull()
-		{
-			Assert.NotNull(PriorityScheduler.BelowNormal);
-		}
-
-		[Test]
-		public void LowestNormalPrioritySchedulerIsNotNull()
-		{
-			Assert.NotNull(PriorityScheduler.Lowest);
-		}
-
-		[Test]
-		public async Task WhenExecutingTaskOnAboveNormalSchedulerThenExecutes()
-		{
-			var value = await GetValue(PriorityScheduler.AboveNormal);
-
-			Assert.AreEqual(100, value);
-		}
-
-		[Test]
-		public async Task WhenExecutingTaskOnBelowNormalSchedulerThenExecutes()
-		{
-			var value = await GetValue(PriorityScheduler.BelowNormal);
-
-			Assert.AreEqual(100, value);
-		}
-
-		[Test]
-		public async Task WhenExecutingTaskOnLowestSchedulerThenExecutes()
-		{
-			var value = await GetValue(PriorityScheduler.Lowest);
+			var value = await GetValue(_scheduler);
 
 			Assert.AreEqual(100, value);
 		}
@@ -72,7 +53,19 @@ namespace ArchiMetrics.Common.Tests
 		[Test]
 		public void WhenDisposingThenDoesNotThrow()
 		{
-			Assert.DoesNotThrow(() => PriorityScheduler.AboveNormal.Dispose());
+			Assert.DoesNotThrow(() => _scheduler.Dispose());
+		}
+
+		[Test]
+		public void WhenGettingScheduledTasksThenIsNotNull()
+		{
+			Assert.NotNull(_scheduler.ScheduledTasks());
+		}
+
+		[Test]
+		public void WhenCheckingIfCanExecuteInlineThenReturnsFalse()
+		{
+			Assert.False(_scheduler.CanExecuteInline());
 		}
 
 		private static async Task<int> GetValue(TaskScheduler scheduler)
@@ -86,6 +79,24 @@ namespace ArchiMetrics.Common.Tests
 				CancellationToken.None,
 				TaskCreationOptions.None,
 				scheduler);
+		}
+
+		private class TestPriorityScheduler : PriorityScheduler
+		{
+			public TestPriorityScheduler(ThreadPriority priority)
+				: base(priority)
+			{
+			}
+
+			public IEnumerable<Task> ScheduledTasks()
+			{
+				return GetScheduledTasks();
+			}
+
+			public bool CanExecuteInline()
+			{
+				return TryExecuteTaskInline(Task.FromResult(1), false);
+			}
 		}
 	}
 }
