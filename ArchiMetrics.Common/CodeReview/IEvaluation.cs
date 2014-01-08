@@ -21,5 +21,11 @@ namespace ArchiMetrics.Common.CodeReview
 		string Title { get; }
 
 		string Suggestion { get; }
+
+		CodeQuality Quality { get; }
+
+		QualityAttribute QualityAttribute { get; }
+
+		ImpactLevel ImpactLevel { get; }
 	}
 }
