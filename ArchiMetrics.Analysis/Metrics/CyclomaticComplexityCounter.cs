@@ -42,7 +42,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			// private static readonly string[] LazyTypes = new[] { "System.Threading.Tasks.Task" };
 			private readonly ISemanticModel _semanticModel;
 			private int _counter;
-			//private BlockSyntax _syntax;
 
 			public InnerComplexityAnalyzer(ISemanticModel semanticModel)
 				: base(SyntaxWalkerDepth.Node)

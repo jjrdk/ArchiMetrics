@@ -30,7 +30,6 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IAppContext _config;
 		private readonly IProvider<string, ObservableCollection<TransformRule>> _transformRulesProvider;
 		private readonly IModelValidator _modelValidator;
-		private IEnumerable<IValidationResult> _validation;
 
 		public StructureRulesViewModel(
 			IAppContext config,

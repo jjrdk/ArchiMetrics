@@ -13,8 +13,6 @@
 namespace ArchiMetrics.CodeReview.Rules.Tests
 {
 	using System;
-	using System.Collections;
-	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 
@@ -72,18 +70,6 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var instance = Activator.CreateInstance(type);
 			return (IEvaluation)instance;
-		}
-	}
-
-	public static class RuleProvider
-	{
-		public static IEnumerable Rules
-		{
-			get
-			{
-				return AllRules.GetRules()
-					.Where(x => x.GetConstructors().Any(c => c.GetParameters().Length == 0));
-			}
 		}
 	}
 }

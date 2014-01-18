@@ -180,7 +180,6 @@
     <Compile Include="Support\ModelEdge.cs" />
     <Compile Include="Support\ModernContentLoader.cs" />
     <Compile Include="SpellChecker.cs" />
-    <Compile Include="Support\NestedVertexModel.cs" />
     <Compile Include="Support\ObservableProxyCollection.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\CodeReviewViewModel.cs" />

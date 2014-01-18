@@ -29,7 +29,6 @@ namespace ArchiMetrics.UI
 	using ArchiMetrics.Analysis.Model;
 	using ArchiMetrics.Analysis.Validation;
 	using ArchiMetrics.CodeReview.Rules;
-	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Metrics;

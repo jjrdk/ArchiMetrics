@@ -38,13 +38,8 @@ namespace ArchiMetrics.UI
 
 		private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
 		{
-			return GetAssembly(args.Name);
-		}
-
-		private static Assembly GetAssembly(string x)
-		{
 			return KnownAssemblies.GetOrAdd(
-				x,
+				args.Name,
 				name =>
 				{
 					var assemblyName = new AssemblyName(name);

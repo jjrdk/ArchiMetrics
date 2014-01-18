@@ -39,6 +39,7 @@ namespace ArchiMetrics.Common.Structure
 				child.SetParent(this);
 			}
 		}
+
 		public IModelNode Parent { get; protected set; }
 
 		public string DisplayName { get; private set; }
@@ -54,6 +55,14 @@ namespace ArchiMetrics.Common.Structure
 		public string QualifiedName { get; private set; }
 
 		public string Type { get; private set; }
+
+		public IEnumerable<IModelNode> Children
+		{
+			get
+			{
+				return _children;
+			}
+		}
 
 		public static bool operator ==(ModelNode first, ModelNode second)
 		{
@@ -110,21 +119,6 @@ namespace ArchiMetrics.Common.Structure
 			return isEqual;
 		}
 
-		private string GetQualifiedName()
-		{
-			return Parent == null || this.IsShared()
-				? DisplayName
-				: string.Format("{0}.{1}", Parent.QualifiedName, DisplayName);
-		}
-
-		public IEnumerable<IModelNode> Children
-		{
-			get
-			{
-				return _children;
-			}
-		}
-
 		public IEnumerable<IModelNode> Flatten()
 		{
 			yield return this;
@@ -157,6 +151,13 @@ namespace ArchiMetrics.Common.Structure
 		public override string ToString()
 		{
 			return string.Format("{0} ({1})", QualifiedName, _children.Count);
+		}
+
+		private string GetQualifiedName()
+		{
+			return Parent == null || this.IsShared()
+				? DisplayName
+				: string.Format("{0}.{1}", Parent.QualifiedName, DisplayName);
 		}
 
 		private IEnumerable<IModelNode> FlattenChildren(IEnumerable<IModelNode> vertices)

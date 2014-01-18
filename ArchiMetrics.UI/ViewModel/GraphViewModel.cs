@@ -144,7 +144,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			_allMetricsEdges = (await _repository.GetVertices(_config.Path, cancellationToken)).ToArray();
-			UpdateInternal(cancellationToken);
+			await UpdateInternal(cancellationToken);
 		}
 	}
 }
