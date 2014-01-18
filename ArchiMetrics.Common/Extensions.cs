@@ -13,11 +13,18 @@
 namespace ArchiMetrics.Common
 {
 	using System;
+	using System.Linq;
 	using System.Text.RegularExpressions;
 
 	public static class Extensions
 	{
 		private static readonly Regex CapitalRegex = new Regex("[A-Z]", RegexOptions.Compiled);
+		private static readonly string[] KnownTestAttributes = { "Test", "TestCase", "TestMethod", "Fact", "Theory" };
+
+		public static bool IsKnownTestAttribute(this string text)
+		{
+			return KnownTestAttributes.Contains(text);
+		}
 
 		public static void DisposeNotNull(this IDisposable disposable)
 		{
@@ -31,6 +38,5 @@ namespace ArchiMetrics.Common
 		{
 			return CapitalRegex.Replace(input, m => " " + m).Replace("_", " ").Trim();
 		}
-
 	}
 }

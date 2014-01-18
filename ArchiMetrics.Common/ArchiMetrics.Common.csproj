@@ -80,7 +80,6 @@
     <Compile Include="CodeReview\ITriviaEvaluation.cs" />
     <Compile Include="CodeReview\QualityAttribute.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="GeneralExtensions.cs" />
     <Compile Include="IAsyncFactory.cs" />
     <Compile Include="IAvailability.cs" />
     <Compile Include="IAvailableRules.cs" />
