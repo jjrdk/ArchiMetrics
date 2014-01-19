@@ -30,6 +30,11 @@ namespace ArchiMetrics.Common
 			return source.Where(x => !filter(x));
 		}
 
+		public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> source) where T : class
+		{
+			return source.Where(x => x != null);
+		}
+
 		public static IEnumerable<string> WhereNotNullOrWhitespace(this IEnumerable<string> source)
 		{
 			return source.Where(x => !string.IsNullOrWhiteSpace(x));
