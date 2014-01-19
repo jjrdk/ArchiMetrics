@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeMetricsCalculator.cs" />
+    <Compile Include="CoverageAnalyzer.cs" />
     <Compile Include="Metrics\MetricsRepository.cs" />
     <Compile Include="Metrics\ProjectMetric.cs" />
     <Compile Include="Model\CodeErrorRepository.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Model\SolutionVertexRepository.cs" />
     <Compile Include="Model\SyntaxTransformer.cs" />
     <Compile Include="Model\TransformerBase.cs" />
-    <Compile Include="RoslynExtensions.cs" />
+    <Compile Include="SolutionExtensions.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />

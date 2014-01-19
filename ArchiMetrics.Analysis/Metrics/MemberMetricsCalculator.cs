@@ -18,15 +18,18 @@ namespace ArchiMetrics.Analysis.Metrics
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
+	using Roslyn.Services;
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
+		private readonly ISolution _solution;
 		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 
-		public MemberMetricsCalculator(ISemanticModel semanticModel)
+		public MemberMetricsCalculator(ISemanticModel semanticModel, ISolution solution)
 			: base(semanticModel)
 		{
+			_solution = solution;
 		}
 
 		public IEnumerable<IMemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
@@ -131,18 +134,38 @@ namespace ArchiMetrics.Analysis.Metrics
 			var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
 			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
 			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
+			var afferentCouling = CalculateAfferentCouling(node);
 			return new MemberMetric(
-				node.CodeFile, 
-				halsteadMetrics, 
-				memberMetricKind, 
-				node.LineNumber, 
-				linesOfCode, 
-				maintainabilityIndex, 
-				complexity, 
+				node.CodeFile,
+				halsteadMetrics,
+				memberMetricKind,
+				node.LineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
 				node.DisplayName,
-				source.ToArray(), 
-				numberOfParameters, 
-				numberOfLocalVariables);
+				source.ToArray(),
+				numberOfParameters,
+				numberOfLocalVariables,
+				afferentCouling);
+		}
+
+		private int? CalculateAfferentCouling(MemberNode node)
+		{
+			try
+			{
+				return _solution == null
+						   ? (int?)null
+						   : Model.GetDeclaredSymbol(node.SyntaxNode)
+								 .FindReferences(_solution)
+								 .SelectMany(x => x.Locations)
+								 .Count();
+			}
+			catch
+			{
+				// Some constructors are not present in syntax tree because they have been created for metrics calculation.
+				return null;
+			}
 		}
 
 		private int CalculateNumberOfLocalVariables(CommonSyntaxNode node)

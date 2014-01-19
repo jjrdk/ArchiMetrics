@@ -118,7 +118,7 @@ public int Foo() { return 1; }
 				var path = Path.GetFullPath(@"..\..\..\SampleSL\SampleSL.csproj");
 				var workspace = Workspace.LoadStandAloneProject(path);
 				var project = workspace.CurrentSolution.Projects.First();
-				var task = await _analyzer.Calculate(project);
+				var task = await _analyzer.Calculate(project, workspace.CurrentSolution);
 				var metrics = task.ToArray();
 
 				Assert.IsNotEmpty(metrics);
@@ -132,7 +132,7 @@ public int Foo() { return 1; }
 				public class TestClass { }
 			}";
 
-				var metrics = await _analyzer.Calculate(CreateProject(Text));
+				var metrics = await _analyzer.Calculate(CreateProject(Text), null);
 
 				Assert.AreEqual(1, metrics.First().CyclomaticComplexity);
 			}
@@ -147,7 +147,7 @@ public int Foo() { return 1; }
 }
 			}";
 
-				var metrics = await _analyzer.Calculate(CreateProject(Text));
+				var metrics = await _analyzer.Calculate(CreateProject(Text), null);
 				
 				Assert.AreEqual(1, metrics.First().CyclomaticComplexity);
 			}
@@ -227,7 +227,7 @@ using System.Linq;
 			}", 4)]
 			public async Task CodeHasExpectedLinesOfCode(string code, int loc)
 			{
-				var metrics = await _analyzer.Calculate(CreateProject(code));
+				var metrics = await _analyzer.Calculate(CreateProject(code), null);
 
 				Assert.AreEqual(loc, metrics.First().LinesOfCode);
 			}

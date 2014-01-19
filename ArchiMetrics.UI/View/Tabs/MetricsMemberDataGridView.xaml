@@ -59,6 +59,8 @@
 									Binding="{Binding Path=CyclomaticComplexity}" />
 				<DataGridTextColumn Header="Maintainability Index"
 									Binding="{Binding Path=MaintainabilityIndex, StringFormat=n2}" />
+				<DataGridTextColumn Header="Afferemt Coupling"
+									Binding="{Binding Path=AfferentCoupling, StringFormat=n2}" />
 			</DataGrid.Columns>
 		</DataGrid>
 		<view:LoadingControl Grid.Row="0"

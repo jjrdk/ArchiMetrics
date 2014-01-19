@@ -20,7 +20,38 @@ using Roslyn.Services;
 
 namespace ArchiMetrics.Analysis
 {
+	using Roslyn.Compilers.Common;
+
 	public static class RoslynExtensions
+	{
+		public static MethodDeclarationSyntax GetMethod(this CommonSyntaxToken token)
+		{
+			return GetMethod((SyntaxToken)token);
+		}
+
+		public static MethodDeclarationSyntax GetMethod(this SyntaxToken token)
+		{
+			var parent = token.Parent;
+			return GetMethod(parent);
+		}
+
+		public static MethodDeclarationSyntax GetMethod(this SyntaxNode node)
+		{
+			if (node == null)
+			{
+				return null;
+			}
+
+			if (node.Kind == SyntaxKind.MethodDeclaration)
+			{
+				return (MethodDeclarationSyntax)node;
+			}
+
+			return GetMethod(node.Parent);
+		}
+	}
+
+	public static class SolutionExtensions
 	{
 		private const string SolutionFormat = @"
 Microsoft Visual Studio Solution File, Format Version 12.00

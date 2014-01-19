@@ -72,7 +72,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				return null;
 			}
 
-			var metrics = (await _metricsCalculator.Calculate(project)).ToArray();
+			var metrics = (await _metricsCalculator.Calculate(project, solution)).ToArray();
 
 			var referencedProjects = project.ProjectReferences
 				.Select(x => solution.GetProject(x).AssemblyName)
