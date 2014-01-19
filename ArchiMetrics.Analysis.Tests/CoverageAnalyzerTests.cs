@@ -1,11 +1,21 @@
-﻿namespace ArchiMetrics.Analysis.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CoverageAnalyzerTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CoverageAnalyzerTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
 	using ArchiMetrics.Common;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
 
 	public class CoverageAnalyzerTests : SolutionTestsBase
 	{
@@ -58,24 +68,6 @@
 			var areReferenced = matches.Select(analyzer.IsReferencedInTest).ToArray();
 
 			Assert.IsTrue(areReferenced.All(x => x));
-		}
-	}
-
-	public abstract class SolutionTestsBase
-	{
-		protected ISolution CreateSolution(params string[] code)
-		{
-			var x = 1;
-			ProjectId pid;
-			DocumentId did;
-			var solution = code.Aggregate(
-				Solution.Create(SolutionId.CreateNewId("Analysis"))
-					.AddCSharpProject("testcode.dll", "testcode", out pid),
-				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
-				.AddProjectReferences(pid, new ProjectId[0])
-				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
-
-			return solution;
 		}
 	}
 }

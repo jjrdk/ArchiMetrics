@@ -1,22 +1,22 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RoslynExtensionTests.cs" company="Reimers.dk">
+// <copyright file="SolutionExtensionTests.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the RoslynExtensionTests type.
+//   Defines the SolutionExtensionTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.IO;
-using NUnit.Framework;
-using Roslyn.Services;
-
 namespace ArchiMetrics.Analysis.Tests
 {
-	public class RoslynExtensionTests
+	using System.IO;
+	using NUnit.Framework;
+	using Roslyn.Services;
+
+	public class SolutionExtensionTests
 	{
 		[Test]
 		public void CanSaveSolution()

@@ -22,7 +22,7 @@ namespace SampleSL
 
 		public void SomeMethod()
 		{
-			const string x = "blah";
+			const string X = "blah";
 		}
 
 		public int GetValue()
@@ -37,7 +37,7 @@ namespace SampleSL
 
 		public double GetValue(double x)
 		{
-			if (x % 2 == 0.0)
+			if ((x % 2).Equals(0.0))
 			{
 				return x;
 			}

@@ -1,55 +1,24 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RoslynExtensions.cs" company="Reimers.dk">
+// <copyright file="SolutionExtensions.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the RoslynExtensions type.
+//   Defines the SolutionExtensions type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml.Linq;
-using Roslyn.Compilers.CSharp;
-using Roslyn.Services;
-
 namespace ArchiMetrics.Analysis
 {
-	using Roslyn.Compilers.Common;
-
-	public static class RoslynExtensions
-	{
-		public static MethodDeclarationSyntax GetMethod(this CommonSyntaxToken token)
-		{
-			return GetMethod((SyntaxToken)token);
-		}
-
-		public static MethodDeclarationSyntax GetMethod(this SyntaxToken token)
-		{
-			var parent = token.Parent;
-			return GetMethod(parent);
-		}
-
-		public static MethodDeclarationSyntax GetMethod(this SyntaxNode node)
-		{
-			if (node == null)
-			{
-				return null;
-			}
-
-			if (node.Kind == SyntaxKind.MethodDeclaration)
-			{
-				return (MethodDeclarationSyntax)node;
-			}
-
-			return GetMethod(node.Parent);
-		}
-	}
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Xml.Linq;
+	using Roslyn.Compilers.CSharp;
+	using Roslyn.Services;
 
 	public static class SolutionExtensions
 	{
