@@ -66,6 +66,7 @@
     <Compile Include="CoverageAnalyzer.cs" />
     <Compile Include="Metrics\MetricsRepository.cs" />
     <Compile Include="Metrics\ProjectMetric.cs" />
+    <Compile Include="Metrics\ProjectMetricsCalculator.cs" />
     <Compile Include="Model\CodeErrorRepository.cs" />
     <Compile Include="Model\ModelEdgeItemFactory.cs" />
     <Compile Include="Model\NodeMerger.cs" />

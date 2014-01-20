@@ -139,6 +139,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<ModelEdgeItemFactory>().As<IAsyncFactory<IEnumerable<IModelNode>, IEnumerable<ModelEdgeItem>>>();
 			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>().As<ICollection<Regex>>().SingleInstance();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
+			builder.RegisterType<ProjectMetricsCalculator>().As<IProjectMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();

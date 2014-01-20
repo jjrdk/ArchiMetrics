@@ -45,7 +45,7 @@ namespace ArchiMetrics.Analysis.Tests.Model
 						solutionProvider,
 						new NodeReviewer(Enumerable.Empty<IEvaluation>()),
 						mockRules.Object),
-					new MetricsRepository(new CodeMetricsCalculator(), solutionProvider));
+					new MetricsRepository(new ProjectMetricsCalculator(new CodeMetricsCalculator()), solutionProvider));
 			}
 
 			[Test]

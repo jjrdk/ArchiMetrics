@@ -20,9 +20,10 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		private static readonly IEqualityComparer<TypeCoupling> Comparer = new ComparableComparer<TypeCoupling>();
 
-		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects)
+		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, double relationalCohesion)
 		{
 			Name = name;
+			RelationalCohesion = relationalCohesion;
 			ReferencedProjects = referencedProjects.ToArray();
 			NamespaceMetrics = namespaceMetrics.ToArray();
 			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
@@ -38,6 +39,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public int CyclomaticComplexity { get; private set; }
 
 		public string Name { get; private set; }
+
+		public double RelationalCohesion { get; set; }
 
 		public IEnumerable<string> ReferencedProjects { get; private set; }
 

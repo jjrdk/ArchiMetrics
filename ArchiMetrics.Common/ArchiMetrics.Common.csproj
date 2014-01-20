@@ -92,6 +92,7 @@
     <Compile Include="Metrics\IMemberMetric.cs" />
     <Compile Include="Metrics\INamespaceMetric.cs" />
     <Compile Include="Metrics\IProjectMetric.cs" />
+    <Compile Include="Metrics\IProjectMetricsCalculator.cs" />
     <Compile Include="Metrics\ITypeMetric.cs" />
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />

@@ -1,27 +1,22 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IProjectMetric.cs" company="Reimers.dk">
+// <copyright file="IProjectMetricsCalculator.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the IProjectMetric type.
+//   Defines the IProjectMetricsCalculator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.Common.Metrics
 {
-	using System.Collections.Generic;
+	using System.Threading.Tasks;
+	using Roslyn.Services;
 
-	public interface IProjectMetric : ICodeMetric
-    {
-        IEnumerable<TypeCoupling> ClassCouplings { get; }
-
-        IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
-
-        IEnumerable<string> ReferencedProjects { get; }
-
-		double RelationalCohesion { get; set; }
-    }
+	public interface IProjectMetricsCalculator
+	{
+		Task<IProjectMetric> Calculate(IProject project, ISolution solution);
+	}
 }

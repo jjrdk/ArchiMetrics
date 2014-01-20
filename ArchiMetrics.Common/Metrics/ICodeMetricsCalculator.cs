@@ -18,8 +18,6 @@ namespace ArchiMetrics.Common.Metrics
 
 	public interface ICodeMetricsCalculator
 	{
-		bool IgnoreGeneratedCode { get; set; }
-
 		Task<IEnumerable<INamespaceMetric>> Calculate(IProject project, ISolution solution);
 	}
 }

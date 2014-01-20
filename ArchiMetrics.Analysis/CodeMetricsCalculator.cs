@@ -34,19 +34,12 @@ namespace ArchiMetrics.Analysis
 
 		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
-		public CodeMetricsCalculator()
-		{
-			IgnoreGeneratedCode = true;
-		}
-
-		public bool IgnoreGeneratedCode { get; set; }
-
-		public virtual Task<IEnumerable<INamespaceMetric>> Calculate(IProject project, ISolution solution)
+		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(IProject project, ISolution solution)
 		{
 			var calcProject = project.WithDocuments();
-			var compilation = calcProject.GetCompilation();
-			var namespaceDeclarations = GetNamespaceDeclarations(calcProject, IgnoreGeneratedCode);
-			return CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
+			var compilation = await calcProject.GetCompilationAsync();
+			var namespaceDeclarations = GetNamespaceDeclarations(calcProject);
+			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
 		}
 
 		public async Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
@@ -184,11 +177,11 @@ namespace ArchiMetrics.Analysis
 			return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(compilation, semanticModel, namespaceNode);
 		}
 
-		private static IEnumerable<NamespaceDeclaration> GetNamespaceDeclarations(IProject project, bool ignoreGeneratedCode = false)
+		private static IEnumerable<NamespaceDeclaration> GetNamespaceDeclarations(IProject project)
 		{
 			return project.Documents
 				.Select(document => new { document, codeFile = document.FilePath })
-				.Where(t => !ignoreGeneratedCode || !IsGeneratedCodeFile(t.document, Patterns))
+				.Where(t => !IsGeneratedCodeFile(t.document, Patterns))
 				.Select(
 					t => new
 						 {
@@ -233,13 +226,11 @@ namespace ArchiMetrics.Analysis
 		private async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, CommonCompilation compilation, ISolution solution)
 		{
 			var tasks = namespaceDeclarations.Select(
-				async arg =>
-				{
-					var tuple = await CalculateTypeMetrics(compilation, arg, solution);
-					return await CalculateNamespaceMetrics(tuple.Item1, arg, tuple.Item2.ToArray());
-				})
+				arg => CalculateTypeMetrics(compilation, arg, solution)
+								 .ContinueWith(t => CalculateNamespaceMetrics(t.Result.Item1, arg, t.Result.Item2.ToArray())))
 					.ToArray();
-			return await Task.WhenAll(tasks);
+			var x = await Task.WhenAll(tasks);
+			return await Task.WhenAll(x);
 		}
 
 		private async Task<Tuple<CommonCompilation, IEnumerable<IMemberMetric>>> CalculateMemberMetrics(CommonCompilation compilation, TypeDeclaration typeNodes, ISolution solution)
@@ -278,9 +269,9 @@ namespace ArchiMetrics.Analysis
 					.ToArray();
 			var data = await Task.WhenAll(tasks);
 			var typeMetricsTasks = data
-				.Select(async @t =>
+				.Select(async item =>
 				{
-					var tuple = await CalculateTypeMetrics(t.comp, t.typeNodes, t.memberMetrics);
+					var tuple = await CalculateTypeMetrics(item.comp, item.typeNodes, item.memberMetrics);
 					if (tuple == null)
 					{
 						return null;

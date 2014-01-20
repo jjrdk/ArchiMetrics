@@ -25,10 +25,10 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal class MetricsRepository : IProjectMetricsRepository
 	{
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>> _metrics = new ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>>();
-		private readonly ICodeMetricsCalculator _metricsCalculator;
+		private readonly IProjectMetricsCalculator _metricsCalculator;
 		private readonly IProvider<string, ISolution> _solutionProvider;
 
-		public MetricsRepository(ICodeMetricsCalculator metricsCalculator, IProvider<string, ISolution> solutionProvider)
+		public MetricsRepository(IProjectMetricsCalculator metricsCalculator, IProvider<string, ISolution> solutionProvider)
 		{
 			_metricsCalculator = metricsCalculator;
 			_solutionProvider = solutionProvider;
@@ -49,12 +49,12 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			return _metrics.GetOrAdd(
 				solutionPath,
-				async path =>
-					{
-						var solution = _solutionProvider.Get(path);
-						var tasks = solution.Projects.Select(x => LoadMetrics(solution, x));
-						return await Task.WhenAll(tasks);
-					});
+				path =>
+				{
+					var solution = _solutionProvider.Get(path);
+					var tasks = solution.Projects.Select(x => _metricsCalculator.Calculate(x, solution));
+					return Task.WhenAll(tasks).ContinueWith(t => t.IsFaulted ? Enumerable.Empty<IProjectMetric>() : t.Result.AsEnumerable());
+				});
 		}
 
 		protected virtual void Dispose(bool disposing)
@@ -63,22 +63,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				_metrics.Clear();
 			}
-		}
-
-		private async Task<IProjectMetric> LoadMetrics(ISolution solution, IProject project)
-		{
-			if (project == null)
-			{
-				return null;
-			}
-
-			var metrics = (await _metricsCalculator.Calculate(project, solution)).ToArray();
-
-			var referencedProjects = project.ProjectReferences
-				.Select(x => solution.GetProject(x).AssemblyName)
-				.Concat(project.MetadataReferences.Select(x => x.Display));
-
-			return new ProjectMetric(project.Name, metrics, referencedProjects);
 		}
 	}
 }
