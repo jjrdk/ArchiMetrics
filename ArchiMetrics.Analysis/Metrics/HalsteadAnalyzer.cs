@@ -20,7 +20,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class HalsteadAnalyzer : SyntaxWalker
 	{
-		private IHalsteadMetrics _metrics;
+		private IHalsteadMetrics _metrics = new HalsteadMetrics(0, 0, 0, 0);
 
 		public HalsteadAnalyzer()
 			: base(SyntaxWalkerDepth.Node)
@@ -36,12 +36,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				return _metrics;
 			}
 
-			if (CalculateGenericPropertyMetrics(node))
-			{
-				return _metrics;
-			}
-
-			return new HalsteadMetrics(0, 0, 0, 0);
+			CalculateGenericPropertyMetrics(node);
+			return _metrics;
 		}
 
 		public override void VisitBlock(BlockSyntax node)
@@ -51,9 +47,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			var dictionary = ParseTokens(tokens, Operands.All);
 			var dictionary2 = ParseTokens(tokens, Operators.All);
 			var metrics = new HalsteadMetrics(
-				numOperands: dictionary.Values.Sum(x => x.Count), 
-				numUniqueOperands: dictionary.Values.SelectMany(x => x).Distinct().Count(), 
-				numOperators: dictionary2.Values.Sum(x => x.Count), 
+				numOperands: dictionary.Values.Sum(x => x.Count),
+				numUniqueOperands: dictionary.Values.SelectMany(x => x).Distinct().Count(),
+				numOperators: dictionary2.Values.Sum(x => x.Count),
 				numUniqueOperators: dictionary2.Values.SelectMany(x => x).Distinct().Count());
 			_metrics = metrics;
 		}
@@ -81,7 +77,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return dictionary;
 		}
 
-		private bool CalculateGenericPropertyMetrics(MemberNode node)
+		private void CalculateGenericPropertyMetrics(MemberNode node)
 		{
 			var syntaxNode = node.SyntaxNode as PropertyDeclarationSyntax;
 			if (syntaxNode != null)
@@ -93,16 +89,13 @@ namespace ArchiMetrics.Analysis.Metrics
 					{
 						case MemberKind.GetProperty:
 							_metrics = flag ? HalsteadMetrics.GenericStaticGetPropertyMetrics : HalsteadMetrics.GenericInstanceGetPropertyMetrics;
-							return true;
-
+							break;
 						case MemberKind.SetProperty:
 							_metrics = flag ? HalsteadMetrics.GenericStaticSetPropertyMetrics : HalsteadMetrics.GenericInstanceSetPropertyMetrics;
-							return true;
+							break;
 					}
 				}
 			}
-
-			return false;
 		}
 	}
 }

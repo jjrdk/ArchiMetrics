@@ -121,11 +121,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var analyzer = new HalsteadAnalyzer();
 			var halsteadMetrics = analyzer.Calculate(node);
-			if (halsteadMetrics == null)
-			{
-				return null;
-			}
-
+			
 			var syntaxNode = node.SyntaxNode;
 			var memberMetricKind = GetMemberMetricKind(node);
 			var source = CalculateClassCoupling(node);
