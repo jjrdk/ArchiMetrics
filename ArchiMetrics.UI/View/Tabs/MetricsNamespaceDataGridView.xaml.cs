@@ -1,12 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetricsMemberDataGridView.xaml.cs" company="Reimers.dk">
+// <copyright file="MetricsNamespaceDataGridView.xaml.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Interaction logic for MetricsMemberDataGridView.xaml
+//   Interaction logic for MetricsMemberDataGridView.xaml.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -23,10 +23,10 @@ namespace ArchiMetrics.UI.View.Tabs
 	/// <summary>
 	/// Interaction logic for MetricsMemberDataGridView.xaml.
 	/// </summary>
-	[DataContext(typeof(MemberMetricsDataGridViewModel))]
-	public partial class MetricsMemberDataGridView : UserControl
+	[DataContext(typeof(NamespaceMetricsDataGridViewModel))]
+	public partial class MetricsNamespaceDataGridView : UserControl
 	{
-		public MetricsMemberDataGridView()
+		public MetricsNamespaceDataGridView()
 		{
 			InitializeComponent();
 		}

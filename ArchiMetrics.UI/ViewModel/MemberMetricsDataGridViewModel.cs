@@ -1,12 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetricsDataGridViewModel.cs" company="Reimers.dk">
+// <copyright file="MemberMetricsDataGridViewModel.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the MetricsViewModel type.
+//   Defines the MemberMetricsDataGridViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,20 +17,17 @@ namespace ArchiMetrics.UI.ViewModel
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 
-	internal class MetricsDataGridViewModel : ViewModelBase
+	internal class MemberMetricsDataGridViewModel : ViewModelBase
 	{
 		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly IAppContext _config;
-		private int _typeCyclomaticComplexity;
 		private int _memberCyclomaticComplexity;
 		private int _depthOfInheritance;
-		private double _typeMaintainabilityIndex;
 		private double _memberMaintainabilityIndex;
 		private IList<IMemberMetric> _memberMetrics;
-		private IList<ITypeMetric> _typeMetrics;
 		private int _linesOfCode;
 
-		public MetricsDataGridViewModel(
+		public MemberMetricsDataGridViewModel(
 			IProjectMetricsRepository metricsRepository,
 			IAppContext config)
 			: base(config)
@@ -39,23 +36,6 @@ namespace ArchiMetrics.UI.ViewModel
 			_metricsRepository = metricsRepository;
 			_config = config;
 			UpdateInternal();
-		}
-
-		public int TypeCyclomaticComplexity
-		{
-			get
-			{
-				return _typeCyclomaticComplexity;
-			}
-
-			private set
-			{
-				if (!_typeCyclomaticComplexity.Equals(value))
-				{
-					_typeCyclomaticComplexity = value;
-					RaisePropertyChanged();
-				}
-			}
 		}
 
 		public int MemberCyclomaticComplexity
@@ -87,23 +67,6 @@ namespace ArchiMetrics.UI.ViewModel
 				if (!_depthOfInheritance.Equals(value))
 				{
 					_depthOfInheritance = value;
-					RaisePropertyChanged();
-				}
-			}
-		}
-
-		public double TypeMaintainabilityIndex
-		{
-			get
-			{
-				return _typeMaintainabilityIndex;
-			}
-
-			private set
-			{
-				if (!_typeMaintainabilityIndex.Equals(value))
-				{
-					_typeMaintainabilityIndex = value;
 					RaisePropertyChanged();
 				}
 			}
@@ -160,23 +123,6 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		public IList<ITypeMetric> TypeMetrics
-		{
-			get
-			{
-				return _typeMetrics;
-			}
-
-			private set
-			{
-				if (!ReferenceEquals(_typeMetrics, value))
-				{
-					_typeMetrics = value;
-					RaisePropertyChanged();
-				}
-			}
-		}
-
 		protected override void Update(bool forceUpdate)
 		{
 			UpdateInternal();
@@ -188,7 +134,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = true;
 			var solutionPath = _config.Path;
 			var metricsTasks = (await _metricsRepository.Get(solutionPath)).ToArray();
-			
+
 			var metrics = metricsTasks
 				.SelectMany(x => x.NamespaceMetrics)
 				.ToArray();
@@ -196,12 +142,9 @@ namespace ArchiMetrics.UI.ViewModel
 			var memberMetrics = typeMetrics.SelectMany(x => x.MemberMetrics).ToArray();
 			LinesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var depthOfInheritance = metrics.Any() ? metrics.Max(x => x.DepthOfInheritance) : 0;
-			TypeMaintainabilityIndex = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / LinesOfCode);
 			MemberMaintainabilityIndex = LinesOfCode == 0 ? 0 : (memberMetrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / LinesOfCode);
-			TypeCyclomaticComplexity = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.CyclomaticComplexity) / LinesOfCode);
 			MemberCyclomaticComplexity = LinesOfCode == 0 ? 0 : (memberMetrics.Sum(x => x.LinesOfCode * x.CyclomaticComplexity) / LinesOfCode);
 			DepthOfInheritance = depthOfInheritance;
-			TypeMetrics = typeMetrics;
 			MemberMetrics = memberMetrics;
 			IsLoading = false;
 		}

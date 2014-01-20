@@ -23,20 +23,20 @@
 				  Source="View/AboutView.xaml" />
 	</mui:ModernWindow.TitleLinks>
 	<mui:ModernWindow.MenuLinkGroups>
-		<mui:LinkGroup DisplayName="Structures">
-			<mui:LinkGroup.Links>
-				<mui:Link DisplayName="Edges"
-						  Source="View/EdgesView.xaml" />
-				<mui:Link DisplayName="Validation"
-						  Source="View/ValidateStructureView.xaml" />
-			</mui:LinkGroup.Links>
-		</mui:LinkGroup>
 		<mui:LinkGroup DisplayName="Review">
 			<mui:LinkGroup.Links>
 				<mui:Link DisplayName="Code Metrics"
 						  Source="View/MetricsView.xaml" />
 				<mui:Link DisplayName="Code Review"
 						  Source="View/CodeReviewView.xaml" />
+			</mui:LinkGroup.Links>
+		</mui:LinkGroup>
+		<mui:LinkGroup DisplayName="Structures">
+			<mui:LinkGroup.Links>
+				<mui:Link DisplayName="Edges"
+						  Source="View/EdgesView.xaml" />
+				<mui:Link DisplayName="Validation"
+						  Source="View/ValidateStructureView.xaml" />
 			</mui:LinkGroup.Links>
 		</mui:LinkGroup>
 	</mui:ModernWindow.MenuLinkGroups>

@@ -23,7 +23,7 @@ namespace ArchiMetrics.UI.View.Tabs
 	/// <summary>
 	/// Interaction logic for MetricsTypeDataGridView.xaml.
 	/// </summary>
-	[DataContext(typeof(MetricsDataGridViewModel))]
+	[DataContext(typeof(TypeMetricsDataGridViewModel))]
 	public partial class MetricsTypeDataGridView : UserControl
 	{
 		public MetricsTypeDataGridView()

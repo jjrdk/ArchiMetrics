@@ -7,9 +7,13 @@
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300">
-	<mui:ModernTab SelectedSource="View/Tabs/MetricsTypeDataGridView.xaml"
+	<mui:ModernTab SelectedSource="View/Tabs/MetricsProjectDataGridView.xaml"
 				   ContentLoader="{DynamicResource Loader}">
 		<mui:ModernTab.Links>
+			<mui:Link DisplayName="Projects"
+					  Source="View/Tabs/MetricsProjectDataGridView.xaml" />
+			<mui:Link DisplayName="Namespace"
+					  Source="View/Tabs/MetricsNamespaceDataGridView.xaml" />
 			<mui:Link DisplayName="Types"
 					  Source="View/Tabs/MetricsTypeDataGridView.xaml" />
 			<mui:Link DisplayName="Members"

@@ -153,7 +153,10 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<StructureRulesViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
 			builder.RegisterType<TestErrorGraphViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
 			builder.RegisterType<SettingsViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
-			builder.RegisterType<MetricsDataGridViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<MemberMetricsDataGridViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<TypeMetricsDataGridViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<NamespaceMetricsDataGridViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
+			builder.RegisterType<ProjectMetricsDataGridViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
 			builder.RegisterType<MetricsChartViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();
 			builder.RegisterType<AvailableRules>().As<IAvailableRules>().SingleInstance();
 			builder.RegisterType<ModelValidator>().As<IModelValidator>();

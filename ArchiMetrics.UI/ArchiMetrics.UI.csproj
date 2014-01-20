@@ -183,11 +183,13 @@
     <Compile Include="Support\ObservableProxyCollection.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\CodeReviewViewModel.cs" />
+    <Compile Include="ViewModel\ProjectMetricsDataGridViewModel.cs" />
     <Compile Include="ViewModel\StructureRulesViewModel.cs" />
+    <Compile Include="ViewModel\TypeMetricsDataGridViewModel.cs" />
     <Compile Include="ViewModel\VertexViewModel.cs" />
     <Compile Include="ViewModel\VertexViewModelBase.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
-    <Compile Include="ViewModel\MetricsDataGridViewModel.cs" />
+    <Compile Include="ViewModel\MemberMetricsDataGridViewModel.cs" />
     <Compile Include="ViewModel\MetricsChartViewModel.cs" />
     <Compile Include="ViewModel\ModelGraph.cs" />
     <Compile Include="ViewModel\ObservableModelNode.cs" />
@@ -233,6 +235,12 @@
     </Compile>
     <Compile Include="View\Tabs\EdgesGraphView.xaml.cs">
       <DependentUpon>EdgesGraphView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\MetricsNamespaceDataGridView.xaml.cs">
+      <DependentUpon>MetricsNamespaceDataGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tabs\MetricsProjectDataGridView.xaml.cs">
+      <DependentUpon>MetricsProjectDataGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tabs\MetricsMemberDataGridView.xaml.cs">
       <DependentUpon>MetricsMemberDataGridView.xaml</DependentUpon>
@@ -360,6 +368,14 @@
     <Page Include="View\Tabs\MetricsChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tabs\MetricsNamespaceDataGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tabs\MetricsProjectDataGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Tabs\MetricsMemberDataGridView.xaml">
       <Generator>MSBuild:Compile</Generator>
