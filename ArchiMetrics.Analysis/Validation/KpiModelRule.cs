@@ -19,13 +19,29 @@ namespace ArchiMetrics.Analysis.Validation
 
 	internal class KpiModelRule : IModelRule
 	{
+		private readonly int _cyclomaticComplexity;
+		private readonly double _maintainabilityIndex;
+		private readonly int _linesOfCode;
+
+		public KpiModelRule(int cyclomaticComplexity, double maintainabilityIndex, int linesOfCode)
+		{
+			_cyclomaticComplexity = cyclomaticComplexity;
+			_maintainabilityIndex = maintainabilityIndex;
+			_linesOfCode = linesOfCode;
+		}
+
+		public KpiModelRule()
+			: this(30, 40, 30)
+		{
+		}
+
 		public Task<IEnumerable<IValidationResult>> Validate(IModelNode modelTree)
 		{
 			return
 				Task.Factory.StartNew(
 					() => modelTree.Children.SelectMany(x => x.Flatten())
 							  .Where(x => x.Type == NodeKind.Class)
-							  .Where(x => x.CyclomaticComplexity > 30 || x.MaintainabilityIndex < 40 || x.LinesOfCode > 30)
+							  .Where(x => x.CyclomaticComplexity > _cyclomaticComplexity || x.MaintainabilityIndex < _maintainabilityIndex || x.LinesOfCode > _linesOfCode)
 							  .Select(x => new KpiResult(false, x))
 							  .Cast<IValidationResult>()
 							  .ToArray()
