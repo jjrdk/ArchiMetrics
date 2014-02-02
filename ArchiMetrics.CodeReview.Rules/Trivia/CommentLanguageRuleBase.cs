@@ -20,6 +20,7 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 	internal abstract class CommentLanguageRuleBase : TriviaEvaluationBase
 	{
 		private static readonly Regex StrippedRegex = new Regex(@"[""'*©®º()!%\[\]{}/]+", RegexOptions.Compiled);
+		private static readonly Regex LineDashRegex = new Regex(@"-{3,}", RegexOptions.Compiled);
 		private static readonly Regex NumberRegex = new Regex("[1-9]+", RegexOptions.Compiled);
 		private static readonly Regex XmlRegex = new Regex("<.+?>", RegexOptions.Compiled);
 		private readonly ISpellChecker _spellChecker;
@@ -72,7 +73,7 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		protected override EvaluationResult EvaluateImpl(SyntaxTrivia node)
 		{
 			var trimmed = StrippedRegex.Replace(node.ToFullString(), string.Empty).Trim();
-			var commentWords = RemoveXml(trimmed)
+			var commentWords = RemoveLineDashes(RemoveXml(trimmed))
 				.Split(' ')
 				.Select(RemoveXml)
 				.Select(s => s.TrimEnd('.', ',', '_'))
@@ -93,6 +94,11 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		private bool IsNotNumber(string input)
 		{
 			return !NumberRegex.IsMatch(input);
+		}
+
+		private string RemoveLineDashes(string input)
+		{
+			return LineDashRegex.Replace(input, string.Empty);
 		}
 
 		private string RemoveXml(string input)

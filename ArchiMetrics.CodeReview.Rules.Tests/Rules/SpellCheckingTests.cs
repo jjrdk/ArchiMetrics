@@ -12,16 +12,12 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
-	using System;
-	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Trivia;
 	using ArchiMetrics.Common.CodeReview;
-	using Ionic.Zip;
-	using NHunspell;
 	using NUnit.Framework;
 	using Roslyn.Compilers.CSharp;
 
@@ -186,69 +182,6 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var task = await _reviewer.Inspect(string.Empty, string.Empty, root, null, null);
 				
 				Assert.IsNotEmpty(task);
-			}
-		}
-
-		private class ExemptPatterns : IKnownPatterns
-		{
-			public bool IsExempt(string word)
-			{
-				return false;
-			}
-
-			public void Add(params string[] patterns)
-			{
-			}
-
-			public void Remove(string pattern)
-			{
-			}
-
-			public void Clear()
-			{
-			}
-		}
-
-		private class SpellChecker : ISpellChecker
-		{
-			private readonly IKnownPatterns _knownPatterns;
-			private readonly Hunspell _speller;
-
-			public SpellChecker(IKnownPatterns knownPatterns)
-			{
-				_knownPatterns = knownPatterns;
-				using (var dictFile = ZipFile.Read(@"Dictionaries\dict-en.oxt"))
-				{
-					var affStream = new MemoryStream();
-					var dicStream = new MemoryStream();
-					dictFile.FirstOrDefault(z => z.FileName == "en_US.aff").Extract(affStream);
-					dictFile.FirstOrDefault(z => z.FileName == "en_US.dic").Extract(dicStream);
-					_speller = new Hunspell(affStream.ToArray(), dicStream.ToArray());
-				}
-			}
-
-			~SpellChecker()
-			{
-				Dispose(false);
-			}
-
-			public bool Spell(string word)
-			{
-				return _knownPatterns.IsExempt(word) || _speller.Spell(word);
-			}
-
-			public void Dispose()
-			{
-				Dispose(true);
-				GC.SuppressFinalize(this);
-			}
-
-			protected virtual void Dispose(bool isDisposing)
-			{
-				if (isDisposing)
-				{
-					_speller.Dispose(true);
-				}
 			}
 		}
 	}
