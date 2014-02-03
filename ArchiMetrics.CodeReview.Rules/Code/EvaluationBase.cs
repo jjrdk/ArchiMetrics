@@ -102,5 +102,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 			return FindClassParent(node.Parent);
 		}
+
+		protected NamespaceDeclarationSyntax FindNamespaceParent(SyntaxNode node)
+		{
+			if (node.Parent == null)
+			{
+				return null;
+			}
+
+			if (node.Parent.Kind == SyntaxKind.NamespaceDeclaration)
+			{
+				return node.Parent as NamespaceDeclarationSyntax;
+			}
+
+			return FindNamespaceParent(node.Parent);
+		}
 	}
 }

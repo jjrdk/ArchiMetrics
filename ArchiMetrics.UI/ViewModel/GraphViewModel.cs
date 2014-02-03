@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.UI.ViewModel
 {
-	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Threading;
@@ -21,7 +20,6 @@ namespace ArchiMetrics.UI.ViewModel
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;
-	using QuickGraph;
 
 	internal class GraphViewModel : ViewModelBase
 	{
@@ -94,7 +92,7 @@ namespace ArchiMetrics.UI.ViewModel
 			base.Dispose(isDisposing);
 		}
 
-		private async Task UpdateImpl(bool forceUpdate)
+		private async void UpdateImpl(bool forceUpdate)
 		{
 			if (_tokenSource != null)
 			{
@@ -122,9 +120,8 @@ namespace ArchiMetrics.UI.ViewModel
 			var edges =
 				(await _filter.Transform(_allMetricsEdges, rules, cancellationToken))
 					.WhereNot(x => string.IsNullOrWhiteSpace(x.QualifiedName))
-					.SelectMany(x => ((IModelNode)x).Flatten())
+					.SelectMany(x => x.Flatten())
 					.Where(e => !string.IsNullOrWhiteSpace(e.QualifiedName))
-					.OfType<IModelNode>()
 					.Where(x => x.IsShared())
 					.SelectMany(vertex => vertex.Children.Where(y => y.IsShared()).Select(x => new ModelEdge(vertex, x)))
 					.WhereNot(e => e.Target.Equals(e.Source))
