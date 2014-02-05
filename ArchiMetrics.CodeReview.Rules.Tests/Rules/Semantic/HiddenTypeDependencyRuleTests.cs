@@ -54,6 +54,31 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 		}
 	}
 }")]
+			[TestCase(@"namespace MyNamespace
+{
+	public class MyFactory<T> where T : new()
+{
+	public T Create()
+	{
+		return new T();
+	}
+}
+
+	public class MyClass
+	{
+		private ArchiMetrics.Common.ModelSettings _settings = null;
+
+		public object GetItem()
+		{
+			if(_settings == null)
+			{
+				var factory = new Factory<ArchiMetrics.Common.ModelSettings>();
+				_settings = factory.Create();
+			}
+			return _settings;
+		}
+	}
+}")]
 			public async Task WhenMethodContainsHiddenDependencyThenReturnsError(string code)
 			{
 				var references = new[] { new MetadataFileReference(typeof(ModelSettings).Assembly.Location) };

@@ -15,6 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	using System.Linq;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
+	using Roslyn.Compilers;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
@@ -82,14 +83,21 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var descendantNodes = methodDeclaration.Body.DescendantNodes().ToArray();
 			var genericParameterTypes =
 				descendantNodes.OfType<TypeArgumentListSyntax>()
-					.SelectMany(x => x.Arguments.Select(y => semanticModel.GetSymbolInfo(y).Symbol))
-					.WhereNotNull()
-					.DistinctBy(x => x.ToDisplayString());
+					.SelectMany(x => x.Arguments.Select(y => semanticModel.GetSymbolInfo(y).Symbol));
+			var symbolInfo = semanticModel.GetDeclaredSymbol(node);
+			var containingType = symbolInfo.ContainingType;
+			var fieldTypes = containingType.GetMembers()
+				.OfType<FieldSymbol>().Select(x => x.Type)
+				.ToArray();
+			var usedTypes = genericParameterTypes.Concat(fieldTypes)
+				.WhereNotNull()
+				.DistinctBy(x => x.ToDisplayString());
 			var parameterTypes =
 				methodDeclaration.ParameterList.Parameters.Select(x => semanticModel.GetSymbolInfo(x.Type).Symbol)
 					.WhereNotNull()
 					.DistinctBy(x => x.ToDisplayString());
-			var locals = genericParameterTypes.Except(parameterTypes);
+
+			var locals = usedTypes.Except(parameterTypes);
 
 			if (locals.Any(x => !x.ContainingAssembly.Equals(semanticModel.Compilation.Assembly) && !SystemAssemblyPrefixes.Any(y => x.ContainingAssembly.Name.StartsWith(y))))
 			{
