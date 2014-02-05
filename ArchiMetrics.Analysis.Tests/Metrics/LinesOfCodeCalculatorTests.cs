@@ -47,14 +47,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}";
 
 				var syntaxTree = SyntaxTree.ParseText(Text);
-				var compilation = Compilation.Create("x", syntaxTrees: new[] { syntaxTree });
-				var model = compilation.GetSemanticModel(syntaxTree);
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
 					.First(c => c.Kind == SyntaxKind.MethodDeclaration);
-				var node = new MemberNode("a", "b", MemberKind.Method, 0, root, model);
-				var loc = _analyzer.Calculate(node);
+
+				var loc = _analyzer.Calculate(root);
 
 				Assert.AreEqual(0, loc);
 			}
@@ -82,14 +80,11 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			   code);
 
 				var syntaxTree = SyntaxTree.ParseText(text);
-				var compilation = Compilation.Create("x", syntaxTrees: new[] { syntaxTree });
-				var model = compilation.GetSemanticModel(syntaxTree);
 				var root = syntaxTree
-											.GetRoot()
-											.DescendantNodes()
-											.First(c => c.Kind == kind);
-				var node = new MemberNode("a", "b", memberKind, 0, root, model);
-				var loc = _analyzer.Calculate(node);
+					.GetRoot()
+					.DescendantNodes()
+					.First(c => c.Kind == kind);
+				var loc = _analyzer.Calculate(root);
 
 				Assert.AreEqual(expected, loc);
 			}

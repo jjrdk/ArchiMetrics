@@ -130,8 +130,7 @@ namespace MyNs
 					.OfType<MethodDeclarationSyntax>()
 					.First();
 
-				var node = new MemberNode(string.Empty, "test", MemberKind.Method, 0, syntaxNode, model);
-				var result = _counter.Calculate(node);
+				var result = _counter.Calculate(syntaxNode, model);
 
 				Assert.AreEqual(expectedComplexity, result);
 			}
@@ -165,8 +164,7 @@ namespace MyNs
 					.OfType<AccessorDeclarationSyntax>()
 					.First();
 
-				var node = new MemberNode(string.Empty, "test", MemberKind.AddEventHandler, 0, syntaxNode, model);
-				var result = _counter.Calculate(node);
+				var result = _counter.Calculate(syntaxNode, model);
 
 				Assert.AreEqual(expectedComplexity, result);
 			}

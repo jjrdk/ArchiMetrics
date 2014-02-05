@@ -29,22 +29,21 @@ namespace ArchiMetrics.Analysis.Metrics
 			_semanticModel = semanticModel;
 		}
 
-		public string TryResolveMemberSignatureString(MemberNode member)
+		public string TryResolveMemberSignatureString(SyntaxNode syntaxNode)
 		{
 			Func<CommonSyntaxNode, string> func;
-			var syntaxNode = member.SyntaxNode;
-			var dictionary2 = new Dictionary<MemberKind, Func<CommonSyntaxNode, string>>
+			var dictionary2 = new Dictionary<SyntaxKind, Func<CommonSyntaxNode, string>>
 				                  {
-					                  { MemberKind.Method, x => GetMethodSignatureString((MethodDeclarationSyntax)x) }, 
-					                  { MemberKind.Constructor, x => GetConstructorSignatureString((ConstructorDeclarationSyntax)x) }, 
-					                  { MemberKind.Destructor, x => GetDestructorSignatureString((DestructorDeclarationSyntax)x) }, 
-					                  { MemberKind.GetProperty, x => GetPropertyGetterSignatureString((PropertyDeclarationSyntax)x) }, 
-					                  { MemberKind.SetProperty, x => GetPropertySetterSignatureString((PropertyDeclarationSyntax)x) }, 
-					                  { MemberKind.AddEventHandler, x => GetAddEventHandlerSignatureString((EventDeclarationSyntax)x) }, 
-					                  { MemberKind.RemoveEventHandler, x => GetRemoveEventHandlerSignatureString((EventDeclarationSyntax)x) }
+					                  { SyntaxKind.MethodDeclaration, x => GetMethodSignatureString((MethodDeclarationSyntax)x) }, 
+					                  { SyntaxKind.ConstructorDeclaration, x => GetConstructorSignatureString((ConstructorDeclarationSyntax)x) }, 
+					                  { SyntaxKind.DestructorDeclaration, x => GetDestructorSignatureString((DestructorDeclarationSyntax)x) }, 
+					                  { SyntaxKind.GetAccessorDeclaration, x => GetPropertyGetterSignatureString((PropertyDeclarationSyntax)x) }, 
+					                  { SyntaxKind.SetAccessorDeclaration, x => GetPropertySetterSignatureString((PropertyDeclarationSyntax)x) }, 
+					                  { SyntaxKind.AddAccessorDeclaration, x => GetAddEventHandlerSignatureString((EventDeclarationSyntax)x) }, 
+					                  { SyntaxKind.RemoveAccessorDeclaration, x => GetRemoveEventHandlerSignatureString((EventDeclarationSyntax)x) }
 				                  };
 			var dictionary = dictionary2;
-			return dictionary.TryGetValue(member.Kind, out func)
+			return dictionary.TryGetValue(syntaxNode.Kind, out func)
 				? func(syntaxNode)
 				: string.Empty;
 		}

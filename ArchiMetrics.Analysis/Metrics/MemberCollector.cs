@@ -20,41 +20,34 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberCollector : SyntaxWalker
 	{
-		private readonly List<MemberNode> _members;
+		private readonly List<SyntaxNode> _members;
 		private readonly CommonSyntaxNode _root;
 
 		public MemberCollector(CommonSyntaxNode root)
 			: base(SyntaxWalkerDepth.Node)
 		{
-			_members = new List<MemberNode>();
+			_members = new List<SyntaxNode>();
 			_root = root;
 		}
 
-		public IEnumerable<MemberNode> GetMembers(ISemanticModel semanticModel, TypeDeclarationSyntaxInfo type)
+		public IEnumerable<SyntaxNode> GetMembers(ISemanticModel semanticModel, TypeDeclarationSyntaxInfo type)
 		{
 			Visit((SyntaxNode)type.Syntax);
-			var signatureResolver = new MemberNameResolver(semanticModel);
-			return _members.Select(x => new MemberNode(
-				                            type.CodeFile, 
-				                            signatureResolver.TryResolveMemberSignatureString(x), 
-				                            x.Kind, 
-				                            GetLineNumber(x.SyntaxNode), 
-				                            x.SyntaxNode, 
-											semanticModel));
+			return _members.ToList();
 		}
 
 		public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
 		{
 			base.VisitConstructorDeclaration(node);
-			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Constructor, GetLineNumber(node), node, null);
-			_members.Add(item);
+			//var item = new MemberNode(string.Empty, string.Empty, MemberKind.Constructor, GetLineNumber(node), node, null);
+			_members.Add(node);
 		}
 
 		public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node)
 		{
 			base.VisitDestructorDeclaration(node);
-			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Destructor, GetLineNumber(node), node, null);
-			_members.Add(item);
+			//var item = new MemberNode(string.Empty, string.Empty, MemberKind.Destructor, GetLineNumber(node), node, null);
+			_members.Add(node);
 		}
 
 		public override void VisitEventDeclaration(EventDeclarationSyntax node)
@@ -67,8 +60,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
 		{
 			base.VisitMethodDeclaration(node);
-			var item = new MemberNode(string.Empty, string.Empty, MemberKind.Method, GetLineNumber(node), node, null);
-			_members.Add(item);
+			//var item = new MemberNode(string.Empty, string.Empty, MemberKind.Method, GetLineNumber(node), node, null);
+			_members.Add(node);
 		}
 
 		public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
@@ -82,8 +75,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			if (accessorList.Accessors.Any(x => (x.Kind == filter)))
 			{
-				var item = new MemberNode(string.Empty, string.Empty, kind, GetLineNumber(node), node, null);
-				_members.Add(item);
+				//var item = new MemberNode(string.Empty, string.Empty, kind, GetLineNumber(node), node, null);
+				_members.Add(node);
 			}
 		}
 
