@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI
 	using System.Collections.Specialized;
 	using System.Linq;
 	using System.Text.RegularExpressions;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
 	internal class KnownPatterns : ICollection<Regex>, INotifyCollectionChanged, IKnownPatterns
@@ -25,7 +26,7 @@ namespace ArchiMetrics.UI
 
 		public KnownPatterns()
 		{
-			_regexes.Add(new Regex("Microsoft", RegexOptions.Compiled));
+			((IKnownPatterns)this).Add("Microsoft", @"^\d\.\d\.\d{1,5}\.\d$", @"Runtime");
 		}
 
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -59,7 +60,7 @@ namespace ArchiMetrics.UI
 
 		void IKnownPatterns.Add(params string[] patterns)
 		{
-			var items = patterns.Select(x => new Regex(x, RegexOptions.Compiled));
+			var items = patterns.WhereNotNullOrWhitespace().Select(x => new Regex(x, RegexOptions.Compiled));
 			AddMany(items);
 		}
 

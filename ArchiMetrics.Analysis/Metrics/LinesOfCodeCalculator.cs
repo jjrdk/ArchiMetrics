@@ -12,19 +12,12 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal sealed class LinesOfCodeCalculator
 	{
 		public int Calculate(SyntaxNode node)
-		{
-			var innerCalculator = new InnerLinesOfCodeCalculator();
-			return innerCalculator.Calculate(node);
-		}
-
-		public int Calculate(MemberNode node)
 		{
 			var innerCalculator = new InnerLinesOfCodeCalculator();
 			return innerCalculator.Calculate(node);
@@ -44,17 +37,6 @@ namespace ArchiMetrics.Analysis.Metrics
 				if (node != null)
 				{
 					Visit(node);
-				}
-
-				return _counter;
-			}
-
-			public int Calculate(MemberNode node)
-			{
-				var syntax = node.SyntaxNode as SyntaxNode;
-				if (syntax != null)
-				{
-					Visit(syntax);
 				}
 
 				return _counter;

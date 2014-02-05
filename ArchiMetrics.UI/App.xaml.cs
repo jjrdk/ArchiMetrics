@@ -47,7 +47,7 @@ namespace ArchiMetrics.UI
 		static App()
 		{
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement), 
+				typeof(FrameworkElement),
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 
@@ -143,7 +143,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
 			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
-			builder.RegisterType<TrackingCodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
+			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
 			builder.RegisterType<SolutionVertexRepository>().As<IVertexRepository>().SingleInstance();
 			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<TransformRule>>>().SingleInstance();
 			builder.RegisterType<VertexViewModel>().As<ViewModelBase>().AsSelf().SingleInstance();

@@ -161,7 +161,6 @@
     <Compile Include="DataAccess\NamespaceReference.cs" />
     <Compile Include="DataAccess\ProjectReference.cs" />
     <Compile Include="DataAccess\AppContext.cs" />
-    <Compile Include="DataAccess\TrackingCodeErrorRepository.cs" />
     <Compile Include="DataAccess\VertexTransformProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Schedulers.cs" />
@@ -298,12 +297,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindowResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>

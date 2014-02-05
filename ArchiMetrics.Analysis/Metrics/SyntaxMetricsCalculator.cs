@@ -48,18 +48,12 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			var types = childNodes.Where(n => n.Kind == SyntaxKind.ClassDeclaration || n.Kind == SyntaxKind.StructDeclaration)
 				.ToArray();
-			var methods = types.SelectMany(n => n.ChildNodes().Where(_isMethod))
-				.Select(n => CreateMemberNode(MemberKind.Method, n));
-			var getProperties = types.SelectMany(n => n.ChildNodes().Where(_isGetProperty))
-				.Select(n => CreateMemberNode(MemberKind.GetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.GetAccessorDeclaration)));
-			var setProperties = types.SelectMany(n => n.ChildNodes().Where(_isSetProperty))
-				.Select(n => CreateMemberNode(MemberKind.SetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.SetAccessorDeclaration)));
-			var looseMethods = childNodes.Where(_isMethod)
-				.Select(n => CreateMemberNode(MemberKind.Method, n));
-			var looseGetProperties = childNodes.Where(_isGetProperty)
-				.Select(n => CreateMemberNode(MemberKind.GetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.GetAccessorDeclaration)));
-			var looseSetProperties = childNodes.Where(_isSetProperty)
-				.Select(n => CreateMemberNode(MemberKind.GetProperty, ((PropertyDeclarationSyntax)n).AccessorList.Accessors.First(x => x.Kind == SyntaxKind.SetAccessorDeclaration)));
+			var methods = types.SelectMany(n => n.ChildNodes().Where(_isMethod));
+			var getProperties = types.SelectMany(n => n.ChildNodes().Where(_isGetProperty));
+			var setProperties = types.SelectMany(n => n.ChildNodes().Where(_isSetProperty));
+			var looseMethods = childNodes.Where(_isMethod);
+			var looseGetProperties = childNodes.Where(_isGetProperty);
+			var looseSetProperties = childNodes.Where(_isSetProperty);
 			var members = methods.Concat(getProperties)
 								 .Concat(setProperties)
 								 .Concat(looseMethods)
@@ -79,20 +73,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				.WithBody(Syntax.Block(statements));
 			return new[]
 				   {
-					   analyzer.Calculate(
-						   new MemberNode(
-						   string.Empty, 
-						   string.Empty, 
-						   MemberKind.Method, 
-						   0, 
-						   fakeMethod, 
-						   null))
+					   analyzer.Calculate(fakeMethod)
 				   };
-		}
-
-		private MemberNode CreateMemberNode(MemberKind kind, SyntaxNode node)
-		{
-			return new MemberNode(string.Empty, string.Empty, kind, 0, node, null);
 		}
 	}
 }

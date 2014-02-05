@@ -38,16 +38,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			var members = walker.GetMembers(Model, typeNode).ToArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
-				&& members.All(m => m.Kind != MemberKind.Constructor))
+				&& members.All(m => m.Kind != SyntaxKind.ConstructorDeclaration))
 			{
 				var defaultConstructor = Syntax.ConstructorDeclaration(typeNode.Name)
 											   .WithModifiers(Syntax.TokenList(Syntax.Token(SyntaxKind.PublicKeyword)))
 											   .WithBody(Syntax.Block());
-				members = members.Concat(new[]
-										 {
-											 new MemberNode(typeNode.CodeFile, typeNode.Name, MemberKind.Constructor, 0, defaultConstructor, Model)
-										 })
-										 .ToArray();
+				members = members.Concat(new[] { defaultConstructor }).ToArray();
 			}
 
 			return CalculateMemberMetrics(members).ToArray();
@@ -55,8 +51,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IMemberMetric Calculate(MethodDeclarationSyntax methodDeclaration)
 		{
-			var member = new MemberNode(string.Empty, methodDeclaration.Identifier.ValueText, MemberKind.Method, 0, methodDeclaration, Model);
-			return CalculateMemberMetric(member);
+			return CalculateMemberMetric(methodDeclaration);
 		}
 
 		private static double CalculateMaintainablityIndex(double cyclomaticComplexity, double linesOfCode, IHalsteadMetrics halsteadMetrics)
@@ -72,44 +67,44 @@ namespace ArchiMetrics.Analysis.Metrics
 			return Math.Max(0.0, mi);
 		}
 
-		private static MemberMetricKind GetMemberMetricKind(MemberNode memberNode)
+		private static MemberMetricKind GetMemberMetricKind(SyntaxKind memberKind)
 		{
-			switch (memberNode.Kind)
+			switch (memberKind)
 			{
-				case MemberKind.Method:
-				case MemberKind.Constructor:
-				case MemberKind.Destructor:
+				case SyntaxKind.MethodDeclaration:
+				case SyntaxKind.ConstructorDeclaration:
+				case SyntaxKind.DestructorDeclaration:
 					return MemberMetricKind.Method;
 
-				case MemberKind.GetProperty:
-				case MemberKind.SetProperty:
+				case SyntaxKind.GetAccessorDeclaration:
+				case SyntaxKind.SetAccessorDeclaration:
 					return MemberMetricKind.PropertyAccessor;
 
-				case MemberKind.AddEventHandler:
-				case MemberKind.RemoveEventHandler:
+				case SyntaxKind.AddAccessorDeclaration:
+				case SyntaxKind.RemoveAccessorDeclaration:
 					return MemberMetricKind.EventAccessor;
 			}
 
 			return MemberMetricKind.Unknown;
 		}
 
-		private int CalculateLinesOfCode(MemberNode node)
+		private int CalculateLinesOfCode(SyntaxNode node)
 		{
 			return _locCalculator.Calculate(node);
 		}
 
-		private int CalculateCyclomaticComplexity(MemberNode node)
+		private int CalculateCyclomaticComplexity(SyntaxNode node)
 		{
-			return _counter.Calculate(node);
+			return _counter.Calculate(node, Model);
 		}
 
-		private IEnumerable<TypeCoupling> CalculateClassCoupling(MemberNode node)
+		private IEnumerable<TypeCoupling> CalculateClassCoupling(SyntaxNode node)
 		{
 			var provider = new MemberClassCouplingAnalyzer(Model);
 			return provider.Calculate(node);
 		}
 
-		private IEnumerable<IMemberMetric> CalculateMemberMetrics(IEnumerable<MemberNode> nodes)
+		private IEnumerable<IMemberMetric> CalculateMemberMetrics(IEnumerable<SyntaxNode> nodes)
 		{
 			return from node in nodes
 				   let metric = CalculateMemberMetric(node)
@@ -117,42 +112,44 @@ namespace ArchiMetrics.Analysis.Metrics
 				   select metric;
 		}
 
-		private IMemberMetric CalculateMemberMetric(MemberNode node)
+		private IMemberMetric CalculateMemberMetric(SyntaxNode syntaxNode)
 		{
 			var analyzer = new HalsteadAnalyzer();
-			var halsteadMetrics = analyzer.Calculate(node);
-			
-			var syntaxNode = node.SyntaxNode;
-			var memberMetricKind = GetMemberMetricKind(node);
-			var source = CalculateClassCoupling(node);
-			var complexity = CalculateCyclomaticComplexity(node);
-			var linesOfCode = CalculateLinesOfCode(node);
+			var halsteadMetrics = analyzer.Calculate(syntaxNode);
+
+			var memberMetricKind = GetMemberMetricKind(syntaxNode.Kind);
+			var source = CalculateClassCoupling(syntaxNode);
+			var complexity = CalculateCyclomaticComplexity(syntaxNode);
+			var linesOfCode = CalculateLinesOfCode(syntaxNode);
 			var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
 			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
 			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
-			var afferentCouling = CalculateAfferentCouling(node);
+			var afferentCouling = CalculateAfferentCouling(syntaxNode);
+			var location = syntaxNode.GetLocation();
+			var lineNumber = location.GetLineSpan(true).StartLinePosition.Line;
+			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			return new MemberMetric(
-				node.CodeFile,
+				filePath,
 				halsteadMetrics,
 				memberMetricKind,
-				node.LineNumber,
+				lineNumber,
 				linesOfCode,
 				maintainabilityIndex,
 				complexity,
-				node.DisplayName,
+				syntaxNode.ToFullString(),
 				source.ToArray(),
 				numberOfParameters,
 				numberOfLocalVariables,
 				afferentCouling);
 		}
 
-		private int? CalculateAfferentCouling(MemberNode node)
+		private int? CalculateAfferentCouling(SyntaxNode node)
 		{
 			try
 			{
 				return _solution == null
 						   ? (int?)null
-						   : Model.GetDeclaredSymbol(node.SyntaxNode)
+						   : Model.GetDeclaredSymbol(node)
 								 .FindReferences(_solution)
 								 .SelectMany(x => x.Locations)
 								 .Count();

@@ -70,7 +70,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var complexity = _counter.Calculate(new MemberNode(string.Empty, string.Empty, MemberKind.Method, 0, methodDeclaration, null));
+			var complexity = _counter.Calculate(methodDeclaration, null);
 			if (complexity >= Limit)
 			{
 				return new EvaluationResult
