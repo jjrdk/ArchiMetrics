@@ -17,14 +17,23 @@ namespace ArchiMetrics.CodeReview.Semantic
 	using System.Threading;
 	using ArchiMetrics.CodeReview.Rules;
 	using ArchiMetrics.CodeReview.Rules.Code;
+	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 	using Roslyn.Services;
 
-	internal class ClassInstabilityRule : EvaluationBase, ISemanticEvaluation
+	internal class ClassInstabilityRule : SemanticEvaluationBase
 	{
+		public override ImpactLevel ImpactLevel
+		{
+			get
+			{
+				return ImpactLevel.Type;
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get
@@ -49,7 +58,23 @@ namespace ArchiMetrics.CodeReview.Semantic
 			}
 		}
 
-		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		public override CodeQuality Quality
+		{
+			get
+			{
+				return CodeQuality.NeedsRefactoring;
+			}
+		}
+
+		public override QualityAttribute QualityAttribute
+		{
+			get
+			{
+				return QualityAttribute.Maintainability | Common.CodeReview.QualityAttribute.Modifiability;
+			}
+		}
+
+		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
 		{
 			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(node);
 			var efferent = GetReferencedTypes((ClassDeclarationSyntax)node, symbol, semanticModel).ToArray();

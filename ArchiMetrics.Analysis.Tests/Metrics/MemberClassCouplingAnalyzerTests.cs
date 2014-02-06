@@ -82,7 +82,7 @@ namespace MyNamespace
 					.OfType<SyntaxNode>()
 					.First(n => n.Kind == SyntaxKind.MethodDeclaration);
 
-				var couplings = _analyzer.Calculate(new MemberNode("blah", "blah", MemberKind.Method, 0, method, document.GetSemanticModel()));
+				var couplings = _analyzer.Calculate(method);
 				return couplings;
 			}
 

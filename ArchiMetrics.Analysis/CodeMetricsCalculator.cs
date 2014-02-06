@@ -260,11 +260,11 @@ namespace ArchiMetrics.Analysis
 						var metrics = tuple.Item2;
 						comp = tuple.Item1;
 						return new
-							   {
-								   comp,
-								   typeNodes,
-								   memberMetrics = metrics
-							   };
+						{
+							comp,
+							typeNodes,
+							memberMetrics = metrics
+						};
 					})
 					.ToArray();
 			var data = await Task.WhenAll(tasks);

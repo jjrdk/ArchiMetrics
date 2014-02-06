@@ -86,6 +86,7 @@
     <Compile Include="Rules\ExemptPatterns.cs" />
     <Compile Include="Rules\InspectionCodeSource.cs" />
     <Compile Include="Rules\SemanticRulesTests.cs" />
+    <Compile Include="Rules\Semantic\HiddenTypeDependencyRuleTests.cs" />
     <Compile Include="Rules\Semantic\LackOfCohesionRuleTests.cs" />
     <Compile Include="Rules\Semantic\LockingOnWeakIdentityObjectTests.cs" />
     <Compile Include="Rules\Semantic\TooLowMaintainabilityIndexRuleTests.cs" />

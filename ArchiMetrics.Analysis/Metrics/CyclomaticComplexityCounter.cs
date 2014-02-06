@@ -13,15 +13,14 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Linq;
-	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
 
 	internal sealed class CyclomaticComplexityCounter
 	{
-		public int Calculate(MemberNode node)
+		public int Calculate(SyntaxNode node, ISemanticModel semanticModel)
 		{
-			var analyzer = new InnerComplexityAnalyzer(node.SemanticModel);
+			var analyzer = new InnerComplexityAnalyzer(semanticModel);
 			var result = analyzer.Calculate(node);
 
 			return result;
@@ -50,9 +49,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				_counter = 1;
 			}
 
-			public int Calculate(MemberNode node)
+			public int Calculate(SyntaxNode syntax)
 			{
-				var syntax = node.SyntaxNode as SyntaxNode;
 				if (syntax != null)
 				{
 					Visit(syntax);

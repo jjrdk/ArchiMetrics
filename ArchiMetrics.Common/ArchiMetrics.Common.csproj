@@ -96,7 +96,6 @@
     <Compile Include="Metrics\ITypeMetric.cs" />
     <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />
-    <Compile Include="Metrics\MemberNode.cs" />
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />

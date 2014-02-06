@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
+	using System.Collections.Generic;
 	using System.Linq;
 	using Roslyn.Compilers;
 	using Roslyn.Services;
@@ -20,15 +21,22 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	{
 		protected ISolution CreateSolution(params string[] code)
 		{
+			return CreateSolution(Enumerable.Empty<MetadataFileReference>(), code);
+		}
+
+		protected ISolution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
+		{
 			var x = 1;
 			ProjectId pid;
 			DocumentId did;
 			var solution = code.Aggregate(
 				Solution.Create(SolutionId.CreateNewId("Semantic"))
-					.AddCSharpProject("testcode.dll", "testcode", out pid), 
+					.AddCSharpProject("testcode.dll", "testcode", out pid),
 				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
 				.AddProjectReferences(pid, new ProjectId[0])
 				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
+
+			solution = solution.AddMetadataReferences(pid, references);
 
 			return solution;
 		}
