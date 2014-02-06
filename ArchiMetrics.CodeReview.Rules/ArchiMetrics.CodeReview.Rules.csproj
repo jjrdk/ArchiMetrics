@@ -75,6 +75,8 @@
     <Compile Include="Code\PropertyTooDeepNestingRule.cs" />
     <Compile Include="Code\SetPropertyTooDeepNestingRule.cs" />
     <Compile Include="Code\TooDeepNestingRuleBase.cs" />
+    <Compile Include="Code\TypeMustBeDeclaredInNamespaceRule.cs" />
+    <Compile Include="Semantic\LockingOnWeakIdentityObjectRule.cs" />
     <Compile Include="Semantic\PossibleStaticMethod.cs" />
     <Compile Include="Semantic\SemanticEvaluationBase.cs" />
     <Compile Include="Semantic\TooLowMaintainabilityIndexRule.cs" />
