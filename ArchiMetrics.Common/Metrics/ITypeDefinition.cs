@@ -1,23 +1,25 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeMetricKind.cs" company="Reimers.dk">
+// <copyright file="ITypeDefinition.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the TypeMetricKind type.
+//   Defines the ITypeDefinition type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace ArchiMetrics.Common.Metrics
 {
-	public enum TypeMetricKind
+	using System;
+
+	public interface ITypeDefinition : IComparable<ITypeDefinition>
 	{
-		Unknown = 0, 
-		Class = 1, 
-		Delegate = 2, 
-		Interface = 3, 
-		Struct = 4, 
+		string TypeName { get; }
+
+		string Namespace { get; }
+
+		string Assembly { get; }
 	}
 }

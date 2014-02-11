@@ -16,7 +16,7 @@ namespace ArchiMetrics.Common.Metrics
 
 	public interface IProjectMetric : ICodeMetric
     {
-        IEnumerable<TypeCoupling> ClassCouplings { get; }
+        IEnumerable<ITypeCoupling> ClassCouplings { get; }
 
         IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
 

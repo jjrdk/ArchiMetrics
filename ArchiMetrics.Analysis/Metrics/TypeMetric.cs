@@ -25,7 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			int cyclomaticComplexity,
 			double maintainabilityIndex,
 			int depthOfInheritance,
-			IEnumerable<TypeCoupling> classCouplings,
+			IEnumerable<ITypeCoupling> classCouplings,
 			string name)
 		{
 			Kind = kind;
@@ -52,7 +52,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int DepthOfInheritance { get; private set; }
 
-		public IEnumerable<TypeCoupling> ClassCouplings { get; private set; }
+		public IEnumerable<ITypeCoupling> ClassCouplings { get; private set; }
 
 		public int ClassCoupling
 		{

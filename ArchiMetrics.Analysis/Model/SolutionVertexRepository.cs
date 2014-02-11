@@ -132,19 +132,19 @@ namespace ArchiMetrics.Analysis.Model
 				children);
 		}
 
-		private static IModelNode CreateTypeReferenceNode(TypeDefinition definition, IEnumerable<IProjectMetric> projectMetrics)
+		private static IModelNode CreateTypeReferenceNode(ITypeDefinition definition, IEnumerable<IProjectMetric> projectMetrics)
 		{
 			var actualType = (from project in projectMetrics
 							  where project.Name == definition.Assembly
 							  from ns in project.NamespaceMetrics
 							  where ns.Name == definition.Namespace
 							  from t in ns.TypeMetrics
-							  where t.Name == definition.ClassName
+							  where t.Name == definition.TypeName
 							  select t)
 				.FirstOrDefault();
 
 			return new StaticModelNode(
-				string.Join(".", definition.Namespace, definition.ClassName),
+				string.Join(".", definition.Namespace, definition.TypeName),
 				actualType == null ? NodeKind.Class : actualType.Kind.ToString().ToTitleCase(),
 				CodeQuality.Good,
 				actualType == null ? 0 : actualType.LinesOfCode,
@@ -153,7 +153,7 @@ namespace ArchiMetrics.Analysis.Model
 				new List<IModelNode>());
 		}
 
-		private static IModelNode CreateNamespaceReferenceNode(TypeDefinition definition, IEnumerable<IProjectMetric> projectMetrics)
+		private static IModelNode CreateNamespaceReferenceNode(ITypeDefinition definition, IEnumerable<IProjectMetric> projectMetrics)
 		{
 			var actualNs = (from project in projectMetrics
 							where project.Name == definition.Assembly
@@ -163,7 +163,7 @@ namespace ArchiMetrics.Analysis.Model
 				.FirstOrDefault();
 
 			var children = actualNs == null
-							   ? new List<IModelNode> { new ModelNode(definition.ClassName, definition.Namespace, CodeQuality.Good, 0, 100, 0) }
+							   ? new List<IModelNode> { new ModelNode(definition.TypeName, definition.Namespace, CodeQuality.Good, 0, 100, 0) }
 							   : new List<IModelNode>();
 			return new StaticModelNode(
 				definition.Namespace,

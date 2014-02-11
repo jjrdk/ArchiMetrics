@@ -18,7 +18,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal class ProjectMetric : IProjectMetric
 	{
-		private static readonly IEqualityComparer<TypeCoupling> Comparer = new ComparableComparer<TypeCoupling>();
+		private static readonly IEqualityComparer<ITypeCoupling> Comparer = new ComparableComparer<ITypeCoupling>();
 
 		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, double relationalCohesion)
 		{
@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
 			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
 			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
-			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Distinct(Comparer).ToArray();
+			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).ToArray();
 		}
 
 		public int LinesOfCode { get; private set; }
@@ -46,6 +46,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IEnumerable<INamespaceMetric> NamespaceMetrics { get; private set; }
 
-		public IEnumerable<TypeCoupling> ClassCouplings { get; private set; }
+		public IEnumerable<ITypeCoupling> ClassCouplings { get; private set; }
 	}
 }

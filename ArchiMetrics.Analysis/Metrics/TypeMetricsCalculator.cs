@@ -21,12 +21,12 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly ComparableComparer<TypeCoupling> _comparer;
+		private readonly ComparableComparer<ITypeCoupling> _comparer;
 
 		public TypeMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
-			_comparer = new ComparableComparer<TypeCoupling>();
+			_comparer = new ComparableComparer<ITypeCoupling>();
 		}
 
 		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
@@ -77,14 +77,14 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private IEnumerable<TypeCoupling> CalculateClassCoupling(TypeDeclarationSyntax type, IEnumerable<IMemberMetric> memberMetrics)
+		private IEnumerable<ITypeCoupling> CalculateClassCoupling(TypeDeclarationSyntax type, IEnumerable<IMemberMetric> memberMetrics)
 		{
 			var second = new TypeClassCouplingAnalyzer(Model).Calculate(type);
 			return memberMetrics.SelectMany(x => x.ClassCouplings)
 				.Concat(second)
 				.GroupBy(x => x.ToString())
-				.Select(x => new TypeCoupling(x.First().ClassName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
-				.OrderBy(x => x.ClassName)
+				.Select(x => new TypeCoupling(x.First().TypeName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
+				.OrderBy(x => x.TypeName)
 				.ToArray();
 		}
 

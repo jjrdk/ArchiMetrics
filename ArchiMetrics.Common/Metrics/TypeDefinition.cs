@@ -14,20 +14,20 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System;
 
-	public class TypeDefinition : IComparable, IComparable<TypeDefinition>
+	internal class TypeDefinition : ITypeDefinition, IComparable, IComparable<ITypeDefinition>
 	{
 		private readonly string _fullName;
 
-		public TypeDefinition(string className, string namespaceName, string assemblyName)
+		public TypeDefinition(string typeName, string namespaceName, string assemblyName)
 		{
-			ClassName = className;
+			TypeName = typeName;
 			Namespace = namespaceName;
 			Assembly = assemblyName;
 
-			_fullName = string.Format("{0}.{1}, {2}", namespaceName, className, assemblyName);
+			_fullName = string.Format("{0}.{1}, {2}", namespaceName, typeName, assemblyName);
 		}
 
-		public string ClassName { get; private set; }
+		public string TypeName { get; private set; }
 
 		public string Namespace { get; private set; }
 
@@ -63,11 +63,11 @@ namespace ArchiMetrics.Common.Metrics
 			return CompareTo(other);
 		}
 
-		public int CompareTo(TypeDefinition other)
+		public int CompareTo(ITypeDefinition other)
 		{
 			return other == null
 					   ? -1
-					   : string.Compare(_fullName, other._fullName, StringComparison.InvariantCultureIgnoreCase);
+					   : string.Compare(ToString(), ToString(), StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		public override string ToString()

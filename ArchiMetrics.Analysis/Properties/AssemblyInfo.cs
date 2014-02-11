@@ -52,3 +52,4 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("ArchiMetrics.ExcelWriter")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Service.IntegrationTests")]
 [assembly: InternalsVisibleTo("ArchiMetrics")]
+[assembly: InternalsVisibleTo("ScriptCs.Metrics")]

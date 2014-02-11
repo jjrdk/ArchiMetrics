@@ -16,7 +16,7 @@ namespace ArchiMetrics.Common.Metrics
 
 	public interface INamespaceMetric : ICodeMetric
 	{
-		IEnumerable<TypeCoupling> ClassCouplings { get; }
+		IEnumerable<ITypeCoupling> ClassCouplings { get; }
 		
 		int DepthOfInheritance { get; }
 		

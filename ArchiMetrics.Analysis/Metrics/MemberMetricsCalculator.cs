@@ -98,7 +98,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return _counter.Calculate(node, Model);
 		}
 
-		private IEnumerable<TypeCoupling> CalculateClassCoupling(SyntaxNode node)
+		private IEnumerable<ITypeCoupling> CalculateClassCoupling(SyntaxNode node)
 		{
 			var provider = new MemberClassCouplingAnalyzer(Model);
 			return provider.Calculate(node);

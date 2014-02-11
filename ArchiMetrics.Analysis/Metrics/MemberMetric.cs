@@ -28,7 +28,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			double maintainabilityIndex, 
 			int cyclomaticComplexity, 
 			string name, 
-			IEnumerable<TypeCoupling> classCouplings, 
+			IEnumerable<ITypeCoupling> classCouplings, 
 			int numberOfParameters, 
 			int numberOfLocalVariables,
 			int? afferentCoupling)
@@ -61,7 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Name { get; private set; }
 
-		public IEnumerable<TypeCoupling> ClassCouplings { get; private set; }
+		public IEnumerable<ITypeCoupling> ClassCouplings { get; private set; }
 
 		public int NumberOfParameters { get; private set; }
 

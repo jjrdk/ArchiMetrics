@@ -22,7 +22,7 @@ namespace ArchiMetrics.Common.Metrics
 
 		int DepthOfInheritance { get; }
 		
-		IEnumerable<TypeCoupling> ClassCouplings { get; }
+		IEnumerable<ITypeCoupling> ClassCouplings { get; }
 		
 		int ClassCoupling { get; }
 	}

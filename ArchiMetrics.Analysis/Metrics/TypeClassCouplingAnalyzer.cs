@@ -25,7 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 		}
 
-		public IEnumerable<TypeCoupling> Calculate(TypeDeclarationSyntax typeNode)
+		public IEnumerable<ITypeCoupling> Calculate(TypeDeclarationSyntax typeNode)
 		{
 			SyntaxNode node = typeNode;
 			Visit(node);

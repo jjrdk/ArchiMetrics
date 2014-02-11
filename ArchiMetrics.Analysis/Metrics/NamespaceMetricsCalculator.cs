@@ -20,12 +20,12 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class NamespaceMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly ComparableComparer<TypeCoupling> _comparer;
+		private readonly ComparableComparer<ITypeCoupling> _comparer;
 
 		public NamespaceMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
-			_comparer = new ComparableComparer<TypeCoupling>();
+			_comparer = new ComparableComparer<ITypeCoupling>();
 		}
 
 		public INamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<ITypeMetric> metrics)
@@ -34,8 +34,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
 						  .GroupBy(x => x.ToString())
-						  .Select(x => new TypeCoupling(x.First().ClassName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
-						  .OrderBy(x => x.ClassName)
+						  .Select(x => new TypeCoupling(x.First().TypeName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
+						  .Where(x => x.Namespace != namespaceNode.Name)
+						  .OrderBy(x => x.Assembly + x.Namespace + x.TypeName)
 						  .ToArray();
 			var maintainabilitySource = typeMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).ToArray();
 			var maintainabilityIndex = linesOfCode > 0 && maintainabilitySource.Any() ? maintainabilitySource.Sum(x => x.Item1 * x.Item2) / linesOfCode : 100.0;

@@ -62,7 +62,7 @@ namespace MyNamespace
 			{
 				var couplings = GetTypeCouplings();
 
-				Assert.True(couplings.Any(x => x.UsedProperties.Length > 0));
+				Assert.True(couplings.Any(x => x.UsedProperties.Any()));
 			}
 
 			[Test]
@@ -70,10 +70,10 @@ namespace MyNamespace
 			{
 				var couplings = GetTypeCouplings();
 
-				Assert.True(couplings.Any(x => x.UsedMethods.Length > 0));
+				Assert.True(couplings.Any(x => x.UsedMethods.Any()));
 			}
 
-			private IEnumerable<TypeCoupling> GetTypeCouplings()
+			private IEnumerable<ITypeCoupling> GetTypeCouplings()
 			{
 				var document = _solution.Projects.SelectMany(p => p.Documents).First();
 				var method = document

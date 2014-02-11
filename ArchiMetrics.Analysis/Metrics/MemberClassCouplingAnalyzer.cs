@@ -55,7 +55,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			                        };
 		}
 
-		public IEnumerable<TypeCoupling> Calculate(SyntaxNode syntaxNode)
+		public IEnumerable<ITypeCoupling> Calculate(SyntaxNode syntaxNode)
 		{
 			Action<SyntaxNode> action;
 

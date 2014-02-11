@@ -81,12 +81,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		protected IEnumerable<TypeCoupling> GetCollectedTypesNames()
+		protected IEnumerable<ITypeCoupling> GetCollectedTypesNames()
 		{
 			return GetCollectedTypesNames(new IPropertySymbol[0], new IMethodSymbol[0], new IEventSymbol[0]);
 		}
 
-		protected IEnumerable<TypeCoupling> GetCollectedTypesNames(IEnumerable<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IEnumerable<IEventSymbol> usedEvents)
+		protected IEnumerable<ITypeCoupling> GetCollectedTypesNames(IEnumerable<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IEnumerable<IEventSymbol> usedEvents)
 		{
 			return _types.Select(x =>
 				{
