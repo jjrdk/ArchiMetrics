@@ -25,7 +25,7 @@ namespace ArchiMetrics.UI.DataAccess
 		private readonly IDisposable _subscription;
 		private readonly IAvailableRules _availableRules;
 		private bool _includeCodeReview;
-		private string _path;
+		private string _path = string.Empty;
 		private string _rulesSource;
 		private int _maxNamespaceDepth = 2;
 
@@ -34,7 +34,7 @@ namespace ArchiMetrics.UI.DataAccess
 			_rulesSource = string.Empty;
 			_availableRules = availableRules;
 			_subscription = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-				h => _availableRules.CollectionChanged += h, 
+				h => _availableRules.CollectionChanged += h,
 				h => _availableRules.CollectionChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(3))
 				.Subscribe(x => OnPropertyChanged(string.Empty));
@@ -59,9 +59,9 @@ namespace ArchiMetrics.UI.DataAccess
 
 			set
 			{
-				if (_path != value)
+				if (_path != (value ?? string.Empty))
 				{
-					_path = value;
+					_path = value ?? string.Empty;
 					OnPropertyChanged();
 				}
 			}

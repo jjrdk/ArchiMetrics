@@ -419,6 +419,10 @@
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
       <Name>ArchiMetrics.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArchiMetrics.Localization\ArchiMetrics.Localization.csproj">
+      <Project>{f6498a5b-9829-4a1a-b3c0-26c5dd34cee9}</Project>
+      <Name>ArchiMetrics.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="archicop.ico" />
@@ -441,6 +445,11 @@
     <ItemGroup>
       <EmbeddedResource Include="@(ReferencePath)" Condition="'%(ReferencePath.Extension)' == '.dll'">
         <LogicalName>%(ReferencePath.DestinationSubDirectory)%(ReferencePath.Filename)%(ReferencePath.Extension)</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+	<ItemGroup>
+      <EmbeddedResource Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.DestinationSubDirectory)' != '' AND '%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == '$(TargetName).Localization.resources.dll'">
+        <LogicalName>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</LogicalName>
       </EmbeddedResource>
     </ItemGroup>
   </Target>

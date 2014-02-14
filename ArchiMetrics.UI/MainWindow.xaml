@@ -5,6 +5,7 @@
 				  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 				  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
 				  xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+				  xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 				  mc:Ignorable="d"
 				  FontSize="13"
 				  FontFamily="Verdana"
@@ -17,7 +18,7 @@
 				  ContentLoader="{DynamicResource Loader}"
 				  ContentSource="View/SettingsView.xaml">
 	<mui:ModernWindow.TitleLinks>
-		<mui:Link DisplayName="Settings"
+		<mui:Link DisplayName="{x:Static localization:Strings.Settings}"
 				  Source="View/SettingsView.xaml" />
 		<mui:Link DisplayName="About"
 				  Source="View/AboutView.xaml" />

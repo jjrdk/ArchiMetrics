@@ -5,6 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -28,7 +29,7 @@
 		</StackPanel>
 		<Button Grid.Row="0"
 				Grid.Column="1"
-				Content="Print Report"
+				Content="{x:Static localization:Strings.PrintReport}"
 				Click="OnPrintReport" />
 		<DataGrid x:Name="CodeReviewGrid"
 				  Grid.Row="1"
@@ -52,23 +53,23 @@
 			<DataGrid.Columns>
 				<!--<DataGridTextColumn Header="Quality"
 									Binding="{Binding Path=Quality}" />-->
-				<DataGridTextColumn Header="Finding"
+				<DataGridTextColumn Header="{x:Static localization:Strings.Finding}"
 									Binding="{Binding Path=Title}" />
-				<DataGridTextColumn Header="Comment"
+				<DataGridTextColumn Header="{x:Static localization:Strings.Comment}"
 									Binding="{Binding Path=Suggestion}" />
-				<DataGridTextColumn Header="LoC"
+				<DataGridTextColumn Header="{x:Static localization:Strings.LoC}"
 									Binding="{Binding Path=LinesOfCodeAffected}" />
-				<DataGridTextColumn Header="Namespace"
+				<DataGridTextColumn Header="{x:Static localization:Strings.Namespace}"
 									Binding="{Binding Path=Namespace}" />
-				<DataGridTextColumn Header="Type Name"
+				<DataGridTextColumn Header="{x:Static localization:Strings.TypeName}"
 									Binding="{Binding Path=TypeName}" />
-				<DataGridTextColumn Header="Type Kind"
+				<DataGridTextColumn Header="{x:Static localization:Strings.TypeKind}"
 									Binding="{Binding Path=TypeKind}" />
-				<DataGridTextColumn Header="Snippet"
+				<DataGridTextColumn Header="{x:Static localization:Strings.Snippet}"
 									Binding="{Binding Path=Snippet}" />
-				<DataGridTextColumn Header="File"
+				<DataGridTextColumn Header="{x:Static localization:Strings.File}"
 									Binding="{Binding Path=FilePath}" />
-				<DataGridTextColumn Header="Project"
+				<DataGridTextColumn Header="{x:Static localization:Strings.Project}"
 									Binding="{Binding Path=ProjectPath}" />
 			</DataGrid.Columns>
 		</DataGrid>

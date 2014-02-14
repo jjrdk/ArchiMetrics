@@ -4,21 +4,22 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300">
 	<mui:ModernTab SelectedSource="View/Tabs/MetricsProjectDataGridView.xaml"
 				   ContentLoader="{DynamicResource Loader}">
 		<mui:ModernTab.Links>
-			<mui:Link DisplayName="Projects"
+			<mui:Link DisplayName="{x:Static localization:Strings.Projects}"
 					  Source="View/Tabs/MetricsProjectDataGridView.xaml" />
-			<mui:Link DisplayName="Namespace"
+			<mui:Link DisplayName="{x:Static localization:Strings.Namespace}"
 					  Source="View/Tabs/MetricsNamespaceDataGridView.xaml" />
-			<mui:Link DisplayName="Types"
+			<mui:Link DisplayName="{x:Static localization:Strings.Types}"
 					  Source="View/Tabs/MetricsTypeDataGridView.xaml" />
-			<mui:Link DisplayName="Members"
+			<mui:Link DisplayName="{x:Static localization:Strings.Members}"
 					  Source="View/Tabs/MetricsMemberDataGridView.xaml" />
-			<mui:Link DisplayName="Charts"
+			<mui:Link DisplayName="{x:Static localization:Strings.Charts}"
 					  Source="View/Tabs/MetricsChart.xaml" />
 		</mui:ModernTab.Links>
 	</mui:ModernTab>

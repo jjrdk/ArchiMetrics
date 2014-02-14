@@ -6,20 +6,21 @@
 			 xmlns:tk="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeErrorGraphViewModel}">
 	<Grid>
 		<ScrollViewer VerticalAlignment="Stretch"
 					  HorizontalAlignment="Stretch">
-			<tk:ClusteredColumnChart ChartTitle="Errors Found"
-									 ChartSubTitle="By Kind"
+			<tk:ClusteredColumnChart ChartTitle="{x:Static localization:Strings.ErrorsFound}"
+									 ChartSubTitle="{x:Static localization:Strings.ByKind}"
 									 VerticalAlignment="Stretch"
 									 VerticalContentAlignment="Stretch">
 				<tk:ClusteredColumnChart.Series>
 					<tk:ChartSeries ValueMember="Value"
 									VerticalAlignment="Stretch"
 									VerticalContentAlignment="Stretch"
-									SeriesTitle="Error"
+									SeriesTitle="{x:Static localization:Strings.Error}"
 									DisplayMember="Key"
 									ItemsSource="{Binding Path=ErrorsByTitle}" />
 				</tk:ClusteredColumnChart.Series>
