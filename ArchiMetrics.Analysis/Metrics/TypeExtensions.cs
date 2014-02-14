@@ -37,7 +37,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return containingTypeName;
 		}
 
-		public static TypeDefinition GetQualifiedName(this ITypeSymbol symbol)
+		public static ITypeDefinition GetQualifiedName(this ITypeSymbol symbol)
 		{
 			var name = string.Join(".", GetContainingTypeName(symbol).Reverse());
 
