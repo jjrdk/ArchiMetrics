@@ -7,8 +7,6 @@
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
 			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
-			 d:DesignHeight="300"
-			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeReviewViewModel}">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -23,9 +21,9 @@
 					Grid.Column="0"
 					Orientation="Horizontal"
 					HorizontalAlignment="Stretch">
-			<TextBlock Text="{Binding Path=ErrorsShown, StringFormat='{}{0} errors found '}" />
-			<TextBlock Text="{Binding Path=FilesWithErrors, StringFormat='in {0} files.'}" />
-			<TextBlock Text="{Binding Path=BrokenCode, StringFormat=' Lines of code which are counted as broken: {0}.'}" />
+			<TextBlock Text="{Binding Path=ErrorsShown, StringFormat={x:Static localization:Strings.ErrorsFoundFormat}}" />
+			<TextBlock Text="{Binding Path=FilesWithErrors, StringFormat={x:Static localization:Strings.InFilesFormat}}" />
+			<TextBlock Text="{Binding Path=BrokenCode, StringFormat={x:Static localization:Strings.BrokenLocFormat}}" />
 		</StackPanel>
 		<Button Grid.Row="0"
 				Grid.Column="1"
@@ -51,8 +49,6 @@
 				  IsReadOnly="True"
 				  CanUserSortColumns="True">
 			<DataGrid.Columns>
-				<!--<DataGridTextColumn Header="Quality"
-									Binding="{Binding Path=Quality}" />-->
 				<DataGridTextColumn Header="{x:Static localization:Strings.Finding}"
 									Binding="{Binding Path=Title}" />
 				<DataGridTextColumn Header="{x:Static localization:Strings.Comment}"

@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -14,7 +15,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Label Content="Reviewed Rules"
+		<Label Content="{x:Static localization:Strings.ReviewedRules}"
 			   Grid.Row="0" />
 		<ListBox x:Name="RegexList"
 				 Grid.Row="1"
@@ -31,28 +32,28 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock Grid.Column="0"
-					   Text="Create:"
+					   Text="{x:Static localization:Strings.CreateColon}"
 					   VerticalAlignment="Center"
 					   Margin="0,0,5,0" />
 			<TextBox x:Name="RegexBox"
 					 TextChanged="OnTextChanged"
 					 Grid.Column="1" />
 			<Button Grid.Column="2"
-					Content="Create"
+					Content="{x:Static localization:Strings.Create}"
 					Command="{Binding Path=AddSpellingCommand}"
 					CommandParameter="{Binding ElementName=RegexBox, Path=Text}"
 					Margin="5,0,0,0" />
 			<Button Grid.Column="3"
-					Content="Delete"
+					Content="{x:Static localization:Strings.Delete}"
 					Command="{Binding Path=DeleteSpellingCommand}"
 					CommandParameter="{Binding ElementName=RegexList, Path=SelectedItems}"
 					Margin="5,0,0,0" />
 			<Button Grid.Column="4"
-					Content="Load Patterns"
+					Content="{x:Static localization:Strings.LoadPatterns}"
 					Margin="5,0,0,0"
 					Click="OnLoad" />
 			<Button Grid.Column="5"
-					Content="Save Patterns"
+					Content="{x:Static localization:Strings.SavePatterns}"
 					Margin="5,0,0,0"
 					Click="OnSave" />
 		</Grid>

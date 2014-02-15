@@ -5,14 +5,15 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:MetricsChartViewModel}">
 	<ScrollViewer VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch">
-		<metroChart:StackedColumnChart ChartTitle="Metrics"
-									   ChartSubTitle="Percent of code in group"
+		<metroChart:StackedColumnChart ChartTitle="{x:Static localization:Strings.Metrics}"
+									   ChartSubTitle="{x:Static localization:Strings.PercentOfCodeInGroup}"
 									   VerticalAlignment="Stretch"
 									   HorizontalAlignment="Stretch"
 									   ChartLegendVisibility="Collapsed">
@@ -20,19 +21,19 @@
 				<metroChart:ChartSeries ValueMember="Value"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
-										SeriesTitle="Maintainability"
+										SeriesTitle="{x:Static localization:Strings.Maintainability}"
 										DisplayMember="Key"
 										ItemsSource="{Binding Path=MetricsByMaintainability}" />
 				<metroChart:ChartSeries ValueMember="Value"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
-										SeriesTitle="Complexity"
+										SeriesTitle="{x:Static localization:Strings.Complexity}"
 										DisplayMember="Key"
 										ItemsSource="{Binding Path=MetricsByComplexity}" />
 				<metroChart:ChartSeries ValueMember="Value"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
-										SeriesTitle="LinesOfCode"
+										SeriesTitle="{x:Static localization:Strings.LoC}"
 										DisplayMember="Key"
 										ItemsSource="{Binding Path=MetricsByLinesOfCode}" />
 			</metroChart:StackedColumnChart.Series>

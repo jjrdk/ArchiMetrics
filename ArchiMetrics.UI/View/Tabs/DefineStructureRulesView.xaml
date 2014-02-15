@@ -5,6 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="800"
 			 d:DesignWidth="600"
@@ -28,31 +29,31 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock Grid.Column="0"
-					   Text="New Vertex"
+					   Text="{x:Static localization:Strings.NewVertex}"
 					   VerticalAlignment="Center"
 					   Margin="0,0,5,0" />
 			<Button x:Name="btnAdd"
 					Grid.Column="2"
 					Grid.Row="0"
-					Content="Create"
+					Content="{x:Static localization:Strings.Create}"
 					Margin="0,0,5,0"
 					Command="{Binding Path=AddItemsCommand}"
 					CommandParameter="{Binding ElementName=txtVertexName, Path=Text, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
 			<Button x:Name="btnDelete"
 					Grid.Column="3"
-					Content="Delete"
+					Content="{x:Static localization:Strings.Delete}"
 					Margin="0,0,5,0"
 					Command="{Binding Path=DeleteItemsCommand}" />
 			<Button x:Name="btnLoad"
 					Grid.Column="5"
 					Grid.Row="0"
-					Content="Load Model"
+					Content="{x:Static localization:Strings.LoadModel}"
 					Margin="0,0,5,0"
 					Command="{Binding Path=LoadModelCommand}" />
 			<Button x:Name="btnSave"
 					Grid.Column="6"
 					Grid.Row="0"
-					Content="Save Model"
+					Content="{x:Static localization:Strings.SaveModel}"
 					Margin="0,0,5,0"
 					Command="{Binding Path=SaveModelCommand}" />
 		</Grid>

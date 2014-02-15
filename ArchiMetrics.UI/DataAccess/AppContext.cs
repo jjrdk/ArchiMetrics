@@ -67,23 +67,6 @@ namespace ArchiMetrics.UI.DataAccess
 			}
 		}
 
-		public bool IncludeCodeReview
-		{
-			get
-			{
-				return _includeCodeReview;
-			}
-
-			set
-			{
-				if (_includeCodeReview != value)
-				{
-					_includeCodeReview = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public string RulesSource
 		{
 			get

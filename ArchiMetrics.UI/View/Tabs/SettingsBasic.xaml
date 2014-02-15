@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -25,14 +26,14 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<Label Content="Setting" />
+		<Label Content="{x:Static localization:Strings.Setting}" />
 		<Label Grid.Row="0"
 			   Grid.Column="1"
 			   Content="Value" />
 		<Label Grid.Row="1"
 			   Grid.Column="0"
 			   VerticalAlignment="Center"
-			   Content="_Path:"
+			   Content="{x:Static localization:Strings.UnderscorePathColon}"
 			   Target="{Binding ElementName=PathBox}" />
 		<Grid Grid.Row="1"
 			  Grid.Column="1">
@@ -44,26 +45,15 @@
 					   Grid.Column="0"
 					   Text="{Binding Path=Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			<Button Grid.Column="1"
-					Content="Set Path"
+					Content="{x:Static localization:Strings.SetPath}"
 					Click="OnClick"
 					Height="25"
 					Margin="5,0" />
 		</Grid>
-		<Label Grid.Row="2"
-			   Grid.Column="0"
-			   VerticalAlignment="Center"
-			   Content="Include _Code Review:"
-			   Target="{Binding ElementName=CodeReviewCheck}" />
-		<CheckBox x:Name="CodeReviewCheck"
-				  Grid.Row="2"
-				  Grid.Column="1"
-				  IsThreeState="False"
-				  Margin="5,0"
-				  IsChecked="{Binding Path=IncludeCodeReview, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-		<Label Content="Max Namespace Depth"
-			   Grid.Row="3"
+		<Label Content="{x:Static localization:Strings.MaxNamespaceDepth}"
+			   Grid.Row="2"
 			   Grid.Column="0" />
-		<TextBox Grid.Row="3"
+		<TextBox Grid.Row="2"
 				 Grid.Column="1"
 				 Height="25"
 				 Margin="5,0"

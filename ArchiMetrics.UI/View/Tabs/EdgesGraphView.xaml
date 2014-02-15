@@ -7,6 +7,7 @@
 			 xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 x:Name="Root"
 			 d:DataContext="{d:DesignInstance Type=viewModel:GraphViewModel}">
 	<Grid>
@@ -43,7 +44,7 @@
 							 Visibility="{Binding Path=IsLoading, Converter={StaticResource TrueVisibility}}" />
 		<Button Grid.Row="1"
 				HorizontalAlignment="Right"
-				Content="Update"
+				Content="{x:Static localization:Strings.Update}"
 				Command="{Binding Path=UpdateGraph}" />
 
 	</Grid>

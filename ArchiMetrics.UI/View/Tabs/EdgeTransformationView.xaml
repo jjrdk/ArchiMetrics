@@ -6,6 +6,7 @@
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
 			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -28,10 +29,10 @@
 				  ItemsSource="{Binding Path=EdgeItems}">
 			<DataGrid.Columns>
 				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:ModelEdgeItem}"
-									Header="Source"
+									Header="{x:Static localization:Strings.Source}"
 									Binding="{Binding Path=Source.QualifiedName}" />
 				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:ModelEdgeItem}"
-									Header="Target"
+									Header="{x:Static localization:Strings.Target}"
 									Binding="{Binding Path=Target.QualifiedName}" />
 			</DataGrid.Columns>
 		</DataGrid>
@@ -47,10 +48,10 @@
 				  CanUserSortColumns="False">
 			<DataGrid.Columns>
 				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:TransformRule}"
-									Header="Pattern"
+									Header="{x:Static localization:Strings.Pattern}"
 									Binding="{Binding Path=Pattern, Mode=TwoWay}" />
 				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:TransformRule}"
-									Header="Name"
+									Header="{x:Static localization:Strings.Name}"
 									Binding="{Binding Path=Name, Mode=TwoWay}" />
 			</DataGrid.Columns>
 		</DataGrid>
@@ -70,18 +71,18 @@
 			<Button Grid.Column="1"
 					Margin="5,0"
 					Height="25"
-					Content="Load Rules"
+					Content="{x:Static localization:Strings.LoadRules}"
 					Click="OnClick" />
 			<Button Grid.Column="2"
 					Margin="5,0"
 					Height="25"
-					Content="Save Rules"
+					Content="{x:Static localization:Strings.SaveRules}"
 					Click="OnSave" />
 			<Button Grid.Column="3"
 					Margin="5,0"
 					Height="25"
 					HorizontalAlignment="Right"
-					Content="Update"
+					Content="{x:Static localization:Strings.Update}"
 					Command="{Binding Path=UpdateList}" />
 		</Grid>
 	</Grid>

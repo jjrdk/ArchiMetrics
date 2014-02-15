@@ -82,12 +82,6 @@ namespace ArchiMetrics.UI.ViewModel
 			set { _config.MaxNamespaceDepth = value; }
 		}
 
-		public bool IncludeCodeReview
-		{
-			get { return _config.IncludeCodeReview; }
-			set { _config.IncludeCodeReview = value; }
-		}
-
 		public IAvailableRules AvailableRules { get; private set; }
 
 		public ICollection<Regex> KnownPatterns { get; private set; }

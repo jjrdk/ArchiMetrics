@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:view="clr-namespace:ArchiMetrics.UI.View"
              xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+             xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
              mc:Ignorable="d"
-			 d:DesignHeight="300"
-			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:ProjectMetricsDataGridViewModel}">
     <Grid>
 		<Grid.RowDefinitions>
@@ -22,13 +21,13 @@
 					Grid.Column="0"
 					Orientation="Horizontal"
 					HorizontalAlignment="Stretch">
-			<TextBlock Text="{Binding Path=LinesOfCode, StringFormat='Total Lines of Code: {0}, '}" />
-			<TextBlock Text="{Binding Path=ProjectCyclomaticComplexity, StringFormat='Average Complexity: {0}, '}" />
-			<TextBlock Text="{Binding Path=ProjectMaintainabilityIndex, StringFormat='Maintainability Index: {0:n2}.'}" />
+			<TextBlock Text="{Binding Path=LinesOfCode, StringFormat={x:Static localization:Strings.TotalLocFormat}}" />
+			<TextBlock Text="{Binding Path=ProjectCyclomaticComplexity, StringFormat={x:Static localization:Strings.AverageComplexityFormat}}" />
+			<TextBlock Text="{Binding Path=ProjectMaintainabilityIndex, StringFormat={x:Static localization:Strings.MaintainabilityIndexFormat}}" />
 		</StackPanel>
 		<Button Grid.Row="0"
 				Grid.Column="1"
-				Content="Print Report"
+				Content="{x:Static localization:Strings.PrintReport}"
 				Click="OnPrintReport" />
 		<DataGrid x:Name="MetricsGrid"
 				  Grid.Row="1"
@@ -51,15 +50,15 @@
 				  IsReadOnly="True"
 				  CanUserSortColumns="True">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Name"
+				<DataGridTextColumn Header="{x:Static localization:Strings.Name}" 
 									Binding="{Binding Path=Name}" />
-				<DataGridTextColumn Header="Lines of Code"
+				<DataGridTextColumn Header="{x:Static localization:Strings.LoC}"
 									Binding="{Binding Path=LinesOfCode}" />
-				<DataGridTextColumn Header="Cyclomatic Complexity"
+				<DataGridTextColumn Header="{x:Static localization:Strings.CyclomaticComplexity}"
 									Binding="{Binding Path=CyclomaticComplexity}" />
-				<DataGridTextColumn Header="Maintainability Index"
+				<DataGridTextColumn Header="{x:Static localization:Strings.MaintainabilityIndex}"
 									Binding="{Binding Path=MaintainabilityIndex, StringFormat=n2}" />
-				<DataGridTextColumn Header="Relational Cohesion"
+				<DataGridTextColumn Header="{x:Static localization:Strings.RelationalCohesion}"
 									Binding="{Binding Path=RelationalCohesion, StringFormat=n2}" />
 			</DataGrid.Columns>
 		</DataGrid>

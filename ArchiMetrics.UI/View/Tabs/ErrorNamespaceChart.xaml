@@ -5,21 +5,22 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeErrorGraphViewModel}">
 	<ScrollViewer VerticalAlignment="Stretch"
 				  HorizontalAlignment="Stretch">
-		<metroChart:PieChart ChartTitle="Errors Found"
-							 ChartSubTitle="Namespace"
+		<metroChart:PieChart ChartTitle="{x:Static localization:Strings.ErrorsFound}"
+							 ChartSubTitle="{x:Static localization:Strings.Namespace}"
 							 VerticalAlignment="Stretch"
 							 HorizontalAlignment="Stretch">
 			<metroChart:PieChart.Series>
 				<metroChart:ChartSeries ValueMember="Value"
 										VerticalAlignment="Stretch"
 										HorizontalAlignment="Stretch"
-										SeriesTitle="Error"
+										SeriesTitle="{x:Static localization:Strings.Error}"
 										DisplayMember="Key"
 										ItemsSource="{Binding Path=ErrorsByNamespace}" />
 			</metroChart:PieChart.Series>

@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI
 	using System;
 	using System.Globalization;
 	using System.Reflection;
+	using ArchiMetrics.Localization;
 
 	public sealed class Program
 	{
@@ -30,7 +31,8 @@ namespace ArchiMetrics.UI
 		[STAThread]
 		public static void Main()
 		{
-			AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
+			AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly; 
+			Strings.Culture = new CultureInfo("da-DK");
 			var app = new App();
 			app.InitializeComponent();
 			app.Run();

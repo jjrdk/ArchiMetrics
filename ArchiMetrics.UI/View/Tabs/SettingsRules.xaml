@@ -3,9 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:dataAccess="clr-namespace:ArchiMetrics.UI.DataAccess"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:common="clr-namespace:ArchiMetrics.Common;assembly=ArchiMetrics.Common"
+			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -15,7 +15,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Label Content="Reviewed Rules"
+		<Label Content="{x:Static localization:Strings.ReviewedRules}"
 			   Grid.Row="0" />
 		<ListBox Grid.Row="1"
 				 Margin="5" VerticalAlignment="Top"
