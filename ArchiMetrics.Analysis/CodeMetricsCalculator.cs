@@ -38,7 +38,7 @@ namespace ArchiMetrics.Analysis
 		{
 			var calcProject = project.WithDocuments();
 			var compilation = await calcProject.GetCompilationAsync();
-			var namespaceDeclarations = GetNamespaceDeclarations(calcProject);
+			var namespaceDeclarations = await GetNamespaceDeclarations(calcProject);
 			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
 		}
 
@@ -177,27 +177,38 @@ namespace ArchiMetrics.Analysis
 			return new Tuple<CommonCompilation, ISemanticModel, NamespaceDeclarationSyntaxInfo>(compilation, semanticModel, namespaceNode);
 		}
 
-		private static IEnumerable<NamespaceDeclaration> GetNamespaceDeclarations(IProject project)
+		private static async Task<IEnumerable<NamespaceDeclaration>> GetNamespaceDeclarations(IProject project)
 		{
-			return project.Documents
+			var namespaceDeclarationTasks = project.Documents
 				.Select(document => new { document, codeFile = document.FilePath })
 				.Where(t => !IsGeneratedCodeFile(t.document, Patterns))
 				.Select(
-					t => new
-						 {
-							 t.codeFile,
-							 collector = new NamespaceCollector(),
-							 syntaxRoot = t.document.GetSyntaxRoot()
-						 })
-				.SelectMany(
-					t => t.collector.GetNamespaces(t.syntaxRoot)
-							 .Select(
-								 x => new NamespaceDeclarationSyntaxInfo
-									  {
-										  Name = x.GetName(x.SyntaxTree.GetRoot()),
-										  CodeFile = t.codeFile,
-										  Syntax = x
-									  }))
+					async t =>
+					{
+						var collector = new NamespaceCollector();
+						var root = await t.document.GetSyntaxRootAsync();
+						return new
+							   {
+								   t.codeFile,
+								   namespaces = collector.GetNamespaces(root)
+							   };
+					})
+				.Select(
+					async t =>
+					{
+						var result = await t;
+						return result.namespaces
+							.Select(
+								x => new NamespaceDeclarationSyntaxInfo
+									 {
+										 Name = x.GetName(x.SyntaxTree.GetRoot()),
+										 CodeFile = result.codeFile,
+										 Syntax = x
+									 });
+					});
+			var namespaceDeclarations = await Task.WhenAll(namespaceDeclarationTasks);
+			return namespaceDeclarations
+				.SelectMany(x => x)
 				.GroupBy(x => x.Name)
 				.Select(y => new NamespaceDeclaration { Name = y.Key, SyntaxNodes = y });
 		}
