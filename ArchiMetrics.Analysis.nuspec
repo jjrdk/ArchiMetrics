@@ -3,7 +3,7 @@
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
 		<title>Roslyn Code Analysis</title>
-		<version>0.6.0.0</version>
+		<version>0.7.0.0</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
 		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
