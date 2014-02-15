@@ -19,13 +19,13 @@ namespace ArchiMetrics.Analysis.Tests.Validation
 	using ArchiMetrics.Common.Structure;
 	using NUnit.Framework;
 
-	[TestFixture]
 	public sealed class KpiModelRuleTests
 	{
 		private KpiModelRuleTests()
 		{
 		}
 
+		[TestFixture]
 		public class GivenAKpiModelRule
 		{
 			[Test]

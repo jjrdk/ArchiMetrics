@@ -28,13 +28,12 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		{
 		}
 
-		private static Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
+		private static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			var tree = SyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
 
-			var task = inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
-			return task;
+			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 		}
 
 		private static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
@@ -93,7 +92,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		public class GivenANodeReviewerInspectingNonBrokenCode
 		{
-			[TestCaseSource(typeof(InspectionCodeSource), "WrokingCode")]
+			[TestCaseSource(typeof(InspectionCodeSource), "WorkingCode")]
 			public void NegativeTest(string code, Type evaluatorType)
 			{
 				var task = PerformInspection(code, evaluatorType);

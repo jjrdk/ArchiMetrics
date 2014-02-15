@@ -19,6 +19,25 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 	public static class InspectionCodeSource
 	{
+		public static IEnumerable BrokenSemanticCode
+		{
+			get
+			{
+				yield return new TestCaseData(
+					@"private int SomeMethod(int x)
+        {
+			return x;
+		}",
+					typeof(PossibleStaticMethod));
+				yield return new TestCaseData(
+					@"private void SomeMethod(int x)
+        {
+			var name = MethodBase.GetCurrentMethod().Name;
+		}",
+					typeof(UnusedParametersInMethodRule));
+			}
+		}
+
 		public static IEnumerable BrokenCode
 		{
 			get
@@ -182,23 +201,11 @@ private void SomeMethod()
 		}",
 		  typeof(ReflectionToResolveMethodNameRule));
 				yield return new TestCaseData(
-@"private void SomeMethod(int x)
-        {
-			var name = MethodBase.GetCurrentMethod().Name;
-		}",
-		  typeof(UnusedParametersInMethodRule));
-				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var time = DateTime.Now;
 		}",
 		  typeof(LocalTimeCreationRule));
-				yield return new TestCaseData(
-@"private int SomeMethod(int x)
-        {
-			return x;
-		}",
-		  typeof(PossibleStaticMethod));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
@@ -475,7 +482,7 @@ public int MyProperty
 			}
 		}
 
-		public static IEnumerable WrokingCode
+		public static IEnumerable WorkingCode
 		{
 			get
 			{
