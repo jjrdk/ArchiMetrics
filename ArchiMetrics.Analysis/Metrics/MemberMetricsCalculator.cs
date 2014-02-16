@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common.Metrics;
 	using Roslyn.Compilers.Common;
 	using Roslyn.Compilers.CSharp;
@@ -32,7 +33,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			_solution = solution;
 		}
 
-		public IEnumerable<IMemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
+		public async Task<IEnumerable<IMemberMetric>> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
 			var walker = new MemberCollector(Root);
 			var members = walker.GetMembers(typeNode).ToArray();
@@ -46,10 +47,11 @@ namespace ArchiMetrics.Analysis.Metrics
 				members = members.Concat(new[] { defaultConstructor }).ToArray();
 			}
 
-			return CalculateMemberMetrics(members).ToArray();
+			var metrics = await CalculateMemberMetrics(members);
+			return metrics.ToArray();
 		}
 
-		public IMemberMetric Calculate(MethodDeclarationSyntax methodDeclaration)
+		public Task<IMemberMetric> Calculate(MethodDeclarationSyntax methodDeclaration)
 		{
 			return CalculateMemberMetric(methodDeclaration);
 		}
@@ -104,51 +106,57 @@ namespace ArchiMetrics.Analysis.Metrics
 			return provider.Calculate(node);
 		}
 
-		private IEnumerable<IMemberMetric> CalculateMemberMetrics(IEnumerable<SyntaxNode> nodes)
+		private async Task<IEnumerable<IMemberMetric>> CalculateMemberMetrics(IEnumerable<SyntaxNode> nodes)
 		{
-			return from node in nodes
-				   let metric = CalculateMemberMetric(node)
+			var tasks = nodes.Select(CalculateMemberMetric);
+
+			var metrics = await Task.WhenAll(tasks);
+			return from metric in metrics
 				   where metric != null
 				   select metric;
 		}
 
-		private IMemberMetric CalculateMemberMetric(SyntaxNode syntaxNode)
+		private Task<IMemberMetric> CalculateMemberMetric(SyntaxNode syntaxNode)
 		{
-			var analyzer = new HalsteadAnalyzer();
-			var halsteadMetrics = analyzer.Calculate(syntaxNode);
+			return Task.Factory.StartNew(
+				() =>
+				{
+					var analyzer = new HalsteadAnalyzer();
+					var halsteadMetrics = analyzer.Calculate(syntaxNode);
 
-			var memberMetricKind = GetMemberMetricKind(syntaxNode.Kind);
-			var source = CalculateClassCoupling(syntaxNode);
-			var complexity = CalculateCyclomaticComplexity(syntaxNode);
-			var linesOfCode = CalculateLinesOfCode(syntaxNode);
-			var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
-			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
-			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
-			var afferentCouling = CalculateAfferentCouling(syntaxNode);
-			var location = syntaxNode.GetLocation();
-			var lineNumber = location.GetLineSpan(true).StartLinePosition.Line;
-			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
-			return new MemberMetric(
-				filePath,
-				halsteadMetrics,
-				memberMetricKind,
-				lineNumber,
-				linesOfCode,
-				maintainabilityIndex,
-				complexity,
-				syntaxNode.ToFullString(),
-				source.ToArray(),
-				numberOfParameters,
-				numberOfLocalVariables,
-				afferentCouling);
+					var memberMetricKind = GetMemberMetricKind(syntaxNode.Kind);
+					var source = CalculateClassCoupling(syntaxNode);
+					var complexity = CalculateCyclomaticComplexity(syntaxNode);
+					var linesOfCode = CalculateLinesOfCode(syntaxNode);
+					var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
+					var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
+					var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
+					var afferentCoupling = CalculateAfferentCoupling(syntaxNode);
+					var location = syntaxNode.GetLocation();
+					var lineNumber = location.GetLineSpan(true).StartLinePosition.Line;
+					var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
+					return (IMemberMetric)new MemberMetric(
+						filePath,
+						halsteadMetrics,
+						memberMetricKind,
+						lineNumber,
+						linesOfCode,
+						maintainabilityIndex,
+						complexity,
+						syntaxNode.ToFullString(),
+						source.ToArray(),
+						numberOfParameters,
+						numberOfLocalVariables,
+						afferentCoupling);
+				});
 		}
 
-		private int? CalculateAfferentCouling(SyntaxNode node)
+		private int CalculateAfferentCoupling(SyntaxNode node)
 		{
 			try
 			{
 				return _solution == null
-						   ? (int?)null
+						   ? 0
 						   : Model.GetDeclaredSymbol(node)
 								 .FindReferences(_solution)
 								 .SelectMany(x => x.Locations)
@@ -157,7 +165,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			catch
 			{
 				// Some constructors are not present in syntax tree because they have been created for metrics calculation.
-				return null;
+				return 0;
 			}
 		}
 

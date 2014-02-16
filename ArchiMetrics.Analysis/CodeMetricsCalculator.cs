@@ -255,7 +255,7 @@ namespace ArchiMetrics.Analysis
 					comp = tuple.Item1;
 					var calculator = new MemberMetricsCalculator(semanticModel, solution);
 
-					return calculator.Calculate(info);
+					return await calculator.Calculate(info);
 				});
 			var results = await Task.WhenAll(metrics);
 			return new Tuple<CommonCompilation, IEnumerable<IMemberMetric>>(comp, results.SelectMany(x => x).ToArray());
