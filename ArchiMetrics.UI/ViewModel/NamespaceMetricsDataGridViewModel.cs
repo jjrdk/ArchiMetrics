@@ -1,12 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProjectMetricsDataGridViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NamespaceMetricsDataGridViewModel.cs" company="Reimers.dk">
+//   Copyright � Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ProjectMetricsDataGridViewModel type.
+//   Defines the NamespaceMetricsDataGridViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,17 +17,17 @@ namespace ArchiMetrics.UI.ViewModel
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 
-	internal class ProjectMetricsDataGridViewModel : ViewModelBase
+	internal class NamespaceMetricsDataGridViewModel : ViewModelBase
 	{
 		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly IAppContext _config;
-		private int _projectCyclomaticComplexity;
+		private int _namespaceCyclomaticComplexity;
 		private int _maxDepthOfInheritance;
-		private double _projectMaintainabilityIndex;
+		private double _namespaceMaintainabilityIndex;
 		private int _linesOfCode;
-		private IList<IProjectMetric> _projectMetrics = new List<IProjectMetric>();
+		private IList<INamespaceMetric> _namespaceMetrics = new List<INamespaceMetric>();
 
-		public ProjectMetricsDataGridViewModel(
+		public NamespaceMetricsDataGridViewModel(
 			IProjectMetricsRepository metricsRepository,
 			IAppContext config)
 			: base(config)
@@ -37,18 +37,18 @@ namespace ArchiMetrics.UI.ViewModel
 			UpdateInternal();
 		}
 
-		public int ProjectCyclomaticComplexity
+		public int NamespaceCyclomaticComplexity
 		{
 			get
 			{
-				return _projectCyclomaticComplexity;
+				return _namespaceCyclomaticComplexity;
 			}
 
 			private set
 			{
-				if (!_projectCyclomaticComplexity.Equals(value))
+				if (!_namespaceCyclomaticComplexity.Equals(value))
 				{
-					_projectCyclomaticComplexity = value;
+					_namespaceCyclomaticComplexity = value;
 					RaisePropertyChanged();
 				}
 			}
@@ -71,35 +71,35 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
-		public double ProjectMaintainabilityIndex
+		public double NamespaceMaintainabilityIndex
 		{
 			get
 			{
-				return _projectMaintainabilityIndex;
+				return _namespaceMaintainabilityIndex;
 			}
 
 			private set
 			{
-				if (!_projectMaintainabilityIndex.Equals(value))
+				if (!_namespaceMaintainabilityIndex.Equals(value))
 				{
-					_projectMaintainabilityIndex = value;
+					_namespaceMaintainabilityIndex = value;
 					RaisePropertyChanged();
 				}
 			}
 		}
 
-		public IList<IProjectMetric> ProjectMetrics
+		public IList<INamespaceMetric> NamespaceMetrics
 		{
 			get
 			{
-				return _projectMetrics;
+				return _namespaceMetrics;
 			}
 
 			private set
 			{
-				if (!_projectMetrics.Equals(value))
+				if (!_namespaceMetrics.Equals(value))
 				{
-					_projectMetrics = value;
+					_namespaceMetrics = value;
 					RaisePropertyChanged();
 				}
 			}
@@ -140,10 +140,10 @@ namespace ArchiMetrics.UI.ViewModel
 			var typeMetrics = metrics.SelectMany(x => x.TypeMetrics).ToArray();
 			LinesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var depthOfInheritance = metrics.Any() ? metrics.Max(x => x.DepthOfInheritance) : 0;
-			ProjectMaintainabilityIndex = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / LinesOfCode);
-			ProjectCyclomaticComplexity = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.CyclomaticComplexity) / LinesOfCode);
+			NamespaceMaintainabilityIndex = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / LinesOfCode);
+			NamespaceCyclomaticComplexity = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.CyclomaticComplexity) / LinesOfCode);
 			MaxDepthOfInheritance = depthOfInheritance;
-			ProjectMetrics = metricsTasks.ToList();
+			NamespaceMetrics = metrics.ToList();
 			IsLoading = false;
 		}
 	}

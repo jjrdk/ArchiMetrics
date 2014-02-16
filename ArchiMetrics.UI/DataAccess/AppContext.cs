@@ -24,7 +24,6 @@ namespace ArchiMetrics.UI.DataAccess
 	{
 		private readonly IDisposable _subscription;
 		private readonly IAvailableRules _availableRules;
-		private bool _includeCodeReview;
 		private string _path = string.Empty;
 		private string _rulesSource;
 		private int _maxNamespaceDepth = 2;

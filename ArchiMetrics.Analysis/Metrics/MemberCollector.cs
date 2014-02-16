@@ -30,7 +30,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			_root = root;
 		}
 
-		public IEnumerable<SyntaxNode> GetMembers(ISemanticModel semanticModel, TypeDeclarationSyntaxInfo type)
+		public IEnumerable<SyntaxNode> GetMembers(TypeDeclarationSyntaxInfo type)
 		{
 			Visit((SyntaxNode)type.Syntax);
 			return _members.ToList();
@@ -39,57 +39,41 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
 		{
 			base.VisitConstructorDeclaration(node);
-			//var item = new MemberNode(string.Empty, string.Empty, MemberKind.Constructor, GetLineNumber(node), node, null);
 			_members.Add(node);
 		}
 
 		public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node)
 		{
 			base.VisitDestructorDeclaration(node);
-			//var item = new MemberNode(string.Empty, string.Empty, MemberKind.Destructor, GetLineNumber(node), node, null);
 			_members.Add(node);
 		}
 
 		public override void VisitEventDeclaration(EventDeclarationSyntax node)
 		{
 			base.VisitEventDeclaration(node);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.AddAccessorDeclaration, MemberKind.AddEventHandler);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.RemoveAccessorDeclaration, MemberKind.RemoveEventHandler);
+			AddAccessorNode(node, node.AccessorList, SyntaxKind.AddAccessorDeclaration);
+			AddAccessorNode(node, node.AccessorList, SyntaxKind.RemoveAccessorDeclaration);
 		}
 
 		public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
 		{
 			base.VisitMethodDeclaration(node);
-			//var item = new MemberNode(string.Empty, string.Empty, MemberKind.Method, GetLineNumber(node), node, null);
 			_members.Add(node);
 		}
 
 		public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
 		{
 			base.VisitPropertyDeclaration(node);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.GetAccessorDeclaration, MemberKind.GetProperty);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.SetAccessorDeclaration, MemberKind.SetProperty);
+			AddAccessorNode(node, node.AccessorList, SyntaxKind.GetAccessorDeclaration);
+			AddAccessorNode(node, node.AccessorList, SyntaxKind.SetAccessorDeclaration);
 		}
 
-		private void AddAccessorNode(SyntaxNode node, AccessorListSyntax accessorList, SyntaxKind filter, MemberKind kind)
+		private void AddAccessorNode(SyntaxNode node, AccessorListSyntax accessorList, SyntaxKind filter)
 		{
 			if (accessorList.Accessors.Any(x => (x.Kind == filter)))
 			{
-				//var item = new MemberNode(string.Empty, string.Empty, kind, GetLineNumber(node), node, null);
 				_members.Add(node);
 			}
-		}
-
-		private int GetLineNumber(CommonSyntaxNode syntax)
-		{
-			if (syntax is MemberDeclarationSyntax)
-			{
-				var text = _root.GetText();
-				text.GetSubText(syntax.Span);
-				return text.GetLineNumberFromPosition(syntax.Span.Start);
-			}
-
-			return 0;
 		}
 	}
 }

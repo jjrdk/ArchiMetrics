@@ -183,6 +183,7 @@
     <Compile Include="Support\ObservableProxyCollection.cs" />
     <Compile Include="ViewModel\CodeErrorGraphViewModel.cs" />
     <Compile Include="ViewModel\CodeReviewViewModel.cs" />
+    <Compile Include="ViewModel\NamespaceMetricsDataGridViewModel.cs" />
     <Compile Include="ViewModel\ProjectMetricsDataGridViewModel.cs" />
     <Compile Include="ViewModel\StructureRulesViewModel.cs" />
     <Compile Include="ViewModel\TypeMetricsDataGridViewModel.cs" />
@@ -449,7 +450,7 @@
         <LogicalName>%(ReferencePath.DestinationSubDirectory)%(ReferencePath.Filename)%(ReferencePath.Extension)</LogicalName>
       </EmbeddedResource>
     </ItemGroup>
-	<ItemGroup>
+    <ItemGroup>
       <EmbeddedResource Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.DestinationSubDirectory)' != '' AND '%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)' == '$(TargetName).Localization.resources.dll'">
         <LogicalName>%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)</LogicalName>
       </EmbeddedResource>

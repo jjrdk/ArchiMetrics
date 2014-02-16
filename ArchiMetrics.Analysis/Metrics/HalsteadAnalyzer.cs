@@ -74,26 +74,5 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			return dictionary;
 		}
-
-		//private void CalculateGenericPropertyMetrics(MemberNode node)
-		//{
-		//	var syntaxNode = node.SyntaxNode as PropertyDeclarationSyntax;
-		//	if (syntaxNode != null)
-		//	{
-		//		var flag = syntaxNode.Modifiers.Any(SyntaxKind.StaticKeyword);
-		//		if (node.SyntaxNode == null)
-		//		{
-		//			switch (node.Kind)
-		//			{
-		//				case MemberKind.GetProperty:
-		//					_metrics = flag ? HalsteadMetrics.GenericStaticGetPropertyMetrics : HalsteadMetrics.GenericInstanceGetPropertyMetrics;
-		//					break;
-		//				case MemberKind.SetProperty:
-		//					_metrics = flag ? HalsteadMetrics.GenericStaticSetPropertyMetrics : HalsteadMetrics.GenericInstanceSetPropertyMetrics;
-		//					break;
-		//			}
-		//		}
-		//	}
-		//}
 	}
 }

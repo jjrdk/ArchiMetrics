@@ -30,7 +30,7 @@ namespace ArchiMetrics.Analysis
 			var properties = node.Properties.SelectMany(p => CreatePropertySyntax(p));
 			var assignments = node.Properties.SelectMany(p => CreatePropertyAssignment(p, Syntax.ThisExpression()));
 
-			var codeRoot = properties.Concat(assignments).Concat(CreateSyntax(node.Children, Syntax.IdentifierName(node.VariableName)));
+			var codeRoot = properties.Concat(assignments).Concat(CreateSyntax(node.Children));
 			var classDeclarationSyntax =
 				!string.IsNullOrWhiteSpace(node.BaseClassName)
 					? Syntax.ClassDeclaration(node.ClassName)
@@ -295,21 +295,21 @@ namespace ArchiMetrics.Analysis
 			var node = property.Value as XamlNode;
 			if (node != null)
 			{
-				return GenerateChildStatement(node, p => CreatePropertySyntax(p));
+				return GenerateChildStatement(node, CreatePropertySyntax);
 			}
 
 			var nodes = property.Value as IEnumerable<XamlNode>;
 			if (nodes != null)
 			{
-				return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p)));
+				return nodes.SelectMany(n => GenerateChildStatement(n, CreatePropertySyntax));
 			}
 
 			return Enumerable.Empty<StatementSyntax>();
 		}
 
-		private IEnumerable<StatementSyntax> CreateSyntax(IEnumerable<XamlNode> nodes, ExpressionSyntax ownerSyntax)
+		private IEnumerable<StatementSyntax> CreateSyntax(IEnumerable<XamlNode> nodes)
 		{
-			return nodes.SelectMany(n => GenerateChildStatement(n, p => CreatePropertySyntax(p)))
+			return nodes.SelectMany(n => GenerateChildStatement(n, CreatePropertySyntax))
 					 .Select(s => s.WithTrailingTrivia(Syntax.ElasticCarriageReturnLineFeed));
 		}
 	}

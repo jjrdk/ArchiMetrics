@@ -35,7 +35,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public IEnumerable<IMemberMetric> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
 			var walker = new MemberCollector(Root);
-			var members = walker.GetMembers(Model, typeNode).ToArray();
+			var members = walker.GetMembers(typeNode).ToArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
 				&& members.All(m => m.Kind != SyntaxKind.ConstructorDeclaration))

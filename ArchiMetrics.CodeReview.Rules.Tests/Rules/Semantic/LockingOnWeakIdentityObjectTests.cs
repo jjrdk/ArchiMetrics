@@ -19,6 +19,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 
 	public sealed class LockingOnWeakIdentityObjectTests
 	{
+		private LockingOnWeakIdentityObjectTests()
+		{
+		}
+
 		public class GivenALockingOnWeakIdentityObjectRule : SolutionTestsBase
 		{
 			private NodeReviewer _inspector;

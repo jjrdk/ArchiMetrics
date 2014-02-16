@@ -20,12 +20,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class NamespaceMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly ComparableComparer<ITypeCoupling> _comparer;
-
 		public NamespaceMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
-			_comparer = new ComparableComparer<ITypeCoupling>();
 		}
 
 		public INamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<ITypeMetric> metrics)

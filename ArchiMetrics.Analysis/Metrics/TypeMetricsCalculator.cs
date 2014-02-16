@@ -21,12 +21,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly ComparableComparer<ITypeCoupling> _comparer;
-
 		public TypeMetricsCalculator(ISemanticModel semanticModel)
 			: base(semanticModel)
 		{
-			_comparer = new ComparableComparer<ITypeCoupling>();
 		}
 
 		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
