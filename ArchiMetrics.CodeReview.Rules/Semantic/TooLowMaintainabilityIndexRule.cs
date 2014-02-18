@@ -80,7 +80,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var counter = new MemberMetricsCalculator(semanticModel, solution);
 
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var metric = counter.Calculate(methodDeclaration);
+			var metric = counter.Calculate(methodDeclaration).Result;
 			if (metric.MaintainabilityIndex <= Threshold)
 			{
 				var snippet = node.ToFullString();

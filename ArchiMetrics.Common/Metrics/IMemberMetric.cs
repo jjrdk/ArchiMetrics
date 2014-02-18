@@ -28,7 +28,7 @@ namespace ArchiMetrics.Common.Metrics
 
 		int NumberOfLocalVariables { get; }
 
-		int? AfferentCoupling { get; }
+		int AfferentCoupling { get; }
 
 		double GetVolume();
 
