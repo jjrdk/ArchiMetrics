@@ -12,13 +12,15 @@
 
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
+	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
-	using ArchiMetrics.Common.Metrics;
+	using metrics;
 	using NUnit.Framework;
 	using Roslyn.Compilers;
 	using Roslyn.Compilers.CSharp;
+	using m = metrics;
 
 	public sealed class CyclomaticComplexityCounterTests
 	{
@@ -130,8 +132,15 @@ namespace MyNs
 					.OfType<MethodDeclarationSyntax>()
 					.First();
 
-				var result = _counter.Calculate(syntaxNode, model);
+				var timer = m.Metrics.Timer(
+					typeof(ProjectMetricTests),
+					"TestTimer",
+					TimeUnit.Milliseconds,
+					TimeUnit.Microseconds);
 
+				var result = timer.Time(() => _counter.Calculate(syntaxNode, model));
+
+				Console.WriteLine(timer.Mean);
 				Assert.AreEqual(expectedComplexity, result);
 			}
 
