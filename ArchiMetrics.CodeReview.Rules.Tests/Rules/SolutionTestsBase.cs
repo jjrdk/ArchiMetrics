@@ -25,19 +25,24 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		protected Solution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
 		{
-			var x = 1;
-			ProjectId pid;
-			DocumentId did;
-			var solution = code.Aggregate(
-				Solution.Create(SolutionId.CreateNewId("Semantic"))
-					.AddCSharpProject("testcode.dll", "testcode", out pid),
-				(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
-				.AddProjectReferences(pid, new ProjectId[0])
-				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
+			using (var workspace = new CustomWorkspace())
+			{
+				var x = 1;
+				workspace.AddSolution(
+					SolutionInfo.Create(
+						SolutionId.CreateNewId("Semantic"),
+						VersionStamp.Default));
+				var project = code.Aggregate(
+					workspace.CurrentSolution.AddProject("testcode", "testcode.dll", LanguageNames.CSharp),
+					(proj, c) =>
+						{
+							proj.AddDocument(string.Format("TestClass{0}.cs", x++), c);
+							return proj;
+						})
+					.AddMetadataReference(new MetadataFileReference(typeof(object).Assembly.Location));
 
-			solution = solution.AddMetadataReferences(pid, references);
-
-			return solution;
+				return workspace.CurrentSolution;
+			}
 		}
 	}
 }

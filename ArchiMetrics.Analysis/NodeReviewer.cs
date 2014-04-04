@@ -107,8 +107,9 @@ namespace ArchiMetrics.Analysis
 				if (_evaluations.ContainsKey(node.CSharpKind()))
 				{
 					var nodeEvaluations = _evaluations[node.CSharpKind()];
+					var semmanticResults = await GetSemanticEvaluations(node, nodeEvaluations.OfType<ISemanticEvaluation>(), _model, _solution);
+
 					var codeResults = GetCodeEvaluations(node, nodeEvaluations.OfType<ICodeEvaluation>());
-					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations.OfType<ISemanticEvaluation>(), _model, _solution);
 
 					return codeResults.Concat(semmanticResults).Concat(baseResults).ToArray();
 				}
@@ -187,19 +188,19 @@ namespace ArchiMetrics.Analysis
 				return results;
 			}
 
-			private static IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<ISemanticEvaluation> nodeEvaluations, SemanticModel model, Solution solution)
+			private static async Task<IEnumerable<EvaluationResult>> GetSemanticEvaluations(SyntaxNode node, IEnumerable<ISemanticEvaluation> nodeEvaluations, SemanticModel model, Solution solution)
 			{
 				if (model == null || solution == null)
 				{
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
-				var results = nodeEvaluations
-					.Select(x =>
+				var tasks = nodeEvaluations
+					.Select(async x =>
 						{
 							try
 							{
-								return x.Evaluate(node, model, solution);
+								return await x.Evaluate(node, model, solution);
 							}
 							catch (Exception ex)
 							{
@@ -212,7 +213,8 @@ namespace ArchiMetrics.Analysis
 											   Quality = CodeQuality.Broken
 										   };
 							}
-						})
+						});
+				var results = (await Task.WhenAll(tasks))
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
 					.ToArray();
 				return results;

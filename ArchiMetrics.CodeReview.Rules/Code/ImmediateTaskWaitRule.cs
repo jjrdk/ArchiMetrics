@@ -25,7 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return SyntaxKind.MemberAccessExpression;
+				return SyntaxKind.SimpleMemberAccessExpression;
 			}
 		}
 
@@ -105,7 +105,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		private SyntaxNode FindVariableAssignment(SyntaxNode node, string variableName)
 		{
 			return node.DescendantNodes()
-					   .Where(n => n.IsKind(SyntaxKind.AssignExpression))
+					   .Where(n => n.IsKind(SyntaxKind.SimpleAssignmentExpression))
 					   .OfType<BinaryExpressionSyntax>()
 					   .Select(x => x.Left as IdentifierNameSyntax)
 					   .Where(x => x != null).FirstOrDefault(x => x.Identifier.ValueText == variableName);

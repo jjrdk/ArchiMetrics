@@ -21,8 +21,8 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	
-	
+
+
 
 	public sealed class NodeReviewerTests
 	{
@@ -42,14 +42,17 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			code = "namespace TestSpace { public class ParseClass { " + code + " } }";
-			ProjectId pid;
-			DocumentId did;
-			var solution =
-				Solution.Create(SolutionId.CreateNewId("test"))
-					.AddCSharpProject("project", "project.dll", out pid)
-					.AddDocument(pid, "broken", code, out did);
-			var task = inspector.Inspect(solution);
-			return task;
+			using (var workspace = new CustomWorkspace())
+			{
+				workspace.AddSolution(
+					SolutionInfo.Create(
+						SolutionId.CreateNewId("test"),
+						VersionStamp.Default));
+				workspace.CurrentSolution.AddProject("project", "project.dll", LanguageNames.CSharp)
+					.AddDocument("broken.cs", code);
+				var task = inspector.Inspect(workspace.CurrentSolution);
+				return task;
+			}
 		}
 
 		public class GivenANodeReviewerInspectingBrokenCode

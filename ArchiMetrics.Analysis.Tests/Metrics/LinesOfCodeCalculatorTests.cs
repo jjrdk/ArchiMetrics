@@ -15,8 +15,10 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	
+
 
 	public sealed class LinesOfCodeCalculatorTests
 	{
@@ -50,7 +52,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
-					.First(c => c.Kind == SyntaxKind.MethodDeclaration);
+					.First(c => c.IsKind(SyntaxKind.MethodDeclaration));
 
 				var loc = _analyzer.Calculate(root);
 
@@ -83,7 +85,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
-					.First(c => c.Kind == kind);
+					.First(c => c.IsKind(kind));
 				var loc = _analyzer.Calculate(root);
 
 				Assert.AreEqual(expected, loc);

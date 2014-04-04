@@ -237,13 +237,17 @@ using System.Linq;
 
 			private Project CreateProject(string text)
 			{
-				ProjectId pid;
-				DocumentId did;
-				var solution = Solution.Create(SolutionId.CreateNewId("Metrics"))
-									   .AddCSharpProject("testcode.dll", "testcode", out pid)
-									   .AddDocument(pid, "TestClass.cs", text, out did)
-									   .AddProjectReferences(pid, new ProjectId[0]);
-
+				var workspace = new CustomWorkspace();
+				workspace.AddSolution(
+					SolutionInfo.Create(
+						SolutionId.CreateNewId("test"),
+						VersionStamp.Create()));
+				var solution = workspace.CurrentSolution.AddProject(
+					ProjectId.CreateNewId("testcode"),
+					"testcode",
+					"testcode.dll",
+					LanguageNames.CSharp);
+				
 				return solution.Projects.First();
 			}
 		}

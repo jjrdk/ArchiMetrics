@@ -36,9 +36,8 @@ namespace ArchiMetrics.Analysis
 
 		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution)
 		{
-			var calcProject = project.WithDocuments();
-			var compilation = await calcProject.GetCompilationAsync();
-			var namespaceDeclarations = await GetNamespaceDeclarations(calcProject);
+			var compilation = await project.GetCompilationAsync();
+			var namespaceDeclarations = await GetNamespaceDeclarations(project);
 			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
 		}
 

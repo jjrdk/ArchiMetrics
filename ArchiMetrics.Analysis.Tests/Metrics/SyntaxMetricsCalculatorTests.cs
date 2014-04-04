@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
 	
 

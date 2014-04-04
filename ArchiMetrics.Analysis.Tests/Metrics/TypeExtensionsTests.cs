@@ -12,13 +12,17 @@
 
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
+	using System.Collections.Immutable;
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using Moq;
 	using NUnit.Framework;
-	
-	
-	
+
+
+
 
 	public sealed class TypeExtensionsTests
 	{
@@ -40,7 +44,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				SyntaxFactory.BaseList(),
 				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
 				SyntaxFactory.Token(SyntaxKind.OpenBraceToken),
-				SyntaxFactory.List<MemberDeclarationSyntax>(innerType),
+				SyntaxFactory.List<MemberDeclarationSyntax>(new[] { innerType }),
 				SyntaxFactory.Token(SyntaxKind.CloseBraceToken),
 				SyntaxFactory.Token(SyntaxKind.SemicolonToken));
 
@@ -61,7 +65,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
 				SyntaxFactory.Token(SyntaxKind.ClassKeyword),
 				SyntaxFactory.Identifier(ContainerName),
-				SyntaxFactory.TypeParameterList(SyntaxFactory.SeparatedList(clause)),
+				SyntaxFactory.TypeParameterList(SyntaxFactory.SeparatedList(new[] { clause })),
 				SyntaxFactory.BaseList(),
 				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
 				SyntaxFactory.Token(SyntaxKind.OpenBraceToken),
@@ -85,7 +89,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 			var mockTypeParameter = new Mock<ITypeParameterSymbol>();
 			mockTypeParameter.SetupGet(x => x.Name).Returns("object");
-			var readOnlyArray = ReadOnlyArray<ITypeParameterSymbol>.CreateFrom(mockTypeParameter.Object);
+			var readOnlyArray = new ImmutableArray<ITypeParameterSymbol>().Add(mockTypeParameter.Object);
 			var mockTypeSymbol = new Mock<INamedTypeSymbol>();
 			mockTypeSymbol.SetupGet(x => x.Name).Returns("TypeName");
 			mockTypeSymbol.SetupGet(x => x.ContainingSymbol).Returns(containingNamespace.Object);
@@ -116,7 +120,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 			var mockTypeParameter = new Mock<ITypeParameterSymbol>();
 			mockTypeParameter.SetupGet(x => x.Name).Returns("object");
-			var readOnlyArray = ReadOnlyArray<ITypeParameterSymbol>.CreateFrom(mockTypeParameter.Object);
+			var readOnlyArray = new ImmutableArray<ITypeParameterSymbol>().Add(mockTypeParameter.Object);
 			var mockTypeSymbol = new Mock<INamedTypeSymbol>();
 			mockTypeSymbol.SetupGet(x => x.Name).Returns("TypeName");
 			mockTypeSymbol.SetupGet(x => x.ContainingSymbol).Returns(containingNamespace.Object);

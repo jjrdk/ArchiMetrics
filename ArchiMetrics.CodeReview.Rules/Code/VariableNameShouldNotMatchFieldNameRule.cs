@@ -23,7 +23,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return SyntaxKind.AssignExpression;
+				return SyntaxKind.SimpleAssignmentExpression;
 			}
 		}
 
