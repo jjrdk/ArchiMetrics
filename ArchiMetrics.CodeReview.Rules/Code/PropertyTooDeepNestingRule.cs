@@ -12,7 +12,8 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal abstract class PropertyTooDeepNestingRule : TooDeepNestingRuleBase
 	{

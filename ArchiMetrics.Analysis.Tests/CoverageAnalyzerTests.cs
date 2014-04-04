@@ -13,14 +13,17 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+
 
 	public class CoverageAnalyzerTests : SolutionTestsBase
 	{
 		[Test]
-		public void CanFindCoverage()
+		public async Task CanFindCoverage()
 		{
 			var code = @"namespace MyCode
 {
@@ -54,18 +57,38 @@ namespace ArchiMetrics.Analysis.Tests
 }";
 
 			var solution = CreateSolution(code, test);
-			var matches = (from project in solution.Projects
-						   let compilation = project.GetCompilation()
-						   from doc in project.Documents
-						   let model = compilation.GetSemanticModel(doc.GetSyntaxTree())
-						   let root = doc.GetSyntaxRoot()
-						   from method in root.DescendantNodes().OfType<MethodDeclarationSyntax>()
-						   where !method.AttributeLists.Any(a => a.Attributes.Any(b => b.Name.ToString().IsKnownTestAttribute()))
+			var projectCompilations = (from project in solution.Projects
+									   let compilation = project.GetCompilationAsync()
+									   select new
+											  {
+												  Documents = project.Documents.Select(
+													  x => new
+														   {
+															   Tree = x.GetSyntaxTreeAsync(),
+															   Root = x.GetSyntaxRootAsync()
+														   }),
+												  Compilation = compilation
+											  })
+				.ToArray();
+			await Task.WhenAll(
+				projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree })));
+
+			var matches = (from x in projectCompilations
+						   from doc in x.Documents
+						   let model = x.Compilation.Result.GetSemanticModel(doc.Tree.Result)
+						   let root = doc.Root.Result
+						   from method in root.DescendantNodes()
+							   .OfType<MethodDeclarationSyntax>()
+						   where !method.AttributeLists.Any(
+							   a => a.Attributes.Any(
+								   b => b.Name.ToString()
+											.IsKnownTestAttribute()))
 						   select model.GetDeclaredSymbol(method))
 				.ToArray();
 
 			var analyzer = new CoverageAnalyzer(solution);
-			var areReferenced = matches.Select(analyzer.IsReferencedInTest).ToArray();
+			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).ToArray();
+			var areReferenced = await Task.WhenAll(areReferencedTasks);
 
 			Assert.IsTrue(areReferenced.All(x => x));
 		}

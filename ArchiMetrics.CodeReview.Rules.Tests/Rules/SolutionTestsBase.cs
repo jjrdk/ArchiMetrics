@@ -14,17 +14,16 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Roslyn.Compilers;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
 	public abstract class SolutionTestsBase
 	{
-		protected ISolution CreateSolution(params string[] code)
+		protected Solution CreateSolution(params string[] code)
 		{
 			return CreateSolution(Enumerable.Empty<MetadataFileReference>(), code);
 		}
 
-		protected ISolution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
+		protected Solution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
 		{
 			var x = 1;
 			ProjectId pid;

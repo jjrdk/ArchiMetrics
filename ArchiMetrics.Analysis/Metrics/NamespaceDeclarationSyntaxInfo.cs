@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Roslyn.Compilers.Common;
+	using Microsoft.CodeAnalysis;
 
 	public sealed class NamespaceDeclarationSyntaxInfo
 	{
@@ -20,6 +20,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Name { get; set; }
 
-		public CommonSyntaxNode Syntax { get; set; }
+		public SyntaxNode Syntax { get; set; }
 	}
 }

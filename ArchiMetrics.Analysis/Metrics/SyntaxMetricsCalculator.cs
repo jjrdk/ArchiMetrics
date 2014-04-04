@@ -16,20 +16,21 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	public sealed class SyntaxMetricsCalculator
 	{
-		private readonly Func<SyntaxNode, bool> _isGetProperty = n => n.Kind == SyntaxKind.PropertyDeclaration && (n as PropertyDeclarationSyntax).AccessorList.Accessors.Any(a => a.Kind == SyntaxKind.GetAccessorDeclaration);
-		private readonly Func<SyntaxNode, bool> _isMethod = n => n.Kind == SyntaxKind.MethodDeclaration && (n as MethodDeclarationSyntax).Body != null;
-		private readonly Func<SyntaxNode, bool> _isSetProperty = n => n.Kind == SyntaxKind.PropertyDeclaration && (n as PropertyDeclarationSyntax).AccessorList.Accessors.Any(a => a.Kind == SyntaxKind.SetAccessorDeclaration);
+		private readonly Func<SyntaxNode, bool> _isGetProperty = n => n.IsKind(SyntaxKind.PropertyDeclaration) && (n as PropertyDeclarationSyntax).AccessorList.Accessors.Any(a => a.IsKind(SyntaxKind.GetAccessorDeclaration));
+		private readonly Func<SyntaxNode, bool> _isMethod = n => n.IsKind(SyntaxKind.MethodDeclaration) && (n as MethodDeclarationSyntax).Body != null;
+		private readonly Func<SyntaxNode, bool> _isSetProperty = n => n.IsKind(SyntaxKind.PropertyDeclaration) && (n as PropertyDeclarationSyntax).AccessorList.Accessors.Any(a => a.IsKind(SyntaxKind.SetAccessorDeclaration));
 
 		public IEnumerable<IHalsteadMetrics> Calculate(string code)
 		{
 			try
 			{
-				var tree = SyntaxTree.ParseText(code);
+				var tree = CSharpSyntaxTree.ParseText(code);
 				var root = tree.GetRoot();
 				var metrics = Calculate(root);
 				return metrics;
@@ -46,7 +47,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var analyzer = new HalsteadAnalyzer();
 			var childNodes = root.ChildNodes().ToArray();
 
-			var types = childNodes.Where(n => n.Kind == SyntaxKind.ClassDeclaration || n.Kind == SyntaxKind.StructDeclaration)
+			var types = childNodes.Where(n => n.IsKind(SyntaxKind.ClassDeclaration) || n.IsKind(SyntaxKind.StructDeclaration))
 				.ToArray();
 			var methods = types.SelectMany(n => n.ChildNodes().Where(_isMethod));
 			var getProperties = types.SelectMany(n => n.ChildNodes().Where(_isGetProperty));
@@ -66,11 +67,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var statements = childNodes.Length == 0
-				? root.DescendantNodesAndTokens().Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])))
-				: childNodes.Select(x => Syntax.ParseStatement(x.ToFullString(), 0, new ParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])));
+				? root.DescendantNodesAndTokens().Select(x => SyntaxFactory.ParseStatement(x.ToFullString(), 0, new CSharpParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])))
+				: childNodes.Select(x => SyntaxFactory.ParseStatement(x.ToFullString(), 0, new CSharpParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])));
 
-			var fakeMethod = Syntax.MethodDeclaration(Syntax.PredefinedType(Syntax.Token(SyntaxKind.VoidKeyword)), "fake")
-				.WithBody(Syntax.Block(statements));
+			var fakeMethod = SyntaxFactory.MethodDeclaration(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)), "fake")
+				.WithBody(SyntaxFactory.Block(statements));
 			return new[]
 				   {
 					   analyzer.Calculate(fakeMethod)

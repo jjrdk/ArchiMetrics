@@ -13,24 +13,28 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
-	using Roslyn.Compilers;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+
+
 
 	public abstract class SolutionTestsBase
 	{
-		protected ISolution CreateSolution(params string[] code)
+		protected Solution CreateSolution(params string[] code)
 		{
-			var x = 1;
-			ProjectId pid;
-			DocumentId did;
-			var solution = code.Aggregate(
-				Solution.Create(SolutionId.CreateNewId("Analysis"))
-					.AddCSharpProject("testcode.dll", "testcode", out pid),
-				(sol, c) => SolutionExtensions.AddDocument((ISolution)sol, pid, string.Format("TestClass{0}.cs", x++), (string)c, out did))
-				.AddProjectReferences(pid, new ProjectId[0])
-				.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
+			var workspace = new CustomWorkspace(SolutionId.CreateNewId("Analysis"));
 
-			return solution;
+			var x = 1;
+			var project = code.Aggregate(
+				workspace.CurrentSolution
+					.AddProject("testcode", "testcode.dll", LanguageNames.CSharp),
+				(proj, c) =>
+				{
+					proj.AddDocument(string.Format("TestClass{0}.cs", x++), c);
+					proj.AddMetadataReference(new MetadataFileReference(typeof(object).Assembly.Location));
+					return proj;
+				});
+
+			return workspace.CurrentSolution;
 		}
 	}
 }

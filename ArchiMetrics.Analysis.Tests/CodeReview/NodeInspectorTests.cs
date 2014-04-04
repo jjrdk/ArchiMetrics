@@ -14,9 +14,12 @@ namespace ArchiMetrics.Analysis.Tests.CodeReview
 {
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using Moq;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public sealed class NodeInspectorTests
 	{
@@ -41,14 +44,15 @@ namespace ArchiMetrics.Analysis.Tests.CodeReview
 			[Test]
 			public async Task WhenEvaluatingCodeThenCallsCodeEvaluation()
 			{
-				var classDeclaration = Syntax.ClassDeclaration(
-					Syntax.List<AttributeListSyntax>(),
-					Syntax.TokenList(Syntax.Token(SyntaxKind.PublicKeyword)),
-					Syntax.Identifier("MyClass"),
-					Syntax.TypeParameterList(),
-					Syntax.BaseList(),
-					Syntax.List<TypeParameterConstraintClauseSyntax>(),
-					Syntax.List<MemberDeclarationSyntax>());
+				var classDeclaration = SyntaxFactory.ClassDeclaration(
+					SyntaxFactory.List<AttributeListSyntax>(),
+					SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
+					SyntaxFactory.Identifier("MyClass"),
+					SyntaxFactory.TypeParameterList(),
+					SyntaxFactory.ParameterList(),
+					SyntaxFactory.BaseList(),
+					SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
+					SyntaxFactory.List<MemberDeclarationSyntax>());
 				await _reviewer.Inspect("name", string.Empty, classDeclaration, null, null);
 
 				_mockCodeEvaluation.Verify(x => x.Evaluate(classDeclaration));

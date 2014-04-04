@@ -15,7 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 	using System.Linq;
 	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
 
 	internal abstract class CommentLanguageRuleBase : TriviaEvaluationBase
 	{

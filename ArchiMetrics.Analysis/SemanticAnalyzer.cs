@@ -15,14 +15,15 @@ namespace ArchiMetrics.Analysis
 	using System.Collections.Generic;
 	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	public class SemanticAnalyzer
 	{
-		private readonly ISemanticModel _model;
+		private readonly SemanticModel _model;
 
-		public SemanticAnalyzer(ISemanticModel model)
+		public SemanticAnalyzer(SemanticModel model)
 		{
 			_model = model;
 		}
@@ -38,7 +39,7 @@ namespace ArchiMetrics.Analysis
 			var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
 
 			var usedParameterNames = dataflow.DataFlowsIn
-				.Where(x => x.Kind == CommonSymbolKind.Parameter)
+				.Where(x => x.Kind == SymbolKind.Parameter)
 				.Select(x => x.Name)
 				.ToArray();
 
@@ -70,7 +71,7 @@ namespace ArchiMetrics.Analysis
 			var bodyNodes = method.Body.ChildNodes();
 			var dataflow = _model.AnalyzeDataFlow(bodyNodes.First(), bodyNodes.Last());
 			var hasThisReference = dataflow.DataFlowsIn
-				.Any(x => x.Kind == CommonSymbolKind.Parameter && x.Name == Syntax.Token(SyntaxKind.ThisKeyword).ToFullString());
+				.Any(x => x.Kind == SymbolKind.Parameter && x.Name == SyntaxFactory.Token(SyntaxKind.ThisKeyword).ToFullString());
 			return !hasThisReference;
 		}
 	}

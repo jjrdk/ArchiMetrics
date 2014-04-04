@@ -19,17 +19,17 @@ namespace ArchiMetrics.Analysis.Model
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
 	public class CodeErrorRepository : ICodeErrorRepository, IResetable
 	{
 		private readonly IAvailableRules _availableRules;
 		private readonly ConcurrentDictionary<string, Task<EvaluationResult[]>> _evaluations;
 		private readonly INodeInspector _inspector;
-		private readonly IProvider<string, ISolution> _solutionProvider;
+		private readonly IProvider<string, Solution> _solutionProvider;
 
 		public CodeErrorRepository(
-			IProvider<string, ISolution> solutionProvider,
+			IProvider<string, Solution> solutionProvider,
 			INodeInspector inspector,
 			IAvailableRules availableRules)
 		{

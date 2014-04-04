@@ -14,9 +14,9 @@ namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	
+	
+	
 
 	public class SemanticAnalyzerTests
 	{

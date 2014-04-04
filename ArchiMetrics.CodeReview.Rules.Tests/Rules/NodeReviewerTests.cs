@@ -18,9 +18,11 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.CodeReview;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	
+	
 
 	public sealed class NodeReviewerTests
 	{
@@ -31,7 +33,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		private static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
-			var tree = SyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
+			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
 
 			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 		}
@@ -74,7 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 				var result = await PerformInspection(code, evaluatorType);
 
-				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != Syntax.Token(SyntaxKind.GlobalKeyword).ValueText));
+				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != SyntaxFactory.Token(SyntaxKind.GlobalKeyword).ValueText));
 			}
 		}
 

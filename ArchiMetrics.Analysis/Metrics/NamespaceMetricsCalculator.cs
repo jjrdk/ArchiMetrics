@@ -16,11 +16,11 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
+	using Microsoft.CodeAnalysis;
 
 	internal sealed class NamespaceMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		public NamespaceMetricsCalculator(ISemanticModel semanticModel)
+		public NamespaceMetricsCalculator(SemanticModel semanticModel)
 			: base(semanticModel)
 		{
 		}

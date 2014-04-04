@@ -13,19 +13,23 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.IO;
+	using System.Threading.Tasks;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
-	using Roslyn.Services;
+
 
 	public class SolutionExtensionTests
 	{
 		[Test]
-		public void CanSaveSolution()
+		public async Task CanSaveSolution()
 		{
-			var solution = Workspace.LoadSolution(Path.GetFullPath(@"..\..\..\ArchiMetrics.sln")).CurrentSolution;
+			var workspace = MSBuildWorkspace.Create();
+			var solution = await workspace.OpenSolutionAsync(Path.GetFullPath(@"..\..\..\ArchiMetrics.sln"));
 			const string SaveLocation = @"..\..\..\x.sln";
 			solution.Save(SaveLocation, true);
 
-			var reloaded = Workspace.LoadSolution(Path.GetFullPath(SaveLocation)).CurrentSolution;
+			var reloaded = await workspace.OpenSolutionAsync(Path.GetFullPath(SaveLocation));
 
 			Assert.NotNull(reloaded);
 		}

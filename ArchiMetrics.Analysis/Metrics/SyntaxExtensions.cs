@@ -12,18 +12,18 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal static class SyntaxExtensions
 	{
-		public static string GetName(this NamespaceDeclarationSyntax node, CommonSyntaxNode rootNode)
+		public static string GetName(this NamespaceDeclarationSyntax node, SyntaxNode rootNode)
 		{
 			var name = node.Name;
 			return rootNode.GetText().GetSubText(name.Span).ToString();
 		}
 
-		public static string GetName(this TypeDeclarationSyntax node, CommonSyntaxNode rootNode)
+		public static string GetName(this TypeDeclarationSyntax node, SyntaxNode rootNode)
 		{
 			var identifier = node.Identifier;
 			return rootNode.GetText().GetSubText(identifier.Span).ToString();

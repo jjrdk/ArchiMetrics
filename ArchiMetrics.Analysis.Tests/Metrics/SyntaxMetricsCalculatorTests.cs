@@ -15,7 +15,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public class SyntaxMetricsCalculatorTests
 	{
@@ -26,7 +26,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 public int Number { get{ return a - b; } }
 public string GetValue() { return ""x"" + a; } 
 }";
-			var root = SyntaxTree.ParseText(Code).GetRoot();
+			var root = CSharpSyntaxTree.ParseText(Code).GetRoot();
 
 			var metrics = new SyntaxMetricsCalculator().Calculate(root);
 
@@ -37,7 +37,7 @@ public string GetValue() { return ""x"" + a; }
 		public void CanGetHalsteadMetricsForMethodSnippet()
 		{
 			const string Code = @"public string GetValue() { return ""x""; }";
-			var root = SyntaxTree.ParseText(Code).GetRoot();
+			var root = CSharpSyntaxTree.ParseText(Code).GetRoot();
 
 			var metrics = new SyntaxMetricsCalculator().Calculate(root);
 
@@ -48,7 +48,7 @@ public string GetValue() { return ""x"" + a; }
 		public void CanGetHalsteadMetricsForArbitrarySnippet()
 		{
 			const string Code = @"return ""x"";";
-			var root = SyntaxTree.ParseText(Code).GetRoot();
+			var root = CSharpSyntaxTree.ParseText(Code).GetRoot();
 
 			var metrics = new SyntaxMetricsCalculator().Calculate(root);
 
@@ -59,7 +59,7 @@ public string GetValue() { return ""x"" + a; }
 		public void CanGetHalsteadMetricsForMultipleArbitrarySnippets()
 		{
 			const string Code = @"var a = ""x""; return a;";
-			var root = SyntaxTree.ParseText(Code).GetRoot();
+			var root = CSharpSyntaxTree.ParseText(Code).GetRoot();
 
 			var metrics = new SyntaxMetricsCalculator().Calculate(root);
 

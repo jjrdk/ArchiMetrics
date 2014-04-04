@@ -45,7 +45,7 @@ namespace ArchiMetrics.Analysis.Model
 				{
 					var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken)).ToArray();
 					var projectMetrics = (await _metricsRepository.Get(solutionPath)).ToArray();
-					var vertices = projectMetrics.Select(projectMetric => CreateProjectNode(projectMetric, projectMetrics, evaluationResults)).ToArray();
+					var vertices = projectMetrics.Select(IProjectMetric => CreateProjectNode(IProjectMetric, projectMetrics, evaluationResults)).ToArray();
 
 					return vertices;
 				});
@@ -55,15 +55,15 @@ namespace ArchiMetrics.Analysis.Model
 		}
 
 		private static ModelNode CreateProjectNode(
-			IProjectMetric projectMetric,
+			IProjectMetric IProjectMetric,
 			IProjectMetric[] projectMetrics,
 			EvaluationResult[] evaluationResults)
 		{
-			var children = projectMetric.ReferencedProjects.Select(
+			var children = IProjectMetric.ReferencedProjects.Select(
 				y =>
 					{
 						var couplings =
-							projectMetric.NamespaceMetrics.SelectMany(x => x.ClassCouplings)
+							IProjectMetric.NamespaceMetrics.SelectMany(x => x.ClassCouplings)
 								.Where(x => x.Assembly == Path.GetFileNameWithoutExtension(y))
 								.Select(x => new ModelNode(x.Namespace, NodeKind.Namespace, CodeQuality.Good, 0, 100, 0))
 								.Cast<IModelNode>()
@@ -78,7 +78,7 @@ namespace ArchiMetrics.Analysis.Model
 							couplings);
 					})
 				.Concat(
-					projectMetric.NamespaceMetrics.Select(
+					IProjectMetric.NamespaceMetrics.Select(
 						namespaceMetric =>
 						CreateNamespaceNode(
 							namespaceMetric,
@@ -87,12 +87,12 @@ namespace ArchiMetrics.Analysis.Model
 				.Merge()
 				.ToList();
 			return new ModelNode(
-				projectMetric.Name,
+				IProjectMetric.Name,
 				NodeKind.Assembly,
-				evaluationResults.Where(x => x.ProjectName == projectMetric.Name).GetQuality(),
-				projectMetric.LinesOfCode,
-				projectMetric.MaintainabilityIndex,
-				projectMetric.CyclomaticComplexity,
+				evaluationResults.Where(x => x.ProjectName == IProjectMetric.Name).GetQuality(),
+				IProjectMetric.LinesOfCode,
+				IProjectMetric.MaintainabilityIndex,
+				IProjectMetric.CyclomaticComplexity,
 				children);
 		}
 

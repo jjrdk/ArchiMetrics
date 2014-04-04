@@ -13,12 +13,13 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Linq;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class CyclomaticComplexityCounter
 	{
-		public int Calculate(SyntaxNode node, ISemanticModel semanticModel)
+		public int Calculate(SyntaxNode node, SemanticModel semanticModel)
 		{
 			var analyzer = new InnerComplexityAnalyzer(semanticModel);
 			var result = analyzer.Calculate(node);
@@ -26,7 +27,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return result;
 		}
 
-		private class InnerComplexityAnalyzer : SyntaxWalker
+		private class InnerComplexityAnalyzer : CSharpSyntaxWalker
 		{
 			private static readonly SyntaxKind[] Contributors = new[]
 																{  
@@ -39,10 +40,10 @@ namespace ArchiMetrics.Analysis.Metrics
 																};
 
 			// private static readonly string[] LazyTypes = new[] { "System.Threading.Tasks.Task" };
-			private readonly ISemanticModel _semanticModel;
+			private readonly SemanticModel _semanticModel;
 			private int _counter;
 
-			public InnerComplexityAnalyzer(ISemanticModel semanticModel)
+			public InnerComplexityAnalyzer(SemanticModel semanticModel)
 				: base(SyntaxWalkerDepth.Node)
 			{
 				_semanticModel = semanticModel;
@@ -62,7 +63,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			public override void Visit(SyntaxNode node)
 			{
 				base.Visit(node);
-				if (Contributors.Contains(node.Kind))
+				if (Contributors.Contains(node.CSharpKind()))
 				{
 					_counter++;
 				}
@@ -96,7 +97,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			////		{
 			////			switch (symbol.Kind)
 			////			{
-			////				case CommonSymbolKind.Method:
+			////				case SymbolKind.Method:
 			////					var returnType = ((IMethodSymbol)symbol).ReturnType;
 			////					break;
 			////			}
@@ -109,7 +110,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			////}
 			public override void VisitArgument(ArgumentSyntax node)
 			{
-				switch (node.Expression.Kind)
+				switch (node.Expression.CSharpKind())
 				{
 					case SyntaxKind.ParenthesizedLambdaExpression:
 						{

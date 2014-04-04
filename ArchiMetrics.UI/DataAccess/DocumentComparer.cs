@@ -13,9 +13,9 @@
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System.Collections.Generic;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
-	internal class DocumentComparer : IEqualityComparer<IDocument>
+	internal class DocumentComparer : IEqualityComparer<Document>
 	{
 		private static readonly DocumentComparer InnerComparer = new DocumentComparer();
 
@@ -28,14 +28,14 @@ namespace ArchiMetrics.UI.DataAccess
 			get { return InnerComparer; }
 		}
 
-		public bool Equals(IDocument x, IDocument y)
+		public bool Equals(Document x, Document y)
 		{
 			return x == null
 					   ? y == null
 					   : y != null && x.FilePath == y.FilePath;
 		}
 
-		public int GetHashCode(IDocument obj)
+		public int GetHashCode(Document obj)
 		{
 			return obj.FilePath.GetHashCode();
 		}

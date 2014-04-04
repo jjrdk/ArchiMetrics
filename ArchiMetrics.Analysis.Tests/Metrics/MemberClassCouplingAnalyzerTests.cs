@@ -17,9 +17,9 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	
+	
+	
 
 	public sealed class MemberClassCouplingAnalyzerTests
 	{
@@ -30,7 +30,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		public class GivenAMemberClassCouplingAnalyzer
 		{
 			private MemberClassCouplingAnalyzer _analyzer;
-			private ISolution _solution;
+			private Solution _solution;
 
 			[SetUp]
 			public void Setup()
@@ -86,7 +86,7 @@ namespace MyNamespace
 				return couplings;
 			}
 
-			private ISolution CreateSolution(params string[] code)
+			private Solution CreateSolution(params string[] code)
 			{
 				var x = 1;
 				ProjectId pid;

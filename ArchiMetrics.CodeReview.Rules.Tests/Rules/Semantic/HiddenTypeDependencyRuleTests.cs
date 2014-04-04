@@ -16,8 +16,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
+	using Microsoft.CodeAnalysis;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
+	
 
 	public sealed class HiddenTypeDependencyRuleTests
 	{

@@ -14,18 +14,19 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class TypeCollector
 	{
-		public IEnumerable<TypeDeclarationSyntax> GetTypes(CommonSyntaxNode namespaceNode)
+		public IEnumerable<TypeDeclarationSyntax> GetTypes(SyntaxNode namespaceNode)
 		{
 			var innerCollector = new InnerTypeCollector();
 			return innerCollector.GetTypes(namespaceNode);
 		} 
 
-		private class InnerTypeCollector : SyntaxWalker
+		private class InnerTypeCollector : CSharpSyntaxWalker
 		{
 			private readonly IList<TypeDeclarationSyntax> _types;
 
@@ -35,7 +36,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				_types = new List<TypeDeclarationSyntax>();
 			}
 
-			public IEnumerable<TypeDeclarationSyntax> GetTypes(CommonSyntaxNode namespaceNode)
+			public IEnumerable<TypeDeclarationSyntax> GetTypes(SyntaxNode namespaceNode)
 			{
 				var node = namespaceNode as NamespaceDeclarationSyntax;
 				if (node != null)

@@ -14,27 +14,28 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class DepthOfInheritanceAnalyzer
 	{
 		private readonly IEnumerable<TypeKind> _inheritableTypes = new[] { TypeKind.Class, TypeKind.Struct };
-		private readonly ISemanticModel _semanticModel;
+		private readonly SemanticModel _semanticModel;
 
-		public DepthOfInheritanceAnalyzer(ISemanticModel semanticModel)
+		public DepthOfInheritanceAnalyzer(SemanticModel semanticModel)
 		{
 			_semanticModel = semanticModel;
 		}
 
 		public int Calculate(TypeDeclarationSyntax type)
 		{
-			var num = type.Kind == SyntaxKind.ClassDeclaration || type.Kind == SyntaxKind.StructDeclaration ? 1 : 0;
+			var num = type.IsKind(SyntaxKind.ClassDeclaration) || type.IsKind(SyntaxKind.StructDeclaration) ? 1 : 0;
 			if (type.BaseList != null)
 			{
-				foreach (var symbolInfo in type.BaseList.Types.Select(syntax => _semanticModel.GetSymbolInfo(syntax)))
+				foreach (var symbolInfo in type.BaseList.Types.Select(syntax => ModelExtensions.GetSymbolInfo(_semanticModel, syntax)))
 				{
-					for (var symbol = symbolInfo.Symbol as NamedTypeSymbol; symbol != null; symbol = symbol.BaseType)
+					for (var symbol = symbolInfo.Symbol as INamedTypeSymbol; symbol != null; symbol = symbol.BaseType)
 					{
 						if (_inheritableTypes.Any(x => x == symbol.TypeKind))
 						{
@@ -44,7 +45,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				}
 			}
 
-			return num == 0 && (type.Kind == SyntaxKind.ClassDeclaration || type.Kind == SyntaxKind.StructDeclaration)
+			return num == 0 && (type.IsKind(SyntaxKind.ClassDeclaration) || type.IsKind(SyntaxKind.StructDeclaration))
 				? 1
 				: num;
 		}

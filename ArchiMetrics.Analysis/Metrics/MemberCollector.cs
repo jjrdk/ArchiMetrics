@@ -15,15 +15,16 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	internal sealed class MemberCollector : SyntaxWalker
+	internal sealed class MemberCollector : CSharpSyntaxWalker
 	{
 		private readonly List<SyntaxNode> _members;
-		private readonly CommonSyntaxNode _root;
+		private readonly SyntaxNode _root;
 
-		public MemberCollector(CommonSyntaxNode root)
+		public MemberCollector(SyntaxNode root)
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_members = new List<SyntaxNode>();
@@ -70,7 +71,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void AddAccessorNode(SyntaxNode node, AccessorListSyntax accessorList, SyntaxKind filter)
 		{
-			if (accessorList.Accessors.Any(x => (x.Kind == filter)))
+			if (accessorList.Accessors.Any(x => (x.IsKind(filter))))
 			{
 				_members.Add(node);
 			}

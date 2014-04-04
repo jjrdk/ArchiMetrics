@@ -13,7 +13,9 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class VariableNameShouldNotMatchFieldNameRule : CodeEvaluationBase
 	{
@@ -69,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var assignment = (BinaryExpressionSyntax)node;
 			var left = assignment.Left as MemberAccessExpressionSyntax;
-			if (left == null || left.Expression.Kind != SyntaxKind.ThisExpression)
+			if (left == null || !left.Expression.IsKind(SyntaxKind.ThisExpression))
 			{
 				return null;
 			}

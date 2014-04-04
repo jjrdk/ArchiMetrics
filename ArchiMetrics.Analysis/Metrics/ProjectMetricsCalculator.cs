@@ -16,7 +16,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
 	internal class ProjectMetricsCalculator : IProjectMetricsCalculator
 	{
@@ -27,7 +27,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			_metricsCalculator = metricsCalculator;
 		}
 
-		public async Task<IProjectMetric> Calculate(IProject project, ISolution solution)
+		public async Task<IProjectMetric> Calculate(Project project, Solution solution)
 		{
 			if (project == null)
 			{
@@ -37,7 +37,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var metricsTask = _metricsCalculator.Calculate(project, solution);
 
 			var referencedProjects = project.ProjectReferences
-				.Select(x => solution.GetProject(x).AssemblyName)
+				.Select(x => solution.GetProject(x.ProjectId).AssemblyName)
 				.Concat(project.MetadataReferences.Select(x => x.Display));
 
 			var compilation = await project.GetCompilationAsync();

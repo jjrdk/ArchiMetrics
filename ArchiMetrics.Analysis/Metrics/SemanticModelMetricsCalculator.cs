@@ -12,23 +12,23 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Roslyn.Compilers.Common;
+	using Microsoft.CodeAnalysis;
 
 	public abstract class SemanticModelMetricsCalculator
 	{
-		private readonly ISemanticModel _semanticModel;
+		private readonly SemanticModel _semanticModel;
 
-		protected SemanticModelMetricsCalculator(ISemanticModel semanticModel)
+		protected SemanticModelMetricsCalculator(SemanticModel semanticModel)
 		{
 			_semanticModel = semanticModel;
 		}
 
-		protected ISemanticModel Model
+		protected SemanticModel Model
 		{
 			get { return _semanticModel; }
 		}
 
-		protected CommonSyntaxNode Root
+		protected SyntaxNode Root
 		{
 			get { return _semanticModel.SyntaxTree.GetRoot(); }
 		}

@@ -16,7 +16,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public sealed class LinesOfCodeCalculatorTests
 	{
@@ -46,7 +46,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				}
 			}";
 
-				var syntaxTree = SyntaxTree.ParseText(Text);
+				var syntaxTree = CSharpSyntaxTree.ParseText(Text);
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
@@ -79,7 +79,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}}",
 			   code);
 
-				var syntaxTree = SyntaxTree.ParseText(text);
+				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
@@ -116,7 +116,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}}",
 			   code);
 
-				var syntaxTree = SyntaxTree.ParseText(text);
+				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree.GetRoot();
 				var loc = _analyzer.Calculate(root);
 

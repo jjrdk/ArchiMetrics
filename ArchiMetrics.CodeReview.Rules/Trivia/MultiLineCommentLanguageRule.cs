@@ -13,7 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Trivia
 {
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis.CSharp;
 
 	internal class MultiLineCommentLanguageRule : CommentLanguageRuleBase
 	{

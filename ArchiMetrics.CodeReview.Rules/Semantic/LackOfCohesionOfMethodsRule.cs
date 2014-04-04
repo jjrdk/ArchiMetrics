@@ -13,19 +13,20 @@
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal class LackOfCohesionOfMethodsRule : SemanticEvaluationBase
 	{
-		private static readonly CommonSymbolKind[] MemberKinds =
+		private static readonly SymbolKind[] MemberKinds =
 		{
-			CommonSymbolKind.Event, 
-			CommonSymbolKind.Method, 
-			CommonSymbolKind.Property
+			SymbolKind.Event, 
+			SymbolKind.Method, 
+			SymbolKind.Property
 		};
 
 		private int _threshold = 6;
@@ -80,19 +81,19 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			_threshold = threshold;
 		}
 
-		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(classDeclaration);
+			var symbol = (ITypeSymbol)ModelExtensions.GetDeclaredSymbol(semanticModel, classDeclaration);
 			var members = symbol.GetMembers();
 
-			var memberCount = members.Where(x => MemberKinds.Contains(x.Kind)).Count();
+			var memberCount = members.Count(x => MemberKinds.Contains(x.Kind));
 			if (memberCount < _threshold)
 			{
 				return null;
 			}
 
-			var fields = members.Where(x => x.Kind == CommonSymbolKind.Field).ToArray();
+			var fields = members.Where(x => x.Kind == SymbolKind.Field).ToArray();
 			var fieldCount = fields.Length;
 
 			if (fieldCount < _threshold)
@@ -100,9 +101,11 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				return null;
 			}
 
-			var sumFieldUsage = (double)fields.Sum(f => f.FindReferences(solution)
-				.SelectMany(x => x.Locations)
-				.Count());
+			var references = await Task.WhenAll(fields.Select(f => SymbolFinder.FindReferencesAsync(f, solution)));
+			var sumFieldUsage = (double)references.Sum(
+				r => r
+						 .SelectMany(x => x.Locations)
+						 .Count());
 
 			var lcomhs = (memberCount - (sumFieldUsage / fieldCount)) / (memberCount - 1);
 			if (lcomhs < 1)

@@ -13,8 +13,10 @@
 namespace ArchiMetrics.Common
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text.RegularExpressions;
+	using System.Threading.Tasks;
 
 	public static class Extensions
 	{
@@ -33,10 +35,27 @@ namespace ArchiMetrics.Common
 				disposable.Dispose();
 			}
 		}
-		
+
 		public static string ToTitleCase(this string input)
 		{
 			return CapitalRegex.Replace(input, m => " " + m).Replace("_", " ").Trim();
+		}
+
+		public static async Task<T> FirstMatch<T>(this IEnumerable<Task<T>> tasks, Func<T, bool> predicate)
+		{
+			var finished = await Task.WhenAny(tasks);
+			if (predicate(finished.Result))
+			{
+				return finished.Result;
+			}
+
+			var remaining = tasks.Except(new[] { finished }).ToArray();
+			if (remaining.Length == 0)
+			{
+				return default(T);
+			}
+
+			return await FirstMatch(remaining, predicate);
 		}
 	}
 }

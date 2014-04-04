@@ -20,15 +20,15 @@ namespace ArchiMetrics.Analysis.Metrics
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
 	internal class MetricsRepository : IProjectMetricsRepository
 	{
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>> _metrics = new ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>>();
-		private readonly IProjectMetricsCalculator _metricsCalculator;
-		private readonly IProvider<string, ISolution> _solutionProvider;
+		private readonly ProjectMetricsCalculator _metricsCalculator;
+		private readonly IProvider<string, Solution> _solutionProvider;
 
-		public MetricsRepository(IProjectMetricsCalculator metricsCalculator, IProvider<string, ISolution> solutionProvider)
+		public MetricsRepository(ProjectMetricsCalculator metricsCalculator, IProvider<string, Solution> solutionProvider)
 		{
 			_metricsCalculator = metricsCalculator;
 			_solutionProvider = solutionProvider;
@@ -49,11 +49,12 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			return _metrics.GetOrAdd(
 				solutionPath,
-				path =>
+				async path =>
 				{
 					var solution = _solutionProvider.Get(path);
 					var tasks = solution.Projects.Select(x => _metricsCalculator.Calculate(x, solution));
-					return Task.WhenAll(tasks).ContinueWith(t => t.IsFaulted ? Enumerable.Empty<IProjectMetric>() : t.Result.AsEnumerable());
+					var t = await Task.WhenAll(tasks);
+					return t;
 				});
 		}
 

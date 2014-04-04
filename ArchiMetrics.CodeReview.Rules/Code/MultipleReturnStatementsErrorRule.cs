@@ -14,7 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class MultipleReturnStatementsErrorRule : CodeEvaluationBase
 	{
@@ -69,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var returnStatements = methodDeclaration.DescendantNodes().Where(n => n.Kind == SyntaxKind.ReturnStatement).ToArray();
+			var returnStatements = methodDeclaration.DescendantNodes().Where(n => n.IsKind(SyntaxKind.ReturnStatement)).ToArray();
 			if (returnStatements.Length > 1)
 			{
 				return new EvaluationResult

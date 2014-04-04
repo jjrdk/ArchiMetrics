@@ -14,7 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class ServiceLocatorResolvesContainerRule : CodeEvaluationBase
 	{
@@ -69,8 +71,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;
-			if (memberAccess.Expression.Kind == SyntaxKind.MemberAccessExpression
-				&& ((MemberAccessExpressionSyntax)memberAccess.Expression).Expression.Kind == SyntaxKind.IdentifierName
+			if (memberAccess.Expression.IsKind(SyntaxKind.MemberAccessExpression)
+				&& ((MemberAccessExpressionSyntax)memberAccess.Expression).Expression.IsKind(SyntaxKind.IdentifierName)
 				&& ((IdentifierNameSyntax)((MemberAccessExpressionSyntax)memberAccess.Expression).Expression).Identifier.ValueText == "ServiceLocator"
 				&& memberAccess.Name is GenericNameSyntax
 				&& memberAccess.Name.Identifier.ValueText == "Resolve"

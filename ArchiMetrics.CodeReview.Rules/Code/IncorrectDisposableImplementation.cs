@@ -14,7 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class IncorrectDisposableImplementation : CodeEvaluationBase
 	{
@@ -51,11 +53,11 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.Any(t => t.IsEquivalentTo(Syntax.ParseTypeName("IDisposable"))))
+			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.Any(t => t.IsEquivalentTo(SyntaxFactory.ParseTypeName("IDisposable"))))
 			{
 				var methods = classDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>()
 					.Where(m => m.Identifier.ValueText == "Dispose")
-					.Where(m => !m.ParameterList.Parameters.Any() || (m.ParameterList.Parameters.Count == 1 && m.ParameterList.Parameters[0].Type.IsEquivalentTo(Syntax.PredefinedType(Syntax.Token(SyntaxKind.BoolKeyword))))).ToArray();
+					.Where(m => !m.ParameterList.Parameters.Any() || (m.ParameterList.Parameters.Count == 1 && m.ParameterList.Parameters[0].Type.IsEquivalentTo(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.BoolKeyword))))).ToArray();
 				var destructor = classDeclaration
 					.ChildNodes()
 					.OfType<DestructorDeclarationSyntax>()
@@ -86,7 +88,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 						&& invocation.ArgumentList != null
 						&& invocation.ArgumentList.Arguments.Count == 1
 						&& invocation.ArgumentList.Arguments[0].IsEquivalentTo(
-						Syntax.Argument(Syntax.LiteralExpression(SyntaxKind.FalseLiteralExpression, Syntax.Token(SyntaxKind.FalseKeyword)))))
+						SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(SyntaxKind.FalseLiteralExpression, SyntaxFactory.Token(SyntaxKind.FalseKeyword)))))
 					{
 						return true;
 					}

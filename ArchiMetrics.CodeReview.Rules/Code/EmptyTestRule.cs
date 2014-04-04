@@ -15,7 +15,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	using System.Linq;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class EmptyTestRule : CodeEvaluationBase
 	{
@@ -69,7 +71,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var methodParent = (MethodDeclarationSyntax)node;
 
 			if (methodParent != null
-				&& methodParent.AttributeLists != null
 				&& methodParent.AttributeLists.Any(
 					l => l.Attributes.Any(a => a.Name is SimpleNameSyntax
 											   && ((SimpleNameSyntax)a.Name).Identifier.ValueText.IsKnownTestAttribute())))

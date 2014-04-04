@@ -16,8 +16,9 @@ namespace ArchiMetrics.Analysis.Tests.Xaml
 	using System.IO;
 	using System.Linq;
 	using System.Xml.Linq;
+	using Microsoft.CodeAnalysis;
 	using NUnit.Framework;
-	using Roslyn.Services;
+	
 
 	public class XamlConverterTests
 	{
@@ -78,7 +79,7 @@ namespace ArchiMetrics.Analysis.Tests.Xaml
 			Assert.NotNull(compilation.Assembly);
 		}
 
-		private IProject GetDocuments(IProject project)
+		private Project GetDocuments(Project project)
 		{
 			var doc = XDocument.Load(project.FilePath);
 			var defaultNs = doc.Root.GetDefaultNamespace();

@@ -13,7 +13,9 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class GuardClauseInMethodWithoutParametersRule : CodeEvaluationBase
 	{
@@ -68,7 +70,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;
-			if (memberAccess.Expression.Kind == SyntaxKind.IdentifierName
+			if (memberAccess.Expression.IsKind(SyntaxKind.IdentifierName)
 				&& ((IdentifierNameSyntax)memberAccess.Expression).Identifier.ValueText == "Guard")
 			{
 				var methodParent = FindMethodParent(node) as MethodDeclarationSyntax;

@@ -13,19 +13,23 @@
 namespace ArchiMetrics.Common.Tests
 {
 	using System.IO;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
-	using Roslyn.Services;
+
 
 	public class RoslynTests
 	{
 		[Test]
-		public void WhenLoadingSolutionThenHasProjects()
+		public async Task WhenLoadingSolutionThenHasProjects()
 		{
 			var path = Path.GetFullPath(@"..\..\..\archimetrics.sln");
-			var workspace = Workspace.LoadSolution(path, "Release");
-			var solution = workspace.CurrentSolution;
-		
-			Assert.True(solution.HasProjects);
+			var workspace = MSBuildWorkspace.Create();
+			var solution = await workspace.OpenSolutionAsync(path);
+
+			Assert.True(solution.Projects.Any());
 		}
 	}
 }

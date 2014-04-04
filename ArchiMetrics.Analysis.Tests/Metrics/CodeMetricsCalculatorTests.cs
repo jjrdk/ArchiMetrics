@@ -15,9 +15,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	
+	
 
 	public sealed class CodeMetricsCalculatorTests
 	{
@@ -46,7 +49,7 @@ namespace SomeNamespace
 	}
 }
 ";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var metrics = await _analyzer.Calculate(new[] { tree });
 
 				Assert.NotNull(metrics);
@@ -59,7 +62,7 @@ namespace SomeNamespace
 									{
 										const string Text = "Hello World";
 
-										var tree = SyntaxTree.ParseText(Text);
+										var tree = CSharpSyntaxTree.ParseText(Text);
 
 										var metrics = _analyzer.Calculate(new[] { tree });
 										var result = metrics.Result.ToArray();
@@ -77,7 +80,7 @@ namespace SomeNamespace
 	}
 }
 ";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var task = await _analyzer.Calculate(new[] { tree });
 
 				var metrics = task.ToArray();
@@ -92,7 +95,7 @@ public class Something {
 	public string Name { get; set; }
 }
 ";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var task = await _analyzer.Calculate(new[] { tree });
 
 				var metrics = task.ToArray();
@@ -105,7 +108,7 @@ public class Something {
 				const string Snippet = @"
 public int Foo() { return 1; }
 ";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var task = await _analyzer.Calculate(new[] { tree });
 
 				var metrics = task.ToArray();
@@ -116,8 +119,8 @@ public int Foo() { return 1; }
 			public async Task CanCalculateMetricsForSilverlightProject()
 			{
 				var path = Path.GetFullPath(@"..\..\..\SampleSL\SampleSL.csproj");
-				var workspace = Workspace.LoadStandAloneProject(path);
-				var project = workspace.CurrentSolution.Projects.First();
+				var workspace = MSBuildWorkspace.Create();
+				var project = await workspace.OpenProjectAsync(path);
 				var task = await _analyzer.Calculate(project, workspace.CurrentSolution);
 				var metrics = task.ToArray();
 
@@ -232,7 +235,7 @@ using System.Linq;
 				Assert.AreEqual(loc, metrics.First().LinesOfCode);
 			}
 
-			private IProject CreateProject(string text)
+			private Project CreateProject(string text)
 			{
 				ProjectId pid;
 				DocumentId did;

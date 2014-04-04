@@ -16,9 +16,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
+	
+	
 
 	public sealed class CyclomaticComplexityCounterTests
 	{
@@ -116,12 +119,12 @@ namespace MyNs
 }", 1)]
 			public void MethodHasExpectedComplexity(string method, int expectedComplexity)
 			{
-				var tree = SyntaxTree.ParseText(method);
-				var compilation = Compilation.Create(
+				var tree = CSharpSyntaxTree.ParseText(method);
+				var compilation = CSharpCompilation.Create(
 					"x",
 					syntaxTrees: new[] { tree },
 					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
-					options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
+					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
 				var model = compilation.GetSemanticModel(tree);
 				var syntaxNode = tree
@@ -150,7 +153,7 @@ namespace MyNs
 }", 1)]
 			public void EventAddAccessorHasExpectedComplexity(string code, int expectedComplexity)
 			{
-				var tree = SyntaxTree.ParseText(code);
+				var tree = CSharpSyntaxTree.ParseText(code);
 				var compilation = Compilation.Create(
 					"x",
 					syntaxTrees: new[] { tree },

@@ -17,9 +17,8 @@ namespace ArchiMetrics.Analysis
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 
 	public class NodeReviewer : INodeInspector
 	{
@@ -30,7 +29,7 @@ namespace ArchiMetrics.Analysis
 			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
-		public async Task<IEnumerable<EvaluationResult>> Inspect(ISolution solution)
+		public async Task<IEnumerable<EvaluationResult>> Inspect(Solution solution)
 		{
 			if (solution == null)
 			{
@@ -50,7 +49,7 @@ namespace ArchiMetrics.Analysis
 			return results.SelectMany(x => x).ToArray();
 		}
 
-		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
 
@@ -68,9 +67,9 @@ namespace ArchiMetrics.Analysis
 		private async Task<IEnumerable<EvaluationResult>> GetInspections(
 			string filePath,
 			string projectName,
-			Task<CommonSyntaxTree> treeTask,
-			Task<CommonCompilation> compilationTask,
-			ISolution solution)
+			Task<SyntaxTree> treeTask,
+			Task<Compilation> compilationTask,
+			Solution solution)
 		{
 			var tree = await treeTask;
 			var root = (await tree.GetRootAsync()) as SyntaxNode;
@@ -83,13 +82,13 @@ namespace ArchiMetrics.Analysis
 			return await Inspect(filePath, projectName, root, compilation.GetSemanticModel(tree), solution);
 		}
 
-		private class InnerInspector : SyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
+		private class InnerInspector : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
 		{
 			private readonly IDictionary<SyntaxKind, IEvaluation[]> _evaluations;
-			private readonly ISemanticModel _model;
-			private readonly ISolution _solution;
+			private readonly SemanticModel _model;
+			private readonly Solution _solution;
 
-			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, ISemanticModel model, ISolution solution)
+			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, SemanticModel model, Solution solution)
 			{
 				_evaluations = evaluations;
 				_model = model;
@@ -105,9 +104,9 @@ namespace ArchiMetrics.Analysis
 
 				var baseResultTasks = await Task.WhenAll(node.ChildNodesAndTokens().Select(VisitNodeOrToken));
 				var baseResults = baseResultTasks.SelectMany(x => x);
-				if (_evaluations.ContainsKey(node.Kind))
+				if (_evaluations.ContainsKey(node.CSharpKind()))
 				{
-					var nodeEvaluations = _evaluations[node.Kind];
+					var nodeEvaluations = _evaluations[node.CSharpKind()];
 					var codeResults = GetCodeEvaluations(node, nodeEvaluations.OfType<ICodeEvaluation>());
 					var semmanticResults = GetSemanticEvaluations(node, nodeEvaluations.OfType<ISemanticEvaluation>(), _model, _solution);
 
@@ -188,7 +187,7 @@ namespace ArchiMetrics.Analysis
 				return results;
 			}
 
-			private static IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<ISemanticEvaluation> nodeEvaluations, ISemanticModel model, ISolution solution)
+			private static IEnumerable<EvaluationResult> GetSemanticEvaluations(SyntaxNode node, IEnumerable<ISemanticEvaluation> nodeEvaluations, SemanticModel model, Solution solution)
 			{
 				if (model == null || solution == null)
 				{
@@ -221,9 +220,9 @@ namespace ArchiMetrics.Analysis
 
 			private async Task<IEnumerable<EvaluationResult>> VisitTrivia(SyntaxTrivia trivia)
 			{
-				if (_evaluations.ContainsKey(trivia.Kind))
+				if (_evaluations.ContainsKey(trivia.CSharpKind()))
 				{
-					var nodeEvaluations = _evaluations[trivia.Kind];
+					var nodeEvaluations = _evaluations[trivia.CSharpKind()];
 					return await GetTriviaEvaluations(trivia, nodeEvaluations.OfType<ITriviaEvaluation>());
 				}
 

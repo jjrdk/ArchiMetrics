@@ -15,10 +15,12 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal abstract class UnreadValueRule : SemanticEvaluationBase
 	{
@@ -37,12 +39,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			get { return ImpactLevel.Type; }
 		}
 
-		protected abstract IEnumerable<ISymbol> GetSymbols(SyntaxNode node, ISemanticModel semanticModel);
+		protected abstract IEnumerable<ISymbol> GetSymbols(SyntaxNode node, SemanticModel semanticModel);
 
-		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
-			var references = GetSymbols(node, semanticModel)
-				.SelectMany(x => x.FindReferences(solution, CancellationToken.None))
+			var referenceTasks = GetSymbols(node, semanticModel)
+				.Select(x => SymbolFinder.FindReferencesAsync(x, solution, CancellationToken.None));
+			var references = (await Task.WhenAll(referenceTasks))
+				.SelectMany(x => x)
 				.SelectMany(x => x.Locations)
 				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))
 				.Select(x => x.Parent)
@@ -62,12 +66,12 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			return null;
 		}
 
-		private static bool IsNotAssignment(CommonSyntaxNode syntax)
+		private static bool IsNotAssignment(SyntaxNode syntax)
 		{
 			var expression = syntax as BinaryExpressionSyntax;
 			if (expression != null)
 			{
-				return expression.Kind != SyntaxKind.AssignExpression;
+				return expression.IsKind(SyntaxKind.AssignExpression);
 			}
 
 			return true;

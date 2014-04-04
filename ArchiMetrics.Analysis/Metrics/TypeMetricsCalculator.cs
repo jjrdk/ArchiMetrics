@@ -16,12 +16,13 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		public TypeMetricsCalculator(ISemanticModel semanticModel)
+		public TypeMetricsCalculator(SemanticModel semanticModel)
 			: base(semanticModel)
 		{
 		}
@@ -61,7 +62,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static TypeMetricKind GetMetricKind(TypeDeclarationSyntax type)
 		{
-			switch (type.Kind)
+			switch (type.CSharpKind())
 			{
 				case SyntaxKind.ClassDeclaration:
 					return TypeMetricKind.Class;

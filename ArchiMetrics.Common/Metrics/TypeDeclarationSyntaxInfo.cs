@@ -12,11 +12,11 @@
 
 namespace ArchiMetrics.Common.Metrics
 {
-	using Roslyn.Compilers.Common;
+	using Microsoft.CodeAnalysis;
 
 	public class TypeDeclarationSyntaxInfo
 	{
-		public TypeDeclarationSyntaxInfo(string codeFile, string name, CommonSyntaxNode syntax)
+		public TypeDeclarationSyntaxInfo(string codeFile, string name, SyntaxNode syntax)
 		{
 			CodeFile = codeFile;
 			Name = name;
@@ -27,6 +27,6 @@ namespace ArchiMetrics.Common.Metrics
 
 		public string Name { get; private set; }
 
-		public CommonSyntaxNode Syntax { get; set; }
+		public SyntaxNode Syntax { get; set; }
 	}
 }

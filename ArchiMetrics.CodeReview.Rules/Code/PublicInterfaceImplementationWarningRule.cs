@@ -16,7 +16,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class PublicInterfaceImplementationWarningRule : CodeEvaluationBase
 	{
@@ -75,7 +77,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var classDeclaration = (ClassDeclarationSyntax)node;
 			if (classDeclaration.BaseList != null && (classDeclaration.BaseList.Types.Any(SyntaxKind.IdentifierName) || classDeclaration.BaseList.Types.Any(SyntaxKind.GenericName)))
 			{
-				var s = classDeclaration.BaseList.Types.First(x => x.Kind == SyntaxKind.IdentifierName || x.Kind == SyntaxKind.GenericName);
+				var s = classDeclaration.BaseList.Types.First(x => x.IsKind(SyntaxKind.IdentifierName) || x.IsKind (SyntaxKind.GenericName));
 				if (((SimpleNameSyntax)s).Identifier.ValueText.StartsWith("I")
 					&& classDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword))
 				{

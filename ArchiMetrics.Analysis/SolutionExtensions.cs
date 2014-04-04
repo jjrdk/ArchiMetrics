@@ -17,8 +17,10 @@ namespace ArchiMetrics.Analysis
 	using System.IO;
 	using System.Linq;
 	using System.Xml.Linq;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	
+	
 
 	public static class SolutionExtensions
 	{
@@ -87,7 +89,7 @@ EndGlobal
 			WriteProjects(toMerge, outputPath, true);
 		}
 
-		public static ISolution MergeWith(this ISolution main, params ISolution[] others)
+		public static Solution MergeWith(this Solution main, params Solution[] others)
 		{
 			var allProjects = main.Projects.Concat(others.SelectMany(s => s.Projects));
 			var mergedFile = main.FilePath.Replace(".sln", "-merged.sln");
@@ -96,7 +98,7 @@ EndGlobal
 			return Workspace.LoadSolution(mergedFile).CurrentSolution;
 		}
 
-		public static void Save(this ISolution solution, string fileName, bool overwriteExisting)
+		public static void Save(this Solution solution, string fileName, bool overwriteExisting)
 		{
 			if (!overwriteExisting && File.Exists(fileName))
 			{
@@ -106,7 +108,7 @@ EndGlobal
 			WriteProjects(solution.Projects, fileName, overwriteExisting);
 		}
 
-		public static IProject WithDocuments(this IProject project)
+		public static Project WithDocuments(this Project project)
 		{
 			if (project.HasDocuments)
 			{
@@ -137,14 +139,14 @@ EndGlobal
 							var filepath = Path.Combine(root, s);
 							var sourceCode = s.EndsWith(".xaml", StringComparison.OrdinalIgnoreCase)
 								? Converter.Convert(filepath)
-								: SyntaxTree.ParseFile(filepath);
+								: CSharpCSharpSyntaxTree.ParseFile(filepath);
 							return p.AddDocument(s, sourceCode.GetText(), out did);
 						});
 
 			return project;
 		}
 
-		private static void WriteProjects(IEnumerable<IProject> projects, string fileName, bool overwriteExisting)
+		private static void WriteProjects(IEnumerable<Project> projects, string fileName, bool overwriteExisting)
 		{
 			var distinctProjects = projects
 				.GroupBy(p => p.FilePath)
@@ -242,7 +244,7 @@ EndGlobal
 			return paths.Concat(childReferences).Distinct().ToArray();
 		}
 
-		private class ProjectEqualityComparer : IEqualityComparer<IProject>
+		private class ProjectEqualityComparer : IEqualityComparer<Project>
 		{
 			private static readonly ProjectEqualityComparer Comparer = new ProjectEqualityComparer();
 
@@ -261,9 +263,9 @@ EndGlobal
 			/// <returns>
 			/// True if the specified objects are equal; otherwise, false.
 			/// </returns>
-			/// <param name="x">The first object of type IProject to compare.</param>
-			/// <param name="y">The second object of type IProject to compare.</param>
-			public bool Equals(IProject x, IProject y)
+			/// <param name="x">The first object of type Project to compare.</param>
+			/// <param name="y">The second object of type Project to compare.</param>
+			public bool Equals(Project x, Project y)
 			{
 				var result = x == null
 						   ? y == null
@@ -279,7 +281,7 @@ EndGlobal
 			/// A hash code for the specified object.
 			/// </returns>
 			/// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param><exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
-			public int GetHashCode(IProject obj)
+			public int GetHashCode(Project obj)
 			{
 				return obj == null ? 0 : obj.Name.GetHashCode();
 			}

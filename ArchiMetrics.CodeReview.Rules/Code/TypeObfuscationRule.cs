@@ -14,7 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class TypeObfuscationRule : CodeEvaluationBase
 	{
@@ -70,8 +72,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var declaration = ((LocalDeclarationStatementSyntax)node).Declaration;
 
-			if (declaration.Type.IsEquivalentTo(Syntax.PredefinedType(Syntax.Token(SyntaxKind.ObjectKeyword)))
-				&& declaration.Variables.Any(v => v.Initializer == null || v.Initializer.Value.Kind == SyntaxKind.NullLiteralExpression))
+			if (declaration.Type.IsEquivalentTo(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.ObjectKeyword)))
+				&& declaration.Variables.Any(v => v.Initializer == null || v.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)))
 			{
 				return new EvaluationResult
 						   {

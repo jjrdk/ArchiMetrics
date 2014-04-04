@@ -12,12 +12,11 @@
 
 namespace ArchiMetrics.Common.CodeReview
 {
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using System.Threading.Tasks;
+	using Microsoft.CodeAnalysis;
 
 	public interface ISemanticEvaluation : IEvaluation
 	{
-		EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution);
+		Task<EvaluationResult> Evaluate(SyntaxNode node, SemanticModel semanticModel, Solution solution);
 	}
 }
