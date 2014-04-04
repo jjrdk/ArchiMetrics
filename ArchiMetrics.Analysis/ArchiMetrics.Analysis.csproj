@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArchiMetrics.Analysis</RootNamespace>
     <AssemblyName>ArchiMetrics.Analysis</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -80,7 +81,6 @@
     <Compile Include="Model\SyntaxTransformer.cs" />
     <Compile Include="Model\TransformerBase.cs" />
     <Compile Include="RoslynExtensions.cs" />
-    <Compile Include="SolutionExtensions.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />
@@ -126,8 +126,6 @@
     <Compile Include="Validation\KpiResult.cs" />
     <Compile Include="Validation\ModelValidator.cs" />
     <Compile Include="Validation\ValidationResultBase.cs" />
-    <Compile Include="XamlCodeWriter.cs" />
-    <Compile Include="XamlConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
