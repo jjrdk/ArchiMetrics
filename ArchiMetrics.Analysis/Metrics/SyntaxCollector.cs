@@ -93,10 +93,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void CheckStatementSyntax(SyntaxNode node)
 		{
 			var syntaxNodes = node.ChildNodes().ToArray();
-			foreach (var syntaxNode in syntaxNodes)
-			{
-				Console.WriteLine(syntaxNode.CSharpKind());
-			}
+			
 			var statements =
 				syntaxNodes
 				.Where(x => !(x is TypeDeclarationSyntax))

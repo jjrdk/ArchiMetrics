@@ -129,28 +129,27 @@ namespace ArchiMetrics.Analysis
 
 		private static async Task<Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>> VerifyCompilation(Compilation compilation, TypeDeclarationSyntaxInfo typeNode)
 		{
-			SemanticModel semanticModel;
-			if (typeNode.Syntax.SyntaxTree == null)
+			var tree = typeNode.Syntax.SyntaxTree;
+
+			if (tree == null)
 			{
 				var cu = CSharpSyntaxTree.Create(
 					SyntaxFactory
 					.CompilationUnit()
 					.WithMembers(SyntaxFactory.List(new[] { (MemberDeclarationSyntax)typeNode.Syntax })));
 				var root = await cu.GetRootAsync();
-				typeNode.Syntax = root.ChildNodes().First();
+				typeNode.Syntax = (TypeDeclarationSyntax)root.ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
-				semanticModel = newCompilation.GetSemanticModel(cu);
+				var semanticModel = newCompilation.GetSemanticModel(cu);
 				return new Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>(newCompilation, semanticModel, typeNode);
 			}
 
-			var tree = typeNode.Syntax.SyntaxTree;
 			var result = AddToCompilation(compilation, tree);
-			compilation = result.Item1;
-			tree = result.Item2;
-			semanticModel = compilation.GetSemanticModel(tree);
+			var childNodes = result.Item2.GetRoot().DescendantNodesAndSelf();
+			typeNode.Syntax = childNodes.OfType<TypeDeclarationSyntax>().First();
 			return new Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>(
-				compilation,
-				semanticModel,
+				result.Item1,
+				result.Item1.GetSemanticModel(result.Item2),
 				typeNode);
 		}
 

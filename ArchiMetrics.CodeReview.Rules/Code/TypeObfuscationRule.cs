@@ -72,7 +72,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var declaration = ((LocalDeclarationStatementSyntax)node).Declaration;
 
-			if (declaration.Type.ToFullString().Equals(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.ObjectKeyword)).ToFullString())
+			var declarationString = declaration.Type.ToFullString().Trim();
+			var objectString = SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.ObjectKeyword)).ToFullString().Trim();
+			if (declarationString.Equals(objectString)
 				&& declaration.Variables.Any(v => v.Initializer == null || v.Initializer.Value.IsKind(SyntaxKind.NullLiteralExpression)))
 			{
 				return new EvaluationResult
