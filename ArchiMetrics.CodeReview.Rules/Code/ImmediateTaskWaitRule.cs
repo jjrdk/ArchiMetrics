@@ -15,7 +15,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	using System;
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class ImmediateTaskWaitRule : CodeEvaluationBase
 	{
@@ -23,7 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return SyntaxKind.MemberAccessExpression;
+				return SyntaxKind.SimpleMemberAccessExpression;
 			}
 		}
 
@@ -70,7 +72,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;
-			if (memberAccess.Expression.Kind == SyntaxKind.IdentifierName
+			if (memberAccess.Expression.IsKind(SyntaxKind.IdentifierName)
 				&& memberAccess.Name.Identifier.ValueText == "Wait")
 			{
 				var invokedVariable = memberAccess.Expression as IdentifierNameSyntax;
@@ -103,7 +105,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		private SyntaxNode FindVariableAssignment(SyntaxNode node, string variableName)
 		{
 			return node.DescendantNodes()
-					   .Where(n => n.Kind == SyntaxKind.AssignExpression)
+					   .Where(n => n.IsKind(SyntaxKind.SimpleAssignmentExpression))
 					   .OfType<BinaryExpressionSyntax>()
 					   .Select(x => x.Left as IdentifierNameSyntax)
 					   .Where(x => x != null).FirstOrDefault(x => x.Identifier.ValueText == variableName);

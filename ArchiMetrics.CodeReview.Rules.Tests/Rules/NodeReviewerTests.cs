@@ -18,9 +18,11 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.CodeReview;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+
+
 
 	public sealed class NodeReviewerTests
 	{
@@ -31,7 +33,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		private static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
-			var tree = SyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
+			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
 
 			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 		}
@@ -40,14 +42,17 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			code = "namespace TestSpace { public class ParseClass { " + code + " } }";
-			ProjectId pid;
-			DocumentId did;
-			var solution =
-				Solution.Create(SolutionId.CreateNewId("test"))
-					.AddCSharpProject("project", "project.dll", out pid)
-					.AddDocument(pid, "broken", code, out did);
-			var task = inspector.Inspect(solution);
-			return task;
+			using (var workspace = new CustomWorkspace())
+			{
+				workspace.AddSolution(
+					SolutionInfo.Create(
+						SolutionId.CreateNewId("test"),
+						VersionStamp.Default));
+				workspace.CurrentSolution.AddProject("project", "project.dll", LanguageNames.CSharp)
+					.AddDocument("broken.cs", code);
+				var task = inspector.Inspect(workspace.CurrentSolution);
+				return task;
+			}
 		}
 
 		public class GivenANodeReviewerInspectingBrokenCode
@@ -74,7 +79,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 				var result = await PerformInspection(code, evaluatorType);
 
-				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != Syntax.Token(SyntaxKind.GlobalKeyword).ValueText));
+				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != SyntaxFactory.Token(SyntaxKind.GlobalKeyword).ValueText));
 			}
 		}
 

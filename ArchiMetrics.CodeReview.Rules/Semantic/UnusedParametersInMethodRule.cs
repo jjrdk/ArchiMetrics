@@ -13,11 +13,12 @@
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class UnusedParametersInMethodRule : SemanticEvaluationBase
 	{
@@ -69,23 +70,20 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 		}
 
-		protected override EvaluationResult EvaluateImpl(
-			SyntaxNode node, 
-			ISemanticModel semanticModel, 
-			ISolution solution)
+		protected override Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var method = (MethodDeclarationSyntax)node;
 			var analyzer = new SemanticAnalyzer(semanticModel);
 			if (analyzer.GetUnusedParameters(method).Any())
 			{
 				var snippet = method.ToFullString();
-				return new EvaluationResult
+				return Task.FromResult(new EvaluationResult
 					   {
 						   Snippet = snippet
-					   };
+					   });
 			}
 
-			return null;
+			return Task.FromResult((EvaluationResult)null);
 		}
 	}
 }

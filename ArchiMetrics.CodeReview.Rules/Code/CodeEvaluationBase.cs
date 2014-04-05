@@ -13,7 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
 
 	internal abstract class CodeEvaluationBase : EvaluationBase, ICodeEvaluation
 	{

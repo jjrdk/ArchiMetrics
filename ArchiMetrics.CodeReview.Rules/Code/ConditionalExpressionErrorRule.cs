@@ -14,7 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class ConditionalExpressionErrorRule : CodeEvaluationBase
 	{
@@ -70,7 +72,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			var conditionalExpressions = methodDeclaration.DescendantNodes()
-														  .Where(n => n.Kind == SyntaxKind.ConditionalExpression)
+														  .Where(n => n.IsKind(SyntaxKind.ConditionalExpression))
 														  .ToArray();
 			if (conditionalExpressions.Any())
 			{

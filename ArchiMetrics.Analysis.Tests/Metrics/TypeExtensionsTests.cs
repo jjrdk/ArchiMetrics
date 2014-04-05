@@ -12,13 +12,17 @@
 
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
+	using System.Collections.Immutable;
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using Moq;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+
+
+
 
 	public sealed class TypeExtensionsTests
 	{
@@ -28,21 +32,21 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			const string ContainerName = "ContainerType";
 			const string InnerName = "InnerType";
 
-			var innerType = Syntax.TypeDeclaration(SyntaxKind.ClassDeclaration, Syntax.Identifier(InnerName));
+			var innerType = SyntaxFactory.TypeDeclaration(SyntaxKind.ClassDeclaration, SyntaxFactory.Identifier(InnerName));
 
-			var declaration = Syntax.TypeDeclaration(
+			var declaration = SyntaxFactory.TypeDeclaration(
 				SyntaxKind.ClassDeclaration,
-				Syntax.List<AttributeListSyntax>(),
-				Syntax.TokenList(Syntax.Token(SyntaxKind.PublicKeyword)),
-				Syntax.Token(SyntaxKind.ClassKeyword),
-				Syntax.Identifier(ContainerName),
-				Syntax.TypeParameterList(),
-				Syntax.BaseList(),
-				Syntax.List<TypeParameterConstraintClauseSyntax>(),
-				Syntax.Token(SyntaxKind.OpenBraceToken),
-				Syntax.List<MemberDeclarationSyntax>(innerType),
-				Syntax.Token(SyntaxKind.CloseBraceToken),
-				Syntax.Token(SyntaxKind.SemicolonToken));
+				SyntaxFactory.List<AttributeListSyntax>(),
+				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
+				SyntaxFactory.Token(SyntaxKind.ClassKeyword),
+				SyntaxFactory.Identifier(ContainerName),
+				SyntaxFactory.TypeParameterList(),
+				SyntaxFactory.BaseList(),
+				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
+				SyntaxFactory.Token(SyntaxKind.OpenBraceToken),
+				SyntaxFactory.List<MemberDeclarationSyntax>(new[] { innerType }),
+				SyntaxFactory.Token(SyntaxKind.CloseBraceToken),
+				SyntaxFactory.Token(SyntaxKind.SemicolonToken));
 
 			var actualName = declaration.DescendantNodes().OfType<TypeDeclarationSyntax>().First().GetName();
 
@@ -54,20 +58,20 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		{
 			const string ContainerName = "ContainerType";
 
-			var clause = Syntax.TypeParameter("object");
-			var declaration = Syntax.TypeDeclaration(
+			var clause = SyntaxFactory.TypeParameter("object");
+			var declaration = SyntaxFactory.TypeDeclaration(
 				SyntaxKind.ClassDeclaration,
-				Syntax.List<AttributeListSyntax>(),
-				Syntax.TokenList(Syntax.Token(SyntaxKind.PublicKeyword)),
-				Syntax.Token(SyntaxKind.ClassKeyword),
-				Syntax.Identifier(ContainerName),
-				Syntax.TypeParameterList(Syntax.SeparatedList(clause)),
-				Syntax.BaseList(),
-				Syntax.List<TypeParameterConstraintClauseSyntax>(),
-				Syntax.Token(SyntaxKind.OpenBraceToken),
-				Syntax.List<MemberDeclarationSyntax>(),
-				Syntax.Token(SyntaxKind.CloseBraceToken),
-				Syntax.Token(SyntaxKind.SemicolonToken));
+				SyntaxFactory.List<AttributeListSyntax>(),
+				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
+				SyntaxFactory.Token(SyntaxKind.ClassKeyword),
+				SyntaxFactory.Identifier(ContainerName),
+				SyntaxFactory.TypeParameterList(SyntaxFactory.SeparatedList(new[] { clause })),
+				SyntaxFactory.BaseList(),
+				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
+				SyntaxFactory.Token(SyntaxKind.OpenBraceToken),
+				SyntaxFactory.List<MemberDeclarationSyntax>(),
+				SyntaxFactory.Token(SyntaxKind.CloseBraceToken),
+				SyntaxFactory.Token(SyntaxKind.SemicolonToken));
 
 			var actualName = declaration.GetName();
 
@@ -80,12 +84,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			var containingNamespace = new Mock<INamespaceSymbol>();
 			containingNamespace.SetupGet(x => x.Name).Returns("MyNamespace");
 			containingNamespace.SetupGet(x => x.IsGlobalNamespace).Returns(false);
-			containingNamespace.SetupGet(x => x.Kind).Returns(CommonSymbolKind.Namespace);
+			containingNamespace.SetupGet(x => x.Kind).Returns(SymbolKind.Namespace);
 			containingNamespace.SetupGet(x => x.ContainingSymbol).Returns((INamespaceSymbol)null);
 
 			var mockTypeParameter = new Mock<ITypeParameterSymbol>();
 			mockTypeParameter.SetupGet(x => x.Name).Returns("object");
-			var readOnlyArray = ReadOnlyArray<ITypeParameterSymbol>.CreateFrom(mockTypeParameter.Object);
+			var readOnlyArray = new ImmutableArray<ITypeParameterSymbol>().Add(mockTypeParameter.Object);
 			var mockTypeSymbol = new Mock<INamedTypeSymbol>();
 			mockTypeSymbol.SetupGet(x => x.Name).Returns("TypeName");
 			mockTypeSymbol.SetupGet(x => x.ContainingSymbol).Returns(containingNamespace.Object);
@@ -104,19 +108,19 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			containingAssembly.SetupGet(x => x.Name).Returns("MyAssembly");
 
 			var globalNamespace = new Mock<INamespaceSymbol>();
-			globalNamespace.SetupGet(x => x.Kind).Returns(CommonSymbolKind.Namespace);
+			globalNamespace.SetupGet(x => x.Kind).Returns(SymbolKind.Namespace);
 			globalNamespace.SetupGet(x => x.IsGlobalNamespace).Returns(true);
 			globalNamespace.SetupGet(x => x.ContainingAssembly).Returns(containingAssembly.Object);
 
 			var containingNamespace = new Mock<INamespaceSymbol>();
 			containingNamespace.SetupGet(x => x.Name).Returns("MyNamespace");
 			containingNamespace.SetupGet(x => x.IsGlobalNamespace).Returns(false);
-			containingNamespace.SetupGet(x => x.Kind).Returns(CommonSymbolKind.Namespace);
+			containingNamespace.SetupGet(x => x.Kind).Returns(SymbolKind.Namespace);
 			containingNamespace.SetupGet(x => x.ContainingSymbol).Returns(globalNamespace.Object);
 
 			var mockTypeParameter = new Mock<ITypeParameterSymbol>();
 			mockTypeParameter.SetupGet(x => x.Name).Returns("object");
-			var readOnlyArray = ReadOnlyArray<ITypeParameterSymbol>.CreateFrom(mockTypeParameter.Object);
+			var readOnlyArray = new ImmutableArray<ITypeParameterSymbol>().Add(mockTypeParameter.Object);
 			var mockTypeSymbol = new Mock<INamedTypeSymbol>();
 			mockTypeSymbol.SetupGet(x => x.Name).Returns("TypeName");
 			mockTypeSymbol.SetupGet(x => x.ContainingSymbol).Returns(containingNamespace.Object);

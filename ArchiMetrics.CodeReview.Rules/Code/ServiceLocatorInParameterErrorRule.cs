@@ -13,7 +13,9 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class ServiceLocatorInParameterErrorRule : CodeEvaluationBase
 	{
@@ -69,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var parameterSyntax = (ParameterSyntax)node;
 			if (parameterSyntax.Type != null
-				&& parameterSyntax.Type.Kind == SyntaxKind.IdentifierName
+				&& parameterSyntax.Type.IsKind(SyntaxKind.IdentifierName)
 				&& ((IdentifierNameSyntax)parameterSyntax.Type).Identifier.ValueText.Contains("ServiceLocator"))
 			{
 				var parentMethod = FindMethodParent(parameterSyntax);

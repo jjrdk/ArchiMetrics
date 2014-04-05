@@ -38,8 +38,9 @@ namespace ArchiMetrics.UI
 	using ArchiMetrics.UI.ViewModel;
 	using Autofac;
 	using Ionic.Zip;
+	using Microsoft.CodeAnalysis;
 	using NHunspell;
-	using Roslyn.Services;
+	
 	using Support.Messages;
 
 	public partial class App : Application
@@ -139,10 +140,10 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<ModelEdgeItemFactory>().As<IAsyncFactory<IEnumerable<IModelNode>, IEnumerable<ModelEdgeItem>>>();
 			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>().As<ICollection<Regex>>().SingleInstance();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
-			builder.RegisterType<ProjectMetricsCalculator>().As<IProjectMetricsCalculator>();
+			builder.RegisterType<ProjectMetricsCalculator>().As<ProjectMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
-			builder.RegisterType<SolutionProvider>().As<IProvider<string, ISolution>>().SingleInstance();
+			builder.RegisterType<SolutionProvider>().As<IProvider<string, Solution>>().SingleInstance();
 			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
 			builder.RegisterType<SolutionVertexRepository>().As<IVertexRepository>().SingleInstance();
 			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<TransformRule>>>().SingleInstance();

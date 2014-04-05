@@ -14,7 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class CoalesceExpressionErrorRule : CodeEvaluationBase
 	{
@@ -70,13 +72,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			var conditionalExpressions = methodDeclaration.DescendantNodes()
-														  .Where(n => n.Kind == SyntaxKind.CoalesceExpression)
+														  .Where(n => n.IsKind(SyntaxKind.CoalesceExpression))
 														  .ToArray();
 			if (conditionalExpressions.Any())
 			{
 				return new EvaluationResult
 						   {
-							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())), 
+							   Snippet = string.Join("\r\n", conditionalExpressions.Select(n => n.ToFullString())),
 							   ErrorCount = conditionalExpressions.Length
 						   };
 			}

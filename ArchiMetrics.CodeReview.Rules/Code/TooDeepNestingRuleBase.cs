@@ -15,7 +15,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal abstract class TooDeepNestingRuleBase : CodeEvaluationBase
 	{
@@ -101,9 +103,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		private IEnumerable<BlockSyntax> GetBlocks(SyntaxNode node)
 		{
-			var childBlocks = node.ChildNodes().Where(x => x.Kind == SyntaxKind.Block).Cast<BlockSyntax>();
+			var childBlocks = node.ChildNodes().Where(x => x.IsKind(SyntaxKind.Block)).Cast<BlockSyntax>();
 			var others = node.ChildNodes()
-				.Where(x => x.Kind != SyntaxKind.Block)
+				.Where(x => !x.IsKind(SyntaxKind.Block))
 				.SelectMany(GetBlocks);
 
 			return childBlocks.Concat(others);

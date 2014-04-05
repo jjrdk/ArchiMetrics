@@ -12,39 +12,50 @@
 
 namespace ArchiMetrics.Analysis
 {
+	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.FindSymbols;
 
 	public class CoverageAnalyzer
 	{
-		private readonly ISolution _solution;
+		private readonly Solution _solution;
 
-		public CoverageAnalyzer(ISolution solution)
+		public CoverageAnalyzer(Solution solution)
 		{
 			_solution = solution;
 		}
 
-		public bool IsReferencedInTest(ISymbol symbol)
+		public async Task<bool> IsReferencedInTest(ISymbol symbol)
 		{
-			var references = symbol.FindReferences(_solution).ToArray();
+			var references = await SymbolFinder.FindReferencesAsync(symbol, _solution); // symbol.FindReferences(_solution).ToArray();
 			if (!references.Any())
 			{
 				return false;
 			}
 
-			var referencingMethods = references.SelectMany(
-				x => x.Locations.Select(
-					y => new
-						 {
-							 Token = y.Document.GetSyntaxRoot().FindToken(y.Location.SourceSpan.Start),
-							 Document = y.Document,
-						 }))
+			var referencingSymbolTasks = (from reference in references
+										  from location in reference.Locations
+										  let rootTask = location.Document.GetSyntaxRootAsync()
+										  select new { TokenTask = rootTask, Location = location })
+										 .ToArray();
+
+			await Task.WhenAll(referencingSymbolTasks.Select(x => x.TokenTask));
+
+			var referencingMethods = referencingSymbolTasks
+				.Select(x => new
+						   {
+							   Token = x.TokenTask.Result.FindToken(x.Location.Location.SourceSpan.Start),
+							   Document = x.Location.Document
+						   })
 				.Select(
 					x => new
 						 {
 							 Method = x.Token.GetMethod(),
+							 Model = x.Document.GetSemanticModelAsync(),
 							 Document = x.Document
 						 })
 				.ToArray();
@@ -58,12 +69,13 @@ namespace ArchiMetrics.Analysis
 				return true;
 			}
 
+			await Task.WhenAll(referencingMethods.Select(x => x.Model));
 			var referencingSymbols = from reference in referencingMethods
-									 let model = reference.Document.GetSemanticModel()
+									 let model = reference.Model.Result
 									 let referencingSymbol = model.GetDeclaredSymbol(reference.Method)
 									 select IsReferencedInTest(referencingSymbol);
 
-			return referencingSymbols.Any(x => x);
+			return await referencingSymbols.ToArray().FirstMatch(x => x);
 		}
 	}
 }

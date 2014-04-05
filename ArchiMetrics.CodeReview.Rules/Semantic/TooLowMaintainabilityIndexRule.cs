@@ -12,11 +12,12 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
+	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class TooLowMaintainabilityIndexRule : SemanticEvaluationBase
 	{
@@ -75,7 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 		public int Threshold { get; set; }
 
-		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var counter = new MemberMetricsCalculator(semanticModel, solution);
 
@@ -84,14 +85,13 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			if (metric.MaintainabilityIndex <= Threshold)
 			{
 				var snippet = node.ToFullString();
-				return new EvaluationResult
+				return Task.FromResult(new EvaluationResult
 				{
-					ErrorCount = 1, 
 					Snippet = snippet
-				};
+				});
 			}
 
-			return null;
+			return Task.FromResult((EvaluationResult)null);
 		}
 	}
 }

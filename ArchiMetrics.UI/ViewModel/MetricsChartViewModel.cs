@@ -20,7 +20,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
-	using Roslyn.Services;
+	
 
 	internal class MetricsChartViewModel : ViewModelBase
 	{

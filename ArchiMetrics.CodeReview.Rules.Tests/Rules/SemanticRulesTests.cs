@@ -16,8 +16,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System.Linq;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common.CodeReview;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+
 
 	public class SemanticRulesTests : SolutionTestsBase
 	{
@@ -30,18 +32,18 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			var method = solution.Projects.SelectMany(p => p.Documents)
 				.SelectMany(d =>
 							{
-								var semanticModel = d.GetSemanticModel();
-								return d.GetSyntaxRoot()
+								var semanticModel = d.GetSemanticModelAsync().Result;
+								return d.GetSyntaxRootAsync().Result
 									.DescendantNodes()
 									.OfType<SyntaxNode>()
 									.Select(r =>
 										new
 										{
-											node = r, 
+											node = r,
 											model = semanticModel
 										});
 							})
-							.First(x => x.node.Kind == kind);
+							.First(x => x.node.IsKind(kind));
 
 			var rule = (ISemanticEvaluation)Activator.CreateInstance(semanticRule);
 			var result = rule.Evaluate(method.node, method.model, solution);

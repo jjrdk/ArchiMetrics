@@ -15,9 +15,9 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal static class TypeExtensions
 	{
@@ -49,7 +49,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var namespaceNames = new List<string>();
-			for (var containingSymbol = symbol.ContainingSymbol; (containingSymbol != null) && (containingSymbol.Kind == CommonSymbolKind.Namespace); containingSymbol = containingSymbol.ContainingSymbol)
+			for (var containingSymbol = symbol.ContainingSymbol; (containingSymbol != null) && (containingSymbol.Kind == SymbolKind.Namespace); containingSymbol = containingSymbol.ContainingSymbol)
 			{
 				var namespaceSymbol = (INamespaceSymbol)containingSymbol;
 				if (namespaceSymbol.IsGlobalNamespace)

@@ -14,8 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class UnreadVariableRule : UnreadValueRule
 	{
@@ -34,7 +35,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			get { return "Remove unread variable."; }
 		}
 
-		protected override IEnumerable<ISymbol> GetSymbols(SyntaxNode node, ISemanticModel semanticModel)
+		protected override IEnumerable<ISymbol> GetSymbols(SyntaxNode node, SemanticModel semanticModel)
 		{
 			var declaration = (VariableDeclarationSyntax)node;
 

@@ -15,12 +15,12 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class TypeClassCouplingAnalyzer : ClassCouplingAnalyzerBase
 	{
-		public TypeClassCouplingAnalyzer(ISemanticModel semanticModel)
+		public TypeClassCouplingAnalyzer(SemanticModel semanticModel)
 			: base(semanticModel)
 		{
 		}
@@ -39,9 +39,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				var symbol = node.BaseList.Types
 								 .Select(x => SemanticModel.GetSymbolInfo(x))
-								 .Where(x => (x.Symbol != null) && (x.Symbol.Kind == CommonSymbolKind.NamedType))
+								 .Where(x => (x.Symbol != null) && (x.Symbol.Kind == SymbolKind.NamedType))
 								 .Select(x => x.Symbol)
-								 .OfType<NamedTypeSymbol>()
+								 .OfType<INamedTypeSymbol>()
 								 .FirstOrDefault();
 				if (symbol != null)
 				{

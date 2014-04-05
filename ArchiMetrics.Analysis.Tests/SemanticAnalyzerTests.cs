@@ -13,12 +13,14 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	
+	
+	
 
-	public class SemanticAnalyzerTests
+	public class SemanticAnalyzerTests :SolutionTestsBase
 	{
 		[Test]
 		public async void CanFindUnusedParameters()
@@ -35,13 +37,8 @@ namespace ArchiMetrics.Analysis.Tests
 		}
 	}
 }";
-			DocumentId did;
-			ProjectId pid;
-			var solution = Solution.Create(SolutionId.CreateNewId("test"))
-				.AddCSharpProject("x", "x", out pid)
-				.AddDocument(pid, "x.cs", Code, out did)
-				.AddMetadataReferences(pid, new[] { new MetadataFileReference(typeof(object).Assembly.Location) });
-			var doc = solution.GetDocument(did);
+			var solution = CreateSolution(Code);
+			var doc = solution.Projects.First().Documents.First();
 
 			var model = await doc.GetSemanticModelAsync();
 			var root = await doc.GetSyntaxRootAsync();
@@ -67,13 +64,8 @@ namespace ArchiMetrics.Analysis.Tests
 		}
 	}
 }";
-			DocumentId did;
-			ProjectId pid;
-			var solution = Solution.Create(SolutionId.CreateNewId("test"))
-				.AddCSharpProject("x", "x", out pid)
-				.AddDocument(pid, "x.cs", Code, out did)
-				.AddMetadataReferences(pid, new[] { new MetadataFileReference(typeof(object).Assembly.Location) });
-			var doc = solution.GetDocument(did);
+			var solution = CreateSolution(Code);
+			var doc = solution.Projects.First().Documents.First();
 
 			var model = await doc.GetSemanticModelAsync();
 			var root = await doc.GetSyntaxRootAsync();
@@ -99,13 +91,8 @@ namespace ArchiMetrics.Analysis.Tests
 		}
 	}
 }";
-			DocumentId did;
-			ProjectId pid;
-			var solution = Solution.Create(SolutionId.CreateNewId("test"))
-				.AddCSharpProject("x", "x", out pid)
-				.AddDocument(pid, "x.cs", Code, out did)
-				.AddMetadataReferences(pid, new[] { new MetadataFileReference(typeof(object).Assembly.Location) });
-			var doc = solution.GetDocument(did);
+			var solution = CreateSolution(Code);
+			var doc = solution.Projects.First().Documents.First();
 
 			var model = await doc.GetSemanticModelAsync();
 			var root = await doc.GetSyntaxRootAsync();

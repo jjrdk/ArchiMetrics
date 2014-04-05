@@ -17,17 +17,18 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly ISolution _solution;
+		private readonly Solution _solution;
 		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 
-		public MemberMetricsCalculator(ISemanticModel semanticModel, ISolution solution)
+		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution)
 			: base(semanticModel)
 		{
 			_solution = solution;
@@ -39,11 +40,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			var members = walker.GetMembers(typeNode).ToArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
-				&& members.All(m => m.Kind != SyntaxKind.ConstructorDeclaration))
+				&& members.All(m => m.CSharpKind() != SyntaxKind.ConstructorDeclaration))
 			{
-				var defaultConstructor = Syntax.ConstructorDeclaration(typeNode.Name)
-											   .WithModifiers(Syntax.TokenList(Syntax.Token(SyntaxKind.PublicKeyword)))
-											   .WithBody(Syntax.Block());
+				var defaultConstructor = SyntaxFactory.ConstructorDeclaration(typeNode.Name)
+											   .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
+											   .WithBody(SyntaxFactory.Block());
 				members = members.Concat(new[] { defaultConstructor }).ToArray();
 			}
 
@@ -116,51 +117,50 @@ namespace ArchiMetrics.Analysis.Metrics
 				   select metric;
 		}
 
-		private Task<IMemberMetric> CalculateMemberMetric(SyntaxNode syntaxNode)
+		private async Task<IMemberMetric> CalculateMemberMetric(SyntaxNode syntaxNode)
 		{
-			return Task.Factory.StartNew(
-				() =>
-				{
-					var analyzer = new HalsteadAnalyzer();
-					var halsteadMetrics = analyzer.Calculate(syntaxNode);
+			var analyzer = new HalsteadAnalyzer();
+			var halsteadMetrics = analyzer.Calculate(syntaxNode);
 
-					var memberMetricKind = GetMemberMetricKind(syntaxNode.Kind);
-					var source = CalculateClassCoupling(syntaxNode);
-					var complexity = CalculateCyclomaticComplexity(syntaxNode);
-					var linesOfCode = CalculateLinesOfCode(syntaxNode);
-					var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
-					var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
-					var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
-					var afferentCoupling = CalculateAfferentCoupling(syntaxNode);
-					var location = syntaxNode.GetLocation();
-					var lineNumber = location.GetLineSpan(true).StartLinePosition.Line;
-					var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
-					return (IMemberMetric)new MemberMetric(
-						filePath,
-						halsteadMetrics,
-						memberMetricKind,
-						lineNumber,
-						linesOfCode,
-						maintainabilityIndex,
-						complexity,
-						syntaxNode.ToFullString(),
-						source.ToArray(),
-						numberOfParameters,
-						numberOfLocalVariables,
-						afferentCoupling);
-				});
+			var memberMetricKind = GetMemberMetricKind(syntaxNode.CSharpKind());
+			var source = CalculateClassCoupling(syntaxNode);
+			var complexity = CalculateCyclomaticComplexity(syntaxNode);
+			var linesOfCode = CalculateLinesOfCode(syntaxNode);
+			var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
+			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
+			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
+			var afferentCoupling = await CalculateAfferentCoupling(syntaxNode);
+			var location = syntaxNode.GetLocation();
+			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
+			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
+			return (IMemberMetric)new MemberMetric(
+				filePath,
+				halsteadMetrics,
+				memberMetricKind,
+				lineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
+				syntaxNode.ToFullString(),
+				source.ToArray(),
+				numberOfParameters,
+				numberOfLocalVariables,
+				afferentCoupling);
 		}
 
-		private int CalculateAfferentCoupling(SyntaxNode node)
+		private async Task<int> CalculateAfferentCoupling(SyntaxNode node)
 		{
 			try
 			{
-				return _solution == null
-						   ? 0
-						   : Model.GetDeclaredSymbol(node)
-								 .FindReferences(_solution)
-								 .SelectMany(x => x.Locations)
-								 .Count();
+				if (_solution == null)
+				{
+					return 0;
+				}
+
+				var symbol = Model.GetDeclaredSymbol(node);
+				var referenceTasks = SymbolFinder.FindReferencesAsync(symbol, _solution);
+
+				return (await referenceTasks).SelectMany(x => x.Locations).Count();
 			}
 			catch
 			{
@@ -169,13 +169,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private int CalculateNumberOfLocalVariables(CommonSyntaxNode node)
+		private int CalculateNumberOfLocalVariables(SyntaxNode node)
 		{
 			var analyzer = new MethodLocalVariablesAnalyzer();
 			return analyzer.Calculate(node);
 		}
 
-		private int CalculateNumberOfParameters(CommonSyntaxNode node)
+		private int CalculateNumberOfParameters(SyntaxNode node)
 		{
 			var analyzer = new MethodParameterAnalyzer();
 			return analyzer.Calculate(node);

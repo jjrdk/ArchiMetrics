@@ -14,11 +14,11 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
 	using System.Threading;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal abstract class UnusedCodeRule : SemanticEvaluationBase
 	{
@@ -59,10 +59,10 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 		}
 
-		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = semanticModel.GetDeclaredSymbol(node);
-			var callers = symbol.FindCallers(solution, CancellationToken.None);
+			var callers = await SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None);
 
 			if (!callers.Any())
 			{

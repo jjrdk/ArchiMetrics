@@ -15,8 +15,10 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+
 
 	public sealed class LinesOfCodeCalculatorTests
 	{
@@ -46,11 +48,11 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				}
 			}";
 
-				var syntaxTree = SyntaxTree.ParseText(Text);
+				var syntaxTree = CSharpSyntaxTree.ParseText(Text);
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
-					.First(c => c.Kind == SyntaxKind.MethodDeclaration);
+					.First(c => c.IsKind(SyntaxKind.MethodDeclaration));
 
 				var loc = _analyzer.Calculate(root);
 
@@ -79,11 +81,11 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}}",
 			   code);
 
-				var syntaxTree = SyntaxTree.ParseText(text);
+				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree
 					.GetRoot()
 					.DescendantNodes()
-					.First(c => c.Kind == kind);
+					.First(c => c.IsKind(kind));
 				var loc = _analyzer.Calculate(root);
 
 				Assert.AreEqual(expected, loc);
@@ -116,7 +118,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			}}",
 			   code);
 
-				var syntaxTree = SyntaxTree.ParseText(text);
+				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree.GetRoot();
 				var loc = _analyzer.Calculate(root);
 

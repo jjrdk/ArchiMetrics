@@ -14,8 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
 	using System.Linq;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public sealed class UnreadFieldRuleTests
 	{
@@ -71,8 +72,8 @@ new object();
 				var solution = CreateSolution(code);
 				var classDeclaration = (from p in solution.Projects
 										from d in p.Documents
-										let model = d.GetSemanticModel()
-										let root = d.GetSyntaxRoot()
+										let model = d.GetSemanticModelAsync().Result
+										let root = d.GetSyntaxRootAsync().Result
 										from n in root.DescendantNodes().OfType<FieldDeclarationSyntax>()
 										select new
 										{
@@ -116,8 +117,8 @@ new object();
 				var solution = CreateSolution(code);
 				var classDeclaration = (from p in solution.Projects
 										from d in p.Documents
-										let model = d.GetSemanticModel()
-										let root = d.GetSyntaxRoot()
+										let model = d.GetSemanticModelAsync().Result
+										let root = d.GetSyntaxRootAsync().Result
 										from n in root.DescendantNodes().OfType<FieldDeclarationSyntax>()
 										select new
 										{

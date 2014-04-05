@@ -15,8 +15,9 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class HalsteadAnalyzer : SyntaxWalker
 	{
@@ -38,9 +39,21 @@ namespace ArchiMetrics.Analysis.Metrics
 			return _metrics;
 		}
 
-		public override void VisitBlock(BlockSyntax node)
+		/// <summary>
+		/// Called when the walker visits a node.  This method may be overridden if subclasses want
+		///             to handle the node.  Overrides should call back into this base method if they want the
+		///             children of this node to be visited.
+		/// </summary>
+		/// <param name="node">The current node that the walker is visiting.</param>
+		public override void Visit(SyntaxNode node)
 		{
-			base.VisitBlock(node);
+			var blockSyntax = node as BlockSyntax;
+			VisitBlock(blockSyntax);
+			base.Visit(node);
+		}
+
+		public void VisitBlock(BlockSyntax node)
+		{
 			var tokens = node.DescendantTokens().ToList();
 			var dictionary = ParseTokens(tokens, Operands.All);
 			var dictionary2 = ParseTokens(tokens, Operators.All);
@@ -57,7 +70,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			IDictionary<SyntaxKind, IList<string>> dictionary = new Dictionary<SyntaxKind, IList<string>>();
 			foreach (var token in tokens)
 			{
-				var kind = token.Kind;
+				var kind = token.CSharpKind();
 				if (filter.Any(x => x == kind))
 				{
 					IList<string> list;

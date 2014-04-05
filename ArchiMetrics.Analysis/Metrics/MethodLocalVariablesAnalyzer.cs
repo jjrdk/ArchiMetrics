@@ -12,10 +12,11 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	internal sealed class MethodLocalVariablesAnalyzer : SyntaxWalker
+	internal sealed class MethodLocalVariablesAnalyzer : CSharpSyntaxWalker
 	{
 		private int _numLocalVariables;
 
@@ -24,7 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 		}
 
-		public int Calculate(CommonSyntaxNode memberNode)
+		public int Calculate(SyntaxNode memberNode)
 		{
 			var node = memberNode as SyntaxNode;
 			if (node != null)

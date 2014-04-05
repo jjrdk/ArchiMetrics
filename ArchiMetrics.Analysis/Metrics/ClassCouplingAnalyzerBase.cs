@@ -15,15 +15,16 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	internal abstract class ClassCouplingAnalyzerBase : SyntaxWalker
+	internal abstract class ClassCouplingAnalyzerBase : CSharpSyntaxWalker
 	{
-		private readonly ISemanticModel _semanticModel;
+		private readonly SemanticModel _semanticModel;
 		private readonly IDictionary<string, ITypeSymbol> _types;
 
-		protected ClassCouplingAnalyzerBase(ISemanticModel semanticModel)
+		protected ClassCouplingAnalyzerBase(SemanticModel semanticModel)
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_types = new Dictionary<string, ITypeSymbol>();
@@ -31,7 +32,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			_semanticModel = semanticModel;
 		}
 
-		protected ISemanticModel SemanticModel
+		protected SemanticModel SemanticModel
 		{
 			get
 			{
@@ -41,18 +42,18 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		protected void FilterType(TypeSyntax syntax)
 		{
-			if (syntax.Kind != SyntaxKind.PredefinedType)
+			if (syntax.IsKind(SyntaxKind.PredefinedType))
 			{
-				var symbolInfo = SemanticModel.GetSymbolInfo(syntax);
-				if ((symbolInfo.Symbol != null) && (symbolInfo.Symbol.Kind == CommonSymbolKind.NamedType))
+				var symbolInfo = ModelExtensions.GetSymbolInfo(SemanticModel, syntax);
+				if ((symbolInfo.Symbol != null) && (symbolInfo.Symbol.Kind == SymbolKind.NamedType))
 				{
-					var symbol = (TypeSymbol)symbolInfo.Symbol;
+					var symbol = (ITypeSymbol)symbolInfo.Symbol;
 					FilterTypeSymbol(symbol);
 				}
 			}
 		}
 
-		protected void FilterTypeSymbol(TypeSymbol symbol)
+		protected void FilterTypeSymbol(ITypeSymbol symbol)
 		{
 			switch (symbol.TypeKind)
 			{

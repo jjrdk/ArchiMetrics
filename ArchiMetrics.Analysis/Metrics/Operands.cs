@@ -13,7 +13,7 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis.CSharp;
 
 	internal sealed class Operands
 	{

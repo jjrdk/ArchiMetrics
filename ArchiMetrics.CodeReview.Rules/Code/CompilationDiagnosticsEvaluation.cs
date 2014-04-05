@@ -14,8 +14,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 
 	internal class CompilationDiagnosticsEvaluation : CodeEvaluationBase
 	{
@@ -71,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			// Roslyn does not handle async await keywords.
 			var diagnostics = node.GetDiagnostics();
-			if (diagnostics.Any(d => d.Info.Severity != DiagnosticSeverity.Info))
+			if (diagnostics.Any(d => d.Severity != DiagnosticSeverity.Info))
 			{
 				return new EvaluationResult
 						   {

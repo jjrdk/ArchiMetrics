@@ -16,31 +16,32 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class MemberClassCouplingAnalyzer : ClassCouplingAnalyzerBase
 	{
 		private readonly List<IMethodSymbol> _calledMethods;
 		private readonly List<IPropertySymbol> _calledProperties;
 		private readonly Dictionary<SyntaxKind, Action<SyntaxNode>> _classCouplingActions;
-		private readonly Dictionary<CommonSymbolKind, Action<ISymbol>> _symbolActions;
+		private readonly Dictionary<SymbolKind, Action<ISymbol>> _symbolActions;
 		private readonly List<IEventSymbol> _usedEvents;
 
-		public MemberClassCouplingAnalyzer(ISemanticModel semanticModel)
+		public MemberClassCouplingAnalyzer(SemanticModel semanticModel)
 			: base(semanticModel)
 		{
 			_calledMethods = new List<IMethodSymbol>();
 			_calledProperties = new List<IPropertySymbol>();
 			_usedEvents = new List<IEventSymbol>();
-			_symbolActions = new Dictionary<CommonSymbolKind, Action<ISymbol>>
+			_symbolActions = new Dictionary<SymbolKind, Action<ISymbol>>
 			                 {
-				                 { CommonSymbolKind.NamedType, x => FilterTypeSymbol((TypeSymbol)x) }, 
-				                 { CommonSymbolKind.Parameter, x => FilterTypeSymbol(((ParameterSymbol)x).Type) }, 
-				                 { CommonSymbolKind.Method, x => FilterTypeSymbol(((MethodSymbol)x).ContainingType) }, 
-				                 { CommonSymbolKind.Field, x => FilterTypeSymbol(((FieldSymbol)x).Type) }, 
-				                 { CommonSymbolKind.Property, x => FilterTypeSymbol(((PropertySymbol)x).ContainingType) }, 
-				                 { CommonSymbolKind.Event, x => FilterTypeSymbol(((EventSymbol)x).ContainingType) }
+				                 { SymbolKind.NamedType, x => FilterTypeSymbol((ITypeSymbol)x) }, 
+				                 { SymbolKind.Parameter, x => FilterTypeSymbol(((IParameterSymbol)x).Type) }, 
+				                 { SymbolKind.Method, x => FilterTypeSymbol(x.ContainingType) }, 
+				                 { SymbolKind.Field, x => FilterTypeSymbol(((IFieldSymbol)x).Type) }, 
+				                 { SymbolKind.Property, x => FilterTypeSymbol(x.ContainingType) }, 
+				                 { SymbolKind.Event, x => FilterTypeSymbol(x.ContainingType) }
 			                 };
 
 			_classCouplingActions = new Dictionary<SyntaxKind, Action<SyntaxNode>>
@@ -59,7 +60,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			Action<SyntaxNode> action;
 
-			if (_classCouplingActions.TryGetValue(syntaxNode.Kind, out action))
+			if (_classCouplingActions.TryGetValue(syntaxNode.CSharpKind(), out action))
 			{
 				action(syntaxNode);
 			}
@@ -94,7 +95,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static BlockSyntax GetAccessor(AccessorListSyntax accessorList, SyntaxKind kind)
 		{
-			return accessorList.Accessors.Single(x => x.Kind == kind).Body;
+			return accessorList.Accessors.Single(x => x.IsKind(kind)).Body;
 		}
 
 		private void CalculateEventClassCoupling(EventDeclarationSyntax syntax, SyntaxKind kind)
@@ -143,11 +144,11 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax)
 				.Union(GetMemberCouplings<IdentifierNameSyntax>(syntax))
-				.Where(x => x.Kind == CommonSymbolKind.Method || x.Kind == CommonSymbolKind.Property || x.Kind == CommonSymbolKind.Event)
+				.Where(x => x.Kind == SymbolKind.Method || x.Kind == SymbolKind.Property || x.Kind == SymbolKind.Event)
 				.ToArray();
-			_calledMethods.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Method).Cast<IMethodSymbol>());
-			_calledProperties.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Property).Cast<IPropertySymbol>());
-			_usedEvents.AddRange(methodCouplings.Where(x => x.Kind == CommonSymbolKind.Event).Cast<IEventSymbol>());
+			_calledMethods.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Method).Cast<IMethodSymbol>());
+			_calledProperties.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Property).Cast<IPropertySymbol>());
+			_usedEvents.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Event).Cast<IEventSymbol>());
 		}
 
 		private IEnumerable<ISymbol> GetMemberCouplings<T>(SyntaxNode block)
@@ -159,7 +160,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Select(r =>
 						new
 							{
-								node = r, 
+								node = r,
 								model = SemanticModel
 							})
 				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)

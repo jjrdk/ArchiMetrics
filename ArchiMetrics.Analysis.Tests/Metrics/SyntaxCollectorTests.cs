@@ -14,8 +14,10 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public sealed class SyntaxCollectorTests
 	{
@@ -43,7 +45,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		public string Text { get; set; }
 	}
 }";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				CollectionAssert.AllItemsAreInstancesOfType(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations).Concat(result.TypeDeclarations), typeof(NamespaceDeclarationSyntax));
@@ -56,7 +58,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	public string Text { get; set; }
 }";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.TypeDeclarations);
@@ -72,7 +74,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 	public string Text { get{ return x; } }
 }";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				CollectionAssert.AllItemsAreInstancesOfType(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations).Concat(result.TypeDeclarations), typeof(TypeDeclarationSyntax));
@@ -85,7 +87,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	string Text { get; }
 }";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				CollectionAssert.AllItemsAreInstancesOfType(result.MemberDeclarations.Cast<object>().Concat(result.Statements).Concat(result.NamespaceDeclarations).Concat(result.TypeDeclarations), typeof(TypeDeclarationSyntax));
@@ -95,7 +97,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			public void WhenSnippetRootIsPropertyThenOnlyFindsMember()
 			{
 				const string Snippet = @"public string Text { get; set; }";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.MemberDeclarations);
@@ -107,7 +109,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			{
 				const string Snippet = @"var x = 1;
 var y = 2;";
-				var tree = SyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.Statements);

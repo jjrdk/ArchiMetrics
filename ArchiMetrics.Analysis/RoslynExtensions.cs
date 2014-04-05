@@ -12,16 +12,12 @@
 
 namespace ArchiMetrics.Analysis
 {
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	public static class RoslynExtensions
 	{
-		public static MethodDeclarationSyntax GetMethod(this CommonSyntaxToken token)
-		{
-			return GetMethod((SyntaxToken)token);
-		}
-
 		public static MethodDeclarationSyntax GetMethod(this SyntaxToken token)
 		{
 			var parent = token.Parent;
@@ -35,7 +31,7 @@ namespace ArchiMetrics.Analysis
 				return null;
 			}
 
-			if (node.Kind == SyntaxKind.MethodDeclaration)
+			if (node.IsKind(SyntaxKind.MethodDeclaration))
 			{
 				return (MethodDeclarationSyntax)node;
 			}

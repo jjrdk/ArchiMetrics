@@ -12,22 +12,21 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
+	using System.Threading.Tasks;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
 	internal abstract class SemanticEvaluationBase : EvaluationBase, ISemanticEvaluation
 	{
-		public EvaluationResult Evaluate(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		public async Task<EvaluationResult> Evaluate(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			if (semanticModel == null || solution == null)
 			{
 				return null;
 			}
 
-			var result = EvaluateImpl(node, semanticModel, solution);
+			var result = await EvaluateImpl(node, semanticModel, solution);
 			if (result != null)
 			{
 				var sourceTree = node.GetLocation().SourceTree;
@@ -58,6 +57,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			return result;
 		}
 
-		protected abstract EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution);
+		protected abstract Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution);
 	}
 }

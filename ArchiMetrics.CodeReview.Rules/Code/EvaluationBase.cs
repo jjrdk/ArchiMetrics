@@ -16,7 +16,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal abstract class EvaluationBase : IEvaluation
 	{
@@ -44,7 +46,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 			if (node.Parent == null)
 			{
-				return Syntax.Token(SyntaxKind.GlobalKeyword).ValueText;
+				return SyntaxFactory.Token(SyntaxKind.GlobalKeyword).ValueText;
 			}
 
 			return GetNamespace(node.Parent);
@@ -62,7 +64,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 			if (node.Parent == null)
 			{
-				return new Tuple<string, string>(Syntax.Token(SyntaxKind.GlobalKeyword).ValueText, string.Empty);
+				return new Tuple<string, string>(SyntaxFactory.Token(SyntaxKind.GlobalKeyword).ValueText, string.Empty);
 			}
 
 			return GetNodeType(node.Parent);
@@ -75,7 +77,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return null;
 			}
 
-			if (node.Parent.Kind == SyntaxKind.MethodDeclaration || node.Parent.Kind == SyntaxKind.ConstructorDeclaration)
+			if (node.Parent.IsKind(SyntaxKind.MethodDeclaration) || node.Parent.IsKind(SyntaxKind.ConstructorDeclaration))
 			{
 				return node.Parent;
 			}
@@ -95,7 +97,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return null;
 			}
 
-			if (node.Parent.Kind == SyntaxKind.ClassDeclaration || node.Parent.Kind == SyntaxKind.StructDeclaration)
+			if (node.Parent.IsKind(SyntaxKind.ClassDeclaration) || node.Parent.IsKind(SyntaxKind.StructDeclaration))
 			{
 				return node.Parent as TypeDeclarationSyntax;
 			}
@@ -110,7 +112,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return null;
 			}
 
-			if (node.Parent.Kind == SyntaxKind.NamespaceDeclaration)
+			if (node.Parent.IsKind(SyntaxKind.NamespaceDeclaration))
 			{
 				return node.Parent as NamespaceDeclarationSyntax;
 			}

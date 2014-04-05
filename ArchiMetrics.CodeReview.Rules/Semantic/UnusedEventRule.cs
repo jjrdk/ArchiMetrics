@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis.CSharp;
 
 	internal class UnusedEventRule : UnusedCodeRule
 	{

@@ -14,10 +14,11 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	internal sealed class NamespaceCollector : SyntaxWalker
+	internal sealed class NamespaceCollector : CSharpSyntaxWalker
 	{
 		private readonly IList<NamespaceDeclarationSyntax> _namespaces;
 
@@ -27,7 +28,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			_namespaces = new List<NamespaceDeclarationSyntax>();
 		}
 
-		public IEnumerable<NamespaceDeclarationSyntax> GetNamespaces(CommonSyntaxNode commonNode)
+		public IEnumerable<NamespaceDeclarationSyntax> GetNamespaces(SyntaxNode commonNode)
 		{
 			var node = commonNode as SyntaxNode;
 			if (node != null)

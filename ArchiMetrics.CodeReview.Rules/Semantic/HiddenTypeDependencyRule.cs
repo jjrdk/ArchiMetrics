@@ -13,12 +13,12 @@
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class HiddenTypeDependencyRule : SemanticEvaluationBase
 	{
@@ -72,7 +72,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 		}
 
-		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			if (methodDeclaration.Body == null)
@@ -87,7 +87,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var symbolInfo = semanticModel.GetDeclaredSymbol(node);
 			var containingType = symbolInfo.ContainingType;
 			var fieldTypes = containingType.GetMembers()
-				.OfType<FieldSymbol>().Select(x => x.Type)
+				.OfType<IFieldSymbol>().Select(x => x.Type)
 				.ToArray();
 			var usedTypes = genericParameterTypes.Concat(fieldTypes)
 				.WhereNotNull()
@@ -101,13 +101,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 			if (locals.Any(x => !x.ContainingAssembly.Equals(semanticModel.Compilation.Assembly) && !SystemAssemblyPrefixes.Any(y => x.ContainingAssembly.Name.StartsWith(y))))
 			{
-				return new EvaluationResult
-						   {
-							   Snippet = node.ToFullString()
-						   };
+				return Task.FromResult(
+					new EvaluationResult
+					{
+						Snippet = node.ToFullString()
+					});
 			}
 
-			return null;
+			return Task.FromResult((EvaluationResult)null);
 		}
 	}
 }

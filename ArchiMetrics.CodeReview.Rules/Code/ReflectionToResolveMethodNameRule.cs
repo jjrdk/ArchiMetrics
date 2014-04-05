@@ -13,7 +13,9 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.CSharp;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class ReflectionToResolveMethodNameRule : CodeEvaluationBase
 	{
@@ -21,7 +23,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return SyntaxKind.MemberAccessExpression;
+				return SyntaxKind.SimpleMemberAccessExpression;
 			}
 		}
 
@@ -68,7 +70,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var memberAccess = (MemberAccessExpressionSyntax)node;
-			if (memberAccess.Expression.Kind == SyntaxKind.InvocationExpression
+			if (memberAccess.Expression.IsKind(SyntaxKind.InvocationExpression)
 				&& memberAccess.Expression.GetText().ToString().Trim() == "MethodBase.GetCurrentMethod()")
 			{
 				return new EvaluationResult

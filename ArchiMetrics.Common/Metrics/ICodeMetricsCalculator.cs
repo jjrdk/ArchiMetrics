@@ -14,10 +14,10 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
 
 	public interface ICodeMetricsCalculator
 	{
-		Task<IEnumerable<INamespaceMetric>> Calculate(IProject project, ISolution solution);
+		Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution);
 	}
 }

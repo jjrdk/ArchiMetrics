@@ -18,8 +18,11 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Trivia;
 	using ArchiMetrics.Common.CodeReview;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public sealed class SpellCheckingTests
 	{
@@ -42,7 +45,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("GetValu")]
 			public void FindMispelledMethodNames(string methodName)
 			{
-				var method = SyntaxTree.ParseText(string.Format(@"public void {0}() {{ }}", methodName));
+				var method = CSharpSyntaxTree.ParseText(string.Format(@"public void {0}() {{ }}", methodName));
 				var result = _rule.Evaluate(method.GetRoot()
 					.ChildNodes()
 					.OfType<MethodDeclarationSyntax>()
@@ -67,7 +70,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("Dette er ikke en engelsk kommentar.")]
 			public void FindNonEnglishMultiLineComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(
+				var method = CSharpSyntaxTree.ParseText(
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
@@ -76,7 +79,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
-					.Where(t => t.Kind == SyntaxKind.MultiLineCommentTrivia)
+					.Where(t => t.IsKind(SyntaxKind.MultiLineCommentTrivia))
 					.ToArray();
 				var result = _rule.Evaluate(nodes.First());
 
@@ -87,7 +90,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("This comment is in English.")]
 			public void AcceptsEnglishMultiLineComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(
+				var method = CSharpSyntaxTree.ParseText(
 					string.Format(
 @"public void SomeMethod() {{
 /* {0} */
@@ -96,7 +99,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
-					.Where(t => t.Kind == SyntaxKind.MultiLineCommentTrivia)
+					.Where(t => t.IsKind(SyntaxKind.MultiLineCommentTrivia))
 					.ToArray();
 				var result = _rule.Evaluate(nodes.First());
 
@@ -107,7 +110,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("<returns>A string.</returns>")]
 			public void AcceptsEnglishMultiLineXmlComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(
+				var method = CSharpSyntaxTree.ParseText(
 					string.Format(
 						@"public void SomeMethod() {{
 /* {0} */
@@ -116,7 +119,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
-					.Where(t => t.Kind == SyntaxKind.MultiLineCommentTrivia)
+					.Where(t => t.IsKind(SyntaxKind.MultiLineCommentTrivia))
 					.ToArray();
 				var result = _rule.Evaluate(nodes.First());
 
@@ -138,7 +141,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("<returns>Noget tekst.</returns>")]
 			public void FindNonEnglishSingleLineComments(string comment)
 			{
-				var method = SyntaxTree.ParseText(
+				var method = CSharpSyntaxTree.ParseText(
 					string.Format(
 @"public void SomeMethod() {{
 //{0}
@@ -147,7 +150,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
-					.Where(t => t.Kind == SyntaxKind.SingleLineCommentTrivia)
+					.Where(t => t.IsKind(SyntaxKind.SingleLineCommentTrivia))
 					.ToArray();
 				var result = _rule.Evaluate(nodes.First());
 
@@ -171,7 +174,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			[TestCase("/* Dette er ikke en engelsk kommentar. */")]
 			public async Task WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
 			{
-				var method = SyntaxTree.ParseText(
+				var method = CSharpSyntaxTree.ParseText(
 					string.Format(
 @"public void SomeMethod() {{
 {0}

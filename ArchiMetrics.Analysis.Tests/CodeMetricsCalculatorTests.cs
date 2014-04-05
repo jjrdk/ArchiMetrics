@@ -12,8 +12,10 @@
 
 namespace ArchiMetrics.Analysis.Tests
 {
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	using Roslyn.Compilers.CSharp;
+	
 
 	public sealed class CodeMetricsCalculatorTests
 	{
@@ -43,7 +45,7 @@ namespace ArchiMetrics.Analysis.Tests
 
 	return x;
 }";
-				var tree = SyntaxTree.ParseText(snippet);
+				var tree = CSharpSyntaxTree.ParseText(snippet);
 				var metrics = _calculator.Calculate(new[] { tree });
 
 				Assert.NotNull(metrics);

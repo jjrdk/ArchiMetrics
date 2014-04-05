@@ -16,10 +16,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	using Roslyn.Compilers;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+
+
+
 
 	public sealed class MemberClassCouplingAnalyzerTests
 	{
@@ -30,7 +32,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		public class GivenAMemberClassCouplingAnalyzer
 		{
 			private MemberClassCouplingAnalyzer _analyzer;
-			private ISolution _solution;
+			private Solution _solution;
 
 			[SetUp]
 			public void Setup()
@@ -54,7 +56,7 @@ namespace MyNamespace
 		}
 	}
 }");
-				_analyzer = new MemberClassCouplingAnalyzer(_solution.Projects.SelectMany(p => p.Documents).First().GetSemanticModel());
+				_analyzer = new MemberClassCouplingAnalyzer(_solution.Projects.SelectMany(p => p.Documents).First().GetSemanticModelAsync().Result);
 			}
 
 			[Test]
@@ -77,28 +79,36 @@ namespace MyNamespace
 			{
 				var document = _solution.Projects.SelectMany(p => p.Documents).First();
 				var method = document
-					.GetSyntaxRoot()
+					.GetSyntaxRootAsync()
+					.Result
 					.DescendantNodes()
 					.OfType<SyntaxNode>()
-					.First(n => n.Kind == SyntaxKind.MethodDeclaration);
+					.First(n => n.IsKind(SyntaxKind.MethodDeclaration));
 
 				var couplings = _analyzer.Calculate(method);
 				return couplings;
 			}
 
-			private ISolution CreateSolution(params string[] code)
+			private Solution CreateSolution(params string[] code)
 			{
-				var x = 1;
-				ProjectId pid;
-				DocumentId did;
-				var solution = code.Aggregate(
-					Solution.Create(SolutionId.CreateNewId("Semantic"))
-						.AddCSharpProject("testcode.dll", "testcode", out pid), 
-					(sol, c) => sol.AddDocument(pid, string.Format("TestClass{0}.cs", x++), c, out did))
-					.AddProjectReferences(pid, new ProjectId[0])
-					.AddMetadataReference(pid, new MetadataFileReference(typeof(object).Assembly.Location));
+				using (var workspace = new CustomWorkspace())
+				{
+					workspace.AddSolution(
+						SolutionInfo.Create(
+							SolutionId.CreateNewId("Semantic"),
+							VersionStamp.Default));
+					var x = 1;
+					var project = code.Aggregate(
+						workspace.CurrentSolution.AddProject("testcode", "testcode.dll", LanguageNames.CSharp)
+						.AddMetadataReference(new MetadataFileReference(typeof(object).Assembly.Location)),
+						(proj, c) =>
+						{
+							proj.AddDocument(string.Format("TestClass{0}.cs", x++), c);
+							return proj;
+						});
 
-				return solution;
+					return workspace.CurrentSolution;
+				}
 			}
 		}
 	}

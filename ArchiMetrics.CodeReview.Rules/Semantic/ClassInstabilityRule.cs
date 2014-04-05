@@ -15,14 +15,16 @@ namespace ArchiMetrics.CodeReview.Semantic
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
+	using System.Threading.Tasks;
 	using ArchiMetrics.CodeReview.Rules;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
-	using Roslyn.Compilers.Common;
-	using Roslyn.Compilers.CSharp;
-	using Roslyn.Services;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal class ClassInstabilityRule : SemanticEvaluationBase
 	{
@@ -70,15 +72,15 @@ namespace ArchiMetrics.CodeReview.Semantic
 		{
 			get
 			{
-				return QualityAttribute.Maintainability | Common.CodeReview.QualityAttribute.Modifiability;
+				return QualityAttribute.Maintainability | QualityAttribute.Modifiability;
 			}
 		}
 
-		protected override EvaluationResult EvaluateImpl(SyntaxNode node, ISemanticModel semanticModel, ISolution solution)
+		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(node);
 			var efferent = GetReferencedTypes((ClassDeclarationSyntax)node, symbol, semanticModel).ToArray();
-			var callers = symbol.FindCallers(solution, CancellationToken.None).ToArray();
+			var callers = (await SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None)).ToArray();
 			var testCallers = callers
 				.Where(c => c.CallingSymbol.GetAttributes()
 				.Any(x => x.AttributeClass.Name.IsKnownTestAttribute()))
@@ -104,7 +106,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 			return null;
 		}
 
-		private static IEnumerable<ITypeSymbol> GetReferencedTypes(ClassDeclarationSyntax classDeclaration, ITypeSymbol sourceSymbol, ISemanticModel semanticModel)
+		private static IEnumerable<ITypeSymbol> GetReferencedTypes(ClassDeclarationSyntax classDeclaration, ITypeSymbol sourceSymbol, SemanticModel semanticModel)
 		{
 			var typeSyntaxes = classDeclaration.DescendantNodesAndSelf().OfType<TypeSyntax>();
 			var commonSymbolInfos = typeSyntaxes.Select(x => semanticModel.GetSymbolInfo(x)).ToArray();
@@ -113,7 +115,7 @@ namespace ArchiMetrics.CodeReview.Semantic
 				.Where(x => x != null)
 				.Select(x =>
 					{
-						var typeSymbol = x as TypeSymbol;
+						var typeSymbol = x as ITypeSymbol;
 						return typeSymbol == null ? x.ContainingType : x;
 					})
 				.Cast<ITypeSymbol>()
