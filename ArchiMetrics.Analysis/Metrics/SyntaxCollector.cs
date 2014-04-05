@@ -19,29 +19,11 @@ namespace ArchiMetrics.Analysis.Metrics
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	internal sealed class SyntaxCollector : SyntaxWalker
+	internal sealed class SyntaxCollector : CSharpSyntaxWalker
 	{
-		private static readonly Type[] TypeDeclarations = new[]
-														  {
-															  typeof(ClassDeclarationSyntax), 
-															  typeof(StructDeclarationSyntax), 
-															  typeof(InterfaceDeclarationSyntax)
-														  };
-		private static readonly Type[] NamespaceDeclarations = new[]
-														  {
-															  typeof(NamespaceDeclarationSyntax)
-														  };
-		private static readonly Type[] MemberDeclarations = new[]
-														  {
-															  typeof(ConstructorDeclarationSyntax),
-															  typeof(DestructorDeclarationSyntax),
-															  typeof(EventDeclarationSyntax),
-															  typeof(MethodDeclarationSyntax),
-															  typeof(PropertyDeclarationSyntax)
-														  };
 		private readonly IList<MemberDeclarationSyntax> _members = new List<MemberDeclarationSyntax>();
 		private readonly IList<NamespaceDeclarationSyntax> _namespaces = new List<NamespaceDeclarationSyntax>();
-		private readonly IList<StatementSyntax> _statements = new List<StatementSyntax>();
+		private readonly IList<SyntaxNode> _statements = new List<SyntaxNode>();
 		private readonly IList<TypeDeclarationSyntax> _types = new List<TypeDeclarationSyntax>();
 
 		public SyntaxDeclarations GetDeclarations(IEnumerable<SyntaxTree> trees)
@@ -63,44 +45,62 @@ namespace ArchiMetrics.Analysis.Metrics
 			};
 		}
 
-		/// <summary>
-		/// Called when the walker visits a node.  This method may be overridden if subclasses want
-		///             to handle the node.  Overrides should call back into this base method if they want the
-		///             children of this node to be visited.
-		/// </summary>
-		/// <param name="node">The current node that the walker is visiting.</param>
-		public override void Visit(SyntaxNode node)
+		public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)
 		{
-			var typeDeclaration = node as TypeDeclarationSyntax;
-			if (typeDeclaration != null)
-			{
-				_types.Add(typeDeclaration);
-			}
-			else
-			{
-				var namespaceDeclaration = node as NamespaceDeclarationSyntax;
-				if (namespaceDeclaration != null)
-				{
-					_namespaces.Add(namespaceDeclaration);
-				}
-				else
-				{
-					var memberDeclaration = node as MemberDeclarationSyntax;
-					if (memberDeclaration != null)
-					{
-						_members.Add(memberDeclaration);
-					}
-				}
-			}
-			base.Visit(node);
+			_namespaces.Add(node);
+		}
+
+		public override void VisitClassDeclaration(ClassDeclarationSyntax node)
+		{
+			_types.Add(node);
+		}
+
+		public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
+		{
+			_types.Add(node);
+		}
+
+		public override void VisitStructDeclaration(StructDeclarationSyntax node)
+		{
+			_types.Add(node);
+		}
+
+		public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+		{
+			_members.Add(node);
+		}
+
+		public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node)
+		{
+			_members.Add(node);
+		}
+
+		public override void VisitEventDeclaration(EventDeclarationSyntax node)
+		{
+			_members.Add(node);
+		}
+
+		public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+		{
+			_members.Add(node);
+		}
+
+		public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+		{
+			_members.Add(node);
 		}
 
 		private void CheckStatementSyntax(SyntaxNode node)
 		{
+			var syntaxNodes = node.ChildNodes().ToArray();
+			foreach (var syntaxNode in syntaxNodes)
+			{
+				Console.WriteLine(syntaxNode.CSharpKind());
+			}
 			var statements =
-				node.ChildNodes()
-					.Select(n => SyntaxFactory.ParseStatement(n.ToFullString(), options: new CSharpParseOptions(kind: SourceCodeKind.Interactive, preprocessorSymbols: new string[0])))
-					.Where(s => !s.IsKind(SyntaxKind.ExpressionStatement))
+				syntaxNodes
+				.Where(x => !(x is TypeDeclarationSyntax))
+					.Where(x => x is BaseFieldDeclarationSyntax || x is StatementSyntax)
 					.ToArray();
 
 			foreach (var statement in statements)

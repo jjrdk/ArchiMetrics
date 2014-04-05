@@ -83,7 +83,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return null;
 			}
 
-			if (variable.IsEquivalentTo(right))
+			if (variable.Identifier.ValueText == right.Identifier.ValueText)
 			{
 				return new EvaluationResult
 					   {

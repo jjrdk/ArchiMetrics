@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
@@ -99,7 +100,7 @@ new object();
 		}
 	}
 }")]
-			public void WhenFieldIsReadThenDoesNotReturnError(string code)
+			public async Task WhenFieldIsReadThenDoesNotReturnError(string code)
 			{
 				var solution = CreateSolution(code);
 				var classDeclaration = (from p in solution.Projects
@@ -112,7 +113,7 @@ new object();
 												   semanticModel = model,
 												   node = n
 											   }).First();
-				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
+				var result = await _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
 
 				Assert.Null(result);
 			}

@@ -89,7 +89,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 			var mockTypeParameter = new Mock<ITypeParameterSymbol>();
 			mockTypeParameter.SetupGet(x => x.Name).Returns("object");
-			var readOnlyArray = new ImmutableArray<ITypeParameterSymbol>().Add(mockTypeParameter.Object);
+			var readOnlyArray = ImmutableArray.Create(mockTypeParameter.Object);
 			var mockTypeSymbol = new Mock<INamedTypeSymbol>();
 			mockTypeSymbol.SetupGet(x => x.Name).Returns("TypeName");
 			mockTypeSymbol.SetupGet(x => x.ContainingSymbol).Returns(containingNamespace.Object);
@@ -120,7 +120,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 			var mockTypeParameter = new Mock<ITypeParameterSymbol>();
 			mockTypeParameter.SetupGet(x => x.Name).Returns("object");
-			var readOnlyArray = new ImmutableArray<ITypeParameterSymbol>().Add(mockTypeParameter.Object);
+			var readOnlyArray = ImmutableArray.Create(mockTypeParameter.Object);
 			var mockTypeSymbol = new Mock<INamedTypeSymbol>();
 			mockTypeSymbol.SetupGet(x => x.Name).Returns("TypeName");
 			mockTypeSymbol.SetupGet(x => x.ContainingSymbol).Returns(containingNamespace.Object);

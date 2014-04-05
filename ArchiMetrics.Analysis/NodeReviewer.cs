@@ -72,7 +72,7 @@ namespace ArchiMetrics.Analysis
 			Solution solution)
 		{
 			var tree = await treeTask;
-			var root = (await tree.GetRootAsync()) as SyntaxNode;
+			var root = await tree.GetRootAsync();
 			if (root == null)
 			{
 				return Enumerable.Empty<EvaluationResult>();

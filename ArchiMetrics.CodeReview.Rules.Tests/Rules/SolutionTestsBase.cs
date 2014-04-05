@@ -18,12 +18,17 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 	public abstract class SolutionTestsBase
 	{
-		protected Solution CreateSolution(params string[] code)
+		protected static Solution CreateSolution(params string[] code)
 		{
-			return CreateSolution(Enumerable.Empty<MetadataFileReference>(), code);
+			return CreateSolution(
+				new[]
+				{
+					new MetadataFileReference(typeof(object).Assembly.Location)
+				},
+				code);
 		}
 
-		protected Solution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
+		protected static Solution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
 		{
 			var workspace = new CustomWorkspace(SolutionId.CreateNewId("Analysis"));
 

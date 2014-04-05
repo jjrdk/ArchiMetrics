@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal sealed class LinesOfCodeCalculator
@@ -23,7 +24,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			return innerCalculator.Calculate(node);
 		}
 
-		private class InnerLinesOfCodeCalculator : SyntaxWalker
+		private class InnerLinesOfCodeCalculator : CSharpSyntaxWalker
 		{
 			private int _counter;
 
@@ -42,52 +43,164 @@ namespace ArchiMetrics.Analysis.Metrics
 				return _counter;
 			}
 
-			/// <summary>
-			/// Called when the walker visits a node.  This method may be overridden if subclasses want
-			///             to handle the node.  Overrides should call back into this base method if they want the
-			///             children of this node to be visited.
-			/// </summary>
-			/// <param name="node">The current node that the walker is visiting.</param>
-			public override void Visit(SyntaxNode node)
+			public override void VisitCheckedStatement(CheckedStatementSyntax node)
 			{
-				var statement = node as StatementSyntax;
-				if (statement != null)
+				base.VisitCheckedStatement(node);
+				_counter++;
+			}
+
+			public override void VisitDoStatement(DoStatementSyntax node)
+			{
+				base.VisitDoStatement(node);
+				_counter++;
+			}
+
+			public override void VisitEmptyStatement(EmptyStatementSyntax node)
+			{
+				base.VisitEmptyStatement(node);
+				_counter++;
+			}
+
+			public override void VisitExpressionStatement(ExpressionStatementSyntax node)
+			{
+				base.VisitExpressionStatement(node);
+				_counter++;
+			}
+
+			/// <summary>
+			/// Called when the visitor visits a AccessorDeclarationSyntax node.
+			/// </summary>
+			public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
+			{
+				if (node.Body == null)
 				{
 					_counter++;
 				}
-				else
+
+				base.VisitAccessorDeclaration(node);
+			}
+
+			public override void VisitFixedStatement(FixedStatementSyntax node)
+			{
+				base.VisitFixedStatement(node);
+				_counter++;
+			}
+
+			public override void VisitForEachStatement(ForEachStatementSyntax node)
+			{
+				base.VisitForEachStatement(node);
+				_counter++;
+			}
+
+			public override void VisitForStatement(ForStatementSyntax node)
+			{
+				base.VisitForStatement(node);
+				_counter++;
+			}
+
+			public override void VisitGlobalStatement(GlobalStatementSyntax node)
+			{
+				base.VisitGlobalStatement(node);
+				_counter++;
+			}
+
+			public override void VisitGotoStatement(GotoStatementSyntax node)
+			{
+				base.VisitGotoStatement(node);
+				_counter++;
+			}
+
+			public override void VisitIfStatement(IfStatementSyntax node)
+			{
+				base.VisitIfStatement(node);
+				_counter++;
+			}
+
+			public override void VisitInitializerExpression(InitializerExpressionSyntax node)
+			{
+				base.VisitInitializerExpression(node);
+				_counter += node.Expressions.Count;
+			}
+
+			public override void VisitLabeledStatement(LabeledStatementSyntax node)
+			{
+				base.VisitLabeledStatement(node);
+				_counter++;
+			}
+
+			public override void VisitLocalDeclarationStatement(LocalDeclarationStatementSyntax node)
+			{
+				base.VisitLocalDeclarationStatement(node);
+				if (!node.Modifiers.Any(SyntaxKind.ConstKeyword))
 				{
-					var accessor = node as AccessorDeclarationSyntax;
-					if (accessor != null && accessor.Body == null)
-					{
-						_counter++;
-					}
-					else
-					{
-						var initializer = node as InitializerExpressionSyntax;
-						if (initializer != null)
-						{
-							_counter += initializer.Expressions.Count;
-						}
-						else
-						{
-							var constructor = node as ConstructorDeclarationSyntax;
-							if (constructor != null)
-							{
-								_counter++;
-							}
-							else
-							{
-								var usingDirective = node as UsingDirectiveSyntax;
-								if (usingDirective != null)
-								{
-									_counter++;
-								}
-							}
-						}
-					}
+					_counter++;
 				}
-				base.Visit(node);
+			}
+
+			public override void VisitLockStatement(LockStatementSyntax node)
+			{
+				base.VisitLockStatement(node);
+				_counter++;
+			}
+
+			public override void VisitReturnStatement(ReturnStatementSyntax node)
+			{
+				base.VisitReturnStatement(node);
+				if (node.Expression != null)
+				{
+					_counter++;
+				}
+			}
+
+			public override void VisitSwitchStatement(SwitchStatementSyntax node)
+			{
+				base.VisitSwitchStatement(node);
+				_counter++;
+			}
+
+			public override void VisitThrowStatement(ThrowStatementSyntax node)
+			{
+				base.VisitThrowStatement(node);
+				_counter++;
+			}
+
+			public override void VisitUnsafeStatement(UnsafeStatementSyntax node)
+			{
+				base.VisitUnsafeStatement(node);
+				_counter++;
+			}
+
+			public override void VisitUsingDirective(UsingDirectiveSyntax node)
+			{
+				base.VisitUsingDirective(node);
+				_counter++;
+			}
+
+			public override void VisitUsingStatement(UsingStatementSyntax node)
+			{
+				base.VisitUsingStatement(node);
+				_counter++;
+			}
+
+			/// <summary>
+			/// Called when the visitor visits a ConstructorDeclarationSyntax node.
+			/// </summary>
+			public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+			{
+				base.VisitConstructorDeclaration(node);
+				_counter++;
+			}
+
+			public override void VisitWhileStatement(WhileStatementSyntax node)
+			{
+				base.VisitWhileStatement(node);
+				_counter++;
+			}
+
+			public override void VisitYieldStatement(YieldStatementSyntax node)
+			{
+				base.VisitYieldStatement(node);
+				_counter++;
 			}
 		}
 	}

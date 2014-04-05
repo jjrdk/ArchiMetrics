@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
@@ -43,7 +44,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 			}
 
 			[Test]
-			public void WhenMethodHasHighMaintainabilityThenReturnsNull()
+			public async Task WhenMethodHasHighMaintainabilityThenReturnsNull()
 			{
 				var solution = CreateSolution(HighMaintainability);
 				var classDeclaration = (from p in solution.Projects
@@ -57,7 +58,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 											node = n
 										})
 										.First();
-				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
+				var result = await _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
 
 				Assert.Null(result);
 			}

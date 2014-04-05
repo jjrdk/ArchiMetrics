@@ -53,7 +53,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.Any(t => t.IsEquivalentTo(SyntaxFactory.ParseTypeName("IDisposable"))))
+			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.OfType<IdentifierNameSyntax>().Any(t => t.Identifier.ValueText.Contains("IDisposable"))) // t.IsEquivalentTo(SyntaxFactory.ParseTypeName("IDisposable"))))
 			{
 				var methods = classDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>()
 					.Where(m => m.Identifier.ValueText == "Dispose")

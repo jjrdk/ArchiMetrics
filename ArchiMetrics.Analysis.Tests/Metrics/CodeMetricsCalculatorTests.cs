@@ -56,16 +56,16 @@ namespace SomeNamespace
 			}
 
 			[Test]
-			public void WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
+			public async Task WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
 			{
-				Assert.DoesNotThrow(() =>
+				Assert.DoesNotThrow(async () =>
 									{
 										const string Text = "Hello World";
 
 										var tree = CSharpSyntaxTree.ParseText(Text);
 
-										var metrics = _analyzer.Calculate(new[] { tree });
-										var result = metrics.Result.ToArray();
+										var metrics = await _analyzer.Calculate(new[] { tree });
+										var result = metrics.ToArray();
 									});
 			}
 

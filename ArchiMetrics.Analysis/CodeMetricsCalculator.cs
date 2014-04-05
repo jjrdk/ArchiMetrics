@@ -47,10 +47,12 @@ namespace ArchiMetrics.Analysis
 			var commonCompilation = CSharpCompilation.Create("x", syntaxTrees: trees);
 			var declarations = _syntaxCollector.GetDeclarations(trees);
 			var statementMembers = declarations.Statements.Select(s =>
-				SyntaxFactory.MethodDeclaration(
+				s is StatementSyntax
+				? SyntaxFactory.MethodDeclaration(
 					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
 					Guid.NewGuid().ToString("N"))
-					.WithBody(SyntaxFactory.Block(s)));
+					.WithBody(SyntaxFactory.Block(s as StatementSyntax))
+					: s);
 			var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
 			var anonClass = members.Any()
 								? new[]
@@ -260,10 +262,10 @@ namespace ArchiMetrics.Analysis
 		{
 			var tasks = namespaceDeclarations.Select(
 				async arg =>
-					{
-						var tuple = await CalculateTypeMetrics(compilation, arg, solution);
-						return CalculateNamespaceMetrics(tuple.Item1, arg, tuple.Item2.ToArray());
-					})
+				{
+					var tuple = await CalculateTypeMetrics(compilation, arg, solution);
+					return CalculateNamespaceMetrics(tuple.Item1, arg, tuple.Item2.ToArray());
+				})
 					.ToArray();
 			var x = await Task.WhenAll(tasks);
 			return await Task.WhenAll(x);

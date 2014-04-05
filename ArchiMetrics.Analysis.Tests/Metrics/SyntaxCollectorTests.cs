@@ -13,7 +13,9 @@
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
+	using System.Threading;
 	using ArchiMetrics.Analysis.Metrics;
+	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
@@ -109,7 +111,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			{
 				const string Snippet = @"var x = 1;
 var y = 2;";
-				var tree = CSharpSyntaxTree.ParseText(Snippet);
+				var tree = CSharpSyntaxTree.ParseText(Snippet, options: new CSharpParseOptions(LanguageVersion.CSharp4, kind: SourceCodeKind.Interactive));
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.Statements);

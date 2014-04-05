@@ -24,13 +24,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 
 
-	public sealed class NodeReviewerTests
+	public sealed class NodeReviewerTests : SolutionTestsBase
 	{
 		private NodeReviewerTests()
 		{
 		}
 
-		private static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
+		public static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
@@ -38,21 +38,14 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 		}
 
-		private static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
+		public static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			code = "namespace TestSpace { public class ParseClass { " + code + " } }";
-			using (var workspace = new CustomWorkspace())
-			{
-				workspace.AddSolution(
-					SolutionInfo.Create(
-						SolutionId.CreateNewId("test"),
-						VersionStamp.Default));
-				workspace.CurrentSolution.AddProject("project", "project.dll", LanguageNames.CSharp)
-					.AddDocument("broken.cs", code);
-				var task = inspector.Inspect(workspace.CurrentSolution);
-				return task;
-			}
+
+			var solution = CreateSolution(code);
+			var task = inspector.Inspect(solution);
+			return task;
 		}
 
 		public class GivenANodeReviewerInspectingBrokenCode
@@ -79,7 +72,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 				var result = await PerformInspection(code, evaluatorType);
 
-				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != SyntaxFactory.Token(SyntaxKind.GlobalKeyword).ValueText));
+				Assert.IsTrue(
+					result.All(
+						x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != SyntaxFactory.Token(SyntaxKind.GlobalKeyword)
+																						   .ValueText));
 			}
 		}
 
@@ -98,11 +94,11 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		public class GivenANodeReviewerInspectingNonBrokenCode
 		{
 			[TestCaseSource(typeof(InspectionCodeSource), "WorkingCode")]
-			public void NegativeTest(string code, Type evaluatorType)
+			public async Task NegativeTest(string code, Type evaluatorType)
 			{
-				var task = PerformInspection(code, evaluatorType);
-				task.Wait();
-				Assert.IsEmpty(task.Result);
+				var result = await PerformInspection(code, evaluatorType);
+
+				Assert.IsEmpty(result);
 			}
 		}
 	}
