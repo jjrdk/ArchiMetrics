@@ -98,16 +98,14 @@ namespace MyNamespace
 							SolutionId.CreateNewId("Semantic"),
 							VersionStamp.Default));
 					var x = 1;
-					var project = code.Aggregate(
-						workspace.CurrentSolution.AddProject("testcode", "testcode.dll", LanguageNames.CSharp)
-						.AddMetadataReference(new MetadataFileReference(typeof(object).Assembly.Location)),
-						(proj, c) =>
-						{
-							proj.AddDocument(string.Format("TestClass{0}.cs", x++), c);
-							return proj;
-						});
+					var projectId = ProjectId.CreateNewId("testcode");
+					var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp)
+						.AddMetadataReference(projectId, new MetadataFileReference(typeof(object).Assembly.Location));
+					solution = code.Aggregate(
+						solution,
+						(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projectId), string.Format("TestClass{0}.cs", x++), c));
 
-					return workspace.CurrentSolution;
+					return solution;
 				}
 			}
 		}

@@ -24,17 +24,16 @@ namespace ArchiMetrics.Analysis.Tests
 			var workspace = new CustomWorkspace(SolutionId.CreateNewId("Analysis"));
 
 			var x = 1;
-			var project = code.Aggregate(
-				workspace.CurrentSolution
-					.AddProject("testcode", "testcode.dll", LanguageNames.CSharp),
-				(proj, c) =>
-				{
-					proj.AddDocument(string.Format("TestClass{0}.cs", x++), c);
-					proj.AddMetadataReference(new MetadataFileReference(typeof(object).Assembly.Location));
-					return proj;
-				});
+			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
 
-			return workspace.CurrentSolution;
+			var projId = seed.Projects.First().Id;
+			seed.AddMetadataReference(projId, new MetadataFileReference(typeof(object).Assembly.Location));
+			
+			var solution = code.Aggregate(
+				seed,
+				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), string.Format("TestClass{0}.cs", x++), c));
+
+			return solution;
 		}
 	}
 }
