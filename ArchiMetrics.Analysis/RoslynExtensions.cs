@@ -26,5 +26,15 @@ namespace ArchiMetrics.Analysis
 
 			return GetMethod(node.Parent);
 		}
+
+		public static bool EquivalentTo(this SyntaxNode node1, SyntaxNode node2)
+		{
+			if (node1 == null || node2 == null)
+			{
+				return node1 == null && node2 == null;
+			}
+
+			return node1.RawKind == node2.RawKind && node1.ToFullString().Trim().Equals(node2.ToFullString().Trim());
+		}
 	}
 }

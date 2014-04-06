@@ -6,6 +6,8 @@
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal abstract class UnusedCodeRule : SemanticEvaluationBase
@@ -50,9 +52,9 @@
 		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = semanticModel.GetDeclaredSymbol(node);
-			var callers = await SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None);
+			var callers = await SymbolFinder.FindReferencesAsync(symbol, solution, CancellationToken.None);
 
-			if (!callers.Any())
+			if (!callers.Any(IsNotAssignment))
 			{
 				return new EvaluationResult
 					   {
@@ -61,6 +63,35 @@
 			}
 
 			return null;
+		}
+
+		private bool IsNotAssignment(ReferencedSymbol referencedSymbol)
+		{
+			var locations = referencedSymbol.Locations.ToArray();
+			return locations.Any(x => !x.Location.IsInSource)
+				   || locations.All(x => IsNotAssignment(x.Location));
+		}
+
+		private bool IsNotAssignment(Location location)
+		{
+			var token = location.SourceTree.GetRoot()
+				.FindToken(location.SourceSpan.Start);
+			return GetAssignmentSyntax(token.Parent) == null;
+		}
+
+		private SyntaxNode GetAssignmentSyntax(SyntaxNode node)
+		{
+			if (node == null)
+			{
+				return null;
+			}
+
+			if (node.IsKind(SyntaxKind.EqualsExpression))
+			{
+				return node;
+			}
+
+			return GetAssignmentSyntax(node.Parent);
 		}
 	}
 }

@@ -114,7 +114,7 @@ namespace ArchiMetrics.UI
 			}
 
 			var evaluationTypes = from type in AllRules.GetRules()
-								  where typeof(ICodeEvaluation).IsAssignableFrom(type)
+								  where typeof(IEvaluation).IsAssignableFrom(type)
 								  select type;
 
 			foreach (var type in evaluationTypes)
