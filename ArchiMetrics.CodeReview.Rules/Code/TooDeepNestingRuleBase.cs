@@ -37,7 +37,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return "Too Deep Nesting";
+				return "Too Deep " + NestingMember + " Nesting";
 			}
 		}
 
@@ -72,6 +72,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return ImpactLevel.Member;
 			}
 		}
+
+		protected abstract string NestingMember { get; }
 
 		protected abstract BlockSyntax GetBody(SyntaxNode node);
 

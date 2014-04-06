@@ -23,5 +23,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return SyntaxKind.SetAccessorDeclaration;
 			}
 		}
+
+		protected override string NestingMember
+		{
+			get
+			{
+				return "Property Setter";
+			}
+		}
 	}
 }

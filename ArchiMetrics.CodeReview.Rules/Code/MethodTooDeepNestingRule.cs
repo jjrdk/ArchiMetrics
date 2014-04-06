@@ -26,6 +26,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
+		protected override string NestingMember
+		{
+			get
+			{
+				return "Method";
+			}
+		}
+
 		protected override BlockSyntax GetBody(SyntaxNode node)
 		{
 			var member = (MethodDeclarationSyntax)node;

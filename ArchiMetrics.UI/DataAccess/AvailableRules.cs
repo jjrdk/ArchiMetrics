@@ -125,7 +125,7 @@ namespace ArchiMetrics.UI.DataAccess
 					return _isAvailable;
 				}
 
-				private set
+				set
 				{
 					_isAvailable = value;
 					OnPropertyChanged();
