@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MemberMetricsCalculator.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the MemberMetricsCalculator type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
@@ -122,17 +134,17 @@ namespace ArchiMetrics.Analysis.Metrics
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			return new MemberMetric(
-				filePath,
-				halsteadMetrics,
-				memberMetricKind,
-				lineNumber,
-				linesOfCode,
-				maintainabilityIndex,
-				complexity,
-				syntaxNode.ToFullString(),
-				source.ToArray(),
-				numberOfParameters,
-				numberOfLocalVariables,
+				filePath, 
+				halsteadMetrics, 
+				memberMetricKind, 
+				lineNumber, 
+				linesOfCode, 
+				maintainabilityIndex, 
+				complexity, 
+				syntaxNode.ToFullString(), 
+				source.ToArray(), 
+				numberOfParameters, 
+				numberOfLocalVariables, 
 				afferentCoupling);
 		}
 

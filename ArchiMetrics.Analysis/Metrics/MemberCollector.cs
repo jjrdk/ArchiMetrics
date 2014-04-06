@@ -69,7 +69,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void AddAccessorNode(SyntaxNode node, AccessorListSyntax accessorList, SyntaxKind filter)
 		{
-			if (accessorList.Accessors.Any(x => (x.IsKind(filter))))
+			if (accessorList.Accessors.Any(x => x.IsKind(filter)))
 			{
 				_members.Add(node);
 			}

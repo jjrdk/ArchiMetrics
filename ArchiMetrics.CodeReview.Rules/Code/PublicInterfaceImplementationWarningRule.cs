@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PublicInterfaceImplementationWarningRule.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the PublicInterfaceImplementationWarningRule type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System;
@@ -65,7 +77,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var classDeclaration = (ClassDeclarationSyntax)node;
 			if (classDeclaration.BaseList != null && (classDeclaration.BaseList.Types.Any(SyntaxKind.IdentifierName) || classDeclaration.BaseList.Types.Any(SyntaxKind.GenericName)))
 			{
-				var s = classDeclaration.BaseList.Types.First(x => x.IsKind(SyntaxKind.IdentifierName) || x.IsKind (SyntaxKind.GenericName));
+				var s = classDeclaration.BaseList.Types.First(x => x.IsKind(SyntaxKind.IdentifierName) || x.IsKind(SyntaxKind.GenericName));
 				if (((SimpleNameSyntax)s).Identifier.ValueText.StartsWith("I")
 					&& classDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword))
 				{

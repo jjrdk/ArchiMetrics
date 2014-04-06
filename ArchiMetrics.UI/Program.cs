@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the Program type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI
 {
 	using System;
@@ -28,7 +40,7 @@ namespace ArchiMetrics.UI
 		private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
 		{
 			return KnownAssemblies.GetOrAdd(
-				args.Name,
+				args.Name, 
 				name =>
 				{
 					var assemblyName = new AssemblyName(name);

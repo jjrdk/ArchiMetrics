@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="KnownPatterns.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the KnownPatterns type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI
 {
 	using System.Collections;
@@ -16,6 +28,8 @@ namespace ArchiMetrics.UI
 		{
 			((IKnownPatterns)this).Add("Microsoft", @"^\d\.\d\.\d{1,5}\.\d$", @"Runtime");
 		}
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		/// <summary>
 		/// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
@@ -99,8 +113,8 @@ namespace ArchiMetrics.UI
 			if (result)
 			{
 				var args = new NotifyCollectionChangedEventArgs(
-					NotifyCollectionChangedAction.Remove,
-					item,
+					NotifyCollectionChangedAction.Remove, 
+					item, 
 					index);
 				OnCollectionChanged(args);
 			}
@@ -155,8 +169,6 @@ namespace ArchiMetrics.UI
 			Clear();
 		}
 
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
-
 		private void AddMany(IEnumerable<Regex> items)
 		{
 			var list = items.ToList();
@@ -166,7 +178,7 @@ namespace ArchiMetrics.UI
 			}
 
 			var args = new NotifyCollectionChangedEventArgs(
-				NotifyCollectionChangedAction.Add,
+				NotifyCollectionChangedAction.Add, 
 				list);
 			OnCollectionChanged(args);
 		}

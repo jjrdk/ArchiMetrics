@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GraphViewModel.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the GraphViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
@@ -21,9 +33,9 @@ namespace ArchiMetrics.UI.ViewModel
 		private CancellationTokenSource _tokenSource;
 
 		public GraphViewModel(
-			IVertexRepository repository,
-			ISyntaxTransformer filter,
-			IProvider<string, ObservableCollection<TransformRule>> rulesProvider,
+			IVertexRepository repository, 
+			ISyntaxTransformer filter, 
+			IProvider<string, ObservableCollection<TransformRule>> rulesProvider, 
 			IAppContext config)
 			: base(config)
 		{

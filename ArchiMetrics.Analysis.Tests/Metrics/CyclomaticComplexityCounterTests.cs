@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CyclomaticComplexityCounterTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CyclomaticComplexityCounterTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System;
@@ -7,7 +19,6 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using metrics;
 	using NUnit.Framework;
 	using m = metrics;
 
@@ -109,9 +120,9 @@ namespace MyNs
 			{
 				var tree = CSharpSyntaxTree.ParseText(method);
 				var compilation = CSharpCompilation.Create(
-					"x",
-					syntaxTrees: new[] { tree },
-					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
+					"x", 
+					syntaxTrees: new[] { tree }, 
+					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) }, 
 					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
 				var model = compilation.GetSemanticModel(tree);
@@ -122,10 +133,10 @@ namespace MyNs
 					.First();
 
 				var timer = m.Metrics.Timer(
-					typeof(ProjectMetricTests),
-					"TestTimer",
-					TimeUnit.Milliseconds,
-					TimeUnit.Microseconds);
+					typeof(ProjectMetricTests), 
+					"TestTimer", 
+					m.TimeUnit.Milliseconds, 
+					m.TimeUnit.Microseconds);
 
 				var result = timer.Time(() => _counter.Calculate(syntaxNode, model));
 
@@ -150,9 +161,9 @@ namespace MyNs
 			{
 				var tree = CSharpSyntaxTree.ParseText(code);
 				var compilation = CSharpCompilation.Create(
-					"x",
-					syntaxTrees: new[] { tree },
-					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) },
+					"x", 
+					syntaxTrees: new[] { tree }, 
+					references: new[] { new MetadataFileReference(typeof(object).Assembly.Location), new MetadataFileReference(typeof(Task).Assembly.Location) }, 
 					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
 				var model = compilation.GetSemanticModel(tree);

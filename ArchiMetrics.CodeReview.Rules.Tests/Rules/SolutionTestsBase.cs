@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SolutionTestsBase.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SolutionTestsBase type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -12,7 +24,7 @@
 				new[]
 				{
 					new MetadataFileReference(typeof(object).Assembly.Location)
-				},
+				}, 
 				code);
 		}
 
@@ -26,11 +38,11 @@
 			var projId = seed.Projects.First().Id;
 
 			var solution = references.Aggregate(
-				seed,
+				seed, 
 				(sol, r) => seed.AddMetadataReference(projId, r));
 
 			solution = code.Aggregate(
-				solution,
+				solution, 
 				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), string.Format("TestClass{0}.cs", x++), c));
 
 			return solution;

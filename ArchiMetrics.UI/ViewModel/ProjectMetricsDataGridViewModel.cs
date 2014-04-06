@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.UI.ViewModel
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ProjectMetricsDataGridViewModel.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ProjectMetricsDataGridViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -16,7 +28,7 @@
 		private IList<IProjectMetric> _projectMetrics = new List<IProjectMetric>();
 
 		public ProjectMetricsDataGridViewModel(
-			IProjectMetricsRepository metricsRepository,
+			IProjectMetricsRepository metricsRepository, 
 			IAppContext config)
 			: base(config)
 		{

@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Analysis.Tests.CodeReview
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NodeInspectorTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the NodeInspectorTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests.CodeReview
 {
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
@@ -32,13 +44,13 @@
 			public async Task WhenEvaluatingCodeThenCallsCodeEvaluation()
 			{
 				var classDeclaration = SyntaxFactory.ClassDeclaration(
-					SyntaxFactory.List<AttributeListSyntax>(),
-					SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
-					SyntaxFactory.Identifier("MyClass"),
-					SyntaxFactory.TypeParameterList(),
-					SyntaxFactory.ParameterList(),
-					SyntaxFactory.BaseList(),
-					SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
+					SyntaxFactory.List<AttributeListSyntax>(), 
+					SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)), 
+					SyntaxFactory.Identifier("MyClass"), 
+					SyntaxFactory.TypeParameterList(), 
+					SyntaxFactory.ParameterList(), 
+					SyntaxFactory.BaseList(), 
+					SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(), 
 					SyntaxFactory.List<MemberDeclarationSyntax>());
 				await _reviewer.Inspect("name", string.Empty, classDeclaration, null, null);
 

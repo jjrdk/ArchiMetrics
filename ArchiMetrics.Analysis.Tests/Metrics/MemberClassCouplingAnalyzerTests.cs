@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Analysis.Tests.Metrics
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MemberClassCouplingAnalyzerTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the MemberClassCouplingAnalyzerTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -80,14 +92,14 @@ namespace MyNamespace
 				{
 					workspace.AddSolution(
 						SolutionInfo.Create(
-							SolutionId.CreateNewId("Semantic"),
+							SolutionId.CreateNewId("Semantic"), 
 							VersionStamp.Default));
 					var x = 1;
 					var projectId = ProjectId.CreateNewId("testcode");
 					var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp)
 						.AddMetadataReference(projectId, new MetadataFileReference(typeof(object).Assembly.Location));
 					solution = code.Aggregate(
-						solution,
+						solution, 
 						(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projectId), string.Format("TestClass{0}.cs", x++), c));
 
 					return solution;

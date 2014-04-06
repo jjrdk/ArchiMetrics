@@ -16,7 +16,6 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Linq;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal static class TypeExtensions

@@ -16,11 +16,9 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using SyntaxFactory = Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-	using SyntaxKind = Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 	internal sealed class MemberNameResolver
 	{
@@ -197,7 +195,7 @@ namespace ArchiMetrics.Analysis.Metrics
 								b.Append(" ");
 							}
 
-							var symbol = _semanticModel.GetSymbolInfo(x.Type).Symbol as ITypeSymbol;
+							var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, x.Type).Symbol as ITypeSymbol;
 							if (symbol == null)
 							{
 								return "?";
@@ -223,7 +221,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void AppendParameters(EventDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append("(");
-			var symbol = _semanticModel.GetSymbolInfo(syntax.Type).Symbol as ITypeSymbol;
+			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
 			if (symbol != null)
 			{
 				var typeName = ResolveTypeName(symbol);
@@ -236,7 +234,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void AppendParameters(BasePropertyDeclarationSyntax syntax, StringBuilder builder)
 		{
 			builder.Append("(");
-			var symbol = _semanticModel.GetSymbolInfo(syntax.Type).Symbol as ITypeSymbol;
+			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
 			if (symbol != null)
 			{
 				var typeName = ResolveTypeName(symbol);
@@ -248,7 +246,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void AppendReturnType(MethodDeclarationSyntax syntax, StringBuilder builder)
 		{
-			var symbolInfo = _semanticModel.GetSymbolInfo(syntax.ReturnType);
+			var symbolInfo = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.ReturnType);
 			var symbol = symbolInfo.Symbol as ITypeSymbol;
 			if (symbol != null)
 			{
@@ -259,7 +257,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void AppendReturnType(BasePropertyDeclarationSyntax syntax, StringBuilder builder)
 		{
-			var symbol = _semanticModel.GetSymbolInfo(syntax.Type).Symbol as ITypeSymbol;
+			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
 			if (symbol != null)
 			{
 				var typeName = ResolveTypeName(symbol);

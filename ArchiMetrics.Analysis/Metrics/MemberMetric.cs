@@ -30,7 +30,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			string name, 
 			IEnumerable<ITypeCoupling> classCouplings, 
 			int numberOfParameters, 
-			int numberOfLocalVariables,
+			int numberOfLocalVariables, 
 			int afferentCoupling)
 		{
 			_halstead = halstead;

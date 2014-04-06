@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SettingsViewModel.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SettingsViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -25,11 +37,11 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IEnumerable<IResetable> _resetables;
 
 		public SettingsViewModel(
-			IAvailableRules availableRules,
-			ICollection<Regex> knownPatterns,
-			IKnownPatterns patterns,
-			IAppContext config,
-			IEnumerable<IResetable> resetables,
+			IAvailableRules availableRules, 
+			ICollection<Regex> knownPatterns, 
+			IKnownPatterns patterns, 
+			IAppContext config, 
+			IEnumerable<IResetable> resetables, 
 			EventAggregator eventAggregator)
 			: base(config)
 		{
@@ -48,7 +60,7 @@ namespace ArchiMetrics.UI.ViewModel
 				.Subscribe(RaisePropertyChanged);
 			_newPatternSubscription = Observable
 				.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-					h => ((INotifyCollectionChanged)KnownPatterns).CollectionChanged += h,
+					h => ((INotifyCollectionChanged)KnownPatterns).CollectionChanged += h, 
 					h => ((INotifyCollectionChanged)KnownPatterns).CollectionChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(3))
 				.Subscribe(ResetData);

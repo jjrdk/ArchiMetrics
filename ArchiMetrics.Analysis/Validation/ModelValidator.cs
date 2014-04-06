@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ModelValidator.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ModelValidator type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Validation
 {
 	using System.Collections.Generic;
@@ -13,7 +25,7 @@ namespace ArchiMetrics.Analysis.Validation
 		private readonly ISyntaxTransformer _syntaxTransformer;
 
 		public ModelValidator(
-			ISyntaxTransformer syntaxTransformer,
+			ISyntaxTransformer syntaxTransformer, 
 			IVertexRepository repository)
 		{
 			_syntaxTransformer = syntaxTransformer;

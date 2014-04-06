@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.UI.Support
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ObservableProxyCollection.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ObservableProxyCollection type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.UI.Support
 {
 	using System.Collections;
 	using System.Collections.Generic;
@@ -12,6 +24,8 @@
 		{
 			_innerList = innerList;
 		}
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		/// <summary>
 		/// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
@@ -197,8 +211,6 @@
 				index);
 			OnCollectionChanged(args);
 		}
-
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
 		{

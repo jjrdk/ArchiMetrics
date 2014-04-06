@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NodeReviewer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the NodeReviewer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis
 {
 	using System;
@@ -53,10 +65,10 @@ namespace ArchiMetrics.Analysis
 		}
 
 		private async Task<IEnumerable<EvaluationResult>> GetInspections(
-			string filePath,
-			string projectName,
-			Task<SyntaxTree> treeTask,
-			Task<Compilation> compilationTask,
+			string filePath, 
+			string projectName, 
+			Task<SyntaxTree> treeTask, 
+			Task<Compilation> compilationTask, 
 			Solution solution)
 		{
 			var tree = await treeTask;
@@ -136,10 +148,10 @@ namespace ArchiMetrics.Analysis
 								{
 									return new EvaluationResult
 											   {
-												   Title = ex.Message,
-												   Suggestion = ex.StackTrace,
-												   ErrorCount = 1,
-												   Snippet = trivia.ToFullString(),
+												   Title = ex.Message, 
+												   Suggestion = ex.StackTrace, 
+												   ErrorCount = 1, 
+												   Snippet = trivia.ToFullString(), 
 												   Quality = CodeQuality.Broken
 											   };
 								}
@@ -163,10 +175,10 @@ namespace ArchiMetrics.Analysis
 						{
 							return new EvaluationResult
 							{
-								Title = ex.Message,
-								Suggestion = ex.StackTrace,
-								ErrorCount = 1,
-								Snippet = node.ToFullString(),
+								Title = ex.Message, 
+								Suggestion = ex.StackTrace, 
+								ErrorCount = 1, 
+								Snippet = node.ToFullString(), 
 								Quality = CodeQuality.Broken
 							};
 						}
@@ -194,10 +206,10 @@ namespace ArchiMetrics.Analysis
 							{
 								return new EvaluationResult
 										   {
-											   Title = ex.Message,
-											   Suggestion = ex.StackTrace,
-											   ErrorCount = 1,
-											   Snippet = node.ToFullString(),
+											   Title = ex.Message, 
+											   Suggestion = ex.StackTrace, 
+											   ErrorCount = 1, 
+											   Snippet = node.ToFullString(), 
 											   Quality = CodeQuality.Broken
 										   };
 							}

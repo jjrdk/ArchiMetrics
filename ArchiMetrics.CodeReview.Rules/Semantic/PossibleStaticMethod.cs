@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Rules.Semantic
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PossibleStaticMethod.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the PossibleStaticMethod type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
@@ -58,8 +70,8 @@
 		}
 
 		protected override Task<EvaluationResult> EvaluateImpl(
-			SyntaxNode node,
-			SemanticModel semanticModel,
+			SyntaxNode node, 
+			SemanticModel semanticModel, 
 			Solution solution)
 		{
 			var method = (MethodDeclarationSyntax)node;

@@ -1,10 +1,21 @@
-﻿namespace ArchiMetrics.CodeReview.Semantic
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ClassInstabilityRule.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ClassInstabilityRule type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
@@ -82,9 +93,9 @@
 			{
 				return new EvaluationResult
 						   {
-							   ImpactLevel = ImpactLevel.Project,
-							   Quality = CodeQuality.NeedsReview,
-							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Conformance,
+							   ImpactLevel = ImpactLevel.Project, 
+							   Quality = CodeQuality.NeedsReview, 
+							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Conformance, 
 							   Snippet = node.ToFullString()
 						   };
 			}

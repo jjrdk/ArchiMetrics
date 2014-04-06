@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.Metrics;

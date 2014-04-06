@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NodeMerger.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the NodeMerger type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Generic;
@@ -13,12 +25,12 @@ namespace ArchiMetrics.Analysis.Model
 				.Select(
 					x =>
 					new ModelNode(
-						x.First().DisplayName,
-						x.Key.Type,
-						x.Select(y => y.Quality).GetQuality(),
-						x.Max(y => y.LinesOfCode),
-						x.Min(y => y.MaintainabilityIndex),
-						x.Max(y => y.CyclomaticComplexity),
+						x.First().DisplayName, 
+						x.Key.Type, 
+						x.Select(y => y.Quality).GetQuality(), 
+						x.Max(y => y.LinesOfCode), 
+						x.Min(y => y.MaintainabilityIndex), 
+						x.Max(y => y.CyclomaticComplexity), 
 						x.SelectMany(y => y.Children).Merge().ToList()));
 		}
 

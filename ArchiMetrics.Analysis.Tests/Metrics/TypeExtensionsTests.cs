@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Analysis.Tests.Metrics
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeExtensionsTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the TypeExtensionsTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Collections.Immutable;
 	using System.Linq;
@@ -20,17 +32,17 @@
 			var innerType = SyntaxFactory.TypeDeclaration(SyntaxKind.ClassDeclaration, SyntaxFactory.Identifier(InnerName));
 
 			var declaration = SyntaxFactory.TypeDeclaration(
-				SyntaxKind.ClassDeclaration,
-				SyntaxFactory.List<AttributeListSyntax>(),
-				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
-				SyntaxFactory.Token(SyntaxKind.ClassKeyword),
-				SyntaxFactory.Identifier(ContainerName),
-				SyntaxFactory.TypeParameterList(),
-				SyntaxFactory.BaseList(),
-				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
-				SyntaxFactory.Token(SyntaxKind.OpenBraceToken),
-				SyntaxFactory.List<MemberDeclarationSyntax>(new[] { innerType }),
-				SyntaxFactory.Token(SyntaxKind.CloseBraceToken),
+				SyntaxKind.ClassDeclaration, 
+				SyntaxFactory.List<AttributeListSyntax>(), 
+				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)), 
+				SyntaxFactory.Token(SyntaxKind.ClassKeyword), 
+				SyntaxFactory.Identifier(ContainerName), 
+				SyntaxFactory.TypeParameterList(), 
+				SyntaxFactory.BaseList(), 
+				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(), 
+				SyntaxFactory.Token(SyntaxKind.OpenBraceToken), 
+				SyntaxFactory.List<MemberDeclarationSyntax>(new[] { innerType }), 
+				SyntaxFactory.Token(SyntaxKind.CloseBraceToken), 
 				SyntaxFactory.Token(SyntaxKind.SemicolonToken));
 
 			var actualName = declaration.DescendantNodes().OfType<TypeDeclarationSyntax>().First().GetName();
@@ -45,17 +57,17 @@
 
 			var clause = SyntaxFactory.TypeParameter("object");
 			var declaration = SyntaxFactory.TypeDeclaration(
-				SyntaxKind.ClassDeclaration,
-				SyntaxFactory.List<AttributeListSyntax>(),
-				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)),
-				SyntaxFactory.Token(SyntaxKind.ClassKeyword),
-				SyntaxFactory.Identifier(ContainerName),
-				SyntaxFactory.TypeParameterList(SyntaxFactory.SeparatedList(new[] { clause })),
-				SyntaxFactory.BaseList(),
-				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(),
-				SyntaxFactory.Token(SyntaxKind.OpenBraceToken),
-				SyntaxFactory.List<MemberDeclarationSyntax>(),
-				SyntaxFactory.Token(SyntaxKind.CloseBraceToken),
+				SyntaxKind.ClassDeclaration, 
+				SyntaxFactory.List<AttributeListSyntax>(), 
+				SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)), 
+				SyntaxFactory.Token(SyntaxKind.ClassKeyword), 
+				SyntaxFactory.Identifier(ContainerName), 
+				SyntaxFactory.TypeParameterList(SyntaxFactory.SeparatedList(new[] { clause })), 
+				SyntaxFactory.BaseList(), 
+				SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(), 
+				SyntaxFactory.Token(SyntaxKind.OpenBraceToken), 
+				SyntaxFactory.List<MemberDeclarationSyntax>(), 
+				SyntaxFactory.Token(SyntaxKind.CloseBraceToken), 
 				SyntaxFactory.Token(SyntaxKind.SemicolonToken));
 
 			var actualName = declaration.GetName();

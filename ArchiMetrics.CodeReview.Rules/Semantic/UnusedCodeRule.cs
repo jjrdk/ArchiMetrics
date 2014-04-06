@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Rules.Semantic
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UnusedCodeRule.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the UnusedCodeRule type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
 	using System.Threading;
@@ -7,7 +19,6 @@
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
-	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal abstract class UnusedCodeRule : SemanticEvaluationBase
