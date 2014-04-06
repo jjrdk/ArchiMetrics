@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the App type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI
 {
 	using System;
@@ -35,13 +23,12 @@ namespace ArchiMetrics.UI
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.DataAccess;
 	using ArchiMetrics.UI.Support;
+	using ArchiMetrics.UI.Support.Messages;
 	using ArchiMetrics.UI.ViewModel;
 	using Autofac;
 	using Ionic.Zip;
 	using Microsoft.CodeAnalysis;
 	using NHunspell;
-	
-	using Support.Messages;
 
 	public partial class App : Application
 	{

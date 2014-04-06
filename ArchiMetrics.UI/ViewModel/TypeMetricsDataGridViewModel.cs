@@ -1,16 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeMetricsDataGridViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the TypeMetricsDataGridViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.UI.ViewModel
+﻿namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -19,13 +7,13 @@ namespace ArchiMetrics.UI.ViewModel
 
 	internal class TypeMetricsDataGridViewModel : ViewModelBase
 	{
-		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly IAppContext _config;
-		private int _typeCyclomaticComplexity;
+		private readonly IProjectMetricsRepository _metricsRepository;
 		private int _depthOfInheritance;
+		private int _linesOfCode;
+		private int _typeCyclomaticComplexity;
 		private double _typeMaintainabilityIndex;
 		private IList<ITypeMetric> _typeMetrics;
-		private int _linesOfCode;
 
 		public TypeMetricsDataGridViewModel(
 			IProjectMetricsRepository metricsRepository,

@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetricsChartViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the MetricsChartViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -17,19 +5,17 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
-	
 
 	internal class MetricsChartViewModel : ViewModelBase
 	{
-		private readonly IProjectMetricsRepository _repository;
 		private readonly IAppContext _config;
-		private CancellationTokenSource _tokenSource;
+		private readonly IProjectMetricsRepository _repository;
 		private IList<KeyValuePair<string, double>> _errorsByComplexity;
-		private IList<KeyValuePair<string, double>> _errorsByMaintainability;
 		private IList<KeyValuePair<string, double>> _errorsByLinesOfCode;
+		private IList<KeyValuePair<string, double>> _errorsByMaintainability;
+		private CancellationTokenSource _tokenSource;
 
 		public MetricsChartViewModel(
 			IProjectMetricsRepository repository,

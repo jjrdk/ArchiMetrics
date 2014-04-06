@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NamespaceMetricsDataGridViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the NamespaceMetricsDataGridViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
@@ -19,12 +7,12 @@ namespace ArchiMetrics.UI.ViewModel
 
 	internal class NamespaceMetricsDataGridViewModel : ViewModelBase
 	{
-		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly IAppContext _config;
-		private int _namespaceCyclomaticComplexity;
-		private int _maxDepthOfInheritance;
-		private double _namespaceMaintainabilityIndex;
+		private readonly IProjectMetricsRepository _metricsRepository;
 		private int _linesOfCode;
+		private int _maxDepthOfInheritance;
+		private int _namespaceCyclomaticComplexity;
+		private double _namespaceMaintainabilityIndex;
 		private IList<INamespaceMetric> _namespaceMetrics = new List<INamespaceMetric>();
 
 		public NamespaceMetricsDataGridViewModel(

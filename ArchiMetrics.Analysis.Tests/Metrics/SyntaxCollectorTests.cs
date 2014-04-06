@@ -1,25 +1,11 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SyntaxCollectorTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the SyntaxCollectorTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
-	using System.Threading;
 	using ArchiMetrics.Analysis.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	
 
 	public sealed class SyntaxCollectorTests
 	{

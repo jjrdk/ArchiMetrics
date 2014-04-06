@@ -1,23 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TooLowMaintainabilityIndexRuleTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the TooLowMaintainabilityIndexRuleTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
+﻿namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	
 
 	public sealed class TooLowMaintainabilityIndexRuleTests
 	{

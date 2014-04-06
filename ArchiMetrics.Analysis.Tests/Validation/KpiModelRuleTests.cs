@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="KpiModelRuleTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the KpiModelRuleTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Validation
 {
 	using System.Linq;
@@ -28,24 +16,6 @@ namespace ArchiMetrics.Analysis.Tests.Validation
 		[TestFixture]
 		public class GivenAKpiModelRule
 		{
-			[Test]
-			public async Task WhenTreeContainsUnmaintainableNodeThenIsNotPassed()
-			{
-				var rule = new KpiModelRule();
-				var tree = new ModelNode(
-					"tree",
-					NodeKind.Namespace,
-					CodeQuality.Good,
-					50,
-					30,
-					30,
-					new[] { new ModelNode("class", NodeKind.Class, CodeQuality.Good, 10, 20, 1) });
-
-				var result = await rule.Validate(tree);
-
-				Assert.AreEqual(1, result.Count());
-			}
-
 			[Test]
 			public async Task WhenTreeContainsComplexNodeThenIsNotPassed()
 			{
@@ -76,6 +46,24 @@ namespace ArchiMetrics.Analysis.Tests.Validation
 					30,
 					30,
 					new[] { new ModelNode("class", NodeKind.Class, CodeQuality.Good, 100, 90, 10) });
+
+				var result = await rule.Validate(tree);
+
+				Assert.AreEqual(1, result.Count());
+			}
+
+			[Test]
+			public async Task WhenTreeContainsUnmaintainableNodeThenIsNotPassed()
+			{
+				var rule = new KpiModelRule();
+				var tree = new ModelNode(
+					"tree",
+					NodeKind.Namespace,
+					CodeQuality.Good,
+					50,
+					30,
+					30,
+					new[] { new ModelNode("class", NodeKind.Class, CodeQuality.Good, 10, 20, 1) });
 
 				var result = await rule.Validate(tree);
 

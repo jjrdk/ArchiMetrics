@@ -1,31 +1,18 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProjectMetricsDataGridViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the ProjectMetricsDataGridViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.UI.ViewModel
+﻿namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 
 	internal class ProjectMetricsDataGridViewModel : ViewModelBase
 	{
-		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly IAppContext _config;
-		private int _projectCyclomaticComplexity;
-		private int _maxDepthOfInheritance;
-		private double _projectMaintainabilityIndex;
+		private readonly IProjectMetricsRepository _metricsRepository;
 		private int _linesOfCode;
+		private int _maxDepthOfInheritance;
+		private int _projectCyclomaticComplexity;
+		private double _projectMaintainabilityIndex;
 		private IList<IProjectMetric> _projectMetrics = new List<IProjectMetric>();
 
 		public ProjectMetricsDataGridViewModel(

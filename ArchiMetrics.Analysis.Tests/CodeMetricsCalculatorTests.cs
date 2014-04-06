@@ -1,21 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeMetricsCalculatorTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CodeMetricsCalculatorTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.Analysis.Tests
+﻿namespace ArchiMetrics.Analysis.Tests
 {
-	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-	
 
 	public sealed class CodeMetricsCalculatorTests
 	{

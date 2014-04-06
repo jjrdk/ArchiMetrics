@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeMetricsCalculatorTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CodeMetricsCalculatorTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.IO;
@@ -19,8 +7,6 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
-	
-	
 
 	public sealed class CodeMetricsCalculatorTests
 	{
@@ -56,15 +42,15 @@ namespace SomeNamespace
 			}
 
 			[Test]
-			public async Task WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
+			public void WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
 			{
-				Assert.DoesNotThrow(async () =>
+				Assert.DoesNotThrow(() =>
 									{
 										const string Text = "Hello World";
 
 										var tree = CSharpSyntaxTree.ParseText(Text);
 
-										var metrics = await _analyzer.Calculate(new[] { tree });
+										var metrics = _analyzer.Calculate(new[] { tree }).Result;
 										var result = metrics.ToArray();
 									});
 			}

@@ -1,22 +1,9 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VertexViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the VertexViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using System.Linq;
 	using System.Threading;
-	using System.Windows.Data;
 	using System.Windows.Input;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
@@ -24,11 +11,10 @@ namespace ArchiMetrics.UI.ViewModel
 
 	internal class VertexViewModel : VertexViewModelBase
 	{
+		private readonly IAppContext _config;
 		private readonly IAsyncFactory<IEnumerable<IModelNode>, IEnumerable<ModelEdgeItem>> _edgeFactory;
 		private readonly IProvider<string, ObservableCollection<TransformRule>> _transformRulesProvider;
-		private readonly object _syncLock = new object();
 		private readonly DelegateCommand _updateCommand;
-		private readonly IAppContext _config;
 		private ObservableCollection<ModelEdgeItem> _edgeItems;
 
 		public VertexViewModel(

@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GraphViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the GraphViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
@@ -23,10 +11,10 @@ namespace ArchiMetrics.UI.ViewModel
 
 	internal class GraphViewModel : ViewModelBase
 	{
-		private readonly ISyntaxTransformer _filter;
-		private readonly IProvider<string, ObservableCollection<TransformRule>> _rulesProvider;
 		private readonly IAppContext _config;
+		private readonly ISyntaxTransformer _filter;
 		private readonly IVertexRepository _repository;
+		private readonly IProvider<string, ObservableCollection<TransformRule>> _rulesProvider;
 		private readonly DelegateCommand _updateCommand;
 		private IModelNode[] _allMetricsEdges;
 		private ModelGraph _graphToVisualize;

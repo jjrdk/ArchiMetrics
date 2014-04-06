@@ -22,18 +22,16 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal sealed class MemberCollector : CSharpSyntaxWalker
 	{
 		private readonly List<SyntaxNode> _members;
-		private readonly SyntaxNode _root;
 
-		public MemberCollector(SyntaxNode root)
+		public MemberCollector()
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_members = new List<SyntaxNode>();
-			_root = root;
 		}
 
 		public IEnumerable<SyntaxNode> GetMembers(TypeDeclarationSyntaxInfo type)
 		{
-			Visit((SyntaxNode)type.Syntax);
+			Visit(type.Syntax);
 			return _members.ToList();
 		}
 

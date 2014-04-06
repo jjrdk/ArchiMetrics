@@ -1,16 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ModelNode.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the ModelNode type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.Common.Structure
+﻿namespace ArchiMetrics.Common.Structure
 {
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.CodeReview;
@@ -64,43 +52,10 @@ namespace ArchiMetrics.Common.Structure
 			}
 		}
 
-		public static bool operator ==(ModelNode first, ModelNode second)
-		{
-			return first != null && first.Equals(second);
-		}
-
-		public static bool operator !=(ModelNode first, ModelNode second)
-		{
-			return first == null || !first.Equals(second);
-		}
-
 		public virtual void SetParent(IModelNode parent)
 		{
 			Parent = parent;
 			QualifiedName = GetQualifiedName();
-		}
-
-		/// <summary>
-		/// Serves as a hash function for a particular type. 
-		/// </summary>
-		/// <returns>
-		/// A hash code for the current <see cref="T:System.Object"/>.
-		/// </returns>
-		public override int GetHashCode()
-		{
-			return DisplayName.GetHashCode();
-		}
-
-		/// <summary>
-		/// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-		/// </summary>
-		/// <returns>
-		/// <code>true</code> if the specified object  is equal to the current object; otherwise, false.
-		/// </returns>
-		/// <param name="obj">The object to compare with the current object. </param>
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as IModelNode);
 		}
 
 		/// <summary>
@@ -140,6 +95,39 @@ namespace ArchiMetrics.Common.Structure
 			{
 				child.SetParent(null);
 			}
+		}
+
+		public static bool operator ==(ModelNode first, ModelNode second)
+		{
+			return first != null && first.Equals(second);
+		}
+
+		public static bool operator !=(ModelNode first, ModelNode second)
+		{
+			return first == null || !first.Equals(second);
+		}
+
+		/// <summary>
+		/// Serves as a hash function for a particular type. 
+		/// </summary>
+		/// <returns>
+		/// A hash code for the current <see cref="T:System.Object"/>.
+		/// </returns>
+		public override int GetHashCode()
+		{
+			return DisplayName.GetHashCode();
+		}
+
+		/// <summary>
+		/// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+		/// </summary>
+		/// <returns>
+		/// <code>true</code> if the specified object  is equal to the current object; otherwise, false.
+		/// </returns>
+		/// <param name="obj">The object to compare with the current object. </param>
+		public override bool Equals(object obj)
+		{
+			return Equals(obj as IModelNode);
 		}
 
 		/// <summary>

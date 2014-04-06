@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SolutionProvider.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the SolutionProvider type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Common
 {
 	using System;
@@ -17,7 +5,6 @@ namespace ArchiMetrics.Common
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
-	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.MSBuild;
 
@@ -54,20 +41,20 @@ namespace ArchiMetrics.Common
 			return solution;
 		}
 
-		public IEnumerable<Solution> GetAll(string key)
-		{
-			return string.IsNullOrWhiteSpace(key)
-				? Enumerable.Empty<Solution>()
-				: (from file in Directory.GetFiles(key, "*.sln", SearchOption.AllDirectories)
-				   let s = Get(file)
-				   where s != null
-				   select s);
-		}
-
 		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		public IEnumerable<Solution> GetAll(string key)
+		{
+			return string.IsNullOrWhiteSpace(key)
+					   ? Enumerable.Empty<Solution>()
+					   : (from file in Directory.GetFiles(key, "*.sln", SearchOption.AllDirectories)
+						  let s = Get(file)
+						  where s != null
+						  select s);
 		}
 
 		protected virtual void Dispose(bool isDisposing)

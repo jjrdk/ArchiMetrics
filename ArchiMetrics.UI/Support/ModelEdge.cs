@@ -1,19 +1,7 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ModelEdge.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the ModelEdge type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.Support
 {
 	using System;
-	using Common.Structure;
+	using ArchiMetrics.Common.Structure;
 	using QuickGraph;
 
 	public class ModelEdge : Edge<IModelNode>, IEquatable<ModelEdge>
