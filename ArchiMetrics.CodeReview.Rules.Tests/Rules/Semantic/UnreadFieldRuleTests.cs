@@ -55,7 +55,7 @@ new object();
 		}
 	}
 }")]
-			public void WhenFieldIsNeverReadThenReturnsError(string code)
+			public async Task WhenFieldIsNeverReadThenReturnsError(string code)
 			{
 				var solution = CreateSolution(code);
 				var classDeclaration = (from p in solution.Projects
@@ -68,7 +68,7 @@ new object();
 											semanticModel = model,
 											node = n
 										}).First();
-				var result = _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
+				var result = await _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
 
 				Assert.NotNull(result);
 			}
@@ -97,6 +97,19 @@ new object();
 		public object Get()
 		{
 			return _field;
+		}
+	}
+}")]
+			[TestCase(@"namespace MyNamespace
+{
+	public class MyClass
+	{
+		private object _field = new object();
+
+		public object Get()
+		{
+			var obj = _field;
+			return obj;
 		}
 	}
 }")]

@@ -76,7 +76,13 @@
 		{
 			var token = location.SourceTree.GetRoot()
 				.FindToken(location.SourceSpan.Start);
-			return GetAssignmentSyntax(token.Parent) == null;
+			var assignmentSyntax = GetAssignmentSyntax(token.Parent);
+			if (assignmentSyntax == null)
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		private SyntaxNode GetAssignmentSyntax(SyntaxNode node)

@@ -39,8 +39,8 @@
 				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))
 				.Select(x => x.Parent)
 				.Where(x => x != null)
-				.Select(x => x.Parent)
-				.Where(IsNotAssignment)
+				.Select(x => new { Value = x, Parent = x.Parent })
+				.Where(x => IsNotAssignment(x.Parent, x.Value))
 				.ToArray();
 
 			if (!references.Any())
@@ -54,12 +54,18 @@
 			return null;
 		}
 
-		private static bool IsNotAssignment(SyntaxNode syntax)
+		private static bool IsNotAssignment(SyntaxNode syntax, SyntaxNode value)
 		{
-			var expression = syntax as BinaryExpressionSyntax;
+			if (syntax.IsKind(SyntaxKind.SimpleAssignmentExpression))
+			{
+				var binaryExpression = (BinaryExpressionSyntax)syntax;
+				return binaryExpression.Right == value;
+			}
+
+			var expression = syntax as EqualsValueClauseSyntax;
 			if (expression != null)
 			{
-				return expression.IsKind(SyntaxKind.EqualsExpression);
+				return expression.Value == value;
 			}
 
 			return true;
