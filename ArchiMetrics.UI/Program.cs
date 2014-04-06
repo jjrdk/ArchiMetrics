@@ -16,7 +16,6 @@ namespace ArchiMetrics.UI
 	using System.Collections.Concurrent;
 	using System.Globalization;
 	using System.Reflection;
-	using ArchiMetrics.Localization;
 
 	public sealed class Program
 	{
@@ -30,8 +29,7 @@ namespace ArchiMetrics.UI
 		[STAThread]
 		public static void Main()
 		{
-			AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly; 
-			Strings.Culture = new CultureInfo("da-DK");
+			AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
 			var app = new App();
 			app.InitializeComponent();
 			app.Run();
@@ -40,7 +38,7 @@ namespace ArchiMetrics.UI
 		private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
 		{
 			return KnownAssemblies.GetOrAdd(
-				args.Name, 
+				args.Name,
 				name =>
 				{
 					var assemblyName = new AssemblyName(name);
