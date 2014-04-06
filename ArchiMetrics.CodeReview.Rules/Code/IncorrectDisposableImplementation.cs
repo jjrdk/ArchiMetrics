@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IncorrectDisposableImplementation.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the IncorrectDisposableImplementation type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
@@ -42,7 +54,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.OfType<IdentifierNameSyntax>().Any(t => t.Identifier.ValueText.Contains("IDisposable"))) // t.IsEquivalentTo(SyntaxFactory.ParseTypeName("IDisposable"))))
+			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.OfType<IdentifierNameSyntax>().Any(t => t.Identifier.ValueText.Contains("IDisposable")))
 			{
 				var methods = classDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>()
 					.Where(m => m.Identifier.ValueText == "Dispose")

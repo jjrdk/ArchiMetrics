@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Common.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ResultComparerTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ResultComparerTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Common.Tests
 {
 	using System;
 	using ArchiMetrics.Common.CodeReview;
@@ -21,18 +33,18 @@
 				_comparer = new ResultComparer();
 				_result = new EvaluationResult
 						  {
-							  ErrorCount = 1,
-							  FilePath = "filepath",
-							  ImpactLevel = ImpactLevel.Line,
-							  LinesOfCodeAffected = 1,
-							  Namespace = "namespace",
-							  ProjectPath = "projectpath",
-							  Quality = CodeQuality.Good,
-							  QualityAttribute = QualityAttribute.CodeQuality,
-							  Snippet = "snippet",
-							  Suggestion = "suggestion",
-							  Title = "title",
-							  TypeKind = "kind",
+							  ErrorCount = 1, 
+							  FilePath = "filepath", 
+							  ImpactLevel = ImpactLevel.Line, 
+							  LinesOfCodeAffected = 1, 
+							  Namespace = "namespace", 
+							  ProjectPath = "projectpath", 
+							  Quality = CodeQuality.Good, 
+							  QualityAttribute = QualityAttribute.CodeQuality, 
+							  Snippet = "snippet", 
+							  Suggestion = "suggestion", 
+							  Title = "title", 
+							  TypeKind = "kind", 
 							  TypeName = "typename"
 						  };
 			}
@@ -60,18 +72,18 @@
 			{
 				var other = new EvaluationResult
 				{
-					ErrorCount = 1,
-					FilePath = "filepath",
-					ImpactLevel = ImpactLevel.Line,
-					LinesOfCodeAffected = 1,
-					Namespace = "namespace",
-					ProjectPath = "projectpath",
-					Quality = CodeQuality.Good,
-					QualityAttribute = QualityAttribute.CodeQuality,
-					Snippet = "snippet",
-					Suggestion = "suggestion",
-					Title = "title",
-					TypeKind = "kind",
+					ErrorCount = 1, 
+					FilePath = "filepath", 
+					ImpactLevel = ImpactLevel.Line, 
+					LinesOfCodeAffected = 1, 
+					Namespace = "namespace", 
+					ProjectPath = "projectpath", 
+					Quality = CodeQuality.Good, 
+					QualityAttribute = QualityAttribute.CodeQuality, 
+					Snippet = "snippet", 
+					Suggestion = "suggestion", 
+					Title = "title", 
+					TypeKind = "kind", 
 					TypeName = "typename"
 				};
 
@@ -95,18 +107,18 @@
 			{
 				var other = new EvaluationResult
 				{
-					ErrorCount = 1,
-					FilePath = "filepath",
-					ImpactLevel = ImpactLevel.Line,
-					LinesOfCodeAffected = 1,
-					Namespace = "namespace",
-					ProjectPath = "projectpath",
-					Quality = CodeQuality.Good,
-					QualityAttribute = QualityAttribute.CodeQuality,
-					Snippet = "snippet",
-					Suggestion = "suggestion",
-					Title = "title",
-					TypeKind = "kind",
+					ErrorCount = 1, 
+					FilePath = "filepath", 
+					ImpactLevel = ImpactLevel.Line, 
+					LinesOfCodeAffected = 1, 
+					Namespace = "namespace", 
+					ProjectPath = "projectpath", 
+					Quality = CodeQuality.Good, 
+					QualityAttribute = QualityAttribute.CodeQuality, 
+					Snippet = "snippet", 
+					Suggestion = "suggestion", 
+					Title = "title", 
+					TypeKind = "kind", 
 					TypeName = "typename"
 				};
 

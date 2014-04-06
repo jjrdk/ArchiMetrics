@@ -2,13 +2,15 @@
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System" #>
 <#@ import namespace="System.Xml.Linq" #>
 <#@ output extension=".cs" #>
 <#
-var packagesFile = Host.ResolvePath(@"..\packages.config");
-var packagesXml=XDocument.Load(packagesFile);
-var root = packagesXml.Root;
-var packages = root.Elements("package");#>// --------------------------------------------------------------------------------------------------------------------
+	var packagesFile = Host.ResolvePath(@"..\packages.config");
+	var packagesXml = XDocument.Load(packagesFile);
+	var root = packagesXml.Root;
+	var packages = root.Elements("package"); #>// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="InstalledPackages.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
@@ -30,9 +32,13 @@ namespace ArchiMetrics.UI.Support
 		private static readonly IList<string> PackageStrings = new[]
 		{
 			"Microsoft .NET Framework, version 4.5",
-<# foreach(var package in packages){#>
-			"<#= package.Attribute("id").Value #>, version <#= package.Attribute("version").Value #>",
-<#}#>
+<# foreach (var package in packages)
+{ #>
+			"<#= package.Attribute("id")
+	.Value #>, version <#= package.Attribute("version")
+	.Value #>",
+<# }
+ #>
 		};
 		
 		private static readonly InstalledPackages InnerInstance = new InstalledPackages();

@@ -1,10 +1,21 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the Program type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI
 {
 	using System;
 	using System.Collections.Concurrent;
 	using System.Globalization;
 	using System.Reflection;
-	using ArchiMetrics.Localization;
 
 	public sealed class Program
 	{
@@ -18,8 +29,7 @@ namespace ArchiMetrics.UI
 		[STAThread]
 		public static void Main()
 		{
-			AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly; 
-			Strings.Culture = new CultureInfo("da-DK");
+			AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
 			var app = new App();
 			app.InitializeComponent();
 			app.Run();

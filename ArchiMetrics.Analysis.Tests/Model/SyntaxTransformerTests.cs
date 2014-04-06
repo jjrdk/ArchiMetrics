@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Analysis.Tests.Model
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SyntaxTransformerTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SyntaxTransformerTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests.Model
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -30,7 +42,7 @@
 			{
 				var rule = new TransformRule
 						   {
-							   Name = "Test",
+							   Name = "Test", 
 							   Pattern = "[xyz]"
 						   };
 				var node = new ModelNode("x", "type", CodeQuality.Good, 3, 2, 1);
@@ -45,7 +57,7 @@
 			{
 				var rule = new TransformRule
 						   {
-							   Name = "Test",
+							   Name = "Test", 
 							   Pattern = "[xyz]"
 						   };
 				var node = new ModelNode("a", "type", CodeQuality.Good, 3, 2, 1, new List<IModelNode> { new ModelNode("x", "type", CodeQuality.Good, 6, 5, 4) });

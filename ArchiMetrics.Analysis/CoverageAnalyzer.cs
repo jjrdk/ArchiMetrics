@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CoverageAnalyzer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CoverageAnalyzer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis
 {
 	using System.Linq;
@@ -34,14 +46,14 @@ namespace ArchiMetrics.Analysis
 			var referencingMethods = referencingSymbolTasks
 				.Select(x => new
 						   {
-							   Token = x.TokenTask.Result.FindToken(x.Location.Location.SourceSpan.Start),
+							   Token = x.TokenTask.Result.FindToken(x.Location.Location.SourceSpan.Start), 
 							   Document = x.Location.Document
 						   })
 				.Select(
 					x => new
 						 {
-							 Method = x.Token.GetMethod(),
-							 Model = x.Document.GetSemanticModelAsync(),
+							 Method = x.Token.GetMethod(), 
+							 Model = x.Document.GetSemanticModelAsync(), 
 							 Document = x.Document
 						 })
 				.ToArray();

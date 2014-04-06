@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SolutionVertexRepository.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SolutionVertexRepository type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Concurrent;
@@ -43,30 +55,30 @@ namespace ArchiMetrics.Analysis.Model
 		}
 
 		private static ModelNode CreateProjectNode(
-			IProjectMetric IProjectMetric,
+			IProjectMetric projectMetric,
 			IProjectMetric[] projectMetrics,
 			EvaluationResult[] evaluationResults)
 		{
-			var children = IProjectMetric.ReferencedProjects.Select(
+			var children = projectMetric.ReferencedProjects.Select(
 				y =>
-					{
-						var couplings =
-							IProjectMetric.NamespaceMetrics.SelectMany(x => x.ClassCouplings)
-								.Where(x => x.Assembly == Path.GetFileNameWithoutExtension(y))
-								.Select(x => new ModelNode(x.Namespace, NodeKind.Namespace, CodeQuality.Good, 0, 100, 0))
-								.Cast<IModelNode>()
-								.ToList();
-						return new ModelNode(
-							Path.GetFileNameWithoutExtension(y),
-							NodeKind.Assembly,
-							CodeQuality.Good,
-							0,
-							100,
-							0,
-							couplings);
-					})
+				{
+					var couplings =
+						projectMetric.NamespaceMetrics.SelectMany(x => x.ClassCouplings)
+							.Where(x => x.Assembly == Path.GetFileNameWithoutExtension(y))
+							.Select(x => new ModelNode(x.Namespace, NodeKind.Namespace, CodeQuality.Good, 0, 100, 0))
+							.Cast<IModelNode>()
+							.ToList();
+					return new ModelNode(
+						Path.GetFileNameWithoutExtension(y),
+						NodeKind.Assembly,
+						CodeQuality.Good,
+						0,
+						100,
+						0,
+						couplings);
+				})
 				.Concat(
-					IProjectMetric.NamespaceMetrics.Select(
+					projectMetric.NamespaceMetrics.Select(
 						namespaceMetric =>
 						CreateNamespaceNode(
 							namespaceMetric,
@@ -75,12 +87,12 @@ namespace ArchiMetrics.Analysis.Model
 				.Merge()
 				.ToList();
 			return new ModelNode(
-				IProjectMetric.Name,
+				projectMetric.Name,
 				NodeKind.Assembly,
-				evaluationResults.Where(x => x.ProjectName == IProjectMetric.Name).GetQuality(),
-				IProjectMetric.LinesOfCode,
-				IProjectMetric.MaintainabilityIndex,
-				IProjectMetric.CyclomaticComplexity,
+				evaluationResults.Where(x => x.ProjectName == projectMetric.Name).GetQuality(),
+				projectMetric.LinesOfCode,
+				projectMetric.MaintainabilityIndex,
+				projectMetric.CyclomaticComplexity,
 				children);
 		}
 

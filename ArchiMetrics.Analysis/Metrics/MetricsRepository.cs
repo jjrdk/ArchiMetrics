@@ -48,7 +48,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public Task<IEnumerable<IProjectMetric>> Get(string solutionPath)
 		{
 			return _metrics.GetOrAdd(
-				solutionPath,
+				solutionPath, 
 				async path =>
 				{
 					var solution = _solutionProvider.Get(path);

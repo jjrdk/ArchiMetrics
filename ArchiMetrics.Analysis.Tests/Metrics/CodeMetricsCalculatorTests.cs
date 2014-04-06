@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeMetricsCalculatorTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CodeMetricsCalculatorTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.IO;
@@ -227,13 +239,13 @@ using System.Linq;
 				var workspace = new CustomWorkspace();
 				workspace.AddSolution(
 					SolutionInfo.Create(
-						SolutionId.CreateNewId("test"),
+						SolutionId.CreateNewId("test"), 
 						VersionStamp.Create()));
 				var projectId = ProjectId.CreateNewId("testcode");
 				var solution = workspace.CurrentSolution.AddProject(
-					projectId,
-					"testcode",
-					"testcode.dll",
+					projectId, 
+					"testcode", 
+					"testcode.dll", 
 					LanguageNames.CSharp);
 				solution = solution.AddDocument(DocumentId.CreateNewId(projectId), "code.cs", text);
 				return solution.Projects.First();

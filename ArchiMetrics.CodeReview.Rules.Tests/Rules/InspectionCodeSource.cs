@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InspectionCodeSource.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the InspectionCodeSource type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Collections;
@@ -15,13 +27,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 					@"private int SomeMethod(int x)
         {
 			return x;
-		}",
+		}", 
 					typeof(PossibleStaticMethod));
 				yield return new TestCaseData(
 					@"private void SomeMethod(int x)
         {
 			var name = MethodBase.GetCurrentMethod().Name;
-		}",
+		}", 
 					typeof(UnusedParametersInMethodRule));
 			}
 		}
@@ -39,7 +51,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				applicationInitTask = Task.Factory.StartNew(() => SingleApplicationHostControl.Instance);
 				applicationInitTask.Wait();
             }
-        }",
+        }", 
 		  typeof(ImmediateTaskWaitRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
@@ -54,7 +66,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				Thread.Sleep(100);
 			}
 			while (true)
-		}",
+		}", 
 		  typeof(DoLoopSleepErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
@@ -68,7 +80,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 				Thread.Sleep(100);
 			}
-		}",
+		}", 
 		  typeof(WhileLoopSleepErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
@@ -76,13 +88,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			while(true)
 			{
 			}
-		}",
+		}", 
 		  typeof(EmptyWhileErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			throw new NotImplementedException();
-		}",
+		}", 
 		  typeof(NoNotImplementedExceptionRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
@@ -91,56 +103,56 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 			}
 			while(true)
-		}",
+		}", 
 		  typeof(EmptyDoErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			public IServiceLocator ServiceLocator { get; set; }
-		}",
+		}", 
 		  typeof(LeakingServiceLocatorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var value = ServiceLocator.Current.Resolve<IMarkerInterface>();
-		}",
+		}", 
 		  typeof(ServiceLocatorInvocationRule));
 				yield return new TestCaseData(
 @"[TestMethod]
 private void SomeMethod()
         {
 			var value = ServiceLocator.Current.Resolve<IMarkerInterface>();
-		}",
+		}", 
 		  typeof(ServiceLocatorInvocationInTestRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			dynamic myVariable = 2;
-		}",
+		}", 
 		  typeof(DynamicVariableRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var unityContainer = ServiceLocator.Current.Resolve<IUnityContainer>();
-		}",
+		}", 
 		  typeof(ServiceLocatorResolvesContainerRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			activity.ArchiveSettings.NetworkLocation = @""c:\"";
-		}",
+		}", 
 		  typeof(DiskLocationDependencyRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var file = File.Create(""c:\blah.txt"");
-		}",
+		}", 
 		  typeof(FileClassDependency));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var file = Directory.GetFiles(""c:\"");
-		}",
+		}", 
 		  typeof(DirectoryClassDependency));
 				yield return new TestCaseData(
 @"[TestMethod]
@@ -148,7 +160,7 @@ private void SomeMethod()
         {
 			Assert.IsTrue(true);
 			Assert.IsFalse(false);
-		}",
+		}", 
 		  typeof(MultipleAssertsInTestErrorRule));
 				yield return new TestCaseData(
 @"[TestMethod]
@@ -157,14 +169,14 @@ private void SomeMethod()
         {
 			Assert.IsTrue(true);
 			throw new Exception();
-		}",
+		}", 
 		  typeof(MultipleAssertsInTestErrorRule));
 				yield return new TestCaseData(
 @"[TestMethod]
 [ExpectedException(typeof(Exception))]
 private void SomeMethod()
         {
-		}",
+		}", 
 		  typeof(EmptyTestRule));
 				yield return new TestCaseData(
 @"[TestMethod]
@@ -172,7 +184,7 @@ private void SomeMethod()
 private void SomeMethod()
         {
 			// A comment
-		}",
+		}", 
 		  typeof(EmptyTestRule));
 				yield return new TestCaseData(
 @"[TestMethod]
@@ -180,19 +192,19 @@ private void SomeMethod()
         {
 			someMock.Verify(x => x(a), Times.Once());
 			anotherMock.Verify(x => x(a), Times.Once());
-		}",
+		}", 
 		  typeof(MultipleAssertsInTestErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var name = MethodBase.GetCurrentMethod().Name;
-		}",
+		}", 
 		  typeof(ReflectionToResolveMethodNameRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
         {
 			var time = DateTime.Now;
-		}",
+		}", 
 		  typeof(LocalTimeCreationRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
@@ -202,7 +214,7 @@ private void SomeMethod()
 			switch(x){
 				case ""a"": return;
 			}
-		}",
+		}", 
 		  typeof(GotoStatementErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod(object x)
@@ -220,13 +232,13 @@ private void SomeMethod()
 					}
 				}
 			}
-		}",
+		}", 
 		  typeof(TooHighCyclomaticComplexityRule));
 				yield return new TestCaseData(
 @"private void SomeMethod(MyClass x)
         {
 			object value = null;
-		}",
+		}", 
 		  typeof(TypeObfuscationRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -235,7 +247,7 @@ private void SomeMethod()
 			{
 				activity.ArchiveSettings.NetworkLocation = @""c:\"";
 			}
-		}",
+		}", 
 		  typeof(PublicInterfaceImplementationWarningRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -249,7 +261,7 @@ private void SomeMethod()
 
 				return;
 			}
-		}",
+		}", 
 		  typeof(MultipleReturnStatementsErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -258,7 +270,7 @@ private void SomeMethod()
 			{
 				get { return null; }
 			}
-		}",
+		}", 
 		  typeof(LeakingDomainStorageRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -267,7 +279,7 @@ private void SomeMethod()
 			{
 				get { return null; }
 			}
-		}",
+		}", 
 		  typeof(LeakingSessionRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -276,7 +288,7 @@ private void SomeMethod()
 			{
 				get { return null; }
 			}
-		}",
+		}", 
 		  typeof(LeakingUnityContainerRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -285,7 +297,7 @@ private void SomeMethod()
 			{
 				var x = a > 1 ? ""a"" : ""b"";
 			}
-		}",
+		}", 
 		  typeof(ConditionalExpressionErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -294,7 +306,7 @@ private void SomeMethod()
 			{
 				var x = a ?? b;
 			}
-		}",
+		}", 
 		  typeof(CoalesceExpressionErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -304,7 +316,7 @@ private void SomeMethod()
 			{
 				Guard.Against(x == null);
 			}
-		}",
+		}", 
 		  typeof(GuardClauseInMethodWithoutParametersRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -314,7 +326,7 @@ private void SomeMethod()
 			{
 				Guard.Against(x == null);
 			}
-		}",
+		}", 
 		  typeof(GuardClauseInNonPublicMethodRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -323,7 +335,7 @@ private void SomeMethod()
 			{
 				var x = GetValue();
 			}
-		}",
+		}", 
 		  typeof(VarDeclarationForNewVariableErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -337,7 +349,7 @@ private void SomeMethod()
 			{
 				var x = GetValue();
 			}
-		}",
+		}", 
 		  typeof(BeginEndPairRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -351,13 +363,13 @@ private void SomeMethod()
 			{
 				var x = GetValue();
 			}
-		}",
+		}", 
 		  typeof(OpenClosePairRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
 		{
 			public const string SomeValue = ""Something"";
-		}",
+		}", 
 		  typeof(NoPublicConstantRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
@@ -370,7 +382,7 @@ private void SomeMethod()
 				{
 					throw ex;
 				}
-			}",
+			}", 
 			  typeof(DoNotDestroyStackTraceRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -380,7 +392,7 @@ private void SomeMethod()
 			{
 				this.field = field;
 			}
-		}",
+		}", 
 		  typeof(VariableNameShouldNotMatchFieldNameRule));
 				yield return new TestCaseData(
 @"private void MyMethod(int x)
@@ -406,7 +418,7 @@ private void SomeMethod()
 				break;
 		}
 	}
-}",
+}", 
 					typeof(MethodTooDeepNestingRule));
 				yield return new TestCaseData(
 					@"public int MyProperty
@@ -435,7 +447,7 @@ private void SomeMethod()
 			}
 		}
 	}
-}",
+}", 
 					typeof(GetPropertyTooDeepNestingRule));
 				yield return new TestCaseData(
 					@"int _field;
@@ -465,7 +477,7 @@ public int MyProperty
 			}
 		}
 	}
-}",
+}", 
   typeof(SetPropertyTooDeepNestingRule));
 			}
 		}
@@ -490,7 +502,7 @@ public int MyProperty
 			protected void Dispose(bool isDisposing)
 			{
 			}
-		}",
+		}", 
 		  typeof(IncorrectDisposableImplementation));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -499,7 +511,7 @@ public int MyProperty
 			{
 				var x = new object();
 			}
-		}",
+		}", 
 		  typeof(VarDeclarationForNewVariableErrorRule));
 				yield return new TestCaseData("public abstract void DoSomething();", typeof(TooHighCyclomaticComplexityRule));
 				yield return new TestCaseData(
@@ -511,7 +523,7 @@ public int MyProperty
 				{
 				}
 			}
-		}",
+		}", 
 		  typeof(WhileLoopSleepErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -523,7 +535,7 @@ public int MyProperty
 				}
 				while(true);
 			}
-		}",
+		}", 
 		  typeof(DoLoopSleepErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -539,7 +551,7 @@ public int MyProperty
 					throw;
 				}
 			}
-		}",
+		}", 
 		  typeof(DoNotDestroyStackTraceRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -552,7 +564,7 @@ public int MyProperty
 				}
 				while(true);
 			}
-		}",
+		}", 
 		  typeof(EmptyDoErrorRule));
 				yield return new TestCaseData(
 @"public class InnerClass : ICustomInterface
@@ -561,7 +573,7 @@ public int MyProperty
 			{
 				var x = 1;
 			}
-		}",
+		}", 
 		  typeof(TypeObfuscationRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -575,7 +587,7 @@ public int MyProperty
 			{
 				var x = GetValue();
 			}
-		}",
+		}", 
 		  typeof(BeginEndPairRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -589,7 +601,7 @@ public int MyProperty
 			{
 				var x = GetValue();
 			}
-		}",
+		}", 
 		  typeof(OpenClosePairRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -599,7 +611,7 @@ public int MyProperty
 			{
 				this.field = value;
 			}
-		}",
+		}", 
 		  typeof(VariableNameShouldNotMatchFieldNameRule));
 				yield return new TestCaseData(
 @"public class InnerClass
@@ -609,7 +621,7 @@ public int MyProperty
 			{
 				this.field = value;
 			}
-		}",
+		}", 
 		  typeof(MethodTooDeepNestingRule));
 			}
 		}

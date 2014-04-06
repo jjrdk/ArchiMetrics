@@ -160,7 +160,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Select(r =>
 						new
 							{
-								node = r,
+								node = r, 
 								model = SemanticModel
 							})
 				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)

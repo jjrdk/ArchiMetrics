@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="VertexViewModelBase.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the VertexViewModelBase type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
@@ -17,8 +29,8 @@ namespace ArchiMetrics.UI.ViewModel
 		private ObservableCollection<TransformRule> _vertexTransforms;
 
 		protected VertexViewModelBase(
-			IVertexRepository repository,
-			ISyntaxTransformer filter,
+			IVertexRepository repository, 
+			ISyntaxTransformer filter, 
 			IAppContext config)
 			: base(config)
 		{

@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Analysis.Model
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ModelEdgeItemFactory.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ModelEdgeItemFactory type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -20,7 +32,7 @@
 				() => nodes
 					.SelectMany(x => x.Flatten())
 					.WhereNot(x => string.IsNullOrWhiteSpace(x.QualifiedName))
-					.SelectMany(x => x.Children.Select(y => new ModelEdgeItem(x, y))),
+					.SelectMany(x => x.Children.Select(y => new ModelEdgeItem(x, y))), 
 				cancellationToken);
 		}
 

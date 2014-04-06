@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SolutionProvider.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SolutionProvider type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Common
 {
 	using System;
@@ -28,7 +40,7 @@ namespace ArchiMetrics.Common
 		public Solution Get(string path)
 		{
 			var solution = _cache.GetOrAdd(
-				path ?? string.Empty,
+				path ?? string.Empty, 
 				p =>
 				{
 					using (var workspace = MSBuildWorkspace.Create())

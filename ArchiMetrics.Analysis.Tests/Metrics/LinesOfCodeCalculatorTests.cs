@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LinesOfCodeCalculatorTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the LinesOfCodeCalculatorTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
@@ -65,7 +77,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				public class TestClass {{
 					{0}
 				}}
-			}}",
+			}}", 
 			   code);
 
 				var syntaxTree = CSharpSyntaxTree.ParseText(text);
@@ -102,7 +114,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				public class TestClass {{
 					{0}
 				}}
-			}}",
+			}}", 
 			   code);
 
 				var syntaxTree = CSharpSyntaxTree.ParseText(text);

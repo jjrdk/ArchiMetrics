@@ -50,6 +50,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				VisitBlock(blockSyntax);
 			}
+
 			base.Visit(node);
 		}
 
@@ -59,9 +60,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			var dictionary = ParseTokens(tokens, Operands.All);
 			var dictionary2 = ParseTokens(tokens, Operators.All);
 			var metrics = new HalsteadMetrics(
-				numOperands: dictionary.Values.Sum(x => x.Count),
-				numUniqueOperands: dictionary.Values.SelectMany(x => x).Distinct().Count(),
-				numOperators: dictionary2.Values.Sum(x => x.Count),
+				numOperands: dictionary.Values.Sum(x => x.Count), 
+				numUniqueOperands: dictionary.Values.SelectMany(x => x).Distinct().Count(), 
+				numOperators: dictionary2.Values.Sum(x => x.Count), 
 				numUniqueOperators: dictionary2.Values.SelectMany(x => x).Distinct().Count());
 			_metrics = metrics;
 		}

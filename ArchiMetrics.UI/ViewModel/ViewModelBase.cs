@@ -1,3 +1,17 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ViewModelBase.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Base class for all ViewModel classes in the application.
+//   It provides support for property change notifications
+//   and has a DisplayName property.  This class is abstract.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -23,7 +37,7 @@ namespace ArchiMetrics.UI.ViewModel
 			_config = config;
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-					h => _config.PropertyChanged += h, 
+					h => _config.PropertyChanged += h,
 					h => _config.PropertyChanged -= h)
 				.SubscribeOn(Schedulers.Taskpool)
 				.ObserveOn(Schedulers.Taskpool)
@@ -34,6 +48,11 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			Dispose(false);
 		}
+
+		/// <summary>
+		/// Raised when a property on this object has a new value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public bool IsLoading
 		{
@@ -57,11 +76,6 @@ namespace ArchiMetrics.UI.ViewModel
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
-		/// <summary>
-		/// Raised when a property on this object has a new value.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		protected virtual void Dispose(bool isDisposing)
 		{

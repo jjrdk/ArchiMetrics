@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SyntaxTransformer.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SyntaxTransformer type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Generic;
@@ -18,14 +30,14 @@ namespace ArchiMetrics.Analysis.Model
 											  select TransformVertexRecursive(vertex, allRules);
 
 					return transformedVertices.ToArray().AsEnumerable();
-				},
+				}, 
 				cancellationToken);
 		}
 
 		private IModelNode TransformVertexRecursive(IModelNode vertex, TransformRule[] transforms)
 		{
 			var newName = transforms.Aggregate(
-				vertex.DisplayName,
+				vertex.DisplayName, 
 				(name, rule) => GetTransform(rule.Pattern).Replace(name, rule.Name ?? string.Empty));
 			var type = vertex.Type;
 			var linesOfCode = vertex.LinesOfCode;
@@ -35,20 +47,20 @@ namespace ArchiMetrics.Analysis.Model
 			var children = vertex.Children.Select(x => TransformVertexRecursive(x, transforms));
 			return vertex is StaticModelNode
 					   ? new StaticModelNode(
-							 newName,
-							 type,
-							 quality,
-							 linesOfCode,
-							 maintainabilityIndex,
-							 cyclomaticComplexity,
+							 newName, 
+							 type, 
+							 quality, 
+							 linesOfCode, 
+							 maintainabilityIndex, 
+							 cyclomaticComplexity, 
 							 children.ToList())
 					   : new ModelNode(
-							 newName,
-							 type,
-							 quality,
-							 linesOfCode,
-							 maintainabilityIndex,
-							 cyclomaticComplexity,
+							 newName, 
+							 type, 
+							 quality, 
+							 linesOfCode, 
+							 maintainabilityIndex, 
+							 cyclomaticComplexity, 
 							 children.ToList());
 		}
 	}

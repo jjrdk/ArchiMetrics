@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LockingOnWeakIdentityObjectRule.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the LockingOnWeakIdentityObjectRule type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
@@ -11,13 +23,13 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	{
 		private static readonly string[] WeakIdentities =
 		{
-			"System.MarshalByRefObject",
-			"System.ExecutionEngineException",
-			"System.OutOfMemoryException",
-			"System.StackOverflowException",
-			"string",
-			"System.Reflection.MemberInfo",
-			"System.Reflection.ParameterInfo",
+			"System.MarshalByRefObject", 
+			"System.ExecutionEngineException", 
+			"System.OutOfMemoryException", 
+			"System.StackOverflowException", 
+			"string", 
+			"System.Reflection.MemberInfo", 
+			"System.Reflection.ParameterInfo", 
 			"System.Threading.Thread"
 		};
 

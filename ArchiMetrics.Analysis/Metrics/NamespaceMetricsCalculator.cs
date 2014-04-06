@@ -40,12 +40,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			var cyclomaticComplexity = typeMetrics.Sum(x => x.CyclomaticComplexity);
 			var depthOfInheritance = typeMetrics.Any() ? typeMetrics.Max(x => x.DepthOfInheritance) : 0;
 			return new NamespaceMetric(
-				maintainabilityIndex,
-				cyclomaticComplexity,
-				linesOfCode,
-				source,
-				depthOfInheritance,
-				namespaceNode.Name,
+				maintainabilityIndex, 
+				cyclomaticComplexity, 
+				linesOfCode, 
+				source, 
+				depthOfInheritance, 
+				namespaceNode.Name, 
 				typeMetrics);
 		}
 	}

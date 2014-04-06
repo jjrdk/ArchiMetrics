@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.UI.Support
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="InstalledPackages.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the InstalledPackages type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.UI.Support
 {
 	using System.Collections;
 	using System.Collections.Generic;
@@ -7,29 +19,29 @@
 	{
 		private static readonly IList<string> PackageStrings = new[]
 		{
-			"Microsoft .NET Framework, version 4.5",
-			"Autofac, version 3.3.0",
-			"DotNetZip.Reduced, version 1.9.1.8",
-			"GraphSharp, version 1.1.0.0",
-			"Microsoft.Bcl.Immutable, version 1.1.20-beta",
-			"Microsoft.Bcl.Metadata, version 1.0.9-alpha",
-			"Microsoft.CodeAnalysis.CodeActions, version 0.6.4033103-beta",
-			"Microsoft.CodeAnalysis.Common, version 0.6.4033103-beta",
-			"Microsoft.CodeAnalysis.CSharp, version 0.6.4033103-beta",
-			"Microsoft.CodeAnalysis.CSharp.Workspaces, version 0.6.4033103-beta",
-			"Microsoft.CodeAnalysis.Workspaces.Common, version 0.6.4033103-beta",
-			"ModernUI.WPF, version 1.0.5",
-			"Newtonsoft.Json, version 6.0.1",
-			"NHunspell, version 1.1.1",
-			"QuickGraph, version 3.6.61119.7",
-			"Rx-Core, version 2.2.2",
-			"Rx-Interfaces, version 2.2.2",
-			"Rx-Linq, version 2.2.2",
-			"Rx-Main, version 2.2.2",
-			"Rx-PlatformServices, version 2.2.3",
-			"Rx-WPF, version 2.2.2",
-			"Rx-Xaml, version 2.2.2",
-			"WPFExtensions, version 1.0.0",
+			"Microsoft .NET Framework, version 4.5", 
+			"Autofac, version 3.3.1", 
+			"DotNetZip.Reduced, version 1.9.1.8", 
+			"GraphSharp, version 1.1.0.0", 
+			"Microsoft.Bcl.Immutable, version 1.1.20-beta", 
+			"Microsoft.Bcl.Metadata, version 1.0.9-alpha", 
+			"Microsoft.CodeAnalysis.CodeActions, version 0.6.4033103-beta", 
+			"Microsoft.CodeAnalysis.Common, version 0.6.4033103-beta", 
+			"Microsoft.CodeAnalysis.CSharp, version 0.6.4033103-beta", 
+			"Microsoft.CodeAnalysis.CSharp.Workspaces, version 0.6.4033103-beta", 
+			"Microsoft.CodeAnalysis.Workspaces.Common, version 0.6.4033103-beta", 
+			"ModernUI.WPF, version 1.0.5", 
+			"Newtonsoft.Json, version 6.0.2", 
+			"NHunspell, version 1.1.1", 
+			"QuickGraph, version 3.6.61119.7", 
+			"Rx-Core, version 2.2.2", 
+			"Rx-Interfaces, version 2.2.2", 
+			"Rx-Linq, version 2.2.2", 
+			"Rx-Main, version 2.2.2", 
+			"Rx-PlatformServices, version 2.2.3", 
+			"Rx-WPF, version 2.2.2", 
+			"Rx-Xaml, version 2.2.2", 
+			"WPFExtensions, version 1.0.0", 
 		};
 		
 		private static readonly InstalledPackages InnerInstance = new InstalledPackages();

@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeErrorRepository.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CodeErrorRepository type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Concurrent;
@@ -17,8 +29,8 @@ namespace ArchiMetrics.Analysis.Model
 		private readonly IProvider<string, Solution> _solutionProvider;
 
 		public CodeErrorRepository(
-			IProvider<string, Solution> solutionProvider,
-			INodeInspector inspector,
+			IProvider<string, Solution> solutionProvider, 
+			INodeInspector inspector, 
 			IAvailableRules availableRules)
 		{
 			_evaluations = new ConcurrentDictionary<string, Task<EvaluationResult[]>>();

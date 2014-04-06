@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Common.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LinqExtensionsTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the LinqExtensionsTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Common.Tests
 {
 	using System.Linq;
 	using NUnit.Framework;
@@ -39,8 +51,8 @@
 		{
 			var items = new[]
 						{
-							new TestItem { Value = 1 },
-							new TestItem { Value = 2 },
+							new TestItem { Value = 1 }, 
+							new TestItem { Value = 2 }, 
 							new TestItem { Value = 2 }
 						};
 

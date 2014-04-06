@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.Analysis.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CoverageAnalyzerTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CoverageAnalyzerTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
 	using System.Threading.Tasks;
@@ -51,9 +63,9 @@
 												  Documents = project.Documents.Select(
 													  x => new
 														   {
-															   Tree = x.GetSyntaxTreeAsync(),
+															   Tree = x.GetSyntaxTreeAsync(), 
 															   Root = x.GetSyntaxRootAsync()
-														   }),
+														   }), 
 												  Compilation = compilation
 											  })
 				.ToArray();

@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AppContext.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the AppContext type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -21,7 +33,7 @@ namespace ArchiMetrics.UI.DataAccess
 			_rulesSource = string.Empty;
 			_availableRules = availableRules;
 			_subscription = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-				h => _availableRules.CollectionChanged += h,
+				h => _availableRules.CollectionChanged += h, 
 				h => _availableRules.CollectionChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(3))
 				.Subscribe(x => OnPropertyChanged(string.Empty));
@@ -33,9 +45,9 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public TimeSpan CutOff { get; set; }
-
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		public TimeSpan CutOff { get; set; }
 
 		public string Path
 		{

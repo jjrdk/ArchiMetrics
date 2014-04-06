@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeMetricsCalculator.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the CodeMetricsCalculator type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis
 {
 	using System;
@@ -37,7 +49,7 @@ namespace ArchiMetrics.Analysis
 			var statementMembers = declarations.Statements.Select(s =>
 				s is StatementSyntax
 				? SyntaxFactory.MethodDeclaration(
-					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
+					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)), 
 					Guid.NewGuid().ToString("N"))
 					.WithBody(SyntaxFactory.Block(s as StatementSyntax))
 					: s);
@@ -68,13 +80,13 @@ namespace ArchiMetrics.Analysis
 				.Concat(anonNs)
 				.Select(x => new NamespaceDeclarationSyntaxInfo
 				{
-					Name = x.GetName(x),
+					Name = x.GetName(x), 
 					Syntax = x
 				})
 				.GroupBy(x => x.Name)
 				.Select(g => new NamespaceDeclaration
 				{
-					Name = g.Key,
+					Name = g.Key, 
 					SyntaxNodes = g.ToArray()
 				})
 				.ToArray();
@@ -108,7 +120,7 @@ namespace ArchiMetrics.Analysis
 				var typeNode = tuple.Item3;
 				var calculator = new TypeMetricsCalculator(semanticModel);
 				return new Tuple<Compilation, ITypeMetric>(
-					compilation,
+					compilation, 
 					calculator.CalculateFrom(typeNode, memberMetrics));
 			}
 
@@ -136,8 +148,8 @@ namespace ArchiMetrics.Analysis
 			var childNodes = result.Item2.GetRoot().DescendantNodesAndSelf();
 			typeNode.Syntax = childNodes.OfType<TypeDeclarationSyntax>().First();
 			return new Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>(
-				result.Item1,
-				result.Item1.GetSemanticModel(result.Item2),
+				result.Item1, 
+				result.Item1.GetSemanticModel(result.Item2), 
 				typeNode);
 		}
 
@@ -159,9 +171,11 @@ namespace ArchiMetrics.Analysis
 						.WithExterns(
 							SyntaxFactory.List(childNodes.OfType<ExternAliasDirectiveSyntax>())));
 				}
+
 				var comp = compilation.AddSyntaxTrees(newTree);
 				return new Tuple<Compilation, SyntaxTree>(comp, newTree);
 			}
+
 			return new Tuple<Compilation, SyntaxTree>(compilation, tree);
 		}
 
@@ -200,7 +214,7 @@ namespace ArchiMetrics.Analysis
 						var root = await t.document.GetSyntaxRootAsync();
 						return new
 							   {
-								   t.codeFile,
+								   t.codeFile, 
 								   namespaces = collector.GetNamespaces(root)
 							   };
 					})
@@ -212,8 +226,8 @@ namespace ArchiMetrics.Analysis
 							.Select(
 								x => new NamespaceDeclarationSyntaxInfo
 									 {
-										 Name = x.GetName(x.SyntaxTree.GetRoot()),
-										 CodeFile = result.codeFile,
+										 Name = x.GetName(x.SyntaxTree.GetRoot()), 
+										 CodeFile = result.codeFile, 
 										 Syntax = x
 									 });
 					});
@@ -286,8 +300,8 @@ namespace ArchiMetrics.Analysis
 						comp = tuple.Item1;
 						return new
 						{
-							comp,
-							typeNodes,
+							comp, 
+							typeNodes, 
 							memberMetrics = metrics
 						};
 					})

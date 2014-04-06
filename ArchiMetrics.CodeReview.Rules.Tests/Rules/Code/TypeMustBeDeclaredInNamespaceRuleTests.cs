@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Code
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeMustBeDeclaredInNamespaceRuleTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the TypeMustBeDeclaredInNamespaceRuleTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Code
 {
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;

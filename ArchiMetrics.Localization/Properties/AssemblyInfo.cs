@@ -1,4 +1,16 @@
-﻿using System.Reflection;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2013
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   AssemblyInfo.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -22,12 +34,10 @@ using System.Runtime.InteropServices;
 [assembly: Guid("3a9d868d-077d-4b2b-9816-bc4c4e9c3816")]
 
 // Version information for an assembly consists of the following four values:
-//
 //      Major Version
 //      Minor Version 
 //      Build Number
 //      Revision
-//
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
