@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TooDeepNestingRuleBase.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the TooDeepNestingRuleBase type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Collections.Generic;
@@ -37,7 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return "Too Deep Nesting";
+				return "Too Deep " + NestingMember + " Nesting";
 			}
 		}
 
@@ -72,6 +60,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return ImpactLevel.Member;
 			}
 		}
+
+		protected abstract string NestingMember { get; }
 
 		protected abstract BlockSyntax GetBody(SyntaxNode node);
 

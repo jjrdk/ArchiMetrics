@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AppContext.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the AppContext type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
@@ -22,11 +10,11 @@ namespace ArchiMetrics.UI.DataAccess
 
 	public class AppContext : IAppContext
 	{
-		private readonly IDisposable _subscription;
 		private readonly IAvailableRules _availableRules;
+		private readonly IDisposable _subscription;
+		private int _maxNamespaceDepth = 2;
 		private string _path = string.Empty;
 		private string _rulesSource;
-		private int _maxNamespaceDepth = 2;
 
 		public AppContext(IAvailableRules availableRules)
 		{
@@ -45,9 +33,9 @@ namespace ArchiMetrics.UI.DataAccess
 			Dispose(false);
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
 		public TimeSpan CutOff { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public string Path
 		{

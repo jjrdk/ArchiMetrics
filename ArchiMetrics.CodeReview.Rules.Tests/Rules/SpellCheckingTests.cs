@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SpellCheckingTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the SpellCheckingTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Linq;
@@ -22,7 +10,6 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
-	
 
 	public sealed class SpellCheckingTests
 	{

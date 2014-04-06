@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MemberMetricsCalculator.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the MemberMetricsCalculator type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
@@ -24,9 +12,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		private readonly Solution _solution;
 		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
+		private readonly Solution _solution;
 
 		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution)
 			: base(semanticModel)
@@ -36,7 +24,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public async Task<IEnumerable<IMemberMetric>> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
-			var walker = new MemberCollector(Root);
+			var walker = new MemberCollector();
 			var members = walker.GetMembers(typeNode).ToArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
@@ -133,7 +121,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var location = syntaxNode.GetLocation();
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
-			return (IMemberMetric)new MemberMetric(
+			return new MemberMetric(
 				filePath,
 				halsteadMetrics,
 				memberMetricKind,
@@ -158,9 +146,10 @@ namespace ArchiMetrics.Analysis.Metrics
 				}
 
 				var symbol = Model.GetDeclaredSymbol(node);
-				var referenceTasks = SymbolFinder.FindReferencesAsync(symbol, _solution);
+				var referenceTasks = SymbolFinder.FindReferencesAsync(symbol, _solution)
+					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Sum(x => x.Locations.Count()));
 
-				return (await referenceTasks).SelectMany(x => x.Locations).Count();
+				return await referenceTasks;
 			}
 			catch
 			{

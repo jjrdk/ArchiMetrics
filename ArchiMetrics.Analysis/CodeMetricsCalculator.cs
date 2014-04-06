@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeMetricsCalculator.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CodeMetricsCalculator type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis
 {
 	using System;
@@ -47,10 +35,12 @@ namespace ArchiMetrics.Analysis
 			var commonCompilation = CSharpCompilation.Create("x", syntaxTrees: trees);
 			var declarations = _syntaxCollector.GetDeclarations(trees);
 			var statementMembers = declarations.Statements.Select(s =>
-				SyntaxFactory.MethodDeclaration(
+				s is StatementSyntax
+				? SyntaxFactory.MethodDeclaration(
 					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
 					Guid.NewGuid().ToString("N"))
-					.WithBody(SyntaxFactory.Block(s)));
+					.WithBody(SyntaxFactory.Block(s as StatementSyntax))
+					: s);
 			var members = declarations.MemberDeclarations.Concat(statementMembers).ToArray();
 			var anonClass = members.Any()
 								? new[]
@@ -103,7 +93,7 @@ namespace ArchiMetrics.Analysis
 
 			var tuple = await VerifyCompilation(compilation, namespaceNode);
 			compilation = tuple.Item1;
-			var semanticModel = compilation.GetSemanticModel(namespaceNode.Syntax.SyntaxTree);
+			var semanticModel = compilation.GetSemanticModel(tuple.Item3);
 			var calculator = new NamespaceMetricsCalculator(semanticModel);
 			return calculator.CalculateFrom(namespaceNode, typeMetrics);
 		}
@@ -127,36 +117,59 @@ namespace ArchiMetrics.Analysis
 
 		private static async Task<Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>> VerifyCompilation(Compilation compilation, TypeDeclarationSyntaxInfo typeNode)
 		{
-			SemanticModel semanticModel;
-			if (typeNode.Syntax.SyntaxTree == null)
+			var tree = typeNode.Syntax.SyntaxTree;
+
+			if (tree == null)
 			{
 				var cu = CSharpSyntaxTree.Create(
 					SyntaxFactory
 					.CompilationUnit()
 					.WithMembers(SyntaxFactory.List(new[] { (MemberDeclarationSyntax)typeNode.Syntax })));
 				var root = await cu.GetRootAsync();
-				typeNode.Syntax = root.ChildNodes().First();
+				typeNode.Syntax = (TypeDeclarationSyntax)root.ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
-				semanticModel = newCompilation.GetSemanticModel(cu);
+				var semanticModel = newCompilation.GetSemanticModel(cu);
 				return new Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>(newCompilation, semanticModel, typeNode);
 			}
 
-			if (!compilation.ContainsSyntaxTree(typeNode.Syntax.SyntaxTree))
-			{
-				compilation = compilation.AddSyntaxTrees(typeNode.Syntax.SyntaxTree);
-			}
-
-			semanticModel = compilation.GetSemanticModel(typeNode.Syntax.SyntaxTree);
+			var result = AddToCompilation(compilation, tree);
+			var childNodes = result.Item2.GetRoot().DescendantNodesAndSelf();
+			typeNode.Syntax = childNodes.OfType<TypeDeclarationSyntax>().First();
 			return new Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>(
-				compilation,
-				semanticModel,
+				result.Item1,
+				result.Item1.GetSemanticModel(result.Item2),
 				typeNode);
 		}
 
-		private static async Task<Tuple<Compilation, SemanticModel, NamespaceDeclarationSyntaxInfo>> VerifyCompilation(Compilation compilation, NamespaceDeclarationSyntaxInfo namespaceNode)
+		private static Tuple<Compilation, SyntaxTree> AddToCompilation(Compilation compilation, SyntaxTree tree)
+		{
+			if (!compilation.ContainsSyntaxTree(tree))
+			{
+				var newTree = tree;
+				if (!tree.HasCompilationUnitRoot)
+				{
+					var childNodes = tree.GetRoot()
+						.ChildNodes()
+						.ToArray();
+					newTree = CSharpSyntaxTree.Create(SyntaxFactory.CompilationUnit()
+						.WithMembers(
+							SyntaxFactory.List(childNodes.OfType<MemberDeclarationSyntax>()))
+						.WithUsings(
+							SyntaxFactory.List(childNodes.OfType<UsingDirectiveSyntax>()))
+						.WithExterns(
+							SyntaxFactory.List(childNodes.OfType<ExternAliasDirectiveSyntax>())));
+				}
+				var comp = compilation.AddSyntaxTrees(newTree);
+				return new Tuple<Compilation, SyntaxTree>(comp, newTree);
+			}
+			return new Tuple<Compilation, SyntaxTree>(compilation, tree);
+		}
+
+		private static async Task<Tuple<Compilation, SemanticModel, SyntaxTree, NamespaceDeclarationSyntaxInfo>> VerifyCompilation(Compilation compilation, NamespaceDeclarationSyntaxInfo namespaceNode)
 		{
 			SemanticModel semanticModel;
-			if (namespaceNode.Syntax.SyntaxTree == null)
+			var tree = namespaceNode.Syntax.SyntaxTree;
+			if (tree == null)
 			{
 				var compilationUnit = SyntaxFactory.CompilationUnit()
 					.WithMembers(SyntaxFactory.List(new[] { (MemberDeclarationSyntax)namespaceNode.Syntax }));
@@ -165,16 +178,14 @@ namespace ArchiMetrics.Analysis
 				namespaceNode.Syntax = root.ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
 				semanticModel = newCompilation.GetSemanticModel(cu);
-				return new Tuple<Compilation, SemanticModel, NamespaceDeclarationSyntaxInfo>(newCompilation, semanticModel, namespaceNode);
+				return new Tuple<Compilation, SemanticModel, SyntaxTree, NamespaceDeclarationSyntaxInfo>(newCompilation, semanticModel, cu, namespaceNode);
 			}
 
-			if (!compilation.ContainsSyntaxTree(namespaceNode.Syntax.SyntaxTree))
-			{
-				compilation = compilation.AddSyntaxTrees(namespaceNode.Syntax.SyntaxTree);
-			}
-
-			semanticModel = compilation.GetSemanticModel(namespaceNode.Syntax.SyntaxTree);
-			return new Tuple<Compilation, SemanticModel, NamespaceDeclarationSyntaxInfo>(compilation, semanticModel, namespaceNode);
+			var result = AddToCompilation(compilation, tree);
+			compilation = result.Item1;
+			tree = result.Item2;
+			semanticModel = compilation.GetSemanticModel(tree);
+			return new Tuple<Compilation, SemanticModel, SyntaxTree, NamespaceDeclarationSyntaxInfo>(compilation, semanticModel, tree, namespaceNode);
 		}
 
 		private static async Task<IEnumerable<NamespaceDeclaration>> GetNamespaceDeclarations(Project project)
@@ -237,8 +248,11 @@ namespace ArchiMetrics.Analysis
 		private async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, Compilation compilation, Solution solution)
 		{
 			var tasks = namespaceDeclarations.Select(
-				arg => CalculateTypeMetrics(compilation, arg, solution)
-								 .ContinueWith(t => CalculateNamespaceMetrics(t.Result.Item1, arg, t.Result.Item2.ToArray())))
+				async arg =>
+				{
+					var tuple = await CalculateTypeMetrics(compilation, arg, solution);
+					return CalculateNamespaceMetrics(tuple.Item1, arg, tuple.Item2.ToArray());
+				})
 					.ToArray();
 			var x = await Task.WhenAll(tasks);
 			return await Task.WhenAll(x);

@@ -40,15 +40,16 @@ namespace ArchiMetrics.Analysis.Metrics
 		}
 
 		/// <summary>
-		/// Called when the walker visits a node.  This method may be overridden if subclasses want
-		///             to handle the node.  Overrides should call back into this base method if they want the
-		///             children of this node to be visited.
+		/// Called when the walker visits a node.  This method may be overridden if subclasses want to handle the node.  Overrides should call back into this base method if they want the children of this node to be visited.
 		/// </summary>
 		/// <param name="node">The current node that the walker is visiting.</param>
 		public override void Visit(SyntaxNode node)
 		{
 			var blockSyntax = node as BlockSyntax;
-			VisitBlock(blockSyntax);
+			if (blockSyntax != null)
+			{
+				VisitBlock(blockSyntax);
+			}
 			base.Visit(node);
 		}
 

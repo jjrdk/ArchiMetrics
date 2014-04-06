@@ -1,31 +1,17 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VertexViewModelBase.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the VertexViewModelBase type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.ViewModel
 {
-	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using System.IO;
 	using System.Linq;
 	using System.Threading;
-	using System.Xml.Serialization;
 	using ArchiMetrics.Common.Structure;
 	using Newtonsoft.Json;
 
 	internal abstract class VertexViewModelBase : ViewModelBase
 	{
+		private readonly IAppContext _config;
 		private readonly ISyntaxTransformer _filter;
 		private readonly IVertexRepository _repository;
-		private readonly IAppContext _config;
 		private IModelNode[] _allVertices = new IModelNode[0];
 		private CancellationTokenSource _tokenSource;
 		private ObservableCollection<TransformRule> _vertexTransforms;

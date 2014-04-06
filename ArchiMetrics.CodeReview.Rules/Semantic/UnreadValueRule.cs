@@ -1,16 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UnreadValueRule.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the UnreadValueRule type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.CodeReview.Rules.Semantic
+﻿namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -51,8 +39,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))
 				.Select(x => x.Parent)
 				.Where(x => x != null)
-				.Select(x => x.Parent)
-				.Where(IsNotAssignment)
+				.Select(x => new { Value = x, Parent = x.Parent })
+				.Where(x => IsNotAssignment(x.Parent, x.Value))
 				.ToArray();
 
 			if (!references.Any())
@@ -66,12 +54,18 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			return null;
 		}
 
-		private static bool IsNotAssignment(SyntaxNode syntax)
+		private static bool IsNotAssignment(SyntaxNode syntax, SyntaxNode value)
 		{
-			var expression = syntax as BinaryExpressionSyntax;
+			if (syntax.IsKind(SyntaxKind.SimpleAssignmentExpression))
+			{
+				var binaryExpression = (BinaryExpressionSyntax)syntax;
+				return binaryExpression.Right == value;
+			}
+
+			var expression = syntax as EqualsValueClauseSyntax;
 			if (expression != null)
 			{
-				return expression.IsKind(SyntaxKind.SimpleAssignmentExpression);
+				return expression.Value == value;
 			}
 
 			return true;

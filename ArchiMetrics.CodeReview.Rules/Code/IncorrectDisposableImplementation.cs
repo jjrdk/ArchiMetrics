@@ -1,18 +1,7 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IncorrectDisposableImplementation.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the IncorrectDisposableImplementation type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
+	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -53,11 +42,16 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.Any(t => t.IsEquivalentTo(SyntaxFactory.ParseTypeName("IDisposable"))))
+			if (classDeclaration.BaseList != null && classDeclaration.BaseList.Types.OfType<IdentifierNameSyntax>().Any(t => t.Identifier.ValueText.Contains("IDisposable"))) // t.IsEquivalentTo(SyntaxFactory.ParseTypeName("IDisposable"))))
 			{
 				var methods = classDeclaration.ChildNodes().OfType<MethodDeclarationSyntax>()
 					.Where(m => m.Identifier.ValueText == "Dispose")
-					.Where(m => !m.ParameterList.Parameters.Any() || (m.ParameterList.Parameters.Count == 1 && m.ParameterList.Parameters[0].Type.IsEquivalentTo(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.BoolKeyword))))).ToArray();
+					.Where(m =>
+						{
+							var predefinedType = SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.BoolKeyword));
+							return m.ParameterList.Parameters.Count == 0
+										   || (m.ParameterList.Parameters.Count == 1 && m.ParameterList.Parameters[0].Type.EquivalentTo(predefinedType));
+						}).ToArray();
 				var destructor = classDeclaration
 					.ChildNodes()
 					.OfType<DestructorDeclarationSyntax>()
@@ -87,8 +81,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 						&& identifier.Identifier.ValueText == "Dispose"
 						&& invocation.ArgumentList != null
 						&& invocation.ArgumentList.Arguments.Count == 1
-						&& invocation.ArgumentList.Arguments[0].IsEquivalentTo(
-						SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(SyntaxKind.FalseLiteralExpression, SyntaxFactory.Token(SyntaxKind.FalseKeyword)))))
+						&& invocation.ArgumentList.Arguments[0].EquivalentTo(SyntaxFactory.Argument(SyntaxFactory.LiteralExpression(SyntaxKind.FalseLiteralExpression, SyntaxFactory.Token(SyntaxKind.FalseKeyword)))))
 					{
 						return true;
 					}

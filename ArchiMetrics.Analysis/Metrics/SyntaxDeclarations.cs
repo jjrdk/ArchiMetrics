@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
+	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	internal class SyntaxDeclarations
@@ -22,7 +23,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public IEnumerable<TypeDeclarationSyntax> TypeDeclarations { get; set; }
 
 		public IEnumerable<MemberDeclarationSyntax> MemberDeclarations { get; set; }
-		
-		public IEnumerable<StatementSyntax> Statements { get; set; }
+
+		public IEnumerable<SyntaxNode> Statements { get; set; }
 	}
 }

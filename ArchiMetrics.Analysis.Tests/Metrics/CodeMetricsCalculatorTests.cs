@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeMetricsCalculatorTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CodeMetricsCalculatorTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.IO;
@@ -19,8 +7,6 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
-	
-	
 
 	public sealed class CodeMetricsCalculatorTests
 	{
@@ -64,8 +50,8 @@ namespace SomeNamespace
 
 										var tree = CSharpSyntaxTree.ParseText(Text);
 
-										var metrics = _analyzer.Calculate(new[] { tree });
-										var result = metrics.Result.ToArray();
+										var metrics = _analyzer.Calculate(new[] { tree }).Result;
+										var result = metrics.ToArray();
 									});
 			}
 
@@ -230,7 +216,8 @@ using System.Linq;
 			}", 4)]
 			public async Task CodeHasExpectedLinesOfCode(string code, int loc)
 			{
-				var metrics = await _analyzer.Calculate(CreateProject(code), null);
+				var project = CreateProject(code);
+				var metrics = await _analyzer.Calculate(project, null);
 
 				Assert.AreEqual(loc, metrics.First().LinesOfCode);
 			}
@@ -242,12 +229,13 @@ using System.Linq;
 					SolutionInfo.Create(
 						SolutionId.CreateNewId("test"),
 						VersionStamp.Create()));
+				var projectId = ProjectId.CreateNewId("testcode");
 				var solution = workspace.CurrentSolution.AddProject(
-					ProjectId.CreateNewId("testcode"),
+					projectId,
 					"testcode",
 					"testcode.dll",
 					LanguageNames.CSharp);
-				
+				solution = solution.AddDocument(DocumentId.CreateNewId(projectId), "code.cs", text);
 				return solution.Projects.First();
 			}
 		}

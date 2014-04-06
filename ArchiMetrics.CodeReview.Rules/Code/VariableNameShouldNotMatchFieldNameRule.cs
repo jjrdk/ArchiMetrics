@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VariableNameShouldNotMatchFieldNameRule.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the VariableNameShouldNotMatchFieldNameRule type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Common.CodeReview;
@@ -83,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return null;
 			}
 
-			if (variable.IsEquivalentTo(right))
+			if (variable.Identifier.ValueText == right.Identifier.ValueText)
 			{
 				return new EvaluationResult
 					   {

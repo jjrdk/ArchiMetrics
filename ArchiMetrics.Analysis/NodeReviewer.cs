@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NodeReviewer.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the NodeReviewer type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis
 {
 	using System;
@@ -72,7 +60,7 @@ namespace ArchiMetrics.Analysis
 			Solution solution)
 		{
 			var tree = await treeTask;
-			var root = (await tree.GetRootAsync()) as SyntaxNode;
+			var root = await tree.GetRootAsync();
 			if (root == null)
 			{
 				return Enumerable.Empty<EvaluationResult>();

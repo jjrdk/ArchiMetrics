@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeErrorRepository.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CodeErrorRepository type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Concurrent;
@@ -44,11 +32,6 @@ namespace ArchiMetrics.Analysis.Model
 			Dispose(false);
 		}
 
-		public void Reset()
-		{
-			_evaluations.Clear();
-		}
-
 		public async Task<IEnumerable<EvaluationResult>> GetErrors(string solutionFile, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			if (string.IsNullOrWhiteSpace(solutionFile))
@@ -67,6 +50,11 @@ namespace ArchiMetrics.Analysis.Model
 		public void Dispose()
 		{
 			Dispose(true);
+		}
+
+		public void Reset()
+		{
+			_evaluations.Clear();
 		}
 
 		protected virtual void Dispose(bool isDisposing)

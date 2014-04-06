@@ -1,16 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StructureRulesViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the StructureRulesViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.UI.ViewModel
+﻿namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
@@ -28,8 +16,8 @@ namespace ArchiMetrics.UI.ViewModel
 	internal class StructureRulesViewModel : ViewModelBase
 	{
 		private readonly IAppContext _config;
-		private readonly IProvider<string, ObservableCollection<TransformRule>> _transformRulesProvider;
 		private readonly IModelValidator _modelValidator;
+		private readonly IProvider<string, ObservableCollection<TransformRule>> _transformRulesProvider;
 
 		public StructureRulesViewModel(
 			IAppContext config,

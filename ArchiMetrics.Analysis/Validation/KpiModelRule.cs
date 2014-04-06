@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="KpiModelRule.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the KpiModelRule type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Validation
 {
 	using System.Collections.Generic;
@@ -20,8 +8,8 @@ namespace ArchiMetrics.Analysis.Validation
 	internal class KpiModelRule : IModelRule
 	{
 		private readonly int _cyclomaticComplexity;
-		private readonly double _maintainabilityIndex;
 		private readonly int _linesOfCode;
+		private readonly double _maintainabilityIndex;
 
 		public KpiModelRule(int cyclomaticComplexity, double maintainabilityIndex, int linesOfCode)
 		{

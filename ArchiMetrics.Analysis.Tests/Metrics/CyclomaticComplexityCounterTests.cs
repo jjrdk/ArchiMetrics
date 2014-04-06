@@ -1,28 +1,14 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CyclomaticComplexityCounterTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CyclomaticComplexityAnalyzerTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
-	using metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using metrics;
 	using NUnit.Framework;
-	
-	
 	using m = metrics;
 
 	public sealed class CyclomaticComplexityCounterTests

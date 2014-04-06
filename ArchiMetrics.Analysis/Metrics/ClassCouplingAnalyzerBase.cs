@@ -44,7 +44,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			if (syntax.IsKind(SyntaxKind.PredefinedType))
 			{
-				var symbolInfo = ModelExtensions.GetSymbolInfo(SemanticModel, syntax);
+				var symbolInfo = SemanticModel.GetSymbolInfo(syntax);
 				if ((symbolInfo.Symbol != null) && (symbolInfo.Symbol.Kind == SymbolKind.NamedType))
 				{
 					var symbol = (ITypeSymbol)symbolInfo.Symbol;

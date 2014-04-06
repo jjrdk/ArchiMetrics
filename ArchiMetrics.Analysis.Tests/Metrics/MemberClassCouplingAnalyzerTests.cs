@@ -1,16 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MemberClassCouplingAnalyzerTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the MemberClassCouplingAnalyzerTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.Analysis.Tests.Metrics
+﻿namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
@@ -19,9 +7,6 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
-
-
-
 
 	public sealed class MemberClassCouplingAnalyzerTests
 	{
@@ -98,16 +83,14 @@ namespace MyNamespace
 							SolutionId.CreateNewId("Semantic"),
 							VersionStamp.Default));
 					var x = 1;
-					var project = code.Aggregate(
-						workspace.CurrentSolution.AddProject("testcode", "testcode.dll", LanguageNames.CSharp)
-						.AddMetadataReference(new MetadataFileReference(typeof(object).Assembly.Location)),
-						(proj, c) =>
-						{
-							proj.AddDocument(string.Format("TestClass{0}.cs", x++), c);
-							return proj;
-						});
+					var projectId = ProjectId.CreateNewId("testcode");
+					var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp)
+						.AddMetadataReference(projectId, new MetadataFileReference(typeof(object).Assembly.Location));
+					solution = code.Aggregate(
+						solution,
+						(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projectId), string.Format("TestClass{0}.cs", x++), c));
 
-					return workspace.CurrentSolution;
+					return solution;
 				}
 			}
 		}

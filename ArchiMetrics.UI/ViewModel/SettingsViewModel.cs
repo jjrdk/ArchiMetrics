@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SettingsViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the SettingsViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -19,24 +7,22 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.ComponentModel;
 	using System.Linq;
 	using System.Reactive;
-	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
-	using ArchiMetrics.UI.DataAccess;
 	using ArchiMetrics.UI.Support;
 	using ArchiMetrics.UI.Support.Messages;
 
 	internal class SettingsViewModel : ViewModelBase
 	{
 		private readonly IDisposable _changeSubscription;
-		private readonly IKnownPatterns _patterns;
 		private readonly IAppContext _config;
-		private readonly IEnumerable<IResetable> _resetables;
 		private readonly EventAggregator _eventAggregator;
 		private readonly IDisposable _newPatternSubscription;
+		private readonly IKnownPatterns _patterns;
+		private readonly IEnumerable<IResetable> _resetables;
 
 		public SettingsViewModel(
 			IAvailableRules availableRules,

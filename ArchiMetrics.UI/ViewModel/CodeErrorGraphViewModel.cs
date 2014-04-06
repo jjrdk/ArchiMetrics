@@ -1,17 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeErrorGraphViewModel.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the CodeErrorGraphViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using ArchiMetrics.CodeReview.Rules;
-
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System;
@@ -27,10 +13,10 @@ namespace ArchiMetrics.UI.ViewModel
 	{
 		private readonly IAppContext _config;
 		private readonly ICodeErrorRepository _repository;
-		private CancellationTokenSource _tokenSource;
-		private IList<KeyValuePair<string, int>> _errorsByTitle;
 		private IList<KeyValuePair<string, int>> _errorsByNamespace;
 		private IList<KeyValuePair<string, int>> _errorsByQualityAttribute;
+		private IList<KeyValuePair<string, int>> _errorsByTitle;
+		private CancellationTokenSource _tokenSource;
 
 		public CodeErrorGraphViewModel(ICodeErrorRepository repository, IAppContext config)
 			: base(config)

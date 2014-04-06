@@ -1,20 +1,7 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TooHighCyclomaticComplexityRule.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the TooHighCyclomaticComplexityRule type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common.CodeReview;
-	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;

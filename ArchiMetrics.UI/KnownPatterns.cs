@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="KnownPatterns.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the KnownPatterns type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.UI
 {
 	using System.Collections;
@@ -28,8 +16,6 @@ namespace ArchiMetrics.UI
 		{
 			((IKnownPatterns)this).Add("Microsoft", @"^\d\.\d\.\d{1,5}\.\d$", @"Runtime");
 		}
-
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		/// <summary>
 		/// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
@@ -51,26 +37,6 @@ namespace ArchiMetrics.UI
 		public bool IsReadOnly
 		{
 			get { return false; }
-		}
-
-		bool IKnownPatterns.IsExempt(string word)
-		{
-			return _regexes.Any(r => r.IsMatch(word));
-		}
-
-		void IKnownPatterns.Add(params string[] patterns)
-		{
-			var items = patterns.WhereNotNullOrWhitespace().Select(x => new Regex(x, RegexOptions.Compiled));
-			AddMany(items);
-		}
-
-		void IKnownPatterns.Remove(string pattern)
-		{
-			var toRemove = _regexes.Where(x => x.ToString() == pattern).ToArray();
-			foreach (var valueHolder in toRemove)
-			{
-				Remove(valueHolder);
-			}
 		}
 
 		/// <summary>
@@ -142,11 +108,6 @@ namespace ArchiMetrics.UI
 			return result;
 		}
 
-		void IKnownPatterns.Clear()
-		{
-			Clear();
-		}
-
 		/// <summary>
 		/// Returns an enumerator that iterates through the collection.
 		/// </summary>
@@ -168,6 +129,33 @@ namespace ArchiMetrics.UI
 		{
 			return GetEnumerator();
 		}
+
+		bool IKnownPatterns.IsExempt(string word)
+		{
+			return _regexes.Any(r => r.IsMatch(word));
+		}
+
+		void IKnownPatterns.Add(params string[] patterns)
+		{
+			var items = patterns.WhereNotNullOrWhitespace().Select(x => new Regex(x, RegexOptions.Compiled));
+			AddMany(items);
+		}
+
+		void IKnownPatterns.Remove(string pattern)
+		{
+			var toRemove = _regexes.Where(x => x.ToString() == pattern).ToArray();
+			foreach (var valueHolder in toRemove)
+			{
+				Remove(valueHolder);
+			}
+		}
+
+		void IKnownPatterns.Clear()
+		{
+			Clear();
+		}
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		private void AddMany(IEnumerable<Regex> items)
 		{

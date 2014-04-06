@@ -1,29 +1,21 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventAggregator.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the EventAggregator type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.UI.Support
+﻿namespace ArchiMetrics.UI.Support
 {
 	using System;
 	using System.Reactive.Subjects;
 	using System.Threading.Tasks;
-	using Messages;
+	using ArchiMetrics.UI.Support.Messages;
 
 	internal class EventAggregator : IObservable<IMessage>, IDisposable
 	{
 		private readonly Subject<IMessage> _messageSubject = new Subject<IMessage>();
 
-		public Task Publish(IMessage message)
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose()
 		{
-			return Task.Factory.StartNew(() => _messageSubject.OnNext(message));
+			_messageSubject.OnCompleted();
+			_messageSubject.Dispose();
 		}
 
 		/// <summary>
@@ -38,13 +30,9 @@ namespace ArchiMetrics.UI.Support
 			return _messageSubject.Subscribe(observer);
 		}
 
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose()
+		public Task Publish(IMessage message)
 		{
-			_messageSubject.OnCompleted();
-			_messageSubject.Dispose();
+			return Task.Factory.StartNew(() => _messageSubject.OnNext(message));
 		}
 	}
 }

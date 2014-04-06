@@ -1,16 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AvailableRules.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the AvailableRules type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace ArchiMetrics.UI.DataAccess
+﻿namespace ArchiMetrics.UI.DataAccess
 {
 	using System;
 	using System.Collections;
@@ -99,8 +87,6 @@ namespace ArchiMetrics.UI.DataAccess
 				_rule = rule;
 			}
 
-			public event PropertyChangedEventHandler PropertyChanged;
-
 			public IEvaluation Rule
 			{
 				get
@@ -125,7 +111,7 @@ namespace ArchiMetrics.UI.DataAccess
 					return _isAvailable;
 				}
 
-				private set
+				set
 				{
 					_isAvailable = value;
 					OnPropertyChanged();
@@ -139,6 +125,8 @@ namespace ArchiMetrics.UI.DataAccess
 					return _rule.Title;
 				}
 			}
+
+			public event PropertyChangedEventHandler PropertyChanged;
 
 			public override string ToString()
 			{

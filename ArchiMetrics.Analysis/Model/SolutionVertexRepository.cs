@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SolutionVertexRepository.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the SolutionVertexRepository type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Concurrent;
@@ -26,8 +14,8 @@ namespace ArchiMetrics.Analysis.Model
 	public class SolutionVertexRepository : IVertexRepository
 	{
 		private readonly ICodeErrorRepository _codeErrorRepository;
-		private readonly IProjectMetricsRepository _metricsRepository;
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<IModelNode>>> _knownVertices = new ConcurrentDictionary<string, Task<IEnumerable<IModelNode>>>();
+		private readonly IProjectMetricsRepository _metricsRepository;
 
 		public SolutionVertexRepository(
 			ICodeErrorRepository codeErrorRepository,

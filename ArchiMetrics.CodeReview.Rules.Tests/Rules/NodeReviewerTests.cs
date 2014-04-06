@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NodeReviewerTests.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
-//   This source is subject to the Microsoft Public License (Ms-PL).
-//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-//   All other rights reserved.
-// </copyright>
-// <summary>
-//   Defines the NodeReviewerTests type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System;
@@ -18,19 +6,16 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.CodeReview;
-	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
 
-
-
-	public sealed class NodeReviewerTests
+	public sealed class NodeReviewerTests : SolutionTestsBase
 	{
 		private NodeReviewerTests()
 		{
 		}
 
-		private static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
+		public static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
@@ -38,20 +23,25 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 		}
 
-		private static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
+		public static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
 			code = "namespace TestSpace { public class ParseClass { " + code + " } }";
-			using (var workspace = new CustomWorkspace())
+
+			var solution = CreateSolution(code);
+			var task = inspector.Inspect(solution);
+			return task;
+		}
+
+		public class GivenANodeInspectorInspectingBrokenSolution
+		{
+			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
+			public async Task WhenInspectingSolutionThenFindsErrors(string code, Type evaluatorType)
 			{
-				workspace.AddSolution(
-					SolutionInfo.Create(
-						SolutionId.CreateNewId("test"),
-						VersionStamp.Default));
-				workspace.CurrentSolution.AddProject("project", "project.dll", LanguageNames.CSharp)
-					.AddDocument("broken.cs", code);
-				var task = inspector.Inspect(workspace.CurrentSolution);
-				return task;
+				var task = await PerformSolutionInspection(code, evaluatorType);
+				var count = task.Count();
+
+				Assert.AreEqual(1, count);
 			}
 		}
 
@@ -79,30 +69,21 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 				var result = await PerformInspection(code, evaluatorType);
 
-				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != SyntaxFactory.Token(SyntaxKind.GlobalKeyword).ValueText));
-			}
-		}
-
-		public class GivenANodeInspectorInspectingBrokenSolution
-		{
-			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
-			public async Task WhenInspectingSolutionThenFindsErrors(string code, Type evaluatorType)
-			{
-				var task = await PerformSolutionInspection(code, evaluatorType);
-				var count = task.Count();
-
-				Assert.AreEqual(1, count);
+				Assert.IsTrue(
+					result.All(
+						x => !string.IsNullOrWhiteSpace(x.Namespace) && x.Namespace != SyntaxFactory.Token(SyntaxKind.GlobalKeyword)
+																						   .ValueText));
 			}
 		}
 
 		public class GivenANodeReviewerInspectingNonBrokenCode
 		{
 			[TestCaseSource(typeof(InspectionCodeSource), "WorkingCode")]
-			public void NegativeTest(string code, Type evaluatorType)
+			public async Task NegativeTest(string code, Type evaluatorType)
 			{
-				var task = PerformInspection(code, evaluatorType);
-				task.Wait();
-				Assert.IsEmpty(task.Result);
+				var result = await PerformInspection(code, evaluatorType);
+
+				Assert.IsEmpty(result);
 			}
 		}
 	}
