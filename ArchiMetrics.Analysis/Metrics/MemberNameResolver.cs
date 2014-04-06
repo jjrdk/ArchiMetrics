@@ -16,10 +16,8 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using SyntaxFactory = Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 	using SyntaxKind = Microsoft.CodeAnalysis.CSharp.SyntaxKind;
 
 	internal sealed class MemberNameResolver
