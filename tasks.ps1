@@ -27,9 +27,10 @@ task Test -depends Compile, Clean {
 	Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe .\ArchiMetrics.Common.Tests\bin\$configuration\ArchiMetrics.Common.Tests.dll }
 }
 
-task Compile -depends UpdatePackages { 
+task Compile -depends UpdatePackages {
+	$msbuild = Resolve-Path "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
 	$options = "/p:configuration=$configuration;platform=$platform"
-	Exec { C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe "ArchiMetrics.sln" $options }
+	Exec { & $msbuild ArchiMetrics.sln $options }
 	'Executed Compile!'
 }
 
@@ -37,7 +38,7 @@ task UpdatePackages -depends Clean {
 	$packageConfigs = Get-ChildItem -Path .\ -Include "packages.config" -Recurse
 	foreach($config in $packageConfigs){
         #Write-Host $config.DirectoryName
-		.\.nuget\nuget.exe i $config.FullName -o packages -source https://nuget.org/api/v2/
+		Exec { .\.nuget\nuget.exe i $config.FullName -o packages -source https://nuget.org/api/v2/ }
 	}
 }
 
