@@ -92,7 +92,6 @@
     <Compile Include="RoslynTests.cs" />
     <Compile Include="SolutionProviderTests.cs" />
     <Compile Include="TypeCouplingTests.cs" />
-    <Compile Include="Xaml\XamlNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

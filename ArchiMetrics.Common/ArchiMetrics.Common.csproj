@@ -132,10 +132,6 @@
     <Compile Include="Structure\NodeKind.cs" />
     <Compile Include="Structure\StaticModelNode.cs" />
     <Compile Include="Structure\TransformRule.cs" />
-    <Compile Include="Xaml\VariableNameProvider.cs" />
-    <Compile Include="Xaml\XamlNode.cs" />
-    <Compile Include="Xaml\XamlNodeAttribute.cs" />
-    <Compile Include="Xaml\XamlPropertyNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
