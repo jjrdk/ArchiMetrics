@@ -41,6 +41,20 @@ namespace ArchiMetrics.Analysis
 			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
 		}
 
+		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Solution solution)
+		{
+			var tasks = solution.Projects.Select(
+				async project =>
+					{
+						var compilation = await project.GetCompilationAsync();
+						var namespaceDeclarations = await GetNamespaceDeclarations(project);
+						return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
+					});
+			var results = (await Task.WhenAll(tasks)).SelectMany(x => x).ToArray();
+
+			return results;
+		}
+
 		public async Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
 		{
 			var trees = syntaxTrees.ToArray();

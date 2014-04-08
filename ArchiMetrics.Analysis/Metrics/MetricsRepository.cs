@@ -25,10 +25,10 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal class MetricsRepository : IProjectMetricsRepository
 	{
 		private readonly ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>> _metrics = new ConcurrentDictionary<string, Task<IEnumerable<IProjectMetric>>>();
-		private readonly ProjectMetricsCalculator _metricsCalculator;
+		private readonly IProjectMetricsCalculator _metricsCalculator;
 		private readonly IProvider<string, Solution> _solutionProvider;
 
-		public MetricsRepository(ProjectMetricsCalculator metricsCalculator, IProvider<string, Solution> solutionProvider)
+		public MetricsRepository(IProjectMetricsCalculator metricsCalculator, IProvider<string, Solution> solutionProvider)
 		{
 			_metricsCalculator = metricsCalculator;
 			_solutionProvider = solutionProvider;
@@ -49,12 +49,10 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			return _metrics.GetOrAdd(
 				solutionPath, 
-				async path =>
+				path =>
 				{
 					var solution = _solutionProvider.Get(path);
-					var tasks = solution.Projects.Select(x => _metricsCalculator.Calculate(x, solution));
-					var t = await Task.WhenAll(tasks);
-					return t;
+					return _metricsCalculator.Calculate(solution);
 				});
 		}
 

@@ -12,11 +12,14 @@
 
 namespace ArchiMetrics.Common.Metrics
 {
+	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
 
 	public interface IProjectMetricsCalculator
 	{
+		Task<IEnumerable<IProjectMetric>> Calculate(Solution solution);
+		
 		Task<IProjectMetric> Calculate(Project project, Solution solution);
 	}
 }

@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.Metrics;
@@ -24,6 +25,13 @@ namespace ArchiMetrics.Analysis.Metrics
 		public ProjectMetricsCalculator(ICodeMetricsCalculator metricsCalculator)
 		{
 			_metricsCalculator = metricsCalculator;
+		}
+
+		public async Task<IEnumerable<IProjectMetric>> Calculate(Solution solution)
+		{
+			var tasks = from project in solution.Projects select Calculate(project, solution);
+
+			return await Task.WhenAll(tasks);
 		}
 
 		public async Task<IProjectMetric> Calculate(Project project, Solution solution)

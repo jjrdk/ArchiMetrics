@@ -19,5 +19,7 @@ namespace ArchiMetrics.Common.Metrics
 	public interface ICodeMetricsCalculator
 	{
 		Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution);
+
+		Task<IEnumerable<INamespaceMetric>> Calculate(Solution solution);
 	}
 }
