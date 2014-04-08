@@ -104,7 +104,6 @@
     <Compile Include="Metrics\MemberMetricsCalculator.cs" />
     <Compile Include="Metrics\MemberNameResolver.cs" />
     <Compile Include="Metrics\MethodLocalVariablesAnalyzer.cs" />
-    <Compile Include="Metrics\MethodParameterAnalyzer.cs" />
     <Compile Include="Metrics\NamespaceDeclaration.cs" />
     <Compile Include="Metrics\NamespaceDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\NamespaceMetricsCalculator.cs" />

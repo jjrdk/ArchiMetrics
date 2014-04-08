@@ -136,17 +136,17 @@ namespace ArchiMetrics.Analysis.Metrics
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			return new MemberMetric(
-				filePath, 
-				halsteadMetrics, 
-				memberMetricKind, 
-				lineNumber, 
-				linesOfCode, 
-				maintainabilityIndex, 
-				complexity, 
-				memberName, 
-				source.ToArray(), 
-				numberOfParameters, 
-				numberOfLocalVariables, 
+				filePath,
+				halsteadMetrics,
+				memberMetricKind,
+				lineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
+				memberName,
+				source.ToArray(),
+				numberOfParameters,
+				numberOfLocalVariables,
 				afferentCoupling);
 		}
 
@@ -180,8 +180,14 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private int CalculateNumberOfParameters(SyntaxNode node)
 		{
-			var analyzer = new MethodParameterAnalyzer();
-			return analyzer.Calculate(node);
+			var member = node as BaseMethodDeclarationSyntax;
+			if (member != null)
+			{
+				return member.ParameterList.Parameters.Count;
+			}
+
+			var accessor = node as AccessorDeclarationSyntax;
+			return accessor != null && accessor.IsKind(SyntaxKind.SetAccessorDeclaration) ? 1 : 0;
 		}
 	}
 }
