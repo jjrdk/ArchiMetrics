@@ -27,11 +27,13 @@ namespace ArchiMetrics.Analysis.Metrics
 		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 		private readonly Solution _solution;
+		private readonly MemberNameResolver _nameResolver;
 
 		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution)
 			: base(semanticModel)
 		{
 			_solution = solution;
+			_nameResolver = new MemberNameResolver(Model);
 		}
 
 		public async Task<IEnumerable<IMemberMetric>> Calculate(TypeDeclarationSyntaxInfo typeNode)
@@ -121,7 +123,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var analyzer = new HalsteadAnalyzer();
 			var halsteadMetrics = analyzer.Calculate(syntaxNode);
-
+			var memberName = _nameResolver.TryResolveMemberSignatureString(syntaxNode);
 			var memberMetricKind = GetMemberMetricKind(syntaxNode.CSharpKind());
 			var source = CalculateClassCoupling(syntaxNode);
 			var complexity = CalculateCyclomaticComplexity(syntaxNode);
@@ -141,7 +143,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				linesOfCode, 
 				maintainabilityIndex, 
 				complexity, 
-				syntaxNode.ToFullString(), 
+				memberName, 
 				source.ToArray(), 
 				numberOfParameters, 
 				numberOfLocalVariables, 

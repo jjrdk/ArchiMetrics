@@ -49,8 +49,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				                        { SyntaxKind.MethodDeclaration, x => CalculateMethodClassCoupling((MethodDeclarationSyntax)x) }, 
 				                        { SyntaxKind.ConstructorDeclaration, x => CalculateGenericMemberClassCoupling((MemberDeclarationSyntax)x) }, 
 				                        { SyntaxKind.DestructorDeclaration, x => CalculateGenericMemberClassCoupling((MemberDeclarationSyntax)x) }, 
-				                        { SyntaxKind.GetAccessorDeclaration, x => CalculatePropertyClassCoupling((PropertyDeclarationSyntax)x, SyntaxKind.GetAccessorDeclaration) }, 
-				                        { SyntaxKind.SetAccessorDeclaration, x => CalculatePropertyClassCoupling((PropertyDeclarationSyntax)x, SyntaxKind.SetAccessorDeclaration) }, 
+				                        { SyntaxKind.GetAccessorDeclaration, x => CalculatePropertyClassCoupling((AccessorDeclarationSyntax)x) }, 
+				                        { SyntaxKind.SetAccessorDeclaration, x => CalculatePropertyClassCoupling((AccessorDeclarationSyntax)x) }, 
 				                        { SyntaxKind.AddAccessorDeclaration, x => CalculateEventClassCoupling((EventDeclarationSyntax)x, SyntaxKind.AddAccessorDeclaration) }, 
 				                        { SyntaxKind.RemoveAccessorDeclaration, x => CalculateEventClassCoupling((EventDeclarationSyntax)x, SyntaxKind.RemoveAccessorDeclaration) }
 			                        };
@@ -124,14 +124,15 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private void CalculatePropertyClassCoupling(PropertyDeclarationSyntax syntax, SyntaxKind kind)
+		private void CalculatePropertyClassCoupling(AccessorDeclarationSyntax accessor)
 		{
+			var syntax = (PropertyDeclarationSyntax)accessor.Parent.Parent;
 			FilterType(syntax.Type);
-			var accessor = GetAccessor(syntax.AccessorList, kind);
-			if (accessor != null)
+			var body = accessor.Body;
+			if (body != null)
 			{
-				Visit(accessor);
-				CollectMemberCouplings(accessor);
+				Visit(body);
+				CollectMemberCouplings(body);
 			}
 		}
 

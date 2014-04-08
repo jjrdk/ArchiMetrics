@@ -50,8 +50,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitEventDeclaration(EventDeclarationSyntax node)
 		{
 			base.VisitEventDeclaration(node);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.AddAccessorDeclaration);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.RemoveAccessorDeclaration);
+			AddAccessorNode(node.AccessorList, SyntaxKind.AddAccessorDeclaration);
+			AddAccessorNode(node.AccessorList, SyntaxKind.RemoveAccessorDeclaration);
 		}
 
 		public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
@@ -63,15 +63,16 @@ namespace ArchiMetrics.Analysis.Metrics
 		public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
 		{
 			base.VisitPropertyDeclaration(node);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.GetAccessorDeclaration);
-			AddAccessorNode(node, node.AccessorList, SyntaxKind.SetAccessorDeclaration);
+			AddAccessorNode(node.AccessorList, SyntaxKind.GetAccessorDeclaration);
+			AddAccessorNode(node.AccessorList, SyntaxKind.SetAccessorDeclaration);
 		}
 
-		private void AddAccessorNode(SyntaxNode node, AccessorListSyntax accessorList, SyntaxKind filter)
+		private void AddAccessorNode(AccessorListSyntax accessorList, SyntaxKind filter)
 		{
-			if (accessorList.Accessors.Any(x => x.IsKind(filter)))
+			var accessor = accessorList.Accessors.FirstOrDefault(x => x.IsKind(filter));
+			if (accessor != null)
 			{
-				_members.Add(node);
+				_members.Add(accessor);
 			}
 		}
 	}

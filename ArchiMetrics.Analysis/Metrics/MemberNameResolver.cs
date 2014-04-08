@@ -32,18 +32,18 @@ namespace ArchiMetrics.Analysis.Metrics
 		public string TryResolveMemberSignatureString(SyntaxNode syntaxNode)
 		{
 			Func<SyntaxNode, string> func;
-			var dictionary2 = new Dictionary<SyntaxKind, Func<SyntaxNode, string>>
+			var dictionary = new Dictionary<SyntaxKind, Func<SyntaxNode, string>>
 				                  {
 					                  { SyntaxKind.MethodDeclaration, x => GetMethodSignatureString((MethodDeclarationSyntax)x) }, 
 					                  { SyntaxKind.ConstructorDeclaration, x => GetConstructorSignatureString((ConstructorDeclarationSyntax)x) }, 
 					                  { SyntaxKind.DestructorDeclaration, x => GetDestructorSignatureString((DestructorDeclarationSyntax)x) }, 
-					                  { SyntaxKind.GetAccessorDeclaration, x => GetPropertyGetterSignatureString((PropertyDeclarationSyntax)x) }, 
-					                  { SyntaxKind.SetAccessorDeclaration, x => GetPropertySetterSignatureString((PropertyDeclarationSyntax)x) }, 
+					                  { SyntaxKind.GetAccessorDeclaration, x => GetPropertyGetterSignatureString((AccessorDeclarationSyntax)x) }, 
+									  { SyntaxKind.SetAccessorDeclaration, x => GetPropertySetterSignatureString((AccessorDeclarationSyntax)x) }, 
 					                  { SyntaxKind.AddAccessorDeclaration, x => GetAddEventHandlerSignatureString((EventDeclarationSyntax)x) }, 
 					                  { SyntaxKind.RemoveAccessorDeclaration, x => GetRemoveEventHandlerSignatureString((EventDeclarationSyntax)x) }
 				                  };
-			var dictionary = dictionary2;
-			return dictionary.TryGetValue(syntaxNode.CSharpKind(), out func)
+			var kind = syntaxNode.CSharpKind();
+			return dictionary.TryGetValue(kind, out func)
 				? func(syntaxNode)
 				: string.Empty;
 		}
@@ -103,9 +103,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			builder.Append(syntax.Identifier.ValueText);
 		}
 
-		private static void AppendMethodIdentifier(PropertyDeclarationSyntax syntax, StringBuilder builder)
+		private static string GetMethodIdentifier(PropertyDeclarationSyntax syntax)
 		{
-			builder.Append(syntax.Identifier.ValueText);
+			return syntax.Identifier.ValueText;
 		}
 
 		private static void AppendTypeParameters(MethodDeclarationSyntax syntax, StringBuilder builder)
@@ -146,23 +146,21 @@ namespace ArchiMetrics.Analysis.Metrics
 			return builder.ToString();
 		}
 
-		private string GetPropertyGetterSignatureString(PropertyDeclarationSyntax syntax)
+		private string GetPropertyGetterSignatureString(AccessorDeclarationSyntax syntax)
 		{
-			var builder = new StringBuilder();
-			AppendMethodIdentifier(syntax, builder);
-			builder.Append(".get()");
-			AppendReturnType(syntax, builder);
-			return builder.ToString();
+			var propertyDeclarationSyntax = syntax.Parent.Parent as PropertyDeclarationSyntax;
+			var identifier = GetMethodIdentifier(propertyDeclarationSyntax) + ".get()";
+			var returnType = GetReturnType(propertyDeclarationSyntax);
+			return identifier + returnType;
 		}
 
-		private string GetPropertySetterSignatureString(PropertyDeclarationSyntax syntax)
+		private string GetPropertySetterSignatureString(AccessorDeclarationSyntax syntax)
 		{
-			var builder = new StringBuilder();
-			AppendMethodIdentifier(syntax, builder);
-			builder.Append(".set");
-			AppendParameters(syntax, builder);
-			builder.Append(" : void");
-			return builder.ToString();
+			var propertyDeclarationSyntax = syntax.Parent.Parent as PropertyDeclarationSyntax;
+			var identifier = GetMethodIdentifier(propertyDeclarationSyntax);
+			var parameters = GetParameters(propertyDeclarationSyntax);
+
+			return string.Format("{0}.set{1} : void", identifier, parameters);
 		}
 
 		private string GetAddEventHandlerSignatureString(EventDeclarationSyntax syntax)
@@ -231,17 +229,10 @@ namespace ArchiMetrics.Analysis.Metrics
 			builder.Append(")");
 		}
 
-		private void AppendParameters(BasePropertyDeclarationSyntax syntax, StringBuilder builder)
+		private string GetParameters(BasePropertyDeclarationSyntax syntax)
 		{
-			builder.Append("(");
 			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
-			if (symbol != null)
-			{
-				var typeName = ResolveTypeName(symbol);
-				builder.Append(typeName);
-			}
-
-			builder.Append(")");
+			return string.Format("({0})", symbol == null ? string.Empty : ResolveTypeName(symbol));
 		}
 
 		private void AppendReturnType(MethodDeclarationSyntax syntax, StringBuilder builder)
@@ -255,14 +246,18 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private void AppendReturnType(BasePropertyDeclarationSyntax syntax, StringBuilder builder)
+		private string GetAccessor(AccessorDeclarationSyntax accessor)
+		{
+			var modifiers = accessor.Modifiers.Select(x => x.ValueText);
+			var type = accessor.Keyword.ValueText;
+
+			return string.Join(" ", modifiers.Concat(new[] { type + ";" }));
+		}
+
+		private string GetReturnType(BasePropertyDeclarationSyntax syntax)
 		{
 			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
-			if (symbol != null)
-			{
-				var typeName = ResolveTypeName(symbol);
-				builder.AppendFormat(" : {0}", typeName);
-			}
+			return symbol != null ? string.Format(": {0}", ResolveTypeName(symbol)) : string.Empty;
 		}
 
 		private string GetRemoveEventHandlerSignatureString(EventDeclarationSyntax syntax)
