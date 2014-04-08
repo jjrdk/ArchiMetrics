@@ -22,7 +22,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class HiddenTypeDependencyRule : SemanticEvaluationBase
 	{
-		private static readonly string[] SystemAssemblyPrefixes = new[] { "System", "Microsoft", "PresentationFramework", "Windows" };
+		private static readonly string[] SystemAssemblyPrefixes = new[] { "mscorlib", "System", "Microsoft", "PresentationFramework", "Windows" };
 
 		public override SyntaxKind EvaluatedKind
 		{
@@ -94,12 +94,16 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.DistinctBy(x => x.ToDisplayString());
 			var parameterTypes =
 				methodDeclaration.ParameterList.Parameters.Select(x => semanticModel.GetSymbolInfo(x.Type).Symbol)
+					.Concat(new[] { semanticModel.GetSymbolInfo(methodDeclaration.ReturnType).Symbol })
 					.WhereNotNull()
-					.DistinctBy(x => x.ToDisplayString());
+					.DistinctBy(x => x.ToDisplayString())
+					.ToArray();
+
+			var parameterAssemblies = parameterTypes.Select(x => x.ContainingAssembly).ToArray();
 
 			var locals = usedTypes.Except(parameterTypes);
 
-			if (locals.Any(x => !x.ContainingAssembly.Equals(semanticModel.Compilation.Assembly) && !SystemAssemblyPrefixes.Any(y => x.ContainingAssembly.Name.StartsWith(y))))
+			if (locals.Any(x => !x.ContainingAssembly.Equals(semanticModel.Compilation.Assembly) && !parameterAssemblies.Contains(x.ContainingAssembly) && !SystemAssemblyPrefixes.Any(y => x.ContainingAssembly.Name.StartsWith(y))))
 			{
 				return Task.FromResult(
 					new EvaluationResult
