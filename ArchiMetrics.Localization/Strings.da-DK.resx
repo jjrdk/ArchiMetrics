@@ -363,4 +363,10 @@
   <data name="Vertex" xml:space="preserve">
     <value>Vertex</value>
   </data>
+  <data name="ByImpactLevel" xml:space="preserve">
+    <value>Efter effektniveau</value>
+  </data>
+  <data name="ImpactLevel" xml:space="preserve">
+    <value>Effektniveau</value>
+  </data>
 </root>

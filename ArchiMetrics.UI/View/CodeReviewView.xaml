@@ -19,6 +19,8 @@
 					  Source="View/Tabs/CodeReviewDataGridView.xaml" />
 			<mui:Link DisplayName="{x:Static localization:Strings.Namespace}"
 					  Source="View/Tabs/ErrorNamespaceChart.xaml" />
+			<mui:Link DisplayName="{x:Static localization:Strings.ImpactLevel}"
+					  Source="View/Tabs/ErrorsImpactLevelChart.xaml" />
 			<mui:Link DisplayName="{x:Static localization:Strings.QualityAttribute}"
 					  Source="View/Tabs/ErrorQualityAttributeChart.xaml" />
 		</mui:ModernTab.Links>

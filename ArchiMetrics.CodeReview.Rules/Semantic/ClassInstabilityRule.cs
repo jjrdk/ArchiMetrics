@@ -76,7 +76,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(node);
-			var efferent = GetReferencedTypes((ClassDeclarationSyntax)node, symbol, semanticModel).ToArray();
+			var efferent = GetReferencedTypes(node, symbol, semanticModel).ToArray();
 			var callers = (await SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None)).ToArray();
 			var testCallers = callers
 				.Where(c => c.CallingSymbol.GetAttributes()
@@ -92,18 +92,18 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			if (stability >= 0.8)
 			{
 				return new EvaluationResult
-						   {
-							   ImpactLevel = ImpactLevel.Project, 
-							   Quality = CodeQuality.NeedsReview, 
-							   QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Conformance, 
-							   Snippet = node.ToFullString()
-						   };
+				{
+					ImpactLevel = ImpactLevel.Project,
+					Quality = CodeQuality.NeedsReview,
+					QualityAttribute = QualityAttribute.CodeQuality | QualityAttribute.Conformance,
+					Snippet = node.ToFullString()
+				};
 			}
 
 			return null;
 		}
 
-		private static IEnumerable<ITypeSymbol> GetReferencedTypes(ClassDeclarationSyntax classDeclaration, ITypeSymbol sourceSymbol, SemanticModel semanticModel)
+		private static IEnumerable<ITypeSymbol> GetReferencedTypes(SyntaxNode classDeclaration, ISymbol sourceSymbol, SemanticModel semanticModel)
 		{
 			var typeSyntaxes = classDeclaration.DescendantNodesAndSelf().OfType<TypeSyntax>();
 			var commonSymbolInfos = typeSyntaxes.Select(x => semanticModel.GetSymbolInfo(x)).ToArray();
@@ -111,10 +111,10 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.Select(x => x.Symbol)
 				.Where(x => x != null)
 				.Select(x =>
-					{
-						var typeSymbol = x as ITypeSymbol;
-						return typeSymbol == null ? x.ContainingType : x;
-					})
+				{
+					var typeSymbol = x as ITypeSymbol;
+					return typeSymbol == null ? x.ContainingType : x;
+				})
 				.Cast<ITypeSymbol>()
 				.DistinctBy(x => x.ToDisplayString())
 				.Where(x => x != sourceSymbol)

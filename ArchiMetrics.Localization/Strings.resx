@@ -363,4 +363,10 @@
   <data name="TotalLocFormat" xml:space="preserve">
     <value>Total Lines of Code: {0},</value>
   </data>
+  <data name="ByImpactLevel" xml:space="preserve">
+    <value>By Impact Level</value>
+  </data>
+  <data name="ImpactLevel" xml:space="preserve">
+    <value>Impact Level</value>
+  </data>
 </root>

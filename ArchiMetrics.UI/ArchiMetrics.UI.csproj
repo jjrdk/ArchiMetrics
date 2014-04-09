@@ -261,6 +261,9 @@
     <Compile Include="View\Tabs\EdgesGraphView.xaml.cs">
       <DependentUpon>EdgesGraphView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Tabs\ErrorsImpactLevelChart.xaml.cs">
+      <DependentUpon>ErrorsImpactLevelChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Tabs\MetricsNamespaceDataGridView.xaml.cs">
       <DependentUpon>MetricsNamespaceDataGridView.xaml</DependentUpon>
     </Compile>
@@ -381,6 +384,10 @@
     <Page Include="View\Tabs\EdgesGraphView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tabs\ErrorsImpactLevelChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Tabs\MetricsChart.xaml">
       <SubType>Designer</SubType>

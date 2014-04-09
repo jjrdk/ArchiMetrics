@@ -27,6 +27,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly ICodeErrorRepository _repository;
 		private IList<KeyValuePair<string, int>> _errorsByNamespace;
 		private IList<KeyValuePair<string, int>> _errorsByQualityAttribute;
+		private IList<KeyValuePair<string, int>> _errorsByImpactLevel;
 		private IList<KeyValuePair<string, int>> _errorsByTitle;
 		private CancellationTokenSource _tokenSource;
 
@@ -82,6 +83,20 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 		}
 
+		public IList<KeyValuePair<string, int>> ErrorsByImpactLevel
+		{
+			get
+			{
+				return _errorsByImpactLevel;
+			}
+
+			private set
+			{
+				_errorsByImpactLevel = value;
+				RaisePropertyChanged();
+			}
+		}
+
 		protected async override void Update(bool forceUpdate)
 		{
 			await UpdateInternal(forceUpdate);
@@ -124,9 +139,10 @@ namespace ArchiMetrics.UI.ViewModel
 
 			var titleTask = DisplayErrorsByTitle(results);
 			var qualityAttributeTask = DisplayErrorsByQualityAttribute(results);
+			var impactLevelTask = DisplayErrorsByImpactLevel(results);
 			var namespaceTask = DisplayErrorsByNamespace(results);
 
-			await Task.WhenAll(titleTask, qualityAttributeTask, namespaceTask);
+			await Task.WhenAll(titleTask, qualityAttributeTask, impactLevelTask, namespaceTask);
 			IsLoading = false;
 		}
 
@@ -170,6 +186,21 @@ namespace ArchiMetrics.UI.ViewModel
 					.OrderBy(x => x.Key)
 					.ToList();
 				ErrorsByQualityAttribute = qualityAtttributeItems;
+			});
+		}
+
+		private Task DisplayErrorsByImpactLevel(IEnumerable<EvaluationResult> result)
+		{
+			return Task.Factory.StartNew(() =>
+			{
+				var impactLevelItems = Enum.GetValues(typeof(ImpactLevel))
+					.OfType<Enum>()
+					.SelectMany(e => result.Where(x => x.ImpactLevel.HasFlag(e)).Select(r => e))
+					.GroupBy(x => x)
+					.Select(x => new KeyValuePair<string, int>(x.Key.ToString().ToTitleCase(), x.Count()))
+					.OrderBy(x => x.Key)
+					.ToList();
+				ErrorsByImpactLevel = impactLevelItems;
 			});
 		}
 	}

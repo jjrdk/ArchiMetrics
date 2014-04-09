@@ -106,6 +106,15 @@ namespace ArchiMetrics.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By Impact Level.
+        /// </summary>
+        public static string ByImpactLevel {
+            get {
+                return ResourceManager.GetString("ByImpactLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to By Kind.
         /// </summary>
         public static string ByKind {
@@ -327,6 +336,15 @@ namespace ArchiMetrics.Localization {
         public static string Graph {
             get {
                 return ResourceManager.GetString("Graph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impact Level.
+        /// </summary>
+        public static string ImpactLevel {
+            get {
+                return ResourceManager.GetString("ImpactLevel", resourceCulture);
             }
         }
         
