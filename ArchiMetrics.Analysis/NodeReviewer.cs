@@ -23,11 +23,16 @@ namespace ArchiMetrics.Analysis
 
 	public class NodeReviewer : INodeInspector
 	{
-		private readonly Dictionary<SyntaxKind, IEvaluation[]> _evaluations;
+		private readonly Dictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
+		private readonly Dictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
+		private readonly Dictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
 
 		public NodeReviewer(IEnumerable<IEvaluation> evaluations)
 		{
-			_evaluations = evaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
+			var allEvaluations = evaluations.ToArray();
+			_triviaEvaluations = allEvaluations.OfType<ITriviaEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
+			_codeEvaluations = allEvaluations.OfType<ICodeEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
+			_semanticEvaluations = allEvaluations.OfType<ISemanticEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(Solution solution)
@@ -39,20 +44,20 @@ namespace ArchiMetrics.Analysis
 
 			var inspectionTasks = (from project in solution.Projects
 								   where project.HasDocuments
-								   let compilation = new Lazy<Compilation>(() => project.GetCompilationAsync().Result, LazyThreadSafetyMode.ExecutionAndPublication)
 								   from doc in project.Documents.ToArray()
-								   let tree = doc.GetSyntaxTreeAsync()
-								   select GetInspections(project.FilePath, project.Name, tree, compilation, solution))
+								   let model = doc.GetSemanticModelAsync()
+								   let root = doc.GetSyntaxRootAsync()
+								   select GetInspections(project.FilePath, project.Name, model, root, solution))
 						   .ToArray();
 
-			var results = await Task.WhenAll(inspectionTasks);
+			var results = await Task.WhenAll(inspectionTasks).ConfigureAwait(false);
 
 			return results.SelectMany(x => x).ToArray();
 		}
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
-			var inspector = new InnerInspector(_evaluations, semanticModel, solution);
+			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
 
 			var inspectionTasks = await inspector.Visit(node);
 			var inspectionResults = inspectionTasks.ToArray();
@@ -68,19 +73,18 @@ namespace ArchiMetrics.Analysis
 		private async Task<IEnumerable<EvaluationResult>> GetInspections(
 			string filePath,
 			string projectName,
-			Task<SyntaxTree> treeTask,
-			Lazy<Compilation> compilationTask,
+			Task<SemanticModel> modelTask,
+			Task<SyntaxNode> rootTask,
 			Solution solution)
 		{
-			var tree = await treeTask;
-			var root = await tree.GetRootAsync();
+			var root = await rootTask.ConfigureAwait(false);
 			if (root == null)
 			{
 				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			var compilation = compilationTask.Value;
-			return await Inspect(filePath, projectName, root, compilation.GetSemanticModel(tree), solution);
+			var model = await modelTask.ConfigureAwait(false);
+			return await Inspect(filePath, projectName, root, model, solution);
 		}
 
 		private class InnerInspector : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
@@ -91,30 +95,11 @@ namespace ArchiMetrics.Analysis
 			private readonly SemanticModel _model;
 			private readonly Solution _solution;
 
-			public InnerInspector(IDictionary<SyntaxKind, IEvaluation[]> evaluations, SemanticModel model, Solution solution)
+			public InnerInspector(IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
 			{
-				foreach (var evaluation in evaluations)
-				{
-					_triviaEvaluations.Add(evaluation.Key, evaluation.Value.OfType<ITriviaEvaluation>().ToArray());
-					_codeEvaluations.Add(evaluation.Key, evaluation.Value.OfType<ICodeEvaluation>().ToArray());
-					_semanticEvaluations.Add(evaluation.Key, evaluation.Value.OfType<ISemanticEvaluation>().ToArray());
-				}
-
-				foreach (var kind in _triviaEvaluations.Where(x => x.Value.Length == 0).Select(x => x.Key).ToArray())
-				{
-					_triviaEvaluations.Remove(kind);
-				}
-
-				foreach (var kind in _codeEvaluations.Where(x => x.Value.Length == 0).Select(x => x.Key).ToArray())
-				{
-					_codeEvaluations.Remove(kind);
-				}
-
-				foreach (var kind in _semanticEvaluations.Where(x => x.Value.Length == 0).Select(x => x.Key).ToArray())
-				{
-					_semanticEvaluations.Remove(kind);
-				}
-
+				_triviaEvaluations = triviaEvaluations;
+				_codeEvaluations = codeEvaluations;
+				_semanticEvaluations = semanticEvaluations;
 				_model = model;
 				_solution = solution;
 			}
@@ -126,36 +111,29 @@ namespace ArchiMetrics.Analysis
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
-				var baseResultTasks = await Task.WhenAll(node.ChildNodesAndTokens().Select(VisitNodeOrToken)).ConfigureAwait(false);
-				var baseResults = baseResultTasks.SelectMany(x => x);
-				var codeResults = Enumerable.Empty<EvaluationResult>();
-				var semanticResults = Enumerable.Empty<EvaluationResult>();
-				var kind = node.CSharpKind();
-				if (_codeEvaluations.ContainsKey(kind))
-				{
-					codeResults = GetCodeEvaluations(node, _codeEvaluations[kind]);
-				}
+				var nodeResultTasks = await Task.WhenAll(CheckNodes(node.DescendantNodesAndSelf().ToArray())).ConfigureAwait(false);
+				//await Task.WhenAll(node.ChildNodesAndTokens().Select(VisitNodeOrToken)).ConfigureAwait(false);
+				var tokenResultTasks = await Task.WhenAll(node.DescendantTokens().Select(VisitToken)).ConfigureAwait(false);
+				var baseResults = nodeResultTasks.SelectMany(x => x).Concat(tokenResultTasks.SelectMany(x => x));
+				return baseResults;
 
-				if (_semanticEvaluations.ContainsKey(kind))
-				{
-					semanticResults = await GetSemanticEvaluations(node, _semanticEvaluations[kind], _model, _solution).ConfigureAwait(false);
-				}
-
-				return codeResults.Concat(semanticResults).Concat(baseResults).ToArray();
+				//return codeResults.Concat(semanticResults).Concat(baseResults).ToArray();
 			}
 
-			public override async Task<IEnumerable<EvaluationResult>> DefaultVisit(SyntaxNode node)
+			public override Task<IEnumerable<EvaluationResult>> DefaultVisit(SyntaxNode node)
 			{
-				var tasks =
-					node.ChildNodesAndTokens()
-						.Select(VisitNodeOrToken)
-						.Concat(node.DescendantTrivia(x => x == node).Select(VisitTrivia));
-				return (await Task.WhenAll(tasks).ConfigureAwait(false)).SelectMany(x => x);
+				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
 			}
 
 			public virtual async Task<IEnumerable<EvaluationResult>> VisitToken(SyntaxToken token)
 			{
-				var tasks = await Task.WhenAll(token.LeadingTrivia.Concat(token.TrailingTrivia).Select(VisitTrivia)).ConfigureAwait(false);
+				var tasks = await Task.WhenAll(
+					token.LeadingTrivia.Concat(token.TrailingTrivia)
+									  .Where(x => _triviaEvaluations.ContainsKey(x.CSharpKind()))
+									  .Select(
+										  async trivia => await GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.CSharpKind()])
+																	.ConfigureAwait(false)))
+									  .ConfigureAwait(false);
 				return tasks.SelectMany(x => x);
 			}
 
@@ -247,21 +225,28 @@ namespace ArchiMetrics.Analysis
 				return results;
 			}
 
-			private async Task<IEnumerable<EvaluationResult>> VisitTrivia(SyntaxTrivia trivia)
+			private async Task<IEnumerable<EvaluationResult>> CheckNodes(SyntaxNode[] nodes)
 			{
-				var kind = trivia.CSharpKind();
-				if (_triviaEvaluations.ContainsKey(kind))
-				{
-					return await GetTriviaEvaluations(trivia, _triviaEvaluations[kind]).ConfigureAwait(false);
-				}
+				var semanticResultTasks = nodes.Where(x => _semanticEvaluations.ContainsKey(x.CSharpKind()))
+					.Select(x => CheckSemantics(x, x.CSharpKind()));
+				var codeResults = nodes.Where(x => _codeEvaluations.ContainsKey(x.CSharpKind()))
+					.SelectMany(x => CheckCode(x, x.CSharpKind()));
+				var semanticResults = await Task.WhenAll(semanticResultTasks).ConfigureAwait(false);
 
-				return Enumerable.Empty<EvaluationResult>();
+				return semanticResults.SelectMany(x => x).Concat(codeResults);
 			}
 
-			private Task<IEnumerable<EvaluationResult>> VisitNodeOrToken(SyntaxNodeOrToken nodeOrToken)
+			private IEnumerable<EvaluationResult> CheckCode(SyntaxNode node, SyntaxKind kind)
 			{
-				var node = nodeOrToken.AsNode();
-				return node == null ? VisitToken(nodeOrToken.AsToken()) : Visit(node);
+				var codeResults = GetCodeEvaluations(node, _codeEvaluations[kind]);
+				return codeResults;
+			}
+
+			private async Task<IEnumerable<EvaluationResult>> CheckSemantics(SyntaxNode node, SyntaxKind kind)
+			{
+				var semanticResults = await GetSemanticEvaluations(node, _semanticEvaluations[kind], _model, _solution).ConfigureAwait(false);
+
+				return semanticResults;
 			}
 		}
 	}

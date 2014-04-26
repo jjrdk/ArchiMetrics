@@ -45,6 +45,9 @@
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="metrics">
+      <HintPath>..\packages\Metrics.1.0.8\lib\net40\metrics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.0.6.4033103-beta\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +80,9 @@
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\Metrics.1.0.8\lib\net40\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable">
       <HintPath>..\packages\Microsoft.Bcl.Immutable.1.1.20-beta\lib\portable-net45+win8\System.Collections.Immutable.dll</HintPath>
@@ -92,6 +98,7 @@
     <Compile Include="AllRulesTests.cs" />
     <Compile Include="EvaluationFormalityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleEvaluationPerformanceTest.cs" />
     <Compile Include="RuleProvider.cs" />
     <Compile Include="Rules\Code\LackOfCohesionOfMethodsRuleTests.cs" />
     <Compile Include="Rules\Code\TypeMustBeDeclaredInNamespaceRuleTests.cs" />
