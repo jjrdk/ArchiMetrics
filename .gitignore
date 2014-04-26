@@ -17,3 +17,5 @@ TestResult.xml
 *.user
 
 *.ide
+*.pure
+*.log
