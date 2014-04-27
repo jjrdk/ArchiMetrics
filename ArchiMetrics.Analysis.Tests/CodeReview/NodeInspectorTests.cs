@@ -52,7 +52,7 @@ namespace ArchiMetrics.Analysis.Tests.CodeReview
 					SyntaxFactory.BaseList(), 
 					SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(), 
 					SyntaxFactory.List<MemberDeclarationSyntax>());
-				await _reviewer.Inspect("name", string.Empty, classDeclaration, null, null);
+				await _reviewer.Inspect("name", string.Empty, classDeclaration, null, null).ConfigureAwait(false);
 
 				_mockCodeEvaluation.Verify(x => x.Evaluate(classDeclaration));
 			}

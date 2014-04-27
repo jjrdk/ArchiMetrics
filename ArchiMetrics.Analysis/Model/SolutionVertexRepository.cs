@@ -43,12 +43,12 @@ namespace ArchiMetrics.Analysis.Model
 				solutionPath,
 				async path =>
 				{
-					var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken)).ToArray();
-					var projectMetrics = (await _metricsRepository.Get(solutionPath)).ToArray();
-					var vertices = projectMetrics.Select(IProjectMetric => CreateProjectNode(IProjectMetric, projectMetrics, evaluationResults)).ToArray();
+					var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken).ConfigureAwait(false)).ToArray();
+					var projectMetrics = (await _metricsRepository.Get(solutionPath).ConfigureAwait(false)).ToArray();
+					var vertices = projectMetrics.Select(projectMetric => CreateProjectNode(projectMetric, projectMetrics, evaluationResults)).ToArray();
 
 					return vertices;
-				});
+				}).ConfigureAwait(false);
 			return cancellationToken.IsCancellationRequested
 					   ? Enumerable.Empty<IModelNode>()
 					   : projectVertices;

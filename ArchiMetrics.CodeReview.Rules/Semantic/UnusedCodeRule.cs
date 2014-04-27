@@ -63,7 +63,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = semanticModel.GetDeclaredSymbol(node);
-			var callers = await SymbolFinder.FindReferencesAsync(symbol, solution, CancellationToken.None);
+			var callers = await SymbolFinder.FindReferencesAsync(symbol, solution, CancellationToken.None).ConfigureAwait(false);
 
 			if (!callers.Any(IsNotAssignment))
 			{

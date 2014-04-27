@@ -51,7 +51,7 @@ namespace ArchiMetrics.Analysis.Model
 				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			var results = await _evaluations.GetOrAdd(solutionFile, LoadEvaluationResults);
+			var results = await _evaluations.GetOrAdd(solutionFile, LoadEvaluationResults).ConfigureAwait(false);
 
 			var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
 			return cancellationToken.IsCancellationRequested
@@ -80,7 +80,7 @@ namespace ArchiMetrics.Analysis.Model
 		private async Task<EvaluationResult[]> LoadEvaluationResults(string path)
 		{
 			var solution = _solutionProvider.Get(path);
-			return (await _inspector.Inspect(solution)).ToArray();
+			return (await _inspector.Inspect(solution).ConfigureAwait(false)).ToArray();
 		}
 	}
 }

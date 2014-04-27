@@ -36,9 +36,9 @@ namespace ArchiMetrics.Analysis
 
 		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution)
 		{
-			var compilation = await project.GetCompilationAsync();
-			var namespaceDeclarations = await GetNamespaceDeclarations(project);
-			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
+			var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
+			var namespaceDeclarations = await GetNamespaceDeclarations(project).ConfigureAwait(false);
+			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution).ConfigureAwait(false);
 		}
 
 		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Solution solution)
@@ -46,11 +46,11 @@ namespace ArchiMetrics.Analysis
 			var tasks = solution.Projects.Select(
 				async project =>
 					{
-						var compilation = await project.GetCompilationAsync();
-						var namespaceDeclarations = await GetNamespaceDeclarations(project);
-						return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution);
+						var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
+						var namespaceDeclarations = await GetNamespaceDeclarations(project).ConfigureAwait(false);
+						return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution).ConfigureAwait(false);
 					});
-			var results = (await Task.WhenAll(tasks)).SelectMany(x => x).ToArray();
+			var results = (await Task.WhenAll(tasks).ConfigureAwait(false)).SelectMany(x => x).ToArray();
 
 			return results;
 		}
@@ -105,7 +105,7 @@ namespace ArchiMetrics.Analysis
 				})
 				.ToArray();
 
-			var namespaceMetrics = await CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation, null);
+			var namespaceMetrics = await CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation, null).ConfigureAwait(false);
 			return namespaceMetrics;
 		}
 
@@ -117,7 +117,7 @@ namespace ArchiMetrics.Analysis
 				return null;
 			}
 
-			var tuple = await VerifyCompilation(compilation, namespaceNode);
+			var tuple = await VerifyCompilation(compilation, namespaceNode).ConfigureAwait(false);
 			compilation = tuple.Item1;
 			var semanticModel = compilation.GetSemanticModel(tuple.Item3);
 			var calculator = new NamespaceMetricsCalculator(semanticModel);
@@ -128,7 +128,7 @@ namespace ArchiMetrics.Analysis
 		{
 			if (typeNodes.SyntaxNodes.Any())
 			{
-				var tuple = await VerifyCompilation(compilation, typeNodes.SyntaxNodes.First());
+				var tuple = await VerifyCompilation(compilation, typeNodes.SyntaxNodes.First()).ConfigureAwait(false);
 				var semanticModel = tuple.Item2;
 				compilation = tuple.Item1;
 				var typeNode = tuple.Item3;
@@ -151,7 +151,7 @@ namespace ArchiMetrics.Analysis
 					SyntaxFactory
 					.CompilationUnit()
 					.WithMembers(SyntaxFactory.List(new[] { (MemberDeclarationSyntax)typeNode.Syntax })));
-				var root = await cu.GetRootAsync();
+				var root = await cu.GetRootAsync().ConfigureAwait(false);
 				typeNode.Syntax = (TypeDeclarationSyntax)root.ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
 				var semanticModel = newCompilation.GetSemanticModel(cu);
@@ -202,7 +202,7 @@ namespace ArchiMetrics.Analysis
 				var compilationUnit = SyntaxFactory.CompilationUnit()
 					.WithMembers(SyntaxFactory.List(new[] { (MemberDeclarationSyntax)namespaceNode.Syntax }));
 				var cu = CSharpSyntaxTree.Create(compilationUnit);
-				var root = await cu.GetRootAsync();
+				var root = await cu.GetRootAsync().ConfigureAwait(false);
 				namespaceNode.Syntax = root.ChildNodes().First();
 				var newCompilation = compilation.AddSyntaxTrees(cu);
 				semanticModel = newCompilation.GetSemanticModel(cu);
@@ -225,7 +225,7 @@ namespace ArchiMetrics.Analysis
 					async t =>
 					{
 						var collector = new NamespaceCollector();
-						var root = await t.document.GetSyntaxRootAsync();
+						var root = await t.document.GetSyntaxRootAsync().ConfigureAwait(false);
 						return new
 							   {
 								   t.codeFile, 
@@ -235,7 +235,7 @@ namespace ArchiMetrics.Analysis
 				.Select(
 					async t =>
 					{
-						var result = await t;
+						var result = await t.ConfigureAwait(false);
 						return result.namespaces
 							.Select(
 								x => new NamespaceDeclarationSyntaxInfo
@@ -245,7 +245,7 @@ namespace ArchiMetrics.Analysis
 										 Syntax = x
 									 });
 					});
-			var namespaceDeclarations = await Task.WhenAll(namespaceDeclarationTasks);
+			var namespaceDeclarations = await Task.WhenAll(namespaceDeclarationTasks).ConfigureAwait(false);
 			return namespaceDeclarations
 				.SelectMany(x => x)
 				.GroupBy(x => x.Name)
@@ -278,12 +278,12 @@ namespace ArchiMetrics.Analysis
 			var tasks = namespaceDeclarations.Select(
 				async arg =>
 				{
-					var tuple = await CalculateTypeMetrics(compilation, arg, solution);
+					var tuple = await CalculateTypeMetrics(compilation, arg, solution).ConfigureAwait(false);
 					return CalculateNamespaceMetrics(tuple.Item1, arg, tuple.Item2.ToArray());
 				})
 					.ToArray();
-			var x = await Task.WhenAll(tasks);
-			return await Task.WhenAll(x);
+			var x = await Task.WhenAll(tasks).ConfigureAwait(false);
+			return await Task.WhenAll(x).ConfigureAwait(false);
 		}
 
 		private async Task<Tuple<Compilation, IEnumerable<IMemberMetric>>> CalculateMemberMetrics(Compilation compilation, TypeDeclaration typeNodes, Solution solution)
@@ -292,14 +292,14 @@ namespace ArchiMetrics.Analysis
 			var metrics = typeNodes.SyntaxNodes
 				.Select(async info =>
 				{
-					var tuple = await VerifyCompilation(comp, info);
+					var tuple = await VerifyCompilation(comp, info).ConfigureAwait(false);
 					var semanticModel = tuple.Item2;
 					comp = tuple.Item1;
 					var calculator = new MemberMetricsCalculator(semanticModel, solution);
 
-					return await calculator.Calculate(info);
+					return await calculator.Calculate(info).ConfigureAwait(false);
 				});
-			var results = await Task.WhenAll(metrics);
+			var results = await Task.WhenAll(metrics).ConfigureAwait(false);
 			return new Tuple<Compilation, IEnumerable<IMemberMetric>>(comp, results.SelectMany(x => x).ToArray());
 		}
 
@@ -309,7 +309,7 @@ namespace ArchiMetrics.Analysis
 			var tasks = GetTypeDeclarations(namespaceNodes)
 				.Select(async typeNodes =>
 					{
-						var tuple = await CalculateMemberMetrics(comp, typeNodes, solution);
+						var tuple = await CalculateMemberMetrics(comp, typeNodes, solution).ConfigureAwait(false);
 						var metrics = tuple.Item2;
 						comp = tuple.Item1;
 						return new
@@ -320,11 +320,11 @@ namespace ArchiMetrics.Analysis
 						};
 					})
 					.ToArray();
-			var data = await Task.WhenAll(tasks);
+			var data = await Task.WhenAll(tasks).ConfigureAwait(false);
 			var typeMetricsTasks = data
 				.Select(async item =>
 				{
-					var tuple = await CalculateTypeMetrics(item.comp, item.typeNodes, item.memberMetrics);
+					var tuple = await CalculateTypeMetrics(item.comp, item.typeNodes, item.memberMetrics).ConfigureAwait(false);
 					if (tuple == null)
 					{
 						return null;
@@ -335,7 +335,7 @@ namespace ArchiMetrics.Analysis
 				})
 				.ToArray();
 
-			var typeMetrics = await Task.WhenAll(typeMetricsTasks);
+			var typeMetrics = await Task.WhenAll(typeMetricsTasks).ConfigureAwait(false);
 			var array = typeMetrics.Where(x => x != null).ToArray();
 			return new Tuple<Compilation, IEnumerable<ITypeMetric>>(comp, array);
 		}

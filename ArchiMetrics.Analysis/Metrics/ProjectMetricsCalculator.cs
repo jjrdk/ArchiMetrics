@@ -31,7 +31,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var tasks = from project in solution.Projects select Calculate(project, solution);
 
-			return await Task.WhenAll(tasks);
+			return await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 
 		public async Task<IProjectMetric> Calculate(Project project, Solution solution)
@@ -47,9 +47,9 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Select(x => solution.GetProject(x.ProjectId).AssemblyName)
 				.Concat(project.MetadataReferences.Select(x => x.Display));
 
-			var compilation = await project.GetCompilationAsync();
+			var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
 			var assemblyTypes = compilation.Assembly.TypeNames;
-			var metrics = (await metricsTask).ToArray();
+			var metrics = (await metricsTask.ConfigureAwait(false)).ToArray();
 
 			var internalTypesUsed = metrics
 				.SelectMany(x => x.ClassCouplings)

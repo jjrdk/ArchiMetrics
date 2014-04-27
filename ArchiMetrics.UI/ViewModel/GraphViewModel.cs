@@ -103,11 +103,11 @@ namespace ArchiMetrics.UI.ViewModel
 			_tokenSource = new CancellationTokenSource();
 			if (forceUpdate)
 			{
-				await LoadAllEdges(_tokenSource.Token);
+				await LoadAllEdges(_tokenSource.Token).ConfigureAwait(false);
 			}
 			else
 			{
-				await UpdateInternal(_tokenSource.Token);
+				await UpdateInternal(_tokenSource.Token).ConfigureAwait(false);
 			}
 		}
 
@@ -117,8 +117,8 @@ namespace ArchiMetrics.UI.ViewModel
 
 			var rules = _rulesProvider.Get(_config.RulesSource);
 
-			var edges =
-				(await _filter.Transform(_allMetricsEdges, rules, cancellationToken))
+			var nodes = await _filter.Transform(_allMetricsEdges, rules, cancellationToken).ConfigureAwait(false);
+			var edges = nodes
 					.WhereNot(x => string.IsNullOrWhiteSpace(x.QualifiedName))
 					.SelectMany(x => x.Flatten())
 					.Where(e => !string.IsNullOrWhiteSpace(e.QualifiedName))
@@ -140,8 +140,9 @@ namespace ArchiMetrics.UI.ViewModel
 		private async Task LoadAllEdges(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			_allMetricsEdges = (await _repository.GetVertices(_config.Path, cancellationToken)).ToArray();
-			await UpdateInternal(cancellationToken);
+			var vertices = _repository.GetVertices(_config.Path, cancellationToken).ConfigureAwait(false);
+			_allMetricsEdges = (await vertices).ToArray();
+			await UpdateInternal(cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

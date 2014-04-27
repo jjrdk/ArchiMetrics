@@ -50,7 +50,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				members = members.Concat(new[] { defaultConstructor }).ToArray();
 			}
 
-			var metrics = await CalculateMemberMetrics(members);
+			var metrics = await CalculateMemberMetrics(members).ConfigureAwait(false);
 			return metrics.ToArray();
 		}
 
@@ -113,7 +113,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var tasks = nodes.Select(CalculateMemberMetric);
 
-			var metrics = await Task.WhenAll(tasks);
+			var metrics = await Task.WhenAll(tasks).ConfigureAwait(false);
 			return from metric in metrics
 				   where metric != null
 				   select metric;
@@ -131,7 +131,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
 			var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
 			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
-			var afferentCoupling = await CalculateAfferentCoupling(syntaxNode);
+			var afferentCoupling = await CalculateAfferentCoupling(syntaxNode).ConfigureAwait(false);
 			var location = syntaxNode.GetLocation();
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
@@ -163,7 +163,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				var referenceTasks = SymbolFinder.FindReferencesAsync(symbol, _solution)
 					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Sum(x => x.Locations.Count()));
 
-				return await referenceTasks;
+				return await referenceTasks.ConfigureAwait(false);
 			}
 			catch
 			{

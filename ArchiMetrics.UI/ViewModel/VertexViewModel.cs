@@ -74,8 +74,8 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			var rules = _transformRulesProvider.Get(_config.RulesSource);
-			var results = await Filter.Transform(AllVertices, rules, cancellationToken);
-			var edges = await _edgeFactory.Create(results.OfType<IModelNode>(), cancellationToken);
+			var results = await Filter.Transform(AllVertices, rules, cancellationToken).ConfigureAwait(false);
+			var edges = await _edgeFactory.Create(results, cancellationToken).ConfigureAwait(false);
 			var newCollection = new ObservableCollection<ModelEdgeItem>(edges.Distinct());
 			VertexTransforms = rules;
 			EdgeItems = newCollection;

@@ -43,19 +43,20 @@ namespace ArchiMetrics.Common
 
 		public static async Task<T> FirstMatch<T>(this IEnumerable<Task<T>> tasks, Func<T, bool> predicate)
 		{
-			var finished = await Task.WhenAny(tasks);
+			var taskArray = tasks.ToArray();
+			var finished = await Task.WhenAny(taskArray).ConfigureAwait(false);
 			if (predicate(finished.Result))
 			{
 				return finished.Result;
 			}
 
-			var remaining = tasks.Except(new[] { finished }).ToArray();
+			var remaining = taskArray.Except(new[] { finished }).ToArray();
 			if (remaining.Length == 0)
 			{
 				return default(T);
 			}
 
-			return await FirstMatch(remaining, predicate);
+			return await FirstMatch(remaining, predicate).ConfigureAwait(false);
 		}
 	}
 }

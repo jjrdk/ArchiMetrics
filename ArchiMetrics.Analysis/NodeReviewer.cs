@@ -59,7 +59,7 @@ namespace ArchiMetrics.Analysis
 		{
 			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
 
-			var inspectionTasks = await inspector.Visit(node);
+			var inspectionTasks = await inspector.Visit(node).ConfigureAwait(false);
 			var inspectionResults = inspectionTasks.ToArray();
 			foreach (var result in inspectionResults)
 			{
@@ -84,7 +84,7 @@ namespace ArchiMetrics.Analysis
 			}
 
 			var model = await modelTask.ConfigureAwait(false);
-			return await Inspect(filePath, projectName, root, model, solution);
+			return await Inspect(filePath, projectName, root, model, solution).ConfigureAwait(false);
 		}
 
 		private class InnerInspector : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
@@ -112,12 +112,10 @@ namespace ArchiMetrics.Analysis
 				}
 
 				var nodeResultTasks = await Task.WhenAll(CheckNodes(node.DescendantNodesAndSelf().ToArray())).ConfigureAwait(false);
-				//await Task.WhenAll(node.ChildNodesAndTokens().Select(VisitNodeOrToken)).ConfigureAwait(false);
+				
 				var tokenResultTasks = await Task.WhenAll(node.DescendantTokens().Select(VisitToken)).ConfigureAwait(false);
 				var baseResults = nodeResultTasks.SelectMany(x => x).Concat(tokenResultTasks.SelectMany(x => x));
 				return baseResults;
-
-				//return codeResults.Concat(semanticResults).Concat(baseResults).ToArray();
 			}
 
 			public override Task<IEnumerable<EvaluationResult>> DefaultVisit(SyntaxNode node)
@@ -219,7 +217,7 @@ namespace ArchiMetrics.Analysis
 										   };
 							}
 						});
-				var results = (await Task.WhenAll(tasks))
+				var results = (await Task.WhenAll(tasks).ConfigureAwait(false))
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
 					.ToArray();
 				return results;

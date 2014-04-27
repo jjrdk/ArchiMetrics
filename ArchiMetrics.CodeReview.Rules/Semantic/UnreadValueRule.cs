@@ -45,7 +45,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		{
 			var referenceTasks = GetSymbols(node, semanticModel)
 				.Select(x => SymbolFinder.FindReferencesAsync(x, solution, CancellationToken.None));
-			var references = (await Task.WhenAll(referenceTasks))
+			var references = (await Task.WhenAll(referenceTasks).ConfigureAwait(false))
 				.SelectMany(x => x)
 				.SelectMany(x => x.Locations)
 				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))

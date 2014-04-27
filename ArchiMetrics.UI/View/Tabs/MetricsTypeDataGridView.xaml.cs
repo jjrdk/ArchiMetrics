@@ -42,7 +42,7 @@ namespace ArchiMetrics.UI.View.Tabs
 				var data = (string)Clipboard.GetData(DataFormats.Html);
 				Clipboard.Clear();
 				var writer = new StreamWriter(saveDialog.FileName);
-				await writer.WriteAsync(data);
+				await writer.WriteAsync(data).ConfigureAwait(false);
 				writer.Close();
 			}
 		}

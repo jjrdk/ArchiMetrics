@@ -133,7 +133,8 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			var solutionPath = _config.Path;
-			var metricsTasks = (await _metricsRepository.Get(solutionPath)).ToArray();
+			var awaitable = _metricsRepository.Get(solutionPath).ConfigureAwait(false);
+			var metricsTasks = (await awaitable).ToArray();
 
 			var metrics = metricsTasks
 				.SelectMany(x => x.NamespaceMetrics)

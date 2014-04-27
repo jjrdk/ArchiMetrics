@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis
 
 		public async Task<bool> IsReferencedInTest(ISymbol symbol)
 		{
-			var references = await SymbolFinder.FindReferencesAsync(symbol, _solution); // symbol.FindReferences(_solution).ToArray();
+			var references = (await SymbolFinder.FindReferencesAsync(symbol, _solution).ConfigureAwait(false)).ToArray(); // symbol.FindReferences(_solution).ToArray();
 			if (!references.Any())
 			{
 				return false;
@@ -41,7 +41,7 @@ namespace ArchiMetrics.Analysis
 										  select new { TokenTask = rootTask, Location = location })
 										 .ToArray();
 
-			await Task.WhenAll(referencingSymbolTasks.Select(x => x.TokenTask));
+			await Task.WhenAll(referencingSymbolTasks.Select(x => x.TokenTask)).ConfigureAwait(false);
 
 			var referencingMethods = referencingSymbolTasks
 				.Select(x => new
@@ -67,13 +67,13 @@ namespace ArchiMetrics.Analysis
 				return true;
 			}
 
-			await Task.WhenAll(referencingMethods.Select(x => x.Model));
+			await Task.WhenAll(referencingMethods.Select(x => x.Model)).ConfigureAwait(false);
 			var referencingSymbols = from reference in referencingMethods
 									 let model = reference.Model.Result
 									 let referencingSymbol = model.GetDeclaredSymbol(reference.Method)
 									 select IsReferencedInTest(referencingSymbol);
 
-			return await referencingSymbols.ToArray().FirstMatch(x => x);
+			return await referencingSymbols.ToArray().FirstMatch(x => x).ConfigureAwait(false);
 		}
 	}
 }

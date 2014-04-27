@@ -51,12 +51,12 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		public void MeasurePerformance()
 		{
 			var timer = Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
-			for (var i = 0; i < 20; i++)
+			for (var i = 0; i < 10; i++)
 			{
 				var amount = timer.Time(new Func<int>(() => PerformReview().Result));
 			}
 			
-			Assert.Greater(100.0, timer.Mean);
+			Assert.Less(timer.Mean, 90.0);
 		}
 
 		private async Task<int> PerformReview()

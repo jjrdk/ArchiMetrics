@@ -77,7 +77,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		{
 			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(node);
 			var efferent = GetReferencedTypes(node, symbol, semanticModel).ToArray();
-			var callers = (await SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None)).ToArray();
+			var awaitable = SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None).ConfigureAwait(false);
+			var callers = (await awaitable).ToArray();
 			var testCallers = callers
 				.Where(c => c.CallingSymbol.GetAttributes()
 				.Any(x => x.AttributeClass.Name.IsKnownTestAttribute()))

@@ -85,7 +85,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 		protected async override void Update(bool forceUpdate)
 		{
-			await UpdateInternal(forceUpdate);
+			await UpdateInternal(forceUpdate).ConfigureAwait(false);
 		}
 
 		protected override void Dispose(bool isDisposing)
@@ -178,11 +178,12 @@ namespace ArchiMetrics.UI.ViewModel
 			base.Update(forceUpdate);
 			if (forceUpdate)
 			{
-				var result = (await _repository.Get(_config.Path)).ToArray();
+				var awaitable = _repository.Get(_config.Path).ConfigureAwait(false);
+				var result = (await awaitable).ToArray();
 				if (!_tokenSource.IsCancellationRequested)
 				{
 					var metrics = result.SelectMany(x => x.NamespaceMetrics);
-					await DisplayMetrics(metrics);
+					await DisplayMetrics(metrics).ConfigureAwait(false);
 				}
 			}
 		}
@@ -199,7 +200,7 @@ namespace ArchiMetrics.UI.ViewModel
 			var linesOfCodeTask = DisplayErrorsByLinesOfCode(results, linesOfCode);
 			var maintainabilityTask = DisplayErrorsByMaintainability(results, linesOfCode);
 
-			await Task.WhenAll(complexityTask, linesOfCodeTask, maintainabilityTask);
+			await Task.WhenAll(complexityTask, linesOfCodeTask, maintainabilityTask).ConfigureAwait(false);
 			IsLoading = false;
 		}
 

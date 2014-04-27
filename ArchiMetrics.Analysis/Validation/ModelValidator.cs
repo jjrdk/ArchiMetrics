@@ -34,11 +34,11 @@ namespace ArchiMetrics.Analysis.Validation
 
 		public async Task<IEnumerable<IValidationResult>> Validate(string solutionPath, IEnumerable<IModelRule> rules, IEnumerable<TransformRule> transformRules, CancellationToken cancellationToken)
 		{
-			var model = await _repository.GetVertices(solutionPath, cancellationToken);
-			var transformed = await _syntaxTransformer.Transform(model, transformRules, cancellationToken);
+			var model = await _repository.GetVertices(solutionPath, cancellationToken).ConfigureAwait(false);
+			var transformed = await _syntaxTransformer.Transform(model, transformRules, cancellationToken).ConfigureAwait(false);
 			var modelTree = new ModelNode("All", NodeKind.Solution, CodeQuality.Good, 0, 0, 0, transformed.ToList());
 			var tasks = rules.Select(r => r.Validate(modelTree));
-			var results = await Task.WhenAll(tasks);
+			var results = await Task.WhenAll(tasks).ConfigureAwait(false);
 
 			return results.SelectMany(x => x).ToArray();
 		}

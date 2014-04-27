@@ -141,7 +141,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private async void LoadEdges(CancellationToken cancellationToken)
 		{
 			IsLoading = true;
-			var edges = await _repository.GetVertices(_config.Path, cancellationToken);
+			var edges = await _repository.GetVertices(_config.Path, cancellationToken).ConfigureAwait(false);
 
 			_allVertices = edges.ToArray();
 			UpdateInternal(cancellationToken);
