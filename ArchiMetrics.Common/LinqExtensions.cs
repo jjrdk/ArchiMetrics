@@ -45,6 +45,11 @@ namespace ArchiMetrics.Common
 			return new Collection<T>(source.ToArray());
 		}
 
+		public static bool In<T>(this T item, IEnumerable<T> collection)
+		{
+			return collection.Contains(item);
+		}
+
 		private class FuncComparer<T, TOut> : IEqualityComparer<T>
 		{
 			private readonly Func<T, TOut> _func;

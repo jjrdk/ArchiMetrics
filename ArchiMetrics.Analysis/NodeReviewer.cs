@@ -15,8 +15,8 @@ namespace ArchiMetrics.Analysis
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Threading;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -26,10 +26,14 @@ namespace ArchiMetrics.Analysis
 		private readonly Dictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
 		private readonly Dictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 		private readonly Dictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
+		private SyntaxKind[] _allSyntaxKinds;
 
 		public NodeReviewer(IEnumerable<IEvaluation> evaluations)
 		{
 			var allEvaluations = evaluations.ToArray();
+			_allSyntaxKinds = allEvaluations.Select(x => x.EvaluatedKind)
+				.Distinct()
+				.ToArray();
 			_triviaEvaluations = allEvaluations.OfType<ITriviaEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 			_codeEvaluations = allEvaluations.OfType<ICodeEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 			_semanticEvaluations = allEvaluations.OfType<ISemanticEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
@@ -42,14 +46,16 @@ namespace ArchiMetrics.Analysis
 				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			var inspectionTasks = (from project in solution.Projects
-								   where project.HasDocuments
-								   from doc in project.Documents.ToArray()
-								   let model = doc.GetSemanticModelAsync()
-								   let root = doc.GetSyntaxRootAsync()
-								   select GetInspections(project.FilePath, project.Name, model, root, solution))
-						   .ToArray();
+			var dataTasks = (from project in solution.Projects
+							 where project.HasDocuments
+							 from doc in project.Documents.ToArray()
+							 let model = doc.GetSemanticModelAsync()
+							 let root = doc.GetSyntaxRootAsync()
+							 select new { FilePath = project.FilePath, Name = project.Name, Model = model, Root = root, Solution = solution })
+							 .ToArray();
+			await Task.WhenAll(dataTasks.Select(x => x.Model).Concat(dataTasks.Select(x => (Task)x.Root))).ConfigureAwait(false);
 
+			var inspectionTasks = dataTasks.Select(x => GetInspections(x.FilePath, x.Name, x.Model.Result, x.Root.Result, x.Solution));
 			var results = await Task.WhenAll(inspectionTasks).ConfigureAwait(false);
 
 			return results.SelectMany(x => x).ToArray();
@@ -57,7 +63,7 @@ namespace ArchiMetrics.Analysis
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
-			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
+			var inspector = new InnerInspector(_allSyntaxKinds, _triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
 
 			var inspectionTasks = await inspector.Visit(node).ConfigureAwait(false);
 			var inspectionResults = inspectionTasks.ToArray();
@@ -73,30 +79,30 @@ namespace ArchiMetrics.Analysis
 		private async Task<IEnumerable<EvaluationResult>> GetInspections(
 			string filePath,
 			string projectName,
-			Task<SemanticModel> modelTask,
-			Task<SyntaxNode> rootTask,
+			SemanticModel model,
+			SyntaxNode root,
 			Solution solution)
 		{
-			var root = await rootTask.ConfigureAwait(false);
 			if (root == null)
 			{
 				return Enumerable.Empty<EvaluationResult>();
 			}
 
-			var model = await modelTask.ConfigureAwait(false);
 			return await Inspect(filePath, projectName, root, model, solution).ConfigureAwait(false);
 		}
 
 		private class InnerInspector : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
 		{
+			private readonly IList<SyntaxKind> _supportedSyntaxKinds;
 			private readonly IDictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
 			private readonly IDictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 			private readonly IDictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
 			private readonly SemanticModel _model;
 			private readonly Solution _solution;
 
-			public InnerInspector(IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
+			public InnerInspector(IList<SyntaxKind> supportedSyntaxKinds, IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
 			{
+				_supportedSyntaxKinds = supportedSyntaxKinds;
 				_triviaEvaluations = triviaEvaluations;
 				_codeEvaluations = codeEvaluations;
 				_semanticEvaluations = semanticEvaluations;
@@ -111,9 +117,10 @@ namespace ArchiMetrics.Analysis
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
-				var nodeResultTasks = await Task.WhenAll(CheckNodes(node.DescendantNodesAndSelf().ToArray())).ConfigureAwait(false);
-				
-				var tokenResultTasks = await Task.WhenAll(node.DescendantTokens().Select(VisitToken)).ConfigureAwait(false);
+				var nodeChecks = CheckNodes(node.DescendantNodesAndSelf().Where(x => x.CSharpKind().In(_supportedSyntaxKinds)).ToArray());
+				var tokenResultTasks = node.DescendantTokens().Select(VisitToken);
+				var nodeResultTasks = await Task.WhenAll(nodeChecks).ConfigureAwait(false);
+
 				var baseResults = nodeResultTasks.SelectMany(x => x).Concat(tokenResultTasks.SelectMany(x => x));
 				return baseResults;
 			}
@@ -123,46 +130,39 @@ namespace ArchiMetrics.Analysis
 				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
 			}
 
-			public virtual async Task<IEnumerable<EvaluationResult>> VisitToken(SyntaxToken token)
+			protected virtual IEnumerable<EvaluationResult> VisitToken(SyntaxToken token)
 			{
-				var tasks = await Task.WhenAll(
-					token.LeadingTrivia.Concat(token.TrailingTrivia)
-									  .Where(x => _triviaEvaluations.ContainsKey(x.CSharpKind()))
-									  .Select(
-										  async trivia => await GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.CSharpKind()])
-																	.ConfigureAwait(false)))
-									  .ConfigureAwait(false);
-				return tasks.SelectMany(x => x);
+				var results = token.LeadingTrivia.Concat(token.TrailingTrivia)
+					.Where(x => _triviaEvaluations.ContainsKey(x.CSharpKind()))
+					.SelectMany(trivia => GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.CSharpKind()]));
+
+				return results;
 			}
 
-			private static Task<IEnumerable<EvaluationResult>> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<ITriviaEvaluation> nodeEvaluations)
+			private static IEnumerable<EvaluationResult> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<ITriviaEvaluation> nodeEvaluations)
 			{
-				return Task.Factory.StartNew(
-					() =>
+				var results = nodeEvaluations.Select(
+					x =>
 					{
-						var results = nodeEvaluations.Select(
-							x =>
-							{
-								try
-								{
-									return x.Evaluate(trivia);
-								}
-								catch (Exception ex)
-								{
-									return new EvaluationResult
-											   {
-												   Title = ex.Message,
-												   Suggestion = ex.StackTrace,
-												   ErrorCount = 1,
-												   Snippet = trivia.ToFullString(),
-												   Quality = CodeQuality.Broken
-											   };
-								}
-							})
-								.Where(x => x != null && x.Quality != CodeQuality.Good)
-								.ToArray();
-						return results.AsEnumerable();
-					});
+						try
+						{
+							return x.Evaluate(trivia);
+						}
+						catch (Exception ex)
+						{
+							return new EvaluationResult
+									   {
+										   Title = ex.Message,
+										   Suggestion = ex.StackTrace,
+										   ErrorCount = 1,
+										   Snippet = trivia.ToFullString(),
+										   Quality = CodeQuality.Broken
+									   };
+						}
+					})
+						.Where(x => x != null && x.Quality != CodeQuality.Good)
+						.ToArray();
+				return results;
 			}
 
 			private static IEnumerable<EvaluationResult> GetCodeEvaluations(SyntaxNode node, IEnumerable<ICodeEvaluation> nodeEvaluations)

@@ -19,6 +19,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.ComponentModel;
 	using System.Linq;
 	using System.Reactive;
+	using System.Reactive.Concurrency;
 	using System.Reactive.Linq;
 	using System.Text.RegularExpressions;
 	using ArchiMetrics.Common;
@@ -37,11 +38,11 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IEnumerable<IResetable> _resetables;
 
 		public SettingsViewModel(
-			IAvailableRules availableRules, 
-			ICollection<Regex> knownPatterns, 
-			IKnownPatterns patterns, 
-			IAppContext config, 
-			IEnumerable<IResetable> resetables, 
+			IAvailableRules availableRules,
+			ICollection<Regex> knownPatterns,
+			IKnownPatterns patterns,
+			IAppContext config,
+			IEnumerable<IResetable> resetables,
 			EventAggregator eventAggregator)
 			: base(config)
 		{
@@ -53,14 +54,14 @@ namespace ArchiMetrics.UI.ViewModel
 			_eventAggregator = eventAggregator;
 			_changeSubscription = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-					h => _config.PropertyChanged += h, 
+					h => _config.PropertyChanged += h,
 					h => _config.PropertyChanged -= h)
 				.Select(x => x.EventArgs)
 				.ObserveOn(Schedulers.Taskpool)
 				.Subscribe(RaisePropertyChanged);
 			_newPatternSubscription = Observable
 				.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-					h => ((INotifyCollectionChanged)KnownPatterns).CollectionChanged += h, 
+					h => ((INotifyCollectionChanged)KnownPatterns).CollectionChanged += h,
 					h => ((INotifyCollectionChanged)KnownPatterns).CollectionChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(3))
 				.Subscribe(ResetData);

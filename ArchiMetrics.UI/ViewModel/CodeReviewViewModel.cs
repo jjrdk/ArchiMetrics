@@ -119,24 +119,19 @@ namespace ArchiMetrics.UI.ViewModel
 			}
 
 			_tokenSource = new CancellationTokenSource();
-			var newErrors = new ObservableCollection<EvaluationResult>();
 			try
 			{
-				CodeErrors = new ObservableCollection<EvaluationResult>();
 				ErrorsShown = 0;
 
 				var errors = await _repository.GetErrors(_config.Path, _tokenSource.Token).ConfigureAwait(false);
 				var results = errors.OrderBy(x => x.Title).ToArray();
-				foreach (var result in results)
-				{
-					newErrors.Add(result);
-				}
+				var newErrors = new ObservableCollection<EvaluationResult>(results);
 
 				if (newErrors.Count == 0)
 				{
 					var noerrors = new EvaluationResult
 					{
-						Title = "No Errors", 
+						Title = "No Errors",
 						Quality = CodeQuality.Good
 					};
 					newErrors.Add(noerrors);
@@ -150,24 +145,25 @@ namespace ArchiMetrics.UI.ViewModel
 									   .Sum(x => x.LinesOfCodeAffected * .5)
 								   + results.Where(x => x.Quality == CodeQuality.NeedsRefactoring)
 									   .Sum(x => x.LinesOfCodeAffected * .2));
+
+				CodeErrors = newErrors;
 			}
 			catch (Exception exception)
 			{
-				newErrors.Clear();
 				var result = new EvaluationResult
 									   {
-										   Quality = CodeQuality.Broken, 
-										   Title = exception.Message, 
+										   Quality = CodeQuality.Broken,
+										   Title = exception.Message,
 										   Snippet = exception.StackTrace
 									   };
-				newErrors.Add(result);
-				IsLoading = false;
+				var exceptionErrors = new ObservableCollection<EvaluationResult> { result };
+
+				CodeErrors = exceptionErrors;
 			}
 			finally
 			{
 				IsLoading = false;
-				CodeErrors = newErrors;
-				ErrorsShown = newErrors.Count;
+				ErrorsShown = CodeErrors.Count;
 			}
 		}
 
