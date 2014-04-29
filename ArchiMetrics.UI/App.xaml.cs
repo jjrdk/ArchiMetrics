@@ -65,7 +65,7 @@ namespace ArchiMetrics.UI
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			PrepNativeAssemblies();
-			Schedulers.Dispatcher = new DispatcherScheduler(Dispatcher);
+			Schedulers.Dispatcher = new  DispatcherScheduler(Dispatcher);
 			Schedulers.Taskpool = TaskPoolScheduler.Default;
 			var container = BuildContainer();
 			var loader = new ModernContentLoader(container);
