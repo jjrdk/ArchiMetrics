@@ -98,8 +98,6 @@
     <Compile Include="IAvailableRules.cs" />
     <Compile Include="IProvider.cs" />
     <Compile Include="IResetable.cs" />
-    <Compile Include="IStatusMessage.cs" />
-    <Compile Include="IStatusReporter.cs" />
     <Compile Include="LinqExtensions.cs" />
     <Compile Include="Metrics\ICodeMetric.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
