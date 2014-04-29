@@ -20,7 +20,7 @@ namespace ArchiMetrics.UI
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
-	internal class KnownPatterns : ICollection<Regex>, INotifyCollectionChanged, IKnownPatterns
+	internal class KnownPatterns : INotifyCollectionChanged, IKnownPatterns
 	{
 		private readonly List<Regex> _regexes = new List<Regex>();
 
@@ -32,42 +32,6 @@ namespace ArchiMetrics.UI
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
 		/// <summary>
-		/// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-		/// </summary>
-		/// <returns>
-		/// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-		/// </returns>
-		public int Count
-		{
-			get { return _regexes.Count; }
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.
-		/// </summary>
-		/// <returns>
-		/// true if the <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only; otherwise, false.
-		/// </returns>
-		public bool IsReadOnly
-		{
-			get { return false; }
-		}
-
-		/// <summary>
-		/// Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-		/// </summary>
-		/// <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
-		public void Add(Regex item)
-		{
-			if (item == null)
-			{
-				return;
-			}
-
-			AddMany(new[] { item });
-		}
-
-		/// <summary>
 		/// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
 		/// </summary>
 		/// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
@@ -76,27 +40,6 @@ namespace ArchiMetrics.UI
 			_regexes.Clear();
 			var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 			OnCollectionChanged(args);
-		}
-
-		/// <summary>
-		/// Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"/> contains a specific value.
-		/// </summary>
-		/// <returns>
-		/// <code>true</code> if <paramref name="item"/> is found in the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false.
-		/// </returns>
-		/// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param>
-		public bool Contains(Regex item)
-		{
-			return _regexes.Contains(item);
-		}
-
-		/// <summary>
-		/// Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
-		/// </summary>
-		/// <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from <see cref="T:System.Collections.Generic.ICollection`1"/>. The <see cref="T:System.Array"/> must have zero-based indexing.</param><param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param><exception cref="T:System.ArgumentNullException"><paramref name="array"/> is null.</exception><exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.</exception><exception cref="T:System.ArgumentException">The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.</exception>
-		public void CopyTo(Regex[] array, int arrayIndex)
-		{
-			_regexes.CopyTo(array, arrayIndex);
 		}
 
 		/// <summary>
@@ -128,9 +71,9 @@ namespace ArchiMetrics.UI
 		/// <returns>
 		/// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
 		/// </returns>
-		public IEnumerator<Regex> GetEnumerator()
+		public IEnumerator<string> GetEnumerator()
 		{
-			return _regexes.GetEnumerator();
+			return _regexes.Select(x => x.ToString()).GetEnumerator();
 		}
 
 		/// <summary>

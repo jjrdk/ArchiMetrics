@@ -137,7 +137,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<EventAggregator>().AsSelf().As<IObservable<IMessage>>().SingleInstance();
 			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<ModelEdgeItemFactory>().As<IAsyncFactory<IEnumerable<IModelNode>, IEnumerable<ModelEdgeItem>>>();
-			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>().As<ICollection<Regex>>().SingleInstance();
+			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>().SingleInstance();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<ProjectMetricsCalculator>().As<IProjectMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();

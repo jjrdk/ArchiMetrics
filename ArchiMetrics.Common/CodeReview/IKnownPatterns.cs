@@ -12,7 +12,9 @@
 
 namespace ArchiMetrics.Common.CodeReview
 {
-	public interface IKnownPatterns
+	using System.Collections.Generic;
+
+	public interface IKnownPatterns : IEnumerable<string>
 	{
 		bool IsExempt(string word);
 

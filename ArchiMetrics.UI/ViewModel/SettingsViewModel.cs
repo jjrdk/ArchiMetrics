@@ -34,12 +34,10 @@ namespace ArchiMetrics.UI.ViewModel
 		private readonly IAppContext _config;
 		private readonly EventAggregator _eventAggregator;
 		private readonly IDisposable _newPatternSubscription;
-		private readonly IKnownPatterns _patterns;
 		private readonly IEnumerable<IResetable> _resetables;
 
 		public SettingsViewModel(
 			IAvailableRules availableRules,
-			ICollection<Regex> knownPatterns,
 			IKnownPatterns patterns,
 			IAppContext config,
 			IEnumerable<IResetable> resetables,
@@ -47,16 +45,17 @@ namespace ArchiMetrics.UI.ViewModel
 			: base(config)
 		{
 			AvailableRules = availableRules;
-			KnownPatterns = knownPatterns;
-			_patterns = patterns;
+			KnownPatterns = patterns;
 			_config = config;
 			_resetables = resetables;
 			_eventAggregator = eventAggregator;
-			_changeSubscription = Observable
+			var observable = Observable
 				.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
 					h => _config.PropertyChanged += h,
 					h => _config.PropertyChanged -= h)
 				.Select(x => x.EventArgs)
+				.PublishLast();
+			_changeSubscription = observable
 				.ObserveOn(Schedulers.Taskpool)
 				.Subscribe(RaisePropertyChanged);
 			_newPatternSubscription = Observable
@@ -83,7 +82,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public IAvailableRules AvailableRules { get; private set; }
 
-		public ICollection<Regex> KnownPatterns { get; private set; }
+		public IKnownPatterns KnownPatterns { get; private set; }
 
 		public DelegateCommand AddSpellingCommand { get; private set; }
 
@@ -91,8 +90,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public void ImportPatterns(IEnumerable<string> patterns)
 		{
-			_patterns.Clear();
-			_patterns.Add(patterns.WhereNotNullOrWhitespace().ToArray());
+			KnownPatterns.Add(patterns.WhereNotNullOrWhitespace().ToArray());
 		}
 
 		protected override void Dispose(bool isDisposing)
@@ -119,7 +117,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private void DeleteSelected(object obj)
 		{
 			var input = (IList)obj;
-			var items = input.OfType<Regex>().ToArray();
+			var items = input.OfType<string>().ToArray();
 			foreach (var item in items)
 			{
 				KnownPatterns.Remove(item);
@@ -131,7 +129,7 @@ namespace ArchiMetrics.UI.ViewModel
 			var input = obj as string;
 			if (input != null)
 			{
-				KnownPatterns.Add(new Regex(input, RegexOptions.Compiled));
+				KnownPatterns.Add(input);
 			}
 		}
 	}

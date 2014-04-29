@@ -13,7 +13,6 @@
 namespace ArchiMetrics.UI.View.Tabs
 {
 	using System;
-	using System.Collections.Generic;
 	using System.IO;
 	using System.Reactive;
 	using System.Reactive.Linq;
@@ -31,7 +30,7 @@ namespace ArchiMetrics.UI.View.Tabs
 	[DataContext(typeof(SettingsViewModel))]
 	public partial class SettingsSpelling : UserControl, IDisposable
 	{
-		private const string FileFilter = "Spelling files (*.spelling)|*.spelling|All Files (*.*)|*.*";
+		private const string FileFilter = "Spelling files (*.spelling)|*.spelling|Analysis Dictionary files (*.xml)|*.xml|All Files (*.*)|*.*";
 		private readonly Subject<Unit> _subject = new Subject<Unit>();
 		private readonly IDisposable _subscription;
 
@@ -73,25 +72,16 @@ namespace ArchiMetrics.UI.View.Tabs
 		{
 			var dialog = new OpenFileDialog
 			{
-				CheckFileExists = true, 
+				CheckFileExists = true,
 				Filter = FileFilter
 			};
 			if (dialog.ShowDialog() == true)
 			{
-				using (var stream = File.OpenRead(dialog.FileName))
-				{
-					using (var sr = new StreamReader(stream))
-					{
-						var context = DataContext as SettingsViewModel;
-						var lines = new List<string>();
-						while (sr.Peek() >= 0)
-						{
-							lines.Add(sr.ReadLine());
-						}
+				var context = DataContext as SettingsViewModel;
+				var loader = new SpellingLoader();
+				var words = loader.Load(dialog.FileName);
 
-						context.ImportPatterns(lines);
-					}
-				}
+				context.ImportPatterns(words);
 			}
 		}
 
@@ -99,7 +89,7 @@ namespace ArchiMetrics.UI.View.Tabs
 		{
 			var dialog = new SaveFileDialog
 			{
-				Filter = FileFilter, 
+				Filter = FileFilter,
 				AddExtension = true
 			};
 			if (dialog.ShowDialog() == true)
@@ -111,7 +101,7 @@ namespace ArchiMetrics.UI.View.Tabs
 						var context = DataContext as SettingsViewModel;
 						foreach (var pattern in context.KnownPatterns)
 						{
-							writer.WriteLine(pattern.ToString());
+							writer.WriteLine(pattern);
 						}
 					}
 				}
