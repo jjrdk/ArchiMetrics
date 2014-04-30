@@ -43,16 +43,21 @@ namespace ArchiMetrics.Analysis
 
 		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Solution solution)
 		{
-			var tasks = solution.Projects.Select(
-				async project =>
-					{
-						var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
-						var namespaceDeclarations = await GetNamespaceDeclarations(project).ConfigureAwait(false);
-						return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution).ConfigureAwait(false);
-					});
-			var results = (await Task.WhenAll(tasks).ConfigureAwait(false)).SelectMany(x => x).ToArray();
+			var projectTasks = solution.Projects.Select(
+				x => new
+						 {
+							 compilation = x.GetCompilationAsync(),
+							 namespaceDeclarations = GetNamespaceDeclarations(x)
+						 })
+						 .ToArray();
 
-			return results;
+			await Task.WhenAll(
+				projectTasks.Select(x => x.compilation)
+					.Concat(projectTasks.Select(x => x.namespaceDeclarations).Cast<Task>())).ConfigureAwait(false);
+
+			var metrics = await Task.WhenAll(projectTasks.Select(x => CalculateNamespaceMetrics(x.namespaceDeclarations.Result, x.compilation.Result, solution))).ConfigureAwait(false);
+
+			return metrics.SelectMany(x => x).ToArray();
 		}
 
 		public async Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
@@ -63,7 +68,7 @@ namespace ArchiMetrics.Analysis
 			var statementMembers = declarations.Statements.Select(s =>
 				s is StatementSyntax
 				? SyntaxFactory.MethodDeclaration(
-					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)), 
+					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
 					Guid.NewGuid().ToString("N"))
 					.WithBody(SyntaxFactory.Block(s as StatementSyntax))
 					: s);
@@ -94,13 +99,13 @@ namespace ArchiMetrics.Analysis
 				.Concat(anonNs)
 				.Select(x => new NamespaceDeclarationSyntaxInfo
 				{
-					Name = x.GetName(x), 
+					Name = x.GetName(x),
 					Syntax = x
 				})
 				.GroupBy(x => x.Name)
 				.Select(g => new NamespaceDeclaration
 				{
-					Name = g.Key, 
+					Name = g.Key,
 					SyntaxNodes = g.ToArray()
 				})
 				.ToArray();
@@ -134,7 +139,7 @@ namespace ArchiMetrics.Analysis
 				var typeNode = tuple.Item3;
 				var calculator = new TypeMetricsCalculator(semanticModel);
 				return new Tuple<Compilation, ITypeMetric>(
-					compilation, 
+					compilation,
 					calculator.CalculateFrom(typeNode, memberMetrics));
 			}
 
@@ -162,8 +167,8 @@ namespace ArchiMetrics.Analysis
 			var childNodes = result.Item2.GetRoot().DescendantNodesAndSelf();
 			typeNode.Syntax = childNodes.OfType<TypeDeclarationSyntax>().First();
 			return new Tuple<Compilation, SemanticModel, TypeDeclarationSyntaxInfo>(
-				result.Item1, 
-				result.Item1.GetSemanticModel(result.Item2), 
+				result.Item1,
+				result.Item1.GetSemanticModel(result.Item2),
 				typeNode);
 		}
 
@@ -228,7 +233,7 @@ namespace ArchiMetrics.Analysis
 						var root = await t.document.GetSyntaxRootAsync().ConfigureAwait(false);
 						return new
 							   {
-								   t.codeFile, 
+								   t.codeFile,
 								   namespaces = collector.GetNamespaces(root)
 							   };
 					})
@@ -240,8 +245,8 @@ namespace ArchiMetrics.Analysis
 							.Select(
 								x => new NamespaceDeclarationSyntaxInfo
 									 {
-										 Name = x.GetName(x.SyntaxTree.GetRoot()), 
-										 CodeFile = result.codeFile, 
+										 Name = x.GetName(x.SyntaxTree.GetRoot()),
+										 CodeFile = result.codeFile,
 										 Syntax = x
 									 });
 					});
@@ -314,8 +319,8 @@ namespace ArchiMetrics.Analysis
 						comp = tuple.Item1;
 						return new
 						{
-							comp, 
-							typeNodes, 
+							comp,
+							typeNodes,
 							memberMetrics = metrics
 						};
 					})
