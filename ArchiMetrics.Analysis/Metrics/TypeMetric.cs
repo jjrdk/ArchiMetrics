@@ -20,6 +20,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		public TypeMetric(
 			TypeMetricKind kind, 
+			AccessModifierKind accessModifier,
 			IEnumerable<IMemberMetric> memberMetrics, 
 			int linesOfCode, 
 			int cyclomaticComplexity, 
@@ -29,6 +30,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			string name)
 		{
 			Kind = kind;
+			AccessModifier = accessModifier;
 			MemberMetrics = memberMetrics;
 			LinesOfCode = linesOfCode;
 			CyclomaticComplexity = cyclomaticComplexity;
@@ -41,6 +43,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public string Name { get; private set; }
 
 		public TypeMetricKind Kind { get; private set; }
+
+		public AccessModifierKind AccessModifier { get; private set; }
 
 		public IEnumerable<IMemberMetric> MemberMetrics { get; private set; }
 

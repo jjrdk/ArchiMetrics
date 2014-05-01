@@ -30,21 +30,23 @@ namespace ArchiMetrics.Analysis.Metrics
 		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
 		{
 			var memberMetrics = metrics.ToArray();
-			var type = (TypeDeclarationSyntax)typeNode.Syntax;
+			var type = typeNode.Syntax;
 			var metricKind = GetMetricKind(type);
 			var source = CalculateClassCoupling(type, memberMetrics);
 			var depthOfInheritance = CalculateDepthOfInheritance(type);
 			var cyclomaticComplexity = memberMetrics.Sum(x => x.CyclomaticComplexity);
 			var linesOfCode = memberMetrics.Sum(x => x.LinesOfCode);
 			var maintainabilityIndex = CalculateAveMaintainabilityIndex(memberMetrics);
+			var modifier = GetAccessModifier(type.Modifiers);
 			return new TypeMetric(
-				metricKind, 
-				memberMetrics, 
-				linesOfCode, 
-				cyclomaticComplexity, 
-				maintainabilityIndex, 
-				depthOfInheritance, 
-				source, 
+				metricKind,
+				modifier,
+				memberMetrics,
+				linesOfCode,
+				cyclomaticComplexity,
+				maintainabilityIndex,
+				depthOfInheritance,
+				source,
 				type.GetName());
 		}
 
@@ -73,6 +75,21 @@ namespace ArchiMetrics.Analysis.Metrics
 				default:
 					return TypeMetricKind.Unknown;
 			}
+		}
+
+		private AccessModifierKind GetAccessModifier(SyntaxTokenList tokenList)
+		{
+			if (tokenList.Any(SyntaxKind.PublicKeyword))
+			{
+				return AccessModifierKind.Public;
+			}
+
+			if (tokenList.Any(SyntaxKind.PrivateKeyword))
+			{
+				return AccessModifierKind.Private;
+			}
+
+			return AccessModifierKind.Internal;
 		}
 
 		private IEnumerable<ITypeCoupling> CalculateClassCoupling(TypeDeclarationSyntax type, IEnumerable<IMemberMetric> memberMetrics)

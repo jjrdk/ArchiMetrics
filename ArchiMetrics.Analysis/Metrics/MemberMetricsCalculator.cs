@@ -135,8 +135,10 @@ namespace ArchiMetrics.Analysis.Metrics
 			var location = syntaxNode.GetLocation();
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
+			var accessModifier = GetAccessModifier(syntaxNode);
 			return new MemberMetric(
 				filePath,
+				accessModifier,
 				halsteadMetrics,
 				memberMetricKind,
 				lineNumber,
@@ -148,6 +150,39 @@ namespace ArchiMetrics.Analysis.Metrics
 				numberOfParameters,
 				numberOfLocalVariables,
 				afferentCoupling);
+		}
+
+		private AccessModifierKind GetAccessModifier(SyntaxNode node)
+		{
+			var method = node as BaseMethodDeclarationSyntax;
+			if (method != null)
+			{
+				return GetAccessModifier(method.Modifiers);
+			}
+
+			var property = node as BasePropertyDeclarationSyntax;
+			if (property != null)
+			{
+				return GetAccessModifier(property.Modifiers);
+			}
+
+			return AccessModifierKind.Private;
+		}
+
+		private AccessModifierKind GetAccessModifier(SyntaxTokenList tokenList)
+		{
+			if (tokenList.Any(SyntaxKind.PublicKeyword))
+			{
+				return AccessModifierKind.Public;
+			}
+
+			if (tokenList.Any(SyntaxKind.ProtectedKeyword))
+			{
+				var isInternal = tokenList.Any(SyntaxKind.InternalKeyword);
+				return isInternal ? AccessModifierKind.Internal | AccessModifierKind.Protected : AccessModifierKind.Protected;
+			}
+
+			return AccessModifierKind.Private;
 		}
 
 		private async Task<int> CalculateAfferentCoupling(SyntaxNode node)

@@ -20,7 +20,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		private readonly IHalsteadMetrics _halstead;
 
 		public MemberMetric(
-			string codeFile, 
+			string codeFile,
+			AccessModifierKind accessModifier,
 			IHalsteadMetrics halstead, 
 			MemberMetricKind kind, 
 			int lineNumber, 
@@ -35,6 +36,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			_halstead = halstead;
 			CodeFile = codeFile;
+			AccessModifier = accessModifier;
 			Kind = kind;
 			LineNumber = lineNumber;
 			LinesOfCode = linesOfCode;
@@ -48,6 +50,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		}
 
 		public string CodeFile { get; private set; }
+
+		public AccessModifierKind AccessModifier { get; private set; }
 
 		public MemberMetricKind Kind { get; private set; }
 

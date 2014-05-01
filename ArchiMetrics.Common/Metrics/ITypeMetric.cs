@@ -16,6 +16,8 @@ namespace ArchiMetrics.Common.Metrics
 
 	public interface ITypeMetric : ICodeMetric
 	{
+		AccessModifierKind AccessModifier { get; }
+
 		TypeMetricKind Kind { get; }
 		
 		IEnumerable<IMemberMetric> MemberMetrics { get; }

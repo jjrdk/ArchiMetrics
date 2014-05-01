@@ -99,6 +99,7 @@
     <Compile Include="IProvider.cs" />
     <Compile Include="IResetable.cs" />
     <Compile Include="LinqExtensions.cs" />
+    <Compile Include="Metrics\AccessModifierKind.cs" />
     <Compile Include="Metrics\ICodeMetric.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
     <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
