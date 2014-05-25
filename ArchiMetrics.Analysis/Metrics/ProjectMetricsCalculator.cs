@@ -29,6 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public async Task<IEnumerable<IProjectMetric>> Calculate(Solution solution)
 		{
+			await solution.GetProjectDependencyGraphAsync();
 			var tasks = from project in solution.Projects select Calculate(project, solution);
 
 			return await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -41,13 +42,20 @@ namespace ArchiMetrics.Analysis.Metrics
 				return null;
 			}
 
-			var metricsTask = _metricsCalculator.Calculate(project, solution);
-
-			var referencedProjects = project.ProjectReferences
-				.Select(x => solution.GetProject(x.ProjectId).AssemblyName)
-				.Concat(project.MetadataReferences.Select(x => x.Display));
-
 			var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
+
+			var metricsTask = _metricsCalculator.Calculate(project, solution);
+			var referenceGraph = await solution.GetProjectDependencyGraphAsync().ConfigureAwait(false);
+			var directDependants =
+				referenceGraph.GetProjectsThatDirectlyDependOnThisProject(project.Id)
+					.Select(x => solution.GetProject(x))
+					.Select(x => x.AssemblyName);
+
+			var referencedProjects =
+				referenceGraph.GetProjectsThatThisProjectDirectlyDependsOn(project.Id)
+					.Select(x => solution.GetProject(x))
+					.Select(x => x.AssemblyName);
+			
 			var assemblyTypes = compilation.Assembly.TypeNames;
 			var metrics = (await metricsTask.ConfigureAwait(false)).ToArray();
 
@@ -56,7 +64,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Where(x => x.Assembly == project.AssemblyName);
 			var relationalCohesion = (internalTypesUsed.Count() + 1.0) / assemblyTypes.Count;
 			
-			return new ProjectMetric(project.Name, metrics, referencedProjects, relationalCohesion);
+			return new ProjectMetric(project.Name, metrics, referencedProjects, directDependants, relationalCohesion);
 		}
 	}
 }

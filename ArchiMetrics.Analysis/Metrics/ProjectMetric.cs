@@ -20,9 +20,10 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		private static readonly IEqualityComparer<ITypeCoupling> Comparer = new ComparableComparer<ITypeCoupling>();
 
-		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, double relationalCohesion)
+		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, IEnumerable<string> referencingProjects, double relationalCohesion)
 		{
 			Name = name;
+			ReferencingProjects = referencingProjects.ToArray();
 			RelationalCohesion = relationalCohesion;
 			ReferencedProjects = referencedProjects.ToArray();
 			NamespaceMetrics = namespaceMetrics.ToArray();
@@ -30,6 +31,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
 			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
 			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).ToArray();
+			EfferentProjectCoupling = ReferencedProjects.Count();
+			AfferentProjectCoupling = ReferencingProjects.Count();
 		}
 
 		public int LinesOfCode { get; private set; }
@@ -42,7 +45,13 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public double RelationalCohesion { get; set; }
 
+		public int EfferentProjectCoupling { get; private set; }
+
+		public int AfferentProjectCoupling { get; private set; }
+
 		public IEnumerable<string> ReferencedProjects { get; private set; }
+
+		public IEnumerable<string> ReferencingProjects { get; private set; }
 
 		public IEnumerable<INamespaceMetric> NamespaceMetrics { get; private set; }
 

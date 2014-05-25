@@ -27,7 +27,7 @@ namespace ArchiMetrics.Analysis.Tests
 			var mockNamespaces = new Mock<IEnumerable<INamespaceMetric>>();
 			mockNamespaces.Setup(x => x.GetEnumerator()).Returns(Enumerable.Empty<INamespaceMetric>().GetEnumerator());
 
-			var metric = new ProjectMetric("name", mockNamespaces.Object, Enumerable.Empty<string>(), 0);
+			var metric = new ProjectMetric("name", mockNamespaces.Object, Enumerable.Empty<string>(), Enumerable.Empty<string>(), 0);
 
 			mockNamespaces.Verify(x => x.GetEnumerator(), Times.AtLeastOnce);
 		}

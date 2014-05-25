@@ -53,7 +53,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 			var timer = Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
 			for (var i = 0; i < 10; i++)
 			{
-				var amount = timer.Time(new Func<int>(() => PerformReview().Result));
+				var amount = timer.Time(() => PerformReview().Result);
 			}
 			
 			Assert.Less(timer.Mean, 90.0);
