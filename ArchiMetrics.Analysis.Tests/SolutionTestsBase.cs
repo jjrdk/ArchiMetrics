@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
+	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 
 	public abstract class SolutionTestsBase

@@ -1,57 +1,41 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RuleEvaluationPerformanceTest.cs" company="Reimers.dk">
+// <copyright file="MetricsCalculationPerformanceTest.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2013
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the RuleEvaluationPerformanceTest type.
+//   Defines the MetricsCalculationPerformanceTest type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.CodeReview.Rules.Tests
+namespace ArchiMetrics.Analysis.Tests
 {
 	using System;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Common;
-	using ArchiMetrics.Common.CodeReview;
+	using ArchiMetrics.Analysis.Metrics;
 	using metrics;
 	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
 
-	public class RuleEvaluationPerformanceTest
+	public class MetricsCalculationPerformanceTest
 	{
-		private NodeReviewer _reviewer;
+		private ProjectMetricsCalculator _calculator;
 
 		[SetUp]
 		public void Setup()
 		{
-			_reviewer = new NodeReviewer(
-				AllRules.GetRules()
-					.Select(
-						r =>
-						{
-							try
-							{
-								return (IEvaluation)Activator.CreateInstance(r);
-							}
-							catch
-							{
-								return null;
-							}
-						})
-					.WhereNotNull());
+			_calculator = new ProjectMetricsCalculator(new CodeMetricsCalculator());
 		}
 
 		[Test]
 		public void MeasurePerformance()
 		{
-			var timer = Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
-			for (var i = 0; i < 10; i++)
+			var timer = metrics.Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
+			for (var i = 0; i < 5; i++)
 			{
 				var amount = timer.Time(() => PerformReview().Result);
 			}
@@ -68,7 +52,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 			{
 				var path = Path.GetFullPath(@"..\..\..\archimetrics.sln");
 				var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
-				var results = await _reviewer.Inspect(solution).ConfigureAwait(false);
+				var results = await _calculator.Calculate(solution).ConfigureAwait(false);
 				var amount = results.ToArray();
 				return amount.Length;
 			}
