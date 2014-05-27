@@ -23,5 +23,9 @@ namespace ArchiMetrics.Common.Metrics
 		IEnumerable<string> ReferencedProjects { get; }
 
 		double RelationalCohesion { get; set; }
+
+		int EfferentCoupling { get; }
+
+		int AfferentCoupling { get; }
 	}
 }
