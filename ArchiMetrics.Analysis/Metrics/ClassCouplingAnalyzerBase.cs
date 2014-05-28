@@ -89,17 +89,49 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		protected IEnumerable<ITypeCoupling> GetCollectedTypesNames(IEnumerable<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IEnumerable<IEventSymbol> usedEvents)
 		{
-			return _types.Select(x =>
+			var memberCouplings = _types.Select(x =>
 				{
 					var typeSymbol = x.Value;
-					var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
 					var usedMethods = calledMethods.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
 					var usedProperties = calledProperties.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
 					var events = usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
 
-					return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
-				})
-						 .ToArray();
+					return CreateTypeCoupling(typeSymbol, usedMethods, usedProperties, events);
+				}).ToArray();
+			var inheritedCouplings = _types.Select(x => x.Value)
+				.Select(x => x)
+				.SelectMany(GetInheritedTypeNames);
+			var interfaces = _types.SelectMany(x => x.Value.AllInterfaces);
+			var inheritedTypeCouplings = inheritedCouplings.Concat(interfaces)
+				.Select(CreateTypeCoupling)
+				.Except(memberCouplings);
+
+			return memberCouplings.Concat(inheritedTypeCouplings);
+		}
+
+		private static TypeCoupling CreateTypeCoupling(ITypeSymbol typeSymbol)
+		{
+			return CreateTypeCoupling(typeSymbol, Enumerable.Empty<string>(), Enumerable.Empty<string>(), Enumerable.Empty<string>());
+		}
+
+		private static TypeCoupling CreateTypeCoupling(ITypeSymbol typeSymbol, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> events)
+		{
+			var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
+			return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
+		}
+
+		private static IEnumerable<ITypeSymbol> GetInheritedTypeNames(ITypeSymbol symbol)
+		{
+			if (symbol.BaseType == null)
+			{
+				yield break;
+			}
+
+			yield return symbol.BaseType;
+			foreach (var name in GetInheritedTypeNames(symbol.BaseType))
+			{
+				yield return name;
+			}
 		}
 
 		private static IEnumerable<string> GetFullNamespace(INamespaceSymbol namespaceSymbol)

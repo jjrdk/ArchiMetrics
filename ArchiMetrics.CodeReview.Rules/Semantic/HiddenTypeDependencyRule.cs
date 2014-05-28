@@ -87,7 +87,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var symbolInfo = semanticModel.GetDeclaredSymbol(node);
 			var containingType = symbolInfo.ContainingType;
 			var fieldTypes = containingType.GetMembers()
-				.OfType<IFieldSymbol>().Select(x => x.Type)
+				.OfType<IFieldSymbol>()
+				.Select(x => x.Type)
 				.ToArray();
 			var usedTypes = genericParameterTypes.Concat(fieldTypes)
 				.WhereNotNull()

@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System;
 
-	internal class TypeDefinition : ITypeDefinition, IComparable, IComparable<ITypeDefinition>
+	internal class TypeDefinition : ITypeDefinition, IComparable
 	{
 		private readonly string _fullName;
 

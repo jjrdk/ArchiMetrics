@@ -47,7 +47,7 @@ namespace MyNamespace
 
 		public int WriteSomething()
 		{
-			Console.WriteLine(""blah"");
+			System.Console.WriteLine(""blah"");
 			var x = Number;
 			return x;
 		}
@@ -79,7 +79,6 @@ namespace MyNamespace
 					.GetSyntaxRootAsync()
 					.Result
 					.DescendantNodes()
-					.OfType<SyntaxNode>()
 					.First(n => n.IsKind(SyntaxKind.MethodDeclaration));
 
 				var couplings = _analyzer.Calculate(method);
