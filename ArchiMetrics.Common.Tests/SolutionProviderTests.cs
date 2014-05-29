@@ -28,7 +28,7 @@ namespace ArchiMetrics.Common.Tests
 		[Test]
 		public void CanLoadSolutionFromPath()
 		{
-			var solutionPath = Path.GetFullPath(@"..\..\..\ArchiMetrics.sln");
+			var solutionPath = @"..\..\..\ArchiMetrics.sln".GetLowerCaseFullPath();
 
 			var solution = _provider.Get(solutionPath);
 

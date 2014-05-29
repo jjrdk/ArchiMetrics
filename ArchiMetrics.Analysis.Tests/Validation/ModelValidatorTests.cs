@@ -17,6 +17,7 @@ namespace ArchiMetrics.Analysis.Tests.Validation
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Validation;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 	using Moq;
@@ -44,7 +45,7 @@ namespace ArchiMetrics.Analysis.Tests.Validation
 			[Test]
 			public async Task WhenValidationRulesArePassedThenResultIsNotEmpty()
 			{
-				var solutionPath = Path.GetFullPath(@"..\..\..\ArchiMetrics.sln");
+				var solutionPath = @"..\..\..\ArchiMetrics.sln".GetLowerCaseFullPath();
 				var rule = new BranchModelRule(new ModelNode("ArchiMetrics.Analysis", NodeKind.Assembly, CodeQuality.Good, 0, 0, 0));
 				var result = await _validator.Validate(solutionPath, new[] { rule }, Enumerable.Empty<TransformRule>(), CancellationToken.None);
 

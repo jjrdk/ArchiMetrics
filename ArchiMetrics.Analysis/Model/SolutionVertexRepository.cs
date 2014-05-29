@@ -14,7 +14,6 @@ namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.IO;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -59,17 +58,17 @@ namespace ArchiMetrics.Analysis.Model
 			IProjectMetric[] projectMetrics,
 			EvaluationResult[] evaluationResults)
 		{
-			var children = projectMetric.ReferencedProjects.Select(
+			var children = projectMetric.Dependencies.Select(
 				y =>
 				{
 					var couplings =
 						projectMetric.NamespaceMetrics.SelectMany(x => x.ClassCouplings)
-							.Where(x => x.Assembly == Path.GetFileNameWithoutExtension(y))
+							.Where(x => x.Assembly == y.GetFileNameWithoutExtension())
 							.Select(x => new ModelNode(x.Namespace, NodeKind.Namespace, CodeQuality.Good, 0, 100, 0))
 							.Cast<IModelNode>()
 							.ToList();
 					return new ModelNode(
-						Path.GetFileNameWithoutExtension(y),
+						y.GetFileNameWithoutExtension(),
 						NodeKind.Assembly,
 						CodeQuality.Good,
 						0,

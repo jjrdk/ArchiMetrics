@@ -29,15 +29,26 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public async Task<IEnumerable<IProjectMetric>> Calculate(Solution solution)
 		{
-			var tasks = from project in solution.Projects
-						let compilation = project.GetCompilationAsync()
-						select InnerCalculate(project, compilation, solution);
+			var tasks = (from project in solution.Projects
+						 where project != null
+						 let compilation = project.GetCompilationAsync()
+						 select new { project, compilation })
+						.ToArray();
 
-			return await Task.WhenAll(tasks).ConfigureAwait(false);
+			await Task.WhenAll(tasks.Select(x => x.compilation));
+
+			var calculationTasks = tasks.Select(x => InnerCalculate(x.project, x.compilation, solution));
+
+			return await Task.WhenAll(calculationTasks).ConfigureAwait(false);
 		}
 
 		public async Task<IProjectMetric> Calculate(Project project, Solution solution)
 		{
+			if (project == null)
+			{
+				return null;
+			}
+
 			var compilation = project.GetCompilationAsync();
 			return await InnerCalculate(project, compilation, solution);
 		}
@@ -51,17 +62,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			var compilation = await compilationTask.ConfigureAwait(false);
 			var metricsTask = _metricsCalculator.Calculate(project, solution);
-			var referenceGraph = await solution.GetProjectDependencyGraphAsync().ConfigureAwait(false);
-			var directDependants =
-				referenceGraph.GetProjectsThatDirectlyDependOnThisProject(project.Id)
-					.Select(x => solution.GetProject(x))
-					.Select(x => x.AssemblyName);
 
 			var dependencyGraph = await solution.GetProjectDependencyGraphAsync().ConfigureAwait(false);
 			var dependencies = dependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(project.Id)
-				.Select(x => solution.GetProject(x))
-				.SelectMany(x => x.MetadataReferences.Select(y => y.Display).Concat(new[] { x.AssemblyName }));
-			var dependendants = dependencyGraph.GetProjectsThatTransitivelyDependOnThisProject(project.Id)
 				.Select(x => solution.GetProject(x))
 				.SelectMany(x => x.MetadataReferences.Select(y => y.Display).Concat(new[] { x.AssemblyName }));
 
@@ -75,7 +78,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			var relationalCohesion = (internalTypesUsed.Count() + 1.0) / assemblyTypes.Count;
 
-			return new ProjectMetric(project.Name, metrics, dependencies, dependendants, relationalCohesion);
+			return new ProjectMetric(project.Name, metrics, dependencies, relationalCohesion);
 		}
 	}
 }

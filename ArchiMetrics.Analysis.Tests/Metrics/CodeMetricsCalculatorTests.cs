@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.MSBuild;
@@ -116,7 +117,7 @@ public int Foo() { return 1; }
 			[Test]
 			public async Task CanCalculateMetricsForSilverlightProject()
 			{
-				var path = Path.GetFullPath(@"..\..\..\SampleSL\SampleSL.csproj");
+				var path = @"..\..\..\SampleSL\SampleSL.csproj".GetLowerCaseFullPath();
 				var workspace = MSBuildWorkspace.Create();
 				var project = await workspace.OpenProjectAsync(path);
 				var task = await _analyzer.Calculate(project, workspace.CurrentSolution);

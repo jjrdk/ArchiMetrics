@@ -69,7 +69,7 @@
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.1.20-beta\lib\portable-net45+win8\System.Collections.Immutable.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.1.22-beta\lib\portable-net45+win8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Reflection.Metadata, Version=1.0.9.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -116,6 +116,7 @@
     <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />
     <Compile Include="ModelSettings.cs" />
+    <Compile Include="PathExtensions.cs" />
     <Compile Include="PriorityScheduler.cs" />
     <Compile Include="SolutionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

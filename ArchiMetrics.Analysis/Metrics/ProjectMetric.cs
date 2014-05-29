@@ -20,25 +20,24 @@ namespace ArchiMetrics.Analysis.Metrics
 	{
 		private static readonly IEqualityComparer<ITypeCoupling> Comparer = new ComparableComparer<ITypeCoupling>();
 
-		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, IEnumerable<string> referencingProjects, double relationalCohesion)
+		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, double relationalCohesion)
 		{
 			Name = name;
-			ReferencingProjects = referencingProjects.ToArray();
 			RelationalCohesion = relationalCohesion;
-			ReferencingProjects = referencingProjects.ToArray();
-			ReferencedProjects = referencedProjects.ToArray();
-			EfferentCoupling = ReferencedProjects.Count();
-			AfferentCoupling = ReferencingProjects.Count();
+			Dependencies = referencedProjects.ToArray();
+			EfferentCoupling = Dependencies.Count();
 			NamespaceMetrics = namespaceMetrics.ToArray();
 			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
 			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
 			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
 			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).ToArray();
-			EfferentProjectCoupling = ReferencedProjects.Count();
-			AfferentProjectCoupling = ReferencingProjects.Count();
+			Dependendants = ClassCouplings.Select(x => x.Assembly)
+				.Distinct()
+				.ToArray();
+			AfferentCoupling = Dependendants.Count();
 		}
 
-		public int EfferentCoupling { get;  private set; }
+		public int EfferentCoupling { get; private set; }
 
 		public int AfferentCoupling { get; private set; }
 
@@ -50,17 +49,11 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Name { get; private set; }
 
-		public IEnumerable<string> ReferencingProjects { get; set; }
-
 		public double RelationalCohesion { get; set; }
 
-		public int EfferentProjectCoupling { get; private set; }
+		public IEnumerable<string> Dependencies { get; private set; }
 
-		public int AfferentProjectCoupling { get; private set; }
-
-		public IEnumerable<string> ReferencedProjects { get; private set; }
-
-		public IEnumerable<string> ReferencingProjects { get; private set; }
+		public IEnumerable<string> Dependendants { get; private set; }
 
 		public IEnumerable<INamespaceMetric> NamespaceMetrics { get; private set; }
 

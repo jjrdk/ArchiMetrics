@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.Support
 	using System.Linq;
 	using System.Xml.Linq;
 	using System.Xml.XPath;
+	using ArchiMetrics.Common;
 
 	internal class SpellingLoader
 	{
@@ -26,8 +27,8 @@ namespace ArchiMetrics.UI.Support
 			{
 				using (var sr = new StreamReader(stream))
 				{
-					var extension = Path.GetExtension(filePath);
-					switch (extension.ToLowerInvariant())
+					var extension = filePath.GetLowerCaseExtension();
+					switch (extension)
 					{
 						case ".spelling":
 							return LoadStringList(sr);

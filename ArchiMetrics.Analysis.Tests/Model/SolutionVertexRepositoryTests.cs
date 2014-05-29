@@ -51,7 +51,7 @@ namespace ArchiMetrics.Analysis.Tests.Model
 			[Test, Ignore]
 			public async Task CanGetVerticesForSolution()
 			{
-				var solutionPath = Path.GetFullPath(@"..\..\..\ArchiMetrics.sln");
+				var solutionPath = @"..\..\..\ArchiMetrics.sln".GetLowerCaseFullPath();
 
 				var vertices = await _repository.GetVertices(solutionPath, CancellationToken.None);
 

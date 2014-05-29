@@ -23,7 +23,7 @@ namespace ArchiMetrics.Common.Tests
 		[Test]
 		public async Task WhenLoadingSolutionThenHasProjects()
 		{
-			var path = Path.GetFullPath(@"..\..\..\archimetrics.sln");
+			var path = @"..\..\..\archimetrics.sln".GetLowerCaseFullPath();
 			var workspace = MSBuildWorkspace.Create();
 			var solution = await workspace.OpenSolutionAsync(path);
 

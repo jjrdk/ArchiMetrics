@@ -20,7 +20,7 @@ namespace ArchiMetrics.Common.Metrics
 
 		IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
 
-		IEnumerable<string> ReferencedProjects { get; }
+		IEnumerable<string> Dependencies { get; }
 
 		double RelationalCohesion { get; set; }
 
