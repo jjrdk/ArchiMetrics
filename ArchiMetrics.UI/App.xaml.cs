@@ -21,6 +21,7 @@ namespace ArchiMetrics.UI
 	using System.Reactive.Concurrency;
 	using System.Reflection;
 	using System.Text.RegularExpressions;
+	using System.Threading.Tasks;
 	using System.Windows;
 	using System.Windows.Markup;
 	using System.Windows.Threading;
@@ -142,7 +143,7 @@ namespace ArchiMetrics.UI
 			builder.RegisterType<ProjectMetricsCalculator>().As<IProjectMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();
 			builder.RegisterType<MetricsRepository>().As<IProjectMetricsRepository>().SingleInstance();
-			builder.RegisterType<SolutionProvider>().As<IProvider<string, Solution>>().SingleInstance();
+			builder.RegisterType<SolutionProvider>().As<IProvider<string, Task<Solution>>>().SingleInstance();
 			builder.RegisterType<CodeErrorRepository>().As<ICodeErrorRepository>().As<IResetable>().SingleInstance();
 			builder.RegisterType<SolutionVertexRepository>().As<IVertexRepository>().SingleInstance();
 			builder.RegisterType<VertexTransformProvider>().As<IProvider<string, ObservableCollection<TransformRule>>>().SingleInstance();

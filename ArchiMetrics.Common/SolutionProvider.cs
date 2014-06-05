@@ -17,18 +17,21 @@ namespace ArchiMetrics.Common
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.MSBuild;
 
-	public class SolutionProvider : IProvider<string, Solution>
+	public class SolutionProvider : IProvider<string, Task<Solution>>
 	{
-		private ConcurrentDictionary<string, Solution> _cache = new ConcurrentDictionary<string, Solution>();
+		private static readonly string[] SupportedProjects = { ".csproj" };
+		private Dictionary<string, Task<Solution>> _cache = new Dictionary<string, Task<Solution>>();
 
 		public SolutionProvider()
 		{
 			using (var workspace = new CustomWorkspace())
 			{
-				_cache.TryAdd(string.Empty, workspace.CurrentSolution);
+				var solution = workspace.CurrentSolution;
+				_cache.Add(string.Empty, Task.FromResult(solution));
 			}
 		}
 
@@ -37,18 +40,23 @@ namespace ArchiMetrics.Common
 			Dispose(false);
 		}
 
-		public Solution Get(string path)
+		public Task<Solution> Get(string path)
 		{
-			var solution = _cache.GetOrAdd(
-				path ?? string.Empty, 
-				p =>
+			Task<Solution> solution;
+			lock (_cache)
+			{
+				var key = path ?? string.Empty;
+				if (!_cache.ContainsKey(key))
 				{
-					using (var workspace = MSBuildWorkspace.Create())
-					{
-						return workspace.OpenSolutionAsync(p)
-							.Result;
-					}
-				});
+					solution = GetSolution(key).ContinueWith(x => x.Result.Item2);
+
+					_cache.Add(key, solution);
+				}
+				else
+				{
+					solution = _cache[key];
+				}
+			}
 
 			return solution;
 		}
@@ -58,17 +66,7 @@ namespace ArchiMetrics.Common
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
-		public IEnumerable<Solution> GetAll(string key)
-		{
-			return string.IsNullOrWhiteSpace(key)
-					   ? Enumerable.Empty<Solution>()
-					   : (from file in Directory.GetFiles(key, "*.sln", SearchOption.AllDirectories)
-						  let s = Get(file)
-						  where s != null
-						  select s);
-		}
-
+		
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)
@@ -78,6 +76,22 @@ namespace ArchiMetrics.Common
 					_cache.Clear();
 					_cache = null;
 				}
+			}
+		}
+
+		private static async Task<Tuple<int, Solution>> GetSolution(string path)
+		{
+			using (var workspace = MSBuildWorkspace.Create())
+			{
+				var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
+				var dependencyGraph = solution.GetProjectDependencyGraph();
+				var projects = from projectid in dependencyGraph.GetTopologicallySortedProjects()
+							   select solution.GetProject(projectid);
+
+				var compilations = projects.Select(x => x.GetCompilationAsync().ConfigureAwait(false)).ToArray();
+				var count = compilations.Length;
+
+				return new Tuple<int, Solution>(count, solution);
 			}
 		}
 	}

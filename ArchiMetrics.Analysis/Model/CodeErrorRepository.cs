@@ -26,10 +26,10 @@ namespace ArchiMetrics.Analysis.Model
 		private readonly IAvailableRules _availableRules;
 		private readonly ConcurrentDictionary<string, Task<EvaluationResult[]>> _evaluations;
 		private readonly INodeInspector _inspector;
-		private readonly IProvider<string, Solution> _solutionProvider;
+		private readonly IProvider<string, Task<Solution>> _solutionProvider;
 
 		public CodeErrorRepository(
-			IProvider<string, Solution> solutionProvider,
+			IProvider<string, Task<Solution>> solutionProvider,
 			INodeInspector inspector,
 			IAvailableRules availableRules)
 		{
@@ -57,7 +57,7 @@ namespace ArchiMetrics.Analysis.Model
 			{
 				return Enumerable.Empty<EvaluationResult>();
 			}
-			
+
 			var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
 			return results.Where(x => availableRules.Contains(x.Title)).ToArray();
 		}
@@ -82,7 +82,7 @@ namespace ArchiMetrics.Analysis.Model
 
 		private async Task<EvaluationResult[]> LoadEvaluationResults(string path)
 		{
-			var solution = _solutionProvider.Get(path);
+			var solution = await _solutionProvider.Get(path).ConfigureAwait(false);
 			var awaitable = _inspector.Inspect(solution).ConfigureAwait(false);
 			return (await awaitable).ToArray();
 		}
