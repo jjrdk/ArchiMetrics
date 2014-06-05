@@ -14,6 +14,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -101,7 +103,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				return null;
 			}
 
-			var references = await Task.WhenAll(fields.Select(f => SymbolFinder.FindReferencesAsync(f, solution))).ConfigureAwait(false);
+			var references = await Task.WhenAll(fields.Select(solution.FindReferences)).ConfigureAwait(false);
 			var sumFieldUsage = (double)references.Sum(
 				r => r
 						 .SelectMany(x => x.Locations)

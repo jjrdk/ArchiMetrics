@@ -16,7 +16,6 @@ namespace ArchiMetrics.Analysis
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.FindSymbols;
 
 	public class CoverageAnalyzer
 	{
@@ -29,7 +28,7 @@ namespace ArchiMetrics.Analysis
 
 		public async Task<bool> IsReferencedInTest(ISymbol symbol)
 		{
-			var references = (await SymbolFinder.FindReferencesAsync(symbol, _solution).ConfigureAwait(false)).ToArray(); // symbol.FindReferences(_solution).ToArray();
+			var references = (await _solution.FindReferences(symbol).ConfigureAwait(false)).ToArray();
 			if (!references.Any())
 			{
 				return false;
@@ -46,14 +45,14 @@ namespace ArchiMetrics.Analysis
 			var referencingMethods = referencingSymbolTasks
 				.Select(x => new
 						   {
-							   Token = x.TokenTask.Result.FindToken(x.Location.Location.SourceSpan.Start), 
+							   Token = x.TokenTask.Result.FindToken(x.Location.Location.SourceSpan.Start),
 							   Document = x.Location.Document
 						   })
 				.Select(
 					x => new
 						 {
-							 Method = x.Token.GetMethod(), 
-							 Model = x.Document.GetSemanticModelAsync(), 
+							 Method = x.Token.GetMethod(),
+							 Model = x.Document.GetSemanticModelAsync(),
 							 Document = x.Document
 						 })
 				.ToArray();

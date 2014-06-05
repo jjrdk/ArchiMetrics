@@ -63,9 +63,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			var compilation = await compilationTask.ConfigureAwait(false);
 			var metricsTask = _metricsCalculator.Calculate(project, solution);
 
-			var dependencyGraph = await solution.GetProjectDependencyGraphAsync().ConfigureAwait(false);
+			var dependencyGraph = solution.GetProjectDependencyGraph();
 			var dependencies = dependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(project.Id)
-				.Select(x => solution.GetProject(x))
+				.Select(solution.GetProject)
 				.SelectMany(x => x.MetadataReferences.Select(y => y.Display).Concat(new[] { x.AssemblyName }));
 
 			var assemblyTypes = compilation.Assembly.TypeNames;

@@ -15,6 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
@@ -63,7 +64,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = semanticModel.GetDeclaredSymbol(node);
-			var callers = await SymbolFinder.FindReferencesAsync(symbol, solution, CancellationToken.None).ConfigureAwait(false);
+			var callers = await solution.FindReferences(symbol).ConfigureAwait(false);
 
 			if (!callers.Any(IsNotAssignment))
 			{

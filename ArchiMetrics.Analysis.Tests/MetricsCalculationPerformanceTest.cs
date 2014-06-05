@@ -41,14 +41,16 @@ namespace ArchiMetrics.Analysis.Tests
 				var solution = await workspace.OpenSolutionAsync(path)
 										 .ConfigureAwait(false);
 				var timer = metrics.Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
-				for (var i = 0; i < 15; i++)
+				for (var i = 0; i < 5; i++)
 				{
+					Console.WriteLine(i.ToString());
+
 					var amount = timer.Time(() => PerformReview(solution).Result);
 				}
 
-				Console.WriteLine("Min" + TimeSpan.FromSeconds(timer.Min));
-				Console.WriteLine("Max" + TimeSpan.FromSeconds(timer.Max));
-				Console.WriteLine("Mean" + TimeSpan.FromSeconds(timer.Mean));
+				Console.WriteLine("Min " + TimeSpan.FromSeconds(timer.Min));
+				Console.WriteLine("Max " + TimeSpan.FromSeconds(timer.Max));
+				Console.WriteLine("Mean " + TimeSpan.FromSeconds(timer.Mean));
 				Assert.Less(timer.Mean, 90.0);
 			}
 		}

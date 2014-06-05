@@ -26,7 +26,7 @@ namespace ArchiMetrics.Common
 
 		public SolutionProvider()
 		{
-			using (var workspace = new CustomWorkspace(SolutionId.CreateNewId("empty")))
+			using (var workspace = new CustomWorkspace())
 			{
 				_cache.TryAdd(string.Empty, workspace.CurrentSolution);
 			}

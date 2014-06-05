@@ -16,6 +16,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -195,7 +196,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				}
 
 				var symbol = Model.GetDeclaredSymbol(node);
-				var referenceTasks = SymbolFinder.FindReferencesAsync(symbol, _solution)
+				var referenceTasks = _solution.FindReferences(symbol)
 					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Sum(x => x.Locations.Count()));
 
 				return await referenceTasks.ConfigureAwait(false);

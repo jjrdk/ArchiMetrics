@@ -13,14 +13,13 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
-	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 
 	public abstract class SolutionTestsBase
 	{
 		protected Solution CreateSolution(params string[] code)
 		{
-			var workspace = new CustomWorkspace(SolutionId.CreateNewId("Analysis"));
+			var workspace = new CustomWorkspace();
 
 			var x = 1;
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
