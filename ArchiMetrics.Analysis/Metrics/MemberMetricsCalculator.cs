@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MemberMetricsCalculator.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -16,19 +16,17 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal sealed class MemberMetricsCalculator : SemanticModelMetricsCalculator
 	{
 		private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
-		private readonly Solution _solution;
 		private readonly MemberNameResolver _nameResolver;
+		private readonly Solution _solution;
 
 		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution)
 			: base(semanticModel)
@@ -138,18 +136,18 @@ namespace ArchiMetrics.Analysis.Metrics
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			var accessModifier = GetAccessModifier(syntaxNode);
 			return new MemberMetric(
-				filePath,
-				accessModifier,
-				halsteadMetrics,
-				memberMetricKind,
-				lineNumber,
-				linesOfCode,
-				maintainabilityIndex,
-				complexity,
-				memberName,
-				source.ToArray(),
-				numberOfParameters,
-				numberOfLocalVariables,
+				filePath, 
+				accessModifier, 
+				halsteadMetrics, 
+				memberMetricKind, 
+				lineNumber, 
+				linesOfCode, 
+				maintainabilityIndex, 
+				complexity, 
+				memberName, 
+				source.ToArray(), 
+				numberOfParameters, 
+				numberOfLocalVariables, 
 				afferentCoupling);
 		}
 

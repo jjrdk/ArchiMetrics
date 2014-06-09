@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SyntaxMetricsCalculator.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -35,9 +35,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				var metrics = Calculate(root);
 				return metrics;
 			}
-			catch (Exception ex)
+			catch
 			{
-				Console.WriteLine(ex.Message);
 				return new[] { new HalsteadMetrics(0, 0, 0, 0) };
 			}
 		}

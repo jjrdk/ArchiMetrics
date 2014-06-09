@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ClassCouplingAnalyzerBase.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -62,11 +62,10 @@ namespace ArchiMetrics.Analysis.Metrics
 				case TypeKind.Enum:
 				case TypeKind.Interface:
 					{
-						ITypeSymbol symbol2;
 						var qualifiedName = symbol.GetQualifiedName().ToString();
-						if (!_types.TryGetValue(qualifiedName, out symbol2))
+						if (!_types.ContainsKey(qualifiedName))
 						{
-							_types[qualifiedName] = symbol;
+							_types.Add(qualifiedName, symbol);
 						}
 
 						break;
@@ -98,8 +97,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 					return CreateTypeCoupling(typeSymbol, usedMethods, usedProperties, events);
 				}).ToArray();
-			var inheritedCouplings = _types.Select(x => x.Value)
-				.Select(x => x)
+			var inheritedCouplings = _types
+				.Select(x => x.Value)
 				.SelectMany(GetInheritedTypeNames);
 			var interfaces = _types.SelectMany(x => x.Value.AllInterfaces);
 			var inheritedTypeCouplings = inheritedCouplings.Concat(interfaces)
@@ -117,7 +116,13 @@ namespace ArchiMetrics.Analysis.Metrics
 		private static TypeCoupling CreateTypeCoupling(ITypeSymbol typeSymbol, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> events)
 		{
 			var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
-			return new TypeCoupling(typeSymbol.Name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
+			if (string.IsNullOrWhiteSpace(ns))
+			{
+				ns = "global";
+			}
+
+			var name = typeSymbol.IsAnonymousType ? typeSymbol.ToDisplayString() : typeSymbol.Name;
+			return new TypeCoupling(name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
 		}
 
 		private static IEnumerable<ITypeSymbol> GetInheritedTypeNames(ITypeSymbol symbol)

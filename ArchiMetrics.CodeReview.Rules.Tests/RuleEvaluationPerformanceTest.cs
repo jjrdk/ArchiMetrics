@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="RuleEvaluationPerformanceTest.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -47,7 +47,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 					.WhereNotNull());
 		}
 
-		[Test]
+		[Test, Ignore("Run manually")]
 		public void MeasurePerformance()
 		{
 			var timer = Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);

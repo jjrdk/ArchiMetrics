@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SymbolExtensions.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -25,6 +25,11 @@ namespace ArchiMetrics.Analysis
 
 		public static Task<IEnumerable<ReferencedSymbol>> FindReferences(this Solution solution, ISymbol symbol)
 		{
+			if (symbol == null)
+			{
+				return Task.FromResult(Enumerable.Empty<ReferencedSymbol>());
+			}
+
 			lock (SyncRoot)
 			{
 				IDictionary<ISymbol, Task<ReferencedSymbol[]>> dictionary;

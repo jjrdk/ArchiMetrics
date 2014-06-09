@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MemberNameResolver.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2013
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -39,8 +39,8 @@ namespace ArchiMetrics.Analysis.Metrics
 					                  { SyntaxKind.DestructorDeclaration, x => GetDestructorSignatureString((DestructorDeclarationSyntax)x) }, 
 					                  { SyntaxKind.GetAccessorDeclaration, x => GetPropertyGetterSignatureString((AccessorDeclarationSyntax)x) }, 
 									  { SyntaxKind.SetAccessorDeclaration, x => GetPropertySetterSignatureString((AccessorDeclarationSyntax)x) }, 
-					                  { SyntaxKind.AddAccessorDeclaration, x => GetAddEventHandlerSignatureString((EventDeclarationSyntax)x) }, 
-					                  { SyntaxKind.RemoveAccessorDeclaration, x => GetRemoveEventHandlerSignatureString((EventDeclarationSyntax)x) }
+					                  { SyntaxKind.AddAccessorDeclaration, x => GetAddEventHandlerSignatureString((AccessorDeclarationSyntax)x) }, 
+					                  { SyntaxKind.RemoveAccessorDeclaration, x => GetRemoveEventHandlerSignatureString((AccessorDeclarationSyntax)x) }
 				                  };
 			var kind = syntaxNode.CSharpKind();
 			return dictionary.TryGetValue(kind, out func)
@@ -163,8 +163,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			return string.Format("{0}.set{1} : void", identifier, parameters);
 		}
 
-		private string GetAddEventHandlerSignatureString(EventDeclarationSyntax syntax)
+		private string GetAddEventHandlerSignatureString(AccessorDeclarationSyntax accessor)
 		{
+			var syntax = (EventDeclarationSyntax)accessor.Parent.Parent;
 			var builder = new StringBuilder();
 			AppendMethodIdentifier(syntax, builder);
 			builder.Append(".add");
@@ -246,22 +247,15 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private string GetAccessor(AccessorDeclarationSyntax accessor)
-		{
-			var modifiers = accessor.Modifiers.Select(x => x.ValueText);
-			var type = accessor.Keyword.ValueText;
-
-			return string.Join(" ", modifiers.Concat(new[] { type + ";" }));
-		}
-
 		private string GetReturnType(BasePropertyDeclarationSyntax syntax)
 		{
 			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
 			return symbol != null ? string.Format(": {0}", ResolveTypeName(symbol)) : string.Empty;
 		}
 
-		private string GetRemoveEventHandlerSignatureString(EventDeclarationSyntax syntax)
+		private string GetRemoveEventHandlerSignatureString(AccessorDeclarationSyntax accessor)
 		{
+			var syntax = (EventDeclarationSyntax)accessor.Parent.Parent;
 			var builder = new StringBuilder();
 			AppendMethodIdentifier(syntax, builder);
 			builder.Append(".remove");
