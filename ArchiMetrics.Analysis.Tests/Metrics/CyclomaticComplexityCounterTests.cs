@@ -132,7 +132,8 @@ namespace MyNs
 					.OfType<MethodDeclarationSyntax>()
 					.First();
 
-				var timer = m.Metrics.Timer(
+				var metrics = new m.Metrics();
+				var timer = metrics.Timer(
 					typeof(ProjectMetricTests), 
 					"TestTimer", 
 					m.TimeUnit.Milliseconds, 

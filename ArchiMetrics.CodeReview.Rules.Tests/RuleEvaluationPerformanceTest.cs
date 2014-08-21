@@ -50,7 +50,8 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		[Test, Ignore("Run manually")]
 		public void MeasurePerformance()
 		{
-			var timer = Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
+			var metrics = new Metrics();
+			var timer = metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
 			for (var i = 0; i < 10; i++)
 			{
 				var amount = timer.Time(() => PerformReview().Result);

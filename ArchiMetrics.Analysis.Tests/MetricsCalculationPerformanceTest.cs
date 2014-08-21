@@ -40,7 +40,8 @@ namespace ArchiMetrics.Analysis.Tests
 				var path = @"..\..\..\archimetrics.sln".GetLowerCaseFullPath();
 				var solution = await workspace.OpenSolutionAsync(path)
 										 .ConfigureAwait(false);
-				var timer = metrics.Metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
+				var metrics = new metrics.Metrics();
+				var timer = metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
 				for (var i = 0; i < 5; i++)
 				{
 					Console.WriteLine(i.ToString());
