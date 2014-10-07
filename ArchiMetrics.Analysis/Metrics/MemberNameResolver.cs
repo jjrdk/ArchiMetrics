@@ -184,30 +184,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				Func<ParameterSyntax, string> selector = x => string.Empty;
 				if (parameters.Any())
 				{
-					selector = x =>
-						{
-							var b = new StringBuilder();
-							var value = string.Join(" ", (from m in x.Modifiers select m.ValueText).ToArray<string>());
-							if (!string.IsNullOrEmpty(value))
-							{
-								b.Append(value);
-								b.Append(" ");
-							}
-
-							var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, x.Type).Symbol as ITypeSymbol;
-							if (symbol == null)
-							{
-								return "?";
-							}
-
-							var typeName = ResolveTypeName(symbol);
-							if (!string.IsNullOrWhiteSpace(typeName))
-							{
-								b.Append(typeName);
-							}
-
-							return b.ToString();
-						};
+					selector = TypeNameSelector;
 				}
 
 				var parameterNames = string.Join(", ", parameters.Select(selector).Where(x => !string.IsNullOrWhiteSpace(x)));
@@ -228,6 +205,32 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			builder.Append(")");
+		}
+
+		private string TypeNameSelector(ParameterSyntax x)
+		{
+			var b = new StringBuilder();
+			var value = string.Join(" ", (from m in x.Modifiers select m.ValueText).ToArray());
+			if (!string.IsNullOrEmpty(value))
+			{
+				b.Append(value);
+				b.Append(" ");
+			}
+
+			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, x.Type);
+			var typeSymbol = symbol.Symbol as ITypeSymbol;
+			if (typeSymbol == null)
+			{
+				return "?";
+			}
+
+			var typeName = ResolveTypeName(typeSymbol);
+			if (!string.IsNullOrWhiteSpace(typeName))
+			{
+				b.Append(typeName);
+			}
+
+			return b.ToString();
 		}
 
 		private string GetParameters(BasePropertyDeclarationSyntax syntax)
