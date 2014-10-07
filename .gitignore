@@ -21,3 +21,5 @@ TestResult.xml
 *.log
 OpenCover.Profiler
 /UpgradeLog.htm
+/Libraries
+/build
