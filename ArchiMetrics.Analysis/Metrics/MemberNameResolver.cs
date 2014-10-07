@@ -181,12 +181,10 @@ namespace ArchiMetrics.Analysis.Metrics
 			if (parameterList != null)
 			{
 				var parameters = parameterList.Parameters;
-				Func<ParameterSyntax, string> selector = x => string.Empty;
-				if (parameters.Any())
-				{
-					selector = TypeNameSelector;
-				}
-
+				Func<ParameterSyntax, string> selector = parameters.Any() 
+					? new Func<ParameterSyntax, string>(TypeNameSelector) 
+					: x => string.Empty;
+				
 				var parameterNames = string.Join(", ", parameters.Select(selector).Where(x => !string.IsNullOrWhiteSpace(x)));
 				builder.Append(parameterNames);
 			}
@@ -210,7 +208,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private string TypeNameSelector(ParameterSyntax x)
 		{
 			var b = new StringBuilder();
-			var value = string.Join(" ", (from m in x.Modifiers select m.ValueText).ToArray());
+			var value = string.Join(" ", from m in x.Modifiers select m.ValueText);
 			if (!string.IsNullOrEmpty(value))
 			{
 				b.Append(value);
