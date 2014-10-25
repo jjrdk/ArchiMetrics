@@ -48,7 +48,8 @@ namespace ArchiMetrics.Analysis.Tests.Model
 					new MetricsRepository(new ProjectMetricsCalculator(new CodeMetricsCalculator()), solutionProvider));
 			}
 
-			[Test, Ignore]
+			[Test]
+			[Ignore("Not implemented yet.")]
 			public async Task CanGetVerticesForSolution()
 			{
 				var solutionPath = @"..\..\..\ArchiMetrics.sln".GetLowerCaseFullPath();
