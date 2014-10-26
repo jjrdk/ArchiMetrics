@@ -115,14 +115,21 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static TypeCoupling CreateTypeCoupling(ITypeSymbol typeSymbol, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> events)
 		{
-			var ns = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
-			if (string.IsNullOrWhiteSpace(ns))
+			var name = typeSymbol.IsAnonymousType ? typeSymbol.ToDisplayString() : typeSymbol.Name;
+
+			var namespaceName = string.Join(".", GetFullNamespace(typeSymbol.ContainingNamespace));
+			if (string.IsNullOrWhiteSpace(namespaceName))
 			{
-				ns = "global";
+				namespaceName = "global";
 			}
 
-			var name = typeSymbol.IsAnonymousType ? typeSymbol.ToDisplayString() : typeSymbol.Name;
-			return new TypeCoupling(name, ns, typeSymbol.ContainingAssembly.Name, usedMethods, usedProperties, events);
+			var assemblyName = "Unknown";
+			if (typeSymbol.ContainingAssembly != null)
+			{
+				assemblyName = typeSymbol.ContainingAssembly.Name;
+			}
+			
+			return new TypeCoupling(name, namespaceName, assemblyName, usedMethods, usedProperties, events);
 		}
 
 		private static IEnumerable<ITypeSymbol> GetInheritedTypeNames(ITypeSymbol symbol)

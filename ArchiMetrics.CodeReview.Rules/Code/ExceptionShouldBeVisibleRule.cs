@@ -76,23 +76,20 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var declaration = (ClassDeclarationSyntax)node;
 			var baseTypes = declaration.BaseList;
-			if (!baseTypes.Types.Any())
-			{
-				return null;
-			}
-
-			// rule apply only to type that inherits from the base exceptions
-			if (baseTypes.Types.All(
-				x =>
+			if (baseTypes == null
+				|| !baseTypes.Types.Any()
+				|| baseTypes.Types.All(x =>
 					{
+						// rule apply only to type that inherits from the base exceptions
 						var symbol = semanticModel.GetDeclaredSymbol(x);
-						return symbol.ContainingNamespace.Name != "System"
+						return symbol == null
+							   || symbol.ContainingNamespace.Name != "System"
 							   || !DisallowedExceptions.Contains(symbol.Name)
 							   || symbol.IsAbstract
 							   || symbol.DeclaredAccessibility == Accessibility.Public;
 					}))
 			{
-				return null;
+				Task.FromResult<EvaluationResult>(null);
 			}
 
 			return Task.FromResult(new EvaluationResult

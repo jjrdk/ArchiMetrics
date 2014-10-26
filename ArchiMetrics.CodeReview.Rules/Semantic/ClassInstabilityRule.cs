@@ -117,6 +117,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 					return typeSymbol == null ? x.ContainingType : x;
 				})
 				.Cast<ITypeSymbol>()
+				.WhereNotNull()
 				.DistinctBy(x => x.ToDisplayString())
 				.Where(x => x != sourceSymbol)
 				.ToArray();
