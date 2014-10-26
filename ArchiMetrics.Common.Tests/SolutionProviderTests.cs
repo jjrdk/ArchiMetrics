@@ -12,7 +12,6 @@
 
 namespace ArchiMetrics.Common.Tests
 {
-	using System.IO;
 	using NUnit.Framework;
 
 	public class SolutionProviderTests
@@ -23,6 +22,12 @@ namespace ArchiMetrics.Common.Tests
 		public void Setup()
 		{
 			_provider = new SolutionProvider();
+		}
+
+		[TearDown]
+		public void Teardown()
+		{
+			_provider.Dispose();
 		}
 
 		[Test]

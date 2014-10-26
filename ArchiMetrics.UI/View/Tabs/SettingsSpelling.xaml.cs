@@ -54,6 +54,7 @@ namespace ArchiMetrics.UI.View.Tabs
 			GC.SuppressFinalize(this);
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_subject", Justification = "It is disposed.")]
 		protected virtual void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -94,15 +95,12 @@ namespace ArchiMetrics.UI.View.Tabs
 			};
 			if (dialog.ShowDialog() == true)
 			{
-				using (var stream = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+				using (var writer = new StreamWriter(new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write)))
 				{
-					using (var writer = new StreamWriter(stream))
+					var context = DataContext as SettingsViewModel;
+					foreach (var pattern in context.KnownPatterns)
 					{
-						var context = DataContext as SettingsViewModel;
-						foreach (var pattern in context.KnownPatterns)
-						{
-							writer.WriteLine(pattern);
-						}
+						writer.WriteLine(pattern);
 					}
 				}
 			}
