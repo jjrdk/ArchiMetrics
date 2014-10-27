@@ -10,16 +10,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using ArchiMetrics.Common.Metrics;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
 	using ArchiMetrics.Analysis.Metrics;
+	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
 
 	public sealed class MemberClassCouplingAnalyzerTests
@@ -99,7 +98,7 @@ namespace MyNamespace
 			}
 
 			[Test]
-			public void WhenCalculatingConstructorCouplingsThenExistingInternalDependenciesAreRecognized()
+			public void WhenCalculatingConstructorCouplingsThenExistingInternalPropertyIsRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -108,12 +107,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
+			}
+
+			[Test]
+			public void WhenCalculatingConstructorCouplingsThenExistingInternalMethodIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetConstructor()).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
+			}
+
+			[Test]
+			public void WhenCalculatingConstructorCouplingsThenExistingInternalEventIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetConstructor()).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
 			}
 
 			[Test]
-			public void WhenCalculatingConstructorCouplingsThenNonExistingInternalDependenciesAreNotRecognized()
+			public void WhenCalculatingConstructorCouplingsThenNonExistingInternalPropertyIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -122,13 +143,10 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
-				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
-				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
 			[Test]
-			[Ignore("Not implemented yet.")]
-			public void WhenCalculatingConstructorCouplingsThenExistingExternalDependenciesAreRecognized()
+			public void WhenCalculatingConstructorCouplingsThenNonExistingInternalMethodIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -136,14 +154,11 @@ namespace MyNamespace
 
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
-				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
-				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
-				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
+				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
 			}
 
 			[Test]
-			[Ignore("Not implemented yet.")]
-			public void WhenCalculatingConstructorCouplingsThenNonExistingExternalDependenciesAreNotRecognized()
+			public void WhenCalculatingConstructorCouplingsThenNonExistingInternalEventIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -151,13 +166,11 @@ namespace MyNamespace
 
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
-				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
-				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
 				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
 			[Test]
-			public void WhenCalculatingPropertyGetterCouplingsThenExistingInternalDependenciesAreRecognized()
+			public void WhenCalculatingPropertyGetterCouplingsThenExistingInternalPropertyIsRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -166,12 +179,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertyGetterCouplingsThenExistingInternalMethodIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.GetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertyGetterCouplingsThenExistingInternalEventIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.GetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
 			}
 
 			[Test]
-			public void WhenCalculatingPropertyGetterCouplingsThenNonExistingInternalDependenciesAreNotRecognized()
+			public void WhenCalculatingPropertyGetterCouplingsThenNonExistingInternalPropertyIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -180,12 +215,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertyGetterCouplingsThenNonExistingInternalMethodIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.GetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertyGetterCouplingsThenNonExistingInternalEventIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.GetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
 			[Test]
-			public void WhenCalculatingPropertySetterCouplingsThenExistingInternalDependenciesAreRecognized()
+			public void WhenCalculatingPropertySetterCouplingsThenExistingInternalPropertyIsRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -194,12 +251,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertySetterCouplingsThenExistingInternalMethodIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.SetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertySetterCouplingsThenExistingInternalEventIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.SetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
 			}
 
 			[Test]
-			public void WhenCalculatingPropertySetterCouplingsThenNonExistingInternalDependenciesAreNotRecognized()
+			public void WhenCalculatingPropertySetterCouplingsThenNonExistingInternalPropertyIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -208,12 +287,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertySetterCouplingsThenNonExistingInternalMethodIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.SetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
+			}
+
+			[Test]
+			public void WhenCalculatingPropertySetterCouplingsThenNonExistingInternalEventIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetProperty("PropertyA", SyntaxKind.SetAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
 			[Test]
-			public void WhenCalculatingMethodCouplingsThenExistingInternalDependenciesAreRecognized()
+			public void WhenCalculatingMethodCouplingsThenExistingInternalPropertyIsRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -222,12 +323,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
+			}
+
+			[Test]
+			public void WhenCalculatingMethodCouplingsThenExistingInternalMethodIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetMethod("MethodA")).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
+			}
+
+			[Test]
+			public void WhenCalculatingMethodCouplingsThenExistingInternalEventIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetMethod("MethodA")).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
 			}
 
 			[Test]
-			public void WhenCalculatingMethodCouplingsThenNonExistingInternalDependenciesAreNotRecognized()
+			public void WhenCalculatingMethodCouplingsThenNonExistingInternalPropertyIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -236,12 +359,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
+			}
+
+			[Test]
+			public void WhenCalculatingMethodCouplingsThenNonExistingInternalMethodIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetMethod("MethodA")).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
+			}
+
+			[Test]
+			public void WhenCalculatingMethodCouplingsThenNonExistingInternalEventIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetMethod("MethodA")).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
 			[Test]
-			public void WhenCalculatingEventAddCouplingsThenExistingInternalDependenciesAreRecognized()
+			public void WhenCalculatingEventAddCouplingsThenExistingInternalPropertyIsRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -250,12 +395,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventAddCouplingsThenExistingInternalMethodIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.AddAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventAddCouplingsThenExistingInternalEventIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.AddAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
 			}
 
 			[Test]
-			public void WhenCalculatingEventAddCouplingsThenNonExistingInternalDependenciesAreNotRecognized()
+			public void WhenCalculatingEventAddCouplingsThenNonExistingInternalPropertyIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -264,12 +431,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventAddCouplingsThenNonExistingInternalMethodIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.AddAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventAddCouplingsThenNonExistingInternalEventIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.AddAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
 			[Test]
-			public void WhenCalculatingEventRemoveCouplingsThenExistingInternalDependenciesAreRecognized()
+			public void WhenCalculatingEventRemoveCouplingsThenExistingInternalPropertyIsRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -278,12 +467,34 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.Member("MyNamespace.MyClass.PropertyA"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventRemoveCouplingsThenExistingInternalMethodIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.RemoveAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.Member("MyNamespace.MyClass.MethodA()"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventRemoveCouplingsThenExistingInternalEventIsRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.RemoveAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.Member("MyNamespace.MyClass.EventA"));
 			}
 
 			[Test]
-			public void WhenCalculatingEventRemoveCouplingsThenNonExistingInternalDependenciesAreNotRecognized()
+			public void WhenCalculatingEventRemoveCouplingsThenNonExistingInternalPropertyIsNotRecognized()
 			{
 				var testee = CreateTestee();
 
@@ -292,7 +503,29 @@ namespace MyNamespace
 				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
 
 				Assert.That(localCouplings.UsedProperties, Has.No.Member("MyNamespace.MyClass.PropertyB"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventRemoveCouplingsThenNonExistingInternalMethodIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.RemoveAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedMethods, Has.No.Member("MyNamespace.MyClass.MethodB()"));
+			}
+
+			[Test]
+			public void WhenCalculatingEventRemoveCouplingsThenNonExistingInternalEventIsNotRecognized()
+			{
+				var testee = CreateTestee();
+
+				var couplings = testee.Calculate(this.GetEvent("EventA2", SyntaxKind.RemoveAccessorDeclaration)).ToList();
+
+				var localCouplings = couplings.Single(c => c.TypeName == "MyClass");
+
 				Assert.That(localCouplings.UsedEvents, Has.No.Member("MyNamespace.MyClass.EventB"));
 			}
 
@@ -328,63 +561,45 @@ namespace MyNamespace
 
 			private SyntaxNode GetConstructor(int paramCount = 0)
 			{
-				var document = _solution.Projects.SelectMany(p => p.Documents).First();
-				var constructor = document
-					.GetSyntaxRootAsync()
-					.Result
-					.DescendantNodes()
-					.OfType<ConstructorDeclarationSyntax>()
+				return this.GetNodes<ConstructorDeclarationSyntax>()
 					.Single(n => n.ParameterList.Parameters.Count == paramCount);
-				return constructor;
 			}
 
 			private SyntaxNode GetProperty(string name, SyntaxKind kind)
 			{
-				var document = _solution.Projects.SelectMany(p => p.Documents).First();
-				var property = document
-					.GetSyntaxRootAsync()
-					.Result
-					.DescendantNodes()
-					.OfType<PropertyDeclarationSyntax>()
+				var property = this.GetNodes<PropertyDeclarationSyntax>()
 					.Single(n => n.Identifier.ValueText == name);
 				return property.AccessorList.Accessors.Single(x => x.IsKind(kind));
 			}
 
 			private SyntaxNode GetMethod(string name)
 			{
-				var document = _solution.Projects.SelectMany(p => p.Documents).First();
-				var allProperties = document
-					.GetSyntaxRootAsync()
-					.Result
-					.DescendantNodes()
-					.OfType<MethodDeclarationSyntax>();
-				return allProperties.Single(n => n.Identifier.ValueText == name);
+				return this.GetNodes<MethodDeclarationSyntax>()
+					.Single(n => n.Identifier.ValueText == name);
 			}
 
 			private SyntaxNode GetEvent(string name)
 			{
-				var document = _solution.Projects.SelectMany(p => p.Documents).First();
-				var allEventFields = document
-					.GetSyntaxRootAsync()
-					.Result
-					.DescendantNodes()
-					.OfType<EventFieldDeclarationSyntax>()
-					.ToList();
-				var eventDeclaration = allEventFields
-					.Single(e => (e.Declaration.Variables.Any(v => v.Identifier.ValueText == name)));
-				return eventDeclaration;
+				return this.GetNodes<EventFieldDeclarationSyntax>()
+					.Single(e => e.Declaration.Variables.Any(v => v.Identifier.ValueText == name));
 			}
 
 			private SyntaxNode GetEvent(string name, SyntaxKind kind)
 			{
+				var eventDeclaration = this.GetNodes<EventDeclarationSyntax>()
+					.Single(n => n.Identifier.ValueText == name);
+				return eventDeclaration.AccessorList.Accessors.Single(x => x.IsKind(kind));
+			}
+
+			private IEnumerable<TNode> GetNodes<TNode>()
+				where TNode : SyntaxNode
+			{
 				var document = _solution.Projects.SelectMany(p => p.Documents).First();
-				var allMembers = document
+				return document
 					.GetSyntaxRootAsync()
 					.Result
-					.DescendantNodes().ToList();
-				var eventDeclarations = allMembers.OfType<EventDeclarationSyntax>();
-				var eventDeclaration = eventDeclarations.Single(n => n.Identifier.ValueText == name);
-				return eventDeclaration.AccessorList.Accessors.Single(x => x.IsKind(kind));
+					.DescendantNodes()
+					.OfType<TNode>();
 			}
 
 			private MemberClassCouplingAnalyzer CreateTestee()
