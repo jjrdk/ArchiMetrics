@@ -50,7 +50,7 @@ namespace ArchiMetrics.UI.DataAccess
 		{
 			if (File.Exists(filePath))
 			{
-				using (var stream = File.OpenRead(filePath))
+				var stream = File.OpenRead(filePath);
 				using (var reader = new StreamReader(stream))
 				{
 					var rules = JsonConvert.DeserializeObject<List<TransformRule>>(reader.ReadToEnd());

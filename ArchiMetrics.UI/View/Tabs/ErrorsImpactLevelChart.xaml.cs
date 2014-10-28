@@ -17,7 +17,7 @@ namespace ArchiMetrics.UI.View.Tabs
 	using ArchiMetrics.UI.ViewModel;
 
 	/// <summary>
-	/// Interaction logic for ErrorsImpactLEvelChart.xaml
+	/// Interaction logic for ErrorsImpactLEvelChart.xaml.
 	/// </summary>
 	[DataContext(typeof(CodeErrorGraphViewModel))]
 	public partial class ErrorsImpactLevelChart : UserControl

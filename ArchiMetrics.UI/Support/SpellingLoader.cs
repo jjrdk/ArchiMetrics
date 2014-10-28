@@ -23,20 +23,17 @@ namespace ArchiMetrics.UI.Support
 	{
 		public IEnumerable<string> Load(string filePath)
 		{
-			using (var stream = File.OpenRead(filePath))
+			using (var sr = new StreamReader(File.OpenRead(filePath)))
 			{
-				using (var sr = new StreamReader(stream))
+				var extension = filePath.GetLowerCaseExtension();
+				switch (extension)
 				{
-					var extension = filePath.GetLowerCaseExtension();
-					switch (extension)
-					{
-						case ".spelling":
-							return LoadStringList(sr);
-						case ".xml":
-							return LoadAnalysisDictionary(sr);
-						default:
-							return Enumerable.Empty<string>();
-					}
+					case ".spelling":
+						return LoadStringList(sr);
+					case ".xml":
+						return LoadAnalysisDictionary(sr);
+					default:
+						return Enumerable.Empty<string>();
 				}
 			}
 		}

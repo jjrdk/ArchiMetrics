@@ -88,7 +88,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public void SaveTransforms(string filePath)
 		{
-			using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+			var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
 			using (var writer = new StreamWriter(stream))
 			{
 				var json = JsonConvert.SerializeObject(VertexTransforms.ToList());

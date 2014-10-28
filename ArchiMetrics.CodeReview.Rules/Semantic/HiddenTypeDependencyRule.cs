@@ -77,7 +77,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			if (methodDeclaration.Body == null)
 			{
-				return null;
+				return Task.FromResult<EvaluationResult>(null);
 			}
 
 			var descendantNodes = methodDeclaration.Body.DescendantNodes().ToArray();
@@ -103,8 +103,11 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var parameterAssemblies = parameterTypes.Select(x => x.ContainingAssembly).ToArray();
 
 			var locals = usedTypes.Except(parameterTypes);
-
-			if (locals.Any(x => !x.ContainingAssembly.Equals(semanticModel.Compilation.Assembly) && !parameterAssemblies.Contains(x.ContainingAssembly) && !SystemAssemblyPrefixes.Any(y => x.ContainingAssembly.Name.StartsWith(y))))
+			if (locals.Any(x =>
+				x.ContainingAssembly == null || 
+				(!x.ContainingAssembly.Equals(semanticModel.Compilation.Assembly)
+				&& !parameterAssemblies.Contains(x.ContainingAssembly) 
+				&& !SystemAssemblyPrefixes.Any(y => x.ContainingAssembly.Name.StartsWith(y)))))
 			{
 				return Task.FromResult(
 					new EvaluationResult

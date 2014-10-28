@@ -23,7 +23,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var rule = GetRule(type);
 
-			Assert.IsNotNullOrEmpty(rule.Title);
+			Assert.That(rule.Title, Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
@@ -31,7 +31,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var rule = GetRule(type);
 
-			Assert.IsNotNullOrEmpty(rule.Suggestion);
+			Assert.That(rule.Suggestion, Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
@@ -39,7 +39,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var rule = GetRule(type);
 
-			Assert.IsNotNullOrEmpty(rule.EvaluatedKind.ToString());
+			Assert.That(rule.EvaluatedKind.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
@@ -47,7 +47,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var rule = GetRule(type);
 
-			Assert.IsNotNullOrEmpty(rule.ImpactLevel.ToString());
+			Assert.That(rule.ImpactLevel.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
@@ -55,7 +55,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var rule = GetRule(type);
 
-			Assert.IsNotNullOrEmpty(rule.Quality.ToString());
+			Assert.That(rule.Quality.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
@@ -63,7 +63,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			var rule = GetRule(type);
 
-			Assert.IsNotNullOrEmpty(rule.QualityAttribute.ToString());
+			Assert.That(rule.QualityAttribute.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		private IEvaluation GetRule(Type type)

@@ -47,12 +47,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			_classCouplingActions = new Dictionary<SyntaxKind, Action<SyntaxNode>>
 			                        {
 				                        { SyntaxKind.MethodDeclaration, x => CalculateMethodClassCoupling((MethodDeclarationSyntax)x) }, 
-				                        { SyntaxKind.ConstructorDeclaration, x => CalculateGenericMemberClassCoupling((MemberDeclarationSyntax)x) }, 
-				                        { SyntaxKind.DestructorDeclaration, x => CalculateGenericMemberClassCoupling((MemberDeclarationSyntax)x) }, 
-				                        { SyntaxKind.GetAccessorDeclaration, x => CalculatePropertyClassCoupling((AccessorDeclarationSyntax)x) }, 
-				                        { SyntaxKind.SetAccessorDeclaration, x => CalculatePropertyClassCoupling((AccessorDeclarationSyntax)x) }, 
-				                        { SyntaxKind.AddAccessorDeclaration, x => CalculateEventClassCoupling((EventDeclarationSyntax)x, SyntaxKind.AddAccessorDeclaration) }, 
-				                        { SyntaxKind.RemoveAccessorDeclaration, x => CalculateEventClassCoupling((EventDeclarationSyntax)x, SyntaxKind.RemoveAccessorDeclaration) }
+				                        { SyntaxKind.ConstructorDeclaration, x => CalculateConstructorCoupling((ConstructorDeclarationSyntax)x) }, 
+				                        { SyntaxKind.DestructorDeclaration, x => CalculateConstructorCoupling((DestructorDeclarationSyntax)x) }, 
+				                        { SyntaxKind.GetAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }, 
+				                        { SyntaxKind.SetAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }, 
+										{ SyntaxKind.EventFieldDeclaration, x => CalculateEventClassCoupling((EventFieldDeclarationSyntax)x) }, 
+				                        { SyntaxKind.AddAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }, 
+				                        { SyntaxKind.RemoveAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }
 			                        };
 		}
 
@@ -92,26 +93,29 @@ namespace ArchiMetrics.Analysis.Metrics
 				FilterType(type);
 			}
 		}
-
-		private static BlockSyntax GetAccessor(AccessorListSyntax accessorList, SyntaxKind kind)
+		
+		private void CalculateEventClassCoupling(EventFieldDeclarationSyntax syntax)
 		{
-			return accessorList.Accessors.Single(x => x.IsKind(kind)).Body;
-		}
-
-		private void CalculateEventClassCoupling(EventDeclarationSyntax syntax, SyntaxKind kind)
-		{
-			FilterType(syntax.Type);
-			var accessor = GetAccessor(syntax.AccessorList, kind);
-			if (accessor != null)
+			IdentifierNameSyntax node = (IdentifierNameSyntax)syntax.Declaration.Type;
+			var symbolInfo = SemanticModel.GetSymbolInfo(node);
+			if (symbolInfo.Symbol != null)
 			{
-				Visit(accessor);
-				CollectMemberCouplings(accessor);
+				Action<ISymbol> action;
+				var symbol = symbolInfo.Symbol;
+				if (_symbolActions.TryGetValue(symbol.Kind, out action))
+				{
+					action(symbol);
+				}
 			}
 		}
 
-		private void CalculateGenericMemberClassCoupling(MemberDeclarationSyntax syntax)
+		private void CalculateConstructorCoupling(BaseMethodDeclarationSyntax syntax)
 		{
 			Visit(syntax);
+			if (syntax.Body != null)
+			{
+				CollectMemberCouplings(syntax.Body);
+			}
 		}
 
 		private void CalculateMethodClassCoupling(MethodDeclarationSyntax syntax)
@@ -124,10 +128,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 		}
 
-		private void CalculatePropertyClassCoupling(AccessorDeclarationSyntax accessor)
+		private void CalculateAccessorClassCoupling(AccessorDeclarationSyntax accessor)
 		{
-			var syntax = (PropertyDeclarationSyntax)accessor.Parent.Parent;
+			var syntax = (BasePropertyDeclarationSyntax)accessor.Parent.Parent;
 			FilterType(syntax.Type);
+
 			var body = accessor.Body;
 			if (body != null)
 			{
