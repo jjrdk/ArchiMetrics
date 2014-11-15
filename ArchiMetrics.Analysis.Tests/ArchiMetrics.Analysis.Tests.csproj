@@ -95,6 +95,7 @@
     <Compile Include="Model\SolutionVertexRepositoryTests.cs" />
     <Compile Include="Model\SyntaxTransformerTests.cs" />
     <Compile Include="ProjectMetricTests.cs" />
+    <Compile Include="ReferenceResolvers\ReferenceRepositoryTests.cs" />
     <Compile Include="SemanticAnalyzerTests.cs" />
     <Compile Include="Metrics\CodeMetricsCalculatorTests.cs" />
     <Compile Include="Metrics\CyclomaticComplexityCounterTests.cs" />

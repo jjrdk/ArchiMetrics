@@ -136,18 +136,18 @@ namespace ArchiMetrics.Analysis.Metrics
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			var accessModifier = GetAccessModifier(syntaxNode);
 			return new MemberMetric(
-				filePath, 
-				accessModifier, 
-				halsteadMetrics, 
-				memberMetricKind, 
-				lineNumber, 
-				linesOfCode, 
-				maintainabilityIndex, 
-				complexity, 
-				memberName, 
-				source.ToArray(), 
-				numberOfParameters, 
-				numberOfLocalVariables, 
+				filePath,
+				accessModifier,
+				halsteadMetrics,
+				memberMetricKind,
+				lineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
+				memberName,
+				source.ToArray(),
+				numberOfParameters,
+				numberOfLocalVariables,
 				afferentCoupling);
 		}
 
@@ -195,7 +195,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 				var symbol = Model.GetDeclaredSymbol(node);
 				var referenceTasks = _solution.FindReferences(symbol)
-					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Sum(x => x.Locations.Count()));
+					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Locations.Count());
 
 				return await referenceTasks.ConfigureAwait(false);
 			}

@@ -44,7 +44,7 @@ namespace ArchiMetrics.UI.Support
 
 		public Task Publish(IMessage message)
 		{
-			return Task.Factory.StartNew(() => _messageSubject.OnNext(message));
+			return Task.Run(() => _messageSubject.OnNext(message));
 		}
 	}
 }

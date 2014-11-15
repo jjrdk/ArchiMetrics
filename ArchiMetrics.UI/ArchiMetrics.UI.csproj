@@ -462,12 +462,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\packages\NHunspell.1.2.5359.26126\content\Hunspellx64.dll">
+    <EmbeddedResource Include="..\packages\NHunspell.1.2.5359.26126\content\Hunspellx64.dll">
       <Link>Native\Hunspellx64.dll</Link>
-    </Content>
-    <Content Include="..\packages\NHunspell.1.2.5359.26126\content\Hunspellx86.dll">
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\NHunspell.1.2.5359.26126\content\Hunspellx86.dll">
       <Link>Native\Hunspellx86.dll</Link>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

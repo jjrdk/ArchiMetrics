@@ -48,7 +48,7 @@ namespace ArchiMetrics.UI
 		static App()
 		{
 			FrameworkElement.LanguageProperty.OverrideMetadata(
-				typeof(FrameworkElement), 
+				typeof(FrameworkElement),
 				new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 		}
 
@@ -84,26 +84,30 @@ namespace ArchiMetrics.UI
 
 			var x86FileName = Path.Combine(tempFolder, "HUnspellx86.dll");
 			var executingAssembly = Assembly.GetExecutingAssembly();
-			if (!File.Exists(x86FileName))
+			if (File.Exists(x86FileName))
 			{
-				using (var x86 = executingAssembly.GetManifestResourceStream("ArchiMetrics.UI.Native.Hunspellx86.dll"))
+				File.Delete(x86FileName);
+			}
+
+			using (var x86 = executingAssembly.GetManifestResourceStream("ArchiMetrics.UI.Native.Hunspellx86.dll"))
+			{
+				using (var x86File = File.Create(x86FileName))
 				{
-					using (var x86File = File.Create(x86FileName))
-					{
-						x86.CopyTo(x86File);
-					}
+					x86.CopyTo(x86File);
 				}
 			}
 
 			var x64FileName = Path.Combine(tempFolder, "HUnspellx64.dll");
-			if (!File.Exists(x64FileName))
+			if (File.Exists(x64FileName))
 			{
-				using (var x64 = executingAssembly.GetManifestResourceStream("ArchiMetrics.UI.Native.Hunspellx64.dll"))
+				File.Delete(x64FileName);
+			}
+
+			using (var x64 = executingAssembly.GetManifestResourceStream("ArchiMetrics.UI.Native.Hunspellx64.dll"))
+			{
+				using (var x64File = File.Create(x64FileName))
 				{
-					using (var x64File = File.Create(x64FileName))
-					{
-						x64.CopyTo(x64File);
-					}
+					x64.CopyTo(x64File);
 				}
 			}
 

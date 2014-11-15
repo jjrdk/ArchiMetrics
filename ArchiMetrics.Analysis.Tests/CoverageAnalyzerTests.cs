@@ -19,77 +19,77 @@ namespace ArchiMetrics.Analysis.Tests
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
 
-	public class CoverageAnalyzerTests : SolutionTestsBase
-	{
-		[Test]
-		public async Task CanFindCoverage()
-		{
-			var code = @"namespace MyCode
-{
-	public class MyClass
-	{
-		public string Get(int value)
-		{
-			return GetInternal(value);
-		}
+//	public class CoverageAnalyzerTests : SolutionTestsBase
+//	{
+//		[Test]
+//		public async Task CanFindCoverage()
+//		{
+//			var code = @"namespace MyCode
+//{
+//	public class MyClass
+//	{
+//		public string Get(int value)
+//		{
+//			return GetInternal(value);
+//		}
+//
+//		private string GetInternal(int value)
+//		{
+//			return value.ToString();
+//		}
+//	}
+//}";
 
-		private string GetInternal(int value)
-		{
-			return value.ToString();
-		}
-	}
-}";
+//			var test = @"namespace MyTest
+//{
+//	using MyCode;
+//
+//	public class MyTestClass
+//	{
+//		[Test]
+//		public void MyTest()
+//		{
+//			var item = new MyClass();
+//			var x = item.Get(1);
+//		}
+//	}
+//}";
 
-			var test = @"namespace MyTest
-{
-	using MyCode;
+//			var solution = CreateSolution(code, test);
+//			var projectCompilations = (from project in solution.Projects
+//									   let compilation = project.GetCompilationAsync()
+//									   select new
+//											  {
+//												  Documents = project.Documents.Select(
+//													  x => new
+//														   {
+//															   Tree = x.GetSyntaxTreeAsync(), 
+//															   Root = x.GetSyntaxRootAsync()
+//														   }), 
+//												  Compilation = compilation
+//											  })
+//				.ToArray();
+//			await Task.WhenAll(
+//				projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree })));
 
-	public class MyTestClass
-	{
-		[Test]
-		public void MyTest()
-		{
-			var item = new MyClass();
-			var x = item.Get(1);
-		}
-	}
-}";
+//			var matches = (from x in projectCompilations
+//						   from doc in x.Documents
+//						   let model = x.Compilation.Result.GetSemanticModel(doc.Tree.Result)
+//						   let root = doc.Root.Result
+//						   from method in root.DescendantNodes()
+//							   .OfType<MethodDeclarationSyntax>()
+//						   where !method.AttributeLists.Any(
+//							   a => a.Attributes.Any(
+//								   b => b.Name.ToString()
+//											.IsKnownTestAttribute()))
+//						   select model.GetDeclaredSymbol(method))
+//				.ToArray();
 
-			var solution = CreateSolution(code, test);
-			var projectCompilations = (from project in solution.Projects
-									   let compilation = project.GetCompilationAsync()
-									   select new
-											  {
-												  Documents = project.Documents.Select(
-													  x => new
-														   {
-															   Tree = x.GetSyntaxTreeAsync(), 
-															   Root = x.GetSyntaxRootAsync()
-														   }), 
-												  Compilation = compilation
-											  })
-				.ToArray();
-			await Task.WhenAll(
-				projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree })));
+//			var analyzer = new CoverageAnalyzer(solution);
+//			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).ToArray();
+//			var areReferenced = await Task.WhenAll(areReferencedTasks);
 
-			var matches = (from x in projectCompilations
-						   from doc in x.Documents
-						   let model = x.Compilation.Result.GetSemanticModel(doc.Tree.Result)
-						   let root = doc.Root.Result
-						   from method in root.DescendantNodes()
-							   .OfType<MethodDeclarationSyntax>()
-						   where !method.AttributeLists.Any(
-							   a => a.Attributes.Any(
-								   b => b.Name.ToString()
-											.IsKnownTestAttribute()))
-						   select model.GetDeclaredSymbol(method))
-				.ToArray();
-
-			var analyzer = new CoverageAnalyzer(solution);
-			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).ToArray();
-			var areReferenced = await Task.WhenAll(areReferencedTasks);
-
-			Assert.IsTrue(areReferenced.All(x => x));
-		}
-	}
+//			Assert.IsTrue(areReferenced.All(x => x));
+//		}
+//	}
 }

@@ -104,10 +104,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			}
 
 			var references = await Task.WhenAll(fields.Select(solution.FindReferences)).ConfigureAwait(false);
-			var sumFieldUsage = (double)references.Sum(
-				r => r
-						 .SelectMany(x => x.Locations)
-						 .Count());
+			var sumFieldUsage = (double)references.Sum(r => r.Locations.Count());
 
 			var lcomhs = (memberCount - (sumFieldUsage / fieldCount)) / (memberCount - 1);
 			if (lcomhs < 1)

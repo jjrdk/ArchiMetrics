@@ -12,44 +12,28 @@
 
 namespace ArchiMetrics.Analysis
 {
-	using System.Collections.Generic;
+	using System.Collections.Concurrent;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.ReferenceResolvers;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.FindSymbols;
+	using ReferencedSymbol = ArchiMetrics.Analysis.ReferenceResolvers.ReferencedSymbol;
 
 	public static class SymbolExtensions
 	{
-		private static readonly object SyncRoot = new object();
-		private static readonly Dictionary<SolutionId, IDictionary<ISymbol, Task<ReferencedSymbol[]>>> KnownReferences = new Dictionary<SolutionId, IDictionary<ISymbol, Task<ReferencedSymbol[]>>>();
+		private static readonly ConcurrentDictionary<SolutionId, ReferenceRepository> KnownReferences = new ConcurrentDictionary<SolutionId, ReferenceRepository>();
 
-		public static Task<IEnumerable<ReferencedSymbol>> FindReferences(this Solution solution, ISymbol symbol)
+		public static Task<ReferencedSymbol> FindReferences(this Solution solution, ISymbol symbol)
 		{
-			if (symbol == null)
-			{
-				return Task.FromResult(Enumerable.Empty<ReferencedSymbol>());
-			}
+			var repository = KnownReferences.GetOrAdd(solution.Id, x => new ReferenceRepository(solution));
 
-			lock (SyncRoot)
-			{
-				IDictionary<ISymbol, Task<ReferencedSymbol[]>> dictionary;
-				if (!KnownReferences.TryGetValue(solution.Id, out dictionary))
-				{
-					dictionary = new Dictionary<ISymbol, Task<ReferencedSymbol[]>>();
-					KnownReferences.Add(solution.Id, dictionary);
-				}
-
-				Task<ReferencedSymbol[]> referenceTask;
-				if (!dictionary.TryGetValue(symbol, out referenceTask))
-				{
-					referenceTask =
-						SymbolFinder.FindReferencesAsync(symbol, solution)
-							.ContinueWith(t => t.Exception != null ? new ReferencedSymbol[0] : t.Result.ToArray());
-					dictionary.Add(symbol, referenceTask);
-				}
-
-				return referenceTask.ContinueWith(x => x.Result.AsEnumerable());
-			}
+			return Task.Run(
+				() =>
+					{
+						var locations = repository.Get(symbol).ToArray();
+						return new ReferencedSymbol(symbol, locations);
+					});
 		}
 	}
 }

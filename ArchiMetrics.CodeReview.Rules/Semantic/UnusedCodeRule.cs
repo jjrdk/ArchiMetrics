@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -66,7 +67,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var symbol = semanticModel.GetDeclaredSymbol(node);
 			var callers = await solution.FindReferences(symbol).ConfigureAwait(false);
 
-			if (!callers.Any(IsNotAssignment))
+			if (!callers.Locations.Any(IsNotAssignment))
 			{
 				return new EvaluationResult
 					   {
@@ -77,17 +78,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			return null;
 		}
 
-		private bool IsNotAssignment(ReferencedSymbol referencedSymbol)
-		{
-			var locations = referencedSymbol.Locations.ToArray();
-			return locations.Any(x => !x.Location.IsInSource)
-				   || locations.All(x => IsNotAssignment(x.Location));
-		}
-
 		private bool IsNotAssignment(Location location)
 		{
-			var token = location.SourceTree.GetRoot()
-				.FindToken(location.SourceSpan.Start);
+			if (!location.IsInSource)
+			{
+				return false;
+			}
+
+			var token = location.SourceTree.GetRoot().FindToken(location.SourceSpan.Start);
 			var assignmentSyntax = GetAssignmentSyntax(token.Parent);
 			if (assignmentSyntax == null)
 			{

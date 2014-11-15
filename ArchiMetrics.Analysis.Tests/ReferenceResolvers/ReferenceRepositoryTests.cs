@@ -1,0 +1,74 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ReferenceRepositoryTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ReferenceRepositoryTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
+{
+	using System.Linq;
+	using System.Threading.Tasks;
+	using global::ArchiMetrics.Analysis.ReferenceResolvers;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using NUnit.Framework;
+
+	public class ReferenceRepositoryTests
+	{
+		private ReferenceRepositoryTests()
+		{
+		}
+
+		[TestFixture]
+		public class GivenAReferenceRepository : SolutionTestsBase
+		{
+			private ReferenceRepository _sut;
+			private Solution _solution;
+
+			[SetUp]
+			public void Setup()
+			{
+				var code = @"namespace Test
+{
+	using System;
+
+	public class TestClass
+	{
+		private object _number = new object();
+
+		public object GetNumber()
+		{
+			return _number;
+		}
+	}
+}";
+				_solution = CreateSolution(code);
+				_sut = new ReferenceRepository(_solution);
+			}
+
+			[Test]
+			public async Task WhenResolvingReferencesThenResolvesAllReferences()
+			{
+				var project = _solution.Projects.First();
+				var compilation = await project.GetCompilationAsync();
+				var document = project.Documents.First();
+				var root = await document.GetSyntaxRootAsync();
+				var model = compilation.GetSemanticModel(root.SyntaxTree);
+				var symbol = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+					.Select(x => model.GetDeclaredSymbol(x) as IMethodSymbol)
+					.Select(x => x.ReturnType)
+					.First();
+
+				var location = _sut.Get(symbol).ToArray();
+
+				Assert.AreEqual(3, location.Length);
+			}
+		}
+	}
+}
