@@ -48,7 +48,6 @@ namespace ArchiMetrics.Analysis.Tests.CodeReview
 					SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)), 
 					SyntaxFactory.Identifier("MyClass"), 
 					SyntaxFactory.TypeParameterList(), 
-					SyntaxFactory.ParameterList(), 
 					SyntaxFactory.BaseList(), 
 					SyntaxFactory.List<TypeParameterConstraintClauseSyntax>(), 
 					SyntaxFactory.List<MemberDeclarationSyntax>());
