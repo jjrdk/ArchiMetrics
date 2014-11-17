@@ -545,14 +545,14 @@ namespace MyNamespace
 				{
 					workspace.AddSolution(
 						SolutionInfo.Create(
-							SolutionId.CreateNewId("Semantic"), 
+							SolutionId.CreateNewId("Semantic"),
 							VersionStamp.Default));
 					var x = 1;
 					var projectId = ProjectId.CreateNewId("testcode");
 					var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp)
-						.AddMetadataReference(projectId, new MetadataFileReference(typeof(object).Assembly.Location));
+						.AddMetadataReference(projectId, MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
 					solution = code.Aggregate(
-						solution, 
+						solution,
 						(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projectId), string.Format("TestClass{0}.cs", x++), c));
 
 					return solution;

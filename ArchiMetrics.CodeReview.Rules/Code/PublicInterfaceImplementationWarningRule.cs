@@ -78,10 +78,10 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			if (classDeclaration.BaseList != null && (classDeclaration.BaseList.Types.Any(SyntaxKind.IdentifierName) || classDeclaration.BaseList.Types.Any(SyntaxKind.GenericName)))
 			{
 				var s = classDeclaration.BaseList.Types.First(x => x.IsKind(SyntaxKind.IdentifierName) || x.IsKind(SyntaxKind.GenericName));
-				if (((SimpleNameSyntax)s).Identifier.ValueText.StartsWith("I")
+				if (((SimpleNameSyntax)s.Type).Identifier.ValueText.StartsWith("I")
 					&& classDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword))
 				{
-					var interfaceName = ((SimpleNameSyntax)s).Identifier.ValueText;
+					var interfaceName = ((SimpleNameSyntax)s.Type).Identifier.ValueText;
 					if (!IsKnownInterface(interfaceName))
 					{
 						var snippet = classDeclaration.ToFullString();

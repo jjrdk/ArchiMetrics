@@ -71,7 +71,7 @@ namespace ArchiMetrics.Analysis.Metrics
 						break;
 					}
 
-				case TypeKind.DynamicType:
+				case TypeKind.Dynamic:
 				case TypeKind.Error:
 				case TypeKind.TypeParameter:
 					break;

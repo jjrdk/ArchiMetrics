@@ -23,12 +23,12 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			return CreateSolution(
 				new[]
 				{
-					new MetadataFileReference(typeof(object).Assembly.Location)
+					MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
 				}, 
 				code);
 		}
 
-		protected static Solution CreateSolution(IEnumerable<MetadataFileReference> references, params string[] code)
+		protected static Solution CreateSolution(IEnumerable<MetadataReference> references, params string[] code)
 		{
 			var workspace = new CustomWorkspace();
 
