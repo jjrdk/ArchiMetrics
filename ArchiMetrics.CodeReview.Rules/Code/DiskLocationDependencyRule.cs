@@ -72,7 +72,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
-			var assignExpression = (BinaryExpressionSyntax)node;
+			var assignExpression = (AssignmentExpressionSyntax)node;
 			var right = assignExpression.Right as LiteralExpressionSyntax;
 			if (right != null)
 			{

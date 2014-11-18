@@ -76,9 +76,9 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
 			if (classDeclaration.BaseList != null
-				&& (classDeclaration.BaseList.Types.Any(x => x.Type.IsKind(SyntaxKind.IdentifierName)) || classDeclaration.BaseList.Types.Any(x => x.IsKind(SyntaxKind.GenericName))))
+				&& (classDeclaration.BaseList.Types.Any(x => x.Type.IsKind(SyntaxKind.IdentifierName)) || classDeclaration.BaseList.Types.Any(x => x.Type.IsKind(SyntaxKind.GenericName))))
 			{
-				var s = classDeclaration.BaseList.Types.First(x => x.IsKind(SyntaxKind.IdentifierName) || x.IsKind(SyntaxKind.GenericName));
+				var s = classDeclaration.BaseList.Types.First(x => x.Type.IsKind(SyntaxKind.IdentifierName) || x.Type.IsKind(SyntaxKind.GenericName));
 				if (((SimpleNameSyntax)s.Type).Identifier.ValueText.StartsWith("I")
 					&& classDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword))
 				{

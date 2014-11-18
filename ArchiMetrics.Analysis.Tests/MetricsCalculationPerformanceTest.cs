@@ -44,8 +44,6 @@ namespace ArchiMetrics.Analysis.Tests
 				var timer = metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
 				for (var i = 0; i < 5; i++)
 				{
-					Console.WriteLine(i.ToString());
-
 					var amount = timer.Time(() => PerformReview(solution).Result);
 				}
 

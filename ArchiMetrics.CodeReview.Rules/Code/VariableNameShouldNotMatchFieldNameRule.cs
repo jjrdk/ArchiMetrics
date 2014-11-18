@@ -69,7 +69,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
-			var assignment = (BinaryExpressionSyntax)node;
+			var assignment = (AssignmentExpressionSyntax)node;
 			var left = assignment.Left as MemberAccessExpressionSyntax;
 			if (left == null || !left.Expression.IsKind(SyntaxKind.ThisExpression))
 			{
