@@ -75,7 +75,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)node;
-			if (classDeclaration.BaseList != null && (classDeclaration.BaseList.Types.Any(SyntaxKind.IdentifierName) || classDeclaration.BaseList.Types.Any(SyntaxKind.GenericName)))
+			if (classDeclaration.BaseList != null
+				&& (classDeclaration.BaseList.Types.Any(x => x.Type.IsKind(SyntaxKind.IdentifierName)) || classDeclaration.BaseList.Types.Any(x => x.IsKind(SyntaxKind.GenericName))))
 			{
 				var s = classDeclaration.BaseList.Types.First(x => x.IsKind(SyntaxKind.IdentifierName) || x.IsKind(SyntaxKind.GenericName));
 				if (((SimpleNameSyntax)s.Type).Identifier.ValueText.StartsWith("I")

@@ -71,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		{
 			if (syntax.IsKind(SyntaxKind.SimpleAssignmentExpression))
 			{
-				var binaryExpression = (BinaryExpressionSyntax)syntax;
+				var binaryExpression = (AssignmentExpressionSyntax)syntax;
 				return binaryExpression.Right == value;
 			}
 

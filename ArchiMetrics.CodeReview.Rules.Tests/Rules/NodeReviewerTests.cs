@@ -48,8 +48,12 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		public class GivenANodeInspectorInspectingBrokenSolution
 		{
 			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
-			public async Task WhenInspectingSolutionThenFindsErrors(string code, Type evaluatorType)
+			public async Task WhenInspectingSolutionThenFindsErrors(TestCaseData data)
 			{
+				var code = data.Arguments[0] as string;
+				var evaluatorType = data.Arguments[1] as Type;
+				Console.WriteLine(evaluatorType.Name);
+
 				var task = await PerformSolutionInspection(code, evaluatorType);
 				var count = task.Count();
 
@@ -60,8 +64,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		public class GivenANodeReviewerInspectingBrokenCode
 		{
 			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
-			public async Task SyntaxDetectionTest(string code, Type evaluatorType)
+			public async Task SyntaxDetectionTest(TestCaseData data)
 			{
+				var code = data.Arguments[0] as string;
+				var evaluatorType = data.Arguments[1] as Type;
 				var task = await PerformInspection(code, evaluatorType);
 				var count = task.Count();
 
@@ -69,16 +75,20 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			}
 
 			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
-			public async Task WhenCreatingResultThenIncludesTypeName(string code, Type evaluatorType)
+			public async Task WhenCreatingResultThenIncludesTypeName(TestCaseData data)
 			{
+				var code = data.Arguments[0] as string;
+				var evaluatorType = data.Arguments[1] as Type;
 				var result = await PerformInspection(code, evaluatorType);
 
 				Assert.IsTrue(result.All(x => !string.IsNullOrWhiteSpace(x.TypeName)));
 			}
 
 			[TestCaseSource(typeof(InspectionCodeSource), "BrokenCode")]
-			public async Task WhenCreatingResultThenIncludesNamespaceName(string code, Type evaluatorType)
+			public async Task WhenCreatingResultThenIncludesNamespaceName(TestCaseData data)
 			{
+				var code = data.Arguments[0] as string;
+				var evaluatorType = data.Arguments[1] as Type;
 				var result = await PerformInspection(code, evaluatorType);
 
 				Assert.IsTrue(

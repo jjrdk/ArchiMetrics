@@ -25,10 +25,10 @@ namespace ArchiMetrics.Analysis.Tests
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
 
 			var projId = seed.Projects.First().Id;
-			seed = seed.AddMetadataReference(projId, new MetadataFileReference(typeof(object).Assembly.Location));
-			
+			seed = seed.AddMetadataReference(projId, MetadataReference.CreateFromAssembly(typeof(object).Assembly));
+
 			var solution = code.Aggregate(
-				seed, 
+				seed,
 				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), string.Format("TestClass{0}.cs", x++), c));
 
 			return solution;

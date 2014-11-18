@@ -106,7 +106,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			return node.DescendantNodes()
 					   .Where(n => n.IsKind(SyntaxKind.SimpleAssignmentExpression))
-					   .OfType<BinaryExpressionSyntax>()
+					   .OfType<AssignmentExpressionSyntax>()
 					   .Select(x => x.Left as IdentifierNameSyntax)
 					   .Where(x => x != null).FirstOrDefault(x => x.Identifier.ValueText == variableName);
 		}

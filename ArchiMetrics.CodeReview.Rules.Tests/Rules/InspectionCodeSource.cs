@@ -25,13 +25,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			{
 				yield return new TestCaseData(
 					@"private int SomeMethod(int x)
-        {
+		{
 			return x;
 		}", 
 					typeof(PossibleStaticMethod));
 				yield return new TestCaseData(
 					@"private void SomeMethod(int x)
-        {
+		{
 			var name = MethodBase.GetCurrentMethod().Name;
 		}", 
 					typeof(UnusedParametersInMethodRule));
@@ -45,17 +45,17 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				yield return new TestCaseData(@"public class SomeClass : IDisposable { public void Dispose(){ }}", typeof(IncorrectDisposableImplementation));
 				yield return new TestCaseData(
 @"private void ApplicationInitializationStartup()
-        {
-            if (applicationInitTask == null)
-            {
+		{
+			if (applicationInitTask == null)
+			{
 				applicationInitTask = Task.Factory.StartNew(() => SingleApplicationHostControl.Instance);
 				applicationInitTask.Wait();
-            }
-        }", 
+			}
+		}", 
 		  typeof(ImmediateTaskWaitRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			do
 			{
 				if (DateTime.UtcNow.Millisecond == 500)
@@ -70,7 +70,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		  typeof(DoLoopSleepErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			while(true)
 			{
 				if (DateTime.UtcNow.Millisecond == 500)
@@ -84,7 +84,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		  typeof(WhileLoopSleepErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			while(true)
 			{
 			}
@@ -92,13 +92,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		  typeof(EmptyWhileErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			throw new NotImplementedException();
 		}", 
 		  typeof(NoNotImplementedExceptionRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			do
 			{
 			}
@@ -107,57 +107,57 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		  typeof(EmptyDoErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			public IServiceLocator ServiceLocator { get; set; }
 		}", 
 		  typeof(LeakingServiceLocatorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			var value = ServiceLocator.Current.Resolve<IMarkerInterface>();
 		}", 
 		  typeof(ServiceLocatorInvocationRule));
 				yield return new TestCaseData(
 @"[TestMethod]
 private void SomeMethod()
-        {
+		{
 			var value = ServiceLocator.Current.Resolve<IMarkerInterface>();
 		}", 
 		  typeof(ServiceLocatorInvocationInTestRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			dynamic myVariable = 2;
 		}", 
 		  typeof(DynamicVariableRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			var unityContainer = ServiceLocator.Current.Resolve<IUnityContainer>();
 		}", 
 		  typeof(ServiceLocatorResolvesContainerRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			activity.ArchiveSettings.NetworkLocation = @""c:\"";
 		}", 
 		  typeof(DiskLocationDependencyRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			var file = File.Create(""c:\blah.txt"");
 		}", 
 		  typeof(FileClassDependency));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			var file = Directory.GetFiles(""c:\"");
 		}", 
 		  typeof(DirectoryClassDependency));
 				yield return new TestCaseData(
 @"[TestMethod]
 private void SomeMethod()
-        {
+		{
 			Assert.IsTrue(true);
 			Assert.IsFalse(false);
 		}", 
@@ -166,7 +166,7 @@ private void SomeMethod()
 @"[TestMethod]
 [ExpectedException(typeof(Exception))]
 private void SomeMethod()
-        {
+		{
 			Assert.IsTrue(true);
 			throw new Exception();
 		}", 
@@ -175,40 +175,40 @@ private void SomeMethod()
 @"[TestMethod]
 [ExpectedException(typeof(Exception))]
 private void SomeMethod()
-        {
+		{
 		}", 
 		  typeof(EmptyTestRule));
 				yield return new TestCaseData(
 @"[TestMethod]
 [ExpectedException(typeof(Exception))]
 private void SomeMethod()
-        {
+		{
 			// A comment
 		}", 
 		  typeof(EmptyTestRule));
 				yield return new TestCaseData(
 @"[TestMethod]
 private void SomeMethod()
-        {
+		{
 			someMock.Verify(x => x(a), Times.Once());
 			anotherMock.Verify(x => x(a), Times.Once());
 		}", 
 		  typeof(MultipleAssertsInTestErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			var name = MethodBase.GetCurrentMethod().Name;
 		}", 
 		  typeof(ReflectionToResolveMethodNameRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			var time = DateTime.Now;
 		}", 
 		  typeof(LocalTimeCreationRule));
 				yield return new TestCaseData(
 @"private void SomeMethod()
-        {
+		{
 			goto SomeLabel;
 
 			switch(x){
@@ -218,7 +218,7 @@ private void SomeMethod()
 		  typeof(GotoStatementErrorRule));
 				yield return new TestCaseData(
 @"private void SomeMethod(object x)
-        {
+		{
 			var time = x == someMethod() && a == b || b == c;
 			if(x < y){
 				if(x < y/2) {
@@ -236,7 +236,7 @@ private void SomeMethod()
 		  typeof(TooHighCyclomaticComplexityRule));
 				yield return new TestCaseData(
 @"private void SomeMethod(MyClass x)
-        {
+		{
 			object value = null;
 		}", 
 		  typeof(TypeObfuscationRule));
