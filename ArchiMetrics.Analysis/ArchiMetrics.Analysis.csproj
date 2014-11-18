@@ -118,9 +118,9 @@
     <Compile Include="Model\SolutionVertexRepository.cs" />
     <Compile Include="Model\SyntaxTransformer.cs" />
     <Compile Include="Model\TransformerBase.cs" />
-    <Compile Include="ReferenceResolvers\IReferenceResolver.cs" />
     <Compile Include="ReferenceResolvers\ReferencedSymbol.cs" />
     <Compile Include="ReferenceResolvers\ReferenceRepository.cs" />
+    <Compile Include="ReferenceResolvers\SymbolReferenceResolver.cs" />
     <Compile Include="RoslynExtensions.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
