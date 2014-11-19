@@ -33,7 +33,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 				.GroupBy(x => x.type, x => x.location);
 
 			var array = fields.ToArray();
-			Console.WriteLine(array.Length);
+
 			return array;
 		}
 	}
