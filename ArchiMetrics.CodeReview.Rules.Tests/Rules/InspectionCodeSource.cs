@@ -230,8 +230,8 @@ private void SomeMethod()
 									 @"[TestMethod]
 private void SomeMethod()
 		{
-			someMock.Verify(x => x(a), Times.Once()};
-			anotherMock.Verify(x => x(a), Times.Once()};
+			someMock.Verify(x => x(a), Times.Once();
+			anotherMock.Verify(x => x(a), Times.Once();
 		}",
 									 typeof(MultipleAssertsInTestErrorRule)
 								 };

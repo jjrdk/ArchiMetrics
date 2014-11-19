@@ -74,13 +74,15 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 			if (methodDeclaration.AttributeLists.Any(l => l.Attributes.Any(a => a.Name is SimpleNameSyntax && ((SimpleNameSyntax)a.Name).Identifier.ValueText == "TestMethod")))
 			{
-				var assertsFound = methodDeclaration.DescendantNodes()
-													.OfType<MemberAccessExpressionSyntax>()
+				var accessExpressionSyntaxes = methodDeclaration.DescendantNodes()
+					.OfType<MemberAccessExpressionSyntax>()
+					.ToArray();
+
+				var assertsFound = accessExpressionSyntaxes
 													.Select(x => x.Expression as SimpleNameSyntax)
 													.Where(x => x != null)
 													.Count(x => x.Identifier.ValueText == "Assert" || x.Identifier.ValueText == "ExceptionAssert");
-				var mockVerifyFound = methodDeclaration.DescendantNodes()
-													   .OfType<MemberAccessExpressionSyntax>()
+				var mockVerifyFound = accessExpressionSyntaxes
 													   .Count(x => x.Name.Identifier.ValueText == "Verify" || x.Name.Identifier.ValueText == "VerifySet" || x.Name.Identifier.ValueText == "VerifyGet");
 				var expectedExceptions =
 					methodDeclaration.AttributeLists.Count(
@@ -91,7 +93,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				return total != 1
 						   ? new EvaluationResult
 								 {
-									 Snippet = node.ToFullString(), 
+									 Snippet = node.ToFullString(),
 									 ErrorCount = total
 								 }
 						   : null;
