@@ -6,6 +6,7 @@
 		<version>0.10.0.0-beta</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
+		<copyright>Jacob Reimers</copyright>
 		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
@@ -14,7 +15,8 @@
 		<releaseNotes />
 		<tags>metrics analysis roslyn</tags>
 		<dependencies>
-			<dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="0.7.4052301-beta" />
+			<dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="1.0.0-beta1-20141031-01" />
+			<dependency id="Microsoft.Composition" version="1.0.27" />
 		</dependencies>
 	</metadata>
 	<files>
