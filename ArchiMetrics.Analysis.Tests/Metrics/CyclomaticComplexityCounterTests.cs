@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System;
+	using System.Diagnostics;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
@@ -141,7 +142,6 @@ namespace MyNs
 
 				var result = timer.Time(() => _counter.Calculate(syntaxNode, model));
 
-				Console.WriteLine(timer.Mean);
 				Assert.AreEqual(expectedComplexity, result);
 			}
 

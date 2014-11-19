@@ -47,9 +47,6 @@ namespace ArchiMetrics.Analysis.Tests
 					var amount = timer.Time(() => PerformReview(solution).Result);
 				}
 
-				Console.WriteLine("Min " + TimeSpan.FromSeconds(timer.Min));
-				Console.WriteLine("Max " + TimeSpan.FromSeconds(timer.Max));
-				Console.WriteLine("Mean " + TimeSpan.FromSeconds(timer.Mean));
 				Assert.Less(timer.Mean, 90.0);
 			}
 		}
