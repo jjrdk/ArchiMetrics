@@ -10,30 +10,31 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ArchiMetrics.Analysis.ReferenceResolvers;
+using Microsoft.CodeAnalysis;
+
 namespace ArchiMetrics.Analysis
 {
-	using System.Collections.Concurrent;
-	using System.Linq;
-	using System.Threading.Tasks;
-	using ArchiMetrics.Analysis.ReferenceResolvers;
-	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.FindSymbols;
-	using ReferencedSymbol = ArchiMetrics.Analysis.ReferenceResolvers.ReferencedSymbol;
-
 	public static class SymbolExtensions
 	{
-		private static readonly ConcurrentDictionary<SolutionId, ReferenceRepository> KnownReferences = new ConcurrentDictionary<SolutionId, ReferenceRepository>();
+		private static readonly ConcurrentDictionary<SolutionId, Lazy<ReferenceRepository>> KnownReferences = new ConcurrentDictionary<SolutionId, Lazy<ReferenceRepository>>();
 
 		public static Task<ReferencedSymbol> FindReferences(this Solution solution, ISymbol symbol)
 		{
-			var repository = KnownReferences.GetOrAdd(solution.Id, x => new ReferenceRepository(solution));
+			var lazyRepo = KnownReferences.GetOrAdd(solution.Id, x => new Lazy<ReferenceRepository>(() => new ReferenceRepository(solution), LazyThreadSafetyMode.ExecutionAndPublication));
 
 			return Task.Run(
 				() =>
-					{
-						var locations = repository.Get(symbol).ToArray();
-						return new ReferencedSymbol(symbol, locations);
-					});
+				{
+					var repo = lazyRepo.Value;
+					var locations = repo.Get(symbol).ToArray();
+					return new ReferencedSymbol(symbol, locations);
+				});
 		}
 	}
 }
