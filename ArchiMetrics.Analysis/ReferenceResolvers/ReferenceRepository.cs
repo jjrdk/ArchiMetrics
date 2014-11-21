@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Analysis.ReferenceResolvers
-{
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
@@ -19,13 +17,14 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.FindSymbols;
 
+namespace ArchiMetrics.Analysis.ReferenceResolvers
+{
 	public class ReferenceRepository : IProvider<ISymbol, IEnumerable<Location>>
 	{
 		private readonly object _syncRoot = new object();
 		private readonly ConcurrentDictionary<ISymbol, IEnumerable<Location>> _resolvedReferences = new ConcurrentDictionary<ISymbol, IEnumerable<Location>>();
-		private bool _isInitialized = false;
+		private bool _isInitialized;
 
 		public ReferenceRepository(Solution solution)
 		{
@@ -64,7 +63,30 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 			}
 		}
 
-		private async Task<IEnumerable<Location>> Scan(Solution solution)
+		private async Task Scan(Solution solution)
+		{
+			var roots = await GetDocData(solution).ConfigureAwait(false);
+
+			var resolver = new SymbolReferenceResolver();
+			var groups = from root in roots
+						 from syntaxNode in root.DocRoots
+						 let compilation = root.Compilation
+						 from @group in compilation.Resolve(syntaxNode)
+						 select @group;
+
+			foreach (var @group in groups)
+			{
+				_resolvedReferences.AddOrUpdate(@group.Key, @group.ToArray(), (s, r) => r.Concat(@group).ToArray());
+			}
+
+			lock (_syncRoot)
+			{
+				_isInitialized = true;
+				Monitor.PulseAll(_syncRoot);
+			}
+		}
+
+		private async Task<IEnumerable<DocData>> GetDocData(Solution solution)
 		{
 			var roots = (from project in solution.Projects
 						 let compilation = project.GetCompilationAsync()
@@ -73,23 +95,18 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 
 			await Task.WhenAll(roots.SelectMany(x => new Task[] { x.compilation }.Concat(x.docRoots)));
 
-			var groups = from root in roots
-						 from node in root.docRoots
-						 let syntaxNode = node.Result
-						 let compilation = root.compilation.Result
-						 from @group in compilation.Resolve(syntaxNode)
-						 where @group.Key != null
-						 select _resolvedReferences.AddOrUpdate(@group.Key, @group.ToArray(), (s, r) => r.Concat(@group).ToArray());
-
-			var array = groups.SelectMany(x => x).ToArray();
-
-			lock (_syncRoot)
+			return roots.Select(x => new DocData
 			{
-				_isInitialized = true;
-				Monitor.PulseAll(_syncRoot);
-			}
-
-			return array;
+				Compilation = x.compilation.Result,
+				DocRoots = x.docRoots.Select(y => y.Result).ToArray()
+			});
 		}
+
+		private class DocData
+		{
+			public Compilation Compilation { get; set; }
+
+			public IEnumerable<SyntaxNode> DocRoots { get; set; }
 	}
+}
 }
