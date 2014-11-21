@@ -17,10 +17,12 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 	using System.Linq;
 	using Microsoft.CodeAnalysis;
 
-	internal class SymbolReferenceResolver
+	internal static class SymbolReferenceResolver
 	{
-		public IEnumerable<IGrouping<ISymbol, Location>> Resolve(SyntaxNode root, SemanticModel model)
+		public static IEnumerable<IGrouping<ISymbol, Location>> Resolve(this Compilation compilation, SyntaxNode root)
 		{
+			var model = compilation.GetSemanticModel(root.SyntaxTree);
+		
 			var fields = root.DescendantNodes()
 				.Select(
 					x =>

@@ -66,7 +66,6 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 
 		private async Task<IEnumerable<Location>> Scan(Solution solution)
 		{
-			var resolver = new SymbolReferenceResolver();
 			var roots = (from project in solution.Projects
 						 let compilation = project.GetCompilationAsync()
 						 let docRoots = project.Documents.Select(x => x.GetSyntaxRootAsync())
@@ -78,8 +77,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 						 from node in root.docRoots
 						 let syntaxNode = node.Result
 						 let compilation = root.compilation.Result
-						 let model = compilation.GetSemanticModel(syntaxNode.SyntaxTree)
-						 from @group in resolver.Resolve(syntaxNode, model)
+						 from @group in compilation.Resolve(syntaxNode)
 						 where @group.Key != null
 						 select _resolvedReferences.AddOrUpdate(@group.Key, @group.ToArray(), (s, r) => r.Concat(@group).ToArray());
 
