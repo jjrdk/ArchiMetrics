@@ -10,13 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-	using System.Collections.Concurrent;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading;
-	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
-	using Microsoft.CodeAnalysis;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using ArchiMetrics.Common;
+using Microsoft.CodeAnalysis;
 
 namespace ArchiMetrics.Analysis.ReferenceResolvers
 {
@@ -67,7 +67,6 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 		{
 			var roots = await GetDocData(solution).ConfigureAwait(false);
 
-			var resolver = new SymbolReferenceResolver();
 			var groups = from root in roots
 						 from syntaxNode in root.DocRoots
 						 let compilation = root.Compilation
@@ -107,6 +106,6 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 			public Compilation Compilation { get; set; }
 
 			public IEnumerable<SyntaxNode> DocRoots { get; set; }
+		}
 	}
-}
 }
