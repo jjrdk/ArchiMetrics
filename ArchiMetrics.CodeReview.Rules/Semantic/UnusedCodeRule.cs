@@ -67,7 +67,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var symbol = semanticModel.GetDeclaredSymbol(node);
 			var callers = await solution.FindReferences(symbol).ConfigureAwait(false);
 
-			if (!callers.Locations.Any(IsNotAssignment))
+			if (!callers.Locations.Any(x => IsNotAssignment(x.Location)))
 			{
 				return new EvaluationResult
 					   {

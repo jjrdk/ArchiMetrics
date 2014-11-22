@@ -119,6 +119,7 @@
     <Compile Include="Model\SyntaxTransformer.cs" />
     <Compile Include="Model\TransformerBase.cs" />
     <Compile Include="ReferenceResolvers\ReferencedSymbol.cs" />
+    <Compile Include="ReferenceResolvers\ReferenceLocation.cs" />
     <Compile Include="ReferenceResolvers\ReferenceRepository.cs" />
     <Compile Include="ReferenceResolvers\SymbolReferenceResolver.cs" />
     <Compile Include="RoslynExtensions.cs" />

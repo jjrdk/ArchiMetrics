@@ -20,31 +20,24 @@ using Microsoft.CodeAnalysis;
 
 namespace ArchiMetrics.Analysis.ReferenceResolvers
 {
-	public class ReferenceRepository : IProvider<ISymbol, IEnumerable<Location>>
+	public class ReferenceRepository : IProvider<ISymbol, IEnumerable<ReferenceLocation>>
 	{
-		private readonly object _syncRoot = new object();
-		private readonly ConcurrentDictionary<ISymbol, IEnumerable<Location>> _resolvedReferences = new ConcurrentDictionary<ISymbol, IEnumerable<Location>>();
-		private bool _isInitialized;
+		private readonly ConcurrentDictionary<ISymbol, IEnumerable<ReferenceLocation>> _resolvedReferences = new ConcurrentDictionary<ISymbol, IEnumerable<ReferenceLocation>>();
+		private readonly Task _scanTask;
 
 		public ReferenceRepository(Solution solution)
 		{
-			var task = Scan(solution);
+			_scanTask = Scan(solution);
 		}
 
-		public IEnumerable<Location> Get(ISymbol key)
+		public IEnumerable<ReferenceLocation> Get(ISymbol key)
 		{
-			lock (_syncRoot)
-			{
-				while (!_isInitialized)
-				{
-					Monitor.Wait(_syncRoot);
-				}
-			}
+			_scanTask.Wait();
 
-			IEnumerable<Location> locations;
+			IEnumerable<ReferenceLocation> locations;
 			return _resolvedReferences.TryGetValue(key, out locations)
 				? locations
-				: Enumerable.Empty<Location>();
+				: Enumerable.Empty<ReferenceLocation>();
 		}
 
 		/// <summary>
@@ -76,12 +69,6 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 			foreach (var @group in groups)
 			{
 				_resolvedReferences.AddOrUpdate(@group.Key, @group.ToArray(), (s, r) => r.Concat(@group).ToArray());
-			}
-
-			lock (_syncRoot)
-			{
-				_isInitialized = true;
-				Monitor.PulseAll(_syncRoot);
 			}
 		}
 

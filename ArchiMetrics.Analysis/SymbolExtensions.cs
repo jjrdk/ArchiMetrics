@@ -10,7 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
+namespace ArchiMetrics.Analysis
+{
 	using System;
 	using System.Collections.Concurrent;
 	using System.Linq;
@@ -20,8 +21,6 @@ using System;
 	using Microsoft.CodeAnalysis;
 	using ReferencedSymbol = ArchiMetrics.Analysis.ReferenceResolvers.ReferencedSymbol;
 
-namespace ArchiMetrics.Analysis
-{
 	public static class SymbolExtensions
 	{
 		private static readonly ConcurrentDictionary<SolutionId, Lazy<ReferenceRepository>> KnownReferences = new ConcurrentDictionary<SolutionId, Lazy<ReferenceRepository>>();

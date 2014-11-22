@@ -19,10 +19,10 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 
 	internal static class SymbolReferenceResolver
 	{
-		public static IEnumerable<IGrouping<ISymbol, Location>> Resolve(this Compilation compilation, SyntaxNode root)
+		public static IEnumerable<IGrouping<ISymbol, ReferenceLocation>> Resolve(this Compilation compilation, SyntaxNode root)
 		{
 			var model = compilation.GetSemanticModel(root.SyntaxTree);
-		
+
 			var fields = root.DescendantNodes()
 				.Select(
 					x =>
@@ -31,7 +31,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 						return new { symbol = symbol.Symbol, node = x };
 					})
 				.Where(x => x.symbol != null)
-				.Select(x => new { type = x.symbol, location = x.node.GetLocation() })
+				.Select(x => new { type = x.symbol, location = new ReferenceLocation(x.node.GetLocation(), model) })
 				.GroupBy(x => x.type, x => x.location);
 
 			var array = fields.ToArray();

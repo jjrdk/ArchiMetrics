@@ -26,7 +26,7 @@ namespace ArchiMetrics.Analysis
 		private readonly Dictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
 		private readonly Dictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 		private readonly Dictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
-		private SyntaxKind[] _allSyntaxKinds;
+		private readonly SyntaxKind[] _allSyntaxKinds;
 
 		public NodeReviewer(IEnumerable<IEvaluation> evaluations)
 		{

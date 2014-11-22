@@ -49,7 +49,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.Select(solution.FindReferences);
 			var references = (await Task.WhenAll(referenceTasks).ConfigureAwait(false))
 				.SelectMany(x => x.Locations)
-				.Select(x => x.SourceTree.GetRoot().FindToken(x.SourceSpan.Start))
+				.Select(x => x.Location.SourceTree.GetRoot().FindToken(x.Location.SourceSpan.Start))
 				.Select(x => x.Parent)
 				.Where(x => x != null)
 				.Select(x => new { Value = x, Parent = x.Parent })
