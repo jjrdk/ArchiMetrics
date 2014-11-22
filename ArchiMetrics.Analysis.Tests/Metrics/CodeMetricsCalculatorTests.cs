@@ -113,19 +113,7 @@ public int Foo() { return 1; }
 				var metrics = task.ToArray();
 				Assert.IsNotEmpty(metrics);
 			}
-
-			[Test]
-			public async Task CanCalculateMetricsForSilverlightProject()
-			{
-				var path = @"..\..\..\SampleSL\SampleSL.csproj".GetLowerCaseFullPath();
-				var workspace = MSBuildWorkspace.Create();
-				var project = await workspace.OpenProjectAsync(path);
-				var task = await _analyzer.Calculate(project, workspace.CurrentSolution);
-				var metrics = task.ToArray();
-
-				Assert.IsNotEmpty(metrics);
-			}
-
+		
 			[Test]
 			public async Task WhenClassDefinitionIsEmptyThenHasCyclomaticComplexityOfOne()
 			{
