@@ -20,6 +20,9 @@ using Microsoft.CodeAnalysis;
 
 namespace ArchiMetrics.Analysis.ReferenceResolvers
 {
+	using System;
+	using System.Diagnostics;
+
 	public class ReferenceRepository : IProvider<ISymbol, IEnumerable<ReferenceLocation>>
 	{
 		private readonly ConcurrentDictionary<ISymbol, IEnumerable<ReferenceLocation>> _resolvedReferences = new ConcurrentDictionary<ISymbol, IEnumerable<ReferenceLocation>>();

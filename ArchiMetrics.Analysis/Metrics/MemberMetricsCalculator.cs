@@ -193,6 +193,11 @@ namespace ArchiMetrics.Analysis.Metrics
 					return 0;
 				}
 
+				if (node.SyntaxTree != Model.SyntaxTree)
+				{
+					return 0;
+				}
+
 				var symbol = Model.GetDeclaredSymbol(node);
 				var referenceTasks = _solution.FindReferences(symbol)
 					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Locations.Count());

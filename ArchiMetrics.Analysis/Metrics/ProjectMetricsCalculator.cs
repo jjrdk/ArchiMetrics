@@ -35,7 +35,7 @@ namespace ArchiMetrics.Analysis.Metrics
 						 select new { project, compilation })
 						.ToArray();
 
-			await Task.WhenAll(tasks.Select(x => x.compilation));
+			await Task.WhenAll(tasks.Select(x => x.compilation)).ConfigureAwait(false);
 
 			var calculationTasks = tasks.Select(x => InnerCalculate(x.project, x.compilation, solution));
 
@@ -50,7 +50,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var compilation = project.GetCompilationAsync();
-			return await InnerCalculate(project, compilation, solution);
+			return await InnerCalculate(project, compilation, solution).ConfigureAwait(false);
 		}
 
 		private async Task<IProjectMetric> InnerCalculate(Project project, Task<Compilation> compilationTask, Solution solution)
