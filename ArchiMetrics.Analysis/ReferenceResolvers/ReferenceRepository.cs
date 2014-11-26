@@ -10,18 +10,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using ArchiMetrics.Common;
-using Microsoft.CodeAnalysis;
-
 namespace ArchiMetrics.Analysis.ReferenceResolvers
 {
-	using System;
-	using System.Diagnostics;
+	using System.Collections.Concurrent;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
+	using Microsoft.CodeAnalysis;
 
 	public class ReferenceRepository : IProvider<ISymbol, IEnumerable<ReferenceLocation>>
 	{
@@ -82,7 +78,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 						 let docRoots = project.Documents.Select(x => x.GetSyntaxRootAsync())
 						 select new { compilation, docRoots }).ToArray();
 
-			await Task.WhenAll(roots.SelectMany(x => new Task[] { x.compilation }.Concat(x.docRoots)));
+			await Task.WhenAll(roots.SelectMany(x => new Task[] { x.compilation }.Concat(x.docRoots))).ConfigureAwait(false);
 
 			return roots.Select(x => new DocData
 			{
