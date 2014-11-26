@@ -114,6 +114,7 @@
     <Compile Include="Code\ExceptionShouldBeVisibleRule.cs" />
     <Compile Include="Code\GetPropertyTooDeepNestingRule.cs" />
     <Compile Include="Code\IncorrectDisposableImplementation.cs" />
+    <Compile Include="Code\MissingEventHandlerDetachmentRule.cs" />
     <Compile Include="Code\NoNotImplementedExceptionRule.cs" />
     <Compile Include="Code\NoUnsafeCodeRule.cs" />
     <Compile Include="Code\MethodTooDeepNestingRule.cs" />
