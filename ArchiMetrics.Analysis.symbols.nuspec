@@ -3,7 +3,7 @@
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
 		<title>Roslyn Code Analysis</title>
-		<version>0.11.0.0-beta</version>
+		<version>0.11.1.0-beta</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
 		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
@@ -24,7 +24,7 @@
 		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.pdb" target="lib\Net451" />
 		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Common.xml" target="lib\Net451" />
 		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.xml" target="lib\Net451" />
-		<file src="ArchiMetrics.Common\**\*.cs" target="src" />
-		<file src="ArchiMetrics.Analysis\**\*.cs" target="src" />
+		<file src="ArchiMetrics.Common\**\*.cs" target="src\ArchiMetrics.Common" />
+		<file src="ArchiMetrics.Analysis\**\*.cs" target="src\ArchiMetrics.Analysis" />
 	</files>
 </package>

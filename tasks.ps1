@@ -17,7 +17,7 @@ task CleanUpMsBuildPath -depends BuildPackages {
 }
 
 task BuildPackages -depends Test {
-	Exec { .\.nuget\nuget.exe pack ArchiMetrics.Analysis.nuspec }
+	Exec { .\.nuget\nuget.exe pack ArchiMetrics.Analysis.nuspec -Symbols }
 }
 
 task Test -depends Compile, Clean {
@@ -37,7 +37,7 @@ task Compile -depends UpdatePackages {
 task UpdatePackages -depends Clean {
 	$packageConfigs = Get-ChildItem -Path .\ -Include "packages.config" -Recurse
 	foreach($config in $packageConfigs){
-        #Write-Host $config.DirectoryName
+		#Write-Host $config.DirectoryName
 		Exec { .\.nuget\nuget.exe i $config.FullName -o packages -source https://nuget.org/api/v2/ }
 	}
 }
