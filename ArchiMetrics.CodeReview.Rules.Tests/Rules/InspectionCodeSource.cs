@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
+	using System;
 	using System.Collections;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
@@ -45,6 +46,21 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		{
 			get
 			{
+				yield return new object[]
+				{
+@"public ParseClass()
+{
+	SomeEvent += SomeEventHandler;
+}
+
+public event EventHandler SomeEvent;
+
+private void SomeEventHandler(object sender, EventArgs e)
+{
+	throw new NotImplementedException();
+}", 
+  typeof(MissingEventHandlerDetachmentRule)
+				};
 				yield return new object[] { @"public class SomeClass : IDisposable { public void Dispose(){ }}", typeof(IncorrectDisposableImplementation) };
 				yield return new object[]
 								 {
@@ -573,6 +589,22 @@ public int MyProperty
 		{
 			get
 			{
+				yield return new object[]
+				{
+@"public ParseClass()
+{
+	SomeEvent += SomeEventHandler;
+	SomeEvent -= SomeEventHandler;
+}
+
+public event EventHandler SomeEvent;
+
+private void SomeEventHandler(object sender, EventArgs e)
+{
+	throw new NotImplementedException();
+}", 
+  typeof(MissingEventHandlerDetachmentRule)
+				};
 				yield return new object[]
 								 {
 									 @"public class InnerClass : IDisposable

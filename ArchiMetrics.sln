@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
 		ArchiMetrics.Analysis.nuspec = ArchiMetrics.Analysis.nuspec
+		ArchiMetrics.Analysis.symbols.nuspec = ArchiMetrics.Analysis.symbols.nuspec
 		build.ps1 = build.ps1
 		psake.psm1 = psake.psm1
 		SolutionSettings.StyleCop = SolutionSettings.StyleCop
