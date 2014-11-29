@@ -1,6 +1,10 @@
 [Bb]in
 [Oo]bj
 packages
+/UpgradeLog.htm
+Libraries
+build
+artifacts
 /*.suo
 *.vspscc
 *.pdb
@@ -13,13 +17,9 @@ settings.xml
 x.sln
 TestResult.xml
 *.Cache
-
 *.user
-
 *.ide
 *.pure
 *.log
 OpenCover.Profiler
-/UpgradeLog.htm
-/Libraries
-/build
+Release

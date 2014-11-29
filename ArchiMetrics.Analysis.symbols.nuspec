@@ -18,12 +18,18 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Common.dll" target="lib\Net451" />
-		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.dll" target="lib\Net451" />
-		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Common.pdb" target="lib\Net451" />
-		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.pdb" target="lib\Net451" />
-		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Common.xml" target="lib\Net451" />
-		<file src="ArchiMetrics.Analysis\bin\Release\ArchiMetrics.Analysis.xml" target="lib\Net451" />
+		<file src="artifacts\4.5\Release\ArchiMetrics.Common.dll" target="lib\Net45" />
+		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.dll" target="lib\Net45" />
+		<file src="artifacts\4.5\Release\ArchiMetrics.Common.pdb" target="lib\Net45" />
+		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.pdb" target="lib\Net45" />
+		<file src="artifacts\4.5\Release\ArchiMetrics.Common.xml" target="lib\Net45" />
+		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.xml" target="lib\Net45" />
+		<file src="artifacts\4.5.1\Release\ArchiMetrics.Common.dll" target="lib\Net451" />
+		<file src="artifacts\4.5.1\Release\ArchiMetrics.Analysis.dll" target="lib\Net451" />
+		<file src="artifacts\4.5.1\Release\ArchiMetrics.Common.pdb" target="lib\Net451" />
+		<file src="artifacts\4.5.1\Release\ArchiMetrics.Analysis.pdb" target="lib\Net451" />
+		<file src="artifacts\4.5.1\Release\ArchiMetrics.Common.xml" target="lib\Net451" />
+		<file src="artifacts\4.5.1\Release\ArchiMetrics.Analysis.xml" target="lib\Net451" />
 		<file src="ArchiMetrics.Common\**\*.cs" target="src\ArchiMetrics.Common" />
 		<file src="ArchiMetrics.Analysis\**\*.cs" target="src\ArchiMetrics.Analysis" />
 	</files>

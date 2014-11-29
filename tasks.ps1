@@ -4,6 +4,7 @@ properties {
 	$folderPath = ".\"
 	$cleanPackages = $false
 	$oldEnvPath = ""
+	$buildOutput = "artifacts"
 	$fwkVersions = "4.5","4.5.1"
 }
 
@@ -18,28 +19,29 @@ task CleanUpMsBuildPath -depends BuildPackages {
 }
 
 task BuildPackages -depends Test {
-	Exec { .\.nuget\nuget.exe pack ArchiMetrics.Analysis.nuspec -Symbols }
+	Exec { .\.nuget\nuget.exe pack ArchiMetrics.Analysis.nuspec }
+	Exec { .\.nuget\nuget.exe pack ArchiMetrics.Analysis.symbols.nuspec -Symbols }
 }
 
 task Test -depends Compile, Clean {
 	'Running Tests'
-	
 	foreach($fwk in $fwkVersions) {
 		Write-Host "Building v. $fwk"
-		$output = ".\BuildOutput\$fwk\$configuration"
+		$output = ".\$buildOutput\$fwk\$configuration"
 		$common = Resolve-Path "$output\ArchiMetrics.Common.Tests.dll"
 		$analysis = Resolve-Path "$output\ArchiMetrics.Analysis.Tests.dll"
 		$codereview = Resolve-Path "$output\ArchiMetrics.CodeReview.Rules.Tests.dll"
-		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $common }
+		
 		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $analysis }
 		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $codereview }
+		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $common }
 	}
 }
 
 task Compile -depends UpdatePackages {
-	$msbuild = Resolve-Path "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
+	$msbuild = Resolve-Path "${Env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MSBuild.exe"
 	foreach($fwk in $fwkVersions) {
-		$output = "..\BuildOutput\$fwk\$configuration"
+		$output = "..\$buildOutput\$fwk\$configuration"
 		$options = "/p:configuration=$configuration;platform=$platform;TargetFrameworkVersion=v$fwk;OutputPath=$output"
 		Exec { & $msbuild ArchiMetrics.sln $options }
 	}
@@ -62,8 +64,8 @@ task Clean -depends CheckMsBuildPath {
 		}
 	}
 	
-	if(Test-Path "$folderPath\BuildOutput"){
-		Get-ChildItem "$folderPath\BuildOutput" -Recurse | foreach ($_) { Write-Host $_.fullname; remove-item $_.fullname -Force -Recurse }
+	if(Test-Path "$folderPath\$buildOutput"){
+		Get-ChildItem "$folderPath\$buildOutput" -Recurse | foreach ($_) { Write-Host $_.fullname; remove-item $_.fullname -Force -Recurse }
 	}
 }
 
