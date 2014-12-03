@@ -4,7 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
+			 xmlns:localization="clr-namespace:ArchiMetrics.UI.Localization"
 			 mc:Ignorable="d">
 	<mui:ModernTab SelectedSource="View/Tabs/MetricsProjectDataGridView.xaml"
 				   ContentLoader="{DynamicResource Loader}">

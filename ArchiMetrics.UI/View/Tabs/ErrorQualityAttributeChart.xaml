@@ -5,7 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
+			 xmlns:localization="clr-namespace:ArchiMetrics.UI.Localization"
 			 mc:Ignorable="d"
 			 d:DataContext="{d:DesignInstance Type=viewModel:CodeErrorGraphViewModel}">
 	<ScrollViewer VerticalAlignment="Stretch"

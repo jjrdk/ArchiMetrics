@@ -211,6 +211,11 @@
     <Compile Include="DataAccess\ProjectReference.cs" />
     <Compile Include="DataAccess\AppContext.cs" />
     <Compile Include="DataAccess\VertexTransformProvider.cs" />
+    <Compile Include="Localization\Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Schedulers.cs" />
     <Compile Include="Support\AggregateDisposable.cs" />
@@ -337,6 +342,11 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <EmbeddedResource Include="..\Libraries\Dictionaries\dict-en.oxt">
       <Link>Dictionaries\dict-en.oxt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Strings.da-DK.resx" />
+    <EmbeddedResource Include="Localization\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
     <AppDesigner Include="Properties\" />
@@ -475,10 +485,6 @@
     <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
       <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
       <Name>ArchiMetrics.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArchiMetrics.Localization\ArchiMetrics.Localization.csproj">
-      <Project>{f6498a5b-9829-4a1a-b3c0-26c5dd34cee9}</Project>
-      <Name>ArchiMetrics.Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

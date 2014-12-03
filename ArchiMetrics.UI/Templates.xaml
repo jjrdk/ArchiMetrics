@@ -3,7 +3,7 @@
 					xmlns:converters="clr-namespace:ArchiMetrics.UI.Converters"
 					xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
 					xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
-					xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization">
+					xmlns:localization="clr-namespace:ArchiMetrics.UI.Localization">
 	<converters:QualityToBrushConverter x:Key="QualityConverter" />
 	<converters:CircularToBrushConverter x:Key="CircularConverter" />
 	<converters:LinesOfCodeToThicknessConverter x:Key="LoCConverter" />

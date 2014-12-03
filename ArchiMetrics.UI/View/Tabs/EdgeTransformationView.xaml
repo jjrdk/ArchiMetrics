@@ -6,7 +6,7 @@
 			 xmlns:view="clr-namespace:ArchiMetrics.UI.View"
 			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
-			 xmlns:localization="clr-namespace:ArchiMetrics.Localization;assembly=ArchiMetrics.Localization"
+			 xmlns:localization="clr-namespace:ArchiMetrics.UI.Localization"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
