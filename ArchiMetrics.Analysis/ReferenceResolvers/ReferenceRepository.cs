@@ -60,8 +60,8 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 			var roots = await GetDocData(solution).ConfigureAwait(false);
 
 			var groups = from root in roots
-						 from syntaxNode in root.DocRoots
 						 let compilation = root.Compilation
+						 from syntaxNode in root.DocRoots
 						 from @group in compilation.Resolve(syntaxNode)
 						 select @group;
 
