@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class ConditionalExpressionErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0002";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

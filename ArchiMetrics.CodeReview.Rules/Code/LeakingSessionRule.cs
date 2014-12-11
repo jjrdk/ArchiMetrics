@@ -14,6 +14,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	internal class LeakingSessionRule : LeakingTypeRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0021";
+			}
+		}
+
 		protected override string TypeIdentifier
 		{
 			get

@@ -21,6 +21,15 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		private const int Limit = 300;
 
+		public override string ID
+		{
+			get
+			{
+				return "AMC0043";
+			}
+		}
+
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

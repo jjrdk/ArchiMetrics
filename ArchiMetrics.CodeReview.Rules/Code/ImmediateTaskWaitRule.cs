@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class ImmediateTaskWaitRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0017";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

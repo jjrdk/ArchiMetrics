@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class GuardClauseInNonPublicMethodRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0016";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

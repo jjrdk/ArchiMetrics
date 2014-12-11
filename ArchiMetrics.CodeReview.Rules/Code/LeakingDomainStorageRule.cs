@@ -14,6 +14,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	internal class LeakingDomainStorageRule : LeakingTypeRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0019";
+			}
+		}
+
 		protected override string TypeIdentifier
 		{
 			get

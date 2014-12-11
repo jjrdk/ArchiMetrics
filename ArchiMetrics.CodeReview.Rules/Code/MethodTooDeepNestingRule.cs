@@ -18,6 +18,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class MethodTooDeepNestingRule : TooDeepNestingRuleBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0026";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

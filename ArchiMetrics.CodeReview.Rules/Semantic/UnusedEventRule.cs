@@ -16,6 +16,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class UnusedEventRule : UnusedCodeRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0010";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.EventDeclaration; }

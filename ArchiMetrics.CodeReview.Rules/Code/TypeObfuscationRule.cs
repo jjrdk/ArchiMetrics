@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class TypeObfuscationRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0049";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

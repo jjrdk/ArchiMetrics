@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class NoProtectedFieldsInPublicClassesRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0031";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

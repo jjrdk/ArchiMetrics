@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class EmptyWhileErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0010";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.WhileStatement; }

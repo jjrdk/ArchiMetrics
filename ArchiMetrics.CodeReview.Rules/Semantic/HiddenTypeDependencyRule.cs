@@ -24,6 +24,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	{
 		private static readonly string[] SystemAssemblyPrefixes = new[] { "mscorlib", "System", "Microsoft", "PresentationFramework", "Windows" };
 
+		public override string ID
+		{
+			get
+			{
+				return "AMS0002";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

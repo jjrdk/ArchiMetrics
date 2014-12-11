@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class DirectoryClassDependency : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0003";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

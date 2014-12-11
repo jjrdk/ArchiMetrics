@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class EmptyDoErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0008";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.DoStatement; }

@@ -16,6 +16,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class UnusedMethodRule : UnusedCodeRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0013";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.MethodDeclaration; }

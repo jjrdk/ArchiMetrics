@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class VariableNameShouldNotMatchFieldNameRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0051";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

@@ -33,6 +33,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			_depth = maxDepth;
 		}
 
+		public override string ID
+		{
+			get
+			{
+				return "AMC0045";
+			}
+		}
+
 		public override string Title
 		{
 			get

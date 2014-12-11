@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class NoNotImplementedExceptionRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0030";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.ThrowStatement; }

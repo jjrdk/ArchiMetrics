@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class DynamicVariableRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0007";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

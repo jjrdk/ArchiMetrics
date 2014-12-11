@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class DoLoopSleepErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0005";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.DoStatement; }

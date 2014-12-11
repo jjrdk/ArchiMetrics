@@ -24,6 +24,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		private static IEnumerable<Type> _appDomainTypes;
 
+		public override string ID
+		{
+			get
+			{
+				return "AMC0037";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

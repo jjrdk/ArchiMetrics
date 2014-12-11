@@ -18,6 +18,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class TypeMustBeDeclaredInNamespaceRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0048";
+			}
+		}
+
 		public override string Suggestion
 		{
 			get

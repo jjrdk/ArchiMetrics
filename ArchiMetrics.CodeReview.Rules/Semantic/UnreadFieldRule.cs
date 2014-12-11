@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class UnreadFieldRule : UnreadValueRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0007";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.FieldDeclaration; }

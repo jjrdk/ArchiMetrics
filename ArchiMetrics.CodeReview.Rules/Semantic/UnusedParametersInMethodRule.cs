@@ -22,6 +22,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class UnusedParametersInMethodRule : SemanticEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0014";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

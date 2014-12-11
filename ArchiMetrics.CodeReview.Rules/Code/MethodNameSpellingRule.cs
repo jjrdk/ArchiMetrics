@@ -24,6 +24,15 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 		}
 
+		public override string ID
+		{
+			get
+			{
+				return "AMC0024";
+			}
+		}
+
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.MethodDeclaration; }

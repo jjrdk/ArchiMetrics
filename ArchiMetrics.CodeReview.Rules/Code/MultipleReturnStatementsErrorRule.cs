@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class MultipleReturnStatementsErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0029";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

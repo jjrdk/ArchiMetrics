@@ -18,6 +18,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class GotoStatementErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0014";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

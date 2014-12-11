@@ -22,6 +22,14 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		{
 		}
 
+		public override string ID
+		{
+			get
+			{
+				return "AMT0002";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.SingleLineCommentTrivia; }

@@ -22,6 +22,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		private static readonly Regex DiskLocationRegex = new Regex(@"\w:\\", RegexOptions.Compiled);
 
+		public override string ID
+		{
+			get
+			{
+				return "AMC0004";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

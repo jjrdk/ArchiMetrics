@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class FileClassDependency : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0011";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

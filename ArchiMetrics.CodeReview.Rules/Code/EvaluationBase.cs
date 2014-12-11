@@ -24,6 +24,8 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	{
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 
+		public abstract string ID { get; }
+
 		public abstract CodeQuality Quality { get; }
 
 		public abstract QualityAttribute QualityAttribute { get; }

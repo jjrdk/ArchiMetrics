@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class UnreadVariableRule : UnreadValueRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0009";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.VariableDeclaration; }

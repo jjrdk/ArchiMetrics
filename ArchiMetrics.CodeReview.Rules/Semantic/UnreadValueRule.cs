@@ -14,18 +14,23 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using Microsoft.CodeAnalysis.FindSymbols;
 
 	internal abstract class UnreadValueRule : SemanticEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0008";
+			}
+		}
+
 		public override CodeQuality Quality
 		{
 			get { return CodeQuality.NeedsReview; }

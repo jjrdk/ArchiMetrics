@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class MultipleAssertsInTestErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0028";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

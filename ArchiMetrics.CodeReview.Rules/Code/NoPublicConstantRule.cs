@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class NoPublicConstantRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0032";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

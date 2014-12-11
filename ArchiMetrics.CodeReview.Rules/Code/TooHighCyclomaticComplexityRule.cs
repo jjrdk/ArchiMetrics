@@ -28,6 +28,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			get { return SyntaxKind.MethodDeclaration; }
 		}
 
+		public override string ID
+		{
+			get
+			{
+				return "AMC0046";
+			}
+		}
+
 		public override string Title
 		{
 			get

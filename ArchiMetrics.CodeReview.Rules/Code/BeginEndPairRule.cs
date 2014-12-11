@@ -14,6 +14,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	internal class BeginEndPairRule : MethodNamePairRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0036";
+			}
+		}
+
 		public override string Title
 		{
 			get

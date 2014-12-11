@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class WhileLoopSleepErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0052";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.WhileStatement; }

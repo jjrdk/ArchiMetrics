@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class PossibleStaticMethod : SemanticEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0005";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

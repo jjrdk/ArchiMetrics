@@ -16,6 +16,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class UnusedSetPropertyRule : UnusedCodeRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0012";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.SetAccessorDeclaration; }

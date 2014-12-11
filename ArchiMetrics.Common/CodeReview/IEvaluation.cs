@@ -16,6 +16,8 @@ namespace ArchiMetrics.Common.CodeReview
 
 	public interface IEvaluation
 	{
+		string ID { get; }
+
 		SyntaxKind EvaluatedKind { get; }
 
 		string Title { get; }

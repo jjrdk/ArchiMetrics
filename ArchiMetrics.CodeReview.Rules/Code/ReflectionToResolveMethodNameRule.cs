@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class ReflectionToResolveMethodNameRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0038";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

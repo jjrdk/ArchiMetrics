@@ -25,6 +25,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 	internal class ClassInstabilityRule : SemanticEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMS0001";
+			}
+		}
+
 		public override ImpactLevel ImpactLevel
 		{
 			get

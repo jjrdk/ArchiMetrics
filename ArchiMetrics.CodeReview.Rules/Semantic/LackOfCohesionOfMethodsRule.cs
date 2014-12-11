@@ -33,6 +33,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 		private int _threshold = 6;
 
+		public override string ID
+		{
+			get
+			{
+				return "AMS0003";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.ClassDeclaration; }

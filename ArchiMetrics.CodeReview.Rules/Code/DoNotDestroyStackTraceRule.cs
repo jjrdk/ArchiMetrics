@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class DoNotDestroyStackTraceRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0006";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

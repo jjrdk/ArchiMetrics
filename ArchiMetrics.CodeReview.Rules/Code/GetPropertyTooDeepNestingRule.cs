@@ -16,6 +16,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class GetPropertyTooDeepNestingRule : PropertyTooDeepNestingRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0012";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

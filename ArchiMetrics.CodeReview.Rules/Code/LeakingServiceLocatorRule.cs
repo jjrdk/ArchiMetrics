@@ -14,6 +14,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	internal class LeakingServiceLocatorRule : LeakingTypeRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0020";
+			}
+		}
+
 		protected override string TypeIdentifier
 		{
 			get

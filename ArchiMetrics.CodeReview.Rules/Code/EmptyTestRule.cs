@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class EmptyTestRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0009";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.MethodDeclaration; }

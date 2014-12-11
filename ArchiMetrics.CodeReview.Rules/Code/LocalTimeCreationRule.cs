@@ -19,6 +19,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class LocalTimeCreationRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0023";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

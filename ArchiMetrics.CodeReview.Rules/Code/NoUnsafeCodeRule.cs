@@ -18,6 +18,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class NoUnsafeCodeRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0034";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

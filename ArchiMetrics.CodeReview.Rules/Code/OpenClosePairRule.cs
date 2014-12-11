@@ -14,6 +14,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	internal class OpenClosePairRule : MethodNamePairRule
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0035";
+			}
+		}
+
 		public override string Title
 		{
 			get

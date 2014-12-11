@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class IncorrectDisposableImplementation : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0018";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.ClassDeclaration; }

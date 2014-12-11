@@ -21,6 +21,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class ServiceLocatorInvocationInTestRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0040";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

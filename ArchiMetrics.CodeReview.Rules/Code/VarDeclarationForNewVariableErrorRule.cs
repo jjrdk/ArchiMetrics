@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class VarDeclarationForNewVariableErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0050";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get

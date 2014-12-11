@@ -33,6 +33,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			"System.Threading.Thread"
 		};
 
+		public override string ID
+		{
+			get
+			{
+				return "AMS0004";
+			}
+		}
+
 		public override string Suggestion
 		{
 			get

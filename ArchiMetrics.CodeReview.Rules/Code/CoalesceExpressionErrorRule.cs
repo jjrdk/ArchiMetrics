@@ -20,6 +20,14 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 	internal class CoalesceExpressionErrorRule : CodeEvaluationBase
 	{
+		public override string ID
+		{
+			get
+			{
+				return "AMC0001";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get
