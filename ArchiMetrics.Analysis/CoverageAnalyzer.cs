@@ -17,7 +17,7 @@ namespace ArchiMetrics.Analysis
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 
-	public class CoverageAnalyzer
+	internal class CoverageAnalyzer
 	{
 		private readonly Solution _solution;
 

@@ -27,6 +27,7 @@ namespace ArchiMetrics.Analysis
 		private readonly Dictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 		private readonly Dictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
 		private readonly SyntaxKind[] _allSyntaxKinds;
+		private readonly SymbolKind[] _allSymbolKinds;
 
 		public NodeReviewer(IEnumerable<IEvaluation> evaluations)
 		{
@@ -34,6 +35,7 @@ namespace ArchiMetrics.Analysis
 			_allSyntaxKinds = allEvaluations.Select(x => x.EvaluatedKind)
 				.Distinct()
 				.ToArray();
+			_allSymbolKinds = new SymbolKind[0];
 			_triviaEvaluations = allEvaluations.OfType<ITriviaEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 			_codeEvaluations = allEvaluations.OfType<ICodeEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 			_semanticEvaluations = allEvaluations.OfType<ISemanticEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
@@ -51,7 +53,14 @@ namespace ArchiMetrics.Analysis
 							 from doc in project.Documents.ToArray()
 							 let model = doc.GetSemanticModelAsync()
 							 let root = doc.GetSyntaxRootAsync()
-							 select new { FilePath = project.FilePath, Name = project.Name, Model = model, Root = root, Solution = solution })
+							 select new
+							 {
+								 FilePath = project.FilePath,
+								 Name = project.Name,
+								 Model = model,
+								 Root = root,
+								 Solution = solution
+							 })
 							 .ToArray();
 			await Task.WhenAll(dataTasks.Select(x => x.Model).Concat(dataTasks.Select(x => (Task)x.Root))).ConfigureAwait(false);
 
@@ -63,7 +72,7 @@ namespace ArchiMetrics.Analysis
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
-			var inspector = new InnerInspector(_allSyntaxKinds, _triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
+			var inspector = new InnerInspector(_allSyntaxKinds, _allSymbolKinds, _triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
 
 			var inspectionTasks = await inspector.Visit(node).ConfigureAwait(false);
 			var inspectionResults = inspectionTasks.ToArray();
@@ -94,15 +103,17 @@ namespace ArchiMetrics.Analysis
 		private class InnerInspector : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
 		{
 			private readonly IList<SyntaxKind> _supportedSyntaxKinds;
+			private readonly IList<SymbolKind> _supportedSymbolKinds;
 			private readonly IDictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
 			private readonly IDictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 			private readonly IDictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
 			private readonly SemanticModel _model;
 			private readonly Solution _solution;
 
-			public InnerInspector(IList<SyntaxKind> supportedSyntaxKinds, IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
+			public InnerInspector(IList<SyntaxKind> supportedSyntaxKinds, IList<SymbolKind> supportedSymbolKinds, IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
 			{
 				_supportedSyntaxKinds = supportedSyntaxKinds;
+				_supportedSymbolKinds = supportedSymbolKinds;
 				_triviaEvaluations = triviaEvaluations;
 				_codeEvaluations = codeEvaluations;
 				_semanticEvaluations = semanticEvaluations;
@@ -117,26 +128,22 @@ namespace ArchiMetrics.Analysis
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
+				////var symbols = node.DescendantNodesAndSelf()
+				////	.Select(_ => _model.GetSymbolInfo(_))
+				////	.Where(_ => _.Symbol != null)
+				////	.Select(_ => _.Symbol)
+				////	.Where(_ => _.Kind.In(_supportedSymbolKinds));
 				var nodeChecks = CheckNodes(node.DescendantNodesAndSelf().Where(x => x.CSharpKind().In(_supportedSyntaxKinds)).ToArray());
-				var tokenResultTasks = node.DescendantTokens().Select(VisitToken);
+				var tokenResultTasks = node.DescendantTokens().SelectMany(VisitToken);
 				var nodeResultTasks = await Task.WhenAll(nodeChecks).ConfigureAwait(false);
 
-				var baseResults = nodeResultTasks.SelectMany(x => x).Concat(tokenResultTasks.SelectMany(x => x));
+				var baseResults = nodeResultTasks.SelectMany(x => x).Concat(tokenResultTasks);
 				return baseResults;
 			}
 
 			public override Task<IEnumerable<EvaluationResult>> DefaultVisit(SyntaxNode node)
 			{
 				return Task.FromResult(Enumerable.Empty<EvaluationResult>());
-			}
-
-			protected virtual IEnumerable<EvaluationResult> VisitToken(SyntaxToken token)
-			{
-				var results = token.LeadingTrivia.Concat(token.TrailingTrivia)
-					.Where(x => _triviaEvaluations.ContainsKey(x.CSharpKind()))
-					.SelectMany(trivia => GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.CSharpKind()]));
-
-				return results;
 			}
 
 			private static IEnumerable<EvaluationResult> GetTriviaEvaluations(SyntaxTrivia trivia, IEnumerable<ITriviaEvaluation> nodeEvaluations)
@@ -220,6 +227,15 @@ namespace ArchiMetrics.Analysis
 				var results = (await Task.WhenAll(tasks).ConfigureAwait(false))
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
 					.ToArray();
+				return results;
+			}
+
+			private IEnumerable<EvaluationResult> VisitToken(SyntaxToken token)
+			{
+				var results = token.LeadingTrivia.Concat(token.TrailingTrivia)
+					.Where(x => _triviaEvaluations.ContainsKey(x.CSharpKind()))
+					.SelectMany(trivia => GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.CSharpKind()]));
+
 				return results;
 			}
 
