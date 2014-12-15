@@ -30,6 +30,14 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			}
 		}
 
+		public override string Title
+		{
+			get
+			{
+				return "Suspicious Language Multi Line Comment";
+			}
+		}
+
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.MultiLineCommentTrivia; }

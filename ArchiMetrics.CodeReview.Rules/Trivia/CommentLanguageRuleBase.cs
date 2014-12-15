@@ -30,14 +30,6 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 			_spellChecker = spellChecker;
 		}
 
-		public override string Title
-		{
-			get
-			{
-				return "Suspicious Language Comment";
-			}
-		}
-
 		public override string Suggestion
 		{
 			get
