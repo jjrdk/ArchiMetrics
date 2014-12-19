@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.CodeReview
 {
 	using Microsoft.CodeAnalysis;
 
-	public interface ICodeEvaluation : IEvaluation
+	public interface ICodeEvaluation : ISyntaxEvaluation
 	{
 		EvaluationResult Evaluate(SyntaxNode node);
 	}

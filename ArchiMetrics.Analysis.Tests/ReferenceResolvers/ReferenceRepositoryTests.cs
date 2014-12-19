@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 {
+	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using global::ArchiMetrics.Analysis.ReferenceResolvers;
@@ -19,12 +20,13 @@ namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
 
-	public class ReferenceRepositoryTests
+	public sealed class ReferenceRepositoryTests
 	{
 		private ReferenceRepositoryTests()
 		{
 		}
 
+		[SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Disposed in teardown.")]
 		[TestFixture]
 		public class GivenAReferenceRepository : SolutionTestsBase
 		{
@@ -34,7 +36,7 @@ namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 			[SetUp]
 			public void Setup()
 			{
-				var code = @"namespace Test
+				const string Code = @"namespace Test
 {
 	using System;
 
@@ -48,8 +50,14 @@ namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 		}
 	}
 }";
-				_solution = CreateSolution(code);
+				_solution = CreateSolution(Code);
 				_sut = new ReferenceRepository(_solution);
+			}
+
+			[TearDown]
+			public void Teardown()
+			{
+				_sut.Dispose();
 			}
 
 			[Test]

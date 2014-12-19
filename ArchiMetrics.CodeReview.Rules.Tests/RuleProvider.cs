@@ -14,6 +14,8 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 {
 	using System.Collections;
 	using System.Linq;
+	using ArchiMetrics.Common.CodeReview;
+	using Moq;
 
 	public static class RuleProvider
 	{
@@ -21,8 +23,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		{
 			get
 			{
-				return AllRules.GetRules()
-					.Where(x => x.GetConstructors().Any(c => c.GetParameters().Length == 0));
+				var spellChecker = new Mock<ISpellChecker>();
+				spellChecker.Setup(x => x.Spell(It.IsAny<string>())).Returns(true);
+				return AllRules.GetSyntaxRules(spellChecker.Object);
 			}
 		}
 	}

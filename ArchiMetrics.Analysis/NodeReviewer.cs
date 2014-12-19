@@ -26,19 +26,17 @@ namespace ArchiMetrics.Analysis
 		private readonly Dictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
 		private readonly Dictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 		private readonly Dictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
-		private readonly SyntaxKind[] _allSyntaxKinds;
+		private readonly Dictionary<SymbolKind, ISymbolEvaluation[]> _symbolEvaluations;
 		private readonly SymbolKind[] _allSymbolKinds;
 
-		public NodeReviewer(IEnumerable<IEvaluation> evaluations)
+		public NodeReviewer(IEnumerable<IEvaluation> evaluations, IEnumerable<ISymbolEvaluation> symbolEvaluations)
 		{
 			var allEvaluations = evaluations.ToArray();
-			_allSyntaxKinds = allEvaluations.Select(x => x.EvaluatedKind)
-				.Distinct()
-				.ToArray();
 			_allSymbolKinds = new SymbolKind[0];
 			_triviaEvaluations = allEvaluations.OfType<ITriviaEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 			_codeEvaluations = allEvaluations.OfType<ICodeEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 			_semanticEvaluations = allEvaluations.OfType<ISemanticEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
+			_symbolEvaluations = symbolEvaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
 		}
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(Solution solution)
@@ -72,8 +70,8 @@ namespace ArchiMetrics.Analysis
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
-			var inspector = new InnerInspector(_allSyntaxKinds, _allSymbolKinds, _triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
-
+			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
+			var symbolInspector = new InnerSymbolAnalyzer(_symbolEvaluations, semanticModel);
 			var inspectionTasks = await inspector.Visit(node).ConfigureAwait(false);
 			var inspectionResults = inspectionTasks.ToArray();
 			foreach (var result in inspectionResults)
@@ -110,9 +108,9 @@ namespace ArchiMetrics.Analysis
 			private readonly SemanticModel _model;
 			private readonly Solution _solution;
 
-			public InnerInspector(IList<SyntaxKind> supportedSyntaxKinds, IList<SymbolKind> supportedSymbolKinds, IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
+			public InnerInspector(IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
 			{
-				_supportedSyntaxKinds = supportedSyntaxKinds;
+				_supportedSyntaxKinds = codeEvaluations.Select(_ => _.Key).Concat(semanticEvaluations.Select(_ => _.Key)).Distinct().ToArray();
 				_supportedSymbolKinds = supportedSymbolKinds;
 				_triviaEvaluations = triviaEvaluations;
 				_codeEvaluations = codeEvaluations;
@@ -261,6 +259,41 @@ namespace ArchiMetrics.Analysis
 				var semanticResults = await GetSemanticEvaluations(node, _semanticEvaluations[kind], _model, _solution).ConfigureAwait(false);
 
 				return semanticResults;
+			}
+		}
+
+		private class InnerSymbolAnalyzer : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
+		{
+			private readonly IDictionary<SymbolKind, ISymbolEvaluation[]> _evaluations;
+			private readonly SemanticModel _model;
+
+			public InnerSymbolAnalyzer(IDictionary<SymbolKind, ISymbolEvaluation[]> evaluations, SemanticModel model)
+			{
+				_evaluations = evaluations;
+				_model = model;
+			}
+
+			public override Task<IEnumerable<EvaluationResult>> Visit(SyntaxNode node)
+			{
+				var symbols = node.DescendantNodesAndSelf()
+					.Select(x => _model.GetDeclaredSymbol(x))
+					.Where(x => x != null)
+					.Where(x => x.Kind.In(_evaluations.Keys))
+					.ToArray();
+
+				var results = CheckSymbols(symbols);
+
+				return results;
+			}
+
+			private Task<IEnumerable<EvaluationResult>> CheckSymbols(IEnumerable<ISymbol> symbols)
+			{
+				var results =
+					symbols.Select(x => new { Symbol = x, Evaluations = _evaluations[x.Kind] })
+						.SelectMany(x => x.Evaluations.Select(_ => _.Evaluate(x.Symbol, _model)))
+						.ToArray();
+
+				return Task.FromResult(results.AsEnumerable());
 			}
 		}
 	}

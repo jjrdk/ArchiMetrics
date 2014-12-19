@@ -14,10 +14,12 @@ namespace ArchiMetrics.Common.Tests
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using NUnit.Framework;
 
+	[SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Disposed in teardown.")]
 	public class PrioritySchedulerTests
 	{
 		private TestPriorityScheduler _scheduler;

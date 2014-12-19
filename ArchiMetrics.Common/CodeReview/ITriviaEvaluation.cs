@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.CodeReview
 {
 	using Microsoft.CodeAnalysis;
 
-	public interface ITriviaEvaluation : IEvaluation
+	public interface ITriviaEvaluation : ISyntaxEvaluation
 	{
 		EvaluationResult Evaluate(SyntaxTrivia trivia);
 	}

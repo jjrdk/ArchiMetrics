@@ -58,9 +58,9 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				Assert.AreEqual(0, loc);
 			}
 
-			[TestCase(@"public void SomeMethod() { const string x = ""blah""; }", 0, SyntaxKind.MethodDeclaration, MemberKind.Method)]
-			[TestCase(@"public TestClass() { }", 1, SyntaxKind.ConstructorDeclaration, MemberKind.Constructor)]
-			[TestCase(@"public int GetValue() { return 1; }", 1, SyntaxKind.MethodDeclaration, MemberKind.Method)]
+			[TestCase(@"public void SomeMethod() { const string x = ""blah""; }", 0, SyntaxKind.MethodDeclaration)]
+			[TestCase(@"public TestClass() { }", 1, SyntaxKind.ConstructorDeclaration)]
+			[TestCase(@"public int GetValue() { return 1; }", 1, SyntaxKind.MethodDeclaration)]
 			[TestCase(@"public double GetValue(double x)
 		{
 			if (x % 2 == 0.0)
@@ -68,8 +68,8 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 				return x;
 			}
 			return x + 1;
-		}", 3, SyntaxKind.MethodDeclaration, MemberKind.Method)]
-			public void WhenCalculatingForMemberNodeHasExpectedLinesOfCode(string code, int expected, SyntaxKind kind, MemberKind memberKind)
+		}", 3, SyntaxKind.MethodDeclaration)]
+			public void WhenCalculatingForMemberNodeHasExpectedLinesOfCode(string code, int expected, SyntaxKind kind)
 			{
 				var text = string.Format(
 @"namespace Testing

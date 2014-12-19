@@ -119,30 +119,43 @@ namespace ArchiMetrics.UI
 			var builder = new ContainerBuilder();
 
 			var defaultDictionary = Assembly.GetExecutingAssembly().GetManifestResourceStream("ArchiMetrics.UI.Dictionaries.dict-en.oxt");
+			Hunspell hunspell;
 			using (var dictFile = ZipFile.Read(defaultDictionary))
 			{
 				var affStream = new MemoryStream();
 				var dicStream = new MemoryStream();
 				dictFile.First(z => z.FileName == "en_US.aff").Extract(affStream);
 				dictFile.First(z => z.FileName == "en_US.dic").Extract(dicStream);
-				builder.RegisterInstance(new Hunspell(affStream.ToArray(), dicStream.ToArray()));
+				hunspell = new Hunspell(affStream.ToArray(), dicStream.ToArray());
 				affStream.Dispose();
 				dicStream.Dispose();
 			}
 
-			var evaluationTypes = from type in AllRules.GetRules()
-								  where typeof(IEvaluation).IsAssignableFrom(type)
+			var knownpatterns = new KnownPatterns();
+			var spellChecker = new SpellChecker(hunspell, knownpatterns);
+
+			var evaluationTypes = from type in AllRules.GetSyntaxRules(spellChecker)
 								  select type;
 
-			foreach (var type in evaluationTypes)
+			foreach (var syntaxEvaluation in evaluationTypes)
 			{
-				builder.RegisterType(type).As<IEvaluation>();
+				builder.RegisterInstance(syntaxEvaluation).As<ISyntaxEvaluation>().As<IEvaluation>();
 			}
 
+			var symbolTypes = from type in AllRules.GetSymbolRules()
+							  select type;
+
+			foreach (var symbolEvaluation in symbolTypes)
+			{
+				builder.RegisterInstance(symbolEvaluation).As<ISymbolEvaluation>().As<IEvaluation>();
+			}
+
+			builder.RegisterInstance(hunspell);
+			builder.RegisterInstance(knownpatterns).As<IKnownPatterns>();
+			builder.RegisterInstance(spellChecker).As<ISpellChecker>();
+
 			builder.RegisterType<EventAggregator>().AsSelf().As<IObservable<IMessage>>().SingleInstance();
-			builder.RegisterType<SpellChecker>().As<ISpellChecker>();
 			builder.RegisterType<ModelEdgeItemFactory>().As<IAsyncFactory<IEnumerable<IModelNode>, IEnumerable<ModelEdgeItem>>>();
-			builder.RegisterType<KnownPatterns>().As<IKnownPatterns>().SingleInstance();
 			builder.RegisterType<CodeMetricsCalculator>().As<ICodeMetricsCalculator>();
 			builder.RegisterType<ProjectMetricsCalculator>().As<IProjectMetricsCalculator>();
 			builder.RegisterType<NodeReviewer>().As<INodeInspector>();

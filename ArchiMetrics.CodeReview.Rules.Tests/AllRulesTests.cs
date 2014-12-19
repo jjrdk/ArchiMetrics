@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests
 {
+	using ArchiMetrics.CodeReview.Rules.Tests.Rules;
 	using NUnit.Framework;
 
 	public class AllRulesTests
@@ -19,7 +20,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		[Test]
 		public void CanGetEnumeratinoOfCodeReviewTypes()
 		{
-			CollectionAssert.IsNotEmpty(AllRules.GetRules());
+			CollectionAssert.IsNotEmpty(AllRules.GetSyntaxRules(new SpellChecker(new ExemptPatterns())));
 		}
 	}
 }

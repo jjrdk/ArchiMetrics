@@ -12,9 +12,11 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Code
 {
+	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Code;
+	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 
 	public sealed class TypeMustBeDeclaredInNamespaceRuleTests
@@ -30,7 +32,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Code
 			[SetUp]
 			public void Setup()
 			{
-				_inspector = new NodeReviewer(new[] { new TypeMustBeDeclaredInNamespaceRule() });
+				_inspector = new NodeReviewer(new[] { new TypeMustBeDeclaredInNamespaceRule() }, Enumerable.Empty<ISymbolEvaluation>());
 			}
 
 			[Test]

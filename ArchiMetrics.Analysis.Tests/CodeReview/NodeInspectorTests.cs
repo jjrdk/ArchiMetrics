@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Tests.CodeReview
 {
+	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
@@ -37,7 +38,7 @@ namespace ArchiMetrics.Analysis.Tests.CodeReview
 				_mockCodeEvaluation = new Mock<ICodeEvaluation>();
 				_mockCodeEvaluation.SetupGet(x => x.EvaluatedKind).Returns(SyntaxKind.ClassDeclaration);
 				_mockCodeEvaluation.Setup(x => x.Evaluate(It.IsAny<SyntaxNode>())).Returns((EvaluationResult)null);
-				_reviewer = new NodeReviewer(new[] { _mockCodeEvaluation.Object });
+				_reviewer = new NodeReviewer(new[] { _mockCodeEvaluation.Object }, Enumerable.Empty<ISymbolEvaluation>());
 			}
 
 			[Test]

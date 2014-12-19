@@ -12,13 +12,9 @@
 
 namespace ArchiMetrics.Common.CodeReview
 {
-	using Microsoft.CodeAnalysis.CSharp;
-
 	public interface IEvaluation
 	{
 		string ID { get; }
-
-		SyntaxKind EvaluatedKind { get; }
 
 		string Title { get; }
 

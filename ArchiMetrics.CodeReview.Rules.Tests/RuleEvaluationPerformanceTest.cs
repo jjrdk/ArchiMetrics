@@ -21,6 +21,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 	using ArchiMetrics.Common.CodeReview;
 	using metrics;
 	using Microsoft.CodeAnalysis.MSBuild;
+	using Moq;
 	using NUnit.Framework;
 
 	public class RuleEvaluationPerformanceTest
@@ -30,21 +31,10 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		[SetUp]
 		public void Setup()
 		{
-			_reviewer = new NodeReviewer(
-				AllRules.GetRules()
-					.Select(
-						r =>
-						{
-							try
-							{
-								return (IEvaluation)Activator.CreateInstance(r);
-							}
-							catch
-							{
-								return null;
-							}
-						})
-					.WhereNotNull());
+			var spellChecker = new Mock<ISpellChecker>();
+			spellChecker.Setup(x => x.Spell(It.IsAny<string>())).Returns(true);
+
+			_reviewer = new NodeReviewer(AllRules.GetSyntaxRules(spellChecker.Object).ToArray(), AllRules.GetSymbolRules());
 		}
 
 		[Test, Ignore("Run manually")]

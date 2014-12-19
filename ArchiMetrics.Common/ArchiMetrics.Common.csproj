@@ -121,6 +121,8 @@
     <Compile Include="CodeReview\INodeInspector.cs" />
     <Compile Include="CodeReview\ISemanticEvaluation.cs" />
     <Compile Include="CodeReview\ISpellChecker.cs" />
+    <Compile Include="CodeReview\ISymbolEvaluation.cs" />
+    <Compile Include="CodeReview\ISyntaxEvaluation.cs" />
     <Compile Include="CodeReview\ITriviaEvaluation.cs" />
     <Compile Include="CodeReview\QualityAttribute.cs" />
     <Compile Include="Extensions.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Metrics\ITypeCoupling.cs" />
     <Compile Include="Metrics\ITypeDefinition.cs" />
     <Compile Include="Metrics\ITypeMetric.cs" />
-    <Compile Include="Metrics\MemberKind.cs" />
     <Compile Include="Metrics\MemberMetricKind.cs" />
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\TypeDefinition.cs" />

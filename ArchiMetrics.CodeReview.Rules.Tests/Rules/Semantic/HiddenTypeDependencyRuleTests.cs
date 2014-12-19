@@ -12,10 +12,12 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
+	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
 	using ArchiMetrics.Common;
+	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using NUnit.Framework;
 
@@ -32,7 +34,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 			[SetUp]
 			public void Setup()
 			{
-				_inspector = new NodeReviewer(new[] { new HiddenTypeDependencyRule() });
+				_inspector = new NodeReviewer(new[] { new HiddenTypeDependencyRule() }, Enumerable.Empty<ISymbolEvaluation>());
 			}
 
 			[TestCase(@"namespace MyNamespace

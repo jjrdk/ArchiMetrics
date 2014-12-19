@@ -165,7 +165,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			public void Setup()
 			{
 				var spellChecker = new SpellChecker(new ExemptPatterns());
-				_reviewer = new NodeReviewer(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) });
+				_reviewer = new NodeReviewer(new IEvaluation[] { new SingleLineCommentLanguageRule(spellChecker), new MultiLineCommentLanguageRule(spellChecker) }, Enumerable.Empty<ISymbolEvaluation>());
 			}
 
 			[TestCase("//Dette er ikke en engelsk kommentar.")]

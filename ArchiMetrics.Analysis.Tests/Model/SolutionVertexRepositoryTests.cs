@@ -42,8 +42,8 @@ namespace ArchiMetrics.Analysis.Tests.Model
 				var solutionProvider = new SolutionProvider();
 				_repository = new SolutionVertexRepository(
 					new CodeErrorRepository(
-						solutionProvider, 
-						new NodeReviewer(Enumerable.Empty<IEvaluation>()), 
+						solutionProvider,
+						new NodeReviewer(Enumerable.Empty<IEvaluation>(), Enumerable.Empty<ISymbolEvaluation>()), 
 						mockRules.Object), 
 					new MetricsRepository(new ProjectMetricsCalculator(new CodeMetricsCalculator()), solutionProvider));
 			}

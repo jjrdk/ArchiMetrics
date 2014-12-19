@@ -17,14 +17,43 @@ namespace ArchiMetrics.CodeReview.Rules
 	using System.Linq;
 	using ArchiMetrics.Common.CodeReview;
 
-	public	static class AllRules
+	public static class AllRules
 	{
-		public static IEnumerable<Type> GetRules()
+		public static IEnumerable<ISyntaxEvaluation> GetSyntaxRules(ISpellChecker spellChecker)
 		{
-			return from type in typeof(AllRules).Assembly.GetTypes()
-				   where typeof(IEvaluation).IsAssignableFrom(type)
+			var types = (from type in typeof(AllRules).Assembly.GetTypes()
+						 where typeof(ISyntaxEvaluation).IsAssignableFrom(type)
+						 where !type.IsInterface && !type.IsAbstract
+						 select type).ToArray();
+			var simple =
+				types.Where(x => x.GetConstructors().Any(c => c.GetParameters().Length == 0))
+					.Select(Activator.CreateInstance)
+					.Cast<ISyntaxEvaluation>();
+			var spelling =
+				types.Where(
+					x =>
+					x.GetConstructors()
+						.Any(
+							c => c.GetParameters().Length == 1 && typeof(ISpellChecker).IsAssignableFrom(c.GetParameters()[0].ParameterType)))
+					.Select(x => Activator.CreateInstance(x, spellChecker))
+					.Cast<ISyntaxEvaluation>();
+
+			return simple.Concat(spelling).OrderBy(x => x.ID).ToArray();
+		}
+
+		public static IEnumerable<ISymbolEvaluation> GetSymbolRules()
+		{
+			var types = from type in typeof(AllRules).Assembly.GetTypes()
+				   where typeof(ISymbolEvaluation).IsAssignableFrom(type)
 				   where !type.IsInterface && !type.IsAbstract
 				   select type;
-		} 
+
+			var simple =
+				types.Where(x => x.GetConstructors().Any(c => c.GetParameters().Length == 0))
+					.Select(Activator.CreateInstance)
+					.Cast<ISymbolEvaluation>();
+
+			return simple.ToArray();
+		}
 	}
 }

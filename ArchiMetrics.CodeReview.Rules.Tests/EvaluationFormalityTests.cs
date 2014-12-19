@@ -12,64 +12,45 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests
 {
-	using System;
 	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 
 	public class EvaluationFormalityTests
 	{
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
-		public void HasTitle(Type type)
+		public void HasTitle(IEvaluation rule)
 		{
-			var rule = GetRule(type);
-
 			Assert.That(rule.Title, Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
-		public void HasSuggestion(Type type)
+		public void HasSuggestion(IEvaluation rule)
 		{
-			var rule = GetRule(type);
-
 			Assert.That(rule.Suggestion, Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
-		public void HasEvaluatedKind(Type type)
+		public void HasEvaluatedKind(ISyntaxEvaluation rule)
 		{
-			var rule = GetRule(type);
-
 			Assert.That(rule.EvaluatedKind.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
-		public void HasImpactLevel(Type type)
+		public void HasImpactLevel(IEvaluation rule)
 		{
-			var rule = GetRule(type);
-
 			Assert.That(rule.ImpactLevel.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
-		public void HasQuality(Type type)
+		public void HasQuality(IEvaluation rule)
 		{
-			var rule = GetRule(type);
-
 			Assert.That(rule.Quality.ToString(), Is.Not.Null.Or.Empty);
 		}
 
 		[TestCaseSource(typeof(RuleProvider), "Rules")]
-		public void HasQualityAttribute(Type type)
+		public void HasQualityAttribute(IEvaluation rule)
 		{
-			var rule = GetRule(type);
-
 			Assert.That(rule.QualityAttribute.ToString(), Is.Not.Null.Or.Empty);
-		}
-
-		private IEvaluation GetRule(Type type)
-		{
-			var instance = Activator.CreateInstance(type);
-			return (IEvaluation)instance;
 		}
 	}
 }

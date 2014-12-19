@@ -12,8 +12,10 @@
 
 namespace ArchiMetrics.Common.Tests
 {
+	using System.Diagnostics.CodeAnalysis;
 	using NUnit.Framework;
 
+	[SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "Disposed in teardown.")]
 	public class SolutionProviderTests
 	{
 		private SolutionProvider _provider;

@@ -12,9 +12,11 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
+	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Semantic;
+	using ArchiMetrics.Common.CodeReview;
 	using NUnit.Framework;
 
 	public sealed class LockingOnWeakIdentityObjectTests
@@ -30,7 +32,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 			[SetUp]
 			public void Setup()
 			{
-				_inspector = new NodeReviewer(new[] { new LockingOnWeakIdentityObjectRule() });
+				_inspector = new NodeReviewer(new[] { new LockingOnWeakIdentityObjectRule() }, Enumerable.Empty<ISymbolEvaluation>());
 			}
 
 			[TestCase(@"namespace MyNS

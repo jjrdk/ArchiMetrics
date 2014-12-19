@@ -29,7 +29,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		public static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
-			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
+			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) }, Enumerable.Empty<ISymbolEvaluation>());
 			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
 
 			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
@@ -37,7 +37,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		public static Task<IEnumerable<EvaluationResult>> PerformSolutionInspection(string code, Type evaluatorType)
 		{
-			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) });
+			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) }, Enumerable.Empty<ISymbolEvaluation>());
 			code = "namespace TestSpace { public class ParseClass { " + code + " } }";
 
 			var solution = CreateSolution(code);
