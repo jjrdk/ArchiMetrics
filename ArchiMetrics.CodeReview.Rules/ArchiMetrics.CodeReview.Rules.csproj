@@ -122,6 +122,8 @@
     <Compile Include="Code\SetPropertyTooDeepNestingRule.cs" />
     <Compile Include="Code\TooDeepNestingRuleBase.cs" />
     <Compile Include="Semantic\ClassInstabilityRule.cs" />
+    <Compile Include="Semantic\DoNotCallOverridableMembersInConstructorRule.cs" />
+    <Compile Include="Semantic\EmptyFinalizerRule.cs" />
     <Compile Include="Semantic\HiddenTypeDependencyRule.cs" />
     <Compile Include="Code\TypeMustBeDeclaredInNamespaceRule.cs" />
     <Compile Include="Semantic\LockingOnWeakIdentityObjectRule.cs" />

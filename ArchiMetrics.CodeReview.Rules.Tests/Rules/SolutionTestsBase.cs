@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Linq;
 	using Microsoft.CodeAnalysis;
 
@@ -23,7 +24,8 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			return CreateSolution(
 				new[]
 				{
-					MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
+					MetadataReference.CreateFromAssembly(typeof(object).Assembly),
+					MetadataReference.CreateFromAssembly(typeof(Debug).Assembly)
 				}, 
 				code);
 		}
@@ -39,7 +41,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 			var solution = references.Aggregate(
 				seed, 
-				(sol, r) => seed.AddMetadataReference(projId, r));
+				(sol, r) => sol.AddMetadataReference(projId, r));
 
 			solution = code.Aggregate(
 				solution, 

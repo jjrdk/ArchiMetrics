@@ -132,6 +132,8 @@
     <Compile Include="Rules\ExemptPatterns.cs" />
     <Compile Include="Rules\InspectionCodeSource.cs" />
     <Compile Include="Rules\SemanticRulesTests.cs" />
+    <Compile Include="Rules\Semantic\EmptyFinalizerRuleTests.cs" />
+    <Compile Include="Rules\Semantic\DoNoCallOverridableMembersInConstructorRuleTests.cs" />
     <Compile Include="Rules\Semantic\HiddenTypeDependencyRuleTests.cs" />
     <Compile Include="Rules\Semantic\LackOfCohesionRuleTests.cs" />
     <Compile Include="Rules\Semantic\LockingOnWeakIdentityObjectTests.cs" />

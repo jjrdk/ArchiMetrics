@@ -23,6 +23,7 @@ namespace ArchiMetrics.Common.CodeReview
 		Modifiability = 8, 
 		Reusability = 16, 
 		Conformance = 32, 
-		Security = 64
+		Security = 64,
+		Performance = 128
 	}
 }

@@ -21,7 +21,6 @@ namespace ArchiMetrics.Common
 
 	public class SolutionProvider : IProvider<string, Task<Solution>>
 	{
-		private static readonly string[] SupportedProjects = { ".csproj" };
 		private Dictionary<string, Task<Solution>> _cache = new Dictionary<string, Task<Solution>>();
 
 		public SolutionProvider()
