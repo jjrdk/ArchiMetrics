@@ -101,7 +101,6 @@ namespace ArchiMetrics.Analysis
 		private class InnerInspector : CSharpSyntaxVisitor<Task<IEnumerable<EvaluationResult>>>
 		{
 			private readonly IList<SyntaxKind> _supportedSyntaxKinds;
-			private readonly IList<SymbolKind> _supportedSymbolKinds;
 			private readonly IDictionary<SyntaxKind, ITriviaEvaluation[]> _triviaEvaluations;
 			private readonly IDictionary<SyntaxKind, ICodeEvaluation[]> _codeEvaluations;
 			private readonly IDictionary<SyntaxKind, ISemanticEvaluation[]> _semanticEvaluations;
@@ -111,7 +110,6 @@ namespace ArchiMetrics.Analysis
 			public InnerInspector(IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
 			{
 				_supportedSyntaxKinds = codeEvaluations.Select(_ => _.Key).Concat(semanticEvaluations.Select(_ => _.Key)).Distinct().ToArray();
-				_supportedSymbolKinds = supportedSymbolKinds;
 				_triviaEvaluations = triviaEvaluations;
 				_codeEvaluations = codeEvaluations;
 				_semanticEvaluations = semanticEvaluations;

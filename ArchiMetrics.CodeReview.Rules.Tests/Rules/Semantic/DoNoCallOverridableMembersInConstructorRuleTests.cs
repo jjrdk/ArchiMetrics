@@ -60,7 +60,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 }")]
 			public async Task WhenConstructorCallsVirtualMethodThenReturnsError(string code)
 			{
-				var references = new[] { MetadataReference.CreateFromFile(typeof(ModelSettings).Assembly.Location) };
+				var references = new[] { MetadataReference.CreateFromFile(typeof(IAvailability).Assembly.Location) };
 				var solution = CreateSolution(references, code);
 				var results = await _inspector.Inspect(solution);
 
@@ -102,7 +102,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 }")]
 			public async Task WhenConstructorDoesNotCallVirtualMethodThenDoesNotReturnError(string code)
 			{
-				var references = new[] { MetadataReference.CreateFromFile(typeof(ModelSettings).Assembly.Location) };
+				var references = new[] { MetadataReference.CreateFromFile(typeof(IAvailability).Assembly.Location) };
 				var solution = CreateSolution(references, code);
 				var results = await _inspector.Inspect(solution);
 

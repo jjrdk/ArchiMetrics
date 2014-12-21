@@ -61,7 +61,7 @@
 			{
 				var references = new[]
 									 {
-										 MetadataReference.CreateFromAssembly(typeof(ModelSettings).Assembly),
+										 MetadataReference.CreateFromAssembly(typeof(IAvailability).Assembly),
 										 MetadataReference.CreateFromAssembly(typeof(object).Assembly),
 										 MetadataReference.CreateFromAssembly(typeof(Debug).Assembly)
 									 };

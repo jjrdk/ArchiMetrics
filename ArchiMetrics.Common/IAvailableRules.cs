@@ -17,8 +17,14 @@ namespace ArchiMetrics.Common
 	using System.Collections.Specialized;
 	using ArchiMetrics.Common.CodeReview;
 
+	/// <summary>
+	/// Defines the interface for accessing temporally available items.
+	/// </summary>
 	public interface IAvailableRules : IEnumerable<IEvaluation>, INotifyCollectionChanged, IDisposable
 	{
+		/// <summary>
+		/// Gets an <see cref="IEnumerable{T}"/> of available items.
+		/// </summary>
 		IEnumerable<IAvailability> Availabilities { get; }
 	}
 }

@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common
 {
 	using System.IO;
 
-	public static class PathExtensions
+	internal static class PathExtensions
 	{
 		public static string GetFileNameWithoutExtension(this string path)
 		{

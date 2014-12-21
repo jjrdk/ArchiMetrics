@@ -12,8 +12,14 @@
 
 namespace ArchiMetrics.Common
 {
+	/// <summary>
+	/// Defines the interface for items which can be reset to their original state.
+	/// </summary>
 	public interface IResetable
 	{
+		/// <summary>
+		/// Resets the instance to the original state.
+		/// </summary>
 		void Reset();
 	}
 }

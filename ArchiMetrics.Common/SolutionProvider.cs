@@ -19,10 +19,16 @@ namespace ArchiMetrics.Common
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.MSBuild;
 
+	/// <summary>
+	/// Provides a concrete implementation of an <see cref="IProvider{TKey,T}"/> for loading <see cref="Solution"/>.
+	/// </summary>
 	public class SolutionProvider : IProvider<string, Task<Solution>>
 	{
 		private Dictionary<string, Task<Solution>> _cache = new Dictionary<string, Task<Solution>>();
 
+		/// <summary>
+		/// Creates a new instance of the <see cref="SolutionProvider"/> class.
+		/// </summary>
 		public SolutionProvider()
 		{
 			using (var workspace = new CustomWorkspace())
@@ -32,11 +38,19 @@ namespace ArchiMetrics.Common
 			}
 		}
 
+		/// <summary>
+		/// Finalizes the provider.
+		/// </summary>
 		~SolutionProvider()
 		{
 			Dispose(false);
 		}
 
+		/// <summary>
+		/// Gets a consistent reference to the solution at the given path.
+		/// </summary>
+		/// <param name="path">The file path to load the <see cref="Solution"/> from.</param>
+		/// <returns>A <see cref="Task{T}"/> which will provide the solution.</returns>
 		public Task<Solution> Get(string path)
 		{
 			Task<Solution> solution;

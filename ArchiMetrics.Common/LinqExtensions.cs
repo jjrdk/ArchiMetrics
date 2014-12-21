@@ -17,7 +17,7 @@ namespace ArchiMetrics.Common
 	using System.Collections.ObjectModel;
 	using System.Linq;
 
-	public static class LinqExtensions
+	internal static class LinqExtensions
 	{
 		public static IEnumerable<T> DistinctBy<T, TOut>(this IEnumerable<T> source, Func<T, TOut> func)
 		{

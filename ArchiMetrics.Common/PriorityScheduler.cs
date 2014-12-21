@@ -19,7 +19,7 @@ namespace ArchiMetrics.Common
 	using System.Threading;
 	using System.Threading.Tasks;
 
-	public class PriorityScheduler : TaskScheduler, IDisposable
+	internal class PriorityScheduler : TaskScheduler, IDisposable
 	{
 		private readonly int _maximumConcurrencyLevel = Math.Max(1, Environment.ProcessorCount);
 		private readonly double _shutdownTimeout;
