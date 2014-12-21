@@ -12,12 +12,36 @@
 
 namespace ArchiMetrics.Common.Metrics
 {
+	using System;
+
+	/// <summary>
+	/// Defines the kind of <see cref="Type"/>.
+	/// </summary>
 	public enum TypeMetricKind
 	{
-		Unknown = 0, 
-		Class = 1, 
-		Delegate = 2, 
-		Interface = 3, 
-		Struct = 4, 
+		/// <summary>
+		/// The type kind cannot be determined.
+		/// </summary>
+		Unknown = 0,
+
+		/// <summary>
+		/// The type is a class.
+		/// </summary>
+		Class = 1,
+
+		/// <summary>
+		/// The type is a delegate.
+		/// </summary>
+		Delegate = 2,
+
+		/// <summary>
+		/// The type is an interface.
+		/// </summary>
+		Interface = 3,
+
+		/// <summary>
+		/// The type is a struct.
+		/// </summary>
+		Struct = 4,
 	}
 }

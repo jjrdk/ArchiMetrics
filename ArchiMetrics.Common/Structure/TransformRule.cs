@@ -14,8 +14,14 @@ namespace ArchiMetrics.Common.Structure
 {
 	public class TransformRule
 	{
-		public string Pattern { get; set; }
+		public TransformRule(string name, string pattern)
+		{
+			Name = name;
+			Pattern = pattern;
+		}
 
-		public string Name { get; set; }
+		public string Pattern { get; private set; }
+
+		public string Name { get; private set; }
 	}
 }

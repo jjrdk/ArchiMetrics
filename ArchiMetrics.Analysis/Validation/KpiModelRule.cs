@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Validation
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.Model;
 	using ArchiMetrics.Common.Structure;
 
 	internal class KpiModelRule : IModelRule

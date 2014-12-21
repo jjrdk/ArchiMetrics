@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using System.Threading;
 	using System.Windows.Input;
+	using ArchiMetrics.Analysis.Model;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using ArchiMetrics.UI.Support;

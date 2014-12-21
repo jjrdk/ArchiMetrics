@@ -211,6 +211,7 @@
     <Compile Include="DataAccess\ProjectReference.cs" />
     <Compile Include="DataAccess\AppContext.cs" />
     <Compile Include="DataAccess\VertexTransformProvider.cs" />
+    <Compile Include="IAppContext.cs" />
     <Compile Include="Localization\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>

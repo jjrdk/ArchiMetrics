@@ -13,6 +13,7 @@
 namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.ObjectModel;
+	using ArchiMetrics.Analysis.Model;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 

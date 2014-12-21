@@ -12,7 +12,7 @@
 
 namespace ArchiMetrics.Common.Structure
 {
-	public enum ComparisonResultKind
+	internal enum ComparisonResultKind
 	{
 		Same = 1, 
 		Partial = 2, 

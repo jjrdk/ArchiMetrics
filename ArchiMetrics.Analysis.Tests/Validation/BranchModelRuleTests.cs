@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Tests.Validation
 {
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.Model;
 	using ArchiMetrics.Analysis.Validation;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;

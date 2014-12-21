@@ -7,6 +7,7 @@
 			 xmlns:structure="clr-namespace:ArchiMetrics.Common.Structure;assembly=ArchiMetrics.Common"
 			 xmlns:viewModel="clr-namespace:ArchiMetrics.UI.ViewModel"
 			 xmlns:localization="clr-namespace:ArchiMetrics.UI.Localization"
+			 xmlns:model="clr-namespace:ArchiMetrics.Analysis.Model;assembly=ArchiMetrics.Analysis"
 			 mc:Ignorable="d"
 			 d:DesignHeight="300"
 			 d:DesignWidth="300"
@@ -28,10 +29,10 @@
 				  EnableRowVirtualization="True"
 				  ItemsSource="{Binding Path=EdgeItems}">
 			<DataGrid.Columns>
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:ModelEdgeItem}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=model:ModelEdgeItem}"
 									Header="{x:Static localization:Strings.Source}"
 									Binding="{Binding Path=Source.QualifiedName}" />
-				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=structure:ModelEdgeItem}"
+				<DataGridTextColumn d:DataContext="{d:DesignInstance Type=model:ModelEdgeItem}"
 									Header="{x:Static localization:Strings.Target}"
 									Binding="{Binding Path=Target.QualifiedName}" />
 			</DataGrid.Columns>

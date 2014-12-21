@@ -16,16 +16,31 @@ namespace ArchiMetrics.Common.Metrics
 
 	public interface IProjectMetric : ICodeMetric
 	{
-		IEnumerable<ITypeCoupling> ClassCouplings { get; }
-
+		/// <summary>
+		/// Gets the <see cref="INamespaceMetric"/> for namespaces defined in the project.
+		/// </summary>
 		IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
 
+		/// <summary>
+		/// Gets the names of the project dependencies.
+		/// </summary>
 		IEnumerable<string> Dependencies { get; }
 
+		/// <summary>
+		/// Gets the relational cohesion for the project.
+		/// </summary>
 		double RelationalCohesion { get; set; }
 
+		/// <summary>
+		/// Gets the efferent coupling for the project.
+		/// </summary>
+		/// <remarks>The efferent coupling counts the number of outgoing dependencies.</remarks>
 		int EfferentCoupling { get; }
 
+		/// <summary>
+		/// Gets the afferent coupling for the project.
+		/// </summary>
+		/// <remarks>The afferent coupling counts the number of incoming dependencies.</remarks>
 		int AfferentCoupling { get; }
 	}
 }

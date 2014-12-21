@@ -71,27 +71,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			return Math.Max(0.0, mi);
 		}
 
-		private static MemberMetricKind GetMemberMetricKind(SyntaxKind memberKind)
-		{
-			switch (memberKind)
-			{
-				case SyntaxKind.MethodDeclaration:
-				case SyntaxKind.ConstructorDeclaration:
-				case SyntaxKind.DestructorDeclaration:
-					return MemberMetricKind.Method;
-
-				case SyntaxKind.GetAccessorDeclaration:
-				case SyntaxKind.SetAccessorDeclaration:
-					return MemberMetricKind.PropertyAccessor;
-
-				case SyntaxKind.AddAccessorDeclaration:
-				case SyntaxKind.RemoveAccessorDeclaration:
-					return MemberMetricKind.EventAccessor;
-			}
-
-			return MemberMetricKind.Unknown;
-		}
-
 		private int CalculateLinesOfCode(SyntaxNode node)
 		{
 			return _locCalculator.Calculate(node);
@@ -123,7 +102,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			var analyzer = new HalsteadAnalyzer();
 			var halsteadMetrics = analyzer.Calculate(syntaxNode);
 			var memberName = _nameResolver.TryResolveMemberSignatureString(syntaxNode);
-			var memberMetricKind = GetMemberMetricKind(syntaxNode.CSharpKind());
 			var source = CalculateClassCoupling(syntaxNode);
 			var complexity = CalculateCyclomaticComplexity(syntaxNode);
 			var linesOfCode = CalculateLinesOfCode(syntaxNode);
@@ -139,7 +117,6 @@ namespace ArchiMetrics.Analysis.Metrics
 				filePath,
 				accessModifier,
 				halsteadMetrics,
-				memberMetricKind,
 				lineNumber,
 				linesOfCode,
 				maintainabilityIndex,

@@ -58,7 +58,7 @@ namespace ArchiMetrics.UI.DataAccess
 				}
 			}
 
-			return new ObservableCollection<TransformRule> { new TransformRule { Name = "DotNet", Pattern = @"^(mscorlib|System)(\..+)?" } };
+			return new ObservableCollection<TransformRule> { new TransformRule("DotNet", @"^(mscorlib|System)(\..+)?") };
 		}
 	}
 }

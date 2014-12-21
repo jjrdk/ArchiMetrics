@@ -19,7 +19,7 @@ namespace ArchiMetrics.Common
 	/// <summary>
 	/// Defines the async factory interface.
 	/// </summary>
-	/// <remarks>The factory will return a new instance of <see cref="T"/> when the Create method is called.</remarks>
+	/// <remarks>The factory will return a new instance of <typeparamref name="T"/> when the Create method is called.</remarks>
 	/// <typeparam name="T">The <see cref="Type"/> of the object the factory creates.</typeparam>
 	/// <typeparam name="TParameter">The <see cref="Type"/> of the parameter to pass to the creation method.</typeparam>
 	/// <returns>A <see cref="Task{T}"/> which provides the object when the creation has finished.</returns>

@@ -10,10 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Structure
+namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.CodeReview;
+	using ArchiMetrics.Common.Structure;
 
 	public class ModelNode : IModelNode
 	{

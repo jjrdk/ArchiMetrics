@@ -10,9 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Structure
+namespace ArchiMetrics.Analysis.Model
 {
 	using System.Linq;
+	using ArchiMetrics.Common.Structure;
 
 	public static class NodeKind
 	{

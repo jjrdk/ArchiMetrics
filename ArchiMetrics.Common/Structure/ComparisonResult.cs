@@ -15,7 +15,7 @@ namespace ArchiMetrics.Common.Structure
 	using System.Collections.Generic;
 	using System.Linq;
 
-	public class ComparisonResult
+	internal class ComparisonResult
 	{
 		public ComparisonResult(ComparisonResultKind kind, IModelNode pattern, params IModelNode[] matches)
 			: this(kind, pattern, matches == null ? null : matches.AsEnumerable())

@@ -40,11 +40,7 @@ namespace ArchiMetrics.Analysis.Tests.Model
 			[Test]
 			public async Task WhenTransformingThenTransformsDisplayName()
 			{
-				var rule = new TransformRule
-						   {
-							   Name = "Test", 
-							   Pattern = "[xyz]"
-						   };
+				var rule = new TransformRule("Test", "[xyz]");
 				var node = new ModelNode("x", "type", CodeQuality.Good, 3, 2, 1);
 
 				var transformed = await _transformer.Transform(new[] { node }, new[] { rule }, CancellationToken.None);
@@ -55,11 +51,7 @@ namespace ArchiMetrics.Analysis.Tests.Model
 			[Test]
 			public async Task WhenTransformingThenAlsoTransformsChildren()
 			{
-				var rule = new TransformRule
-						   {
-							   Name = "Test", 
-							   Pattern = "[xyz]"
-						   };
+				var rule = new TransformRule("Test", "[xyz]");
 				var node = new ModelNode("a", "type", CodeQuality.Good, 3, 2, 1, new List<IModelNode> { new ModelNode("x", "type", CodeQuality.Good, 6, 5, 4) });
 
 				var transformed = await _transformer.Transform(new[] { node }, new[] { rule }, CancellationToken.None);

@@ -14,12 +14,19 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 
+	/// <summary>
+	/// Defines the interface for namespace metrics.
+	/// </summary>
 	public interface INamespaceMetric : ICodeMetric
 	{
-		IEnumerable<ITypeCoupling> ClassCouplings { get; }
-		
+		/// <summary>
+		/// Gets the max depth of inheritance for types in the namespace.
+		/// </summary>
 		int DepthOfInheritance { get; }
 		
+		/// <summary>
+		/// Gets the <see cref="ITypeMetric"/> for the types defined in the namespace.
+		/// </summary>
 		IEnumerable<ITypeMetric> TypeMetrics { get; }
 	}
 }

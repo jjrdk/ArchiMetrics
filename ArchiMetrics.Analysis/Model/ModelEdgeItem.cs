@@ -10,9 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Structure
+namespace ArchiMetrics.Analysis.Model
 {
 	using System;
+	using ArchiMetrics.Common.Structure;
 
 	public class ModelEdgeItem : IEquatable<ModelEdgeItem>
 	{

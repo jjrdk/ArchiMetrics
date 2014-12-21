@@ -10,7 +10,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Structure
+namespace ArchiMetrics.UI
 {
 	using System;
 	using System.ComponentModel;

@@ -15,7 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.Metrics;
 
-	public sealed class TypeDeclaration
+	internal sealed class TypeDeclaration
 	{
 		public string Name { get; set; }
 

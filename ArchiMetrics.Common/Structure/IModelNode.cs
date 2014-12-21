@@ -16,6 +16,9 @@ namespace ArchiMetrics.Common.Structure
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.CodeReview;
 
+	/// <summary>
+	/// Defines the interface for a node in an application model.
+	/// </summary>
 	public interface IModelNode : IEquatable<IModelNode>
 	{
 		IModelNode Parent { get; }

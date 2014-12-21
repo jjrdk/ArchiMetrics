@@ -113,9 +113,13 @@
     <Compile Include="Metrics\ProjectMetric.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculator.cs" />
     <Compile Include="Model\CodeErrorRepository.cs" />
+    <Compile Include="Model\ModelEdgeItem.cs" />
     <Compile Include="Model\ModelEdgeItemFactory.cs" />
+    <Compile Include="Model\ModelNode.cs" />
+    <Compile Include="Model\NodeKind.cs" />
     <Compile Include="Model\NodeMerger.cs" />
     <Compile Include="Model\SolutionVertexRepository.cs" />
+    <Compile Include="Model\StaticModelNode.cs" />
     <Compile Include="Model\SyntaxTransformer.cs" />
     <Compile Include="Model\TransformerBase.cs" />
     <Compile Include="ReferenceResolvers\ReferencedSymbol.cs" />

@@ -16,10 +16,16 @@ namespace ArchiMetrics.Common.Metrics
 	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
 
+	/// <summary>
+	/// Defines the interface for a project metrics calculator.
+	/// </summary>
 	public interface IProjectMetricsCalculator
 	{
+		/// <summary>
+		/// Calculates the metrics for the passed <see cref="Solution"/>.
+		/// </summary>
+		/// <param name="solution">The <see cref="Solution"/> to calculate metrics for.</param>
+		/// <returns>A <see cref="Task{TResult}"/> providing the metrics as an <see cref="IEnumerable{IProjectMetric}"/>.</returns>
 		Task<IEnumerable<IProjectMetric>> Calculate(Solution solution);
-		
-		Task<IProjectMetric> Calculate(Project project, Solution solution);
 	}
 }

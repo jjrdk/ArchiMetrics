@@ -23,7 +23,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			string codeFile,
 			AccessModifierKind accessModifier,
 			IHalsteadMetrics halstead, 
-			MemberMetricKind kind, 
 			int lineNumber, 
 			int linesOfCode, 
 			double maintainabilityIndex, 
@@ -37,7 +36,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			_halstead = halstead;
 			CodeFile = codeFile;
 			AccessModifier = accessModifier;
-			Kind = kind;
 			LineNumber = lineNumber;
 			LinesOfCode = linesOfCode;
 			MaintainabilityIndex = maintainabilityIndex;
@@ -52,8 +50,6 @@ namespace ArchiMetrics.Analysis.Metrics
 		public string CodeFile { get; private set; }
 
 		public AccessModifierKind AccessModifier { get; private set; }
-
-		public MemberMetricKind Kind { get; private set; }
 
 		public int LineNumber { get; private set; }
 

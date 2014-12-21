@@ -143,7 +143,6 @@
     <Compile Include="Metrics\ITypeCoupling.cs" />
     <Compile Include="Metrics\ITypeDefinition.cs" />
     <Compile Include="Metrics\ITypeMetric.cs" />
-    <Compile Include="Metrics\MemberMetricKind.cs" />
     <Compile Include="Metrics\TypeDeclarationSyntaxInfo.cs" />
     <Compile Include="Metrics\TypeDefinition.cs" />
     <Compile Include="Metrics\TypeMetricKind.cs" />
@@ -158,11 +157,6 @@
     <Compile Include="Structure\IProjectMetricsRepository.cs" />
     <Compile Include="Structure\ISyntaxTransformer.cs" />
     <Compile Include="Structure\IVertexRepository.cs" />
-    <Compile Include="Structure\IAppContext.cs" />
-    <Compile Include="Structure\ModelEdgeItem.cs" />
-    <Compile Include="Structure\ModelNode.cs" />
-    <Compile Include="Structure\NodeKind.cs" />
-    <Compile Include="Structure\StaticModelNode.cs" />
     <Compile Include="Structure\TransformRule.cs" />
   </ItemGroup>
   <ItemGroup>

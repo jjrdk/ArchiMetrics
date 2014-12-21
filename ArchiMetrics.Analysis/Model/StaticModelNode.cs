@@ -10,12 +10,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Structure
+namespace ArchiMetrics.Analysis.Model
 {
 	using System.Collections.Generic;
 	using ArchiMetrics.Common.CodeReview;
+	using ArchiMetrics.Common.Structure;
 
-	public class StaticModelNode : ModelNode
+	internal class StaticModelNode : ModelNode
 	{
 		public StaticModelNode(string name, string type, CodeQuality quality, int linesOfCode, double maintainabilityIndex, int cyclomaticComplexity, IList<IModelNode> children)
 			: base(name, type, quality, linesOfCode, maintainabilityIndex, cyclomaticComplexity, children)

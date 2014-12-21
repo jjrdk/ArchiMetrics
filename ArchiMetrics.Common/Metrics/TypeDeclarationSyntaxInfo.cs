@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	public class TypeDeclarationSyntaxInfo
+	internal class TypeDeclarationSyntaxInfo
 	{
 		public TypeDeclarationSyntaxInfo(string codeFile, string name, TypeDeclarationSyntax syntax)
 		{
