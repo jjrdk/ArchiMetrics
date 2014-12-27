@@ -28,5 +28,7 @@ namespace ArchiMetrics.Common.Metrics
 		/// Gets the <see cref="ITypeMetric"/> for the types defined in the namespace.
 		/// </summary>
 		IEnumerable<ITypeMetric> TypeMetrics { get; }
+
+		double Abstractness { get; }
 	}
 }

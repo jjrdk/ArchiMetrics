@@ -36,7 +36,11 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Distinct()
 				.AsArray();
 			AfferentCoupling = Dependendants.Count();
+			var typeMetrics = NamespaceMetrics.SelectMany(x => x.TypeMetrics).AsArray();
+			Abstractness = typeMetrics.Count(x => x.IsAbstract) / (double)typeMetrics.Count();
 		}
+
+		public double Abstractness { get; private set; }
 
 		public int EfferentCoupling { get; private set; }
 

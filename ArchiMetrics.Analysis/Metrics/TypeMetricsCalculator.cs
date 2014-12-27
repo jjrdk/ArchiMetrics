@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
@@ -23,23 +24,31 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
-		public TypeMetricsCalculator(SemanticModel semanticModel)
+		private readonly Solution _solution;
+
+		public TypeMetricsCalculator(SemanticModel semanticModel, Solution solution)
 			: base(semanticModel)
 		{
+			_solution = solution;
 		}
 
-		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
+		public async Task<ITypeMetric> CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
 		{
 			var memberMetrics = metrics.AsArray();
 			var type = typeNode.Syntax;
+			var symbol = Model.GetDeclaredSymbol(type);
 			var metricKind = GetMetricKind(type);
 			var source = CalculateClassCoupling(type, memberMetrics);
 			var depthOfInheritance = CalculateDepthOfInheritance(type);
 			var cyclomaticComplexity = memberMetrics.Sum(x => x.CyclomaticComplexity);
 			var linesOfCode = memberMetrics.Sum(x => x.LinesOfCode);
 			var maintainabilityIndex = CalculateAveMaintainabilityIndex(memberMetrics);
+			var afferentCoupling = await CalculateAfferentCoupling(type);
+			var efferentCoupling = GetEfferentCoupling(type, symbol);
+			var instability = (double)efferentCoupling / (efferentCoupling + afferentCoupling);
 			var modifier = GetAccessModifier(type.Modifiers);
 			return new TypeMetric(
+				symbol.IsAbstract,
 				metricKind,
 				modifier,
 				memberMetrics,
@@ -48,7 +57,58 @@ namespace ArchiMetrics.Analysis.Metrics
 				maintainabilityIndex,
 				depthOfInheritance,
 				source,
-				type.GetName());
+				type.GetName(),
+				afferentCoupling,
+				efferentCoupling,
+				instability);
+		}
+
+		private int GetEfferentCoupling(SyntaxNode classDeclaration, ISymbol sourceSymbol)
+		{
+			var typeSyntaxes = classDeclaration.DescendantNodesAndSelf().OfType<TypeSyntax>();
+			var commonSymbolInfos = typeSyntaxes.Select(x => Model.GetSymbolInfo(x)).AsArray();
+			var members = commonSymbolInfos
+				.Select(x => x.Symbol)
+				.Where(x => x != null)
+				.Select(x =>
+					{
+						var typeSymbol = x as ITypeSymbol;
+						return typeSymbol == null ? x.ContainingType : x;
+					})
+				.Cast<ITypeSymbol>()
+				.WhereNotNull()
+				.DistinctBy(x => x.ToDisplayString())
+				.Count(x => !x.Equals(sourceSymbol));
+
+			return members;
+		}
+
+		private async Task<int> CalculateAfferentCoupling(SyntaxNode node)
+		{
+			try
+			{
+				if (_solution == null)
+				{
+					return 0;
+				}
+
+				if (node.SyntaxTree != Model.SyntaxTree)
+				{
+					return 0;
+				}
+
+				var symbol = Model.GetDeclaredSymbol(node);
+				var referenceTasks = symbol == null
+										 ? Task.FromResult(0)
+										 : _solution.FindReferences(symbol).ContinueWith(t => t.Exception != null ? 0 : t.Result.Locations.Count());
+
+				return await referenceTasks.ConfigureAwait(false);
+			}
+			catch
+			{
+				// Some types are not present in syntax tree because they have been created for metrics calculation.
+				return 0;
+			}
 		}
 
 		private static double CalculateAveMaintainabilityIndex(IEnumerable<IMemberMetric> memberMetrics)

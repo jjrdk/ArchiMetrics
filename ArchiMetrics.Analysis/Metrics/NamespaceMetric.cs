@@ -13,17 +13,19 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
+	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 
 	internal class NamespaceMetric : INamespaceMetric
 	{
 		public NamespaceMetric(
-			double maintainabilityIndex, 
-			int cyclomaticComplexity, 
-			int linesOfCode, 
-			IEnumerable<ITypeCoupling> classCouplings, 
-			int depthOfInheritance, 
-			string name, 
+			double maintainabilityIndex,
+			int cyclomaticComplexity,
+			int linesOfCode,
+			IEnumerable<ITypeCoupling> classCouplings,
+			int depthOfInheritance,
+			string name,
 			IEnumerable<ITypeMetric> typeMetrics)
 		{
 			MaintainabilityIndex = maintainabilityIndex;
@@ -32,8 +34,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			ClassCouplings = classCouplings;
 			DepthOfInheritance = depthOfInheritance;
 			Name = name;
-			TypeMetrics = typeMetrics;
+			TypeMetrics = typeMetrics.AsArray();
+			Abstractness = TypeMetrics.Count(x => x.IsAbstract) / (double)TypeMetrics.Count();
 		}
+
+		public double Abstractness { get; private set; }
 
 		public double MaintainabilityIndex { get; private set; }
 

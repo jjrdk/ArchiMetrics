@@ -42,5 +42,7 @@ namespace ArchiMetrics.Common.Metrics
 		/// </summary>
 		/// <remarks>The afferent coupling counts the number of incoming dependencies.</remarks>
 		int AfferentCoupling { get; }
+
+		double Abstractness { get; }
 	}
 }

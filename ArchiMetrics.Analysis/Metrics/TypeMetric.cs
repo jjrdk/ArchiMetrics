@@ -20,6 +20,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal class TypeMetric : ITypeMetric
 	{
 		public TypeMetric(
+			bool isAbstract,
 			TypeMetricKind kind,
 			AccessModifierKind accessModifier,
 			IEnumerable<IMemberMetric> memberMetrics,
@@ -28,8 +29,12 @@ namespace ArchiMetrics.Analysis.Metrics
 			double maintainabilityIndex,
 			int depthOfInheritance,
 			IEnumerable<ITypeCoupling> classCouplings,
-			string name)
+			string name,
+			int afferentCoupling,
+			int efferentCoupling,
+			double instability)
 		{
+			IsAbstract = isAbstract;
 			Kind = kind;
 			AccessModifier = accessModifier;
 			MemberMetrics = memberMetrics;
@@ -39,9 +44,20 @@ namespace ArchiMetrics.Analysis.Metrics
 			DepthOfInheritance = depthOfInheritance;
 			ClassCouplings = classCouplings.AsArray();
 			Name = name;
+			AfferentCoupling = afferentCoupling;
+			EfferentCoupling = efferentCoupling;
+			Instability = instability;
 		}
 
+		public bool IsAbstract { get; private set; }
+
 		public string Name { get; private set; }
+
+		public int AfferentCoupling { get; private set; }
+
+		public int EfferentCoupling { get; private set; }
+
+		public double Instability { get; private set; }
 
 		public TypeMetricKind Kind { get; private set; }
 

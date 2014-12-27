@@ -177,7 +177,9 @@ namespace ArchiMetrics.Analysis.Metrics
 				}
 
 				var symbol = Model.GetDeclaredSymbol(node);
-				var referenceTasks = _solution.FindReferences(symbol)
+				var referenceTasks = symbol == null
+				? Task.FromResult(0)
+				: _solution.FindReferences(symbol)
 					.ContinueWith(t => t.Exception != null ? 0 : t.Result.Locations.Count());
 
 				return await referenceTasks.ConfigureAwait(false);

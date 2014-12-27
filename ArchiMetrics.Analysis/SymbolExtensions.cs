@@ -14,13 +14,11 @@ namespace ArchiMetrics.Analysis
 {
 	using System;
 	using System.Collections.Concurrent;
-	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.ReferenceResolvers;
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
-	using ReferencedSymbol = ArchiMetrics.Analysis.ReferenceResolvers.ReferencedSymbol;
 
 	public static class SymbolExtensions
 	{
@@ -28,6 +26,11 @@ namespace ArchiMetrics.Analysis
 
 		public static Task<ReferencedSymbol> FindReferences(this Solution solution, ISymbol symbol)
 		{
+			if (solution == null)
+			{
+				return Task.FromResult(new ReferencedSymbol(symbol, new ReferenceLocation[0]));
+			}
+
 			var lazyRepo = KnownReferences.GetOrAdd(solution.Id, x => new Lazy<ReferenceRepository>(() => new ReferenceRepository(solution), LazyThreadSafetyMode.ExecutionAndPublication));
 
 			return Task.Run(

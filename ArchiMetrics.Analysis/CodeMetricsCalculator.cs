@@ -111,7 +111,7 @@ namespace ArchiMetrics.Analysis
 			return calculator.CalculateFrom(namespaceNode, typeMetrics);
 		}
 
-		private static async Task<Tuple<Compilation, ITypeMetric>> CalculateTypeMetrics(Compilation compilation, TypeDeclaration typeNodes, IEnumerable<IMemberMetric> memberMetrics)
+		private static async Task<Tuple<Compilation, ITypeMetric>> CalculateTypeMetrics(Solution solution, Compilation compilation, TypeDeclaration typeNodes, IEnumerable<IMemberMetric> memberMetrics)
 		{
 			if (typeNodes.SyntaxNodes.Any())
 			{
@@ -119,10 +119,11 @@ namespace ArchiMetrics.Analysis
 				var semanticModel = tuple.Item2;
 				compilation = tuple.Item1;
 				var typeNode = tuple.Item3;
-				var calculator = new TypeMetricsCalculator(semanticModel);
+				var calculator = new TypeMetricsCalculator(semanticModel, solution);
+				var metrics = await calculator.CalculateFrom(typeNode, memberMetrics);
 				return new Tuple<Compilation, ITypeMetric>(
 					compilation,
-					calculator.CalculateFrom(typeNode, memberMetrics));
+					metrics);
 			}
 
 			return null;
@@ -303,6 +304,7 @@ namespace ArchiMetrics.Analysis
 						{
 							comp,
 							typeNodes,
+							solution,
 							memberMetrics = metrics
 						};
 					})
@@ -311,7 +313,7 @@ namespace ArchiMetrics.Analysis
 			var typeMetricsTasks = data
 				.Select(async item =>
 				{
-					var tuple = await CalculateTypeMetrics(item.comp, item.typeNodes, item.memberMetrics).ConfigureAwait(false);
+					var tuple = await CalculateTypeMetrics(item.solution, item.comp, item.typeNodes, item.memberMetrics).ConfigureAwait(false);
 					if (tuple == null)
 					{
 						return null;

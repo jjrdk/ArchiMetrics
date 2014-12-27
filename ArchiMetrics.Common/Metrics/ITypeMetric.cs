@@ -19,11 +19,19 @@ namespace ArchiMetrics.Common.Metrics
 		AccessModifierKind AccessModifier { get; }
 
 		TypeMetricKind Kind { get; }
-		
+
 		IEnumerable<IMemberMetric> MemberMetrics { get; }
 
 		int DepthOfInheritance { get; }
-		
+
 		int ClassCoupling { get; }
+		
+		int AfferentCoupling { get; }
+
+		int EfferentCoupling { get; }
+
+		double Instability { get; }
+
+		bool IsAbstract { get; }
 	}
 }

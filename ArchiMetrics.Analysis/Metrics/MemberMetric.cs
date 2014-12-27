@@ -22,15 +22,15 @@ namespace ArchiMetrics.Analysis.Metrics
 		public MemberMetric(
 			string codeFile,
 			AccessModifierKind accessModifier,
-			IHalsteadMetrics halstead, 
-			int lineNumber, 
-			int linesOfCode, 
-			double maintainabilityIndex, 
-			int cyclomaticComplexity, 
-			string name, 
-			IEnumerable<ITypeCoupling> classCouplings, 
-			int numberOfParameters, 
-			int numberOfLocalVariables, 
+			IHalsteadMetrics halstead,
+			int lineNumber,
+			int linesOfCode,
+			double maintainabilityIndex,
+			int cyclomaticComplexity,
+			string name,
+			IEnumerable<ITypeCoupling> classCouplings,
+			int numberOfParameters,
+			int numberOfLocalVariables,
 			int afferentCoupling)
 		{
 			_halstead = halstead;
