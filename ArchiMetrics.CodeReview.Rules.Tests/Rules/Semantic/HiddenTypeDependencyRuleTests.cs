@@ -51,7 +51,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 	{
 		public object GetItem()
 		{
-			var factory = new Factory<ArchiMetrics.Common.ModelSettings>();
+			var factory = new Factory<ArchiMetrics.Common.SolutionProvider>();
 			return factory.Create();
 		}
 	}
@@ -68,13 +68,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 
 	public class MyClass
 	{
-		private ArchiMetrics.Common.ModelSettings _settings = null;
+		private ArchiMetrics.Common.SolutionProvider _settings = null;
 
 		public object GetItem()
 		{
 			if(_settings == null)
 			{
-				var factory = new Factory<ArchiMetrics.Common.ModelSettings>();
+				var factory = new Factory<ArchiMetrics.Common.SolutionProvider>();
 				_settings = factory.Create();
 			}
 			return _settings;
