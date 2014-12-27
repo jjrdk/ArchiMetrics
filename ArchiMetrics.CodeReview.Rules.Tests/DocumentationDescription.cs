@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Moq;
 	using NUnit.Framework;
@@ -18,7 +19,7 @@
 			var spellChecker = new Mock<ISpellChecker>();
 			spellChecker.Setup(x => x.Spell(It.IsAny<string>())).Returns(true);
 
-			_rules = AllRules.GetSyntaxRules(spellChecker.Object).ToArray();
+			_rules = AllRules.GetSyntaxRules(spellChecker.Object).AsArray();
 		}
 
 		[Test]

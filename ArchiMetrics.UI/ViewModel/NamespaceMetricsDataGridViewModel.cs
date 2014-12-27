@@ -14,6 +14,7 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 
@@ -28,7 +29,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private IList<INamespaceMetric> _namespaceMetrics = new List<INamespaceMetric>();
 
 		public NamespaceMetricsDataGridViewModel(
-			IProjectMetricsRepository metricsRepository, 
+			IProjectMetricsRepository metricsRepository,
 			IAppContext config)
 			: base(config)
 		{
@@ -133,12 +134,12 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = true;
 			var solutionPath = _config.Path;
 			var awaitable = _metricsRepository.Get(solutionPath).ConfigureAwait(false);
-			var metricsTasks = (await awaitable).ToArray();
+			var metricsTasks = (await awaitable).AsArray();
 
 			var metrics = metricsTasks
 				.SelectMany(x => x.NamespaceMetrics)
-				.ToArray();
-			var typeMetrics = metrics.SelectMany(x => x.TypeMetrics).ToArray();
+				.AsArray();
+			var typeMetrics = metrics.SelectMany(x => x.TypeMetrics).AsArray();
 			LinesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var depthOfInheritance = metrics.Any() ? metrics.Max(x => x.DepthOfInheritance) : 0;
 			NamespaceMaintainabilityIndex = LinesOfCode == 0 ? 0 : (typeMetrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / LinesOfCode);

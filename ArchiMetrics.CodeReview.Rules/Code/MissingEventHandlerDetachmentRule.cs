@@ -86,13 +86,13 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 				.DescendantNodes()
 				.Where(x => x.CSharpKind() == SyntaxKind.AddAssignmentExpression)
 				.Cast<AssignmentExpressionSyntax>()
-				.ToArray();
+				.AsArray();
 			var subtractAssignments = declarationSyntax.DescendantNodes()
 				.Where(x => x.CSharpKind() == SyntaxKind.SubtractAssignmentExpression)
 				.Cast<AssignmentExpressionSyntax>()
-				.ToArray();
+				.AsArray();
 
-			var assignmentExpressionSyntaxes = addAssignments.DistinctBy(x => x.ToFullString()).ToArray();
+			var assignmentExpressionSyntaxes = addAssignments.DistinctBy(x => x.ToFullString()).AsArray();
 
 			if (assignmentExpressionSyntaxes.Count() != subtractAssignments.DistinctBy(x => x.ToFullString()).Count())
 			{

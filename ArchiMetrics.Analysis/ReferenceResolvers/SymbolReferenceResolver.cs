@@ -16,6 +16,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 	using System.Collections.Generic;
 	using System.Linq;
 	using Microsoft.CodeAnalysis;
+	using ArchiMetrics.Common;
 
 	internal static class SymbolReferenceResolver
 	{
@@ -34,7 +35,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 				.Select(x => new { type = x.symbol, location = new ReferenceLocation(x.node.GetLocation(), model) })
 				.GroupBy(x => x.type, x => x.location);
 
-			var array = fields.ToArray();
+			var array = fields.AsArray();
 
 			return array;
 		}

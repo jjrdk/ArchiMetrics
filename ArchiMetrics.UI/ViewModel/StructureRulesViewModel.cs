@@ -106,7 +106,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = true;
 			var rules = _transformRulesProvider.Get(_config.RulesSource);
 			var awaitable = _modelValidator.Validate(_config.Path, ModelRules, rules, CancellationToken.None).ConfigureAwait(false);
-			var validation = (await awaitable).ToArray();
+			var validation = (await awaitable).AsArray();
 			var passed = validation.Where(x => x.Passed);
 			var notPassed = validation.WhereNot(x => x.Passed);
 			IsLoading = false;

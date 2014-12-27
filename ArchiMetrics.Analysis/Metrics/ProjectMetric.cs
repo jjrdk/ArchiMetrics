@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 
 	internal class ProjectMetric : IProjectMetric
@@ -24,16 +25,16 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			Name = name;
 			RelationalCohesion = relationalCohesion;
-			Dependencies = referencedProjects.ToArray();
+			Dependencies = referencedProjects.AsArray();
 			EfferentCoupling = Dependencies.Count();
-			NamespaceMetrics = namespaceMetrics.ToArray();
+			NamespaceMetrics = namespaceMetrics.AsArray();
 			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
 			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
 			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
-			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).ToArray();
+			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).AsArray();
 			Dependendants = ClassCouplings.Select(x => x.Assembly)
 				.Distinct()
-				.ToArray();
+				.AsArray();
 			AfferentCoupling = Dependendants.Count();
 		}
 

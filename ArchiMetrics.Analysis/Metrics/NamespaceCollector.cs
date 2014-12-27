@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -36,7 +37,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				Visit(node);
 			}
 
-			return _namespaces.ToArray();
+			return _namespaces.AsArray();
 		}
 
 		public override void VisitNamespaceDeclaration(NamespaceDeclarationSyntax node)

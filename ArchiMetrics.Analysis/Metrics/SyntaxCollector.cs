@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -27,7 +28,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public SyntaxDeclarations GetDeclarations(IEnumerable<SyntaxTree> trees)
 		{
-			var syntaxTrees = trees.ToArray();
+			var syntaxTrees = trees.AsArray();
 
 			foreach (var root in syntaxTrees.Select(syntaxTree => syntaxTree.GetRoot()))
 			{
@@ -37,10 +38,10 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			return new SyntaxDeclarations
 			{
-				MemberDeclarations = _members.ToArray(), 
-				NamespaceDeclarations = _namespaces.ToArray(), 
-				Statements = _statements.ToArray(), 
-				TypeDeclarations = _types.ToArray()
+				MemberDeclarations = _members.AsArray(),
+				NamespaceDeclarations = _namespaces.AsArray(),
+				Statements = _statements.AsArray(),
+				TypeDeclarations = _types.AsArray()
 			};
 		}
 
@@ -91,13 +92,13 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private void CheckStatementSyntax(SyntaxNode node)
 		{
-			var syntaxNodes = node.ChildNodes().ToArray();
-			
+			var syntaxNodes = node.ChildNodes().AsArray();
+
 			var statements =
 				syntaxNodes
 				.Where(x => !(x is TypeDeclarationSyntax))
 					.Where(x => x is BaseFieldDeclarationSyntax || x is StatementSyntax)
-					.ToArray();
+					.AsArray();
 
 			foreach (var statement in statements)
 			{

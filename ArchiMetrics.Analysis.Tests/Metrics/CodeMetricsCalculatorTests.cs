@@ -64,7 +64,7 @@ namespace SomeNamespace
 										var tree = CSharpSyntaxTree.ParseText(Text);
 
 										var metrics = _analyzer.Calculate(new[] { tree }).Result;
-										var result = metrics.ToArray();
+										var result = metrics.AsArray();
 									});
 			}
 
@@ -82,7 +82,7 @@ namespace SomeNamespace
 				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var task = await _analyzer.Calculate(new[] { tree });
 
-				var metrics = task.ToArray();
+				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);
 			}
 
@@ -97,7 +97,7 @@ public class Something {
 				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var task = await _analyzer.Calculate(new[] { tree });
 
-				var metrics = task.ToArray();
+				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);
 			}
 
@@ -110,7 +110,7 @@ public int Foo() { return 1; }
 				var tree = CSharpSyntaxTree.ParseText(Snippet);
 				var task = await _analyzer.Calculate(new[] { tree });
 
-				var metrics = task.ToArray();
+				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);
 			}
 		

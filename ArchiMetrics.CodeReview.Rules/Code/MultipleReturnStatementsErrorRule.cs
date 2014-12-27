@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -79,7 +80,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		protected override EvaluationResult EvaluateImpl(SyntaxNode node)
 		{
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var returnStatements = methodDeclaration.DescendantNodes().Where(n => n.IsKind(SyntaxKind.ReturnStatement)).ToArray();
+			var returnStatements = methodDeclaration.DescendantNodes().Where(n => n.IsKind(SyntaxKind.ReturnStatement)).AsArray();
 			if (returnStatements.Length > 1)
 			{
 				return new EvaluationResult

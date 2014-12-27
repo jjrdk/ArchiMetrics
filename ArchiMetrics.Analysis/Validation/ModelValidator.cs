@@ -17,6 +17,7 @@ namespace ArchiMetrics.Analysis.Validation
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Model;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using ArchiMetrics.Common.Structure;
 
@@ -41,7 +42,7 @@ namespace ArchiMetrics.Analysis.Validation
 			var tasks = rules.Select(r => r.Validate(modelTree));
 			var results = await Task.WhenAll(tasks).ConfigureAwait(false);
 
-			return results.SelectMany(x => x).ToArray();
+			return results.SelectMany(x => x).AsArray();
 		}
 	}
 }

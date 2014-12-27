@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -29,7 +30,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public ITypeMetric CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
 		{
-			var memberMetrics = metrics.ToArray();
+			var memberMetrics = metrics.AsArray();
 			var type = typeNode.Syntax;
 			var metricKind = GetMetricKind(type);
 			var source = CalculateClassCoupling(type, memberMetrics);
@@ -52,7 +53,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static double CalculateAveMaintainabilityIndex(IEnumerable<IMemberMetric> memberMetrics)
 		{
-			var source = memberMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).ToArray();
+			var source = memberMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).AsArray();
 			if (source.Any())
 			{
 				var totalLinesOfCode = source.Sum(x => x.Item1);
@@ -100,7 +101,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.GroupBy(x => x.ToString())
 				.Select(x => new TypeCoupling(x.First().TypeName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
 				.OrderBy(x => x.TypeName)
-				.ToArray();
+				.AsArray();
 		}
 
 		private int CalculateDepthOfInheritance(TypeDeclarationSyntax type)

@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -84,7 +85,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			{
 				var accessExpressionSyntaxes = methodDeclaration.DescendantNodes()
 					.OfType<MemberAccessExpressionSyntax>()
-					.ToArray();
+					.AsArray();
 
 				var assertsFound = accessExpressionSyntaxes
 													.Select(x => x.Expression as SimpleNameSyntax)

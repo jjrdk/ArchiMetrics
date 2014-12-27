@@ -18,6 +18,7 @@ namespace ArchiMetrics.Analysis
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
+	using ArchiMetrics.Common;
 
 	public class SemanticAnalyzer
 	{
@@ -41,11 +42,11 @@ namespace ArchiMetrics.Analysis
 			var usedParameterNames = dataflow.DataFlowsIn
 				.Where(x => x.Kind == SymbolKind.Parameter)
 				.Select(x => x.Name)
-				.ToArray();
+				.AsArray();
 
 			var unusedParameters = method.ParameterList.Parameters
 				.Where(p => !usedParameterNames.Contains(p.Identifier.ValueText))
-				.ToArray();
+				.AsArray();
 			return unusedParameters;
 		}
 
@@ -56,7 +57,7 @@ namespace ArchiMetrics.Analysis
 				.OfType<MethodDeclarationSyntax>()
 				.Where(x => !x.Modifiers.Any(SyntaxKind.StaticKeyword))
 				.Where(CanBeMadeStatic)
-				.ToArray();
+				.AsArray();
 		}
 
 		public bool CanBeMadeStatic(BaseMethodDeclarationSyntax method)

@@ -16,6 +16,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.IO;
 	using System.Linq;
 	using System.Threading;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 	using Newtonsoft.Json;
 
@@ -29,8 +30,8 @@ namespace ArchiMetrics.UI.ViewModel
 		private ObservableCollection<TransformRule> _vertexTransforms;
 
 		protected VertexViewModelBase(
-			IVertexRepository repository, 
-			ISyntaxTransformer filter, 
+			IVertexRepository repository,
+			ISyntaxTransformer filter,
 			IAppContext config)
 			: base(config)
 		{
@@ -143,7 +144,7 @@ namespace ArchiMetrics.UI.ViewModel
 			IsLoading = true;
 			var edges = await _repository.GetVertices(_config.Path, cancellationToken).ConfigureAwait(false);
 
-			_allVertices = edges.ToArray();
+			_allVertices = edges.AsArray();
 			UpdateInternal(cancellationToken);
 		}
 	}

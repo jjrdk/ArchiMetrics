@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -71,7 +72,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 							var predefinedType = SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.BoolKeyword));
 							return m.ParameterList.Parameters.Count == 0
 										   || (m.ParameterList.Parameters.Count == 1 && m.ParameterList.Parameters[0].Type.EquivalentTo(predefinedType));
-						}).ToArray();
+						}).AsArray();
 				var destructor = classDeclaration
 					.ChildNodes()
 					.OfType<DestructorDeclarationSyntax>()

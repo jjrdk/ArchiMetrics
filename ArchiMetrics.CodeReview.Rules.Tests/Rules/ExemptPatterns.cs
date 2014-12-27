@@ -38,7 +38,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		public void Remove(string pattern)
 		{
-			var toRemove = _innerRegexes.Where(x => x.ToString().Equals(pattern)).ToArray();
+			var toRemove = _innerRegexes.Where(x => x.ToString().Equals(pattern)).AsArray();
 			foreach (var regex in toRemove)
 			{
 				_innerRegexes.Remove(regex);

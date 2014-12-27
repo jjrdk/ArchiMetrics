@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -93,7 +94,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				FilterType(type);
 			}
 		}
-		
+
 		private void CalculateEventClassCoupling(EventFieldDeclarationSyntax syntax)
 		{
 			IdentifierNameSyntax node = (IdentifierNameSyntax)syntax.Declaration.Type;
@@ -151,7 +152,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var methodCouplings = GetMemberCouplings<MemberAccessExpressionSyntax>(syntax)
 				.Union(GetMemberCouplings<IdentifierNameSyntax>(syntax))
 				.Where(x => x.Kind == SymbolKind.Method || x.Kind == SymbolKind.Property || x.Kind == SymbolKind.Event)
-				.ToArray();
+				.AsArray();
 			_calledMethods.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Method).Cast<IMethodSymbol>());
 			_calledProperties.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Property).Cast<IPropertySymbol>());
 			_usedEvents.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Event).Cast<IEventSymbol>());
@@ -166,7 +167,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Select(r =>
 						new
 							{
-								node = r, 
+								node = r,
 								model = SemanticModel
 							})
 				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)

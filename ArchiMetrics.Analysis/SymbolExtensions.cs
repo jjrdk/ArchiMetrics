@@ -18,6 +18,7 @@ namespace ArchiMetrics.Analysis
 	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.ReferenceResolvers;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using ReferencedSymbol = ArchiMetrics.Analysis.ReferenceResolvers.ReferencedSymbol;
 
@@ -33,7 +34,7 @@ namespace ArchiMetrics.Analysis
 				() =>
 				{
 					var repo = lazyRepo.Value;
-					var locations = repo.Get(symbol).ToArray();
+					var locations = repo.Get(symbol).AsArray();
 					return new ReferencedSymbol(symbol, locations);
 				});
 		}

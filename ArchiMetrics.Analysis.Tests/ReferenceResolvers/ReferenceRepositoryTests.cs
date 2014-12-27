@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using global::ArchiMetrics.Analysis.ReferenceResolvers;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -73,7 +74,7 @@ namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 					.Select(x => x.ReturnType)
 					.First();
 
-				var location = _sut.Get(symbol).ToArray();
+				var location = _sut.Get(symbol).AsArray();
 
 				Assert.AreEqual(3, location.Length);
 			}

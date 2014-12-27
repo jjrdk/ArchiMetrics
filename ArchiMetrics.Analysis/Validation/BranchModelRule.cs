@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Validation
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	internal class BranchModelRule : IModelRule
@@ -38,7 +39,7 @@ namespace ArchiMetrics.Analysis.Validation
 
 		private static ComparisonResult Contains(IModelNode tree, IModelNode pattern)
 		{
-			var deepComparison = tree.Flatten().Select(x => Compare(x, pattern)).ToArray();
+			var deepComparison = tree.Flatten().Select(x => Compare(x, pattern)).AsArray();
 			if (deepComparison.Any(x => x.Kind == ComparisonResultKind.Same))
 			{
 				return new ComparisonResult(ComparisonResultKind.Same, pattern, deepComparison.Where(x => x.Kind == ComparisonResultKind.Same).SelectMany(x => x.Matches).Distinct());
@@ -68,7 +69,7 @@ namespace ArchiMetrics.Analysis.Validation
 					return new ComparisonResult(ComparisonResultKind.Partial, pattern, vertex);
 				}
 
-				var childComparisons = node.Children.Zip(patternNode.Children, Compare).ToArray();
+				var childComparisons = node.Children.Zip(patternNode.Children, Compare).AsArray();
 				return childComparisons.All(x => x.Kind == ComparisonResultKind.Same)
 						   ? new ComparisonResult(ComparisonResultKind.Same, pattern, vertex)
 						   : childComparisons.All(x => x.Kind != ComparisonResultKind.Different)

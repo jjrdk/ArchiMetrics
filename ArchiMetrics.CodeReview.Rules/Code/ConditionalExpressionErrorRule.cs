@@ -13,6 +13,7 @@
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -81,7 +82,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var methodDeclaration = (MethodDeclarationSyntax)node;
 			var conditionalExpressions = methodDeclaration.DescendantNodes()
 														  .Where(n => n.IsKind(SyntaxKind.ConditionalExpression))
-														  .ToArray();
+														  .AsArray();
 			if (conditionalExpressions.Any())
 			{
 				return new EvaluationResult

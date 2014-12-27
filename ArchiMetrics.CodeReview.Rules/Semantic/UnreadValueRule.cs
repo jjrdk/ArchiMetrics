@@ -15,6 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
@@ -59,7 +60,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.Where(x => x != null)
 				.Select(x => new { Value = x, Parent = x.Parent })
 				.Where(x => IsNotAssignment(x.Parent, x.Value))
-				.ToArray();
+				.AsArray();
 
 			if (!references.Any())
 			{

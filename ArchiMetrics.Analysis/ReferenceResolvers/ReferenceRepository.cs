@@ -67,7 +67,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 
 			foreach (var @group in groups)
 			{
-				_resolvedReferences.AddOrUpdate(@group.Key, @group.ToArray(), (s, r) => r.Concat(@group).ToArray());
+				_resolvedReferences.AddOrUpdate(@group.Key, @group.AsArray(), (s, r) => r.Concat(@group).AsArray());
 			}
 		}
 
@@ -76,14 +76,14 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 			var roots = (from project in solution.Projects
 						 let compilation = project.GetCompilationAsync()
 						 let docRoots = project.Documents.Select(x => x.GetSyntaxRootAsync())
-						 select new { compilation, docRoots }).ToArray();
+						 select new { compilation, docRoots }).AsArray();
 
 			await Task.WhenAll(roots.SelectMany(x => new Task[] { x.compilation }.Concat(x.docRoots))).ConfigureAwait(false);
 
 			return roots.Select(x => new DocData
 			{
 				Compilation = x.compilation.Result,
-				DocRoots = x.docRoots.Select(y => y.Result).ToArray()
+				DocRoots = x.docRoots.Select(y => y.Result).AsArray()
 			});
 		}
 

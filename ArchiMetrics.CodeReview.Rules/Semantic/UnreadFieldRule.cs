@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -47,7 +48,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		{
 			var declaration = (FieldDeclarationSyntax)node;
 
-			var symbols = declaration.Declaration.Variables.Select(x => semanticModel.GetDeclaredSymbol(x)).ToArray();
+			var symbols = declaration.Declaration.Variables.Select(x => semanticModel.GetDeclaredSymbol(x)).AsArray();
 
 			return symbols;
 		}

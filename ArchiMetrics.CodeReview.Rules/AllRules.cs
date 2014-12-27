@@ -15,6 +15,7 @@ namespace ArchiMetrics.CodeReview.Rules
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 
 	public static class AllRules
@@ -24,7 +25,7 @@ namespace ArchiMetrics.CodeReview.Rules
 			var types = (from type in typeof(AllRules).Assembly.GetTypes()
 						 where typeof(ISyntaxEvaluation).IsAssignableFrom(type)
 						 where !type.IsInterface && !type.IsAbstract
-						 select type).ToArray();
+						 select type).AsArray();
 			var simple =
 				types.Where(x => x.GetConstructors().Any(c => c.GetParameters().Length == 0))
 					.Select(Activator.CreateInstance)
@@ -38,7 +39,7 @@ namespace ArchiMetrics.CodeReview.Rules
 					.Select(x => Activator.CreateInstance(x, spellChecker))
 					.Cast<ISyntaxEvaluation>();
 
-			return simple.Concat(spelling).OrderBy(x => x.ID).ToArray();
+			return simple.Concat(spelling).OrderBy(x => x.ID).AsArray();
 		}
 
 		public static IEnumerable<ISymbolEvaluation> GetSymbolRules()
@@ -53,7 +54,7 @@ namespace ArchiMetrics.CodeReview.Rules
 					.Select(Activator.CreateInstance)
 					.Cast<ISymbolEvaluation>();
 
-			return simple.ToArray();
+			return simple.AsArray();
 		}
 	}
 }

@@ -17,6 +17,7 @@ namespace ArchiMetrics.UI.ViewModel
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 
@@ -30,7 +31,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private CancellationTokenSource _tokenSource;
 
 		public MetricsChartViewModel(
-			IProjectMetricsRepository repository, 
+			IProjectMetricsRepository repository,
 			IAppContext config)
 			: base(config)
 		{
@@ -179,7 +180,7 @@ namespace ArchiMetrics.UI.ViewModel
 			if (forceUpdate)
 			{
 				var awaitable = _repository.Get(_config.Path).ConfigureAwait(false);
-				var result = (await awaitable).ToArray();
+				var result = (await awaitable).AsArray();
 				if (!_tokenSource.IsCancellationRequested)
 				{
 					var metrics = result.SelectMany(x => x.NamespaceMetrics);
@@ -194,7 +195,7 @@ namespace ArchiMetrics.UI.ViewModel
 			var results = metrics
 				.SelectMany(x => x.TypeMetrics)
 				.SelectMany(x => x.MemberMetrics)
-				.ToArray();
+				.AsArray();
 			var linesOfCode = results.Sum(x => x.LinesOfCode);
 			var complexityTask = DisplayErrorsByComplexity(results, linesOfCode);
 			var linesOfCodeTask = DisplayErrorsByLinesOfCode(results, linesOfCode);

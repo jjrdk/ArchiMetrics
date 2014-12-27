@@ -126,7 +126,7 @@ namespace ArchiMetrics.UI.ViewModel
 			if (forceUpdate)
 			{
 				var awaitable = _repository.GetErrors(_config.Path, _tokenSource.Token).ConfigureAwait(false);
-				var result = (await awaitable).ToArray();
+				var result = (await awaitable).AsArray();
 				if (!_tokenSource.IsCancellationRequested)
 				{
 					await DisplayErrors(result).ConfigureAwait(false);

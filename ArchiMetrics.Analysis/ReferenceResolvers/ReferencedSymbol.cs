@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 
 	public class ReferencedSymbol
@@ -21,7 +22,7 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 		public ReferencedSymbol(ISymbol symbol, IEnumerable<ReferenceLocation> locations)
 		{
 			Symbol = symbol;
-			Locations = locations.ToArray();
+			Locations = locations.AsArray();
 		}
 
 		public ISymbol Symbol { get; private set; }

@@ -84,17 +84,17 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		protected override async Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var symbol = (ITypeSymbol)semanticModel.GetDeclaredSymbol(node);
-			var efferent = GetReferencedTypes(node, symbol, semanticModel).ToArray();
+			var efferent = GetReferencedTypes(node, symbol, semanticModel).AsArray();
 			var awaitable = SymbolFinder.FindCallersAsync(symbol, solution, CancellationToken.None).ConfigureAwait(false);
-			var callers = (await awaitable).ToArray();
+			var callers = (await awaitable).AsArray();
 			var testCallers = callers
 				.Where(c => c.CallingSymbol.GetAttributes()
 				.Any(x => x.AttributeClass.Name.IsKnownTestAttribute()))
-				.ToArray();
+				.AsArray();
 			var afferent = callers.Except(testCallers)
 				.Select(x => x.CallingSymbol.ContainingType)
 				.DistinctBy(s => s.ToDisplayString())
-				.ToArray();
+				.AsArray();
 
 			var efferentLength = (double)efferent.Length;
 			var stability = efferentLength / (efferentLength + afferent.Length);
@@ -115,7 +115,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		private static IEnumerable<ITypeSymbol> GetReferencedTypes(SyntaxNode classDeclaration, ISymbol sourceSymbol, SemanticModel semanticModel)
 		{
 			var typeSyntaxes = classDeclaration.DescendantNodesAndSelf().OfType<TypeSyntax>();
-			var commonSymbolInfos = typeSyntaxes.Select(x => semanticModel.GetSymbolInfo(x)).ToArray();
+			var commonSymbolInfos = typeSyntaxes.Select(x => semanticModel.GetSymbolInfo(x)).AsArray();
 			var members = commonSymbolInfos
 				.Select(x => x.Symbol)
 				.Where(x => x != null)
@@ -128,7 +128,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				.WhereNotNull()
 				.DistinctBy(x => x.ToDisplayString())
 				.Where(x => x != sourceSymbol)
-				.ToArray();
+				.AsArray();
 
 			return members;
 		}

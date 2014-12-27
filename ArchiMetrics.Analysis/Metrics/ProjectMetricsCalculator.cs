@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 
@@ -33,7 +34,7 @@ namespace ArchiMetrics.Analysis.Metrics
 						 where project != null
 						 let compilation = project.GetCompilationAsync()
 						 select new { project, compilation })
-						.ToArray();
+						.AsArray();
 
 			await Task.WhenAll(tasks.Select(x => x.compilation)).ConfigureAwait(false);
 
@@ -79,7 +80,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var assemblyTypes = compilation.Assembly.TypeNames;
-			var metrics = (await metricsTask.ConfigureAwait(false)).ToArray();
+			var metrics = (await metricsTask.ConfigureAwait(false)).AsArray();
 
 			var internalTypesUsed = from metric in metrics
 									from coupling in metric.ClassCouplings

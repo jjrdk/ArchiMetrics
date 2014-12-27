@@ -31,12 +31,12 @@ namespace ArchiMetrics.Analysis
 
 		public NodeReviewer(IEnumerable<IEvaluation> evaluations, IEnumerable<ISymbolEvaluation> symbolEvaluations)
 		{
-			var allEvaluations = evaluations.ToArray();
+			var allEvaluations = evaluations.AsArray();
 			_allSymbolKinds = new SymbolKind[0];
-			_triviaEvaluations = allEvaluations.OfType<ITriviaEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
-			_codeEvaluations = allEvaluations.OfType<ICodeEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
-			_semanticEvaluations = allEvaluations.OfType<ISemanticEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
-			_symbolEvaluations = symbolEvaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.ToArray());
+			_triviaEvaluations = allEvaluations.OfType<ITriviaEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.AsArray());
+			_codeEvaluations = allEvaluations.OfType<ICodeEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.AsArray());
+			_semanticEvaluations = allEvaluations.OfType<ISemanticEvaluation>().GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.AsArray());
+			_symbolEvaluations = symbolEvaluations.GroupBy(x => x.EvaluatedKind).ToDictionary(x => x.Key, x => x.AsArray());
 		}
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(Solution solution)
@@ -48,7 +48,7 @@ namespace ArchiMetrics.Analysis
 
 			var dataTasks = (from project in solution.Projects
 							 where project.HasDocuments
-							 from doc in project.Documents.ToArray()
+							 from doc in project.Documents.AsArray()
 							 let model = doc.GetSemanticModelAsync()
 							 let root = doc.GetSyntaxRootAsync()
 							 select new
@@ -59,13 +59,13 @@ namespace ArchiMetrics.Analysis
 								 Root = root,
 								 Solution = solution
 							 })
-							 .ToArray();
+							 .AsArray();
 			await Task.WhenAll(dataTasks.Select(x => x.Model).Concat(dataTasks.Select(x => (Task)x.Root))).ConfigureAwait(false);
 
 			var inspectionTasks = dataTasks.Select(x => GetInspections(x.FilePath, x.Name, x.Model.Result, x.Root.Result, x.Solution));
 			var results = await Task.WhenAll(inspectionTasks).ConfigureAwait(false);
 
-			return results.SelectMany(x => x).ToArray();
+			return results.SelectMany(x => x).AsArray();
 		}
 
 		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
@@ -73,7 +73,7 @@ namespace ArchiMetrics.Analysis
 			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
 			var symbolInspector = new InnerSymbolAnalyzer(_symbolEvaluations, semanticModel);
 			var inspectionTasks = await inspector.Visit(node).ConfigureAwait(false);
-			var inspectionResults = inspectionTasks.ToArray();
+			var inspectionResults = inspectionTasks.AsArray();
 			foreach (var result in inspectionResults)
 			{
 				result.ProjectName = projectName;
@@ -109,7 +109,7 @@ namespace ArchiMetrics.Analysis
 
 			public InnerInspector(IDictionary<SyntaxKind, ITriviaEvaluation[]> triviaEvaluations, IDictionary<SyntaxKind, ICodeEvaluation[]> codeEvaluations, IDictionary<SyntaxKind, ISemanticEvaluation[]> semanticEvaluations, SemanticModel model, Solution solution)
 			{
-				_supportedSyntaxKinds = codeEvaluations.Select(_ => _.Key).Concat(semanticEvaluations.Select(_ => _.Key)).Distinct().ToArray();
+				_supportedSyntaxKinds = codeEvaluations.Select(_ => _.Key).Concat(semanticEvaluations.Select(_ => _.Key)).Distinct().AsArray();
 				_triviaEvaluations = triviaEvaluations;
 				_codeEvaluations = codeEvaluations;
 				_semanticEvaluations = semanticEvaluations;
@@ -129,7 +129,7 @@ namespace ArchiMetrics.Analysis
 				////	.Where(_ => _.Symbol != null)
 				////	.Select(_ => _.Symbol)
 				////	.Where(_ => _.Kind.In(_supportedSymbolKinds));
-				var nodeChecks = CheckNodes(node.DescendantNodesAndSelf().Where(x => x.CSharpKind().In(_supportedSyntaxKinds)).ToArray());
+				var nodeChecks = CheckNodes(node.DescendantNodesAndSelf().Where(x => x.CSharpKind().In(_supportedSyntaxKinds)).AsArray());
 				var tokenResultTasks = node.DescendantTokens().SelectMany(VisitToken);
 				var nodeResultTasks = await Task.WhenAll(nodeChecks).ConfigureAwait(false);
 
@@ -164,7 +164,7 @@ namespace ArchiMetrics.Analysis
 						}
 					})
 						.Where(x => x != null && x.Quality != CodeQuality.Good)
-						.ToArray();
+						.AsArray();
 				return results;
 			}
 
@@ -190,7 +190,7 @@ namespace ArchiMetrics.Analysis
 						}
 					})
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
-					.ToArray();
+					.AsArray();
 				return results;
 			}
 
@@ -222,7 +222,7 @@ namespace ArchiMetrics.Analysis
 						});
 				var results = (await Task.WhenAll(tasks).ConfigureAwait(false))
 					.Where(x => x != null && x.Quality != CodeQuality.Good)
-					.ToArray();
+					.AsArray();
 				return results;
 			}
 
@@ -277,7 +277,7 @@ namespace ArchiMetrics.Analysis
 					.Select(x => _model.GetDeclaredSymbol(x))
 					.Where(x => x != null)
 					.Where(x => x.Kind.In(_evaluations.Keys))
-					.ToArray();
+					.AsArray();
 
 				var results = CheckSymbols(symbols);
 
@@ -289,7 +289,7 @@ namespace ArchiMetrics.Analysis
 				var results =
 					symbols.Select(x => new { Symbol = x, Evaluations = _evaluations[x.Kind] })
 						.SelectMany(x => x.Evaluations.Select(_ => _.Evaluate(x.Symbol, _model)))
-						.ToArray();
+						.AsArray();
 
 				return Task.FromResult(results.AsEnumerable());
 			}

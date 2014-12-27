@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -24,7 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var innerCollector = new InnerTypeCollector();
 			return innerCollector.GetTypes(namespaceNode);
-		} 
+		}
 
 		private class InnerTypeCollector : CSharpSyntaxWalker
 		{
@@ -44,7 +45,7 @@ namespace ArchiMetrics.Analysis.Metrics
 					Visit(node);
 				}
 
-				return _types.ToArray();
+				return _types.AsArray();
 			}
 
 			public override void VisitClassDeclaration(ClassDeclarationSyntax node)

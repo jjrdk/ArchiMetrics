@@ -17,6 +17,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 	using ArchiMetrics.Analysis;
 	using ArchiMetrics.CodeReview.Rules.Code;
 	using ArchiMetrics.CodeReview.Rules.Trivia;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -79,7 +80,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
 					.Where(t => t.IsKind(SyntaxKind.MultiLineCommentTrivia))
-					.ToArray();
+					.AsArray();
 				var result = _rule.Evaluate(nodes.First());
 
 				Assert.NotNull(result);
@@ -99,7 +100,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
 					.Where(t => t.IsKind(SyntaxKind.MultiLineCommentTrivia))
-					.ToArray();
+					.AsArray();
 				var result = _rule.Evaluate(nodes.First());
 
 				Assert.Null(result);
@@ -119,7 +120,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
 					.Where(t => t.IsKind(SyntaxKind.MultiLineCommentTrivia))
-					.ToArray();
+					.AsArray();
 				var result = _rule.Evaluate(nodes.First());
 
 				Assert.Null(result);
@@ -150,7 +151,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 				var nodes = root
 					.DescendantTrivia(descendIntoTrivia: true)
 					.Where(t => t.IsKind(SyntaxKind.SingleLineCommentTrivia))
-					.ToArray();
+					.AsArray();
 				var result = _rule.Evaluate(nodes.First());
 
 				Assert.NotNull(result);

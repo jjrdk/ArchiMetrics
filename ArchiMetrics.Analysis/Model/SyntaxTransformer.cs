@@ -16,6 +16,7 @@ namespace ArchiMetrics.Analysis.Model
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	internal class SyntaxTransformer : TransformerBase, ISyntaxTransformer
@@ -25,11 +26,11 @@ namespace ArchiMetrics.Analysis.Model
 			return Task.Factory.StartNew(
 				() =>
 				{
-					var allRules = rules.ToArray();
+					var allRules = rules.AsArray();
 					var transformedVertices = from vertex in source
 											  select TransformVertexRecursive(vertex, allRules);
 
-					return transformedVertices.ToArray().AsEnumerable();
+					return transformedVertices.AsArray().AsEnumerable();
 				}, 
 				cancellationToken);
 		}

@@ -26,7 +26,7 @@ namespace ArchiMetrics.Common.Structure
 		{
 			Kind = kind;
 			Pattern = pattern;
-			Matches = matches == null ? null : matches.ToArray();
+			Matches = matches == null ? null : matches.AsArray();
 		}
 
 		public ComparisonResultKind Kind { get; private set; }

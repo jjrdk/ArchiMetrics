@@ -42,9 +42,9 @@ namespace ArchiMetrics.Analysis.Model
 				solutionPath,
 				async path =>
 				{
-					var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken).ConfigureAwait(false)).ToArray();
-					var projectMetrics = (await _metricsRepository.Get(solutionPath).ConfigureAwait(false)).ToArray();
-					var vertices = projectMetrics.Select(projectMetric => CreateProjectNode(projectMetric, projectMetrics, evaluationResults)).ToArray();
+					var evaluationResults = (await _codeErrorRepository.GetErrors(solutionPath, cancellationToken).ConfigureAwait(false)).AsArray();
+					var projectMetrics = (await _metricsRepository.Get(solutionPath).ConfigureAwait(false)).AsArray();
+					var vertices = projectMetrics.Select(projectMetric => CreateProjectNode(projectMetric, projectMetrics, evaluationResults)).AsArray();
 
 					return vertices;
 				}).ConfigureAwait(false);
@@ -98,7 +98,7 @@ namespace ArchiMetrics.Analysis.Model
 		private static IModelNode CreateNamespaceNode(INamespaceMetric namespaceMetric, IProjectMetric[] projectMetrics, IEnumerable<EvaluationResult> reviews)
 		{
 			var references =
-				namespaceMetric.ClassCouplings.Select(definition => CreateNamespaceReferenceNode(definition, projectMetrics)).ToArray();
+				namespaceMetric.ClassCouplings.Select(definition => CreateNamespaceReferenceNode(definition, projectMetrics)).AsArray();
 			var children =
 				namespaceMetric.TypeMetrics.Select(
 					typeMetric => CreateTypeNodes(typeMetric, projectMetrics, reviews.Where(x => x.TypeName == typeMetric.Name)))

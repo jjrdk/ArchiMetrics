@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -44,10 +45,10 @@ namespace ArchiMetrics.Analysis.Metrics
 		public IEnumerable<IHalsteadMetrics> Calculate(SyntaxNode root)
 		{
 			var analyzer = new HalsteadAnalyzer();
-			var childNodes = root.ChildNodes().ToArray();
+			var childNodes = root.ChildNodes().AsArray();
 
 			var types = childNodes.Where(n => n.IsKind(SyntaxKind.ClassDeclaration) || n.IsKind(SyntaxKind.StructDeclaration))
-				.ToArray();
+				.AsArray();
 			var methods = types.SelectMany(n => n.ChildNodes().Where(_isMethod));
 			var getProperties = types.SelectMany(n => n.ChildNodes().Where(_isGetProperty));
 			var setProperties = types.SelectMany(n => n.ChildNodes().Where(_isSetProperty));
@@ -59,7 +60,7 @@ namespace ArchiMetrics.Analysis.Metrics
 								 .Concat(looseMethods)
 								 .Concat(looseGetProperties)
 								 .Concat(looseSetProperties)
-								 .ToArray();
+								 .AsArray();
 			if (members.Any())
 			{
 				return members.Select(analyzer.Calculate);

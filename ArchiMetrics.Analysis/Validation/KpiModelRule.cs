@@ -16,6 +16,7 @@ namespace ArchiMetrics.Analysis.Validation
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Model;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Structure;
 
 	internal class KpiModelRule : IModelRule
@@ -45,7 +46,7 @@ namespace ArchiMetrics.Analysis.Validation
 							  .Where(x => x.CyclomaticComplexity > _cyclomaticComplexity || x.MaintainabilityIndex < _maintainabilityIndex || x.LinesOfCode > _linesOfCode)
 							  .Select(x => new KpiResult(false, x))
 							  .Cast<IValidationResult>()
-							  .ToArray()
+							  .AsArray()
 							  .AsEnumerable());
 		}
 	}

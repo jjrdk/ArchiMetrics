@@ -95,12 +95,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 }", 2)]
 			[TestCase(@"public int DoSomething(){
 		var numbers = new[] { 1, 2, 3 };
-		var n = numbers.Where(n => n != 1).ToArray();
+		var n = numbers.Where(n => n != 1).AsArray();
 	}
 }", 1)]
 			[TestCase(@"public int DoSomething(){
 		var numbers = new[] { 1, 2, 3 };
-		var odds = numbers.Where(n => { if(n != 1) { return n %2 == 0; } else { return false; } }).ToArray();
+		var odds = numbers.Where(n => { if(n != 1) { return n %2 == 0; } else { return false; } }).AsArray();
 	}
 }", 3)]
 			[TestCase(@"

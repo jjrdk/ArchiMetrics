@@ -34,7 +34,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 			var spellChecker = new Mock<ISpellChecker>();
 			spellChecker.Setup(x => x.Spell(It.IsAny<string>())).Returns(true);
 
-			_reviewer = new NodeReviewer(AllRules.GetSyntaxRules(spellChecker.Object).ToArray(), AllRules.GetSymbolRules());
+			_reviewer = new NodeReviewer(AllRules.GetSyntaxRules(spellChecker.Object).AsArray(), AllRules.GetSymbolRules());
 		}
 
 		[Test, Ignore("Run manually")]
@@ -57,7 +57,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 				var path = @"..\..\..\archimetrics.sln".GetLowerCaseFullPath();
 				var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
 				var results = await _reviewer.Inspect(solution).ConfigureAwait(false);
-				var amount = results.ToArray();
+				var amount = results.AsArray();
 				return amount.Length;
 			}
 		}

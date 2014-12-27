@@ -124,7 +124,7 @@ namespace ArchiMetrics.UI.ViewModel
 				ErrorsShown = 0;
 
 				var errors = await _repository.GetErrors(_config.Path, _tokenSource.Token).ConfigureAwait(false);
-				var results = errors.OrderBy(x => x.Title).ToArray();
+				var results = errors.OrderBy(x => x.Title).AsArray();
 				var newErrors = new ObservableCollection<EvaluationResult>(results);
 
 				if (newErrors.Count == 0)

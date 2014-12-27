@@ -37,7 +37,7 @@ namespace ArchiMetrics.Analysis
 			var referencingSymbolTasks = (from location in symbolReferences.Locations
 										  let rootTask = location.Location.SourceTree.GetRootAsync()
 										  select new { TokenTask = rootTask, Location = location })
-										 .ToArray();
+										 .AsArray();
 
 			await Task.WhenAll(referencingSymbolTasks.Select(x => x.TokenTask)).ConfigureAwait(false);
 
@@ -53,7 +53,7 @@ namespace ArchiMetrics.Analysis
 							 Method = x.Token.GetMethod(),
 							 Model = x.Model,
 						 })
-				.ToArray();
+				.AsArray();
 
 			var referencingTests = referencingMethods
 				.Select(x => x.Method)
@@ -69,7 +69,7 @@ namespace ArchiMetrics.Analysis
 									 let referencingSymbol = model.GetDeclaredSymbol(reference.Method)
 									 select IsReferencedInTest(referencingSymbol);
 
-			return await referencingSymbols.ToArray().FirstMatch(x => x).ConfigureAwait(false);
+			return await referencingSymbols.AsArray().FirstMatch(x => x).ConfigureAwait(false);
 		}
 	}
 }

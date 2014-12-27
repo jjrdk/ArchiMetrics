@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 {
 	using System;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -91,7 +92,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 					var variableAssignment = methodParent == null ? null : FindVariableAssignment(methodParent, variableName);
 					if (variableAssignment != null)
 					{
-						var childNodes = memberAccess.Parent.Parent.Parent.ChildNodes().Select(n => n.WithLeadingTrivia().WithTrailingTrivia().ToString()).ToArray();
+						var childNodes = memberAccess.Parent.Parent.Parent.ChildNodes().Select(n => n.WithLeadingTrivia().WithTrailingTrivia().ToString()).AsArray();
 						var assignmentIndex = Array.IndexOf(childNodes, variableAssignment.Parent.WithLeadingTrivia().WithTrailingTrivia() + ";");
 						var invocationIndex = Array.IndexOf(childNodes, memberAccess.Parent.WithLeadingTrivia().WithTrailingTrivia() + ";");
 						if (invocationIndex == assignmentIndex + 1)

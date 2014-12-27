@@ -103,7 +103,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				return null;
 			}
 
-			var fields = members.Where(x => x.Kind == SymbolKind.Field).ToArray();
+			var fields = members.Where(x => x.Kind == SymbolKind.Field).AsArray();
 			var fieldCount = fields.Length;
 
 			if (fieldCount < _threshold)

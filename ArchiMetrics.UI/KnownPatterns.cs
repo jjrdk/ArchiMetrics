@@ -100,7 +100,7 @@ namespace ArchiMetrics.UI
 
 		void IKnownPatterns.Remove(string pattern)
 		{
-			var toRemove = _regexes.Where(x => x.ToString() == pattern).ToArray();
+			var toRemove = _regexes.Where(x => x.ToString() == pattern).AsArray();
 			foreach (var valueHolder in toRemove)
 			{
 				Remove(valueHolder);

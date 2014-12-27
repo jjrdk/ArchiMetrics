@@ -88,7 +88,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				return Task.FromResult<EvaluationResult>(null);
 			}
 
-			var descendantNodes = methodDeclaration.Body.DescendantNodes().ToArray();
+			var descendantNodes = methodDeclaration.Body.DescendantNodes().AsArray();
 			var genericParameterTypes =
 				descendantNodes.OfType<TypeArgumentListSyntax>()
 					.SelectMany(x => x.Arguments.Select(y => semanticModel.GetSymbolInfo(y).Symbol));
@@ -97,7 +97,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var fieldTypes = containingType.GetMembers()
 				.OfType<IFieldSymbol>()
 				.Select(x => x.Type)
-				.ToArray();
+				.AsArray();
 			var usedTypes = genericParameterTypes.Concat(fieldTypes)
 				.WhereNotNull()
 				.DistinctBy(x => x.ToDisplayString());
@@ -106,9 +106,9 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 					.Concat(new[] { semanticModel.GetSymbolInfo(methodDeclaration.ReturnType).Symbol })
 					.WhereNotNull()
 					.DistinctBy(x => x.ToDisplayString())
-					.ToArray();
+					.AsArray();
 
-			var parameterAssemblies = parameterTypes.Select(x => x.ContainingAssembly).ToArray();
+			var parameterAssemblies = parameterTypes.Select(x => x.ContainingAssembly).AsArray();
 
 			var locals = usedTypes.Except(parameterTypes);
 			if (locals.Any(x =>

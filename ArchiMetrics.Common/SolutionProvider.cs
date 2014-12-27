@@ -99,7 +99,7 @@ namespace ArchiMetrics.Common
 				var projects = from projectid in dependencyGraph.GetTopologicallySortedProjects()
 							   select solution.GetProject(projectid);
 
-				var compilations = projects.Select(x => x.GetCompilationAsync()).ToArray();
+				var compilations = projects.Select(x => x.GetCompilationAsync()).AsArray();
 				var count = compilations.Length;
 
 				return new Tuple<int, Solution>(count, solution);

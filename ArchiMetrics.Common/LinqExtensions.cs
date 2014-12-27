@@ -19,6 +19,12 @@ namespace ArchiMetrics.Common
 
 	internal static class LinqExtensions
 	{
+		public static T[] AsArray<T>(this IEnumerable<T> items)
+		{
+			var array = items as T[];
+			return array ?? items.ToArray();
+		}
+
 		public static IEnumerable<T> DistinctBy<T, TOut>(this IEnumerable<T> source, Func<T, TOut> func)
 		{
 			var comparer = new FuncComparer<T, TOut>(func);
@@ -42,7 +48,7 @@ namespace ArchiMetrics.Common
 
 		public static Collection<T> ToCollection<T>(this IEnumerable<T> source)
 		{
-			return new Collection<T>(source.ToArray());
+			return new Collection<T>(source.AsArray());
 		}
 
 		public static bool In<T>(this T item, IEnumerable<T> collection)

@@ -67,7 +67,7 @@ namespace ArchiMetrics.UI.Support
 				return words.Concat(compounds)
 					.Concat(acronyms)
 					.Select(x => x.Value)
-					.ToArray();
+					.AsArray();
 			}
 			catch
 			{

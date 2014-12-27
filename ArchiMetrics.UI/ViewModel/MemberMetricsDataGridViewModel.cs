@@ -14,6 +14,7 @@ namespace ArchiMetrics.UI.ViewModel
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using ArchiMetrics.Common.Structure;
 
@@ -133,14 +134,14 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			var solutionPath = _config.Path;
-			var awaitable = _metricsRepository.Get(solutionPath).ConfigureAwait(false);
-			var metricsTasks = (await awaitable).ToArray();
+			var awaitable = await _metricsRepository.Get(solutionPath).ConfigureAwait(false);
+			var metricsTasks = awaitable.AsArray();
 
 			var metrics = metricsTasks
 				.SelectMany(x => x.NamespaceMetrics)
-				.ToArray();
-			var typeMetrics = metrics.SelectMany(x => x.TypeMetrics).ToArray();
-			var memberMetrics = typeMetrics.SelectMany(x => x.MemberMetrics).ToArray();
+				.AsArray();
+			var typeMetrics = metrics.SelectMany(x => x.TypeMetrics).AsArray();
+			var memberMetrics = typeMetrics.SelectMany(x => x.MemberMetrics).AsArray();
 			LinesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var depthOfInheritance = metrics.Any() ? metrics.Max(x => x.DepthOfInheritance) : 0;
 			MemberMaintainabilityIndex = LinesOfCode == 0 ? 0 : (memberMetrics.Sum(x => x.LinesOfCode * x.MaintainabilityIndex) / LinesOfCode);

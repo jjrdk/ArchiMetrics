@@ -90,7 +90,7 @@ namespace ArchiMetrics.UI.ViewModel
 
 		public void ImportPatterns(IEnumerable<string> patterns)
 		{
-			KnownPatterns.Add(patterns.WhereNotNullOrWhitespace().ToArray());
+			KnownPatterns.Add(patterns.WhereNotNullOrWhitespace().AsArray());
 		}
 
 		protected override void Dispose(bool isDisposing)
@@ -117,7 +117,7 @@ namespace ArchiMetrics.UI.ViewModel
 		private void DeleteSelected(object obj)
 		{
 			var input = (IList)obj;
-			var items = input.OfType<string>().ToArray();
+			var items = input.OfType<string>().AsArray();
 			foreach (var item in items)
 			{
 				KnownPatterns.Remove(item);

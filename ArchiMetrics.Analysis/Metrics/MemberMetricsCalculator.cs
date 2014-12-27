@@ -16,6 +16,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -38,7 +39,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public async Task<IEnumerable<IMemberMetric>> Calculate(TypeDeclarationSyntaxInfo typeNode)
 		{
 			var walker = new MemberCollector();
-			var members = walker.GetMembers(typeNode).ToArray();
+			var members = walker.GetMembers(typeNode).AsArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
 				&& members.All(m => m.CSharpKind() != SyntaxKind.ConstructorDeclaration))
@@ -46,11 +47,11 @@ namespace ArchiMetrics.Analysis.Metrics
 				var defaultConstructor = SyntaxFactory.ConstructorDeclaration(typeNode.Name)
 											   .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
 											   .WithBody(SyntaxFactory.Block());
-				members = members.Concat(new[] { defaultConstructor }).ToArray();
+				members = members.Concat(new[] { defaultConstructor }).AsArray();
 			}
 
 			var metrics = await CalculateMemberMetrics(members).ConfigureAwait(false);
-			return metrics.ToArray();
+			return metrics.AsArray();
 		}
 
 		public Task<IMemberMetric> Calculate(MethodDeclarationSyntax methodDeclaration)
@@ -122,7 +123,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				maintainabilityIndex,
 				complexity,
 				memberName,
-				source.ToArray(),
+				source.AsArray(),
 				numberOfParameters,
 				numberOfLocalVariables,
 				afferentCoupling);

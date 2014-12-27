@@ -127,7 +127,7 @@ namespace ArchiMetrics.UI.ViewModel
 					.SelectMany(vertex => vertex.Children.Where(y => y.IsShared()).Select(x => new ModelEdge(vertex, x)))
 					.WhereNot(e => e.Target.Equals(e.Source))
 					.TakeWhile(x => !cancellationToken.IsCancellationRequested)
-					.ToArray();
+					.AsArray();
 			var g = new ModelGraph(edges);
 
 			if (!cancellationToken.IsCancellationRequested)
@@ -142,7 +142,7 @@ namespace ArchiMetrics.UI.ViewModel
 		{
 			IsLoading = true;
 			var vertices = _repository.GetVertices(_config.Path, cancellationToken).ConfigureAwait(false);
-			_allMetricsEdges = (await vertices).ToArray();
+			_allMetricsEdges = (await vertices).AsArray();
 			await UpdateInternal(cancellationToken).ConfigureAwait(false);
 		}
 	}

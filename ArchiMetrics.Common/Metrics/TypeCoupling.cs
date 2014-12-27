@@ -21,9 +21,9 @@ namespace ArchiMetrics.Common.Metrics
 		public TypeCoupling(string typeName, string namespaceName, string assemblyName, IEnumerable<string> usedMethods, IEnumerable<string> usedProperties, IEnumerable<string> useEvents)
 			: base(typeName, namespaceName, assemblyName)
 		{
-			UsedMethods = usedMethods.Distinct().ToArray();
-			UsedProperties = usedProperties.Distinct().ToArray();
-			UsedEvents = useEvents.Distinct().ToArray();
+			UsedMethods = usedMethods.Distinct().AsArray();
+			UsedProperties = usedProperties.Distinct().AsArray();
+			UsedEvents = useEvents.Distinct().AsArray();
 		}
 
 		public IEnumerable<string> UsedMethods { get; private set; }

@@ -68,7 +68,7 @@ namespace ArchiMetrics.Analysis.Tests
 														   }),
 												  Compilation = compilation
 											  })
-				.ToArray();
+				.AsArray();
 			await Task.WhenAll(
 				projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree })));
 
@@ -83,10 +83,10 @@ namespace ArchiMetrics.Analysis.Tests
 								   b => b.Name.ToString()
 											.IsKnownTestAttribute()))
 						   select model.GetDeclaredSymbol(method))
-				.ToArray();
+				.AsArray();
 
 			var analyzer = new CoverageAnalyzer(solution);
-			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).ToArray();
+			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).AsArray();
 			var areReferenced = await Task.WhenAll(areReferencedTasks);
 
 			Assert.IsTrue(areReferenced.All(x => x));
@@ -123,7 +123,7 @@ namespace ArchiMetrics.Analysis.Tests
 														   }),
 												  Compilation = compilation
 											  })
-				.ToArray();
+				.AsArray();
 			await Task.WhenAll(
 				projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree })));
 
@@ -138,10 +138,10 @@ namespace ArchiMetrics.Analysis.Tests
 								   b => b.Name.ToString()
 											.IsKnownTestAttribute()))
 						   select model.GetDeclaredSymbol(method))
-				.ToArray();
+				.AsArray();
 
 			var analyzer = new CoverageAnalyzer(solution);
-			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).ToArray();
+			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).AsArray();
 			var areReferenced = await Task.WhenAll(areReferencedTasks);
 
 			Assert.IsFalse(areReferenced.All(x => x));

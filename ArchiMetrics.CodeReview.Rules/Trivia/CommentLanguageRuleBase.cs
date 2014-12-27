@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 {
 	using System.Linq;
 	using System.Text.RegularExpressions;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 
@@ -70,7 +71,7 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 				.Select(RemoveXml)
 				.Select(s => s.TrimEnd('.', ',', '_'))
 				.Where(IsNotNumber)
-				.ToArray();
+				.AsArray();
 			var errorCount = commentWords.Aggregate(0, (i, s) => i + (_spellChecker.Spell(s) ? 0 : 1));
 			if (errorCount >= 0.50 * commentWords.Length)
 			{

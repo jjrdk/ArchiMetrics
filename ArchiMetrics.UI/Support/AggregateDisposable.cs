@@ -22,7 +22,7 @@ namespace ArchiMetrics.UI.Support
 
 		public AggregateDisposable(params IDisposable[] disposables)
 		{
-			_disposables = disposables.WhereNot(x => x == null).ToArray();
+			_disposables = disposables.WhereNot(x => x == null).AsArray();
 		}
 
 		~AggregateDisposable()

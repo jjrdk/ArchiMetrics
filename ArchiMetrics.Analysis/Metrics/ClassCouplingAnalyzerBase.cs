@@ -14,6 +14,7 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -96,7 +97,7 @@ namespace ArchiMetrics.Analysis.Metrics
 					var events = usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
 
 					return CreateTypeCoupling(typeSymbol, usedMethods, usedProperties, events);
-				}).ToArray();
+				}).AsArray();
 			var inheritedCouplings = _types
 				.Select(x => x.Value)
 				.SelectMany(GetInheritedTypeNames);
@@ -128,7 +129,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			{
 				assemblyName = typeSymbol.ContainingAssembly.Name;
 			}
-			
+
 			return new TypeCoupling(name, namespaceName, assemblyName, usedMethods, usedProperties, events);
 		}
 

@@ -72,7 +72,7 @@ namespace ArchiMetrics.Analysis.Tests
 		private async Task<int> PerformReview(Solution solution)
 		{
 			var results = await _calculator.Calculate(solution).ConfigureAwait(false);
-			var amount = results.ToArray();
+			var amount = results.AsArray();
 			return amount.Length;
 		}
 

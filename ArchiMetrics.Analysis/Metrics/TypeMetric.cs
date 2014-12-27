@@ -14,19 +14,20 @@ namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 
 	internal class TypeMetric : ITypeMetric
 	{
 		public TypeMetric(
-			TypeMetricKind kind, 
+			TypeMetricKind kind,
 			AccessModifierKind accessModifier,
-			IEnumerable<IMemberMetric> memberMetrics, 
-			int linesOfCode, 
-			int cyclomaticComplexity, 
-			double maintainabilityIndex, 
-			int depthOfInheritance, 
-			IEnumerable<ITypeCoupling> classCouplings, 
+			IEnumerable<IMemberMetric> memberMetrics,
+			int linesOfCode,
+			int cyclomaticComplexity,
+			double maintainabilityIndex,
+			int depthOfInheritance,
+			IEnumerable<ITypeCoupling> classCouplings,
 			string name)
 		{
 			Kind = kind;
@@ -36,7 +37,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			CyclomaticComplexity = cyclomaticComplexity;
 			MaintainabilityIndex = maintainabilityIndex;
 			DepthOfInheritance = depthOfInheritance;
-			ClassCouplings = classCouplings.ToArray();
+			ClassCouplings = classCouplings.AsArray();
 			Name = name;
 		}
 

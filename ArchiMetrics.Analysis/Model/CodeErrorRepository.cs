@@ -59,7 +59,7 @@ namespace ArchiMetrics.Analysis.Model
 			}
 
 			var availableRules = new HashSet<string>(_availableRules.Select(x => x.Title));
-			return results.Where(x => availableRules.Contains(x.Title)).ToArray();
+			return results.Where(x => availableRules.Contains(x.Title)).AsArray();
 		}
 
 		public void Dispose()
@@ -84,7 +84,7 @@ namespace ArchiMetrics.Analysis.Model
 		{
 			var solution = await _solutionProvider.Get(path).ConfigureAwait(false);
 			var awaitable = _inspector.Inspect(solution).ConfigureAwait(false);
-			return (await awaitable).ToArray();
+			return (await awaitable).AsArray();
 		}
 	}
 }

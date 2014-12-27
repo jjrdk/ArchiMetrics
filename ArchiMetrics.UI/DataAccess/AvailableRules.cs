@@ -40,7 +40,7 @@ namespace ArchiMetrics.UI.DataAccess
 				h => x.PropertyChanged -= h)
 				.Throttle(TimeSpan.FromSeconds(1))
 				.Subscribe(y => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset))))
-				.ToArray();
+				.AsArray();
 		}
 
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
