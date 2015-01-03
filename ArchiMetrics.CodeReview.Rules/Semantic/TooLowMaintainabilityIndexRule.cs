@@ -89,17 +89,14 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			var counter = new MemberMetricsCalculator(semanticModel, solution);
 
 			var methodDeclaration = (MethodDeclarationSyntax)node;
-			var metric = counter.Calculate(methodDeclaration).Result;
-			if (metric.MaintainabilityIndex <= Threshold)
-			{
-				var snippet = node.ToFullString();
-				return Task.FromResult(new EvaluationResult
-				{
-					Snippet = snippet
-				});
-			}
-
-			return Task.FromResult((EvaluationResult)null);
+			var metric = counter.CalculateSlim(methodDeclaration);
+			return metric.MaintainabilityIndex <= Threshold
+					   ? Task.FromResult(
+						   new EvaluationResult
+							   {
+								   Snippet = node.ToFullString()
+							   })
+					   : Task.FromResult((EvaluationResult)null);
 		}
 	}
 }
