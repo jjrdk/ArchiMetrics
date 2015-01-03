@@ -54,9 +54,9 @@ namespace ArchiMetrics.Analysis.Metrics
 			return metrics.AsArray();
 		}
 
-		public Task<IMemberMetric> Calculate(MethodDeclarationSyntax methodDeclaration)
+		public IMemberMetric CalculateSlim(MethodDeclarationSyntax methodDeclaration)
 		{
-			return CalculateMemberMetric(methodDeclaration);
+			return CalculateMemberMetricSlim(methodDeclaration);
 		}
 
 		private static double CalculateMaintainablityIndex(double cyclomaticComplexity, double linesOfCode, IHalsteadMetrics halsteadMetrics)
@@ -127,6 +127,33 @@ namespace ArchiMetrics.Analysis.Metrics
 				numberOfParameters,
 				numberOfLocalVariables,
 				afferentCoupling);
+		}
+
+		private IMemberMetric CalculateMemberMetricSlim(SyntaxNode syntaxNode)
+		{
+			var analyzer = new HalsteadAnalyzer();
+			var halsteadMetrics = analyzer.Calculate(syntaxNode);
+			var memberName = _nameResolver.TryResolveMemberSignatureString(syntaxNode);
+			var complexity = CalculateCyclomaticComplexity(syntaxNode);
+			var linesOfCode = CalculateLinesOfCode(syntaxNode);
+			var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
+			var location = syntaxNode.GetLocation();
+			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
+			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
+			var accessModifier = GetAccessModifier(syntaxNode);
+			return new MemberMetric(
+				filePath,
+				accessModifier,
+				halsteadMetrics,
+				lineNumber,
+				linesOfCode,
+				maintainabilityIndex,
+				complexity,
+				memberName,
+				new ITypeCoupling[0],
+				0,
+				0,
+				0);
 		}
 
 		private AccessModifierKind GetAccessModifier(SyntaxNode node)
