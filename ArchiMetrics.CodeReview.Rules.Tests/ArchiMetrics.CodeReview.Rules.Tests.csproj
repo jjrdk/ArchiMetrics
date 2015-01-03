@@ -46,8 +46,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="metrics">
-      <HintPath>..\packages\Metrics.1.0.12\lib\net40\metrics.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Metrics.1.0.13\lib\net451\metrics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0-beta1-20141031-01\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
@@ -91,8 +90,7 @@
       <HintPath>..\packages\NHunspell.1.2.5359.26126\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.0.0-alpha-3\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NUnit.3.0.0-alpha-4\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable">
