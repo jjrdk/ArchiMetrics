@@ -39,9 +39,9 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyInformationalVersion("0.12.0.0-beta")]
-[assembly: AssemblyVersion("0.12.0.0")]
-[assembly: AssemblyFileVersion("0.12.0.0")]
+[assembly: AssemblyInformationalVersion("0.14.0.0-beta")]
+[assembly: AssemblyVersion("0.14.0.0")]
+[assembly: AssemblyFileVersion("0.14.0.0")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Common.Tests")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Analysis")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Analysis.Tests")]
