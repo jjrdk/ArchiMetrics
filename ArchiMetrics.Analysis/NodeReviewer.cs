@@ -69,9 +69,14 @@ namespace ArchiMetrics.Analysis
 		public async Task<IEnumerable<EvaluationResult>> Inspect(string projectPath, string projectName, SyntaxNode node, SemanticModel semanticModel, Solution solution)
 		{
 			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
-			var symbolInspector = new InnerSymbolAnalyzer(_symbolEvaluations, semanticModel);
-			var symbolInspectionTasks = symbolInspector.Visit(node);
 			var inspectionTasks = inspector.Visit(node);
+			var symbolInspectionTasks = Task.FromResult(Enumerable.Empty<EvaluationResult>());
+			
+			if (semanticModel != null)
+			{
+				var symbolInspector = new InnerSymbolAnalyzer(_symbolEvaluations, semanticModel);
+				symbolInspectionTasks = symbolInspector.Visit(node);
+			}
 
 			await Task.WhenAll(inspectionTasks, symbolInspectionTasks).ConfigureAwait(false);
 
