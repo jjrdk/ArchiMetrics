@@ -13,7 +13,6 @@
 namespace ArchiMetrics.Analysis.ReferenceResolvers
 {
 	using System.Collections.Generic;
-	using System.Linq;
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 
