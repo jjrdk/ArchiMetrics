@@ -45,9 +45,8 @@
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="metrics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca6c6ef570198eba, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Metrics.1.0.13\lib\net451\metrics.dll</HintPath>
+    <Reference Include="metrics">
+      <HintPath>..\packages\Metrics.1.0.12\lib\net40\metrics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
