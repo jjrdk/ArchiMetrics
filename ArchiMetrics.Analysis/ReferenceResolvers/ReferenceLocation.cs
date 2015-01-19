@@ -4,14 +4,17 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 
 	public class ReferenceLocation
 	{
-		public ReferenceLocation(Location location, SemanticModel model)
+		public ReferenceLocation(Location location, ITypeSymbol referencingType, SemanticModel model)
 		{
 			Location = location;
+			ReferencingType = referencingType;
 			Model = model;
 		}
 
 		public Location Location { get; private set; }
-	
+
+		public ITypeSymbol ReferencingType { get; private set; }
+
 		public SemanticModel Model { get; private set; }
 	}
 }
