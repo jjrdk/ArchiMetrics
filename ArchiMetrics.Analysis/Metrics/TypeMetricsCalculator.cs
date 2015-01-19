@@ -15,7 +15,9 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
+	using System.Xml.Linq;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
@@ -25,11 +27,13 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
 		private readonly Solution _solution;
+		private readonly IAsyncFactory<ISymbol, IDocumentation> _documentationFactory;
 
-		public TypeMetricsCalculator(SemanticModel semanticModel, Solution solution)
+		public TypeMetricsCalculator(SemanticModel semanticModel, Solution solution, IAsyncFactory<ISymbol, IDocumentation> documentationFactory)
 			: base(semanticModel)
 		{
 			_solution = solution;
+			_documentationFactory = documentationFactory;
 		}
 
 		public async Task<ITypeMetric> CalculateFrom(TypeDeclarationSyntaxInfo typeNode, IEnumerable<IMemberMetric> metrics)
@@ -37,6 +41,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var memberMetrics = metrics.AsArray();
 			var type = typeNode.Syntax;
 			var symbol = Model.GetDeclaredSymbol(type);
+			var documentation = await _documentationFactory.Create(symbol, CancellationToken.None);
 			var metricKind = GetMetricKind(type);
 			var source = CalculateClassCoupling(type, memberMetrics);
 			var depthOfInheritance = CalculateDepthOfInheritance(type);
@@ -60,7 +65,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				type.GetName(),
 				afferentCoupling,
 				efferentCoupling,
-				instability);
+				instability,
+				documentation);
 		}
 
 		private int GetEfferentCoupling(SyntaxNode classDeclaration, ISymbol sourceSymbol)

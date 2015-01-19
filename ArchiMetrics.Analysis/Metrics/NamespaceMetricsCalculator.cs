@@ -28,7 +28,15 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public INamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<ITypeMetric> metrics)
 		{
+			var documentationTypeName = namespaceNode.Name + "Doc";
 			var typeMetrics = metrics.AsArray();
+			var documentationType = typeMetrics.FirstOrDefault(x => x.Name == documentationTypeName);
+			IDocumentation documentation = null;
+			if (documentationType != null)
+			{
+				documentation = documentationType.Documentation;
+				typeMetrics = typeMetrics.Where(x => x.Name != documentationTypeName).AsArray();
+			}
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
 						  .GroupBy(x => x.ToString())
@@ -47,7 +55,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				source,
 				depthOfInheritance,
 				namespaceNode.Name,
-				typeMetrics);
+				typeMetrics,
+				documentation);
 		}
 	}
 }

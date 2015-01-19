@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 
-	public interface IMemberMetric : ICodeMetric
+	public interface IMemberMetric : IDocumentedMetric
 	{
 		/// <summary>
 		/// Gets the access modifier for the member.

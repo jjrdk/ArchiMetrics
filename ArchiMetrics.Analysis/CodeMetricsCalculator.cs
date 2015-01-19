@@ -26,6 +26,7 @@ namespace ArchiMetrics.Analysis
 
 	public class CodeMetricsCalculator : ICodeMetricsCalculator
 	{
+		private readonly IAsyncFactory<ISymbol, IDocumentation> _documentationFactory;
 		private static readonly List<Regex> Patterns = new List<Regex>
 													   {
 														   new Regex(@".*\.g\.cs$", RegexOptions.Compiled), 
@@ -34,6 +35,11 @@ namespace ArchiMetrics.Analysis
 													   };
 
 		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
+
+		public CodeMetricsCalculator(IAsyncFactory<ISymbol, IDocumentation> documentationFactory)
+		{
+			_documentationFactory = documentationFactory;
+		}
 
 		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution)
 		{
@@ -111,7 +117,7 @@ namespace ArchiMetrics.Analysis
 			return calculator.CalculateFrom(namespaceNode, typeMetrics);
 		}
 
-		private static async Task<Tuple<Compilation, ITypeMetric>> CalculateTypeMetrics(Solution solution, Compilation compilation, TypeDeclaration typeNodes, IEnumerable<IMemberMetric> memberMetrics)
+		private async Task<Tuple<Compilation, ITypeMetric>> CalculateTypeMetrics(Solution solution, Compilation compilation, TypeDeclaration typeNodes, IEnumerable<IMemberMetric> memberMetrics)
 		{
 			if (typeNodes.SyntaxNodes.Any())
 			{
@@ -119,7 +125,7 @@ namespace ArchiMetrics.Analysis
 				var semanticModel = tuple.Item2;
 				compilation = tuple.Item1;
 				var typeNode = tuple.Item3;
-				var calculator = new TypeMetricsCalculator(semanticModel, solution);
+				var calculator = new TypeMetricsCalculator(semanticModel, solution, _documentationFactory);
 				var metrics = await calculator.CalculateFrom(typeNode, memberMetrics);
 				return new Tuple<Compilation, ITypeMetric>(
 					compilation,
@@ -283,7 +289,7 @@ namespace ArchiMetrics.Analysis
 					var tuple = await VerifyCompilation(comp, info).ConfigureAwait(false);
 					var semanticModel = tuple.Item2;
 					comp = tuple.Item1;
-					var calculator = new MemberMetricsCalculator(semanticModel, solution);
+					var calculator = new MemberMetricsCalculator(semanticModel, solution, _documentationFactory);
 
 					return await calculator.Calculate(info).ConfigureAwait(false);
 				});
