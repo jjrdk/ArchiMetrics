@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 
-	public interface ITypeMetric : ICodeMetric
+	public interface ITypeMetric : IDocumentedMetric
 	{
 		AccessModifierKind AccessModifier { get; }
 

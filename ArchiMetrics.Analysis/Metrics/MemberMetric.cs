@@ -31,7 +31,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			IEnumerable<ITypeCoupling> classCouplings,
 			int numberOfParameters,
 			int numberOfLocalVariables,
-			int afferentCoupling)
+			int afferentCoupling,
+			IDocumentation documentation)
 		{
 			_halstead = halstead;
 			CodeFile = codeFile;
@@ -45,6 +46,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			NumberOfParameters = numberOfParameters;
 			NumberOfLocalVariables = numberOfLocalVariables;
 			AfferentCoupling = afferentCoupling;
+			Documentation = documentation;
 		}
 
 		public string CodeFile { get; private set; }
@@ -68,6 +70,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public int NumberOfLocalVariables { get; private set; }
 
 		public int AfferentCoupling { get; private set; }
+
+		public IDocumentation Documentation { get; private set; }
 
 		public IHalsteadMetrics GetHalsteadMetrics()
 		{

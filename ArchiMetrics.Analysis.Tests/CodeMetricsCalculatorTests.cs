@@ -12,6 +12,7 @@
 
 namespace ArchiMetrics.Analysis.Tests
 {
+	using ArchiMetrics.Analysis.Metrics;
 	using Microsoft.CodeAnalysis.CSharp;
 	using NUnit.Framework;
 
@@ -28,7 +29,7 @@ namespace ArchiMetrics.Analysis.Tests
 			[SetUp]
 			public void Setup()
 			{
-				_calculator = new CodeMetricsCalculator();
+				_calculator = new CodeMetricsCalculator(new DocumentationFactory());
 			}
 
 			[Test]

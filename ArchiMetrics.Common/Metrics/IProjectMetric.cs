@@ -29,7 +29,7 @@ namespace ArchiMetrics.Common.Metrics
 		/// <summary>
 		/// Gets the relational cohesion for the project.
 		/// </summary>
-		double RelationalCohesion { get; set; }
+		double RelationalCohesion { get; }
 
 		/// <summary>
 		/// Gets the efferent coupling for the project.
@@ -44,5 +44,7 @@ namespace ArchiMetrics.Common.Metrics
 		int AfferentCoupling { get; }
 
 		double Abstractness { get; }
+
+		IEnumerable<string> Dependendants { get; }
 	}
 }

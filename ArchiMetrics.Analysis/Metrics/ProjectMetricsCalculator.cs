@@ -70,7 +70,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				var dependencyGraph = solution.GetProjectDependencyGraph();
 
 				dependencies = dependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(project.Id)
-					.Select(solution.GetProject)
+					.Select<ProjectId, Project>(id => solution.GetProject(id))
 					.SelectMany(x => x.MetadataReferences.Select(y => y.Display).Concat(new[] { x.AssemblyName }));
 			}
 			else
@@ -81,7 +81,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			var assemblyTypes = compilation.Assembly.TypeNames;
 			var metrics = (await metricsTask.ConfigureAwait(false)).AsArray();
-
+			
 			var internalTypesUsed = from metric in metrics
 									from coupling in metric.ClassCouplings
 									where coupling.Assembly == project.AssemblyName

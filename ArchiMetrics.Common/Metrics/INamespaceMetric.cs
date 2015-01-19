@@ -17,7 +17,7 @@ namespace ArchiMetrics.Common.Metrics
 	/// <summary>
 	/// Defines the interface for namespace metrics.
 	/// </summary>
-	public interface INamespaceMetric : ICodeMetric
+	public interface INamespaceMetric : IDocumentedMetric
 	{
 		/// <summary>
 		/// Gets the max depth of inheritance for types in the namespace.

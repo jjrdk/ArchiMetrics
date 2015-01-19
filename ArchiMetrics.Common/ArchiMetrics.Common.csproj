@@ -133,7 +133,10 @@
     <Compile Include="IResetable.cs" />
     <Compile Include="LinqExtensions.cs" />
     <Compile Include="Metrics\AccessModifierKind.cs" />
+    <Compile Include="Metrics\ExceptionDescription.cs" />
     <Compile Include="Metrics\ICodeMetric.cs" />
+    <Compile Include="Metrics\IDocumentation.cs" />
+    <Compile Include="Metrics\IDocumentedMetric.cs" />
     <Compile Include="Metrics\IHalsteadMetrics.cs" />
     <Compile Include="Metrics\ICodeMetricsCalculator.cs" />
     <Compile Include="Metrics\IMemberMetric.cs" />
