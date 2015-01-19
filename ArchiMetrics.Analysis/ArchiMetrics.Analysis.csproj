@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="CodeMetricsCalculator.cs" />
     <Compile Include="CoverageAnalyzer.cs" />
+    <Compile Include="Metrics\Documentation.cs" />
+    <Compile Include="Metrics\DocumentationFactory.cs" />
     <Compile Include="Metrics\MetricsRepository.cs" />
     <Compile Include="Metrics\ProjectMetric.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculator.cs" />

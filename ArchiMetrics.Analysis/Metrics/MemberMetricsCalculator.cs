@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
@@ -28,11 +29,13 @@ namespace ArchiMetrics.Analysis.Metrics
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 		private readonly MemberNameResolver _nameResolver;
 		private readonly Solution _solution;
+		private readonly IAsyncFactory<ISymbol, IDocumentation> _documentationFactory;
 
-		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution)
+		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution, IAsyncFactory<ISymbol, IDocumentation> documentationFactory)
 			: base(semanticModel)
 		{
 			_solution = solution;
+			_documentationFactory = documentationFactory;
 			_nameResolver = new MemberNameResolver(Model);
 		}
 
@@ -114,6 +117,14 @@ namespace ArchiMetrics.Analysis.Metrics
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			var accessModifier = GetAccessModifier(syntaxNode);
+			IDocumentation documentation = null;
+			
+			if (syntaxNode.SyntaxTree == Model.SyntaxTree)
+			{
+				var symbol = Model.GetDeclaredSymbol(syntaxNode);
+				documentation = await _documentationFactory.Create(symbol, CancellationToken.None);
+			}
+
 			return new MemberMetric(
 				filePath,
 				accessModifier,
@@ -126,7 +137,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				source.AsArray(),
 				numberOfParameters,
 				numberOfLocalVariables,
-				afferentCoupling);
+				afferentCoupling,
+				documentation);
 		}
 
 		private IMemberMetric CalculateMemberMetricSlim(SyntaxNode syntaxNode)
@@ -153,7 +165,8 @@ namespace ArchiMetrics.Analysis.Metrics
 				new ITypeCoupling[0],
 				0,
 				0,
-				0);
+				0,
+				null);
 		}
 
 		private AccessModifierKind GetAccessModifier(SyntaxNode node)

@@ -15,6 +15,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
@@ -34,15 +35,18 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[SetUp]
 			public void Setup()
 			{
-				_analyzer = new CodeMetricsCalculator();
+				_analyzer = new CodeMetricsCalculator(new DocumentationFactory());
 			}
 
 			[Test]
 			public async Task CanCalculateMetricsForSnippet()
 			{
-				const string Snippet = @"
-namespace SomeNamespace
+				const string Snippet = @"namespace SomeNamespace
 {
+	/// <summary>
+	/// Some class documentation.
+	/// </summary>
+	/// <remarks>Some remark.</remarks>
 	public class Something {
 		publis string Name { get; set; }
 	}

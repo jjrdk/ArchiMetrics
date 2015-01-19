@@ -54,7 +54,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Name { get; private set; }
 
-		public double RelationalCohesion { get; set; }
+		public double RelationalCohesion { get; private set; }
 
 		public IEnumerable<string> Dependencies { get; private set; }
 
