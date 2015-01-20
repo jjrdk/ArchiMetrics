@@ -32,7 +32,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 		{
 			get
 			{
-				return "AMC0046";
+				return "AM0046";
 			}
 		}
 

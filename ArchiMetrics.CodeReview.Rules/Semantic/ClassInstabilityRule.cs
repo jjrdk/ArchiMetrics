@@ -29,7 +29,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 		{
 			get
 			{
-				return "AMS0001";
+				return "AM0053";
 			}
 		}
 
