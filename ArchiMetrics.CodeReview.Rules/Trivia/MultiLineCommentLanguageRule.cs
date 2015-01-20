@@ -26,7 +26,7 @@ namespace ArchiMetrics.CodeReview.Rules.Trivia
 		{
 			get
 			{
-				return "AMT0001";
+				return "AM0067";
 			}
 		}
 
