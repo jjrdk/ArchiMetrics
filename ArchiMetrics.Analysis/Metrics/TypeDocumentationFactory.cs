@@ -1,5 +1,6 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace ArchiMetrics.Analysis.Metrics
 	using ArchiMetrics.Common.Metrics;
 	using Microsoft.CodeAnalysis;
 
-	internal class DocumentationFactory : IAsyncFactory<ISymbol, IDocumentation>
+	internal class TypeDocumentationFactory : IAsyncFactory<ISymbol, ITypeDocumentation>
 	{
 		/// <summary>
 		/// Creates the requested instance as an asynchronous operation.
@@ -16,19 +17,19 @@ namespace ArchiMetrics.Analysis.Metrics
 		/// <param name="parameter">The parameter to pass to the object creation.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> to use for cancelling the object creation.</param>
 		/// <returns>Returns a <see cref="Task{T}"/> which represents the instance creation task.</returns>
-		public Task<IDocumentation> Create(ISymbol parameter, CancellationToken cancellationToken)
+		public Task<ITypeDocumentation> Create(ISymbol parameter, CancellationToken cancellationToken)
 		{
 			var doc = parameter.GetDocumentationCommentXml();
 			if (string.IsNullOrWhiteSpace(doc))
 			{
-				return Task.FromResult<IDocumentation>(null);
+				return Task.FromResult<ITypeDocumentation>(null);
 			}
 
 			var xmldoc = XDocument.Parse(doc);
 			var docRoot = xmldoc.Root;
 			if (docRoot == null)
 			{
-				return Task.FromResult<IDocumentation>(null);
+				return Task.FromResult<ITypeDocumentation>(null);
 			}
 
 			var summaryElement = docRoot.Element("summary");
@@ -41,12 +42,41 @@ namespace ArchiMetrics.Analysis.Metrics
 			var remarks = remarksElement == null ? string.Empty : remarksElement.Value.Trim();
 			var returnsElement = docRoot.Element("returns");
 			var returns = returnsElement == null ? string.Empty : returnsElement.Value.Trim();
-			var exceptionElements = docRoot.Elements("exception");
-			var exceptions = exceptionElements.Select(x => new ExceptionDescription(x.Attribute("cref").Value.Trim(), x.Value.Trim()));
+			var typeParameterElements = docRoot.Elements("typeparam");
+			var typeConstraints = GetTypeContraints(parameter);
+			var typeParameters =
+				typeParameterElements.Select(
+					x =>
+						{
+							var name = x.Attribute("name").Value.Trim();
+							return new TypeParameterDocumentation(
+								name,
+								typeConstraints.ContainsKey(name) ? typeConstraints[name] : null,
+								x.Value.Trim());
+						});
+			
+			var documentation = new TypeDocumentation(summary, code, example, remarks, returns, typeParameters);
 
-			IDocumentation documentation = new Documentation(summary, code, example, remarks, returns, exceptions);
+			return Task.FromResult<ITypeDocumentation>(documentation);
+		}
 
-			return Task.FromResult(documentation);
+		private static IDictionary<string, string> GetTypeContraints(ISymbol symbol)
+		{
+			var method = symbol as IMethodSymbol;
+			if (method == null)
+			{
+				return new Dictionary<string, string>();
+			}
+
+			var enumerable = method.TypeParameters.Select(CreateTypeConstraint);
+			IDictionary<string, string> typeParameterConstraints = enumerable.ToDictionary(_ => _.Key, _ => _.Value);
+
+			return typeParameterConstraints;
+		}
+
+		private static KeyValuePair<string, string> CreateTypeConstraint(ITypeParameterSymbol typeParameter)
+		{
+			return new KeyValuePair<string, string>(typeParameter.Name, typeParameter.ToDisplayString());
 		}
 
 		/// <summary>

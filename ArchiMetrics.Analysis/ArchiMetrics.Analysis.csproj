@@ -109,11 +109,13 @@
   <ItemGroup>
     <Compile Include="CodeMetricsCalculator.cs" />
     <Compile Include="CoverageAnalyzer.cs" />
-    <Compile Include="Metrics\Documentation.cs" />
-    <Compile Include="Metrics\DocumentationFactory.cs" />
+    <Compile Include="Metrics\MemberDocumentation.cs" />
+    <Compile Include="Metrics\MemberDocumentationFactory.cs" />
     <Compile Include="Metrics\MetricsRepository.cs" />
     <Compile Include="Metrics\ProjectMetric.cs" />
     <Compile Include="Metrics\ProjectMetricsCalculator.cs" />
+    <Compile Include="Metrics\TypeDocumentation.cs" />
+    <Compile Include="Metrics\TypeDocumentationFactory.cs" />
     <Compile Include="Model\CodeErrorRepository.cs" />
     <Compile Include="Model\ModelEdgeItem.cs" />
     <Compile Include="Model\ModelEdgeItemFactory.cs" />
