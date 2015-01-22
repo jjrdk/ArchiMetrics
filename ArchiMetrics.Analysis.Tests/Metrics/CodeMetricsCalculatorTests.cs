@@ -12,14 +12,12 @@
 
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
-	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
 	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
-	using Microsoft.CodeAnalysis.MSBuild;
 	using NUnit.Framework;
 
 	public sealed class CodeMetricsCalculatorTests
@@ -35,7 +33,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[SetUp]
 			public void Setup()
 			{
-				_analyzer = new CodeMetricsCalculator(new DocumentationFactory());
+				_analyzer = new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory());
 			}
 
 			[Test]
@@ -43,10 +41,6 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			{
 				const string Snippet = @"namespace SomeNamespace
 {
-	/// <summary>
-	/// Some class documentation.
-	/// </summary>
-	/// <remarks>Some remark.</remarks>
 	public class Something {
 		publis string Name { get; set; }
 	}
@@ -61,15 +55,16 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[Test]
 			public void WhenCalculatingMetricsForNonCodeTextThenDoesNotThrow()
 			{
-				Assert.DoesNotThrow(() =>
-									{
-										const string Text = "Hello World";
+				Assert.DoesNotThrow(
+					() =>
+					{
+						const string Text = "Hello World";
 
-										var tree = CSharpSyntaxTree.ParseText(Text);
+						var tree = CSharpSyntaxTree.ParseText(Text);
 
-										var metrics = _analyzer.Calculate(new[] { tree }).Result;
-										var result = metrics.AsArray();
-									});
+						var metrics = _analyzer.Calculate(new[] { tree }).Result;
+						var result = metrics.AsArray();
+					});
 			}
 
 			[Test]
@@ -117,7 +112,7 @@ public int Foo() { return 1; }
 				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);
 			}
-		
+
 			[Test]
 			public async Task WhenClassDefinitionIsEmptyThenHasCyclomaticComplexityOfOne()
 			{
@@ -142,7 +137,7 @@ public int Foo() { return 1; }
 			}";
 
 				var metrics = await _analyzer.Calculate(CreateProject(Text), null);
-				
+
 				Assert.AreEqual(1, metrics.First().CyclomaticComplexity);
 			}
 
@@ -230,19 +225,61 @@ using System.Linq;
 			private Project CreateProject(string text)
 			{
 				var workspace = new CustomWorkspace();
-				workspace.AddSolution(
-					SolutionInfo.Create(
-						SolutionId.CreateNewId("test"), 
-						VersionStamp.Create()));
+				workspace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("test"), VersionStamp.Create()));
 				var projectId = ProjectId.CreateNewId("testcode");
-				var solution = workspace.CurrentSolution.AddProject(
-					projectId, 
-					"testcode", 
-					"testcode.dll", 
-					LanguageNames.CSharp);
+				var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp);
 				solution = solution.AddDocument(DocumentId.CreateNewId(projectId), "code.cs", text);
 				return solution.Projects.First();
 			}
+		}
+
+		public class GivenACodeMetricsCalculatorAndReadingDocumentation
+		{
+			private const string Snippet = @"namespace SomeNamespace
+{
+		/// <summary>
+		/// Some class documentation.
+		/// </summary>
+		/// <typeparam name=""T"">Some type parameter</typeparam>
+		/// <code>Some code</code>
+		/// <example>Some example</example>
+		/// <remarks>Some remark.</remarks>
+	public class Something<T> where T : class,new()
+	{
+			/// <summary>
+			/// Some member
+			/// </summary>
+			/// <param name=""x"">x parameter</param>
+			/// <param name=""y"">y parameter</param>
+			/// <typeparam name=""V"">Some type parameter</typeparam>
+			/// <code>Some code</code>
+			/// <example>Some example</example>
+			/// <remarks>Some remark.</remarks>
+		public void DoSomething<V>(string x, string y) where V : class, new()
+		{
+		}
+
+		public string Name { get; set; }
+	}
+}
+";
+			private CodeMetricsCalculator _analyzer;
+
+			[SetUp]
+			public void Setup()
+			{
+				_analyzer = new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory());
+			}
+
+			[Test]
+			public async Task WhenTypeHasDocumentationThenReadsDocumentation()
+			{
+				var tree = CSharpSyntaxTree.ParseText(Snippet);
+				var metrics = await _analyzer.Calculate(new[] { tree });
+
+				Assert.NotNull(metrics);
+			}
+
 		}
 	}
 }

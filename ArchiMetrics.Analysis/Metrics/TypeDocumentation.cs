@@ -4,16 +4,16 @@ namespace ArchiMetrics.Analysis.Metrics
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 
-	internal class Documentation : IDocumentation
+	internal class TypeDocumentation : ITypeDocumentation
 	{
-		public Documentation(string summary, string code, string example, string remarks, string returns, IEnumerable<ExceptionDescription> exceptions)
+		public TypeDocumentation(string summary, string code, string example, string remarks, string returns, IEnumerable<TypeParameterDocumentation> typeParameters)
 		{
 			Summary = summary;
 			Code = code;
 			Example = example;
 			Remarks = remarks;
 			Returns = returns;
-			Exceptions = exceptions.AsArray();
+			TypeParameters = typeParameters.AsArray();
 		}
 
 		public string Summary { get; private set; }
@@ -26,6 +26,6 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Returns { get; private set; }
 
-		public IEnumerable<ExceptionDescription> Exceptions { get; private set; }
+		public IEnumerable<TypeParameterDocumentation> TypeParameters { get; private set; }
 	}
 }
