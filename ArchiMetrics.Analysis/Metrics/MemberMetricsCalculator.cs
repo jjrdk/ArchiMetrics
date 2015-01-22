@@ -29,9 +29,9 @@ namespace ArchiMetrics.Analysis.Metrics
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 		private readonly MemberNameResolver _nameResolver;
 		private readonly Solution _solution;
-		private readonly IAsyncFactory<ISymbol, IDocumentation> _documentationFactory;
+		private readonly IAsyncFactory<ISymbol, IMemberDocumentation> _documentationFactory;
 
-		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution, IAsyncFactory<ISymbol, IDocumentation> documentationFactory)
+		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution, IAsyncFactory<ISymbol, IMemberDocumentation> documentationFactory)
 			: base(semanticModel)
 		{
 			_solution = solution;

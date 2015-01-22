@@ -30,7 +30,7 @@ namespace ArchiMetrics.Analysis.Tests
 		[SetUp]
 		public void Setup()
 		{
-			_calculator = new ProjectMetricsCalculator(new CodeMetricsCalculator(new DocumentationFactory()));
+			_calculator = new ProjectMetricsCalculator(new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory()));
 		}
 
 		[Test]

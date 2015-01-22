@@ -26,7 +26,8 @@ namespace ArchiMetrics.Analysis
 
 	public class CodeMetricsCalculator : ICodeMetricsCalculator
 	{
-		private readonly IAsyncFactory<ISymbol, IDocumentation> _documentationFactory;
+		private readonly IAsyncFactory<ISymbol, ITypeDocumentation> _typeDocumentationFactory;
+		private readonly IAsyncFactory<ISymbol, IMemberDocumentation> _memberDocumentationFactory;
 		private static readonly List<Regex> Patterns = new List<Regex>
 													   {
 														   new Regex(@".*\.g\.cs$", RegexOptions.Compiled), 
@@ -36,9 +37,10 @@ namespace ArchiMetrics.Analysis
 
 		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
-		public CodeMetricsCalculator(IAsyncFactory<ISymbol, IDocumentation> documentationFactory)
+		public CodeMetricsCalculator(IAsyncFactory<ISymbol, ITypeDocumentation> typeDocumentationFactory, IAsyncFactory<ISymbol, IMemberDocumentation> memberDocumentationFactory)
 		{
-			_documentationFactory = documentationFactory;
+			_typeDocumentationFactory = typeDocumentationFactory;
+			_memberDocumentationFactory = memberDocumentationFactory;
 		}
 
 		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution)
@@ -125,7 +127,7 @@ namespace ArchiMetrics.Analysis
 				var semanticModel = tuple.Item2;
 				compilation = tuple.Item1;
 				var typeNode = tuple.Item3;
-				var calculator = new TypeMetricsCalculator(semanticModel, solution, _documentationFactory);
+				var calculator = new TypeMetricsCalculator(semanticModel, solution, _typeDocumentationFactory);
 				var metrics = await calculator.CalculateFrom(typeNode, memberMetrics);
 				return new Tuple<Compilation, ITypeMetric>(
 					compilation,
@@ -289,7 +291,7 @@ namespace ArchiMetrics.Analysis
 					var tuple = await VerifyCompilation(comp, info).ConfigureAwait(false);
 					var semanticModel = tuple.Item2;
 					comp = tuple.Item1;
-					var calculator = new MemberMetricsCalculator(semanticModel, solution, _documentationFactory);
+					var calculator = new MemberMetricsCalculator(semanticModel, solution, _memberDocumentationFactory);
 
 					return await calculator.Calculate(info).ConfigureAwait(false);
 				});

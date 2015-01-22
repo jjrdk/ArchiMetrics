@@ -27,9 +27,9 @@ namespace ArchiMetrics.Analysis.Metrics
 	internal sealed class TypeMetricsCalculator : SemanticModelMetricsCalculator
 	{
 		private readonly Solution _solution;
-		private readonly IAsyncFactory<ISymbol, IDocumentation> _documentationFactory;
+		private readonly IAsyncFactory<ISymbol, ITypeDocumentation> _documentationFactory;
 
-		public TypeMetricsCalculator(SemanticModel semanticModel, Solution solution, IAsyncFactory<ISymbol, IDocumentation> documentationFactory)
+		public TypeMetricsCalculator(SemanticModel semanticModel, Solution solution, IAsyncFactory<ISymbol, ITypeDocumentation> documentationFactory)
 			: base(semanticModel)
 		{
 			_solution = solution;
