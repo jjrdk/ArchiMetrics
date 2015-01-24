@@ -89,15 +89,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		protected IEnumerable<ITypeCoupling> GetCollectedTypesNames(IEnumerable<IPropertySymbol> calledProperties, IEnumerable<IMethodSymbol> calledMethods, IEnumerable<IEventSymbol> usedEvents)
 		{
-			var memberCouplings = _types.Select(x =>
-				{
-					var typeSymbol = x.Value;
-					var usedMethods = calledMethods.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
-					var usedProperties = calledProperties.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
-					var events = usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString()).Select(m => m.ToDisplayString());
-
-					return CreateTypeCoupling(typeSymbol, usedMethods, usedProperties, events);
-				}).AsArray();
+			var memberCouplings = _types.Select(x => CresateTypeCoupling(calledProperties, calledMethods, usedEvents, x)).AsArray();
 			var inheritedCouplings = _types
 				.Select(x => x.Value)
 				.SelectMany(GetInheritedTypeNames);
@@ -107,6 +99,26 @@ namespace ArchiMetrics.Analysis.Metrics
 				.Except(memberCouplings);
 
 			return memberCouplings.Concat(inheritedTypeCouplings);
+		}
+
+		private static TypeCoupling CresateTypeCoupling(
+			IEnumerable<IPropertySymbol> calledProperties,
+			IEnumerable<IMethodSymbol> calledMethods,
+			IEnumerable<IEventSymbol> usedEvents,
+			KeyValuePair<string, ITypeSymbol> x)
+		{
+			var typeSymbol = x.Value;
+			var usedMethods =
+				calledMethods.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString())
+					.Select(m => m.ToDisplayString());
+			var usedProperties =
+				calledProperties.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString())
+					.Select(m => m.ToDisplayString());
+			var events =
+				usedEvents.Where(m => m.ContainingType.ToDisplayString() == typeSymbol.ToDisplayString())
+					.Select(m => m.ToDisplayString());
+
+			return CreateTypeCoupling(typeSymbol, usedMethods, usedProperties, events);
 		}
 
 		private static TypeCoupling CreateTypeCoupling(ITypeSymbol typeSymbol)
