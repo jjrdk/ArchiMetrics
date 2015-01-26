@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rules>
+  <rule>
+    <id>AM0001</id>
+    <title>Coalesce Expression</title>
+    <suggestion>Use an explicit if statement to assign a value if it is null.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0002</id>
+    <title>Conditional Expressions</title>
+    <suggestion>Consider replacing the condition with an explicit if statement.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0003</id>
+    <title>Directory Class Dependency</title>
+    <suggestion>Consider breaking the direct dependency on the file system with an abstraction.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0004</id>
+    <title>Disk Location Dependency</title>
+    <suggestion>Replace the dependency on a specific disk location with an abstraction.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0005</id>
+    <title>Do Statement Sleep Loop</title>
+    <suggestion>Use a wait handle to synchronize timing issues.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0006</id>
+    <title>Stack Trace Destroyed</title>
+    <suggestion>Use only 'throw' to rethrow the original stack trace.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0007</id>
+    <title>Dynamic Variable</title>
+    <suggestion>Consider using a typed variable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0008</id>
+    <title>Empty Do Statement</title>
+    <suggestion>Use a wait handle to synchronize asynchronous flows, or let the thread sleep.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0009</id>
+    <title>No Assertion in Test</title>
+    <suggestion>Add an assertion to the test.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0010</id>
+    <title>Empty While Statement</title>
+    <suggestion>Use a wait handle to synchronize asynchronous flows, or let the thread sleep.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0011</id>
+    <title>File Class Dependency</title>
+    <suggestion>Replace explicit file dependency to reduce coupling with file system.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0012</id>
+    <title>Too Deep Property Getter Nesting</title>
+    <suggestion>Reduce nesting to make code more readable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0013</id>
+    <title>Too Deep Property Setter Nesting</title>
+    <suggestion>Reduce nesting to make code more readable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0014</id>
+    <title>Goto Statement</title>
+    <suggestion>Refactor to use method calls.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0015</id>
+    <title>Guard Clause in Method Without Parameters</title>
+    <suggestion>Remove guard clause.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0016</id>
+    <title>Guard Clause in Non-Public Method.</title>
+    <suggestion>Remove Guard clause and verify internal state by other means.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0017</id>
+    <title>Immediate Task Wait.</title>
+    <suggestion>Immediately awaiting a Task has same effect as executing code synchonously.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0018</id>
+    <title>Incorrect Dispose pattern implementation</title>
+    <suggestion>Implement dispose pattern with finalizer and separate disposal of managed and unmanaged resources.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0019</id>
+    <title>Current Type Exposes DomainStorage</title>
+    <suggestion>Remove public access to DomainStorage</suggestion>
+  </rule>
+  <rule>
+    <id>AM0020</id>
+    <title>Current Type Exposes ServiceLocator</title>
+    <suggestion>Remove public access to ServiceLocator</suggestion>
+  </rule>
+  <rule>
+    <id>AM0021</id>
+    <title>Current Type Exposes ISession</title>
+    <suggestion>Remove public access to ISession</suggestion>
+  </rule>
+  <rule>
+    <id>AM0022</id>
+    <title>Current Type Exposes UnityContainer</title>
+    <suggestion>Remove public access to UnityContainer</suggestion>
+  </rule>
+  <rule>
+    <id>AM0023</id>
+    <title>Local Time Creation</title>
+    <suggestion>Replace with call to DateTime.UtcNow</suggestion>
+  </rule>
+  <rule>
+    <id>AM0024</id>
+    <title>Method Name Spelling</title>
+    <suggestion>Check that the method name is spelled correctly. Consider adding exceptions to the dictionary.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0025</id>
+    <title>Property Name Spelling</title>
+    <suggestion>Check that the property name is spelled correctly. Consider adding exceptions to the dictionary.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0026</id>
+    <title>Too Deep Method Nesting</title>
+    <suggestion>Reduce nesting to make code more readable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0027</id>
+    <title>Event Handler not Detached</title>
+    <suggestion>Unassign all event handlers.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0028</id>
+    <title>Multiple Asserts in Test</title>
+    <suggestion>Refactor tests to only have a single assert.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0029</id>
+    <title>Multiple Return Statements</title>
+    <suggestion>If your company's coding standards requires only a single exit point, then refactor method to have only single return statement.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0030</id>
+    <title>NotImplementedException Thrown</title>
+    <suggestion>Add method implementation.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0031</id>
+    <title>No Protected Fields</title>
+    <suggestion>Encapsulate all public fields in properties, or internalize them.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0032</id>
+    <title>No Public Constants</title>
+    <suggestion>Expose public constants as public static readonly instead in order to avoid that they get compiled into a calling assembly.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0033</id>
+    <title>No Public Field</title>
+    <suggestion>Encapsulate all public fields in properties, or internalize them.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0034</id>
+    <title>Unsafe Statement Detected</title>
+    <suggestion>Avoid unsafe code.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0035</id>
+    <title>Open/Close Method Pair</title>
+    <suggestion>Methods names OpenSomething should have a matching CloseSomething and vice versa.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0036</id>
+    <title>Begin/End Method Pair</title>
+    <suggestion>Methods names BeginSomething should have a matching EndSomething and vice versa.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0037</id>
+    <title>Public Interface Implementation</title>
+    <suggestion>Consider whether the interface implementation also needs to be public.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0038</id>
+    <title>Using Reflection to Resolve Member Name</title>
+    <suggestion>Consider using a string for the method name for performance and to make it readable after obfuscation.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0039</id>
+    <title>ServiceLocator Passed as Parameter</title>
+    <suggestion>Remove ServiceLocator parameter and inject only needed dependencies.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0040</id>
+    <title>ServiceLocator Invocation in Test</title>
+    <suggestion>Replace ServiceLocator with explicit setup using either a concrete instance, mock or fake.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0041</id>
+    <title>ServiceLocator Invocation</title>
+    <suggestion>Consider injecting needed dependencies explicitly.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0042</id>
+    <title>ServiceLocator Resolves Container.</title>
+    <suggestion>A ServiceLocator should never resolve its own DI container. Refactor to pass dependencies explicitly.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0043</id>
+    <title>Class Too Big</title>
+    <suggestion>Refactor class to make it more manageable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0044</id>
+    <title>Method Too Big</title>
+    <suggestion>Refactor method to make it more manageable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0046</id>
+    <title>Method Too Complex.</title>
+    <suggestion>Refactor to reduce number of code paths through method.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0047</id>
+    <title>More than 5 parameters on method</title>
+    <suggestion>Refactor method to reduce number of dependencies passed.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0048</id>
+    <title>Declare Types Inside Namespace.</title>
+    <suggestion>Move type declaration inside namespace.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0049</id>
+    <title>Type Obfuscation</title>
+    <suggestion>Assigning a value to a variable of type object bypasses type checking.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0050</id>
+    <title>Var Keyword Used in Variable Declaration</title>
+    <suggestion>Consider using an explicit type for variable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0051</id>
+    <title>Variable Name Should Not Match Field Name</title>
+    <suggestion>Rename variable to avoid confusion with assigned field.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0052</id>
+    <title>Sleep Loop</title>
+    <suggestion>Use a wait handle to synchronize control flows.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0053</id>
+    <title>Unstable Class</title>
+    <suggestion>Refactor class dependencies.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0054</id>
+    <title>Hidden Type Dependency in Method Declaration</title>
+    <suggestion>Refactor to pass dependencies explicitly.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0055</id>
+    <title>Lack of Cohesion of Methods</title>
+    <suggestion>Refactor class into separate classes with single responsibility.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0056</id>
+    <title>No locking on Weak Identity Items</title>
+    <suggestion>Change lock object to strong identity object, ex. new object()</suggestion>
+  </rule>
+  <rule>
+    <id>AM0057</id>
+    <title>Method Can Be Made Static</title>
+    <suggestion>Mark method as static.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0058</id>
+    <title>Method Unmaintainable</title>
+    <suggestion>Refactor method to improve maintainability.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0059</id>
+    <title>Field is never read</title>
+    <suggestion>Remove unread field.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0061</id>
+    <title>Variable is never read</title>
+    <suggestion>Remove unread variable.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0062</id>
+    <title>Unused Event Declaration</title>
+    <suggestion>Remove unused code.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0063</id>
+    <title>Unused Get Accessor Declaration</title>
+    <suggestion>Remove unused code.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0064</id>
+    <title>Unused Set Accessor Declaration</title>
+    <suggestion>Remove unused code.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0065</id>
+    <title>Unused Method Declaration</title>
+    <suggestion>Remove unused code.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0066</id>
+    <title>Unused Parameter in Method</title>
+    <suggestion>Removed unused parameter.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0067</id>
+    <title>Suspicious Language Multi Line Comment</title>
+    <suggestion>Check spelling of comment.</suggestion>
+  </rule>
+  <rule>
+    <id>AM0068</id>
+    <title>Suspicious Language Single Line Comment</title>
+    <suggestion>Check spelling of comment.</suggestion>
+  </rule>
+  <rule>
+    <id>AMC9999</id>
+    <title>Compilation Failure</title>
+    <suggestion>Check the compilation error for details about reason for failure.</suggestion>
+  </rule>
+  <rule>
+    <id>CA1821</id>
+    <title>Empty Finalizer Detected</title>
+    <suggestion>Finalizer should call dispose method.</suggestion>
+  </rule>
+  <rule>
+    <id>CA2214</id>
+    <title>Do not call overridable methods in constructors</title>
+    <suggestion>Remove calls to virtual methods in constructor</suggestion>
+  </rule>
+</rules>
