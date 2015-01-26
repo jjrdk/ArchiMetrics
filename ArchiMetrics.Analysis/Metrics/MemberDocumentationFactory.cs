@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MemberDocumentationFactory.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the MemberDocumentationFactory type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
@@ -68,6 +80,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			return Task.FromResult<IMemberDocumentation>(documentation);
 		}
 
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose()
+		{
+		}
+
 		private static IEnumerable<ParameterDocumentation> GetParameters(IMethodSymbol symbol, IDictionary<string, string> parameterDocumentations)
 		{
 			return
@@ -115,13 +134,6 @@ namespace ArchiMetrics.Analysis.Metrics
 			parts.AddRange((IEnumerable<string>)typeParameter.ConstraintTypes.Select(constraintType => constraintType.ToDisplayString()));
 
 			return new KeyValuePair<string, string>(typeParameter.Name, string.Join(", ", parts));
-		}
-
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose()
-		{
 		}
 	}
 }

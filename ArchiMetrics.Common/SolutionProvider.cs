@@ -27,7 +27,7 @@ namespace ArchiMetrics.Common
 		private Dictionary<string, Task<Solution>> _cache = new Dictionary<string, Task<Solution>>();
 
 		/// <summary>
-		/// Creates a new instance of the <see cref="SolutionProvider"/> class.
+		/// Initializes a new instance of the <see cref="SolutionProvider"/> class.
 		/// </summary>
 		public SolutionProvider()
 		{

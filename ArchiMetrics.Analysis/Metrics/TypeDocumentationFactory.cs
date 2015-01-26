@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeDocumentationFactory.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the TypeDocumentationFactory type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
@@ -60,6 +72,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			return Task.FromResult<ITypeDocumentation>(documentation);
 		}
 
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose()
+		{
+		}
+
 		private static IDictionary<string, string> GetTypeContraints(ISymbol symbol)
 		{
 			var method = symbol as IMethodSymbol;
@@ -77,13 +96,6 @@ namespace ArchiMetrics.Analysis.Metrics
 		private static KeyValuePair<string, string> CreateTypeConstraint(ITypeParameterSymbol typeParameter)
 		{
 			return new KeyValuePair<string, string>(typeParameter.Name, typeParameter.ToDisplayString());
-		}
-
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose()
-		{
 		}
 	}
 }

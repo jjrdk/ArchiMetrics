@@ -54,7 +54,6 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 			var namedMethod = x.Key as IMethodSymbol;
 			if (namedMethod != null && namedMethod.ConstructedFrom != null && namedMethod.ConstructedFrom != x.Key)
 			{
-
 				yield return new SymbolDetails(namedMethod, new ReferenceLocation(x.Value.GetLocation(), ResolveContainingType(x.Value, model), model));
 			}
 		}

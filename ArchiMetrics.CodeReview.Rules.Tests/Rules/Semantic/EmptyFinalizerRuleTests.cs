@@ -1,6 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmptyFinalizerRuleTests.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the EmptyFinalizerRuleTests type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
-	using System;
 	using System.Diagnostics;
 	using System.Linq;
 	using System.Threading.Tasks;
@@ -61,8 +71,8 @@
 			{
 				var references = new[]
 									 {
-										 MetadataReference.CreateFromAssembly(typeof(IAvailability).Assembly),
-										 MetadataReference.CreateFromAssembly(typeof(object).Assembly),
+										 MetadataReference.CreateFromAssembly(typeof(IAvailability).Assembly), 
+										 MetadataReference.CreateFromAssembly(typeof(object).Assembly), 
 										 MetadataReference.CreateFromAssembly(typeof(Debug).Assembly)
 									 };
 

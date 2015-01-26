@@ -71,7 +71,7 @@ namespace ArchiMetrics.Analysis
 			var inspector = new InnerInspector(_triviaEvaluations, _codeEvaluations, _semanticEvaluations, semanticModel, solution);
 			var inspectionTasks = inspector.Visit(node);
 			var symbolInspectionTasks = Task.FromResult(Enumerable.Empty<EvaluationResult>());
-			
+
 			if (semanticModel != null)
 			{
 				var symbolInspector = new InnerSymbolAnalyzer(_symbolEvaluations, semanticModel);
@@ -281,7 +281,11 @@ namespace ArchiMetrics.Analysis
 					.Select(x => _model.GetDeclaredSymbol(x))
 					.Where(x => x != null)
 					.Where(x => x.Kind.In(_evaluations.Keys))
-					.Select(x => new { Symbol = x, Evaluations = _evaluations[x.Kind] })
+					.Select(x => new
+									 {
+										 Symbol = x,
+										 Evaluations = _evaluations[x.Kind]
+									 })
 					.SelectMany(x => x.Evaluations.Select(_ => _.Evaluate(x.Symbol, _model)))
 					.AsArray()
 					.AsEnumerable());

@@ -263,6 +263,7 @@ using System.Linq;
 	}
 }
 ";
+
 			private CodeMetricsCalculator _analyzer;
 
 			[SetUp]
@@ -279,7 +280,6 @@ using System.Linq;
 
 				Assert.NotNull(metrics);
 			}
-
 		}
 	}
 }

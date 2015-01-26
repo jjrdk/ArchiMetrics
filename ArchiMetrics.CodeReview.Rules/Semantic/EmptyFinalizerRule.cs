@@ -1,8 +1,17 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EmptyFinalizerRule.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the EmptyFinalizerRule type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
-	using System.Diagnostics;
 	using System.Linq;
-	using System.Runtime.InteropServices.WindowsRuntime;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
@@ -87,7 +96,6 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 			// NOTE: FxCop only checks if there is any method call within a given destructor to decide an empty finalizer.
 			// Here in order to minimize false negatives, we conservatively treat it as non-empty finalizer if its body contains any statements.
 			// But, still conditional methods like Debug.Fail() will be considered as being empty as FxCop currently does.
-
 			return node.DescendantNodes().OfType<StatementSyntax>()
 				.Where(n => !n.IsKind(SyntaxKind.Block) && !n.IsKind(SyntaxKind.EmptyStatement))
 				.Select(exp => exp as ExpressionStatementSyntax)
@@ -104,8 +112,9 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 				{
 					var symbolInfo = model.GetSymbolInfo(exp);
 					var symbol = symbolInfo.Symbol;
-					if (symbol != null && symbol.GetAttributes().Any(n => n.AttributeClass.MetadataName.Equals("ConditionalAttribute"))) //System.Diagnostics.ConditionalAttribute
+					if (symbol != null && symbol.GetAttributes().Any(n => n.AttributeClass.MetadataName.Equals("ConditionalAttribute")))
 					{
+						//// System.Diagnostics.ConditionalAttribute
 						return true;
 					}
 				}
