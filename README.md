@@ -10,8 +10,7 @@ If that fails, please log an issue, because the idea is to have a one click buil
 About the project
 --------------------
 
-ArchiMetrics is a collection of code analysis tools using Roslyn.
-It will calculate code metrics and code reviews which can be stored in a RavenDB and used for reports later.
+ArchiMetrics is a collection of code analysis tools using Roslyn. It will calculate code metrics which can be queried using normal LINQ syntax.
 
 Using project
 -------------------
@@ -19,7 +18,7 @@ If you are going to use metrics, you must install
 
 [Microsoft Build Tools 2015 Preview](http://www.microsoft.com/en-us/download/details.aspx?id=44931)
 
-You also may need to install this package
+You also may need to install this package (included in latest nuget package)
 
 ```
 Install-Package Microsoft.Composition
@@ -34,7 +33,7 @@ using System.Threading.Tasks;
 using ArchiMetrics.Analysis;
 using ArchiMetrics.Common;
 
-namespace ConsoleApplication3
+namespace ConsoleApplication
 {
     class Program
     {
