@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
 
 	internal class MemberMetric : IMemberMetric
@@ -42,7 +43,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
 			Name = name;
-			ClassCouplings = classCouplings;
+			ClassCouplings = classCouplings.AsArray();
 			NumberOfParameters = numberOfParameters;
 			NumberOfLocalVariables = numberOfLocalVariables;
 			AfferentCoupling = afferentCoupling;

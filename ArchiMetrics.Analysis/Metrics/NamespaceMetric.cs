@@ -32,7 +32,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
 			LinesOfCode = linesOfCode;
-			ClassCouplings = classCouplings;
+			ClassCouplings = classCouplings.AsArray();
 			DepthOfInheritance = depthOfInheritance;
 			Name = name;
 			Documentation = documentation;

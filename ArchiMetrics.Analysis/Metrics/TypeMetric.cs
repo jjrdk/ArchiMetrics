@@ -38,7 +38,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			IsAbstract = isAbstract;
 			Kind = kind;
 			AccessModifier = accessModifier;
-			MemberMetrics = memberMetrics;
+			MemberMetrics = memberMetrics.AsArray();
 			LinesOfCode = linesOfCode;
 			CyclomaticComplexity = cyclomaticComplexity;
 			MaintainabilityIndex = maintainabilityIndex;
