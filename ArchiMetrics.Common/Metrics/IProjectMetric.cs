@@ -43,8 +43,17 @@ namespace ArchiMetrics.Common.Metrics
 		/// <remarks>The afferent coupling counts the number of incoming dependencies.</remarks>
 		int AfferentCoupling { get; }
 
+		/// <summary>
+		/// Gets the level of abstractness for the project.
+		/// </summary>
 		double Abstractness { get; }
 
+		/// <summary>
+		/// Gets the known dependant projects for this project.
+		/// </summary>
+		/// <remarks>
+		/// Only the projects in the analyzed solution will be considered. Other projects in external solutions may also be dependants as a metadata reference.
+		/// </remarks>
 		IEnumerable<string> Dependendants { get; }
 	}
 }
