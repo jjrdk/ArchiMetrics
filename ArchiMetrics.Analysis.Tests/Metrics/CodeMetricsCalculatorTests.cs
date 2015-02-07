@@ -224,7 +224,7 @@ using System.Linq;
 
 			private Project CreateProject(string text)
 			{
-				var workspace = new CustomWorkspace();
+				var workspace = new AdhocWorkspace();
 				workspace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("test"), VersionStamp.Create()));
 				var projectId = ProjectId.CreateNewId("testcode");
 				var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp);

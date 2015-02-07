@@ -32,7 +32,7 @@ namespace ArchiMetrics.Common
 		/// </summary>
 		public SolutionProvider()
 		{
-			using (var workspace = new CustomWorkspace())
+			using (var workspace = new AdhocWorkspace())
 			{
 				var solution = workspace.CurrentSolution;
 				_cache.Add(string.Empty, Task.FromResult(solution));

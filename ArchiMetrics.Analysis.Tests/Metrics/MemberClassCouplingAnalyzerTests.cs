@@ -541,7 +541,7 @@ namespace MyNamespace
 
 			private Solution CreateSolution(params string[] code)
 			{
-				using (var workspace = new CustomWorkspace())
+				using (var workspace = new AdhocWorkspace())
 				{
 					workspace.AddSolution(
 						SolutionInfo.Create(

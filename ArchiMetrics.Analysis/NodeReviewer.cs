@@ -133,7 +133,7 @@ namespace ArchiMetrics.Analysis
 					return Enumerable.Empty<EvaluationResult>();
 				}
 
-				var nodeChecks = CheckNodes(node.DescendantNodesAndSelf().Where(x => x.CSharpKind().In(_supportedSyntaxKinds)).AsArray());
+				var nodeChecks = CheckNodes(node.DescendantNodesAndSelf().Where(x => x.Kind().In(_supportedSyntaxKinds)).AsArray());
 				var tokenResultTasks = node.DescendantTokens().SelectMany(VisitToken);
 				var nodeResultTasks = await Task.WhenAll(nodeChecks).ConfigureAwait(false);
 
@@ -233,18 +233,18 @@ namespace ArchiMetrics.Analysis
 			private IEnumerable<EvaluationResult> VisitToken(SyntaxToken token)
 			{
 				var results = token.LeadingTrivia.Concat(token.TrailingTrivia)
-					.Where(x => _triviaEvaluations.ContainsKey(x.CSharpKind()))
-					.SelectMany(trivia => GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.CSharpKind()]));
+					.Where(x => _triviaEvaluations.ContainsKey(x.Kind()))
+					.SelectMany(trivia => GetTriviaEvaluations(trivia, _triviaEvaluations[trivia.Kind()]));
 
 				return results;
 			}
 
 			private async Task<IEnumerable<EvaluationResult>> CheckNodes(SyntaxNode[] nodes)
 			{
-				var semanticResultTasks = nodes.Where(x => _semanticEvaluations.ContainsKey(x.CSharpKind()))
-					.Select(x => CheckSemantics(x, x.CSharpKind()));
-				var codeResults = nodes.Where(x => _codeEvaluations.ContainsKey(x.CSharpKind()))
-					.SelectMany(x => CheckCode(x, x.CSharpKind()));
+				var semanticResultTasks = nodes.Where(x => _semanticEvaluations.ContainsKey(x.Kind()))
+					.Select(x => CheckSemantics(x, x.Kind()));
+				var codeResults = nodes.Where(x => _codeEvaluations.ContainsKey(x.Kind()))
+					.SelectMany(x => CheckCode(x, x.Kind()));
 				var semanticResults = await Task.WhenAll(semanticResultTasks).ConfigureAwait(false);
 
 				return semanticResults.SelectMany(x => x).Concat(codeResults);

@@ -32,7 +32,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 		protected static Solution CreateSolution(IEnumerable<MetadataReference> references, params string[] code)
 		{
-			var workspace = new CustomWorkspace();
+			var workspace = new AdhocWorkspace();
 
 			var x = 1;
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);

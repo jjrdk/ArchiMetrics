@@ -62,7 +62,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			Action<SyntaxNode> action;
 
-			if (_classCouplingActions.TryGetValue(syntaxNode.CSharpKind(), out action))
+			if (_classCouplingActions.TryGetValue(syntaxNode.Kind(), out action))
 			{
 				action(syntaxNode);
 			}

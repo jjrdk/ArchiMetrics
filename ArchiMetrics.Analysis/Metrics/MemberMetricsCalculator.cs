@@ -45,7 +45,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var members = walker.GetMembers(typeNode).AsArray();
 			if ((typeNode.Syntax is ClassDeclarationSyntax
 				|| typeNode.Syntax is StructDeclarationSyntax)
-				&& members.All(m => m.CSharpKind() != SyntaxKind.ConstructorDeclaration))
+				&& members.All(m => m.Kind() != SyntaxKind.ConstructorDeclaration))
 			{
 				var defaultConstructor = SyntaxFactory.ConstructorDeclaration(typeNode.Name)
 											   .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))

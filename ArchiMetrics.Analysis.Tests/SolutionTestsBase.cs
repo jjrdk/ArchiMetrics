@@ -19,7 +19,7 @@ namespace ArchiMetrics.Analysis.Tests
 	{
 		protected Solution CreateSolution(params string[] code)
 		{
-			var workspace = new CustomWorkspace();
+			var workspace = new AdhocWorkspace();
 
 			var x = 1;
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);

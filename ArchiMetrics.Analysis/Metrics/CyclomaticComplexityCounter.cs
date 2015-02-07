@@ -63,7 +63,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			public override void Visit(SyntaxNode node)
 			{
 				base.Visit(node);
-				if (Contributors.Contains(node.CSharpKind()))
+				if (Contributors.Contains(node.Kind()))
 				{
 					_counter++;
 				}
@@ -110,7 +110,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			////}
 			public override void VisitArgument(ArgumentSyntax node)
 			{
-				switch (node.Expression.CSharpKind())
+				switch (node.Expression.Kind())
 				{
 					case SyntaxKind.ParenthesizedLambdaExpression:
 						{

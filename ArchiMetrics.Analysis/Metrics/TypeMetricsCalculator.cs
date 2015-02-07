@@ -83,7 +83,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private static TypeMetricKind GetMetricKind(TypeDeclarationSyntax type)
 		{
-			switch (type.CSharpKind())
+			switch (type.Kind())
 			{
 				case SyntaxKind.ClassDeclaration:
 					return TypeMetricKind.Class;

@@ -92,7 +92,7 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 
 			if (
 				constructor.Body.DescendantNodes()
-				.Where(x => x.CSharpKind() == SyntaxKind.InvocationExpression)
+				.Where(x => x.Kind() == SyntaxKind.InvocationExpression)
 					.Any(x => CallVirtualMethod((InvocationExpressionSyntax)x, semanticModel, containingType)))
 			{
 				var result = new EvaluationResult

@@ -84,11 +84,11 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			var declarationSyntax = (TypeDeclarationSyntax)node;
 			var addAssignments = declarationSyntax
 				.DescendantNodes()
-				.Where(x => x.CSharpKind() == SyntaxKind.AddAssignmentExpression)
+				.Where(x => x.Kind() == SyntaxKind.AddAssignmentExpression)
 				.Cast<AssignmentExpressionSyntax>()
 				.AsArray();
 			var subtractAssignments = declarationSyntax.DescendantNodes()
-				.Where(x => x.CSharpKind() == SyntaxKind.SubtractAssignmentExpression)
+				.Where(x => x.Kind() == SyntaxKind.SubtractAssignmentExpression)
 				.Cast<AssignmentExpressionSyntax>()
 				.AsArray();
 
