@@ -124,6 +124,7 @@
     <Compile Include="CodeReview\NodeInspectorTests.cs" />
     <Compile Include="CoverageAnalyzerTests.cs" />
     <Compile Include="MetricsCalculationPerformanceTest.cs" />
+    <Compile Include="Metrics\MemberDocumentationFactoryTests.cs" />
     <Compile Include="Metrics\TypeExtensionsTests.cs" />
     <Compile Include="Model\SolutionVertexRepositoryTests.cs" />
     <Compile Include="Model\SyntaxTransformerTests.cs" />

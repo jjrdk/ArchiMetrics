@@ -26,12 +26,12 @@ namespace ArchiMetrics.Analysis.Metrics
 		/// <summary>
 		/// Creates the requested instance as an asynchronous operation.
 		/// </summary>
-		/// <param name="parameter">The parameter to pass to the object creation.</param>
+		/// <param name="memberSymbol">The memberSymbol to pass to the object creation.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> to use for cancelling the object creation.</param>
 		/// <returns>Returns a <see cref="Task{T}"/> which represents the instance creation task.</returns>
-		public Task<ITypeDocumentation> Create(ISymbol parameter, CancellationToken cancellationToken)
+		public Task<ITypeDocumentation> Create(ISymbol memberSymbol, CancellationToken cancellationToken)
 		{
-			var doc = parameter.GetDocumentationCommentXml();
+			var doc = memberSymbol.GetDocumentationCommentXml();
 			if (string.IsNullOrWhiteSpace(doc))
 			{
 				return Task.FromResult<ITypeDocumentation>(null);
@@ -55,7 +55,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var returnsElement = docRoot.Element("returns");
 			var returns = returnsElement == null ? string.Empty : returnsElement.Value.Trim();
 			var typeParameterElements = docRoot.Elements("typeparam");
-			var typeConstraints = GetTypeContraints(parameter);
+			var typeConstraints = GetTypeContraints(memberSymbol);
 			var typeParameters =
 				typeParameterElements.Select(
 					x =>
