@@ -28,12 +28,14 @@ namespace ArchiMetrics.Analysis.Metrics
 		private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
 		private readonly MemberNameResolver _nameResolver;
 		private readonly Solution _solution;
+	    private readonly CodeMetricsOptions _options;
 
-		public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution)
+	    public MemberMetricsCalculator(SemanticModel semanticModel, Solution solution, CodeMetricsOptions options = null)
 			: base(semanticModel)
 		{
 			_solution = solution;
-			_nameResolver = new MemberNameResolver(Model);
+		    _options = options;
+		    _nameResolver = new MemberNameResolver(Model);
 		}
 
 		public async Task<IEnumerable<IMemberMetric>> Calculate(TypeDeclarationSyntaxInfo typeNode)
@@ -74,7 +76,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		private int CalculateLinesOfCode(SyntaxNode node)
 		{
-			return _locCalculator.Calculate(node);
+            return _locCalculator.Calculate(node, _options);
 		}
 
 		private int CalculateCyclomaticComplexity(SyntaxNode node)

@@ -26,7 +26,8 @@ namespace ArchiMetrics.Analysis
 
 	public class CodeMetricsCalculator : ICodeMetricsCalculator
 	{
-		private static readonly List<Regex> Patterns = new List<Regex>
+	    private readonly CodeMetricsOptions _options;
+	    private static readonly List<Regex> Patterns = new List<Regex>
 													   {
 														   new Regex(@".*\.g\.cs$", RegexOptions.Compiled), 
 														   new Regex(@".*\.g\.i\.cs$", RegexOptions.Compiled), 
@@ -35,11 +36,16 @@ namespace ArchiMetrics.Analysis
 
 		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
-		public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution)
+	    public CodeMetricsCalculator(CodeMetricsOptions options = null)
+	    {
+	        _options = options;
+	    }
+
+	    public virtual async Task<IEnumerable<INamespaceMetric>> Calculate(Project project, Solution solution)
 		{
 			var compilation = await project.GetCompilationAsync().ConfigureAwait(false);
 			var namespaceDeclarations = await GetNamespaceDeclarations(project).ConfigureAwait(false);
-			return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution).ConfigureAwait(false);
+            return await CalculateNamespaceMetrics(namespaceDeclarations, compilation, solution, _options).ConfigureAwait(false);
 		}
 
 		public async Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees)
@@ -92,7 +98,7 @@ namespace ArchiMetrics.Analysis
 				})
 				.AsArray();
 
-			var namespaceMetrics = await CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation, null).ConfigureAwait(false);
+			var namespaceMetrics = await CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation, null, null).ConfigureAwait(false);
 			return namespaceMetrics;
 		}
 
@@ -261,7 +267,7 @@ namespace ArchiMetrics.Analysis
 				.Select(x => new TypeDeclaration { Name = x.Key, SyntaxNodes = x });
 		}
 
-		private async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, Compilation compilation, Solution solution)
+		private async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, Compilation compilation, Solution solution, CodeMetricsOptions options)
 		{
 			var tasks = namespaceDeclarations.Select(
 				async arg =>
@@ -283,7 +289,7 @@ namespace ArchiMetrics.Analysis
 					var tuple = await VerifyCompilation(comp, info).ConfigureAwait(false);
 					var semanticModel = tuple.Item2;
 					comp = tuple.Item1;
-					var calculator = new MemberMetricsCalculator(semanticModel, solution);
+					var calculator = new MemberMetricsCalculator(semanticModel, solution, _options);
 
 					return await calculator.Calculate(info).ConfigureAwait(false);
 				});

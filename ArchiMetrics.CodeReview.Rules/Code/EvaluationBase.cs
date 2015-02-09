@@ -89,7 +89,7 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 
 		protected int GetLinesOfCode(SyntaxNode node)
 		{
-			return _locCalculator.Calculate(node);
+			return _locCalculator.Calculate(node, null);
 		}
 
 		protected TypeDeclarationSyntax FindClassParent(SyntaxNode node)
