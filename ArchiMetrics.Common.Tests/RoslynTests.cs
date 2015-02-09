@@ -10,6 +10,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+#if NCRUNCH
+using NCrunch.Framework; 
+#endif
+
 namespace ArchiMetrics.Common.Tests
 {
 	using System.IO;
@@ -22,7 +26,14 @@ namespace ArchiMetrics.Common.Tests
 	{
 		[Test]
 		public async Task WhenLoadingSolutionThenHasProjects()
-		{
+        {
+#if NCRUNCH
+			    var originalSolutionPath = NCrunchEnvironment.GetOriginalProjectPath();
+                System.Diagnostics.Debug.WriteLine(originalSolutionPath);
+			    var directoryName = Path.Combine(Path.GetDirectoryName(originalSolutionPath),"bin","Debug");
+                System.Diagnostics.Debug.WriteLine(directoryName);
+                Directory.SetCurrentDirectory(directoryName);
+#endif
 			var path = @"..\..\..\archimetrics.sln".GetLowerCaseFullPath();
 			var workspace = MSBuildWorkspace.Create();
 			var solution = await workspace.OpenSolutionAsync(path);

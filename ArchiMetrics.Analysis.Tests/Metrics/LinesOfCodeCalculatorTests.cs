@@ -53,7 +53,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 					.DescendantNodes()
 					.First(c => c.IsKind(SyntaxKind.MethodDeclaration));
 
-				var loc = _analyzer.Calculate(root);
+                var loc = _analyzer.Calculate(root, null);
 
 				Assert.AreEqual(0, loc);
 			}
@@ -85,7 +85,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 					.GetRoot()
 					.DescendantNodes()
 					.First(c => c.IsKind(kind));
-				var loc = _analyzer.Calculate(root);
+                var loc = _analyzer.Calculate(root, null);
 
 				Assert.AreEqual(expected, loc);
 			}
@@ -119,7 +119,36 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 
 				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree.GetRoot();
-				var loc = _analyzer.Calculate(root);
+                var loc = _analyzer.Calculate(root, null);
+
+				Assert.AreEqual(count, loc);
+			}
+
+			[TestCase(@"public void SomeMethod() {
+						const string x = ""blah"";
+					}", 8)]
+			[TestCase(@"public double GetValue(double x)
+		{
+			if (x % 2 == 0.0)
+			{
+				return x;
+			}
+			return x + 1;
+		}", 13)]
+            public void WhenCountingLinesOfCodeWithPreciseLinesCodeCalculationEnabledLinesOfCodeVerificationIsIgnored(string code, int count)
+			{
+				var text = string.Format(
+@"namespace Testing
+			{{
+				public class TestClass {{
+					{0}
+				}}
+			}}", 
+			   code);
+
+				var syntaxTree = CSharpSyntaxTree.ParseText(text);
+				var root = syntaxTree.GetRoot();
+                var loc = _analyzer.Calculate(root, new CodeMetricsOptions {PreciseLinesOfCodeCalculation = true});
 
 				Assert.AreEqual(count, loc);
 			}

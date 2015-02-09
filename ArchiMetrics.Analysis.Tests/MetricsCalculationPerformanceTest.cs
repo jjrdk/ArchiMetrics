@@ -10,6 +10,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+#if NCRUNCH
+using System.IO;
+using NCrunch.Framework; 
+#endif
+
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System;
@@ -30,6 +35,13 @@ namespace ArchiMetrics.Analysis.Tests
 		[SetUp]
 		public void Setup()
 		{
+#if NCRUNCH
+			    var originalSolutionPath = NCrunchEnvironment.GetOriginalProjectPath();
+                System.Diagnostics.Debug.WriteLine(originalSolutionPath);
+			    var directoryName = Path.Combine(Path.GetDirectoryName(originalSolutionPath),"bin","Debug");
+                System.Diagnostics.Debug.WriteLine(directoryName);
+                Directory.SetCurrentDirectory(directoryName);
+#endif
 			_calculator = new ProjectMetricsCalculator(new CodeMetricsCalculator());
 		}
 
@@ -56,7 +68,7 @@ namespace ArchiMetrics.Analysis.Tests
 		{
 			using (var workspace = MSBuildWorkspace.Create())
 			{
-				var path = @"..\..\..\ArchiMetrics.Common\ArchiMetrics.Common.csproj".GetLowerCaseFullPath();
+                var path = @"..\..\..\ArchiMetrics.Common\ArchiMetrics.Common.csproj".GetLowerCaseFullPath();
 				var project = await workspace.OpenProjectAsync(path).ConfigureAwait(false);
 				var metrics = new metrics.Metrics();
 				var timer = metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
