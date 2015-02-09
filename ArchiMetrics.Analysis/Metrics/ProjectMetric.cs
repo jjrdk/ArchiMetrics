@@ -29,6 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			EfferentCoupling = Dependencies.Count();
 			NamespaceMetrics = namespaceMetrics.AsArray();
 			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
+			SourceLinesOfCode = NamespaceMetrics.Sum(x => x.SourceLinesOfCode);
 			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
 			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
 			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).AsArray();
@@ -47,6 +48,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public int AfferentCoupling { get; private set; }
 
 		public int LinesOfCode { get; private set; }
+
+		public int SourceLinesOfCode { get; private set; }
 
 		public double MaintainabilityIndex { get; private set; }
 

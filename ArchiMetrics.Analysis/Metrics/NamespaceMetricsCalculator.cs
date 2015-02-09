@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System;
@@ -30,6 +32,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		{
 			var typeMetrics = metrics.AsArray();
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
+			var sourceLinesOfCode = CalculateSourceLinesOfCode(namespaceNode.Syntax);
 			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
 						  .GroupBy(x => x.ToString())
 						  .Select(x => new TypeCoupling(x.First().TypeName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
@@ -44,10 +47,18 @@ namespace ArchiMetrics.Analysis.Metrics
 				maintainabilityIndex,
 				cyclomaticComplexity,
 				linesOfCode,
+				sourceLinesOfCode,
 				source,
 				depthOfInheritance,
 				namespaceNode.Name,
 				typeMetrics);
+		}
+
+		private int CalculateSourceLinesOfCode(SyntaxNode syntaxNode)
+		{
+			var totalUsings = syntaxNode.DescendantNodes().OfType<UsingDirectiveSyntax>()
+				.Sum(directive => directive.GetText().Lines.Count(l => l.Span.Length > 0));
+			return syntaxNode.GetText().Lines.Count - totalUsings;
 		}
 	}
 }

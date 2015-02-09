@@ -25,6 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			AccessModifierKind accessModifier,
 			IEnumerable<IMemberMetric> memberMetrics,
 			int linesOfCode,
+			int sourceLinesOfCode,
 			int cyclomaticComplexity,
 			double maintainabilityIndex,
 			int depthOfInheritance,
@@ -39,6 +40,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			AccessModifier = accessModifier;
 			MemberMetrics = memberMetrics;
 			LinesOfCode = linesOfCode;
+			SourceLinesOfCode = sourceLinesOfCode;
 			CyclomaticComplexity = cyclomaticComplexity;
 			MaintainabilityIndex = maintainabilityIndex;
 			DepthOfInheritance = depthOfInheritance;
@@ -48,6 +50,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			EfferentCoupling = efferentCoupling;
 			Instability = instability;
 		}
+
+		public int SourceLinesOfCode { get; set; }
 
 		public bool IsAbstract { get; private set; }
 

@@ -25,6 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			IHalsteadMetrics halstead,
 			int lineNumber,
 			int linesOfCode,
+			int sourceLinesOfCode,
 			double maintainabilityIndex,
 			int cyclomaticComplexity,
 			string name,
@@ -38,6 +39,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			AccessModifier = accessModifier;
 			LineNumber = lineNumber;
 			LinesOfCode = linesOfCode;
+			SourceLinesOfCode = sourceLinesOfCode;
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
 			Name = name;
@@ -54,6 +56,8 @@ namespace ArchiMetrics.Analysis.Metrics
 		public int LineNumber { get; private set; }
 
 		public int LinesOfCode { get; private set; }
+
+		public int SourceLinesOfCode { get; private set; }
 
 		public double MaintainabilityIndex { get; private set; }
 
