@@ -29,6 +29,11 @@ namespace ArchiMetrics.Common.Metrics
 		/// </summary>
 		/// <remarks>For a description of how lines of code are counted consult this article: http://blogs.msdn.com/b/zainnab/archive/2011/05/12/code-metrics-lines-of-code.aspx .</remarks>
 		int LinesOfCode { get; }
+
+		/// <summary>
+		/// Gets the source lines of code.
+		/// </summary>
+		int SourceLinesOfCode { get; }
 		
 		/// <summary>
 		/// Gets the maintainability index.
