@@ -9,11 +9,8 @@
 //   Defines the CyclomaticComplexityCounterTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
-	using System;
-	using System.Diagnostics;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
@@ -122,11 +119,11 @@ namespace MyNs
 				var tree = CSharpSyntaxTree.ParseText(method);
 				var compilation = CSharpCompilation.Create(
 					"x", 
-					syntaxTrees: new[] { tree },
+					syntaxTrees: new[] { tree }, 
 					references: new MetadataReference[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location), MetadataReference.CreateFromFile(typeof(Task).Assembly.Location) }, 
 					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
-				var model = compilation.GetSemanticModel(tree);
+				var model = compilation.GetSemanticModel(tree, false);
 				var syntaxNode = tree
 					.GetRoot()
 					.DescendantNodes()
@@ -163,11 +160,11 @@ namespace MyNs
 				var tree = CSharpSyntaxTree.ParseText(code);
 				var compilation = CSharpCompilation.Create(
 					"x", 
-					syntaxTrees: new[] { tree },
+					syntaxTrees: new[] { tree }, 
 					references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location), MetadataReference.CreateFromFile(typeof(Task).Assembly.Location) }, 
 					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
-				var model = compilation.GetSemanticModel(tree);
+				var model = compilation.GetSemanticModel(tree, false);
 				var syntaxNode = tree
 					.GetRoot()
 					.DescendantNodes()
