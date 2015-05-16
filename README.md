@@ -17,7 +17,7 @@ Using project
 -------------------
 If you are going to use metrics, you must install
 
-[Microsoft Build Tools 2015 Preview](http://www.microsoft.com/en-us/download/details.aspx?id=44931)
+[Microsoft Build Tools 2015 RC](http://www.microsoft.com/en-us/download/details.aspx?id=46882&WT.mc_id=rss_alldownloads_all)
 
 You also may need to install this package
 
