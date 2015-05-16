@@ -18,7 +18,6 @@ namespace ArchiMetrics.Common
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.MSBuild;
 
 	/// <summary>
 	/// Provides a concrete implementation of an <see cref="IProvider{TKey,T}"/> for loading <see cref="Solution"/>.
@@ -94,7 +93,7 @@ namespace ArchiMetrics.Common
 
 		private static async Task<Tuple<int, Solution>> GetSolution(string path)
 		{
-			using (var workspace = MSBuildWorkspace.Create())
+			using (var workspace = Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create())
 			{
 				var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
 				var dependencyGraph = solution.GetProjectDependencyGraph();

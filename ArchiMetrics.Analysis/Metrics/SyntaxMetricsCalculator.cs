@@ -23,9 +23,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	public sealed class SyntaxMetricsCalculator
 	{
-		private readonly Func<SyntaxNode, bool> _isGetProperty = n => n.IsKind(SyntaxKind.PropertyDeclaration) && (n as PropertyDeclarationSyntax).AccessorList.Accessors.Any(a => a.IsKind(SyntaxKind.GetAccessorDeclaration));
 		private readonly Func<SyntaxNode, bool> _isMethod = n => n.IsKind(SyntaxKind.MethodDeclaration) && (n as MethodDeclarationSyntax).Body != null;
-		private readonly Func<SyntaxNode, bool> _isSetProperty = n => n.IsKind(SyntaxKind.PropertyDeclaration) && (n as PropertyDeclarationSyntax).AccessorList.Accessors.Any(a => a.IsKind(SyntaxKind.SetAccessorDeclaration));
 
 		public IEnumerable<IHalsteadMetrics> Calculate(string code)
 		{
@@ -50,11 +48,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			var types = childNodes.Where(n => n.IsKind(SyntaxKind.ClassDeclaration) || n.IsKind(SyntaxKind.StructDeclaration))
 				.AsArray();
 			var methods = types.SelectMany(n => n.ChildNodes().Where(_isMethod));
-			var getProperties = types.SelectMany(n => n.ChildNodes().Where(_isGetProperty));
-			var setProperties = types.SelectMany(n => n.ChildNodes().Where(_isSetProperty));
+			var getProperties = types.SelectMany(n => n.ChildNodes().Where(IsGetProperty));
+			var setProperties = types.SelectMany(n => n.ChildNodes().Where(IsSetProperty));
 			var looseMethods = childNodes.Where(_isMethod);
-			var looseGetProperties = childNodes.Where(_isGetProperty);
-			var looseSetProperties = childNodes.Where(_isSetProperty);
+			var looseGetProperties = childNodes.Where(IsGetProperty);
+			var looseSetProperties = childNodes.Where(IsSetProperty);
 			var members = methods.Concat(getProperties)
 								 .Concat(setProperties)
 								 .Concat(looseMethods)
@@ -76,6 +74,28 @@ namespace ArchiMetrics.Analysis.Metrics
 				   {
 					   analyzer.Calculate(fakeMethod)
 				   };
+		}
+
+		private static bool IsGetProperty(SyntaxNode n)
+		{
+			if (!n.IsKind(SyntaxKind.PropertyDeclaration))
+			{
+				return false;
+			}
+
+			var propertyDeclarationSyntax = n as PropertyDeclarationSyntax;
+			return propertyDeclarationSyntax != null && propertyDeclarationSyntax.AccessorList.Accessors.Any(a => a.IsKind(SyntaxKind.GetAccessorDeclaration));
+		}
+
+		private static bool IsSetProperty(SyntaxNode n)
+		{
+			if (!n.IsKind(SyntaxKind.PropertyDeclaration))
+			{
+				return false;
+			}
+
+			var propertyDeclarationSyntax = n as PropertyDeclarationSyntax;
+			return propertyDeclarationSyntax != null && propertyDeclarationSyntax.AccessorList.Accessors.Any(a => a.IsKind(SyntaxKind.SetAccessorDeclaration));
 		}
 	}
 }

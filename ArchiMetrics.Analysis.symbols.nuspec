@@ -3,7 +3,7 @@
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
 		<title>Roslyn Code Analysis</title>
-		<version>0.14.1.0-beta</version>
+		<version>1.0.0.0-rc1</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
 		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
@@ -14,23 +14,23 @@
 		<releaseNotes />
 		<tags>metrics analysis roslyn</tags>
 		<dependencies>
-			<dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="1.0.0.0-beta2" />
+			<dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="1.0.0-rc3-20150514-02" />
 			<dependency id="Microsoft.Composition" version="1.0.30" />
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="artifacts\4.5\Release\ArchiMetrics.Common.dll" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.dll" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Common.pdb" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.pdb" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Common.xml" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.xml" target="lib\Net45" />
-		<file src="artifacts\4.5.1\Release\ArchiMetrics.Common.dll" target="lib\Net451" />
-		<file src="artifacts\4.5.1\Release\ArchiMetrics.Analysis.dll" target="lib\Net451" />
-		<file src="artifacts\4.5.1\Release\ArchiMetrics.Common.pdb" target="lib\Net451" />
-		<file src="artifacts\4.5.1\Release\ArchiMetrics.Analysis.pdb" target="lib\Net451" />
-		<file src="artifacts\4.5.1\Release\ArchiMetrics.Common.xml" target="lib\Net451" />
-		<file src="artifacts\4.5.1\Release\ArchiMetrics.Analysis.xml" target="lib\Net451" />
+		<file src="artifacts\4.6\Release\ArchiMetrics.Common.dll" target="lib\Net46" />
+		<file src="artifacts\4.6\Release\ArchiMetrics.Analysis.dll" target="lib\Net46" />
+		<file src="artifacts\4.6\Release\ArchiMetrics.Common.pdb" target="lib\Net46" />
+		<file src="artifacts\4.6\Release\ArchiMetrics.Analysis.pdb" target="lib\Net46" />
+		<file src="artifacts\4.6\Release\ArchiMetrics.Common.xml" target="lib\Net46" />
+		<file src="artifacts\4.6\Release\ArchiMetrics.Analysis.xml" target="lib\Net46" />
+		<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.dll" target="lib\Net452" />
+		<file src="artifacts\4.5.2\Release\ArchiMetrics.Analysis.dll" target="lib\Net452" />
+		<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.pdb" target="lib\Net452" />
+		<file src="artifacts\4.5.2\Release\ArchiMetrics.Analysis.pdb" target="lib\Net452" />
+		<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.xml" target="lib\Net452" />
+		<file src="artifacts\4.5.2\Release\ArchiMetrics.Analysis.xml" target="lib\Net452" />
 		<file src="ArchiMetrics.Common\**\*.cs" target="src\ArchiMetrics.Common" />
 		<file src="ArchiMetrics.Analysis\**\*.cs" target="src\ArchiMetrics.Analysis" />
 	</files>
