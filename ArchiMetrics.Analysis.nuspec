@@ -10,7 +10,57 @@
 		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
-		<description>A Roslyn based code analysis library.</description>
+		<description>The package provides code analysis features using the Roslyn CTP.
+
+
+The project calculates the following metrics:
+
+Project Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Abstractness
+- Afferent Coupling
+- Efferent Coupling
+- RelationalCohesion
+
+Namespace Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Depth of Inheritance
+- Abstractness
+
+Type Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Depth Of Inheritance
+- Type Coupling
+- Afferent Coupling
+- Efferent Coupling
+- Instability
+
+Member Level
+
+- Cyclomatic Complexity
+- Lines Of Code
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Number Of Parameters
+- Number Of Local Variables
+- Afferent Coupling
+- Halstead Metrics</description>
 		<summary>The package provides code analysis features using the Roslyn CTP.</summary>
 		<releaseNotes />
 		<tags>metrics analysis roslyn</tags>
