@@ -19,13 +19,13 @@ namespace ArchiMetrics.Analysis.Tests
 	{
 		protected Solution CreateSolution(params string[] code)
 		{
-			var workspace = new CustomWorkspace();
+			var workspace = new AdhocWorkspace();
 
 			var x = 1;
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
 
 			var projId = seed.Projects.First().Id;
-			seed = seed.AddMetadataReference(projId, MetadataReference.CreateFromAssembly(typeof(object).Assembly));
+			seed = seed.AddMetadataReference(projId, MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
 
 			var solution = code.Aggregate(
 				seed,

@@ -72,7 +72,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			IDictionary<SyntaxKind, IList<string>> dictionary = new Dictionary<SyntaxKind, IList<string>>();
 			foreach (var token in tokens)
 			{
-				var kind = token.CSharpKind();
+				var kind = token.Kind();
 				if (filter.Any(x => x == kind))
 				{
 					IList<string> list;

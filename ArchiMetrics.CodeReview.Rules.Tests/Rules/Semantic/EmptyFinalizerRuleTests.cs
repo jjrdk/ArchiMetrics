@@ -61,9 +61,9 @@
 			{
 				var references = new[]
 									 {
-										 MetadataReference.CreateFromAssembly(typeof(IAvailability).Assembly),
-										 MetadataReference.CreateFromAssembly(typeof(object).Assembly),
-										 MetadataReference.CreateFromAssembly(typeof(Debug).Assembly)
+										 MetadataReference.CreateFromFile(typeof(IAvailability).Assembly.Location),
+										 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+										 MetadataReference.CreateFromFile(typeof(Debug).Assembly.Location)
 									 };
 
 				var solution = CreateSolution(references, code);

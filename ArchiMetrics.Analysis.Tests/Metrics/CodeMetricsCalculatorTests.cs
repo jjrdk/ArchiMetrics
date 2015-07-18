@@ -10,6 +10,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.CodeAnalysis.MSBuild;
+
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
 	using System.Linq;
@@ -224,8 +226,8 @@ using System.Linq;
 
 			private Project CreateProject(string text)
 			{
-				var workspace = new CustomWorkspace();
-				workspace.AddSolution(SolutionInfo.Create(SolutionId.CreateNewId("test"), VersionStamp.Create()));
+				var workspace = new AdhocWorkspace();
+				
 				var projectId = ProjectId.CreateNewId("testcode");
 				var solution = workspace.CurrentSolution.AddProject(projectId, "testcode", "testcode.dll", LanguageNames.CSharp);
 				solution = solution.AddDocument(DocumentId.CreateNewId(projectId), "code.cs", text);

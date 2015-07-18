@@ -24,15 +24,15 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 			return CreateSolution(
 				new[]
 				{
-					MetadataReference.CreateFromAssembly(typeof(object).Assembly),
-					MetadataReference.CreateFromAssembly(typeof(Debug).Assembly)
+					MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+					MetadataReference.CreateFromFile(typeof(Debug).Assembly.Location)
 				}, 
 				code);
 		}
 
 		protected static Solution CreateSolution(IEnumerable<MetadataReference> references, params string[] code)
 		{
-			var workspace = new CustomWorkspace();
+			var workspace = new AdhocWorkspace();
 
 			var x = 1;
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);

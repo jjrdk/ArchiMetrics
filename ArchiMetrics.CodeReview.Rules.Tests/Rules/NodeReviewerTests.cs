@@ -10,6 +10,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Text;
+using System.Threading;
+
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
 	using System;
@@ -30,7 +33,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 		public static async Task<IEnumerable<EvaluationResult>> PerformInspection(string code, Type evaluatorType)
 		{
 			var inspector = new NodeReviewer(new[] { (ICodeEvaluation)Activator.CreateInstance(evaluatorType) }, Enumerable.Empty<ISymbolEvaluation>());
-			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }");
+			var tree = CSharpSyntaxTree.ParseText("namespace TestSpace { public class ParseClass { " + code + " } }", CSharpParseOptions.Default, string.Empty, Encoding.Unicode, CancellationToken.None);
 
 			return await inspector.Inspect(string.Empty, string.Empty, tree.GetRoot(), null, null);
 		}

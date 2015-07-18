@@ -42,7 +42,7 @@ namespace ArchiMetrics.Analysis.Metrics
 					                  { SyntaxKind.AddAccessorDeclaration, x => GetAddEventHandlerSignatureString((AccessorDeclarationSyntax)x) }, 
 					                  { SyntaxKind.RemoveAccessorDeclaration, x => GetRemoveEventHandlerSignatureString((AccessorDeclarationSyntax)x) }
 				                  };
-			var kind = syntaxNode.CSharpKind();
+			var kind = syntaxNode.Kind();
 			return dictionary.TryGetValue(kind, out func)
 				? func(syntaxNode)
 				: string.Empty;

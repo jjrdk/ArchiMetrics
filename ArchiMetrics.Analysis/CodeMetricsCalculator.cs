@@ -37,6 +37,11 @@ namespace ArchiMetrics.Analysis
 
 		private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
+		public CodeMetricsCalculator()
+			: this(new TypeDocumentationFactory(), new MemberDocumentationFactory())
+		{
+		}
+
 		public CodeMetricsCalculator(IAsyncFactory<ISymbol, ITypeDocumentation> typeDocumentationFactory, IAsyncFactory<ISymbol, IMemberDocumentation> memberDocumentationFactory)
 		{
 			_typeDocumentationFactory = typeDocumentationFactory;

@@ -126,7 +126,7 @@ namespace MyNs
 					references: new MetadataReference[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location), MetadataReference.CreateFromFile(typeof(Task).Assembly.Location) }, 
 					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
-				var model = compilation.GetSemanticModel(tree);
+				var model = compilation.GetSemanticModel(tree, true);
 				var syntaxNode = tree
 					.GetRoot()
 					.DescendantNodes()
@@ -167,7 +167,7 @@ namespace MyNs
 					references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location), MetadataReference.CreateFromFile(typeof(Task).Assembly.Location) }, 
 					options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
 
-				var model = compilation.GetSemanticModel(tree);
+				var model = compilation.GetSemanticModel(tree, true);
 				var syntaxNode = tree
 					.GetRoot()
 					.DescendantNodes()
