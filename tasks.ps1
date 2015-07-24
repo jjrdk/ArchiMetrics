@@ -5,7 +5,7 @@ properties {
 	$cleanPackages = $false
 	$oldEnvPath = ""
 	$buildOutput = "artifacts"
-	$fwkVersions = "4.5","4.5.1"
+	$fwkVersions = "4.5.2"
 }
 
 task default -depends CleanUpMsBuildPath
