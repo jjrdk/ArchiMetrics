@@ -3,7 +3,7 @@
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
 		<title>Roslyn Code Analysis</title>
-		<version>1.0.0.0</version>
+		<version>1.0.1.0</version>
 		<authors>Jacob Reimers</authors>
 		<owners>Jacob Reimers</owners>
 		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
@@ -18,12 +18,6 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="artifacts\4.5\Release\ArchiMetrics.Common.dll" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.dll" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Common.pdb" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.pdb" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Common.xml" target="lib\Net45" />
-		<file src="artifacts\4.5\Release\ArchiMetrics.Analysis.xml" target="lib\Net45" />
 		<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.dll" target="lib\Net452" />
 		<file src="artifacts\4.5.2\Release\ArchiMetrics.Analysis.dll" target="lib\Net452" />
 		<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.pdb" target="lib\Net452" />

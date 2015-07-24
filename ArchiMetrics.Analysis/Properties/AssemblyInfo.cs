@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="Reimers.dk">
-//   Copyright ? Reimers.dk 2014
+//   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Reimers.dk")]
 [assembly: AssemblyProduct("ArchiMetrics.Analysis")]
-[assembly: AssemblyCopyright("Copyright ? Reimers.dk 2014")]
+[assembly: AssemblyCopyright("Copyright © Reimers.dk 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,9 +39,9 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyInformationalVersion("0.14.1.0-beta")]
-[assembly: AssemblyVersion("0.14.1.0")]
-[assembly: AssemblyFileVersion("0.14.1.0")]
+[assembly: AssemblyInformationalVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Analysis.Tests")]
 [assembly: InternalsVisibleTo("ArchiMetrics.CodeReview.Rules")]
 [assembly: InternalsVisibleTo("ArchiMetrics.Raven")]

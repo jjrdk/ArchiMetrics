@@ -67,8 +67,8 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var statements = childNodes.Length == 0
-				? root.DescendantNodesAndTokens().Select(x => SyntaxFactory.ParseStatement(x.ToFullString(), 0, new CSharpParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])))
-				: childNodes.Select(x => SyntaxFactory.ParseStatement(x.ToFullString(), 0, new CSharpParseOptions(kind: SourceCodeKind.Script, preprocessorSymbols: new string[0])));
+				? root.DescendantNodesAndTokens().Select(x => SyntaxFactory.ParseStatement(x.ToFullString(), 0, new CSharpParseOptions(preprocessorSymbols: new string[0])))
+				: childNodes.Select(x => SyntaxFactory.ParseStatement(x.ToFullString(), 0, new CSharpParseOptions(preprocessorSymbols: new string[0])));
 
 			var fakeMethod = SyntaxFactory.MethodDeclaration(SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)), "fake")
 				.WithBody(SyntaxFactory.Block(statements));
