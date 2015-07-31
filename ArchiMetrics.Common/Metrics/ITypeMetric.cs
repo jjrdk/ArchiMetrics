@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 
-	public interface ITypeMetric : IDocumentedMetric
+	public interface ITypeMetric : ICodeMetric
 	{
 		AccessModifierKind AccessModifier { get; }
 
@@ -33,5 +33,7 @@ namespace ArchiMetrics.Common.Metrics
 		double Instability { get; }
 
 		bool IsAbstract { get; }
+
+		ITypeDocumentation Documentation { get; }
 	}
 }

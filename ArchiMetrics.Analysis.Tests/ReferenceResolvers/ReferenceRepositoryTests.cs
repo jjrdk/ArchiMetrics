@@ -15,8 +15,8 @@ namespace ArchiMetrics.Analysis.Tests.ReferenceResolvers
 	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using ArchiMetrics.Analysis.ReferenceResolvers;
 	using ArchiMetrics.Common;
-	using global::ArchiMetrics.Analysis.ReferenceResolvers;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;

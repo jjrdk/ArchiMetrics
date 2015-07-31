@@ -91,6 +91,7 @@ namespace ArchiMetrics.Analysis.Tests
 
 			Assert.IsTrue(areReferenced.All(x => x));
 		}
+
 		[Test]
 		public async Task WhenNotCoveredByTestThenFindsNoCoverage()
 		{

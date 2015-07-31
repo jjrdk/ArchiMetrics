@@ -33,7 +33,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			int numberOfParameters,
 			int numberOfLocalVariables,
 			int afferentCoupling,
-			IDocumentation documentation)
+			IMemberDocumentation documentation)
 		{
 			_halstead = halstead;
 			CodeFile = codeFile;
@@ -72,7 +72,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int AfferentCoupling { get; private set; }
 
-		public IDocumentation Documentation { get; private set; }
+		public IMemberDocumentation Documentation { get; private set; }
 
 		public IHalsteadMetrics GetHalsteadMetrics()
 		{

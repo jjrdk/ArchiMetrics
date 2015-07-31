@@ -20,90 +20,90 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	//internal class ExceptionShouldBeVisibleRule : SemanticEvaluationBase
-	//{
-	//	private static readonly string[] DisallowedExceptions = { "Exception", "SystemException", "ApplicationException" };
+	////internal class ExceptionShouldBeVisibleRule : SemanticEvaluationBase
+	////{
+	////	private static readonly string[] DisallowedExceptions = { "Exception", "SystemException", "ApplicationException" };
 
-	//	public override string ID
-	//	{
-	//		get
-	//		{
-	//			return string.Empty;
-	//		}
-	//	}
+	////	public override string ID
+	////	{
+	////		get
+	////		{
+	////			return string.Empty;
+	////		}
+	////	}
 
-	//	public override string Suggestion
-	//	{
-	//		get
-	//		{
-	//			return "This exception is not public and its base class does not provide enough information to be useful.";
-	//		}
-	//	}
+	////	public override string Suggestion
+	////	{
+	////		get
+	////		{
+	////			return "This exception is not public and its base class does not provide enough information to be useful.";
+	////		}
+	////	}
 
-	//	public override CodeQuality Quality
-	//	{
-	//		get
-	//		{
-	//			return CodeQuality.NeedsReview;
-	//		}
-	//	}
+	////	public override CodeQuality Quality
+	////	{
+	////		get
+	////		{
+	////			return CodeQuality.NeedsReview;
+	////		}
+	////	}
 
-	//	public override QualityAttribute QualityAttribute
-	//	{
-	//		get
-	//		{
-	//			return QualityAttribute.Testability;
-	//		}
-	//	}
+	////	public override QualityAttribute QualityAttribute
+	////	{
+	////		get
+	////		{
+	////			return QualityAttribute.Testability;
+	////		}
+	////	}
 
-	//	public override ImpactLevel ImpactLevel
-	//	{
-	//		get
-	//		{
-	//			return ImpactLevel.Project;
-	//		}
-	//	}
+	////	public override ImpactLevel ImpactLevel
+	////	{
+	////		get
+	////		{
+	////			return ImpactLevel.Project;
+	////		}
+	////	}
 
-	//	public override SyntaxKind EvaluatedKind
-	//	{
-	//		get
-	//		{
-	//			return SyntaxKind.ClassDeclaration;
-	//		}
-	//	}
+	////	public override SyntaxKind EvaluatedKind
+	////	{
+	////		get
+	////		{
+	////			return SyntaxKind.ClassDeclaration;
+	////		}
+	////	}
 
-	//	public override string Title
-	//	{
-	//		get
-	//		{
-	//			return "Exception should be visible.";
-	//		}
-	//	}
+	////	public override string Title
+	////	{
+	////		get
+	////		{
+	////			return "Exception should be visible.";
+	////		}
+	////	}
 
-	//	protected override Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
-	//	{
-	//		var declaration = (ClassDeclarationSyntax)node;
-	//		var baseTypes = declaration.BaseList;
-	//		if (baseTypes == null
-	//			|| !baseTypes.Types.Any()
-	//			|| baseTypes.Types.All(x =>
-	//				{
-	//					// rule apply only to type that inherits from the base exceptions
-	//					var symbol = semanticModel.GetDeclaredSymbol(x);
-	//					return symbol == null
-	//						   || symbol.ContainingNamespace.Name != "System"
-	//						   || !DisallowedExceptions.Contains(symbol.Name)
-	//						   || symbol.IsAbstract
-	//						   || symbol.DeclaredAccessibility == Accessibility.Public;
-	//				}))
-	//		{
-	//			Task.FromResult<EvaluationResult>(null);
-	//		}
+	////	protected override Task<EvaluationResult> EvaluateImpl(SyntaxNode node, SemanticModel semanticModel, Solution solution)
+	////	{
+	////		var declaration = (ClassDeclarationSyntax)node;
+	////		var baseTypes = declaration.BaseList;
+	////		if (baseTypes == null
+	////			|| !baseTypes.Types.Any()
+	////			|| baseTypes.Types.All(x =>
+	////				{
+	////					// rule apply only to type that inherits from the base exceptions
+	////					var symbol = semanticModel.GetDeclaredSymbol(x);
+	////					return symbol == null
+	////						   || symbol.ContainingNamespace.Name != "System"
+	////						   || !DisallowedExceptions.Contains(symbol.Name)
+	////						   || symbol.IsAbstract
+	////						   || symbol.DeclaredAccessibility == Accessibility.Public;
+	////				}))
+	////		{
+	////			Task.FromResult<EvaluationResult>(null);
+	////		}
 
-	//		return Task.FromResult(new EvaluationResult
-	//								   {
-	//									   Snippet = declaration.ToFullString()
-	//								   });
-	//	}
-	//}
+	////		return Task.FromResult(new EvaluationResult
+	////								   {
+	////									   Snippet = declaration.ToFullString()
+	////								   });
+	////	}
+	////}
 }

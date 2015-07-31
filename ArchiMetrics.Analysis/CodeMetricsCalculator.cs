@@ -26,8 +26,6 @@ namespace ArchiMetrics.Analysis
 
     public class CodeMetricsCalculator : ICodeMetricsCalculator
     {
-        private readonly IAsyncFactory<ISymbol, ITypeDocumentation> _typeDocumentationFactory;
-        private readonly IAsyncFactory<ISymbol, IMemberDocumentation> _memberDocumentationFactory;
         private static readonly List<Regex> Patterns = new List<Regex>
                                                        {
                                                            new Regex(@".*\.g\.cs$", RegexOptions.Compiled),
@@ -35,6 +33,8 @@ namespace ArchiMetrics.Analysis
                                                            new Regex(@".*\.designer\.cs$", RegexOptions.Compiled)
                                                        };
 
+		private readonly IAsyncFactory<ISymbol, ITypeDocumentation> _typeDocumentationFactory;
+		private readonly IAsyncFactory<ISymbol, IMemberDocumentation> _memberDocumentationFactory;
         private readonly SyntaxCollector _syntaxCollector = new SyntaxCollector();
 
         public CodeMetricsCalculator()
@@ -273,6 +273,24 @@ namespace ArchiMetrics.Analysis
                 .GroupBy(x => x.Name)
                 .Select(x => new TypeDeclaration { Name = x.Key, SyntaxNodes = x });
         }
+
+		private async Task<Tuple<Compilation, ITypeMetric>> CalculateTypeMetrics(Solution solution, Compilation compilation, TypeDeclaration typeNodes, IEnumerable<IMemberMetric> memberMetrics)
+		{
+			if (typeNodes.SyntaxNodes.Any())
+			{
+				var tuple = await VerifyCompilation(compilation, typeNodes.SyntaxNodes.First()).ConfigureAwait(false);
+				var semanticModel = tuple.Item2;
+				compilation = tuple.Item1;
+				var typeNode = tuple.Item3;
+				var calculator = new TypeMetricsCalculator(semanticModel, solution, _typeDocumentationFactory);
+				var metrics = await calculator.CalculateFrom(typeNode, memberMetrics);
+				return new Tuple<Compilation, ITypeMetric>(
+					compilation,
+					metrics);
+			}
+
+			return null;
+		}
 
         private async Task<IEnumerable<INamespaceMetric>> CalculateNamespaceMetrics(IEnumerable<NamespaceDeclaration> namespaceDeclarations, Compilation compilation, Solution solution)
         {

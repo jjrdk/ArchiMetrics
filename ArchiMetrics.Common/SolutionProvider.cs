@@ -14,10 +14,10 @@ namespace ArchiMetrics.Common
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.MSBuild;
 
 	/// <summary>
 	/// Provides a concrete implementation of an <see cref="IProvider{TKey,T}"/> for loading <see cref="Solution"/>.
@@ -27,7 +27,7 @@ namespace ArchiMetrics.Common
 		private Dictionary<string, Task<Solution>> _cache = new Dictionary<string, Task<Solution>>();
 
 		/// <summary>
-		/// Creates a new instance of the <see cref="SolutionProvider"/> class.
+		/// Initializes a new instance of the <see cref="SolutionProvider"/> class.
 		/// </summary>
 		public SolutionProvider()
 		{
@@ -41,6 +41,7 @@ namespace ArchiMetrics.Common
 		/// <summary>
 		/// Finalizes the provider.
 		/// </summary>
+		[ExcludeFromCodeCoverage]
 		~SolutionProvider()
 		{
 			Dispose(false);
@@ -92,7 +93,7 @@ namespace ArchiMetrics.Common
 
 		private static async Task<Tuple<int, Solution>> GetSolution(string path)
 		{
-			using (var workspace = MSBuildWorkspace.Create())
+			using (var workspace = Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create())
 			{
 				var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
 				var dependencyGraph = solution.GetProjectDependencyGraph();

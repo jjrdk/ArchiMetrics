@@ -37,6 +37,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				documentation = documentationType.Documentation;
 				typeMetrics = typeMetrics.Where(x => x.Name != DocumentationTypeName).AsArray();
 			}
+
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
 			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
 						  .GroupBy(x => x.ToString())

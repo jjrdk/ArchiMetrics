@@ -32,9 +32,9 @@ task Test -depends Compile, Clean {
 		$analysis = Resolve-Path "$output\ArchiMetrics.Analysis.Tests.dll"
 		$codereview = Resolve-Path "$output\ArchiMetrics.CodeReview.Rules.Tests.dll"
 		
-		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $analysis }
-		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $codereview }
-		Exec { .\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe $common }
+		Exec { .\packages\NUnit.Runners.2.6.4\tools\nunit-console.exe $analysis }
+		Exec { .\packages\NUnit.Runners.2.6.4\tools\nunit-console.exe $codereview }
+		Exec { .\packages\NUnit.Runners.2.6.4\tools\nunit-console.exe $common }
 	}
 }
 

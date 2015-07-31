@@ -9,11 +9,8 @@
 //   Defines the CyclomaticComplexityCounterTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace ArchiMetrics.Analysis.Tests.Metrics
 {
-	using System;
-	using System.Diagnostics;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;

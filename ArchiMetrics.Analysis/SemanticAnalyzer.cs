@@ -15,10 +15,10 @@ namespace ArchiMetrics.Analysis
 	using System.Collections.Generic;
 	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
+	using ArchiMetrics.Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using ArchiMetrics.Common;
 
 	public class SemanticAnalyzer
 	{

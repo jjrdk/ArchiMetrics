@@ -1,27 +1,30 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ExceptionDocumentation.cs" company="Reimers.dk">
+// <copyright file="ExtensionsTests.cs" company="Reimers.dk">
 //   Copyright © Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ExceptionDocumentation type.
+//   Defines the ExtensionsTests type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Common.Metrics
+namespace ArchiMetrics.Common.Tests
 {
-	public class ExceptionDocumentation
+	using System;
+	using Moq;
+	using NUnit.Framework;
+
+	public class ExtensionsTests
 	{
-		public ExceptionDocumentation(string exceptionType, string description)
+		[Test]
+		public void WhenDisposingDisposableObjectThenCallsDispose()
 		{
-			ExceptionType = exceptionType;
-			Description = description;
+			var disposableMock = new Mock<IDisposable>();
+			disposableMock.Object.DisposeNotNull();
+
+			disposableMock.Verify(x => x.Dispose(), Times.Once);
 		}
-
-		public string ExceptionType { get; private set; }
-
-		public string Description { get; private set; }
 	}
 }

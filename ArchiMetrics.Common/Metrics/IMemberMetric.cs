@@ -14,7 +14,7 @@ namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
 
-	public interface IMemberMetric : IDocumentedMetric
+	public interface IMemberMetric : ICodeMetric
 	{
 		/// <summary>
 		/// Gets the access modifier for the member.
@@ -46,6 +46,11 @@ namespace ArchiMetrics.Common.Metrics
 		/// </summary>
 		/// <remarks>Afferent coupling counts the number of incoming dependencies, i.e. number of locations the member is called.</remarks>
 		int AfferentCoupling { get; }
+
+		/// <summary>
+		/// Gets the <see cref="IMemberDocumentation"/> for the member.
+		/// </summary>
+		IMemberDocumentation Documentation { get; }
 
 		/// <summary>
 		/// Gets the volume for the underlying source code.

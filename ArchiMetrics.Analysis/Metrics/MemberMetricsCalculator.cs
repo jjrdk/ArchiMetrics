@@ -117,7 +117,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var lineNumber = location.GetLineSpan().StartLinePosition.Line;
 			var filePath = location.SourceTree == null ? string.Empty : location.SourceTree.FilePath;
 			var accessModifier = GetAccessModifier(syntaxNode);
-			IDocumentation documentation = null;
+			IMemberDocumentation documentation = null;
 			
 			if (syntaxNode.SyntaxTree == Model.SyntaxTree)
 			{

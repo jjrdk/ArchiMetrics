@@ -1,4 +1,16 @@
-﻿namespace ArchiMetrics.CodeReview.Rules.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DocumentationDescription.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the DocumentationDescription type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace ArchiMetrics.CodeReview.Rules.Tests
 {
 	using System.Collections.Generic;
 	using System.IO;
@@ -41,7 +53,7 @@
 					.ToArray();
 			var rules = new XElement("rules", children);
 			var doc = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), rules);
-			var currentText = "";
+			var currentText = string.Empty;
 			using (var ms = new MemoryStream())
 			{
 				doc.Save(ms);

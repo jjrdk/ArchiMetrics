@@ -26,10 +26,10 @@ namespace ArchiMetrics.Analysis.Model
 			Dispose(false);
 		}
 
-		public Task<IEnumerable<ModelEdgeItem>> Create(IEnumerable<IModelNode> nodes, CancellationToken cancellationToken)
+		public Task<IEnumerable<ModelEdgeItem>> Create(IEnumerable<IModelNode> memberSymbol, CancellationToken cancellationToken)
 		{
 			return Task.Factory.StartNew(
-				() => nodes
+				() => memberSymbol
 					.SelectMany(x => x.Flatten())
 					.WhereNot(x => string.IsNullOrWhiteSpace(x.QualifiedName))
 					.SelectMany(x => x.Children.Select(y => new ModelEdgeItem(x, y))), 

@@ -15,8 +15,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
-	using ArchiMetrics.Common;
 	using ArchiMetrics.Analysis;
+	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.CodeReview;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;

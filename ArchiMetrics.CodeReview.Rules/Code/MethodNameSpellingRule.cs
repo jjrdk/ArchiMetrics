@@ -32,7 +32,6 @@ namespace ArchiMetrics.CodeReview.Rules.Code
 			}
 		}
 
-
 		public override SyntaxKind EvaluatedKind
 		{
 			get { return SyntaxKind.MethodDeclaration; }

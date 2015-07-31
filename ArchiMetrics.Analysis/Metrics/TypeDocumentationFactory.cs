@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeDocumentationFactory.cs" company="Reimers.dk">
+//   Copyright © Reimers.dk 2014
+//   This source is subject to the Microsoft Public License (Ms-PL).
+//   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
+//   All other rights reserved.
+// </copyright>
+// <summary>
+//   Defines the TypeDocumentationFactory type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
@@ -14,12 +26,12 @@ namespace ArchiMetrics.Analysis.Metrics
 		/// <summary>
 		/// Creates the requested instance as an asynchronous operation.
 		/// </summary>
-		/// <param name="parameter">The parameter to pass to the object creation.</param>
+		/// <param name="memberSymbol">The memberSymbol to pass to the object creation.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> to use for cancelling the object creation.</param>
 		/// <returns>Returns a <see cref="Task{T}"/> which represents the instance creation task.</returns>
-		public Task<ITypeDocumentation> Create(ISymbol parameter, CancellationToken cancellationToken)
+		public Task<ITypeDocumentation> Create(ISymbol memberSymbol, CancellationToken cancellationToken)
 		{
-			var doc = parameter.GetDocumentationCommentXml();
+			var doc = memberSymbol.GetDocumentationCommentXml();
 			if (string.IsNullOrWhiteSpace(doc))
 			{
 				return Task.FromResult<ITypeDocumentation>(null);
@@ -43,7 +55,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var returnsElement = docRoot.Element("returns");
 			var returns = returnsElement == null ? string.Empty : returnsElement.Value.Trim();
 			var typeParameterElements = docRoot.Elements("typeparam");
-			var typeConstraints = GetTypeContraints(parameter);
+			var typeConstraints = GetTypeContraints(memberSymbol);
 			var typeParameters =
 				typeParameterElements.Select(
 					x =>
@@ -58,6 +70,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			var documentation = new TypeDocumentation(summary, code, example, remarks, returns, typeParameters);
 
 			return Task.FromResult<ITypeDocumentation>(documentation);
+		}
+
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose()
+		{
 		}
 
 		private static IDictionary<string, string> GetTypeContraints(ISymbol symbol)
@@ -77,13 +96,6 @@ namespace ArchiMetrics.Analysis.Metrics
 		private static KeyValuePair<string, string> CreateTypeConstraint(ITypeParameterSymbol typeParameter)
 		{
 			return new KeyValuePair<string, string>(typeParameter.Name, typeParameter.ToDisplayString());
-		}
-
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose()
-		{
 		}
 	}
 }

@@ -26,7 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		ArchiMetrics.Analysis.nuspec = ArchiMetrics.Analysis.nuspec
 		ArchiMetrics.Analysis.symbols.nuspec = ArchiMetrics.Analysis.symbols.nuspec
 		build.ps1 = build.ps1
+		packages.config = packages.config
 		psake.psm1 = psake.psm1
+		README.md = README.md
 		SolutionSettings.StyleCop = SolutionSettings.StyleCop
 		tasks.ps1 = tasks.ps1
 	EndProjectSection

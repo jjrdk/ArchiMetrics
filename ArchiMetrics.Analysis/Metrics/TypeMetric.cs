@@ -33,7 +33,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			int afferentCoupling,
 			int efferentCoupling,
 			double instability,
-			IDocumentation documentation)
+			ITypeDocumentation documentation)
 		{
 			IsAbstract = isAbstract;
 			Kind = kind;
@@ -61,7 +61,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public double Instability { get; private set; }
 
-		public IDocumentation Documentation { get; private set; }
+		public ITypeDocumentation Documentation { get; private set; }
 
 		public TypeMetricKind Kind { get; private set; }
 
