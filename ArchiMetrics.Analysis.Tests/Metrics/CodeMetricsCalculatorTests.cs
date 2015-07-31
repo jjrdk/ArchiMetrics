@@ -35,7 +35,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[SetUp]
 			public void Setup()
 			{
-				_analyzer = new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory());
+				_analyzer = new CodeMetricsCalculator();
 			}
 
 			[Test]
@@ -81,7 +81,7 @@ namespace SomeNamespace
 }
 ";
 				var tree = CSharpSyntaxTree.ParseText(Snippet);
-				var task = await _analyzer.Calculate(new[] { tree });
+				var task = await _analyzer.Calculate(new[] { tree }).ConfigureAwait(false);
 
 				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);
@@ -96,20 +96,35 @@ public class Something {
 }
 ";
 				var tree = CSharpSyntaxTree.ParseText(Snippet);
-				var task = await _analyzer.Calculate(new[] { tree });
+				var task = await _analyzer.Calculate(new[] { tree }).ConfigureAwait(false);
 
 				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);
 			}
 
 			[Test]
+			public async Task CanCalculateMetricsForCSharp6ClassSnippet()
+            {
+                const string Snippet = @"
+public class Something {
+    public string Name => ""Alberto"";
+}
+";
+                var tree = CSharpSyntaxTree.ParseText(Snippet, CSharpParseOptions.Default);
+                var task = await _analyzer.Calculate(new[] { tree }).ConfigureAwait(false);
+
+                var metrics = task.AsArray();
+                Assert.IsNotEmpty(metrics);
+            }
+
+            [Test]
 			public async Task CanCalculateMetricsForMethodSnippet()
 			{
 				const string Snippet = @"
 public int Foo() { return 1; }
 ";
 				var tree = CSharpSyntaxTree.ParseText(Snippet);
-				var task = await _analyzer.Calculate(new[] { tree });
+				var task = await _analyzer.Calculate(new[] { tree }).ConfigureAwait(false);
 
 				var metrics = task.AsArray();
 				Assert.IsNotEmpty(metrics);

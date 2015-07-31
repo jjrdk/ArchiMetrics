@@ -109,7 +109,7 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			{
 				const string Snippet = @"var x = 1;
 var y = 2;";
-				var tree = CSharpSyntaxTree.ParseText(Snippet, options: new CSharpParseOptions(LanguageVersion.CSharp5));
+				var tree = CSharpSyntaxTree.ParseText(Snippet, options: new CSharpParseOptions(LanguageVersion.CSharp6));
 				var result = _collector.GetDeclarations(new[] { tree });
 
 				Assert.IsNotEmpty(result.Statements);
