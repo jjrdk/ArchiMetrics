@@ -143,34 +143,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				return 0;
 			}
 		}
-
-		private static double CalculateAveMaintainabilityIndex(IEnumerable<IMemberMetric> memberMetrics)
-		{
-			var source = memberMetrics.Select(x => new Tuple<int, double>(x.LinesOfCode, x.MaintainabilityIndex)).AsArray();
-			if (source.Any())
-			{
-				var totalLinesOfCode = source.Sum(x => x.Item1);
-				return totalLinesOfCode == 0 ? 100.0 : source.Sum(x => x.Item1 * x.Item2) / totalLinesOfCode;
-			}
-
-			return 100.0;
-		}
-
-		private static TypeMetricKind GetMetricKind(TypeDeclarationSyntax type)
-		{
-			switch (type.Kind())
-			{
-				case SyntaxKind.ClassDeclaration:
-					return TypeMetricKind.Class;
-				case SyntaxKind.StructDeclaration:
-					return TypeMetricKind.Struct;
-				case SyntaxKind.InterfaceDeclaration:
-					return TypeMetricKind.Interface;
-				default:
-					return TypeMetricKind.Unknown;
-			}
-		}
-
+        
 		private AccessModifierKind GetAccessModifier(SyntaxTokenList tokenList)
 		{
 			if (tokenList.Any(SyntaxKind.PublicKeyword))

@@ -12,16 +12,16 @@
 
 namespace ArchiMetrics.Common.Metrics
 {
-	public interface IDocumentation
-	{
-		string Summary { get; }
+    public interface IDocumentation
+    {
+        string Summary { get; }
 
-		string Returns { get; }
+        string Returns { get; }
 
-		string Code { get; }
+        string Code { get; }
 
-		string Example { get; }
+        string Example { get; }
 
-		string Remarks { get; }
-	}
+        string Remarks { get; }
+    }
 }

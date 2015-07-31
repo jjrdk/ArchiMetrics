@@ -1,19 +1,66 @@
-ArchiMetrics
-============
+# ArchiMetrics
 
 Various code analysis tools for C#.
 
 To build simply run the build.ps1 script.
 
-If that fails, please log an issue, because the idea is to have a one click build experience.
+If that fails, please log an issue, because the idea is to have a one click build experience. Before logging an issue, please check that you have the latest MSBuild installed.
 
-About the project
---------------------
+## About the project
 
 ArchiMetrics is a collection of code analysis tools using Roslyn. It will calculate code metrics which can be queried using normal LINQ syntax.
 
-Using project
--------------------
+The project calculates the following metrics:
+
+### Project Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Abstractness
+- Afferent Coupling
+- Efferent Coupling
+- RelationalCohesion
+
+### Namespace Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Depth of Inheritance
+- Abstractness
+
+### Type Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Depth Of Inheritance
+- Type Coupling
+- Afferent Coupling
+- Efferent Coupling
+- Instability
+
+### Member Level
+
+- Cyclomatic Complexity
+- Lines Of Code
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Number Of Parameters
+- Number Of Local Variables
+- Afferent Coupling
+- Halstead Metrics
+
+## Using project
+
 If you are going to use metrics, you must install
 
 [Microsoft Build Tools 2015 RC](http://www.microsoft.com/en-us/download/details.aspx?id=46882&WT.mc_id=rss_alldownloads_all)
