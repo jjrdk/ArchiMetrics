@@ -13,8 +13,7 @@
 namespace ArchiMetrics.Common.CodeReview
 {
 	using System;
-
-	[Serializable]
+    
 	public class EvaluationResult
 	{
 		public string ProjectName { get; set; }

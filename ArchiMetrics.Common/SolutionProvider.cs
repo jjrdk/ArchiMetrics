@@ -78,7 +78,7 @@ namespace ArchiMetrics.Common
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-		
+
 		protected virtual void Dispose(bool isDisposing)
 		{
 			if (isDisposing)

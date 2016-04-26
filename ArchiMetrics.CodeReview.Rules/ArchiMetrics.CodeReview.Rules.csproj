@@ -137,16 +137,6 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj">
-      <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
-      <Name>ArchiMetrics.Analysis</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArchiMetrics.Common\ArchiMetrics.Common.csproj">
-      <Project>{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}</Project>
-      <Name>ArchiMetrics.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>

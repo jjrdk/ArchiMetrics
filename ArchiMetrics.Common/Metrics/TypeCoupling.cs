@@ -41,7 +41,7 @@ namespace ArchiMetrics.Common.Metrics
 		/// <param name="other">An object to compare with this object.</param>
 		public int CompareTo(ITypeCoupling other)
 		{
-			return other == null ? -1 : string.Compare(ToString(), other.ToString(), StringComparison.InvariantCultureIgnoreCase);
+			return other == null ? -1 : string.Compare(ToString(), other.ToString(), StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }
