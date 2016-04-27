@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProjectMetricsCalculator.cs" company="Reimers.dk">
-//   Copyright © Reimers.dk 2014
+//   Copyright Â© Reimers.dk 2014
 //   This source is subject to the Microsoft Public License (Ms-PL).
 //   Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 //   All other rights reserved.
@@ -10,16 +10,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ArchiMetrics.Analysis.Metrics
+namespace ArchiMetrics.Analysis
 {
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using ArchiMetrics.Common;
 	using ArchiMetrics.Common.Metrics;
+	using Metrics;
 	using Microsoft.CodeAnalysis;
 
-	internal class ProjectMetricsCalculator : IProjectMetricsCalculator
+	public class ProjectMetricsCalculator : IProjectMetricsCalculator
 	{
 		private readonly ICodeMetricsCalculator _metricsCalculator;
 
