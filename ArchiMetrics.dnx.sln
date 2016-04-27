@@ -9,11 +9,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
 		ArchiMetrics.Analysis.nuspec = ArchiMetrics.Analysis.nuspec
 		ArchiMetrics.Analysis.symbols.nuspec = ArchiMetrics.Analysis.symbols.nuspec
 		build.ps1 = build.ps1
+		ArchiMetrics.Analysis\global.json = ArchiMetrics.Analysis\global.json
 		packages.config = packages.config
 		psake.psm1 = psake.psm1
 		README.md = README.md
@@ -24,11 +25,6 @@ EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Common", "ArchiMetrics.Common\ArchiMetrics.Common.xproj", "{781B47E5-596A-46F7-BEAF-220FAA197D00}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Analysis", "ArchiMetrics.Analysis\ArchiMetrics.Analysis.xproj", "{C7434710-2564-4BE5-97BD-A7BFD0083B3C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3F0D02EE-7E59-492D-87F9-66C59B78422C}"
-	ProjectSection(SolutionItems) = preProject
-		ArchiMetrics.Analysis\global.json = ArchiMetrics.Analysis\global.json
-	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.CodeReview.Rules", "ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.xproj", "{3C3C1CB5-7BF8-4C49-8150-9148526D1C89}"
 EndProject
