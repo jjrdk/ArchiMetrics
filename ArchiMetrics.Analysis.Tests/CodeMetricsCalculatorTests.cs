@@ -12,30 +12,58 @@
 
 namespace ArchiMetrics.Analysis.Tests
 {
+	using System.Linq;
+	using System.Threading.Tasks;
 	using ArchiMetrics.Analysis.Metrics;
-	using Microsoft.CodeAnalysis.CSharp;
-	using NUnit.Framework;
+    using Microsoft.CodeAnalysis.CSharp;
+    using NUnit.Framework;
 
-	public sealed class CodeMetricsCalculatorTests
-	{
-		private CodeMetricsCalculatorTests()
-		{
-		}
+    public sealed class CodeMetricsCalculatorTests
+    {
+        private CodeMetricsCalculatorTests()
+        {
+        }
 
-		public class GivenACodeMetricsCalculator
-		{
-			private CodeMetricsCalculator _calculator;
+        public class GivenACodeMetricsCalculator
+        {
+            private CodeMetricsCalculator _calculator;
 
-			[SetUp]
-			public void Setup()
-			{
-				_calculator = new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory());
-			}
+            [SetUp]
+            public void Setup()
+            {
+                _calculator = new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory());
+            }
 
-			[Test]
-			public void WhenCalculatingMetricsForCodeSnippetThenReturnsMetrics()
-			{
-				var snippet = @"public int GetValue(int x)
+            [Test]
+            public async Task WhenCalculatingClassCouplingThenReturnsCorrectCount()
+            {
+                var snippet = @"
+using System;
+using system.Diagnostics;
+
+namespace Metric.Test
+{
+    public class Testmetricclass
+    {
+        public void TestClassCoupling()
+        { 
+            Console.WriteLine(""Hello world"");
+            Trace.WriteLine(""This method uses Console and Trace"");
+        }
+    }
+}";
+
+                var tree = CSharpSyntaxTree.ParseText(snippet);
+                var metrics = await _calculator.Calculate(new[] { tree });
+
+	            var actual = metrics.First().ClassCouplings.Count();
+	            Assert.AreEqual(2, actual);
+            }
+
+            [Test]
+            public void WhenCalculatingMetricsForCodeSnippetThenReturnsMetrics()
+            {
+                var snippet = @"public int GetValue(int x)
 {
 	if(x% 2 == 0)
 	{
@@ -44,11 +72,11 @@ namespace ArchiMetrics.Analysis.Tests
 
 	return x;
 }";
-				var tree = CSharpSyntaxTree.ParseText(snippet);
-				var metrics = _calculator.Calculate(new[] { tree });
+                var tree = CSharpSyntaxTree.ParseText(snippet);
+                var metrics = _calculator.Calculate(new[] { tree });
 
-				Assert.NotNull(metrics);
-			}
-		}
-	}
+                Assert.NotNull(metrics);
+            }
+        }
+    }
 }

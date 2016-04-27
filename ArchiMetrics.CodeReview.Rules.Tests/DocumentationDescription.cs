@@ -35,7 +35,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 		}
 
 		[Test]
-        [Ignore]
+        [Ignore("")]
 		public void DocumentIsUpToDate()
 		{
 			var fullpath = Path.GetFullPath(@"..\..\..\RulesList.xml");

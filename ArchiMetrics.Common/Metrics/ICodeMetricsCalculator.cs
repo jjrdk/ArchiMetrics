@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Common.Metrics
 {
 	using System.Collections.Generic;
+	using System.Reflection;
 	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis;
 
@@ -34,7 +35,8 @@ namespace ArchiMetrics.Common.Metrics
 		/// Creates a <see cref="Task{TResult}"/> which will return the metrics for the defined <see cref="SyntaxTree"/>.
 		/// </summary>
 		/// <param name="syntaxTrees">The <see cref="IEnumerable{SyntaxTree}"/> to calculate metrics for.</param>
+		/// <param name="references">The assemblies referenced by the code snippet.</param>
 		/// <returns>A <see cref="Task{TResult}"/> providing the calculated metrics as an <see cref="IEnumerable{INamespaceMetric}"/>.</returns>
-		Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees);
+		Task<IEnumerable<INamespaceMetric>> Calculate(IEnumerable<SyntaxTree> syntaxTrees, params Assembly[] references);
 	}
 }
