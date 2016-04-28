@@ -13,13 +13,14 @@
 namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
+	using System.Threading.Tasks;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
 	using NUnit.Framework;
 
 	public class SemanticAnalyzerTests : SolutionTestsBase
 	{
 		[Test]
-		public async void CanFindUnusedParameters()
+		public async Task CanFindUnusedParameters()
 		{
 			const string Code = @"namespace abc
 {
@@ -46,7 +47,7 @@ namespace ArchiMetrics.Analysis.Tests
 		}
 
 		[Test]
-		public async void CanFindPossibleStaticMethod()
+		public async Task CanFindPossibleStaticMethod()
 		{
 			const string Code = @"namespace abc
 {
@@ -73,7 +74,7 @@ namespace ArchiMetrics.Analysis.Tests
 		}
 
 		[Test]
-		public async void DoesNotSuggestAlreadyStaticMethods()
+		public async Task DoesNotSuggestAlreadyStaticMethods()
 		{
 			const string Code = @"namespace abc
 {

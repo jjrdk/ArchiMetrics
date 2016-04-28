@@ -1,10 +1,13 @@
 ﻿{
     "version": "1.1.0-*",
-    "description": "ArchiMetrics analysis calculations",
+    "description": "A Roslyn based code analysis library.",
     "authors": [ "Jacob Reimers" ],
-    "tags": [ "Roslyn", "Metrics" ],
-    "projectUrl": "",
-    "licenseUrl": "",
+    "owners": [ "Jacob Reimers" ],
+    "tags": [ "Roslyn", "Metrics", "Analysis" ],
+    "projectUrl": "https://github.com/jjrdk/ArchiMetrics",
+    "licenseUrl": "http://www.opensource.org/licenses/MS-PL",
+    "requireLicenseAcceptance": false,
+    "summary": "The package provides code analysis features using Roslyn.",
     "dependencies": {
         "ArchiMetrics.Common": "",
         "Microsoft.CodeAnalysis.CSharp.Workspaces": "1.2.1"
