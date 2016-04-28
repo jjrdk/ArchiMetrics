@@ -48,7 +48,6 @@
     <Compile Include="Metrics\MemberDocumentationFactory.cs" />
     <Compile Include="Metrics\MetricsRepository.cs" />
     <Compile Include="Metrics\ProjectMetric.cs" />
-    <Compile Include="Metrics\ProjectMetricsCalculator.cs" />
     <Compile Include="Metrics\TypeDocumentation.cs" />
     <Compile Include="Metrics\TypeDocumentationFactory.cs" />
     <Compile Include="Model\CodeErrorRepository.cs" />
@@ -61,6 +60,7 @@
     <Compile Include="Model\StaticModelNode.cs" />
     <Compile Include="Model\SyntaxTransformer.cs" />
     <Compile Include="Model\TransformerBase.cs" />
+    <Compile Include="ProjectMetricsCalculator.cs" />
     <Compile Include="ReferenceResolvers\ReferencedSymbol.cs" />
     <Compile Include="ReferenceResolvers\ReferenceLocation.cs" />
     <Compile Include="ReferenceResolvers\ReferenceRepository.cs" />
