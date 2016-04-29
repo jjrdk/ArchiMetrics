@@ -22,13 +22,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Common", "ArchiMetrics.Common\ArchiMetrics.Common.xproj", "{781B47E5-596A-46F7-BEAF-220FAA197D00}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Analysis", "src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.xproj", "{C7434710-2564-4BE5-97BD-A7BFD0083B3C}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Analysis", "ArchiMetrics.Analysis\ArchiMetrics.Analysis.xproj", "{C7434710-2564-4BE5-97BD-A7BFD0083B3C}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.CodeReview.Rules", "src\ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.xproj", "{3C3C1CB5-7BF8-4C49-8150-9148526D1C89}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.CodeReview.Rules", "ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.xproj", "{3C3C1CB5-7BF8-4C49-8150-9148526D1C89}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E807DA2-2782-4F86-A6BA-002231DEE3B7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Common.Tests", "ArchiMetrics.Common.Tests\ArchiMetrics.Common.Tests.xproj", "{7F96398C-3702-4BA8-AD1F-E2066115B667}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Analysis.Tests", "tests\ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.xproj", "{3A1D8751-BB53-4639-8175-0A5E368CDD22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,10 +36,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{781B47E5-596A-46F7-BEAF-220FAA197D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{781B47E5-596A-46F7-BEAF-220FAA197D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{781B47E5-596A-46F7-BEAF-220FAA197D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{781B47E5-596A-46F7-BEAF-220FAA197D00}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C7434710-2564-4BE5-97BD-A7BFD0083B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7434710-2564-4BE5-97BD-A7BFD0083B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7434710-2564-4BE5-97BD-A7BFD0083B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,12 +44,15 @@ Global
 		{3C3C1CB5-7BF8-4C49-8150-9148526D1C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C3C1CB5-7BF8-4C49-8150-9148526D1C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C3C1CB5-7BF8-4C49-8150-9148526D1C89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F96398C-3702-4BA8-AD1F-E2066115B667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F96398C-3702-4BA8-AD1F-E2066115B667}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F96398C-3702-4BA8-AD1F-E2066115B667}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F96398C-3702-4BA8-AD1F-E2066115B667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1D8751-BB53-4639-8175-0A5E368CDD22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1D8751-BB53-4639-8175-0A5E368CDD22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1D8751-BB53-4639-8175-0A5E368CDD22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1D8751-BB53-4639-8175-0A5E368CDD22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A1D8751-BB53-4639-8175-0A5E368CDD22} = {2E807DA2-2782-4F86-A6BA-002231DEE3B7}
 	EndGlobalSection
 EndGlobal

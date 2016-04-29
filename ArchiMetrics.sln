@@ -1,25 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08F5-C15B-4223-840B-86997220FB8E}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests", "ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules", "ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules.Tests", "ArchiMetrics.CodeReview.Rules.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Common", "ArchiMetrics.Common\ArchiMetrics.Common.csproj", "{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Common.Tests", "ArchiMetrics.Common.Tests\ArchiMetrics.Common.Tests.csproj", "{7ECF133B-9576-4385-81DA-20C5732A29B3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis", "ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,38 +20,44 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis", "src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj", "{67478EFB-3E11-4459-B1CE-47FE37F1F968}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules", "src\ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.csproj", "{5C12DFB6-05DC-4941-B69F-B99903E89B1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A4371397-42D4-4770-955D-A145C3A2401B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests", "tests\ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules.Tests", "tests\ArchiMetrics.CodeReview.Rules.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{36BA2848-F241-4CAA-B037-451251A75951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36BA2848-F241-4CAA-B037-451251A75951}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36BA2848-F241-4CAA-B037-451251A75951}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36BA2848-F241-4CAA-B037-451251A75951}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8BE9D36-EC03-4EEE-91DA-F9D8C9FD11D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7ECF133B-9576-4385-81DA-20C5732A29B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ECF133B-9576-4385-81DA-20C5732A29B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ECF133B-9576-4385-81DA-20C5732A29B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ECF133B-9576-4385-81DA-20C5732A29B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67478EFB-3E11-4459-B1CE-47FE37F1F968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67478EFB-3E11-4459-B1CE-47FE37F1F968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67478EFB-3E11-4459-B1CE-47FE37F1F968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67478EFB-3E11-4459-B1CE-47FE37F1F968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C12DFB6-05DC-4941-B69F-B99903E89B1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36BA2848-F241-4CAA-B037-451251A75951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BA2848-F241-4CAA-B037-451251A75951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BA2848-F241-4CAA-B037-451251A75951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BA2848-F241-4CAA-B037-451251A75951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C949E2-B71A-4574-8D9F-0678805301E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36BA2848-F241-4CAA-B037-451251A75951} = {A4371397-42D4-4770-955D-A145C3A2401B}
+		{E1C949E2-B71A-4574-8D9F-0678805301E7} = {A4371397-42D4-4770-955D-A145C3A2401B}
 	EndGlobalSection
 EndGlobal

@@ -25,3 +25,5 @@ OpenCover.Profiler
 Release
 /push.ps1
 project.lock.json
+.idea
+*.userprefs

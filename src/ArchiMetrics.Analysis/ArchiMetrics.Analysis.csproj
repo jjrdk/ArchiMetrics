@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{67478EFB-3E11-4459-B1CE-47FE37F1F968}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArchiMetrics.Analysis</RootNamespace>
+    <AssemblyName>ArchiMetrics.Analysis</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <CodeAnalysisRuleSet>..\ArchiMetrics.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <CodeAnalysisRuleSet>..\ArchiMetrics.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\ArchiMetrics.Analysis.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CodeMetricsCalculator.cs" />
+    <Compile Include="Common\CodeReview\CodeQuality.cs" />
+    <Compile Include="Common\CodeReview\EvaluationResult.cs" />
+    <Compile Include="Common\CodeReview\ICodeErrorRepository.cs" />
+    <Compile Include="Common\CodeReview\ICodeEvaluation.cs" />
+    <Compile Include="Common\CodeReview\IEvaluation.cs" />
+    <Compile Include="Common\CodeReview\IKnownPatterns.cs" />
+    <Compile Include="Common\CodeReview\ImpactLevel.cs" />
+    <Compile Include="Common\CodeReview\INodeInspector.cs" />
+    <Compile Include="Common\CodeReview\ISemanticEvaluation.cs" />
+    <Compile Include="Common\CodeReview\ISpellChecker.cs" />
+    <Compile Include="Common\CodeReview\ISymbolEvaluation.cs" />
+    <Compile Include="Common\CodeReview\ISyntaxEvaluation.cs" />
+    <Compile Include="Common\CodeReview\ITriviaEvaluation.cs" />
+    <Compile Include="Common\CodeReview\QualityAttribute.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\IAsyncFactory.cs" />
+    <Compile Include="Common\IAvailability.cs" />
+    <Compile Include="Common\IAvailableRules.cs" />
+    <Compile Include="Common\IProvider.cs" />
+    <Compile Include="Common\IResetable.cs" />
+    <Compile Include="Common\LinqExtensions.cs" />
+    <Compile Include="Common\Metrics\AccessModifierKind.cs" />
+    <Compile Include="Common\Metrics\ExceptionDocumentation.cs" />
+    <Compile Include="Common\Metrics\ICodeMetric.cs" />
+    <Compile Include="Common\Metrics\ICodeMetricsCalculator.cs" />
+    <Compile Include="Common\Metrics\IDocumentation.cs" />
+    <Compile Include="Common\Metrics\IHalsteadMetrics.cs" />
+    <Compile Include="Common\Metrics\IMemberDocumentation.cs" />
+    <Compile Include="Common\Metrics\IMemberMetric.cs" />
+    <Compile Include="Common\Metrics\INamespaceMetric.cs" />
+    <Compile Include="Common\Metrics\IProjectMetric.cs" />
+    <Compile Include="Common\Metrics\IProjectMetricsCalculator.cs" />
+    <Compile Include="Common\Metrics\ITypeCoupling.cs" />
+    <Compile Include="Common\Metrics\ITypeDefinition.cs" />
+    <Compile Include="Common\Metrics\ITypeDocumentation.cs" />
+    <Compile Include="Common\Metrics\ITypeMetric.cs" />
+    <Compile Include="Common\Metrics\ParameterDocumentation.cs" />
+    <Compile Include="Common\Metrics\TypeCoupling.cs" />
+    <Compile Include="Common\Metrics\TypeDeclarationSyntaxInfo.cs" />
+    <Compile Include="Common\Metrics\TypeDefinition.cs" />
+    <Compile Include="Common\Metrics\TypeMetricKind.cs" />
+    <Compile Include="Common\Metrics\TypeParameterDocumentation.cs" />
+    <Compile Include="Common\PathExtensions.cs" />
+    <Compile Include="Common\SolutionProvider.cs" />
+    <Compile Include="Common\Structure\ComparisonResult.cs" />
+    <Compile Include="Common\Structure\ComparisonResultKind.cs" />
+    <Compile Include="Common\Structure\IModelNode.cs" />
+    <Compile Include="Common\Structure\IProjectMetricsRepository.cs" />
+    <Compile Include="Common\Structure\ISyntaxTransformer.cs" />
+    <Compile Include="Common\Structure\IVertexRepository.cs" />
+    <Compile Include="Common\Structure\TransformRule.cs" />
+    <Compile Include="CoverageAnalyzer.cs" />
+    <Compile Include="Metrics\MemberDocumentation.cs" />
+    <Compile Include="Metrics\MemberDocumentationFactory.cs" />
+    <Compile Include="Metrics\MetricsRepository.cs" />
+    <Compile Include="Metrics\ProjectMetric.cs" />
+    <Compile Include="Metrics\TypeDocumentation.cs" />
+    <Compile Include="Metrics\TypeDocumentationFactory.cs" />
+    <Compile Include="Model\CodeErrorRepository.cs" />
+    <Compile Include="Model\ModelEdgeItem.cs" />
+    <Compile Include="Model\ModelEdgeItemFactory.cs" />
+    <Compile Include="Model\ModelNode.cs" />
+    <Compile Include="Model\NodeKind.cs" />
+    <Compile Include="Model\NodeMerger.cs" />
+    <Compile Include="Model\SolutionVertexRepository.cs" />
+    <Compile Include="Model\StaticModelNode.cs" />
+    <Compile Include="Model\SyntaxTransformer.cs" />
+    <Compile Include="Model\TransformerBase.cs" />
+    <Compile Include="ProjectMetricsCalculator.cs" />
+    <Compile Include="ReferenceResolvers\ReferencedSymbol.cs" />
+    <Compile Include="ReferenceResolvers\ReferenceLocation.cs" />
+    <Compile Include="ReferenceResolvers\ReferenceRepository.cs" />
+    <Compile Include="ReferenceResolvers\SymbolReferenceResolver.cs" />
+    <Compile Include="RoslynExtensions.cs" />
+    <Compile Include="SemanticAnalyzer.cs" />
+    <Compile Include="Metrics\ClassCouplingAnalyzerBase.cs" />
+    <Compile Include="Metrics\CyclomaticComplexityCounter.cs" />
+    <Compile Include="Metrics\DepthOfInheritanceAnalyzer.cs" />
+    <Compile Include="Metrics\HalsteadAnalyzer.cs" />
+    <Compile Include="Metrics\HalsteadMetrics.cs" />
+    <Compile Include="Metrics\MemberMetric.cs" />
+    <Compile Include="Metrics\NamespaceCollector.cs" />
+    <Compile Include="Metrics\NamespaceMetric.cs" />
+    <Compile Include="Metrics\Operands.cs" />
+    <Compile Include="Metrics\Operators.cs" />
+    <Compile Include="Metrics\MemberClassCouplingAnalyzer.cs" />
+    <Compile Include="Metrics\MemberCollector.cs" />
+    <Compile Include="Metrics\MemberMetricsCalculator.cs" />
+    <Compile Include="Metrics\MemberNameResolver.cs" />
+    <Compile Include="Metrics\MethodLocalVariablesAnalyzer.cs" />
+    <Compile Include="Metrics\NamespaceDeclaration.cs" />
+    <Compile Include="Metrics\NamespaceDeclarationSyntaxInfo.cs" />
+    <Compile Include="Metrics\NamespaceMetricsCalculator.cs" />
+    <Compile Include="Metrics\SemanticModelMetricsCalculator.cs" />
+    <Compile Include="Metrics\SnippetMetricsCalculator.cs" />
+    <Compile Include="Metrics\LinesOfCodeCalculator.cs" />
+    <Compile Include="Metrics\SyntaxCollector.cs" />
+    <Compile Include="Metrics\SyntaxDeclarations.cs" />
+    <Compile Include="Metrics\SyntaxExtensions.cs" />
+    <Compile Include="Metrics\SyntaxMetricsCalculator.cs" />
+    <Compile Include="Metrics\TypeClassCouplingAnalyzer.cs" />
+    <Compile Include="Metrics\TypeCollector.cs" />
+    <Compile Include="Metrics\ComparableComparer.cs" />
+    <Compile Include="Metrics\TypeDeclaration.cs" />
+    <Compile Include="Metrics\TypeMetric.cs" />
+    <Compile Include="Metrics\TypeMetricsCalculator.cs" />
+    <Compile Include="Metrics\TypeExtensions.cs" />
+    <Compile Include="NodeReviewer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SymbolExtensions.cs" />
+    <Compile Include="Validation\BranchModelRule.cs" />
+    <Compile Include="Validation\BranchResult.cs" />
+    <Compile Include="Validation\IModelRule.cs" />
+    <Compile Include="Validation\IModelValidator.cs" />
+    <Compile Include="Validation\IValidationResult.cs" />
+    <Compile Include="Validation\KpiModelRule.cs" />
+    <Compile Include="Validation\KpiResult.cs" />
+    <Compile Include="Validation\ModelValidator.cs" />
+    <Compile Include="Validation\ValidationResultBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="project.json" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
