@@ -2,27 +2,75 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
 	<metadata>
 		<id>ArchiMetrics.Analysis</id>
-		<title>Roslyn Code Analysis</title>
-		<version>1.0.1.0</version>
-		<authors>Jacob Reimers</authors>
-		<owners>Jacob Reimers</owners>
-		<copyright>Jacob Reimers</copyright>
-		<projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
-		<description>A Roslyn based code analysis library.</description>
+    <version>1.1.1</version>
+    <title>Roslyn Code Analysis</title>
+    <authors>Jacob Reimers, Matthias Friedrich</authors>
+    <owners>Jacob Reimers, Matthias Friedrich</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/jjrdk/ArchiMetrics</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>The package provides code analysis features using the Roslyn CTP.
+
+
+The project calculates the following metrics:
+
+Project Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Abstractness
+- Afferent Coupling
+- Efferent Coupling
+- RelationalCohesion
+
+Namespace Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Depth of Inheritance
+- Abstractness
+
+Type Level
+
+- Cyclomatic Complexity
+- LinesOfCode
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Depth Of Inheritance
+- Type Coupling
+- Afferent Coupling
+- Efferent Coupling
+- Instability
+
+Member Level
+
+- Cyclomatic Complexity
+- Lines Of Code
+- Maintainability Index
+- Project Dependencies
+- Type Couplings
+- Number Of Parameters
+- Number Of Local Variables
+- Afferent Coupling
+- Halstead Metrics</description>
 		<summary>The package provides code analysis features using Roslyn.</summary>
-		<releaseNotes />
-		<tags>metrics analysis roslyn</tags>
+    <copyright>Copyright © Jacob Reimers, Matthias Friedrich</copyright>
+    <tags>Roslyn, Metrics, Analysis</tags>
 		<dependencies>
-			<dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="1.0.0.0" />
-			<dependency id="Microsoft.Composition" version="1.0.30" />
-		</dependencies>
+      <group targetFramework=".NETFramework4.5.2">
+        <dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="1.2.1" />
+      </group>
+    </dependencies>
 	</metadata>
 	<files>
-	<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.dll" target="lib\Net452" />
-	<file src="artifacts\4.5.2\Release\ArchiMetrics.Analysis.dll" target="lib\Net452" />
-	<file src="artifacts\4.5.2\Release\ArchiMetrics.Common.xml" target="lib\Net452" />
-	<file src="artifacts\4.5.2\Release\ArchiMetrics.Analysis.xml" target="lib\Net452" />
+	<file src="artifacts\ArchiMetrics.Analysis\ArchiMetrics.Analysis.dll" target="lib\Net452" />
+	<file src="artifacts\ArchiMetrics.Analysis\ArchiMetrics.Analysis.xml" target="lib\Net452" />
   </files>
 </package>
