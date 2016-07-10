@@ -9,6 +9,7 @@
     "requireLicenseAcceptance": false,
     "summary": "The package provides code analysis features using Roslyn.",
     "dependencies": {
+        "ArchiMetrics.Analysis": "",
         "Microsoft.CodeAnalysis.CSharp.Workspaces": "1.2.1",
         "Moq": "4.2.1510.2205",
         "xunit": "2.1.0",

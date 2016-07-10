@@ -19,7 +19,7 @@
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
-	<CopyNuGetImplementations>true</CopyNuGetImplementations>
+    <CopyNuGetImplementations>true</CopyNuGetImplementations>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -120,7 +120,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="project.json" />
-    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj">

@@ -32,14 +32,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\artifacts\ArchiMetrics.Analysis\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
     <CodeAnalysisRuleSet>..\ArchiMetrics.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\ArchiMetrics.Analysis.xml</DocumentationFile>
+    <DocumentationFile>..\..\artifacts\ArchiMetrics.Analysis\ArchiMetrics.Analysis.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodeMetricsCalculator.cs" />
@@ -166,7 +166,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="project.json" />
-    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
