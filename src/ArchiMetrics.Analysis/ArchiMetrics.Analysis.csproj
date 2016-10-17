@@ -95,6 +95,7 @@
     <Compile Include="Common\Structure\IVertexRepository.cs" />
     <Compile Include="Common\Structure\TransformRule.cs" />
     <Compile Include="CoverageAnalyzer.cs" />
+    <Compile Include="Metrics\FaultMemberDocumentation.cs" />
     <Compile Include="Metrics\MemberDocumentation.cs" />
     <Compile Include="Metrics\MemberDocumentationFactory.cs" />
     <Compile Include="Metrics\MetricsRepository.cs" />
