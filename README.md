@@ -71,7 +71,7 @@ You also may need to install this package (included in latest nuget package)
 Install-Package Microsoft.Composition
 ```
 
-See this sample that load solution and print cyclomatic complexity for each namespace that belong your solution
+See this sample that loads your solution and prints the cyclomatic complexity for each namespace that belongs to your solution
 
 ````csharp
 using System;
