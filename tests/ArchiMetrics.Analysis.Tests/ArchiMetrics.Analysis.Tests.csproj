@@ -122,8 +122,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj">
-      <Project>{67478efb-3e11-4459-b1ce-47fe37f1f968}</Project>
+    <ProjectReference Include="..\..\src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.xproj">
+      <Project>{46b39702-5c2c-4ed1-9ca5-f01dd3c981d4}</Project>
       <Name>ArchiMetrics.Analysis</Name>
     </ProjectReference>
   </ItemGroup>
