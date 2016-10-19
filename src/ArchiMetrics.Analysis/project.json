@@ -1,6 +1,7 @@
 ﻿{
-  "version": "1.1.2-*",
-  "description": "A Roslyn based code analysis library.",
+  "version": "1.1.3-*",
+  "title": "Roslyn Code Analysis",
+  "description": "The package provides code analysis features using the Roslyn CTP.\r\n\r\nThe project calculates the following metrics:\r\n\r\nProject Level\r\n\r\n- Cyclomatic Complexity\r\n- LinesOfCode\r\n- Maintainability Index\r\n- Project Dependencies\r\n- Type Couplings\r\n- Abstractness\r\n- Afferent Coupling\r\n- Efferent Coupling\r\n- RelationalCohesion\r\n\r\nNamespace Level\r\n\r\n- Cyclomatic Complexity\r\n- LinesOfCode\r\n- Maintainability Index\r\n- Project Dependencies\r\n- Type Couplings\r\n- Depth of Inheritance\r\n- Abstractness\r\n\r\nType Level\r\n\r\n- Cyclomatic Complexity\r\n- LinesOfCode\r\n- Maintainability Index\r\n- Project Dependencies\r\n- Type Couplings\r\n- Depth Of Inheritance\r\n- Type Coupling\r\n- Afferent Coupling\r\n- Efferent Coupling\r\n- Instability\r\n\r\nMember Level\r\n\r\n- Cyclomatic Complexity\r\n- Lines Of Code\r\n- Maintainability Index\r\n- Project Dependencies\r\n- Type Couplings\r\n- Number Of Parameters\r\n- Number Of Local Variables\r\n- Afferent Coupling\r\n- Halstead Metrics",
   "authors": [ "Jacob Reimers", "Matthias Friedrich" ],
   "copyright": "Jacob Reimers, Matthias Friedrich",
   "packOptions": {
@@ -19,8 +20,8 @@
       },
       "frameworkAssemblies": {
         "System.Collections": "4.0.0.0",
-        "System.Globalization": "4.0.0.0", 
-        "System.Runtime": "4.0.0.0",
+        "System.Globalization": "4.0.0.0",
+        "System.Runtime": "4.0.10.0",
         "System.Xml": "4.0.0",
         "System.Xml.Linq": "4.0.0",
         "System.Text.Encoding": "4.0.0.0",

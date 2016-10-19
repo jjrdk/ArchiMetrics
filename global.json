@@ -1,7 +1,7 @@
 {
     "packages": "packages",
     "sdk": {
-        "version": "1.0.0-rc1-update2",
+        "xversion": "1.0.0-rc1-update2",
         "runtime": "clr",
         "architecture": "x64"
     },

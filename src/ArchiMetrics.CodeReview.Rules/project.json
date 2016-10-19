@@ -1,6 +1,6 @@
 ﻿{
-  "version": "1.1.2-*",
-  "title": "Roslyn Code Analysis",
+  "version": "1.1.3-*",
+  "title": "Roslyn Code Review",
   "description": "ArchiMetrics code review rules",
   "authors": [ "Jacob Reimers" ],
   "packOptions": {
@@ -13,7 +13,7 @@
   },
 
   "dependencies": {
-    "ArchiMetrics.Analysis": "1.1.2-*",
+    "ArchiMetrics.Analysis": "1.1.3-*",
     "Microsoft.CodeAnalysis.CSharp.Workspaces": "1.3.2"
   },
 
