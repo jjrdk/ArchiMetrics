@@ -14,9 +14,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Analysis;
     using Analysis.Common;
     using Analysis.Common.CodeReview;
-    using ArchiMetrics.Analysis;
     using ArchiMetrics.CodeReview.Rules.Code;
     using ArchiMetrics.CodeReview.Rules.Trivia;
     using Microsoft.CodeAnalysis;

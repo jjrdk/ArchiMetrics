@@ -15,7 +15,6 @@ using System.Reflection;
 [assembly: AssemblyTitle("ArchiMetrics.CodeReview.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Reimers.dk")]
 [assembly: AssemblyProduct("ArchiMetrics")]
 [assembly: AssemblyCopyright("Copyright © Reimers.dk 2014")]
 [assembly: AssemblyTrademark("")]

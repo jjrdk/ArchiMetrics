@@ -16,8 +16,8 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
+    using Analysis.Common;
     using Analysis.Common.CodeReview;
-    using ArchiMetrics.Analysis.Common;
     using Moq;
     using Xunit;
 

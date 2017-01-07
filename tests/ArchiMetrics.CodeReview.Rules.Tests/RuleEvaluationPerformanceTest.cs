@@ -13,9 +13,9 @@
 namespace ArchiMetrics.CodeReview.Rules.Tests
 {
     using System.Threading.Tasks;
+    using Analysis;
     using Analysis.Common;
     using Analysis.Common.CodeReview;
-    using ArchiMetrics.Analysis;
     using metrics;
     using Microsoft.CodeAnalysis.MSBuild;
     using Moq;

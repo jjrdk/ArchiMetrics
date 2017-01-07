@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26014.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08F5-C15B-4223-840B-86997220FB8E}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,9 +25,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules.Tests", "tests\ArchiMetrics.CodeReview.Rules.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.Analysis", "src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.xproj", "{46B39702-5C2C-4ED1-9CA5-F01DD3C981D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiMetrics.Analysis", "src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj", "{46B39702-5C2C-4ED1-9CA5-F01DD3C981D4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ArchiMetrics.CodeReview.Rules", "src\ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.xproj", "{9604C65C-D889-474F-BEFE-7ADDE2382340}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiMetrics.CodeReview.Rules", "src\ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.csproj", "{9604C65C-D889-474F-BEFE-7ADDE2382340}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
