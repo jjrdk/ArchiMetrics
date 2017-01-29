@@ -41,7 +41,6 @@ namespace ArchiMetrics.Analysis.Common
         /// <summary>
         /// Finalizes the provider.
         /// </summary>
-        [ExcludeFromCodeCoverage]
         ~SolutionProvider()
         {
             Dispose(false);
