@@ -70,14 +70,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		}", 3, SyntaxKind.MethodDeclaration)]
 			public void WhenCalculatingForMemberNodeHasExpectedLinesOfCode(string code, int expected, SyntaxKind kind)
 			{
-				var text = string.Format(
-@"namespace Testing
+				var text = $@"namespace Testing
 			{{
 				public class TestClass {{
-					{0}
+					{code}
 				}}
-			}}", 
-			   code);
+			}}";
 
 				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree
@@ -108,14 +106,12 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 		}", 3)]
 			public void WhenCountingLinesOfCodeThenHasExpectedCount(string code, int count)
 			{
-				var text = string.Format(
-@"namespace Testing
+				var text = $@"namespace Testing
 			{{
 				public class TestClass {{
-					{0}
+					{code}
 				}}
-			}}", 
-			   code);
+			}}";
 
 				var syntaxTree = CSharpSyntaxTree.ParseText(text);
 				var root = syntaxTree.GetRoot();

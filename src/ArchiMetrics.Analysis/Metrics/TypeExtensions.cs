@@ -29,7 +29,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				if (parameters.Any())
 				{
 					var str3 = string.Join(", ", from x in parameters select x.Identifier.ValueText);
-					containingTypeName = containingTypeName + string.Format("<{0}>", str3);
+					containingTypeName = containingTypeName + $"<{str3}>";
 				}
 			}
 
@@ -44,7 +44,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			if (namedTypeSymbol != null && namedTypeSymbol.TypeParameters != null && namedTypeSymbol.TypeParameters.Any())
 			{
 				var joined = string.Join(", ", namedTypeSymbol.TypeParameters.Select(x => x.Name));
-				name = name + string.Format("<{0}>", joined);
+				name = name + $"<{joined}>";
 			}
 
 			var namespaceNames = new List<string>();

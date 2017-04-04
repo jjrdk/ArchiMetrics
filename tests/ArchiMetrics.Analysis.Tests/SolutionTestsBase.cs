@@ -14,12 +14,13 @@ namespace ArchiMetrics.Analysis.Tests
 {
 	using System.Linq;
 	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.MSBuild;
 
-	public abstract class SolutionTestsBase
+    public abstract class SolutionTestsBase
 	{
 		protected Solution CreateSolution(params string[] code)
 		{
-			var workspace = new AdhocWorkspace();
+			var workspace = MSBuildWorkspace.Create();// AdhocWorkspace();
 
 			var x = 1;
 			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
@@ -29,7 +30,7 @@ namespace ArchiMetrics.Analysis.Tests
 
 			var solution = code.Aggregate(
 				seed,
-				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), string.Format("TestClass{0}.cs", x++), c));
+				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), $"TestClass{x++}.cs", c));
 
 			return solution;
 		}

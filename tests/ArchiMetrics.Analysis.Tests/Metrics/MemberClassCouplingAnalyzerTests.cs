@@ -551,7 +551,7 @@ namespace MyNamespace
                         .AddMetadataReference(projectId, MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
                     solution = code.Aggregate(
                         solution,
-                        (sol, c) => sol.AddDocument(DocumentId.CreateNewId(projectId), string.Format("TestClass{0}.cs", x++), c));
+                        (sol, c) => sol.AddDocument(DocumentId.CreateNewId(projectId), $"TestClass{x++}.cs", c));
 
                     return solution;
                 }

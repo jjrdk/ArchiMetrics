@@ -45,7 +45,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 
 			solution = code.Aggregate(
 				solution, 
-				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), string.Format("TestClass{0}.cs", x++), c));
+				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), $"TestClass{x++}.cs", c));
 
 			return solution;
 		}

@@ -45,7 +45,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
             [InlineData("GetValu")]
             public void FindMispelledMethodNames(string methodName)
             {
-                var method = CSharpSyntaxTree.ParseText(string.Format(@"public void {0}() {{ }}", methodName));
+                var method = CSharpSyntaxTree.ParseText($@"public void {methodName}() {{ }}");
                 var result = _rule.Evaluate(method.GetRoot()
                     .ChildNodes()
                     .OfType<MethodDeclarationSyntax>()
@@ -71,11 +71,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
             public void FindNonEnglishMultiLineComments(string comment)
             {
                 var method = CSharpSyntaxTree.ParseText(
-                    string.Format(
-@"public void SomeMethod() {{
-/* {0} */
-}}",
-   comment));
+                    $@"public void SomeMethod() {{
+/* {comment} */
+}}");
                 var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
                 var nodes = root
                     .DescendantTrivia(descendIntoTrivia: true)
@@ -92,11 +90,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
             public void AcceptsEnglishMultiLineComments(string comment)
             {
                 var method = CSharpSyntaxTree.ParseText(
-                    string.Format(
-@"public void SomeMethod() {{
-/* {0} */
-}}",
-   comment));
+                    $@"public void SomeMethod() {{
+/* {comment} */
+}}");
                 var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
                 var nodes = root
                     .DescendantTrivia(descendIntoTrivia: true)
@@ -113,11 +109,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
             public void AcceptsEnglishMultiLineXmlComments(string comment)
             {
                 var method = CSharpSyntaxTree.ParseText(
-                    string.Format(
-                        @"public void SomeMethod() {{
-/* {0} */
-}}",
-                        comment));
+                    $@"public void SomeMethod() {{
+/* {comment} */
+}}");
                 var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
                 var nodes = root
                     .DescendantTrivia(descendIntoTrivia: true)
@@ -144,11 +138,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
             public void FindNonEnglishSingleLineComments(string comment)
             {
                 var method = CSharpSyntaxTree.ParseText(
-                    string.Format(
-@"public void SomeMethod() {{
-//{0}
-}}",
-   comment));
+                    $@"public void SomeMethod() {{
+//{comment}
+}}");
                 var root = method.GetRoot().DescendantNodes().OfType<BlockSyntax>().First();
                 var nodes = root
                     .DescendantTrivia(descendIntoTrivia: true)
@@ -177,11 +169,9 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
             public async Task WhenInspectingCommentsThenDetectsSuspiciousLanguage(string comment)
             {
                 var method = CSharpSyntaxTree.ParseText(
-                    string.Format(
-@"public void SomeMethod() {{
-{0}
-}}",
-   comment));
+                    $@"public void SomeMethod() {{
+{comment}
+}}");
                 var root = method.GetRoot();
 
                 var task = await _reviewer.Inspect(string.Empty, string.Empty, root, null, null);

@@ -151,14 +151,14 @@ namespace ArchiMetrics.Analysis.Model
 		/// </returns>
 		public override string ToString()
 		{
-			return string.Format("{0} ({1})", QualifiedName, _children.Count);
+			return $"{QualifiedName} ({_children.Count})";
 		}
 
 		private string GetQualifiedName()
 		{
 			return Parent == null || this.IsShared()
 				? DisplayName
-				: string.Format("{0}.{1}", Parent.QualifiedName, DisplayName);
+				: $"{Parent.QualifiedName}.{DisplayName}";
 		}
 
 		private IEnumerable<IModelNode> FlattenChildren(IEnumerable<IModelNode> vertices)

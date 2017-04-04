@@ -119,9 +119,14 @@ namespace MyNs
                 var tree = CSharpSyntaxTree.ParseText(method);
                 var compilation = CSharpCompilation.Create(
                     "x",
-                    syntaxTrees: new[] { tree },
-                    references: new MetadataReference[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location), MetadataReference.CreateFromFile(typeof(Task).Assembly.Location) },
-                    options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, usings: new[] { "System", "System.Threading.Tasks" }));
+                    syntaxTrees: new[] {tree},
+                    references:
+                    new MetadataReference[]
+                    {
+                        MetadataReference.CreateFromFile(typeof (object).Assembly.Location),
+                        MetadataReference.CreateFromFile(typeof (Task).Assembly.Location)
+                    });
+                    //options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, false, null, null, null, new string[] { "System", "System.Threading.Tasks" }));
 
                 var model = compilation.GetSemanticModel(tree, true);
                 var syntaxNode = tree

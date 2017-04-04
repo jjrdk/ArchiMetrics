@@ -40,17 +40,14 @@ namespace ArchiMetrics.Analysis.Tests.Metrics
 			[InlineData(@"public string Value { set { /*/Do nothing*/ } }", "Property summary", SyntaxKind.SetAccessorDeclaration)]
 			public async Task WhenGettingDocumentationForPropertyThenReadsFromPropertyDefinition(string code, string summary, SyntaxKind kind)
 			{
-				var codeFile = string.Format(
-@"namespace TestNs
+				var codeFile = $@"namespace TestNs
 {{
 	public class DocClass
 	{{
-		/// <summary>{0}</summary>
-		{1}
+		/// <summary>{summary}</summary>
+		{code}
 	}}
-}}",
-  summary,
-  code);
+}}";
 
 				var solution = CreateSolution(codeFile);
 				var project = solution.Projects.First();

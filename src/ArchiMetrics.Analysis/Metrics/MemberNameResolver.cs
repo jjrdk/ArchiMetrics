@@ -160,7 +160,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var identifier = GetMethodIdentifier(propertyDeclarationSyntax);
 			var parameters = GetParameters(propertyDeclarationSyntax);
 
-			return string.Format("{0}.set{1} : void", identifier, parameters);
+			return $"{identifier}.set{parameters} : void";
 		}
 
 		private string GetAddEventHandlerSignatureString(AccessorDeclarationSyntax accessor)
@@ -234,7 +234,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private string GetParameters(BasePropertyDeclarationSyntax syntax)
 		{
 			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
-			return string.Format("({0})", symbol == null ? string.Empty : ResolveTypeName(symbol));
+			return $"({(symbol == null ? string.Empty : ResolveTypeName(symbol))})";
 		}
 
 		private void AppendReturnType(MethodDeclarationSyntax syntax, StringBuilder builder)
@@ -251,7 +251,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private string GetReturnType(BasePropertyDeclarationSyntax syntax)
 		{
 			var symbol = ModelExtensions.GetSymbolInfo(_semanticModel, syntax.Type).Symbol as ITypeSymbol;
-			return symbol != null ? string.Format(": {0}", ResolveTypeName(symbol)) : string.Empty;
+			return symbol != null ? $": {ResolveTypeName(symbol)}" : string.Empty;
 		}
 
 		private string GetRemoveEventHandlerSignatureString(AccessorDeclarationSyntax accessor)

@@ -24,7 +24,7 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 			Namespace = namespaceName;
 			Assembly = assemblyName;
 
-			_fullName = string.Format("{0}.{1}, {2}", namespaceName, typeName, assemblyName);
+			_fullName = $"{namespaceName}.{typeName}, {assemblyName}";
 		}
 
 		public string TypeName { get; private set; }

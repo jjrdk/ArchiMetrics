@@ -105,8 +105,9 @@ namespace ArchiMetrics.Analysis
 				})
 				.AsArray();
 
-			var metadataReferences =
-				(references.Any() ? references : new[] { typeof(object).Assembly }).Select(a => MetadataReference.CreateFromFile(a.Location)).ToArray();
+		    var metadataReferences =
+		        (references.Any() ? references : new[] {typeof (object).GetTypeInfo().Assembly}).Select(
+		            a => MetadataReference.CreateFromFile(a.Location)).ToArray();
 			var commonCompilation = CSharpCompilation.Create("x", syntaxTrees: trees, references: metadataReferences);
 			var namespaceMetrics = await CalculateNamespaceMetrics(namespaceDeclarations, commonCompilation, null).ConfigureAwait(false);
 			return namespaceMetrics;
