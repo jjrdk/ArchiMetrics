@@ -63,7 +63,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			builder.Append(symbol.Name);
 			if (((symbol3 = symbol as INamedTypeSymbol) != null) && symbol3.TypeArguments.Any())
 			{
-				IEnumerable<string> values = (from x in symbol3.TypeArguments.AsEnumerable() select ResolveTypeName(x)).ToArray<string>();
+				IEnumerable<string> values = (from x in symbol3.TypeArguments.AsEnumerable() select ResolveTypeName(x)).ToArray();
 				builder.AppendFormat("<{0}>", string.Join(", ", values));
 			}
 

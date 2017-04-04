@@ -40,22 +40,22 @@ namespace ArchiMetrics.Analysis.Metrics
 			Abstractness = TypeMetrics.Count(x => x.IsAbstract) / (double)TypeMetrics.Count();
 		}
 
-		public double Abstractness { get; private set; }
+		public double Abstractness { get; }
 
-		public double MaintainabilityIndex { get; private set; }
+		public double MaintainabilityIndex { get; }
 
-		public int CyclomaticComplexity { get; private set; }
+		public int CyclomaticComplexity { get; }
 
-		public int LinesOfCode { get; private set; }
+		public int LinesOfCode { get; }
 
-		public IEnumerable<ITypeCoupling> ClassCouplings { get; private set; }
+		public IEnumerable<ITypeCoupling> ClassCouplings { get; }
 
-		public int DepthOfInheritance { get; private set; }
+		public int DepthOfInheritance { get; }
 
-		public string Name { get; private set; }
+		public string Name { get; }
 
-		public IDocumentation Documentation { get; private set; }
+		public IDocumentation Documentation { get; }
 
-		public IEnumerable<ITypeMetric> TypeMetrics { get; private set; }
+		public IEnumerable<ITypeMetric> TypeMetrics { get; }
 	}
 }

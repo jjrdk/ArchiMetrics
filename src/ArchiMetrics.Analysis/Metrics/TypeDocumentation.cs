@@ -28,16 +28,16 @@ namespace ArchiMetrics.Analysis.Metrics
 			TypeParameters = typeParameters.AsArray();
 		}
 
-		public string Summary { get; private set; }
+		public string Summary { get; }
 
-		public string Code { get; private set; }
+		public string Code { get; }
 
-		public string Example { get; private set; }
+		public string Example { get; }
 
-		public string Remarks { get; private set; }
+		public string Remarks { get; }
 
-		public string Returns { get; private set; }
+		public string Returns { get; }
 
-		public IEnumerable<TypeParameterDocumentation> TypeParameters { get; private set; }
+		public IEnumerable<TypeParameterDocumentation> TypeParameters { get; }
 	}
 }

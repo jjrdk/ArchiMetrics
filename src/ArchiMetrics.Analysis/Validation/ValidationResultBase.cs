@@ -22,7 +22,7 @@ namespace ArchiMetrics.Analysis.Validation
 			Vertex = vertex;
 		}
 
-		public bool Passed { get; private set; }
+		public bool Passed { get; }
 
 		public abstract string Value { get; }
 

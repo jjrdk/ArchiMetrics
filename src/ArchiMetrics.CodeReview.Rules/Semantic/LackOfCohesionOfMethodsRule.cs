@@ -20,9 +20,8 @@ namespace ArchiMetrics.CodeReview.Rules.Semantic
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
-	using Microsoft.CodeAnalysis.FindSymbols;
 
-	internal class LackOfCohesionOfMethodsRule : SemanticEvaluationBase
+    internal class LackOfCohesionOfMethodsRule : SemanticEvaluationBase
 	{
 		private static readonly SymbolKind[] MemberKinds =
 		{

@@ -14,10 +14,10 @@ namespace ArchiMetrics.Analysis.Common
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.MSBuild;
 
     /// <summary>
 	/// Provides a concrete implementation of an <see cref="IProvider{TKey,T}"/> for loading <see cref="Solution"/>.
@@ -31,7 +31,7 @@ namespace ArchiMetrics.Analysis.Common
         /// </summary>
         public SolutionProvider()
         {
-            using (var workspace = new AdhocWorkspace())
+            using (var workspace = MSBuildWorkspace.Create())
             {
                 var solution = workspace.CurrentSolution;
                 _cache.Add(string.Empty, Task.FromResult(solution));
@@ -92,7 +92,7 @@ namespace ArchiMetrics.Analysis.Common
 
         private static async Task<Tuple<int, Solution>> GetSolution(string path)
         {
-            using (var workspace = Microsoft.CodeAnalysis.MSBuild.MSBuildWorkspace.Create())
+            using (var workspace = MSBuildWorkspace.Create())
             {
                 var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
                 var dependencyGraph = solution.GetProjectDependencyGraph();

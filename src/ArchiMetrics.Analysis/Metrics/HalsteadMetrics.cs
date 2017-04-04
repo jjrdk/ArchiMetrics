@@ -38,13 +38,13 @@ namespace ArchiMetrics.Analysis.Metrics
 			NumberOfUniqueOperators = numUniqueOperators;
 		}
 
-		public int NumberOfOperands { get; private set; }
+		public int NumberOfOperands { get; }
 
-		public int NumberOfOperators { get; private set; }
+		public int NumberOfOperators { get; }
 
-		public int NumberOfUniqueOperands { get; private set; }
+		public int NumberOfUniqueOperands { get; }
 
-		public int NumberOfUniqueOperators { get; private set; }
+		public int NumberOfUniqueOperators { get; }
 
 		public IHalsteadMetrics Merge(IHalsteadMetrics other)
 		{
@@ -92,7 +92,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public double GetVolume()
 		{
-			const double NewBase = 2.0;
+			const double newBase = 2.0;
 			double vocabulary = GetVocabulary();
 			double length = GetLength();
 			if (vocabulary.Equals(0.0))
@@ -100,7 +100,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				return 0.0;
 			}
 
-			return length * Math.Log(vocabulary, NewBase);
+			return length * Math.Log(vocabulary, newBase);
 		}
 	}
 }

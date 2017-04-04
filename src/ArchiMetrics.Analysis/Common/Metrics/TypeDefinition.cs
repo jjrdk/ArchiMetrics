@@ -27,11 +27,11 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 			_fullName = $"{namespaceName}.{typeName}, {assemblyName}";
 		}
 
-		public string TypeName { get; private set; }
+		public string TypeName { get; }
 
-		public string Namespace { get; private set; }
+		public string Namespace { get; }
 
-		public string Assembly { get; private set; }
+		public string Assembly { get; }
 
 		public static bool operator ==(TypeDefinition c1, TypeDefinition c2)
 		{

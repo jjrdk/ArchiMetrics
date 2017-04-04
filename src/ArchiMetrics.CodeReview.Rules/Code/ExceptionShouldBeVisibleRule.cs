@@ -12,14 +12,7 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Code
 {
-	using System.Linq;
-	using System.Threading.Tasks;
-	using ArchiMetrics.CodeReview.Rules.Semantic;
-	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.CSharp;
-	using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-	////internal class ExceptionShouldBeVisibleRule : SemanticEvaluationBase
+    ////internal class ExceptionShouldBeVisibleRule : SemanticEvaluationBase
 	////{
 	////	private static readonly string[] DisallowedExceptions = { "Exception", "SystemException", "ApplicationException" };
 

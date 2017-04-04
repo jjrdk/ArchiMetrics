@@ -12,85 +12,85 @@
 
 namespace ArchiMetrics.Analysis
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading.Tasks;
-	using Common;
-	using Common.Metrics;
-	using Metrics;
-	using Microsoft.CodeAnalysis;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Common;
+    using Common.Metrics;
+    using Metrics;
+    using Microsoft.CodeAnalysis;
 
-	public class ProjectMetricsCalculator : IProjectMetricsCalculator
-	{
-		private readonly ICodeMetricsCalculator _metricsCalculator;
+    public class ProjectMetricsCalculator : IProjectMetricsCalculator
+    {
+        private readonly ICodeMetricsCalculator _metricsCalculator;
 
-		public ProjectMetricsCalculator(ICodeMetricsCalculator metricsCalculator)
-		{
-			_metricsCalculator = metricsCalculator;
-		}
+        public ProjectMetricsCalculator(ICodeMetricsCalculator metricsCalculator)
+        {
+            _metricsCalculator = metricsCalculator;
+        }
 
-		public async Task<IEnumerable<IProjectMetric>> Calculate(Solution solution)
-		{
-			var tasks = (from project in solution.Projects
-						 where project != null
-						 let compilation = project.GetCompilationAsync()
-						 select new { project, compilation })
-						.AsArray();
+        public async Task<IEnumerable<IProjectMetric>> Calculate(Solution solution)
+        {
+            var tasks = (from project in solution.Projects
+                         where project != null
+                         let compilation = project.GetCompilationAsync()
+                         select new { project, compilation })
+                        .AsArray();
 
-			await Task.WhenAll(tasks.Select(x => x.compilation)).ConfigureAwait(false);
+            await Task.WhenAll(tasks.Select(x => x.compilation)).ConfigureAwait(false);
 
-			var calculationTasks = tasks.Select(x => InnerCalculate(x.project, x.compilation, solution));
+            var calculationTasks = tasks.Select(x => InnerCalculate(x.project, x.compilation, solution));
 
-			return await Task.WhenAll(calculationTasks).ConfigureAwait(false);
-		}
+            return await Task.WhenAll(calculationTasks).ConfigureAwait(false);
+        }
 
-		public async Task<IProjectMetric> Calculate(Project project, Solution solution)
-		{
-			if (project == null)
-			{
-				return null;
-			}
+        public Task<IProjectMetric> Calculate(Project project, Solution solution)
+        {
+            if (project == null)
+            {
+                return null;
+            }
 
-			var compilation = project.GetCompilationAsync();
-			return await InnerCalculate(project, compilation, solution).ConfigureAwait(false);
-		}
+            var compilation = project.GetCompilationAsync();
+            return InnerCalculate(project, compilation, solution);
+        }
 
-		private async Task<IProjectMetric> InnerCalculate(Project project, Task<Compilation> compilationTask, Solution solution)
-		{
-			if (project == null)
-			{
-				return null;
-			}
+        private async Task<IProjectMetric> InnerCalculate(Project project, Task<Compilation> compilationTask, Solution solution)
+        {
+            if (project == null)
+            {
+                return null;
+            }
 
-			var compilation = await compilationTask.ConfigureAwait(false);
-			var metricsTask = _metricsCalculator.Calculate(project, solution);
+            var compilation = await compilationTask.ConfigureAwait(false);
+            var metricsTask = _metricsCalculator.Calculate(project, solution);
 
-			IEnumerable<string> dependencies;
-			if (solution != null)
-			{
-				var dependencyGraph = solution.GetProjectDependencyGraph();
+            IEnumerable<string> dependencies;
+            if (solution != null)
+            {
+                var dependencyGraph = solution.GetProjectDependencyGraph();
 
-				dependencies = dependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(project.Id)
-					.Select<ProjectId, Project>(id => solution.GetProject(id))
-					.SelectMany(x => x.MetadataReferences.Select(y => y.Display).Concat(new[] { x.AssemblyName }));
-			}
-			else
-			{
-				dependencies = project.AllProjectReferences.SelectMany(x => x.Aliases)
-					.Concat(project.MetadataReferences.Select(y => y.Display));
-			}
+                dependencies = dependencyGraph.GetProjectsThatThisProjectTransitivelyDependsOn(project.Id)
+                    .Select(solution.GetProject)
+                    .SelectMany(x => x.MetadataReferences.Select(y => y.Display).Concat(new[] { x.AssemblyName }));
+            }
+            else
+            {
+                dependencies = project.AllProjectReferences.SelectMany(x => x.Aliases)
+                    .Concat(project.MetadataReferences.Select(y => y.Display));
+            }
 
-			var assemblyTypes = compilation.Assembly.TypeNames;
-			var metrics = (await metricsTask.ConfigureAwait(false)).AsArray();
-			
-			var internalTypesUsed = from metric in metrics
-									from coupling in metric.ClassCouplings
-									where coupling.Assembly == project.AssemblyName
-									select coupling;
+            var assemblyTypes = compilation.Assembly.TypeNames;
+            var metrics = (await metricsTask.ConfigureAwait(false)).AsArray();
 
-			var relationalCohesion = (internalTypesUsed.Count() + 1.0) / assemblyTypes.Count;
+            var internalTypesUsed = from metric in metrics
+                                    from coupling in metric.ClassCouplings
+                                    where coupling.Assembly == project.AssemblyName
+                                    select coupling;
 
-			return new ProjectMetric(project.Name, metrics, dependencies, relationalCohesion);
-		}
-	}
+            var relationalCohesion = (internalTypesUsed.Count() + 1.0) / assemblyTypes.Count;
+
+            return new ProjectMetric(project.Name, metrics, dependencies, relationalCohesion);
+        }
+    }
 }

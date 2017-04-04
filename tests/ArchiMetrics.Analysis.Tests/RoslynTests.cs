@@ -23,9 +23,9 @@ namespace ArchiMetrics.Analysis.Tests
 		[Fact]
 		public async Task WhenLoadingSolutionThenHasProjects()
 		{
-			var path = @"..\..\..\..\archimetrics.sln".GetLowerCaseFullPath();
+			var path = @"..\..\..\..\..\archimetrics.sln".GetLowerCaseFullPath();
 			var workspace = MSBuildWorkspace.Create();
-			var solution = await workspace.OpenSolutionAsync(path);
+			var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
 
 			Assert.True(solution.Projects.Any());
 		}

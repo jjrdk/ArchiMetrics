@@ -12,34 +12,33 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Microsoft.CodeAnalysis;
-	using Microsoft.CodeAnalysis.CSharp;
-	using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-	internal sealed class MethodLocalVariablesAnalyzer : CSharpSyntaxWalker
-	{
-		private int _numLocalVariables;
+    internal sealed class MethodLocalVariablesAnalyzer : CSharpSyntaxWalker
+    {
+        private int _numLocalVariables;
 
-		public MethodLocalVariablesAnalyzer()
-			: base(SyntaxWalkerDepth.Node)
-		{
-		}
+        public MethodLocalVariablesAnalyzer()
+            : base(SyntaxWalkerDepth.Node)
+        {
+        }
 
-		public int Calculate(SyntaxNode memberNode)
-		{
-			var node = memberNode as SyntaxNode;
-			if (node != null)
-			{
-				Visit(node);
-			}
+        public int Calculate(SyntaxNode node)
+        {
+            if (node != null)
+            {
+                Visit(node);
+            }
 
-			return _numLocalVariables;
-		}
+            return _numLocalVariables;
+        }
 
-		public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
-		{
-			base.VisitVariableDeclaration(node);
-			_numLocalVariables++;
-		}
-	}
+        public override void VisitVariableDeclaration(VariableDeclarationSyntax node)
+        {
+            base.VisitVariableDeclaration(node);
+            _numLocalVariables++;
+        }
+    }
 }

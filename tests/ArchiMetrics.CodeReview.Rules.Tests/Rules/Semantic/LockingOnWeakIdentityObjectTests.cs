@@ -17,6 +17,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
     using Analysis;
     using Analysis.Common.CodeReview;
     using ArchiMetrics.CodeReview.Rules.Semantic;
+    using Microsoft.CodeAnalysis;
     using Xunit;
 
     public sealed class LockingOnWeakIdentityObjectTests

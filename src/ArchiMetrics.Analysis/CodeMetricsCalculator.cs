@@ -257,7 +257,7 @@ namespace ArchiMetrics.Analysis
 				.Select(y => new NamespaceDeclaration { Name = y.Key, SyntaxNodes = y });
 		}
 
-		private static bool IsGeneratedCodeFile(Document doc, IEnumerable<Regex> patterns)
+		private static bool IsGeneratedCodeFile(TextDocument doc, IEnumerable<Regex> patterns)
 		{
 			var path = doc.FilePath;
 			return !string.IsNullOrWhiteSpace(path) && patterns.Any(x => x.IsMatch(path));

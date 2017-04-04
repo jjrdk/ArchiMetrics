@@ -35,7 +35,7 @@ namespace ArchiMetrics.Analysis.Tests
         {
             using (var workspace = MSBuildWorkspace.Create())
             {
-                var path = @"..\..\..\..\archimetrics.sln".GetLowerCaseFullPath();
+                var path = @"..\..\..\..\..\archimetrics.sln".GetLowerCaseFullPath();
                 var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
                 var metrics = new metrics.Metrics();
                 var timer = metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);
@@ -53,7 +53,7 @@ namespace ArchiMetrics.Analysis.Tests
         {
             using (var workspace = MSBuildWorkspace.Create())
             {
-                var path = @"..\..\..\..\src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj".GetLowerCaseFullPath();
+                var path = @"..\..\..\..\..\src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj".GetLowerCaseFullPath();
                 var project = await workspace.OpenProjectAsync(path).ConfigureAwait(false);
                 var metrics = new metrics.Metrics();
                 var timer = metrics.Timer(GetType(), "test", TimeUnit.Seconds, TimeUnit.Seconds);

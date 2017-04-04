@@ -14,6 +14,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
     using System.Linq;
     using ArchiMetrics.CodeReview.Rules.Semantic;
+    using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Xunit;
 

@@ -57,8 +57,8 @@ namespace ArchiMetrics.Analysis.Validation
 		{
 			if (vertex.QualifiedName.EndsWith(pattern.QualifiedName))
 			{
-				var node = (IModelNode)vertex;
-				var patternNode = (IModelNode)pattern;
+				var node = vertex;
+				var patternNode = pattern;
 				if (!node.Children.Any() && !patternNode.Children.Any())
 				{
 					return new ComparisonResult(ComparisonResultKind.Same, pattern, vertex);

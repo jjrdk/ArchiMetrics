@@ -17,7 +17,6 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using System.Xml.Linq;
 	using Common;
 	using Common.Metrics;
 	using Microsoft.CodeAnalysis;

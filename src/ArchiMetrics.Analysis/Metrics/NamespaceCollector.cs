@@ -13,7 +13,6 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
-	using System.Linq;
 	using Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;

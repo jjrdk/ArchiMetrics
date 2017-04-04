@@ -17,22 +17,20 @@ namespace ArchiMetrics.Analysis.Metrics
 
     internal class FaultMemberDocumentation : IMemberDocumentation
     {
-        private readonly string _rawComment;
-
         public FaultMemberDocumentation(string rawComment)
         {
-            _rawComment = rawComment;
+            Summary = rawComment;
         }
 
-        public string Summary => _rawComment;
+        public string Summary { get; }
 
-        public string Returns => _rawComment;
+        public string Returns => Summary;
 
-        public string Code => _rawComment;
+        public string Code => Summary;
 
-        public string Example => _rawComment;
+        public string Example => Summary;
 
-        public string Remarks => _rawComment;
+        public string Remarks => Summary;
 
         public IEnumerable<ParameterDocumentation> Parameters { get { yield break; } }
 

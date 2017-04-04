@@ -51,33 +51,33 @@ namespace ArchiMetrics.Analysis.Metrics
 			Documentation = documentation;
 		}
 
-		public bool IsAbstract { get; private set; }
+		public bool IsAbstract { get; }
 
-		public string Name { get; private set; }
+		public string Name { get; }
 
-		public int AfferentCoupling { get; private set; }
+		public int AfferentCoupling { get; }
 
-		public int EfferentCoupling { get; private set; }
+		public int EfferentCoupling { get; }
 
-		public double Instability { get; private set; }
+		public double Instability { get; }
 
-		public ITypeDocumentation Documentation { get; private set; }
+		public ITypeDocumentation Documentation { get; }
 
-		public TypeMetricKind Kind { get; private set; }
+		public TypeMetricKind Kind { get; }
 
-		public AccessModifierKind AccessModifier { get; private set; }
+		public AccessModifierKind AccessModifier { get; }
 
-		public IEnumerable<IMemberMetric> MemberMetrics { get; private set; }
+		public IEnumerable<IMemberMetric> MemberMetrics { get; }
 
-		public int LinesOfCode { get; private set; }
+		public int LinesOfCode { get; }
 
-		public int CyclomaticComplexity { get; private set; }
+		public int CyclomaticComplexity { get; }
 
-		public double MaintainabilityIndex { get; private set; }
+		public double MaintainabilityIndex { get; }
 
-		public int DepthOfInheritance { get; private set; }
+		public int DepthOfInheritance { get; }
 
-		public IEnumerable<ITypeCoupling> ClassCouplings { get; private set; }
+		public IEnumerable<ITypeCoupling> ClassCouplings { get; }
 
 		public int ClassCoupling
 		{

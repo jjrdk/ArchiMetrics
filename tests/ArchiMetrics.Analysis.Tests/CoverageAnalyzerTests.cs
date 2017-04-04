@@ -70,7 +70,7 @@ namespace ArchiMetrics.Analysis.Tests
 											  })
 				.AsArray();
 			await Task.WhenAll(
-				projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree })));
+			    projectCompilations.SelectMany(x => x.Documents.SelectMany(y => new Task[] { y.Root, y.Tree }))).ConfigureAwait(false);
 
 			var matches = (from x in projectCompilations
 						   from doc in x.Documents
@@ -87,7 +87,7 @@ namespace ArchiMetrics.Analysis.Tests
 
 			var analyzer = new CoverageAnalyzer(solution);
 			var areReferencedTasks = matches.Select(analyzer.IsReferencedInTest).AsArray();
-			var areReferenced = await Task.WhenAll(areReferencedTasks);
+			var areReferenced = await Task.WhenAll(areReferencedTasks).ConfigureAwait(false);
 
 			Assert.True(areReferenced.All(x => x));
 		}

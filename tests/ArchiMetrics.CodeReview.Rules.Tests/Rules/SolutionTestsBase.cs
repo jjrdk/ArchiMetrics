@@ -12,42 +12,42 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules
 {
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.Linq;
-	using Microsoft.CodeAnalysis;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.MSBuild;
 
-	public abstract class SolutionTestsBase
-	{
-		protected static Solution CreateSolution(params string[] code)
-		{
-			return CreateSolution(
-				new[]
-				{
-					MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-					MetadataReference.CreateFromFile(typeof(Debug).Assembly.Location)
-				}, 
-				code);
-		}
+    public abstract class SolutionTestsBase
+    {
+        protected static Solution CreateSolution(params string[] code)
+        {
+            return CreateSolution(
+                new[]
+                {
+                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location)
+                },
+                code);
+        }
 
-		protected static Solution CreateSolution(IEnumerable<MetadataReference> references, params string[] code)
-		{
-			var workspace = new AdhocWorkspace();
+        protected static Solution CreateSolution(IEnumerable<MetadataReference> references, params string[] code)
+        {
+            var workspace = MSBuildWorkspace.Create();
 
-			var x = 1;
-			var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
+            var x = 1;
+            var seed = workspace.CurrentSolution.AddProject(ProjectId.CreateNewId("testcode"), "testcode", "testcode.dll", LanguageNames.CSharp);
 
-			var projId = seed.Projects.First().Id;
+            var projId = seed.Projects.First().Id;
 
-			var solution = references.Aggregate(
-				seed, 
-				(sol, r) => sol.AddMetadataReference(projId, r));
+            var solution = references.Aggregate(
+                seed,
+                (sol, r) => sol.AddMetadataReference(projId, r));
 
-			solution = code.Aggregate(
-				solution, 
-				(sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), $"TestClass{x++}.cs", c));
+            solution = code.Aggregate(
+                solution,
+                (sol, c) => sol.AddDocument(DocumentId.CreateNewId(projId), $"TestClass{x++}.cs", c));
 
-			return solution;
-		}
-	}
+            return solution;
+        }
+    }
 }

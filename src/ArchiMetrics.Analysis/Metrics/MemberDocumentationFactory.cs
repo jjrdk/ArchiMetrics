@@ -14,9 +14,7 @@ using System.Xml;
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.Immutable;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -27,8 +25,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
     internal class MemberDocumentationFactory : IAsyncFactory<ISymbol, IMemberDocumentation>
     {
-        private static readonly MethodKind[] ChildMethods = new[]
-            {MethodKind.PropertyGet, MethodKind.PropertySet, MethodKind.EventAdd, MethodKind.EventRemove};
+        private static readonly MethodKind[] ChildMethods = {MethodKind.PropertyGet, MethodKind.PropertySet, MethodKind.EventAdd, MethodKind.EventRemove};
 
         /// <summary>
         /// Creates the requested instance as an asynchronous operation.
@@ -51,15 +48,15 @@ namespace ArchiMetrics.Analysis.Metrics
             }
 
             var summaryElement = docRoot.Element("summary");
-            var summary = summaryElement == null ? string.Empty : summaryElement.Value.Trim();
+            var summary = summaryElement?.Value.Trim() ?? string.Empty;
             var codeElement = docRoot.Element("code");
-            var code = codeElement == null ? string.Empty : codeElement.Value.Trim();
+            var code = codeElement?.Value.Trim() ?? string.Empty;
             var exampleElement = docRoot.Element("example");
-            var example = exampleElement == null ? string.Empty : exampleElement.Value.Trim();
+            var example = exampleElement?.Value.Trim() ?? string.Empty;
             var remarksElement = docRoot.Element("remarks");
-            var remarks = remarksElement == null ? string.Empty : remarksElement.Value.Trim();
+            var remarks = remarksElement?.Value.Trim() ?? string.Empty;
             var returnsElement = docRoot.Element("returns");
-            var returns = returnsElement == null ? string.Empty : returnsElement.Value.Trim();
+            var returns = returnsElement?.Value.Trim() ?? string.Empty;
             var typeParameterElements = docRoot.Elements("typeparam");
             var parameterElements = docRoot.Elements("param")
                 .Select(_ => new KeyValuePair<string, string>(_.Attribute("name").Value.Trim(), _.Value.Trim()))
@@ -137,7 +134,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var enumerable = method.TypeParameters.Select(CreateTypeConstraint);
-			IDictionary<string, string> typeParameterConstraints = enumerable.ToDictionary(_ => _.Key, _ => _.Value);
+			var typeParameterConstraints = enumerable.ToDictionary(_ => _.Key, _ => _.Value);
 
 			return typeParameterConstraints;
 		}
@@ -160,7 +157,7 @@ namespace ArchiMetrics.Analysis.Metrics
 				parts.Add("new()");
 			}
 
-			parts.AddRange((IEnumerable<string>)typeParameter.ConstraintTypes.Select(constraintType => constraintType.ToDisplayString()));
+			parts.AddRange(typeParameter.ConstraintTypes.Select(constraintType => constraintType.ToDisplayString()));
 
 			return new KeyValuePair<string, string>(typeParameter.Name, string.Join(", ", parts));
 		}

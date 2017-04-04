@@ -11,33 +11,33 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 {
-	using System.Diagnostics;
-	using System.Linq;
-	using System.Threading.Tasks;
-	using Analysis;
-	using Analysis.Common;
-	using Analysis.Common.CodeReview;
-	using ArchiMetrics.CodeReview.Rules.Semantic;
-	using Microsoft.CodeAnalysis;
-	using Xunit;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Analysis;
+    using Analysis.Common;
+    using Analysis.Common.CodeReview;
+    using ArchiMetrics.CodeReview.Rules.Semantic;
+    using Microsoft.CodeAnalysis;
+    using Xunit;
 
-	public sealed class EmptyFinalizerRuleTests
-	{
-		private EmptyFinalizerRuleTests()
-		{
-		}
+    public sealed class EmptyFinalizerRuleTests
+    {
+        private EmptyFinalizerRuleTests()
+        {
+        }
 
-		public class GivenAEmptyFinalizerRule : SolutionTestsBase
-		{
-			private readonly NodeReviewer _inspector;
-            
-			public GivenAEmptyFinalizerRule()
-			{
-				_inspector = new NodeReviewer(new[] { new EmptyFinalizerRule(), }, Enumerable.Empty<ISymbolEvaluation>());
-			}
+        public class GivenAEmptyFinalizerRule : SolutionTestsBase
+        {
+            private readonly NodeReviewer _inspector;
+
+            public GivenAEmptyFinalizerRule()
+            {
+                _inspector = new NodeReviewer(new[] { new EmptyFinalizerRule(), }, Enumerable.Empty<ISymbolEvaluation>());
+            }
 
             [Theory]
-			[InlineData(@"namespace MyNamespace
+            [InlineData(@"namespace MyNamespace
 {
 	public class MyClass
 	{
@@ -50,36 +50,13 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 		}
 	}
 }")]
-			[InlineData(@"namespace MyNamespace
-{
-	using System.Diagnostics;
+            public async Task WhenClassContainsEmptyFinalizerThenReturnsError(string code)
+            {
+                var solution = CreateSolution(code);
+                var results = await _inspector.Inspect(solution);
 
-	public class MyClass
-	{
-		public MyClass()
-		{
-		}
-
-		~MyClass()
-		{
-			Debug.WriteLine(""something"");
-		}
-	}
-}")]
-			public async Task WhenClassContainsEmptyFinalizerThenReturnsError(string code)
-			{
-				var references = new[]
-									 {
-										 MetadataReference.CreateFromFile(typeof(IAvailability).Assembly.Location),
-										 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-										 MetadataReference.CreateFromFile(typeof(Debug).Assembly.Location)
-									 };
-
-				var solution = CreateSolution(references, code);
-				var results = await _inspector.Inspect(solution);
-
-				Assert.NotEmpty(results);
-			}
-		}
-	}
+                Assert.NotEmpty(results);
+            }
+        }
+    }
 }

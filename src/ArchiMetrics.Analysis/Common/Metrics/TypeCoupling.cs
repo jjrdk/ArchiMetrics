@@ -26,11 +26,11 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 			UsedEvents = useEvents.Distinct().AsArray();
 		}
 
-		public IEnumerable<string> UsedMethods { get; private set; }
+		public IEnumerable<string> UsedMethods { get; }
 
-		public IEnumerable<string> UsedProperties { get; private set; }
+		public IEnumerable<string> UsedProperties { get; }
 
-		public IEnumerable<string> UsedEvents { get; private set; }
+		public IEnumerable<string> UsedEvents { get; }
 
 		/// <summary>
 		/// Compares the current object with another object of the same type.

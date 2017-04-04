@@ -33,7 +33,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var num = type.IsKind(SyntaxKind.ClassDeclaration) || type.IsKind(SyntaxKind.StructDeclaration) ? 1 : 0;
 			if (type.BaseList != null)
 			{
-				foreach (var symbolInfo in type.BaseList.Types.Select(syntax => ModelExtensions.GetSymbolInfo(_semanticModel, syntax)))
+				foreach (var symbolInfo in type.BaseList.Types.Select(syntax => _semanticModel.GetSymbolInfo(syntax)))
 				{
 					for (var symbol = symbolInfo.Symbol as INamedTypeSymbol; symbol != null; symbol = symbol.BaseType)
 					{

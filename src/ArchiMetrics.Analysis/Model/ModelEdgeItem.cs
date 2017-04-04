@@ -23,9 +23,9 @@ namespace ArchiMetrics.Analysis.Model
 			Target = target;
 		}
 
-		public IModelNode Source { get; private set; }
+		public IModelNode Source { get; }
 
-		public IModelNode Target { get; private set; }
+		public IModelNode Target { get; }
 
 		/// <summary>
 		/// Indicates whether the current object is equal to another object of the same type.

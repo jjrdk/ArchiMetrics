@@ -15,7 +15,6 @@ namespace ArchiMetrics.Analysis.Metrics
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.Linq;
 	using System.Threading.Tasks;
 	using Common;
 	using Common.Metrics;
@@ -48,7 +47,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		public Task<IEnumerable<IProjectMetric>> Get(string solutionPath)
 		{
 			return _metrics.GetOrAdd(
-				solutionPath, 
+				solutionPath,
 				async path =>
 				{
 					var solution = await _solutionProvider.Get(path);

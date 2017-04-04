@@ -30,20 +30,20 @@ namespace ArchiMetrics.Analysis.Metrics
 			Exceptions = exceptions.AsArray();
 		}
 
-		public string Summary { get; private set; }
+		public string Summary { get; }
 
-		public string Code { get; private set; }
+		public string Code { get; }
 
-		public string Example { get; private set; }
+		public string Example { get; }
 
-		public string Remarks { get; private set; }
+		public string Remarks { get; }
 
-		public string Returns { get; private set; }
+		public string Returns { get; }
 
-		public IEnumerable<TypeParameterDocumentation> TypeParameters { get; private set; }
+		public IEnumerable<TypeParameterDocumentation> TypeParameters { get; }
 
-		public IEnumerable<ParameterDocumentation> Parameters { get; private set; }
+		public IEnumerable<ParameterDocumentation> Parameters { get; }
 
-		public IEnumerable<ExceptionDocumentation> Exceptions { get; private set; }
+		public IEnumerable<ExceptionDocumentation> Exceptions { get; }
 	}
 }

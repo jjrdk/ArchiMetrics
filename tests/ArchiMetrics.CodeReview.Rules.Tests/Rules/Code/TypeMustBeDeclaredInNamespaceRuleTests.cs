@@ -12,42 +12,42 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Code
 {
-	using System.Linq;
-	using System.Threading.Tasks;
-	using Analysis;
-	using Analysis.Common.CodeReview;
-	using ArchiMetrics.CodeReview.Rules.Code;
-	using Xunit;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Analysis;
+    using Analysis.Common.CodeReview;
+    using ArchiMetrics.CodeReview.Rules.Code;
+    using Xunit;
 
-	public sealed class TypeMustBeDeclaredInNamespaceRuleTests
-	{
-		private TypeMustBeDeclaredInNamespaceRuleTests()
-		{
-		}
+    public sealed class TypeMustBeDeclaredInNamespaceRuleTests
+    {
+        private TypeMustBeDeclaredInNamespaceRuleTests()
+        {
+        }
 
-		public class GivenATypeMustBeDeclaredInNamespaceRule : SolutionTestsBase
-		{
-			private readonly NodeReviewer _inspector;
-            
-			public GivenATypeMustBeDeclaredInNamespaceRule()
-			{
-				_inspector = new NodeReviewer(new[] { new TypeMustBeDeclaredInNamespaceRule() }, Enumerable.Empty<ISymbolEvaluation>());
-			}
+        public class GivenATypeMustBeDeclaredInNamespaceRule : SolutionTestsBase
+        {
+            private readonly NodeReviewer _inspector;
 
-			[Fact]
-			public async Task WhenTypeIsDeclaredOutsideNamespaceThenReturnsError()
-			{
-				const string Code = @"public class MyClass
+            public GivenATypeMustBeDeclaredInNamespaceRule()
+            {
+                _inspector = new NodeReviewer(new[] { new TypeMustBeDeclaredInNamespaceRule() }, Enumerable.Empty<ISymbolEvaluation>());
+            }
+
+            [Fact]
+            public async Task WhenTypeIsDeclaredOutsideNamespaceThenReturnsError()
+            {
+                const string Code = @"public class MyClass
 {
 	public string Value { get; set; }
 }";
 
-				var solution = CreateSolution(Code);
+                var solution = CreateSolution(Code);
 
-				var results = await _inspector.Inspect(solution);
+                var results = await _inspector.Inspect(solution);
 
-				Assert.NotEmpty(results);
-			}
-		}
-	}
+                Assert.NotEmpty(results);
+            }
+        }
+    }
 }

@@ -10,8 +10,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-
 namespace ArchiMetrics.Analysis.Metrics
 {
     using System.Collections.Generic;
@@ -73,7 +71,7 @@ namespace ArchiMetrics.Analysis.Metrics
         public override void VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
         {
             var accessor = SyntaxFactory.ReturnStatement(node.Expression);
-            
+
             _members.Add(accessor);
         }
 

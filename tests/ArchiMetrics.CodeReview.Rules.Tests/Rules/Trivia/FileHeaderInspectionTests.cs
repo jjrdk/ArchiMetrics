@@ -26,7 +26,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Trivia
 
         public FileHeaderInspectionTests()
         {
-            var exemptPatterns = new ExemptPatterns();
+            IKnownPatterns exemptPatterns = new ExemptPatterns();
             exemptPatterns.Add(@"^\d\.\d\.\d{1,5}\.\d$");
             exemptPatterns.Add(@"Runtime");
             var spellChecker = new SpellChecker(exemptPatterns);

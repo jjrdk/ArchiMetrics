@@ -18,7 +18,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
 	public class AllRulesTests
 	{
 		[Fact]
-		public void CanGetEnumeratinoOfCodeReviewTypes()
+		public void CanGetEnumerationOfCodeReviewTypes()
 		{
 			Assert.NotEmpty(AllRules.GetSyntaxRules(new SpellChecker(new ExemptPatterns())));
 		}

@@ -16,21 +16,16 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	public abstract class SemanticModelMetricsCalculator
 	{
-		private readonly SemanticModel _semanticModel;
-
-		protected SemanticModelMetricsCalculator(SemanticModel semanticModel)
+	    protected SemanticModelMetricsCalculator(SemanticModel semanticModel)
 		{
-			_semanticModel = semanticModel;
+			Model = semanticModel;
 		}
 
-		protected SemanticModel Model
-		{
-			get { return _semanticModel; }
-		}
+		protected SemanticModel Model { get; }
 
-		protected SyntaxNode Root
+	    protected SyntaxNode Root
 		{
-			get { return _semanticModel.SyntaxTree.GetRoot(); }
+			get { return Model.SyntaxTree.GetRoot(); }
 		}
 	}
 }

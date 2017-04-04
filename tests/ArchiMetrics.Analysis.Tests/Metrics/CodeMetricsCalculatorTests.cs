@@ -228,7 +228,7 @@ using System.Linq;
             public async Task CodeHasExpectedLinesOfCode(string code, int loc)
             {
                 var project = CreateProject(code);
-                var metrics = await _analyzer.Calculate(project, null);
+                var metrics = await _analyzer.Calculate(project, null).ConfigureAwait(false);
 
                 Assert.Equal(loc, metrics.First().LinesOfCode);
             }

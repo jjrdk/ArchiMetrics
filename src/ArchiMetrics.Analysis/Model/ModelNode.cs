@@ -43,19 +43,19 @@ namespace ArchiMetrics.Analysis.Model
 
 		public IModelNode Parent { get; protected set; }
 
-		public string DisplayName { get; private set; }
+		public string DisplayName { get; }
 
-		public CodeQuality Quality { get; private set; }
+		public CodeQuality Quality { get; }
 
-		public int LinesOfCode { get; private set; }
+		public int LinesOfCode { get; }
 
-		public double MaintainabilityIndex { get; private set; }
+		public double MaintainabilityIndex { get; }
 
-		public int CyclomaticComplexity { get; private set; }
+		public int CyclomaticComplexity { get; }
 
 		public string QualifiedName { get; private set; }
 
-		public string Type { get; private set; }
+		public string Type { get; }
 
 		public IEnumerable<IModelNode> Children
 		{

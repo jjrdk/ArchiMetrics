@@ -36,13 +36,24 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Build.Runtime" Version="15.1.548" />
     <PackageReference Include="DotNetZip.Reduced" Version="1.9.1.8" />
     <PackageReference Include="Moq" Version="4.7.8" />
-    <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
+    <PackageReference Include="NHunspell" Version="1.2.5554.16953">
+      <IncludeAssets>All</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="Metrics" Version="1.0.13" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <ProjectReference Include="..\..\src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj" />
     <ProjectReference Include="..\..\src\ArchiMetrics.CodeReview.Rules\ArchiMetrics.CodeReview.Rules.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Hunspellx64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Hunspellx86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

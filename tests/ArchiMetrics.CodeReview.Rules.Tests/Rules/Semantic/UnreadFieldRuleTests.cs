@@ -27,7 +27,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests.Rules.Semantic
 		public class GivenAnUnreadFieldRule : SolutionTestsBase
 		{
 			private readonly UnreadFieldRule _rule;
-            
+
 			public GivenAnUnreadFieldRule()
 			{
 				_rule = new UnreadFieldRule();
@@ -77,7 +77,7 @@ new object();
 										from n in root.DescendantNodes().OfType<FieldDeclarationSyntax>()
 										select new
 										{
-											semanticModel = model, 
+											semanticModel = model,
 											node = n
 										}).First();
 				var result = await _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);
@@ -136,7 +136,7 @@ new object();
 										from n in root.DescendantNodes().OfType<FieldDeclarationSyntax>()
 										select new
 										{
-											semanticModel = model, 
+											semanticModel = model,
 											node = n
 										}).First();
 				var result = await _rule.Evaluate(classDeclaration.node, classDeclaration.semanticModel, solution);

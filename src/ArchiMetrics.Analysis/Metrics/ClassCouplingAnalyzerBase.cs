@@ -22,26 +22,19 @@ namespace ArchiMetrics.Analysis.Metrics
 
 	internal abstract class ClassCouplingAnalyzerBase : CSharpSyntaxWalker
 	{
-		private readonly SemanticModel _semanticModel;
-		private readonly IDictionary<string, ITypeSymbol> _types;
+	    private readonly IDictionary<string, ITypeSymbol> _types;
 
 		protected ClassCouplingAnalyzerBase(SemanticModel semanticModel)
 			: base(SyntaxWalkerDepth.Node)
 		{
 			_types = new Dictionary<string, ITypeSymbol>();
 
-			_semanticModel = semanticModel;
+			SemanticModel = semanticModel;
 		}
 
-		protected SemanticModel SemanticModel
-		{
-			get
-			{
-				return _semanticModel;
-			}
-		}
+		protected SemanticModel SemanticModel { get; }
 
-		protected void FilterType(TypeSyntax syntax)
+	    protected void FilterType(TypeSyntax syntax)
 		{
 			if (syntax.IsKind(SyntaxKind.PredefinedType))
 			{

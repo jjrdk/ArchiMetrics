@@ -83,9 +83,9 @@ namespace ArchiMetrics.Analysis.ReferenceResolvers
 				Location = location;
 			}
 
-			public ISymbol Symbol { get; private set; }
+			public ISymbol Symbol { get; }
 
-			public ReferenceLocation Location { get; private set; }
+			public ReferenceLocation Location { get; }
 		}
 	}
 }

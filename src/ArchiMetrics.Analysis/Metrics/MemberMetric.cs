@@ -50,29 +50,29 @@ namespace ArchiMetrics.Analysis.Metrics
 			Documentation = documentation;
 		}
 
-		public string CodeFile { get; private set; }
+		public string CodeFile { get; }
 
-		public AccessModifierKind AccessModifier { get; private set; }
+		public AccessModifierKind AccessModifier { get; }
 
-		public int LineNumber { get; private set; }
+		public int LineNumber { get; }
 
-		public int LinesOfCode { get; private set; }
+		public int LinesOfCode { get; }
 
-		public double MaintainabilityIndex { get; private set; }
+		public double MaintainabilityIndex { get; }
 
-		public int CyclomaticComplexity { get; private set; }
+		public int CyclomaticComplexity { get; }
 
-		public string Name { get; private set; }
+		public string Name { get; }
 
-		public IEnumerable<ITypeCoupling> ClassCouplings { get; private set; }
+		public IEnumerable<ITypeCoupling> ClassCouplings { get; }
 
-		public int NumberOfParameters { get; private set; }
+		public int NumberOfParameters { get; }
 
-		public int NumberOfLocalVariables { get; private set; }
+		public int NumberOfLocalVariables { get; }
 
-		public int AfferentCoupling { get; private set; }
+		public int AfferentCoupling { get; }
 
-		public IMemberDocumentation Documentation { get; private set; }
+		public IMemberDocumentation Documentation { get; }
 
 		public IHalsteadMetrics GetHalsteadMetrics()
 		{
@@ -81,9 +81,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public double GetVolume()
 		{
-			return _halstead == null
-			? 0d
-			: _halstead.GetVolume();
+			return _halstead?.GetVolume() ?? 0d;
 		}
 	}
 }

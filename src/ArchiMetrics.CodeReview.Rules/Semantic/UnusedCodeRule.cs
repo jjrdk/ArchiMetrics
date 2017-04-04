@@ -12,18 +12,15 @@
 
 namespace ArchiMetrics.CodeReview.Rules.Semantic
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading;
-	using System.Threading.Tasks;
+    using System.Linq;
+    using System.Threading.Tasks;
 	using Analysis.Common;
 	using Analysis.Common.CodeReview;
 	using ArchiMetrics.Analysis;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
-	using Microsoft.CodeAnalysis.FindSymbols;
 
-	internal abstract class UnusedCodeRule : SemanticEvaluationBase
+    internal abstract class UnusedCodeRule : SemanticEvaluationBase
 	{
 		public override string Title
 		{

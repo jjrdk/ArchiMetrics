@@ -28,14 +28,14 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public INamespaceMetric CalculateFrom(NamespaceDeclarationSyntaxInfo namespaceNode, IEnumerable<ITypeMetric> metrics)
 		{
-			const string DocumentationTypeName = "NamespaceDoc";
+			const string documentationTypeName = "NamespaceDoc";
 			var typeMetrics = metrics.AsArray();
-			var documentationType = typeMetrics.FirstOrDefault(x => x.Name == DocumentationTypeName);
+			var documentationType = typeMetrics.FirstOrDefault(x => x.Name == documentationTypeName);
 			IDocumentation documentation = null;
 			if (documentationType != null)
 			{
 				documentation = documentationType.Documentation;
-				typeMetrics = typeMetrics.Where(x => x.Name != DocumentationTypeName).AsArray();
+				typeMetrics = typeMetrics.Where(x => x.Name != documentationTypeName).AsArray();
 			}
 
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);

@@ -18,7 +18,7 @@ namespace ArchiMetrics.Analysis.Common.Structure
     internal class ComparisonResult
 	{
 		public ComparisonResult(ComparisonResultKind kind, IModelNode pattern, params IModelNode[] matches)
-			: this(kind, pattern, matches == null ? null : matches.AsEnumerable())
+			: this(kind, pattern, matches?.AsEnumerable())
 		{
 		}
 
@@ -26,7 +26,7 @@ namespace ArchiMetrics.Analysis.Common.Structure
 		{
 			Kind = kind;
 			Pattern = pattern;
-			Matches = matches == null ? null : matches.AsArray();
+			Matches = matches?.AsArray();
 		}
 
 		public ComparisonResultKind Kind { get; private set; }
