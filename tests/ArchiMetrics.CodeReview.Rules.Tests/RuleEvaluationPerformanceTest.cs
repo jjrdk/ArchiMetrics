@@ -33,7 +33,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
             _reviewer = new NodeReviewer(AllRules.GetSyntaxRules(spellChecker.Object).AsArray(), AllRules.GetSymbolRules());
         }
 
-        [Fact(Skip = "Run manually")]
+        [Fact]
         public void MeasurePerformance()
         {
             var metrics = new Metrics();
@@ -50,7 +50,7 @@ namespace ArchiMetrics.CodeReview.Rules.Tests
         {
             using (var workspace = MSBuildWorkspace.Create())
             {
-                var path = @"..\..\..\archimetrics.sln".GetLowerCaseFullPath();
+                var path = @"..\..\..\..\..\archimetrics.sln".GetLowerCaseFullPath();
                 var solution = await workspace.OpenSolutionAsync(path).ConfigureAwait(false);
                 var results = await _reviewer.Inspect(solution).ConfigureAwait(false);
                 var amount = results.AsArray();

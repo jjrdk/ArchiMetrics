@@ -51,7 +51,7 @@ namespace ArchiMetrics.Analysis.Tests.Model
             {
                 var solutionPath = @"..\..\..\ArchiMetrics.sln".GetLowerCaseFullPath();
 
-                var vertices = await _repository.GetVertices(solutionPath, CancellationToken.None);
+                var vertices = await _repository.GetVertices(solutionPath, CancellationToken.None).ConfigureAwait(false);
 
                 Assert.NotEmpty(vertices);
             }
