@@ -1,6 +1,7 @@
 [Bb]in
 [Oo]bj
 packages
+.vs
 /UpgradeLog.htm
 Libraries
 build
@@ -27,3 +28,4 @@ Release
 project.lock.json
 .idea
 *.userprefs
+*.iml
