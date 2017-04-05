@@ -1,5 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
+    <Title>Roslyn Code Analysis</Title>
+    <Copyright>Jacob Reimers, Matthias Friedrich</Copyright>
+    <AssemblyTitle>Roslyn Code Analysis</AssemblyTitle>
+    <Version>1.2.0</Version>
+    <Authors>Jacob Reimers;Matthias Friedrich</Authors>
+    <Company>Reimers.dk</Company>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>ArchiMetrics.Analysis</AssemblyName>
+    <PackageTags>Roslyn;Metrics;Analysis</PackageTags>
+    <PackageReleaseNotes>Updated to use Roslyn 2.0</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/jjrdk/ArchiMetrics</PackageProjectUrl>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/jjrdk/archimetrics</RepositoryUrl>
     <Description>
       The package provides code analysis features using the Roslyn CTP.
 
@@ -52,24 +66,6 @@
       - Afferent Coupling
       - Halstead Metrics
     </Description>
-    <Copyright>Jacob Reimers, Matthias Friedrich</Copyright>
-    <AssemblyTitle>Roslyn Code Analysis</AssemblyTitle>
-    <VersionPrefix>1.1.3</VersionPrefix>
-    <Authors>Jacob Reimers;Matthias Friedrich</Authors>
-    <Company>Reimers.dk</Company>
-    <TargetFramework>net461</TargetFramework>
-    <AssemblyName>ArchiMetrics.Analysis</AssemblyName>
-    <PackageTags>Roslyn;Metrics;Analysis</PackageTags>
-    <PackageProjectUrl>https://github.com/jjrdk/ArchiMetrics</PackageProjectUrl>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="**\*.resx" />
@@ -77,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
