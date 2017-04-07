@@ -3,7 +3,7 @@
     <Title>Roslyn Code Analysis</Title>
     <Copyright>Jacob Reimers, Matthias Friedrich</Copyright>
     <AssemblyTitle>Roslyn Code Analysis</AssemblyTitle>
-    <Version>1.2.0</Version>
+    <Version>2.0.0</Version>
     <Authors>Jacob Reimers;Matthias Friedrich</Authors>
     <Company>Reimers.dk</Company>
     <TargetFramework>net461</TargetFramework>
