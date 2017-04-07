@@ -22,7 +22,7 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 		/// <summary>
 		/// Gets the type couplings for the members.
 		/// </summary>
-		IEnumerable<ITypeCoupling> ClassCouplings { get; }
+		IEnumerable<ITypeCoupling> Dependencies { get; }
 
 		/// <summary>
 		/// Gets the lines of code.

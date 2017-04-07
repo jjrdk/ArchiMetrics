@@ -84,7 +84,7 @@ namespace ArchiMetrics.Analysis
             var metrics = (await metricsTask.ConfigureAwait(false)).AsArray();
 
             var internalTypesUsed = from metric in metrics
-                                    from coupling in metric.ClassCouplings
+                                    from coupling in metric.Dependencies
                                     where coupling.Assembly == project.AssemblyName
                                     select coupling;
 

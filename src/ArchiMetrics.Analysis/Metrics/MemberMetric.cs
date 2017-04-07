@@ -13,6 +13,7 @@
 namespace ArchiMetrics.Analysis.Metrics
 {
 	using System.Collections.Generic;
+	using System.Linq;
 	using Common;
 	using Common.Metrics;
 
@@ -43,7 +44,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			MaintainabilityIndex = maintainabilityIndex;
 			CyclomaticComplexity = cyclomaticComplexity;
 			Name = name;
-			ClassCouplings = classCouplings.AsArray();
+		    Dependencies = classCouplings.AsArray();
 			NumberOfParameters = numberOfParameters;
 			NumberOfLocalVariables = numberOfLocalVariables;
 			AfferentCoupling = afferentCoupling;
@@ -64,7 +65,7 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public string Name { get; }
 
-		public IEnumerable<ITypeCoupling> ClassCouplings { get; }
+		public IEnumerable<ITypeCoupling> Dependencies { get; }
 
 		public int NumberOfParameters { get; }
 
@@ -74,7 +75,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public IMemberDocumentation Documentation { get; }
 
-		public IHalsteadMetrics GetHalsteadMetrics()
+        public int ClassCoupling => Dependencies.Count();
+
+	    public IHalsteadMetrics GetHalsteadMetrics()
 		{
 			return _halstead;
 		}

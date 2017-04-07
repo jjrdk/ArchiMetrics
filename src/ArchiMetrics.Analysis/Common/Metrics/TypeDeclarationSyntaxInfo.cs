@@ -23,9 +23,9 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 			Syntax = syntax;
 		}
 
-		public string CodeFile { get; private set; }
+		public string CodeFile { get; }
 
-		public string Name { get; private set; }
+		public string Name { get; }
 
 		public TypeDeclarationSyntax Syntax { get; set; }
 	}

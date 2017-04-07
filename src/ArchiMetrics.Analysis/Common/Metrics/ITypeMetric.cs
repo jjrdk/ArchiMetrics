@@ -15,25 +15,25 @@ namespace ArchiMetrics.Analysis.Common.Metrics
     using System.Collections.Generic;
 
     public interface ITypeMetric : ICodeMetric
-	{
-		AccessModifierKind AccessModifier { get; }
+    {
+        AccessModifierKind AccessModifier { get; }
 
-		TypeMetricKind Kind { get; }
+        TypeMetricKind Kind { get; }
 
-		IEnumerable<IMemberMetric> MemberMetrics { get; }
+        IEnumerable<IMemberMetric> MemberMetrics { get; }
 
-		int DepthOfInheritance { get; }
+        int DepthOfInheritance { get; }
 
-		int ClassCoupling { get; }
-		
-		int AfferentCoupling { get; }
+        int ClassCoupling { get; }
 
-		int EfferentCoupling { get; }
+        int AfferentCoupling { get; }
 
-		double Instability { get; }
+        int EfferentCoupling { get; }
 
-		bool IsAbstract { get; }
+        double Instability { get; }
 
-		ITypeDocumentation Documentation { get; }
-	}
+        bool IsAbstract { get; }
+
+        ITypeDocumentation Documentation { get; }
+    }
 }

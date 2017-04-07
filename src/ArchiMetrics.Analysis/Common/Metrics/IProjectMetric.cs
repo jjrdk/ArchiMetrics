@@ -21,10 +21,12 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 		/// </summary>
 		IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
 
+		IEnumerable<string> Dependants { get; }
+
 		/// <summary>
 		/// Gets the names of the project dependencies.
 		/// </summary>
-		IEnumerable<string> Dependencies { get; }
+		IEnumerable<string> AssemblyDependencies { get; }
 
 		/// <summary>
 		/// Gets the relational cohesion for the project.
@@ -46,14 +48,7 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 		/// <summary>
 		/// Gets the level of abstractness for the project.
 		/// </summary>
+		/// <remarks>Abstractness is the ratio of abstract classes to concrete classes.</remarks>
 		double Abstractness { get; }
-
-		/// <summary>
-		/// Gets the known dependant projects for this project.
-		/// </summary>
-		/// <remarks>
-		/// Only the projects in the analyzed solution will be considered. Other projects in external solutions may also be dependants as a metadata reference.
-		/// </remarks>
-		IEnumerable<string> Dependendants { get; }
 	}
 }

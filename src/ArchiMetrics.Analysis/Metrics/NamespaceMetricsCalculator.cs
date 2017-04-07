@@ -39,7 +39,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			}
 
 			var linesOfCode = typeMetrics.Sum(x => x.LinesOfCode);
-			var source = typeMetrics.SelectMany(x => x.ClassCouplings)
+			var source = typeMetrics.SelectMany(x => x.Dependencies)
 						  .GroupBy(x => x.ToString())
 						  .Select(x => new TypeCoupling(x.First().TypeName, x.First().Namespace, x.First().Assembly, x.SelectMany(y => y.UsedMethods), x.SelectMany(y => y.UsedProperties), x.SelectMany(y => y.UsedEvents)))
 						  .Where(x => x.Namespace != namespaceNode.Name)

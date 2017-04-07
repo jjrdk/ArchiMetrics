@@ -38,9 +38,9 @@ namespace ArchiMetrics.Analysis.Metrics
 
 			return new SyntaxDeclarations
 			{
-				MemberDeclarations = _members.AsArray(),
-				NamespaceDeclarations = _namespaces.AsArray(),
-				Statements = _statements.AsArray(),
+				MemberDeclarations = _members.AsArray(), 
+				NamespaceDeclarations = _namespaces.AsArray(), 
+				Statements = _statements.AsArray(), 
 				TypeDeclarations = _types.AsArray()
 			};
 		}
@@ -93,7 +93,7 @@ namespace ArchiMetrics.Analysis.Metrics
 		private void CheckStatementSyntax(SyntaxNode node)
 		{
 			var syntaxNodes = node.ChildNodes().AsArray();
-
+			
 			var statements =
 				syntaxNodes
 				.Where(x => !(x is TypeDeclarationSyntax))

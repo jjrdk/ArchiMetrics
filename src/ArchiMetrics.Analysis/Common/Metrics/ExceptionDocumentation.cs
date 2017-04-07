@@ -20,8 +20,8 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 			Description = description;
 		}
 
-		public string ExceptionType { get; private set; }
+		public string ExceptionType { get; }
 
-		public string Description { get; private set; }
+		public string Description { get; }
 	}
 }

@@ -51,7 +51,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			var exampleElement = docRoot.Element("example");
 			var example = exampleElement == null ? string.Empty : exampleElement.Value.Trim();
 			var remarksElement = docRoot.Element("remarks");
-			var remarks = remarksElement == null ? string.Empty : remarksElement.Value.Trim();
+			var remarks = remarksElement?.Value.Trim() ?? string.Empty;
 			var returnsElement = docRoot.Element("returns");
 			var returns = returnsElement == null ? string.Empty : returnsElement.Value.Trim();
 			var typeParameterElements = docRoot.Elements("typeparam");
@@ -66,7 +66,7 @@ namespace ArchiMetrics.Analysis.Metrics
 								typeConstraints.ContainsKey(name) ? typeConstraints[name] : null,
 								x.Value.Trim());
 						});
-			
+
 			var documentation = new TypeDocumentation(summary, code, example, remarks, returns, typeParameters);
 
 			return Task.FromResult<ITypeDocumentation>(documentation);

@@ -21,10 +21,10 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 			Description = description;
 		}
 
-		public string ParameterName { get; private set; }
+		public string ParameterName { get; }
 
-		public string ParameterType { get; private set; }
+		public string ParameterType { get; }
 
-		public string Description { get; private set; }
+		public string Description { get; }
 	}
 }

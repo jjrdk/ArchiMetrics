@@ -66,6 +66,16 @@
       - Afferent Coupling
       - Halstead Metrics
     </Description>
+    <Copyright>Jacob Reimers, Matthias Friedrich</Copyright>
+    <AssemblyTitle>Roslyn Code Analysis</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Authors>Jacob Reimers;Matthias Friedrich</Authors>
+    <Company>Reimers.dk</Company>
+    <TargetFramework>net461</TargetFramework>
+    <AssemblyName>ArchiMetrics.Analysis</AssemblyName>
+    <PackageTags>Roslyn;Metrics;Analysis</PackageTags>
+    <PackageProjectUrl>https://github.com/jjrdk/ArchiMetrics</PackageProjectUrl>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="**\*.resx" />

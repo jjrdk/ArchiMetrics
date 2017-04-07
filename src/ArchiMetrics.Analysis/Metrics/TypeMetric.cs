@@ -43,7 +43,7 @@ namespace ArchiMetrics.Analysis.Metrics
 			CyclomaticComplexity = cyclomaticComplexity;
 			MaintainabilityIndex = maintainabilityIndex;
 			DepthOfInheritance = depthOfInheritance;
-			ClassCouplings = classCouplings.AsArray();
+		    Dependencies = classCouplings.AsArray();
 			Name = name;
 			AfferentCoupling = afferentCoupling;
 			EfferentCoupling = efferentCoupling;
@@ -77,11 +77,8 @@ namespace ArchiMetrics.Analysis.Metrics
 
 		public int DepthOfInheritance { get; }
 
-		public IEnumerable<ITypeCoupling> ClassCouplings { get; }
+		public IEnumerable<ITypeCoupling> Dependencies { get; }
 
-		public int ClassCoupling
-		{
-			get { return ClassCouplings.Count(); }
-		}
+		public int ClassCoupling => Dependencies.Count();
 	}
 }

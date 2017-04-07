@@ -36,18 +36,18 @@ namespace ArchiMetrics.Analysis.Metrics
 			_calledProperties = new List<IPropertySymbol>();
 			_usedEvents = new List<IEventSymbol>();
 			_symbolActions = new Dictionary<SymbolKind, Action<ISymbol>>
-			                 {
-				                 { SymbolKind.NamedType, x => FilterTypeSymbol((ITypeSymbol)x) }, 
-				                 { SymbolKind.Parameter, x => FilterTypeSymbol(((IParameterSymbol)x).Type) }, 
-				                 { SymbolKind.Method, x => FilterTypeSymbol(x.ContainingType) }, 
-				                 { SymbolKind.Field, x => FilterTypeSymbol(((IFieldSymbol)x).Type) }, 
-				                 { SymbolKind.Property, x => FilterTypeSymbol(x.ContainingType) }, 
-				                 { SymbolKind.Event, x => FilterTypeSymbol(x.ContainingType) }
-			                 };
+								 {
+									 { SymbolKind.NamedType, x => FilterTypeSymbol((ITypeSymbol)x) }, 
+									 { SymbolKind.Parameter, x => FilterTypeSymbol(((IParameterSymbol)x).Type) }, 
+									 { SymbolKind.Method, x => FilterTypeSymbol(x.ContainingType) }, 
+									 { SymbolKind.Field, x => FilterTypeSymbol(((IFieldSymbol)x).Type) }, 
+									 { SymbolKind.Property, x => FilterTypeSymbol(x.ContainingType) }, 
+									 { SymbolKind.Event, x => FilterTypeSymbol(x.ContainingType) }
+								 };
 
 			_classCouplingActions = new Dictionary<SyntaxKind, Action<SyntaxNode>>
-			                        {
-				                        { SyntaxKind.MethodDeclaration, x => CalculateMethodClassCoupling((MethodDeclarationSyntax)x) }, 
+										{
+											{ SyntaxKind.MethodDeclaration, x => CalculateMethodClassCoupling((MethodDeclarationSyntax)x) }, 
 				                        { SyntaxKind.ConstructorDeclaration, x => CalculateConstructorCoupling((ConstructorDeclarationSyntax)x) }, 
 				                        { SyntaxKind.DestructorDeclaration, x => CalculateConstructorCoupling((DestructorDeclarationSyntax)x) }, 
 				                        { SyntaxKind.GetAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }, 
@@ -55,7 +55,7 @@ namespace ArchiMetrics.Analysis.Metrics
 										{ SyntaxKind.EventFieldDeclaration, x => CalculateEventClassCoupling((EventFieldDeclarationSyntax)x) }, 
 				                        { SyntaxKind.AddAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }, 
 				                        { SyntaxKind.RemoveAccessorDeclaration, x => CalculateAccessorClassCoupling((AccessorDeclarationSyntax)x) }
-			                        };
+										};
 		}
 
 		public IEnumerable<ITypeCoupling> Calculate(SyntaxNode syntaxNode)
@@ -158,18 +158,11 @@ namespace ArchiMetrics.Analysis.Metrics
 			_usedEvents.AddRange(methodCouplings.Where(x => x.Kind == SymbolKind.Event).Cast<IEventSymbol>());
 		}
 
-		private IEnumerable<ISymbol> GetMemberCouplings<T>(SyntaxNode block)
-			where T : ExpressionSyntax
+		private IEnumerable<ISymbol> GetMemberCouplings<T>(SyntaxNode block) where T : ExpressionSyntax
 		{
-			return block
-				.DescendantNodes()
+			return block.DescendantNodes()
 				.OfType<T>()
-				.Select(r =>
-						new
-							{
-								node = r,
-								model = SemanticModel
-							})
+				.Select(r => new { node = r, model = SemanticModel })
 				.Select(info => info.model.GetSymbolInfo(info.node).Symbol)
 				.Where(x => x != null);
 		}

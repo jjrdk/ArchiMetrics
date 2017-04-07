@@ -32,6 +32,8 @@ namespace ArchiMetrics.Analysis.Common.Metrics
 		/// <summary>
 		/// Gets the number of parameters for the member.
 		/// </summary>
+		int ClassCoupling { get; }
+
 		int NumberOfParameters { get; }
 
 		/// <summary>

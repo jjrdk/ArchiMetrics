@@ -12,56 +12,56 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using Common;
-	using Common.Metrics;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Common;
+    using Common.Metrics;
 
     internal class ProjectMetric : IProjectMetric
-	{
-		private static readonly IEqualityComparer<ITypeCoupling> Comparer = new ComparableComparer<ITypeCoupling>();
+    {
+        private static readonly IEqualityComparer<ITypeCoupling> Comparer = new ComparableComparer<ITypeCoupling>();
 
-		public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, double relationalCohesion)
-		{
-			Name = name;
-			RelationalCohesion = relationalCohesion;
-			Dependencies = referencedProjects.AsArray();
-			EfferentCoupling = Dependencies.Count();
-			NamespaceMetrics = namespaceMetrics.AsArray();
-			LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
-			MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
-			CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
-			ClassCouplings = NamespaceMetrics.SelectMany(x => x.ClassCouplings).Where(x => x.Assembly != Name).Distinct(Comparer).AsArray();
-			Dependendants = ClassCouplings.Select(x => x.Assembly)
-				.Distinct()
-				.AsArray();
-			AfferentCoupling = Dependendants.Count();
-			var typeMetrics = NamespaceMetrics.SelectMany(x => x.TypeMetrics).AsArray();
-			Abstractness = typeMetrics.Count(x => x.IsAbstract) / (double)typeMetrics.Count();
-		}
+        public ProjectMetric(string name, IEnumerable<INamespaceMetric> namespaceMetrics, IEnumerable<string> referencedProjects, double relationalCohesion)
+        {
+            Name = name;
+            RelationalCohesion = relationalCohesion;
+            AssemblyDependencies = referencedProjects.AsArray();
+            EfferentCoupling = AssemblyDependencies.Count();
+            NamespaceMetrics = namespaceMetrics.AsArray();
+            LinesOfCode = NamespaceMetrics.Sum(x => x.LinesOfCode);
+            MaintainabilityIndex = LinesOfCode == 0 ? 100 : NamespaceMetrics.Sum(x => x.MaintainabilityIndex * x.LinesOfCode) / LinesOfCode;
+            CyclomaticComplexity = LinesOfCode == 0 ? 0 : NamespaceMetrics.Sum(x => x.CyclomaticComplexity * x.LinesOfCode) / LinesOfCode;
+            Dependencies = NamespaceMetrics.SelectMany(x => x.Dependencies).Where(x => x.Assembly != Name).Distinct(Comparer).AsArray();
+            Dependants = Dependencies.Select(x => x.Assembly)
+                .Distinct()
+                .AsArray();
+            AfferentCoupling = Dependants.Count();
+            var typeMetrics = NamespaceMetrics.SelectMany(x => x.TypeMetrics).AsArray();
+            Abstractness = typeMetrics.Count(x => x.IsAbstract) / (double)typeMetrics.Length;
+        }
 
-		public double Abstractness { get; }
+        public IEnumerable<string> AssemblyDependencies { get; }
 
-		public int EfferentCoupling { get; }
+        public double Abstractness { get; }
 
-		public int AfferentCoupling { get; }
+        public int EfferentCoupling { get; }
 
-		public int LinesOfCode { get; }
+        public int AfferentCoupling { get; }
 
-		public double MaintainabilityIndex { get; }
+        public int LinesOfCode { get; }
 
-		public int CyclomaticComplexity { get; }
+        public double MaintainabilityIndex { get; }
 
-		public string Name { get; }
+        public int CyclomaticComplexity { get; }
 
-		public double RelationalCohesion { get; }
+        public string Name { get; }
 
-		public IEnumerable<string> Dependencies { get; }
+        public double RelationalCohesion { get; }
 
-		public IEnumerable<string> Dependendants { get; }
+        public IEnumerable<ITypeCoupling> Dependencies { get; }
 
-		public IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
+        public IEnumerable<string> Dependants { get; }
 
-		public IEnumerable<ITypeCoupling> ClassCouplings { get; }
-	}
+        public IEnumerable<INamespaceMetric> NamespaceMetrics { get; }
+    }
 }

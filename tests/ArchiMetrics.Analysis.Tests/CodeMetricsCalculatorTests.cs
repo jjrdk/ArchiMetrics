@@ -12,11 +12,11 @@
 
 namespace ArchiMetrics.Analysis.Tests
 {
-	using System.Linq;
-	using System.Threading.Tasks;
-	using ArchiMetrics.Analysis.Metrics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using ArchiMetrics.Analysis.Metrics;
     using Microsoft.CodeAnalysis.CSharp;
-	using Xunit;
+    using Xunit;
 
     public sealed class CodeMetricsCalculatorTests
     {
@@ -27,7 +27,7 @@ namespace ArchiMetrics.Analysis.Tests
         public class GivenACodeMetricsCalculator
         {
             private readonly CodeMetricsCalculator _calculator;
-            
+
             public GivenACodeMetricsCalculator()
             {
                 _calculator = new CodeMetricsCalculator(new TypeDocumentationFactory(), new MemberDocumentationFactory());
@@ -55,8 +55,8 @@ namespace Metric.Test
                 var tree = CSharpSyntaxTree.ParseText(snippet);
                 var metrics = await _calculator.Calculate(new[] { tree });
 
-	            var actual = metrics.First().ClassCouplings.Count();
-	            Assert.Equal(2, actual);
+                var actual = metrics.First().Dependencies.Count();
+                Assert.Equal(2, actual);
             }
 
             [Fact]

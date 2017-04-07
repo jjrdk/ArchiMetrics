@@ -12,14 +12,21 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis;
 
-	public sealed class NamespaceDeclarationSyntaxInfo
-	{
-		public string CodeFile { get; set; }
+    public sealed class NamespaceDeclarationSyntaxInfo
+    {
+        public NamespaceDeclarationSyntaxInfo(string codefile, string name, SyntaxNode syntax)
+        {
+            CodeFile = codefile ?? string.Empty;
+            Name = name;
+            Syntax = syntax;
+        }
 
-		public string Name { get; set; }
+        public string CodeFile { get; }
 
-		public SyntaxNode Syntax { get; set; }
-	}
+        public string Name { get; }
+
+        public SyntaxNode Syntax { get; set; }
+    }
 }

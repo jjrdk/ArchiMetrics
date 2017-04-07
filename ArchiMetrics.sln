@@ -1,29 +1,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26014.0
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F11E08F5-C15B-4223-840B-86997220FB8E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{98C5B882-0BA9-4BFD-8AC3-07C0C56E1F90}"
 	ProjectSection(SolutionItems) = preProject
-		ArchiMetrics.Analysis.nuspec = ArchiMetrics.Analysis.nuspec
-		ArchiMetrics.Analysis.symbols.nuspec = ArchiMetrics.Analysis.symbols.nuspec
-		build.ps1 = build.ps1
-		packages.config = packages.config
-		psake.psm1 = psake.psm1
 		README.md = README.md
-		tasks.ps1 = tasks.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A4371397-42D4-4770-955D-A145C3A2401B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.Analysis.Tests", "tests\ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiMetrics.Analysis.Tests", "tests\ArchiMetrics.Analysis.Tests\ArchiMetrics.Analysis.Tests.csproj", "{36BA2848-F241-4CAA-B037-451251A75951}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiMetrics.CodeReview.Rules.Tests", "tests\ArchiMetrics.CodeReview.Rules.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiMetrics.CodeReview.Rules.Tests", "tests\ArchiMetrics.CodeReview.Rules.Tests\ArchiMetrics.CodeReview.Rules.Tests.csproj", "{E1C949E2-B71A-4574-8D9F-0678805301E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArchiMetrics.Analysis", "src\ArchiMetrics.Analysis\ArchiMetrics.Analysis.csproj", "{46B39702-5C2C-4ED1-9CA5-F01DD3C981D4}"
 EndProject
