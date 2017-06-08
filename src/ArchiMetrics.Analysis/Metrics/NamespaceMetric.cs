@@ -23,6 +23,7 @@ namespace ArchiMetrics.Analysis.Metrics
             double maintainabilityIndex,
             int cyclomaticComplexity,
             int linesOfCode,
+            int sourceLinesOfCode,
             IEnumerable<ITypeCoupling> classCouplings,
             int depthOfInheritance,
             string name,
@@ -32,6 +33,7 @@ namespace ArchiMetrics.Analysis.Metrics
             MaintainabilityIndex = maintainabilityIndex;
             CyclomaticComplexity = cyclomaticComplexity;
             LinesOfCode = linesOfCode;
+            SourceLinesOfCode = sourceLinesOfCode;
             Dependencies = classCouplings.AsArray();
             DepthOfInheritance = depthOfInheritance;
             Name = name;
@@ -41,6 +43,8 @@ namespace ArchiMetrics.Analysis.Metrics
         }
 
         public double Abstractness { get; }
+
+        public int SourceLinesOfCode { get; }
 
         public double MaintainabilityIndex { get; }
 

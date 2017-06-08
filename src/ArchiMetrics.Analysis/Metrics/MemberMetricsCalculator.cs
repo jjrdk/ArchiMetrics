@@ -27,6 +27,7 @@ namespace ArchiMetrics.Analysis.Metrics
     {
         private readonly CyclomaticComplexityCounter _counter = new CyclomaticComplexityCounter();
         private readonly LinesOfCodeCalculator _locCalculator = new LinesOfCodeCalculator();
+        private readonly SourceLinesOfCodeCalculator _sourcelocCalculator = new SourceLinesOfCodeCalculator();
         private readonly MemberNameResolver _nameResolver;
         private readonly Solution _solution;
         private readonly string _rootFolder;
@@ -82,6 +83,11 @@ namespace ArchiMetrics.Analysis.Metrics
             return _locCalculator.Calculate(node);
         }
 
+        private int CalculateSourceLinesOfCode(SyntaxNode node)
+        {
+            return _sourcelocCalculator.Calculate(node);
+        }
+
         private int CalculateCyclomaticComplexity(SyntaxNode node)
         {
             return _counter.Calculate(node, Model);
@@ -111,6 +117,7 @@ namespace ArchiMetrics.Analysis.Metrics
             var source = CalculateClassCoupling(syntaxNode);
             var complexity = CalculateCyclomaticComplexity(syntaxNode);
             var linesOfCode = CalculateLinesOfCode(syntaxNode);
+            var sourceLinesOfCode = CalculateSourceLinesOfCode(syntaxNode);
             var numberOfParameters = CalculateNumberOfParameters(syntaxNode);
             var numberOfLocalVariables = CalculateNumberOfLocalVariables(syntaxNode);
             var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
@@ -133,6 +140,7 @@ namespace ArchiMetrics.Analysis.Metrics
                 halsteadMetrics,
                 lineNumber,
                 linesOfCode,
+                sourceLinesOfCode,
                 maintainabilityIndex,
                 complexity,
                 memberName,
@@ -151,6 +159,7 @@ namespace ArchiMetrics.Analysis.Metrics
             var source = Enumerable.Empty<ITypeCoupling>();
             var complexity = CalculateCyclomaticComplexity(syntaxNode);
             var linesOfCode = CalculateLinesOfCode(syntaxNode);
+            var sourceLinesOfCode = CalculateSourceLinesOfCode(syntaxNode);
             const int NumberOfParameters = 0;
             const int NumberOfLocalVariables = 0;
             var maintainabilityIndex = CalculateMaintainablityIndex(complexity, linesOfCode, halsteadMetrics);
@@ -163,6 +172,7 @@ namespace ArchiMetrics.Analysis.Metrics
                 halsteadMetrics,
                 LineNumber,
                 linesOfCode,
+                sourceLinesOfCode,
                 maintainabilityIndex,
                 complexity,
                 memberName,

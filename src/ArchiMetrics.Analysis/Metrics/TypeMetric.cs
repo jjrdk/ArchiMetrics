@@ -12,73 +12,77 @@
 
 namespace ArchiMetrics.Analysis.Metrics
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using Common;
-	using Common.Metrics;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Common;
+    using Common.Metrics;
 
     internal class TypeMetric : ITypeMetric
-	{
-		public TypeMetric(
-			bool isAbstract,
-			TypeMetricKind kind,
-			AccessModifierKind accessModifier,
-			IEnumerable<IMemberMetric> memberMetrics,
-			int linesOfCode,
-			int cyclomaticComplexity,
-			double maintainabilityIndex,
-			int depthOfInheritance,
-			IEnumerable<ITypeCoupling> classCouplings,
-			string name,
-			int afferentCoupling,
-			int efferentCoupling,
-			double instability,
-			ITypeDocumentation documentation)
-		{
-			IsAbstract = isAbstract;
-			Kind = kind;
-			AccessModifier = accessModifier;
-			MemberMetrics = memberMetrics.AsArray();
-			LinesOfCode = linesOfCode;
-			CyclomaticComplexity = cyclomaticComplexity;
-			MaintainabilityIndex = maintainabilityIndex;
-			DepthOfInheritance = depthOfInheritance;
-		    Dependencies = classCouplings.AsArray();
-			Name = name;
-			AfferentCoupling = afferentCoupling;
-			EfferentCoupling = efferentCoupling;
-			Instability = instability;
-			Documentation = documentation;
-		}
+    {
+        public TypeMetric(
+            bool isAbstract,
+            TypeMetricKind kind,
+            AccessModifierKind accessModifier,
+            IEnumerable<IMemberMetric> memberMetrics,
+            int linesOfCode,
+            int sourceLinesOfCode,
+            int cyclomaticComplexity,
+            double maintainabilityIndex,
+            int depthOfInheritance,
+            IEnumerable<ITypeCoupling> classCouplings,
+            string name,
+            int afferentCoupling,
+            int efferentCoupling,
+            double instability,
+            ITypeDocumentation documentation)
+        {
+            IsAbstract = isAbstract;
+            Kind = kind;
+            AccessModifier = accessModifier;
+            MemberMetrics = memberMetrics.AsArray();
+            LinesOfCode = linesOfCode;
+            SourceLinesOfCode = sourceLinesOfCode;
+            CyclomaticComplexity = cyclomaticComplexity;
+            MaintainabilityIndex = maintainabilityIndex;
+            DepthOfInheritance = depthOfInheritance;
+            Dependencies = classCouplings.AsArray();
+            Name = name;
+            AfferentCoupling = afferentCoupling;
+            EfferentCoupling = efferentCoupling;
+            Instability = instability;
+            Documentation = documentation;
+        }
 
-		public bool IsAbstract { get; }
+        public bool IsAbstract { get; }
 
-		public string Name { get; }
+        public string Name { get; }
 
-		public int AfferentCoupling { get; }
+        public int AfferentCoupling { get; }
 
-		public int EfferentCoupling { get; }
+        public int EfferentCoupling { get; }
 
-		public double Instability { get; }
+        public double Instability { get; }
 
-		public ITypeDocumentation Documentation { get; }
+        public ITypeDocumentation Documentation { get; }
 
-		public TypeMetricKind Kind { get; }
+        public TypeMetricKind Kind { get; }
 
-		public AccessModifierKind AccessModifier { get; }
+        public AccessModifierKind AccessModifier { get; }
 
-		public IEnumerable<IMemberMetric> MemberMetrics { get; }
+        public IEnumerable<IMemberMetric> MemberMetrics { get; }
 
-		public int LinesOfCode { get; }
+        public int LinesOfCode { get; }
 
-		public int CyclomaticComplexity { get; }
+        public int SourceLinesOfCode { get; }
 
-		public double MaintainabilityIndex { get; }
+        public int CyclomaticComplexity { get; }
 
-		public int DepthOfInheritance { get; }
+        public double MaintainabilityIndex { get; }
 
-		public IEnumerable<ITypeCoupling> Dependencies { get; }
+        public int DepthOfInheritance { get; }
 
-		public int ClassCoupling => Dependencies.Count();
-	}
+        public IEnumerable<ITypeCoupling> Dependencies { get; }
+
+        public int ClassCoupling => Dependencies.Count();
+    }
 }
